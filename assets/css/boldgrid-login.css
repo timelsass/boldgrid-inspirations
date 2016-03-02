@@ -1,0 +1,62 @@
+body.login {
+	background: #F1F1F1; 
+}
+.login h1 a {
+	background-size: 318px 158px;
+	background-position: center top;
+	background-repeat: no-repeat;
+	color: #999;
+	height: 159px;
+	font-size: 20px;
+	font-weight: normal;
+	line-height: 1.3em;
+	margin: 0 auto 25px;
+	padding: 0;
+	text-decoration: none;
+	width: 318px;
+	text-indent: -9999px;
+	outline: none;
+	overflow: hidden;
+	display: block;
+}
+input:focus, textarea:focus {
+   outline: firebrick auto 5px;
+}
+input:hover, textarea:hover {
+    outline: goldenrod auto 5px;
+}
+.login #login_error {
+    border-left: 48px solid firebrick;
+    background: #fff;
+    -webkit-box-shadow: 0 0 15px 5px firebrick;
+    -moz-box-shadow: 0 0 15px 5px firebrick;
+    box-shadow: 0 0 15px 5px firebrick;
+}
+.login .message {
+    border-left: 4px solid #00a0d2;
+    background-color: #fff;
+    -webkit-box-shadow: 0 0 15px 5px rgba(33, 117, 155, 1);
+    -moz-box-shadow: 0 0 15px 5px rgba(33, 117, 155, 1);
+    box-shadow: 0 0 15px 5px rgba(33, 117, 155, 1);
+}
+.login form {
+	border: dashed .1em;
+}
+.login form:hover {
+    -webkit-box-shadow: 0 0 15px 5px rgba(33, 117, 155, 1);
+    -moz-box-shadow: 0 0 15px 5px rgba(33, 117, 155, 1);
+    box-shadow: 0 0 15px 5px rgba(33, 117, 155, 1);
+}
+.login .button-primary:active,
+.login .button-primary { 
+	border: none !important; 
+	float:right; 
+	box-shadow: none;
+	background-color:#FF6600 !important; 
+	text-shadow: none;
+}
+input, textarea, select, a { outline: none; }
+
+.boldgrid-login-bottom-text {
+	text-align:center;
+}

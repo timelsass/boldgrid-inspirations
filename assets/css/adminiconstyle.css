@@ -1,0 +1,252 @@
+@font-face {
+	font-family: 'boldgrid';
+	src: url('../fonts/boldgrid.eot?-k3w47');
+	src: url('../fonts/boldgrid.eot?#iefix-k3w47')
+		format('embedded-opentype'), url('../fonts/boldgrid.woff?-k3w47')
+		format('woff'), url('../fonts/boldgrid.ttf?-k3w47') format('truetype'),
+		url('../fonts/boldgrid.svg?-k3w47#boldgrid') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'bg-admin-icons';
+	src: url('../fonts/bg-admin-icons.eot?11633397');
+	src: url('../fonts/bg-admin-icons.eot?11633397#iefix')
+		format('embedded-opentype'),
+		url('../fonts/bg-admin-icons.woff?11633397') format('woff'),
+		url('../fonts/bg-admin-icons.ttf?11633397') format('truetype'),
+		url('../fonts/bg-admin-icons.svg?11633397#bg-admin-icons')
+		format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+#toplevel_page_boldgrid-transactions .wp-menu-image::before,
+#toplevel_page_boldgrid-inspirations .wp-menu-image:not(.dashicons-lightbulb)::before {
+	content: "\e801";
+	font-family: "bg-admin-icons";
+	font-style: normal;
+	font-weight: normal;
+	font-size: 19px;
+	speak: none;
+	display: inline-block;
+	text-decoration: inherit;
+	width: 1em;
+	margin-right: .2em;
+	text-align: center;
+	/* opacity: .8; */
+	/* For safety - reset parent styles, that can break glyph codes*/
+	font-variant: normal;
+	text-transform: none;
+	/* fix buttons height, for twitter bootstrap */
+	line-height: 1em;
+	/* Animation center compensation - margins should be symmetric */
+	/* remove if not needed */
+	margin-left: .2em;
+	/* You can be more comfortable with increased icons size */
+	/* font-size: 120%; */
+	/* Font smoothing. That was taken from TWBS */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+#toplevel_page_boldgrid-transactions .wp-menu-image::before {
+	content: "\e800";
+	}
+	
+.whh-icon:before {
+	content: "\e601";
+	font-family: 'boldgrid';
+	speak: none;
+	font-size: large;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.imh-icon:before {
+	content: "\e602";
+	font-family: 'boldgrid';
+	speak: none;
+	font-size: large;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.boldgrid-icon:before,
+.theme-install-php .theme[aria-describedby*="boldgrid-"] .theme-name:before { 
+	content: "\e600";
+	font-family: 'boldgrid';
+	speak: none;
+	font-size: large;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+#container_boldgrid_api_key_notice .dashicons-before:before {
+	padding-right: .8em !important;
+	font-size: 58px !important;
+	color: #ff6600;
+}
+
+#container_boldgrid_api_key_notice {
+	width: 563px;
+	padding: 1.4em;
+}
+
+#boldgrid_api_key_notice_message {
+	margin-left: 66px;
+}
+
+input#boldgrid_api_key {
+	margin-left: 66px !important;
+	width: 59%;
+}
+
+.boldgrid-rotate {
+	-webkit-animation-name: boldgrid-rotate;
+	-webkit-animation-duration: 1s;
+	-webkit-animation-iteration-count: infinite;
+	-webkit-animation-timing-function: linear;
+	-moz-animation-name: boldgrid-rotate;
+	-moz-animation-duration: 1s;
+	-moz-animation-iteration-count: infinite;
+	-moz-animation-timing-function: linear;
+	animation-name: boldgrid-rotate;
+	animation-duration: 1s;
+	animation-iteration-count: infinite;
+	animation-timing-function: linear;
+}
+
+@
+-webkit-keyframes boldgrid-rotate {from { -webkit-transform:rotate(0deg);
+	
+}
+
+to {
+	-webkit-transform: rotate(360deg);
+}
+
+}
+@
+-moz-keyframes boldgrid-rotate {from { -moz-transform:rotate(0deg);
+	
+}
+
+to {
+	-moz-transform: rotate(360deg);
+}
+
+}
+@
+keyframes boldgrid-rotate {from { transform:rotate(0deg);
+	
+}
+
+to {
+	transform: rotate(360deg);
+}
+
+}
+.boldgrid-wp-spin {
+	width: 20px;
+	height: 20px;
+	float: left;
+	border-radius: 100%;
+	background-color: #a3a3a3;
+	-webkit-animation: rotation 1.5s infinite linear;
+	-moz-animation: rotation 1.5s infinite linear;
+	-animation: rotation 1.5s infinite linear;
+}
+
+.boldgrid-wp-spin::after {
+	width: 4px;
+	height: 4px;
+	border-radius: 100%;
+	background-color: #fff;
+	position: relative;
+	left: 10px;
+	top: 5px;
+	display: block;
+	content: '';
+}
+
+@
+-webkit-keyframes rotation {from { -webkit-transform:rotate(0deg);
+	
+}
+
+to {
+	-webkit-transform: rotate(359deg);
+}
+
+}
+@
+-moz-keyframes rotation {from { -moz-transform:rotate(0deg);
+	
+}
+
+to {
+	-moz-transform: rotate(359deg);
+}
+
+}
+@
+-keyframes rotation {from { -transform:rotate(0deg);
+	
+}
+
+to {
+	-transform: rotate(359deg);
+}
+
+}
+#boldgrid-api-loading {
+	margin-left: 423px;
+	margin-top: -2em;
+	display: none;
+}
+
+
+/*--------------------------------------------------------------
+theme-install.php
+--------------------------------------------------------------*/
+.theme-install-php #recommend-boldgrid p {
+    margin: 0;
+}
+
+.theme-install-php #recommend-boldgrid .recommend-boldgrid-text {
+    position: relative;
+    top: -8px;
+    margin-left: 7px;
+}
+
+.theme-install-php #recommend-boldgrid .boldgrid-icon:before {
+    font-size: 30px;
+    color: #F95B26;
+}
+
+.theme-install-php .theme[aria-describedby*="boldgrid-"] .theme-name:before {
+    float: right;
+    font-size: 33px;
+    color: #F95B26;
+}
+
+@media (min-width: 782px) {
+    .theme-install-php .theme[aria-describedby*="boldgrid-"]:focus .theme-name:after,
+    .theme-install-php .theme[aria-describedby*="boldgrid-"]:hover .theme-name:after {
+        content: '';
+    }
+}

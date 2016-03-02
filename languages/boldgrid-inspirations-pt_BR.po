@@ -1,0 +1,261 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: BoldGrid 0.5\n"
+"POT-Creation-Date: 2014-11-20 11:17-0500\n"
+"PO-Revision-Date: 2014-11-20 11:20-0500\n"
+"Last-Translator: Brad Markle <bradm@boldgrid.com>\n"
+"Language-Team: \n"
+"Language: pt_BR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.6.9\n"
+"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-SearchPath-0: C:\\wamp\\www\\wordpress\\wp-content\\plugins\\boldgrid-"
+"inspirations\n"
+
+#: C:\wamp\www\wordpress\wp-content\plugins\boldgrid-inspirations/pages/inspiration.php:15
+msgid ""
+"Welcome, thank you for choosing BoldGrid from our official reseller InMotion "
+"Hosting."
+msgstr ""
+"Bem-vindo, obrigado por escolher BoldGrid de nossos oficiais revendedor "
+"InMotion Hosting."
+
+#: C:\wamp\www\wordpress\wp-content\plugins\boldgrid-inspirations/pages/inspiration.php:16
+msgid ""
+"BoldGrid is different than website builders you may have seen before. First "
+"major difference. You will not start with a blank website that can take days "
+"or weeks to figure out what to talk about, what should go where, and even "
+"what pages you need. All content, including website look, marketing copy, "
+"photos, and sets of pages have been created specific to your business "
+"category and are dynamically loaded by our patented system based on your "
+"selections. We call this the <strong>Inspiration</strong> stage."
+msgstr ""
+"BoldGrid é diferente de construtores de sites que você pode ter visto antes. "
+"Diferença importante em primeiro lugar. Você não vai começar com um site em "
+"branco que pode levar dias ou semanas para descobrir o que falar, o que deve "
+"ir para onde, e até mesmo as páginas que você precisa. Todo o conteúdo, "
+"incluindo olhar website, cópia do marketing, fotos e conjuntos de páginas "
+"foram criadas específico para sua categoria de negócios e são carregados "
+"dinamicamente pelo nosso sistema patenteado com base em suas seleções. "
+"Chamamos a isto o <strong>Inspiração</strong> palco."
+
+#: C:\wamp\www\wordpress\wp-content\plugins\boldgrid-inspirations/pages/inspiration.php:17
+#, php-format
+msgid ""
+"Once you have selected your Inspiration you are ready for "
+"<strong>Customization</strong>. At that point, we will install your web site "
+"into our Content Management System (CMS). From there, you will be able to do "
+"things like change the logo, photos, marketing copy, page names, and more. "
+"You will also be able to deactivate pages you may not need, tweak photos "
+"already there, or even add extended functionality like a shopping cart or "
+"blog. Don't worry, our CMS is 100% flexible (it is Wordpress) and has no "
+"limits to what can be done."
+msgstr ""
+"Depois de ter seleccionado a sua inspiração você está pronto para "
+"<strong>Personalização</strong>. Nesse ponto, vamos instalar o seu site em "
+"nosso Sistema de Gerenciamento de Conteúdo (CMS). De lá, você será capaz de "
+"fazer coisas como alterar o logotipo, fotos, cópias de marketing, nomes de "
+"página, e muito mais. Você também será capaz de desativar as páginas que "
+"você pode não precisar, ajustar as fotos já estão lá, ou até mesmo adicionar "
+"funcionalidade estendida como um carrinho de compras ou blog. Não se "
+"preocupe, o nosso CMS é 100% flexível (que é Wordpress) e não tem limites "
+"para o que pode ser feito."
+
+#: C:\wamp\www\wordpress\wp-content\plugins\boldgrid-inspirations/pages/inspiration.php:18
+msgid ""
+"Now the second BoldGrid difference from website builders - and this is a big "
+"one. When you are done creating your site, you will own that site! Most "
+"builder companies <strong>never transfer ownership of what you built to you</"
+"strong>. Since BoldGrid is different, during the Inspiration and "
+"Customization phases, you will see watermarks (shadow text) inside of your "
+"photo and themes. You will also see a \"Copyright by BoldGrid\" inside of the "
+"text. This is because all of the content you are using has copyrights. Don't "
+"worry, once you have selected what you are going to \"<strong>Purchase for "
+"Public Publishing</strong>\" those copyrights will be removed and you will "
+"own your website!"
+msgstr ""
+"Agora, a segunda diferença BoldGrid de construtores de sites - e este é um "
+"grande problema. Quando você terminar de criar seu site, você será o dono "
+"desse site! A maioria das empresas construtor <strong>nunca transferir a "
+"propriedade do que você construiu para você</strong>. Desde BoldGrid é "
+"diferente, durante as fases de inspiração e de personalização, você vai ver "
+"marcas d'água (texto sombra) dentro de sua foto e temas. Você também vai ver "
+"um \"Copyright by BoldGrid\" dentro do texto. Isso ocorre porque todo o "
+"conteúdo que você está usando tem direitos autorais. Não se preocupe, uma "
+"vez que você selecionou o que você está indo para \"<strong>Compra de "
+"Publicação Pública</strong>\" aqueles direitos autorais será removido e você "
+"possuirá seu site!"
+
+#: C:\wamp\www\wordpress\wp-content\plugins\boldgrid-inspirations/pages/inspiration.php:19
+msgid ""
+"Since you have an account with InMotion Hosting, you have Copyright Coins "
+"preloaded in your BoldGrid. You will see a Coin cost next to many of the "
+"themes and photos. Some will not have a Coins cost because this content has "
+"a free public license and instead requires attribution. As you select the "
+"different items, you will see a cost in Coins accrue. Keep in mind that "
+"until you Purchase for Public Publishing, the coins will not be deducted. "
+"Modify, tweak, customize away until you are happy."
+msgstr ""
+"Desde que você tem uma conta com InMotion Hosting, você tem moedas de "
+"direitos autorais pré-carregados em seu BoldGrid. Você verá um custo Coin ao "
+"lado de muitos dos temas e fotos. Alguns não terá um custo moedas porque "
+"este conteúdo tem uma licença pública livre e, em vez requer atribuição. "
+"Como você seleciona os itens diferentes, você verá um custo em moedas "
+"acumular. Tenha em mente que até que você compra para o Publishing Público, "
+"as moedas não serão deduzidas. Modificar, ajustar, personalizar afastado até "
+"que você esteja feliz."
+
+#: C:\wamp\www\wordpress\wp-content\plugins\boldgrid-inspirations/pages/inspiration.php:20
+msgid "Enough details, let's be Inspired first!"
+msgstr "Detalhes suficientes, vamos ser Inspirado primeiro!"
+
+#: C:\wamp\www\wordpress\wp-content\plugins\boldgrid-inspirations/pages/inspiration.php:21
+msgid "Get Started"
+msgstr "começar"
+
+#: C:\wamp\www\wordpress\wp-content\plugins\boldgrid-inspirations/pages/inspiration.php:25
+msgid "Step 1: Category"
+msgstr "Passo 1: Categoria"
+
+#: C:\wamp\www\wordpress\wp-content\plugins\boldgrid-inspirations/pages/inspiration.php:26
+msgid "Step 2: Base Website"
+msgstr "Passo 2: Base de dados de site"
+
+#: C:\wamp\www\wordpress\wp-content\plugins\boldgrid-inspirations/pages/inspiration.php:27
+msgid "Step 3: Pages"
+msgstr "Passo 3: Páginas"
+
+#: C:\wamp\www\wordpress\wp-content\plugins\boldgrid-inspirations/pages/inspiration.php:30
+msgid "Step 1: Choose your Category"
+msgstr "Passo 1 : Escolha o seu Categoria"
+
+#: C:\wamp\www\wordpress\wp-content\plugins\boldgrid-inspirations/pages/inspiration.php:31
+msgid ""
+"Each category contains content for your website. Remember, you can customize "
+"everything later."
+msgstr ""
+"Cada categoria contém conteúdo de seu site. Lembre-se, você pode "
+"personalizar tudo mais tarde."
+
+#: C:\wamp\www\wordpress\wp-content\plugins\boldgrid-inspirations/pages/inspiration.php:41
+msgid "Browse"
+msgstr "Procurar"
+
+#: C:\wamp\www\wordpress\wp-content\plugins\boldgrid-inspirations/pages/inspiration.php:46
+msgid "Select Your Category"
+msgstr "Selecione sua categoria"
+
+#: C:\wamp\www\wordpress\wp-content\plugins\boldgrid-inspirations/pages/inspiration.php:52
+msgid "Step 2: Choose Your Base Website"
+msgstr "Passo 2: Escolha o seu site Base de Dados"
+
+#: C:\wamp\www\wordpress\wp-content\plugins\boldgrid-inspirations/pages/inspiration.php:53
+msgid ""
+"Each Base Website contains colors, images, and text. Remember, you can "
+"customize everything later."
+msgstr ""
+"Cada site Base contém cores, imagens e texto. Lembre-se, você pode "
+"personalizar tudo mais tarde."
+
+#: C:\wamp\www\wordpress\wp-content\plugins\boldgrid-inspirations/pages/inspiration.php:58
+msgid "Step 3: Choose Your Pages"
+msgstr "Passo 3: Escolha suas páginas"
+
+#: C:\wamp\www\wordpress\wp-content\plugins\boldgrid-inspirations/pages/inspiration.php:59
+msgid ""
+"Pages appear in the main menu at the top of your website. Remember, you can "
+"customize everything later."
+msgstr ""
+"Páginas aparecer no menu principal no topo do seu site. Lembre-se, você pode "
+"personalizar tudo mais tarde."
+
+#: C:\wamp\www\wordpress\wp-content\plugins\boldgrid-inspirations/pages/inspiration.php:60
+msgid "It looks like you have not yet selected a theme!"
+msgstr "Parece que você ainda não tiver selecionado um tema!"
+
+#: C:\wamp\www\wordpress\wp-content\plugins\boldgrid-inspirations/pages/inspiration.php:68
+msgid "Monitor"
+msgstr "Monitor"
+
+#: C:\wamp\www\wordpress\wp-content\plugins\boldgrid-inspirations/pages/inspiration.php:69
+msgid "Tablet"
+msgstr "Comprimido"
+
+#: C:\wamp\www\wordpress\wp-content\plugins\boldgrid-inspirations/pages/inspiration.php:70
+msgid "Phone"
+msgstr "Telefone"
+
+#: C:\wamp\www\wordpress\wp-content\plugins\boldgrid-inspirations/pages/inspiration.php:72
+msgid "Step 2/3: Choose your base website"
+msgstr "Passo 2/3: Escolha o seu site de base"
+
+#: C:\wamp\www\wordpress\wp-content\plugins\boldgrid-inspirations/pages/inspiration.php:77
+msgid "Theme name"
+msgstr "Nome do tema"
+
+#: C:\wamp\www\wordpress\wp-content\plugins\boldgrid-inspirations/pages/inspiration.php:81
+#: C:\wamp\www\wordpress\wp-content\plugins\boldgrid-inspirations/pages/inspiration.php:88
+#: C:\wamp\www\wordpress\wp-content\plugins\boldgrid-inspirations/pages/inspiration.php:113
+msgid "Go back"
+msgstr "Volte"
+
+#: C:\wamp\www\wordpress\wp-content\plugins\boldgrid-inspirations/pages/inspiration.php:82
+#: C:\wamp\www\wordpress\wp-content\plugins\boldgrid-inspirations/pages/inspiration.php:89
+#: C:\wamp\www\wordpress\wp-content\plugins\boldgrid-inspirations/pages/inspiration.php:90
+msgid "Select"
+msgstr "Selecionar"
+
+#: C:\wamp\www\wordpress\wp-content\plugins\boldgrid-inspirations/pages/inspiration.php:97
+msgid "Please select a category in step 1."
+msgstr "Por favor, selecione uma categoria no passo 1."
+
+#: C:\wamp\www\wordpress\wp-content\plugins\boldgrid-inspirations/pages/inspiration.php:103
+msgid "Install your new website!"
+msgstr "Instale o seu novo site!"
+
+#: C:\wamp\www\wordpress\wp-content\plugins\boldgrid-inspirations/pages/inspiration.php:104
+msgid ""
+"<strong>Congratulations</strong>, you've completed the first three steps!"
+msgstr "<strong> Parabéns </ strong>, você completou os três primeiros passos!"
+
+#: C:\wamp\www\wordpress\wp-content\plugins\boldgrid-inspirations/pages/inspiration.php:105
+msgid ""
+"Before you can add your own personal touches to your website, we'll first "
+"need install your new website for you. After installation, you can add your "
+"own images, change text, etc."
+msgstr ""
+"Antes que você pode adicionar seus próprios toques pessoais para o seu site, "
+"vamos primeiro precisa instalar o seu novo site para você. Após a "
+"instalação, você pode adicionar suas próprias imagens, mude o texto, etc."
+
+#: C:\wamp\www\wordpress\wp-content\plugins\boldgrid-inspirations/pages/inspiration.php:106
+msgid "Are you ready to install this website?"
+msgstr "Você está pronto para instalar este site?"
+
+#: C:\wamp\www\wordpress\wp-content\plugins\boldgrid-inspirations/pages/inspiration.php:114
+msgid "Install this website!"
+msgstr "Instale este site!"
+
+#: C:\wamp\www\wordpress\wp-content\plugins\boldgrid-inspirations/pages/stock_photo_search_modal.php:9
+msgid "Add Stock Photos"
+msgstr "Adicionar Fotos Stock"
+
+#: C:\wamp\www\wordpress\wp-content\plugins\boldgrid-inspirations/pages/stock_photo_search_modal.php:16
+msgid "Stock Photography"
+msgstr "Fotografia de Stock"
+
+#: C:\wamp\www\wordpress\wp-content\plugins\boldgrid-inspirations/pages/stock_photo_search_modal.php:179
+msgid "Search for stock photos"
+msgstr "Procure por fotos"
+
+#: C:\wamp\www\wordpress\wp-content\plugins\boldgrid-inspirations/pages/stock_photo_search_modal.php:409
+msgid "Images courtesy of"
+msgstr "Imagens cortesia de"
+
+#: C:\wamp\www\wordpress\wp-content\plugins\boldgrid-inspirations/class-boldgrid-inspirations-deploy.php:182
+msgid "Theme not allowed"
+msgstr "Tema não permitidos"

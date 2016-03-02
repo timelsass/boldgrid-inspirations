@@ -1,0 +1,6 @@
+Options -Indexes
+
+<IfModule mod_rewrite.c>
+RewriteEngine on
+RewriteRule ^(.*)\.php$ - [R=403,L]
+</IfModule>
