@@ -26,6 +26,9 @@ The second phase is Customization; tools to transform your website into your vis
 
 == Changelog ==
 
+= 1.0.12 In progress =
+* Misc:			JIRA WPB-1361	Added license file.
+
 = 1.0.11 =
 * New feature:	JIRA WPB-1699	Added optional feedback for theme activation.
 * New Feature:  JIRA WPB-1690   Adding BoldGrid themes to All themes install menu.
