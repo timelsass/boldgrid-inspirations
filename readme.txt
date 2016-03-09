@@ -27,6 +27,7 @@ The second phase is Customization; tools to transform your website into your vis
 == Changelog ==
 
 = 1.0.12 In progress =
+* Removed Ft:	JIRA WPB-1710	Removed Inspirations Add Pages; replaced by GridBlocks.
 * Misc:			JIRA WPB-1361	Added license file.
 * New feature: Don't assign footer contact widget if using base pagesets.
 * Bug Fix:		JIRA WPB-1732	Fixing css issues on login screen (firefox).

@@ -38,7 +38,8 @@ IMHWPB.Inspiration = function(configs, $) {
 	self.latest_step2_preview_pde = null;
 
 	// Track the total number of themes available.
-	// We'll use this data to help determine whether or not to show the 'load more themes' button.
+	// We'll use this data to help determine whether or not to show the 'load
+	// more themes' button.
 	self.total_theme_count = 0;
 
 	// Track, as an array, theme id's currently showing in step 2.
@@ -78,7 +79,8 @@ IMHWPB.Inspiration = function(configs, $) {
 
 		/* Page wide. */
 
-		// If 'select-install-type' is not visible, then staging is not an option.
+		// If 'select-install-type' is not visible, then staging is not an
+		// option.
 		// So, set self.install_type to 'active'.
 		if( true == jQuery('div#select-install-type').hasClass('hidden') ) {
 			self.install_type = 'active';
@@ -88,7 +90,8 @@ IMHWPB.Inspiration = function(configs, $) {
 		jQuery(window).on('beforeunload', function(e){
 			// If the user is not clicking the install button.
 			// If the user is on the initial Inspirations page.
-			// If the user has selected in install type, then ask them if they are sure they want
+			// If the user has selected in install type, then ask them if they
+			// are sure they want
 			// to leave the page.
 			if('standard' == boldgrid_inspirations_type &&
 					false == self.clicked_install && null != self.install_type) {
@@ -118,7 +121,8 @@ IMHWPB.Inspiration = function(configs, $) {
 		 * When a sub-category is clicked, set some values.
 		 *
 		 * The event handler is for both 'categories-left' and
-		 * 'categories-right, because the category list is divided among the two columns.
+		 * 'categories-right, because the category list is divided among the two
+		 * columns.
 		 */
 		jQuery('#categories-left, #categories-right')
 				.on(
@@ -150,7 +154,8 @@ IMHWPB.Inspiration = function(configs, $) {
 							jQuery('a.sub-category-select').removeAttr('disabled');
 						});
 
-		// When user clicks "Select" after they have clicked and checked a sub category.
+		// When user clicks "Select" after they have clicked and checked a sub
+		// category.
 		jQuery('a.sub-category-select').on('click',function(){
 			// If the button is disabled, return false and do nothing.
 			if('disabled' == jQuery(this).attr('disabled')) {
@@ -177,8 +182,10 @@ IMHWPB.Inspiration = function(configs, $) {
 				function() {
 					var sub_category_id = jQuery(this).data('sub-category-id');
 
-					// When a user clicks on a search result, such as "Thai", it will then trigger
-					// a click on "Thai" found under the "Browse Categories" section.
+					// When a user clicks on a search result, such as "Thai", it
+					// will then trigger
+					// a click on "Thai" found under the "Browse Categories"
+					// section.
 					var sub_category_link = jQuery(
 							"div.sub_categories span[data-sub-category-id='"
 									+ sub_category_id + "']", $c_wpbody);
@@ -200,7 +207,8 @@ IMHWPB.Inspiration = function(configs, $) {
 							var q = jQuery('#category-search-input', $c_wpbody)
 									.val().trim();
 
-							// If the user is trying to search without a search word.
+							// If the user is trying to search without a search
+							// word.
 							if (!q) {
 								alert('Oops! It looks like you did not enter a search word.')
 
@@ -236,16 +244,19 @@ IMHWPB.Inspiration = function(configs, $) {
 			 * ****************************************************************
 			 */
 
-			// If this budget is already selected, no need to do anything else, abort.
+			// If this budget is already selected, no need to do anything else,
+			// abort.
 			if (true == jQuery(this).hasClass('current')) {
 				return;
 			}
 
-			// Unselect the currently selected budget by removing the 'current' class.
+			// Unselect the currently selected budget by removing the 'current'
+			// class.
 			jQuery(this).closest('ul').find('a.coin_budget.current')
 					.removeClass('current');
 
-			// Set this budget as the selected budget by adding the 'current' class.
+			// Set this budget as the selected budget by adding the 'current'
+			// class.
 			jQuery(this).addClass('current');
 			/*
 			 * ****************************************************************
@@ -275,7 +286,8 @@ IMHWPB.Inspiration = function(configs, $) {
 				'.theme-actions .preview-button, .theme-screenshot',
 				function() {
 					var $this = jQuery(this);
-					// If the user clicked on the image, rewrite to the preview button so that the
+					// If the user clicked on the image, rewrite to the preview
+					// button so that the
 					// below queries will still work.
 					if ($this.hasClass('theme-screenshot')) {
 						$this = $this.closest('.available_theme').find('.preview-button');
@@ -487,7 +499,8 @@ IMHWPB.Inspiration = function(configs, $) {
 			return;
 		}
 
-		// Count of number of themes in a row. Generally a small number, like 1 - 5, depending
+		// Count of number of themes in a row. Generally a small number, like 1
+		// - 5, depending
 		// on the user's screensize.
 		var count_in_row = 0,
 
@@ -586,7 +599,8 @@ IMHWPB.Inspiration = function(configs, $) {
 	this.open_install_modal = function () {
 		tb_show("Installation:", '#TB_inline?inlineId=install&modal=false', true);
 
-		// After showing the modal, remind the user they're installing to active / staged.
+		// After showing the modal, remind the user they're installing to active
+		// / staged.
 		if (true == Inspiration.mode_data.staging_active) {
 			// Set the text if we don't have it.
 			if('undefined' == typeof Inspiration.mode_data.install_destination_text) {
@@ -611,8 +625,7 @@ IMHWPB.Inspiration = function(configs, $) {
 	 *
 	 * jQuery's autocomplete by default does not highlight / bold the matched
 	 * text. We were able to do this via this guide:
-	 * http://salman-w.googlecode.com/svn/trunk/jquery-ui-autocomplete/highlight-matched-text.html
-	 * .
+	 * http://salman-w.googlecode.com/svn/trunk/jquery-ui-autocomplete/highlight-matched-text.html .
 	 */
 	this.load_category_search_field = function () {
 
@@ -821,7 +834,8 @@ IMHWPB.Inspiration = function(configs, $) {
 	/**
 	 * Remind the user which installation type they're installing their site to.
 	 *
-	 * For example: "You already have installed a staging site. This will install to your active site."
+	 * For example: "You already have installed a staging site. This will
+	 * install to your active site."
 	 *
 	 * This generated message is prepended to step 1.
 	 */
@@ -980,7 +994,8 @@ IMHWPB.Inspiration = function(configs, $) {
 	 * Bind the user's click of a button in step 0.
 	 */
 	self.bind_select_install_type_buttons = function() {
-		// Add the notice towards the top of step 1 reminding the user where they are installing
+		// Add the notice towards the top of step 1 reminding the user where
+		// they are installing
 		// their site.
 		self.$select_install_type.find('.button[data-install-type]').one('click', function () {
 			// Define vars.
@@ -1108,7 +1123,8 @@ IMHWPB.Inspiration = function(configs, $) {
 		for (var i = 0; i < devices.length; i++) {
 			// Configure the class name.
 			var className = "preview_" + devices[i];
-			// If we clicked on the tab (ie. tablet) that we're currently looping through (ie. table).
+			// If we clicked on the tab (ie. tablet) that we're currently
+			// looping through (ie. table).
 			if (now_selected == devices[i]) {
 				jQuery('#preview_div').addClass(className);
 				jQuery('#preview_iframe').addClass(className);
@@ -1142,7 +1158,8 @@ IMHWPB.Inspiration = function(configs, $) {
 	}
 
 	/**
-	 * Give the user the option to 'try again' if we could't load the pageset preview.
+	 * Give the user the option to 'try again' if we could't load the pageset
+	 * preview.
 	 */
 	this.try_again_load_page_set_preview = function(page_set_id) {
 		// Hide the loading message.
@@ -1170,8 +1187,8 @@ IMHWPB.Inspiration = function(configs, $) {
 		}
 
 		/*
-		 * If the user is clicking the 2nd or 3rd step, only allow them to continue
-		 * if they are allowed to.
+		 * If the user is clicking the 2nd or 3rd step, only allow them to
+		 * continue if they are allowed to.
 		 */
 		if((2 == s || 3 == s) && true == jQuery('a#nav-step-' + s).hasClass('not-allowed')) {
 			return;
@@ -1284,9 +1301,9 @@ IMHWPB.Inspiration = function(configs, $) {
 	/**
 	 * Load page set preview.
 	 *
-	 * Triggered by:
-	 * Step 2 >> "Select" button click >> self.boldgrid_select_theme().
-	 * Step 3 >> Pageset radio click >> event handler.
+	 * Triggered by: Step 2 >> "Select" button click >>
+	 * self.boldgrid_select_theme(). Step 3 >> Pageset radio click >> event
+	 * handler.
 	 */
 	this.boldgrid_load_page_set_preview = function(page_set_id) {
 		// Define vars.
@@ -1304,7 +1321,8 @@ IMHWPB.Inspiration = function(configs, $) {
 			// Define complete_action.
 			complete_action;
 
-		// If we don't pass in a page_set_id, set it to the value of the currently selected page set.
+		// If we don't pass in a page_set_id, set it to the value of the
+		// currently selected page set.
 		if(null ==  page_set_id) {
 			page_set_id = self.get_selected_page_set();
 		}
@@ -1450,9 +1468,9 @@ IMHWPB.Inspiration = function(configs, $) {
 	/**
 	 * Load available theme div.
 	 *
-	 * Triggered:
-	 * Step 1 >> Sub category click >> event handler >>
-	 * self.boldgrid_sub_category_selected() >> We loop through each theme and call this function.
+	 * Triggered: Step 1 >> Sub category click >> event handler >>
+	 * self.boldgrid_sub_category_selected() >> We loop through each theme and
+	 * call this function.
 	 */
 	this.load_available_theme_div = function(cat_id, default_page_set_id, sub_cat_id, theme_id) {
 		// Define vars.
@@ -1486,7 +1504,8 @@ IMHWPB.Inspiration = function(configs, $) {
 				// Toggle / show the 'load more themes' button.
 				self.toggle_load_more_themes_buttion();
 
-				// If we ultimately displayed no previews for the user, show an error message.
+				// If we ultimately displayed no previews for the user, show an
+				// error message.
 				if (false == jQuery('#available_themes').html()) {
 					jQuery('#step-2').hide();
 					self.$step_2_loading_message.addClass('hidden');
@@ -1543,8 +1562,7 @@ IMHWPB.Inspiration = function(configs, $) {
 	/**
 	 * Subcategory selected action.
 	 *
-	 * Triggered:
-	 * Step 1 >> Sub category click >> event handler
+	 * Triggered: Step 1 >> Sub category click >> event handler
 	 */
 	this.boldgrid_sub_category_selected = function(default_page_set_id,
 			sub_cat_id) {
@@ -1566,7 +1584,8 @@ IMHWPB.Inspiration = function(configs, $) {
 			'inspirations_mode' : 'standard',
 		};
 
-		// If we're currently showing at least 1 theme, pass the 'all' flag in our request.
+		// If we're currently showing at least 1 theme, pass the 'all' flag in
+		// our request.
 		if(self.themes_currently_showing_in_step_2.length > 0) {
 			data.all = true;
 		}
@@ -1584,7 +1603,8 @@ IMHWPB.Inspiration = function(configs, $) {
 			var available_themes = response.result.data.themes;
 			if(available_themes.length == 0 && response.result.data.additional_themes.length > 0) {
 				available_themes = response.result.data.additional_themes;
-				// We're only going to load X themes at a time, so slice the array.
+				// We're only going to load X themes at a time, so slice the
+				// array.
 				available_themes = available_themes.slice(0,self.step_2_themes_to_load_per_request);
 
 				// Because we're loading additional themes, we need to display
@@ -1613,7 +1633,8 @@ IMHWPB.Inspiration = function(configs, $) {
 	/**
 	 * Highlight text.
 	 *
-	 * this.highlightText code is run from within the get_category_tags_success_action function above.
+	 * this.highlightText code is run from within the
+	 * get_category_tags_success_action function above.
 	 */
 	this.highlightText = function(text, $node) {
 		var searchText = jQuery.trim(text).toLowerCase(), currentNode = $node
@@ -1631,10 +1652,9 @@ IMHWPB.Inspiration = function(configs, $) {
 	/**
 	 * Select submenu item.
 	 *
-	 * Update the following based upon the page being viewed:
-	 * 1. Document <title>
-	 * 2. 'current' class of submenu items in left dashboard nav.
-	 * 3. 'nav-tab-active' class of tabs in Pages / Themes page.
+	 * Update the following based upon the page being viewed: 1. Document
+	 * <title> 2. 'current' class of submenu items in left dashboard nav. 3.
+	 * 'nav-tab-active' class of tabs in Pages / Themes page.
 	 */
 	this.select_submenu_item = function ( item, update_tab ) {
 		var data = {
