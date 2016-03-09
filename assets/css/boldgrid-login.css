@@ -19,11 +19,13 @@ body.login {
 	overflow: hidden;
 	display: block;
 }
-input:focus, textarea:focus {
-   outline: firebrick auto 5px;
+.login input:hover,
+.login textarea:hover {
+    border: goldenrod solid 1px;
 }
-input:hover, textarea:hover {
-    outline: goldenrod auto 5px;
+.login input:focus,
+.login textarea:focus {
+    border: firebrick solid 1px;
 }
 .login #login_error {
     border-left: 48px solid firebrick;
@@ -48,14 +50,19 @@ input:hover, textarea:hover {
     box-shadow: 0 0 15px 5px rgba(33, 117, 155, 1);
 }
 .login .button-primary:active,
-.login .button-primary { 
+.login .button-primary {
 	border: none !important; 
 	float:right; 
 	box-shadow: none;
 	background-color:#FF6600 !important; 
 	text-shadow: none;
 }
-input, textarea, select, a { outline: none; }
+.login .button-primary:hover {
+    outline: goldenrod auto 1px;
+}
+input, textarea, select, a {
+	border: 1px solid transparent;
+}
 
 .boldgrid-login-bottom-text {
 	text-align:center;

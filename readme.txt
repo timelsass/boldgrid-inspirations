@@ -29,6 +29,7 @@ The second phase is Customization; tools to transform your website into your vis
 = 1.0.12 In progress =
 * Misc:			JIRA WPB-1361	Added license file.
 * New feature: Don't assign footer contact widget if using base pagesets.
+* Bug Fix:		JIRA WPB-1732	Fixing css issues on login screen (firefox).
  
 = 1.0.11 =
 * New feature:	JIRA WPB-1699	Added optional feedback for theme activation.
