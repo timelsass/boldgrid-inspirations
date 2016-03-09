@@ -280,7 +280,40 @@ class Boldgrid_Inspirations_Theme_Install {
 		// 'transfer_theme_mods'
 		// ), 10, 2 );
 	}
-	
+
+	/**
+	 * Overrides configs made to a theme.
+	 *
+	 * Override specific configs in a theme, so the previews can be dynamically
+	 * generated. We add the CSS via inline in the head here, instead of waiting
+	 * for the new CSS to be generated and compiled from SCSS on theme activation.
+	 * This is useful for the color palettes being able to be unique in categories.
+	 *
+	 * @since 1.0.9
+	 *
+	 * @return Array $boldgrid_theme_configs Theme Configuraitons To Override.
+	 */
+	public static function universal_framework_configs() {
+		add_filter(
+			'boldgrid_theme_framework_config',
+			function ( $boldgrid_theme_configs ) {
+				$boldgrid_install_options = get_option( 'boldgrid_install_options' );
+				$default_pagesets = array( 7,8,11,15,16,17,18 );
+				$page_set_id = $boldgrid_install_options['page_set_id'];
+
+				if ( in_array( $page_set_id, $default_pagesets, true ) ) {
+					$widget_instances = $boldgrid_theme_configs['widget']['widget_instances'];
+					$company_details_widget = $widget_instances['boldgrid-widget-3'];
+					$index = array_values( $company_details_widget );
+					$boldgrid_theme_configs['widget']['widget_instances']['footer-company-details'] = $index[0];
+					unset( $boldgrid_theme_configs['widget']['widget_instances']['boldgrid-widget-3'] );
+				}
+				return $boldgrid_theme_configs;
+			},
+			10
+		);
+	}
+
 	/**
 	 * Overrides configs made to a theme.
 	 *

@@ -80,6 +80,12 @@ class Boldgrid_Inspirations_Inspiration extends Boldgrid_Inspirations {
 			$this,
 			'boldgrid_load_textdomain' 
 		) );
+
+		// This class is instantiated in later hook.
+		require_once BOLDGRID_BASE_DIR .
+			'/includes/class-boldgrid-inspirations-theme-install.php';
+		// Apply BoldGrid theme config modifications
+		Boldgrid_Inspirations_Theme_Install::universal_framework_configs();
 		
 		// If not on a network admin page, load stuff.
 		if ( false === is_network_admin() ) {
