@@ -1,8 +1,3 @@
-<?php
-// DEPRECATED
-// include BOLDGRID_BASE_DIR . '/pages/includes/budget-selection.php';
-?>
-
 <h1 id="base-website-selection-heading"><?php _e('Step 2: Select a Base Website','boldgrid-inspirations'); ?>
 &nbsp;<span class="spinner"></span>
 </h1>
@@ -10,7 +5,7 @@
 <?php include BOLDGRID_BASE_DIR . '/pages/includes/step-2-nav-bar.php'; ?>
 
 <div id="base-website-selection" class="theme-browser rendered">
-	<div class='themes' name='available_themes' id='available_themes'></div>
+	<div class='themes' id='available_themes'></div>
 
 	<div style='clear: both;'></div>
 

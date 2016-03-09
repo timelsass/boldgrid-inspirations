@@ -1132,6 +1132,10 @@ a {
 	margin: -2px 10px -6px;
 }
 
+#theme-selection-h1 {
+	margin-top: 30px;
+}
+
 #stop_and_explain {
 	margin-top: 35px;
 }
@@ -1153,15 +1157,6 @@ Plugin Card
 }
 
 /*--------------------------------------------------------------
-1.7 Inspirations - Add new pages
---------------------------------------------------------------*/
-
-/* To accomodate for the "BoldGrid Pages" header, move the preview lower. */
-.page-selection-and-preview>div:nth-child(2n) {
-	margin-top: 42px;
-}
-
-/*--------------------------------------------------------------
 Inspirations - Install New themes
 --------------------------------------------------------------*/
 
@@ -1180,6 +1175,10 @@ budgets when the filter is toggled on (ie the body has the
 show-filters class). We would like this border to remain. */
 body.show-filters .filter-links a.current {
 	border-bottom: 4px solid #666;
+}
+
+#additional-themes-bar {
+	padding: 10px 0px 10px 10px;
 }
 
 /*--------------------------------------------------------------

@@ -18,22 +18,21 @@ include BOLDGRID_BASE_DIR . '/pages/templates/get_categories.php';
 include BOLDGRID_BASE_DIR . '/pages/templates/build_profile.php';
 include BOLDGRID_BASE_DIR . '/pages/templates/get_page_sets.php';
 include BOLDGRID_BASE_DIR . '/pages/templates/template-inspiration-notices.php';
-include BOLDGRID_BASE_DIR . '/pages/templates/template-addboldgrid-pages.php';
 include BOLDGRID_BASE_DIR . '/pages/includes/install-selection-type.php';
 
 add_thickbox();
 ?>
 
-<h2 class="nav-tab-wrapper hidden" name='button_navigation'
-	id='button_navigation'>
-	<a href="#" name='nav-step-1' id='nav-step-1' data-step='1'
+<h2 class="nav-tab-wrapper hidden" id='button_navigation'>
+	<a href="#" id='nav-step-1' data-step='1'
 		class="nav-tab nav-tab-active"><?php echo $nav_steps['step-1']['title']; ?></a>
-	<a href="#" name='nav-step-2' id='nav-step-2' data-step='2'
-		class="nav-tab"><?php echo $nav_steps['step-2']['title']; ?></a>
 		
 		<?php if (isset($nav_steps['step-3'])) { ?>
-		 	<a href="#" name='nav-step-3' id='nav-step-3' data-step='3'
-		class="nav-tab"><?php echo $nav_steps['step-3']['title']; ?></a> 
+	<a href="#" id='nav-step-2' data-step='2' class="nav-tab"><?php echo $nav_steps['step-2']['title']; ?></a>
+		<?php } ?>
+		
+		<?php if (isset($nav_steps['step-3'])) { ?>
+		 	<a href="#" id='nav-step-3' data-step='3' class="nav-tab"><?php echo $nav_steps['step-3']['title']; ?></a> 
 		<?php } ?>
 </h2>
 
@@ -49,7 +48,7 @@ add_thickbox();
  * ****************************************************************************
  */
 ?>
-<div class='imhwpb-step' name='step-1' id='step-1'>
+<div class='imhwpb-step' id='step-1'>
 	<?php require $nav_steps['step-1']['content']; ?>
 </div>
 
@@ -60,8 +59,12 @@ add_thickbox();
  * ****************************************************************************
  */
 ?>
-<div class='imhwpb-step' name='step-2' id='step-2'>
-	<?php require  $nav_steps['step-2']['content']; ?>
+<div class='imhwpb-step' id='step-2'>
+	<?php
+	if ( isset( $nav_steps['step-2']['content'] ) ) {
+		require $nav_steps['step-2']['content'];
+	}
+	?>
 </div>
 
 <?php
@@ -71,7 +74,7 @@ add_thickbox();
  * ****************************************************************************
  */
 ?>
-<div class='imhwpb-step' name='step-3' id='step-3'>
+<div class='imhwpb-step' id='step-3'>
 	<?php
 	if ( isset( $nav_steps['step-3']['content'] ) ) {
 		require $nav_steps['step-3']['content'];
@@ -86,7 +89,7 @@ add_thickbox();
  * ****************************************************************************
  */
 ?>
-<div class='imhwpb-step' name='preview' id='preview'>
+<div class='imhwpb-step' id='preview'>
 	<div class='coins'>
 		<span class='coins'></span> Coins.<br /> For businesses, we recommend
 		paid licenses for images - <a
@@ -100,18 +103,17 @@ add_thickbox();
 		<a id="tablet" class='nav-tab' href='#'><?php _e('Tablet','boldgrid-inspirations'); ?></a>
 		<a id="phone" class='nav-tab' href='#'><?php _e('Phone','boldgrid-inspirations'); ?></a>
 	</h3>
-	<h3 name='preview_theme_name' id='preview_theme_name'><?php _e('Theme name','boldgrid-inspirations'); ?></h3>
-	<div name='preview_div' id='preview_div'>
-		<div name='preview_div_message' id='preview_div_message'><?php _e('Please select a category in step 1.','boldgrid-inspirations'); ?></div>
-		<iframe name='preview_iframe' id='preview_iframe' allowfullscreen></iframe>
+	<h3 id='preview_theme_name'><?php _e('Theme name','boldgrid-inspirations'); ?></h3>
+	<div id='preview_div'>
+		<div id='preview_div_message'><?php _e('Please select a category in step 1.','boldgrid-inspirations'); ?></div>
+		<iframe id='preview_iframe' allowfullscreen></iframe>
 	</div>
 	<div class="previews">
-		<div name='preview_theme_button_set' id='preview_theme_button_set'>
+		<div id='preview_theme_button_set'>
 			<button class="goback-to-themes button button-secondary"><?php _e('Go back','boldgrid-inspirations'); ?></button>
 			<button class='button button-primary' id="select"><?php _e('Select','boldgrid-inspirations'); ?></button>
 		</div>
-		<div name='preview_page_set_button_set'
-			id='preview_page_set_button_set'>
+		<div id='preview_page_set_button_set'>
 			<button class="goback-to-page-sets button button-secondary"><?php _e('Go back','boldgrid-inspirations'); ?></button>
 			<button class='button button-primary' id="select"><?php _e('Select','boldgrid-inspirations'); ?></button>
 		</div>
@@ -126,7 +128,7 @@ add_thickbox();
  */
 ?>
 <!-- INSTALL MODALS -->
-<div class='imhwpb-step install-modal' name='install' id='install'>
+<div class='imhwpb-step install-modal' id='install'>
 	<h1><?php _e('Install your new website!','boldgrid-inspirations'); ?></h1>
 	<p><?php _e('<strong>Congratulations</strong>, you\'ve completed the first three steps!','boldgrid-inspirations'); ?></p>
 	<p><?php _e('Before you can add your own personal touches to your <span class=\'install-modal-destination\'></span> website, we\'ll first need to install your new website for you. After installation, you can add your own images, change text, etc.','boldgrid-inspirations'); ?></p>
@@ -134,16 +136,6 @@ add_thickbox();
 	<p class='center' id='install-buttons'>
 		<button id="goback" class="goback button button-secondary"><?php _e('Go back','boldgrid-inspirations'); ?></button>
 		<button name='install-button' class='button button-primary'><?php _e('Install this website!','boldgrid-inspirations'); ?></button>
-	</p>
-</div>
-<div class='imhwpb-step install-modal'
-	data-title="Install Selected Pages" id='install-page-modal'>
-	<h1><?php _e('Install your new pages!','boldgrid-inspirations'); ?></h1>
-	<p><?php _e( "Before you can begin customizing your new <span class='install-modal-destination'></span> pages, we'll need to install the pages into your site. After installation, you can add your own images, change text, etc.",'boldgrid-inspirations'); ?></p>
-	<p><?php _e('Are you ready to install these pages?','boldgrid-inspirations'); ?></p>
-	<p class='center' id='install-buttons'>
-		<button id="goback" class="goback button button-secondary"><?php _e('Go back','boldgrid-inspirations'); ?></button>
-		<button name='install-button' class='button button-primary'><?php _e('Install these pages!','boldgrid-inspirations'); ?></button>
 	</p>
 </div>
 <div class='imhwpb-step install-modal' data-title="Install Theme"

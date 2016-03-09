@@ -1,7 +1,7 @@
-<div id='theme-selection-wrapper' class='hidden'>
+<div id='theme-selection-wrapper'>
 	<div class='admin-notice-container'></div>
 
-	<div>
+	<div id='theme-selection-h1'>
 		<h1><?php _e('Themes','boldgrid-inspirations'); ?></h1>
 	</div>
 
@@ -13,10 +13,23 @@
 	</div>
 
 	<div id="boldgrid-theme-selection">
+		<div class='step-2-nav-bar-wrapper'>
+			<div class='wrap step-2-nav-bar'>
+				<div class='wp-filter' id='additional-themes-bar'>
+					<ul class='filter-links category'>
+						<li class='category-label'><strong>Category</strong>: <span
+							class="count theme-count category-name">Unknown</span></li>
+					</ul>
+					<a class="additional_themes drawer-toggle"
+						data-theme-type='current'>Additional Themes</a>
+				</div>
+			</div>
+		</div>
+
 		<div class='boldgrid-loading hidden'></div>
 
 		<div class="theme-browser rendered themes-current-category">
-			<div class='themes' name='available_themes' id='available_themes'></div>
+			<div class='themes' id='available_themes'></div>
 			<div class='clear'></div>
 		</div>
 
