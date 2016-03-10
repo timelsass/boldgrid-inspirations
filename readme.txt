@@ -27,6 +27,7 @@ The second phase is Customization; tools to transform your website into your vis
 == Changelog ==
 
 = 1.0.12 In progress =
+* New feature:	JIRA WPB-1726	Added optional feedback for GridBlock Add Page.
 * Removed Ft:	JIRA WPB-1710	Removed Inspirations Add Pages; replaced by GridBlocks.
 * Misc:			JIRA WPB-1361	Added license file.
 * New feature: Don't assign footer contact widget if using base pagesets.
@@ -34,7 +35,7 @@ The second phase is Customization; tools to transform your website into your vis
  
 = 1.0.11 =
 * New feature:	JIRA WPB-1699	Added optional feedback for theme activation.
-* New Feature:  JIRA WPB-1690   Adding BoldGrid themes to All themes install menu.
+* New feature:  JIRA WPB-1690   Adding BoldGrid themes to All themes install menu.
 * Bug fix:		JIRA WPB-1686	Limited items loaded in network admin pages.
 * Improvement:	JIRA WPB-1604	Added a "Cancel" link to the "In Menu" section.
 * Improvement:	JIRA WPB-1603	Display menu locations in the editor "In Menu" section.
