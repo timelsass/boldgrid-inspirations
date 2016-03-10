@@ -36,7 +36,7 @@ IMHWPB.InsertMediaTabManager = function() {
 	var ref = '';
 	if (true == self.in_customizer) {
 		ref = 'dashboard-customizer';
-	} else if (true == self.in_post) {
+	} else if ( true == self.in_post || true == self.in_post_new ) {
 		ref = 'dashboard-post'
 	} else {
 		ref = 'dashboard-media';

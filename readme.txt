@@ -30,8 +30,9 @@ The second phase is Customization; tools to transform your website into your vis
 * New feature:	JIRA WPB-1726	Added optional feedback for GridBlock Add Page.
 * Removed Ft:	JIRA WPB-1710	Removed Inspirations Add Pages; replaced by GridBlocks.
 * Misc:			JIRA WPB-1361	Added license file.
-* New feature: Don't assign footer contact widget if using base pagesets.
+* New feature:					Don't assign footer contact widget if using base pagesets.
 * Bug Fix:		JIRA WPB-1732	Fixing css issues on login screen (firefox).
+* Bug Fix:		JIRA WPB-1687	Image search: Title, Caption, Alt Text and Description do not display on new pages.
  
 = 1.0.11 =
 * New feature:	JIRA WPB-1699	Added optional feedback for theme activation.
