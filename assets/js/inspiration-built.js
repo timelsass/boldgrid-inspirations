@@ -40,8 +40,8 @@
 		self.$theme_selection_wrapper = $( '#theme-selection-wrapper' );
 		self.$theme_selection_spinner = self.$theme_selection_wrapper.find( '.spinner' );
 
-		// Hide the nav tabs.
-		jQuery( '.nav-tab' ).hide();
+		// Remove the nav tabs.
+		jQuery( '.nav-tab' ).remove();
 
 		// The following 3 vars help with the display of the navbar. For an
 		// explanation of how it works, please read note 201507302221.
@@ -266,47 +266,7 @@
 		self.update_category_name();
 		self.load_builds();
 		self.bind_theme_install_buttons();
-		self.bind_theme_selection_budget_change();
 		self.bind_additional_themes_button();
-	};
-
-	/**
-	 * When a user changes their budget, reload any previews on the page.
-	 */
-	self.bind_theme_selection_budget_change = function() {
-		jQuery( 'a.coin_budget' ).on(
-		    'click',
-		    function() {
-			    // If this budget is already selected, no need to do anything
-			    // else, abort.
-			    if ( true == jQuery( this ).hasClass( 'current' ) ) {
-				    return;
-			    }
-
-			    // Unselect the currently selected budget by removing the
-			    // 'current' class.
-			    jQuery( this ).closest( 'ul' ).find( 'a.coin_budget.current' ).removeClass(
-			        'current' );
-
-			    // Set this budget as the selected budget by adding the
-			    // 'current' class.
-			    jQuery( this ).addClass( 'current' );
-
-			    // Refresh the builds. Determine if we're adding pages or a
-			    // theme,
-			    // and then run applicable calls.
-			    if ( 'pages' == self.selected_tab() ) {
-				    self.do_page_preview();
-			    } else {
-				    // Remove all of the existing theme previews.
-				    jQuery( '.theme.available_theme' ).remove();
-
-				    // Create new builds / previews.
-				    self.load_builds();
-			    }
-
-			    return false;
-		    } );
 	};
 
 	/**
@@ -356,8 +316,6 @@
 		    && ( true == Inspiration.mode_data.has_active_site || true == Inspiration.mode_data.has_staging_site ) ) {
 			self.has_not_built_with_either_compiled;
 
-			// Define add_pages_markup.
-			var add_pages_markup = self.has_not_built_with_either_compiled(),
 			// Define add_theme_markup.
 			add_theme_markup = self.has_not_built_with_either_compiled();
 
@@ -698,17 +656,6 @@
 		$display_counter.attr( 'data-count', new_count );
 		$display_counter.html( new_count );
 	};
-
-	/**
-	 * Toggle the display of the "navbar" and the "Additional themes" button.
-	 */
-	self.toggle_step_2_nav_bar = function( read_url_boldgrid_tab ) {
-		// Move the navbar to the themes navbar wrapper.
-		self.$step_2_nav_bar.appendTo( self.$themes_step_2_nav_bar_wrapper );
-
-		// Show the "Additional themes" button.
-		self.$additional_themes_button.removeClass( 'hidden' );
-	}
 
 	return self;
 

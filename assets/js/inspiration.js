@@ -987,6 +987,7 @@ IMHWPB.Inspiration = function(configs, $) {
 		if (  self.get_page_type() ) {
 			$post_deploy.find('input[name="boldgrid_page_set_version_type"]').val( self.get_page_type() );
 		}
+
 		$post_deploy.submit();
 	};
 
@@ -1015,11 +1016,6 @@ IMHWPB.Inspiration = function(configs, $) {
 				self.display_initial_steps();
 			}
 
-			// Abort if the user did not need to make a choice.
-			if('choice' != Inspiration.mode_data.install_destination) {
-				return;
-			}
-
 			// If we're installing a staging site.
 			if ('staging' == $this.data('install-type')) {
 				Inspiration.mode_data.install_destination_text = 'Staging';
@@ -1040,6 +1036,11 @@ IMHWPB.Inspiration = function(configs, $) {
 				handlebars_data = {
 					'install_type' : 'Active',
 				};
+			}
+
+			// Abort if the user did not need to make a choice.
+			if('choice' != Inspiration.mode_data.install_destination) {
+				return;
 			}
 
 			handlebars_data.url = Inspiration.mode_data.url;

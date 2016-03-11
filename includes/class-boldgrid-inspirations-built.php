@@ -713,7 +713,9 @@ class Boldgrid_Inspirations_Built {
 		}
 
 		// If either of these are set to stage, we will default to stage.
-		return array (
+
+		// Create return array.
+		$return = array (
 			'menu' => $menu_options,
 			'mode' => $mode,
 			'page_selection' => $page_selection,
@@ -728,6 +730,11 @@ class Boldgrid_Inspirations_Built {
 			'has_staged_site' => $has_staged_site,
 			'has_built_with_either' => $has_built_with_either
 		);
+
+		error_log( __METHOD__ . ': $return: ' . print_r( $return, true ) );
+
+		// Return the array.
+		return $return;
 	}
 
 	/**
