@@ -731,8 +731,6 @@ class Boldgrid_Inspirations_Built {
 			'has_built_with_either' => $has_built_with_either
 		);
 
-		error_log( __METHOD__ . ': $return: ' . print_r( $return, true ) );
-
 		// Return the array.
 		return $return;
 	}
