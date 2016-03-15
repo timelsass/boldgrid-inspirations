@@ -21,7 +21,7 @@ if ( ! defined( 'WPINC' ) ) {
 				id="cancel-add-to-menu" href="#edit-boldgrid-auto-add-to-menu">Cancel</a>
 		</p>
 	</div>
-	<input type='hidden' name='boldgrid-auto-add-to-menu-page-id'
+	<input type='hidden' name='boldgrid_auto_add_to_menu_page_id'
 		id='boldgrid-auto-add-to-menu-page-id'
 		value='<?php echo $post->ID; ?>'
 		data-is-new-page='<?php echo $is_new_page; ?>' />
