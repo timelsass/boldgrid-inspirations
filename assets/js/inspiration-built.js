@@ -552,11 +552,8 @@
 		if ( 'undefined' == typeof sub_cat_id ) {
 			build_any = true;
 
-			// Update the category name.
-			jQuery( '.category-name' ).html( 'None' );
-
-			// Hide the additional themes link.
-			jQuery( '.additional_themes' ).hide();
+			// Remove the category / additional themes bar.
+			jQuery( '.step-2-nav-bar-wrapper' ).remove();
 		} else {
 			build_any = Inspiration.mode_data.build_any;
 		}

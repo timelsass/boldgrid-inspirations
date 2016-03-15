@@ -609,8 +609,9 @@ class Boldgrid_Inspirations_Update {
 	<p>BoldGrid Inspirations <?php echo __('has been updated to version'); ?> 1.0.12.</p>
 	<p>
 		<?php echo __('Please note that the'); ?> <strong><i><?php echo $boldgrid_menu_option?'Inspirations':'BoldGrid'; ?>
-		- Add Pages</i></strong> <?php echo __('feature has been removed and replaced with'); ?> <strong><i>Pages -
-		<?php echo $boldgrid_menu_option?'Add New':'New from GridBlocks'?></i></strong>.
+		- Add Pages</i></strong> <?php echo __('feature has been removed and replaced with'); ?> <strong><i>Pages
+				- <a href='edit.php?post_type=page&page=boldgrid-add-gridblock-sets'><?php echo $boldgrid_menu_option?'Add New':'New from GridBlocks'?></a>
+		</i></strong>.
 	</p>
 </div>
 <?php
