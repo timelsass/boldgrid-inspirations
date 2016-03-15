@@ -26,7 +26,7 @@ The second phase is Customization; tools to transform your website into your vis
 
 == Changelog ==
 
-= 1.0.12.1 In progress =
+= 1.0.12.1 =
 * Bug fix:		JIRA WPB-1710	Fixed missing device preview tabs on Add New Theme preview modal.
 * Bug fix:		JIRA WPB-1710	Fixed notice dismissal checking.
 
