@@ -39,9 +39,14 @@
 		self.$deploy_script = jQuery( '#post_deploy' );
 		self.$theme_selection_wrapper = $( '#theme-selection-wrapper' );
 		self.$theme_selection_spinner = self.$theme_selection_wrapper.find( '.spinner' );
+		self.$nav_tab_wrapper = jQuery('.nav-tab-wrapper');
 
-		// Remove the nav tabs.
-		jQuery( '.nav-tab' ).remove();
+		// Hide the nav tabs.
+		jQuery( '.nav-tab' ).hide();
+		// Show the tabs for monitor, tablet, and phone.
+		self.$nav_tab_wrapper.find('#monitor').show();
+		self.$nav_tab_wrapper.find('#tablet').show();
+		self.$nav_tab_wrapper.find('#phone').show();
 
 		// The following 3 vars help with the display of the navbar. For an
 		// explanation of how it works, please read note 201507302221.
@@ -72,6 +77,7 @@
 			self.bind_select_buttons( 'install-theme-modal', 'preview_theme_button_set',
 			    self.$theme_selection );
 			self.load_inspiration_path();
+			jQuery('.coins').remove();
 		}
 
 		self.set_form_options();
