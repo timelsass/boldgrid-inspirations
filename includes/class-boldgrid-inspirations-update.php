@@ -111,33 +111,6 @@ class Boldgrid_Inspirations_Update {
 			'display_notices'
 		) );
 
-		// On update completion, update WP option ''.
-		/**
-		 * Fires when the bulk upgrader process is complete.
-		 *
-		 * Documentation from wp-admin/includes/class-wp-upgrader.php.
-		 *
-		 * @since 3.6.0
-		 *
-		 * @param Plugin_Upgrader $this
-		 *        	Plugin_Upgrader instance. In other contexts, $this, might
-		 *        	be a Theme_Upgrader or Core_Upgrade instance.
-		 * @param array $data
-		 *        	{
-		 *        	Array of bulk item update data.
-		 *
-		 *        	@type string $action Type of action. Default 'update'.
-		 *        	@type string $type Type of update process. Accepts 'plugin', 'theme', or 'core'.
-		 *        	@type bool $bulk Whether the update process is a bulk update. Default true.
-		 *        	@type array $packages Array of plugin, theme, or core packages to update.
-		 *        	}
-		 */
-		add_action( 'upgrader_process_complete',
-			array (
-				$this,
-				'upgrader_process_complete'
-			), 10, 2 );
-
 		// Check and update the current and previous version options.
 		add_action( 'admin_init', array (
 			$this,
@@ -535,37 +508,6 @@ class Boldgrid_Inspirations_Update {
 	}
 
 	/**
-	 * upgrader_process_complete action.
-	 *
-	 * @note The new plugin data is not available until the next load, even when flushing the cache.
-	 *
-	 * @since 1.0.12
-	 *
-	 * @param object $upgrader_object
-	 * @param array $options
-	 * @return null
-	 */
-	public function upgrader_process_complete( $upgrader_object = null, $options = array() ) {
-		// Abort if $options is not an array or is empty, or is missing elements for a plugin update.
-		if ( empty( $options ) || false === is_array( $options ) || empty( $options['action'] ) ||
-			 'update' != $options['action'] || empty( $options['type'] ) ||
-			 'plugin' != $options['type'] || empty( $options['plugins'] ) ) {
-			return;
-		}
-
-		// Look for this plugin in the $options array.
-		foreach ( $options['plugins'] as $plugin ) {
-			// If we found that boldgrid-inspirations has been updated.
-			if ( 'boldgrid-inspirations/boldgrid-inspirations.php' == $plugin ) {
-				// Perform actions upon completion of this plugin update.
-
-				// All done; return.
-				return;
-			}
-		}
-	}
-
-	/**
 	 * Update version options.
 	 *
 	 * Checks and updates the versions stored in WP options.
@@ -645,11 +587,20 @@ class Boldgrid_Inspirations_Update {
 		 * If current version is 1.0.12 or higher, the version originally activated was ealier than
 		 * 1.0.12, and the update notice was not previously dismissed, then show it.
 		 */
-		if ( (
-		// version_compare( $plugin_data['Version'], '1.0.12', '>=' ) &&
-		empty( $activated_version ) || version_compare( $activated_version, '1.0.12', '<' ) ) && ( false ==
-			 $boldgrid_dismissed_notices ||
-			 ! in_array( 'update-notice-1-0-12', $boldgrid_dismissed_notices ) ) ) {
+		// Is the live version greater than or equal to 1.0.12.
+		$is_live_ge_1012 = version_compare( $plugin_data['Version'], '1.0.12', '>=' );
+
+		// Is the original activated version less than 1.0.12.
+		$is_activated_lt_1012 = ( empty( $activated_version ) ||
+			 version_compare( $activated_version, '1.0.12', '<' ) );
+
+		// Is the notice already marked as dismissed.
+		$is_not_dismissed = ( false == $boldgrid_dismissed_notices ||
+			 in_array( 'update-notice-1-0-12', $boldgrid_dismissed_notices ) );
+
+		// Check if the notice should be displayed.
+		if ( $is_live_ge_1012 && $is_activated_lt_1012 && $is_not_dismissed ) {
+			// Display the notice.
 			?>
 <div id='update-notice-1-0-12'
 	class='updated notice is-dismissible fade boldgrid-admin-notice'

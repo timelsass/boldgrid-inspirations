@@ -546,11 +546,24 @@
 	 */
 	self.build_theme = function( theme_id, page_set_id, sub_cat_id ) {
 		// Define vars.
-		var data, check_remaining_builds, success_action, failure_action;
+		var data, check_remaining_builds, success_action, failure_action, build_any;
+
+		// If there is no subcategory, then build any.
+		if ( 'undefined' == typeof sub_cat_id ) {
+			build_any = true;
+
+			// Update the category name.
+			jQuery( '.category-name' ).html( 'None' );
+
+			// Hide the additional themes link.
+			jQuery( '.additional_themes' ).hide();
+		} else {
+			build_any = Inspiration.mode_data.build_any;
+		}
 
 		// Update vars.
 		data = {
-		    'build_any' : Inspiration.mode_data.build_any,
+		    'build_any' : build_any,
 		    'theme_id' : theme_id,
 		    'sub_cat_id' : sub_cat_id,
 		    'default_page_set_id' : page_set_id,

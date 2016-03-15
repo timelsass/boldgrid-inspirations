@@ -39,7 +39,7 @@ require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-inspirat
 
 // Set our configuration directory:
 $settings = array (
-	'configDir' => BOLDGRID_BASE_DIR . '/includes/config' 
+	'configDir' => BOLDGRID_BASE_DIR . '/includes/config'
 );
 
 // Instantiate the inspiration class:
@@ -51,6 +51,6 @@ $inspiration->add_pre_init_hooks();
 // Add action to call pre_add_hooks after init:
 add_action( 'init', array (
 	$inspiration,
-	'pre_add_hooks' 
+	'pre_add_hooks'
 ) );
 

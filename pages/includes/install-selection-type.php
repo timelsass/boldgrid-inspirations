@@ -45,11 +45,12 @@ if ( isset( $is_author ) && true === $is_author ) {
 					Staging Site, go to <a
 						href='admin.php?page=boldgrid-inspirations&boldgrid-tab=themes'><strong>Install
 							New Themes</strong></a> or <a
-						href='admin.php?page=boldgrid-inspirations'><strong>Add New Pages</strong></a>.
-					If you are just experimenting, you may want to look at <a
-						href='admin.php?page=boldgrid-tutorials'><strong>how to Start Over</strong></a>.
-					You can also choose to just install a new site as the Active site.
-					<strong>Please select an install location to continue</strong>.
+						href='edit.php?post_type=page&page=boldgrid-add-gridblock-sets'><strong>Add
+							New Pages</strong></a>. If you are just experimenting, you may
+					want to look at <a href='admin.php?page=boldgrid-tutorials'><strong>how
+							to Start Over</strong></a>. You can also choose to just install a
+					new site as the Active site. <strong>Please select an install
+						location to continue</strong>.
 				</p>
 
 				<p
@@ -61,10 +62,11 @@ if ( isset( $is_author ) && true === $is_author ) {
 					for your Active Site, go to <a
 						href='admin.php?page=boldgrid-inspirations&boldgrid-tab=themes'><strong>Install
 							New Themes</strong></a> or <a
-						href='admin.php?page=boldgrid-inspirations'><strong>Add New Pages</strong></a>.
-					If you are working on a new site or working on a significant change
-					in your existing site, we recommend you use Staging. <strong>Please
-						select an install location to continue</strong>.
+						href='edit.php?post_type=page&page=boldgrid-add-gridblock-sets'><strong>Add
+							New Pages</strong></a>. If you are working on a new site or
+					working on a significant change in your existing site, we recommend
+					you use Staging. <strong>Please select an install location to
+						continue</strong>.
 				</p>
 
 				<p class='choice_intro_text hidden'>Your BoldGrid install has
