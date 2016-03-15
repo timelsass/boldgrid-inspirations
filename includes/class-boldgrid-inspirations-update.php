@@ -596,7 +596,7 @@ class Boldgrid_Inspirations_Update {
 
 		// Is the notice already marked as dismissed.
 		$is_not_dismissed = ( false == $boldgrid_dismissed_notices ||
-			 in_array( 'update-notice-1-0-12', $boldgrid_dismissed_notices ) );
+			 false === in_array( 'update-notice-1-0-12', $boldgrid_dismissed_notices ) );
 
 		// Check if the notice should be displayed.
 		if ( $is_live_ge_1012 && $is_activated_lt_1012 && $is_not_dismissed ) {

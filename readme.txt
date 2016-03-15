@@ -26,6 +26,9 @@ The second phase is Customization; tools to transform your website into your vis
 
 == Changelog ==
 
+= 1.0.12.1 In progress =
+* Bug fix:		JIRA WPB-1710	Fixed notice dismissal checking.
+
 = 1.0.12 =
 * Bug fix:		JIRA WPB-1740	Fixed "In Menu" messages in editor when staging plugin is not active, and fixed saving menu selections.
 * New feature:	JIRA WPB-1726	Added optional feedback for GridBlock Add Page.
