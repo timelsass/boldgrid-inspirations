@@ -1881,43 +1881,6 @@ class Boldgrid_Inspirations_Deploy {
 				continue;
 			}
 
-			/**
-			 * attachment_data = Array
-			 * (
-			 * [uploaded_url] =>
-			 * https://wpbex-dev-bradm.boldgrid.com/single-site/wp-content/uploads/2015/09/4-FotoliaComp_62651197_NriVyAStwduk84bEEYUXz8KqzbzqESNS-275x18348.jpg
-			 * [attachment_id] => 21445
-			 * [asset_id] => 43501
-			 * [coin_cost] => 1
-			 * [headers] => Array
-			 * (
-			 * [http_code] => HTTP/1.1 200 OK
-			 * [server] => nginx/1.8.0
-			 * [date] => Fri, 11 Sep 2015 15:30:25 GMT
-			 * [content-type] => image/jpeg
-			 * [transfer-encoding] => chunked
-			 * [connection] => keep-alive
-			 * [set-cookie] => PHPSESSID=61krvvdoo0sr19on6ie2kdlc84; path=/; secure
-			 * [expires] => Thu, 19 Nov 1981 08:52:00 GMT
-			 * [cache-control] => no-store, no-cache, must-revalidate, post-check=0, pre-check=0
-			 * [pragma] => no-cache
-			 * [z-filename] => 4-FotoliaComp_62651197_NriVyAStwduk84bEEYUXz8KqzbzqESNS-275x183.jpg
-			 * [z-provider-id] => 4
-			 * [z-id-from-provider] => 62651197
-			 * [z-size] => 700 x 467
-			 * [z-width] => 275
-			 * [z-height] => 183
-			 * [z-imgr-id] => 1269
-			 * [z-asset-id] => 43501
-			 * [z-asset-type] => image
-			 * [z-coin-cost] => 1
-			 * [z-image-size] => XS
-			 * [access-control-allow-methods] => GET, POST, OPTIONS, HEAD
-			 * [access-control-allow-origin] => *
-			 * )
-			 *
-			 * )
-			 */
 			$attachment_data = $this->AssetManager->attach_asset(
 				array (
 					'headers' => $arrayify['headers'],

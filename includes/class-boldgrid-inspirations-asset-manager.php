@@ -135,6 +135,8 @@ class Boldgrid_Inspirations_Asset_Manager extends Boldgrid_Inspirations {
 			throw new Exception( $uploaded['error'] );
 		}
 
+		$asset_id = $params['headers']['z-asset-id'];
+
 		// Retrieve the file type from the file name.
 		$wp_filetype = wp_check_filetype( $uploaded['file'], null );
 
@@ -158,9 +160,12 @@ class Boldgrid_Inspirations_Asset_Manager extends Boldgrid_Inspirations {
 			throw new Exception( 'wp_insert_attachment() ERROR' );
 		}
 
+		// Save meta data for this attachment.
+		update_post_meta( $attachment_id, 'asset_id', $asset_id );
+
 		// Add this new asset to boldgrid_asset in wp_options
 		$asset_details = array (
-			'asset_id' => $params['headers']['z-asset-id'],
+			'asset_id' => $asset_id,
 			'coin_cost' => $asset_coin_cost,
 			'name' => $uploaded['file'],
 			'purchase_date' => '',
@@ -249,7 +254,7 @@ class Boldgrid_Inspirations_Asset_Manager extends Boldgrid_Inspirations {
 				$return_value = array (
 					'uploaded_url' => $uploaded['url'],
 					'attachment_id' => $attachment_id,
-					'asset_id' => $params['headers']['z-asset-id'],
+					'asset_id' => $asset_id,
 					'coin_cost' => $asset_coin_cost,
 					'headers' => $params['headers']
 				);
@@ -566,6 +571,7 @@ class Boldgrid_Inspirations_Asset_Manager extends Boldgrid_Inspirations {
 		$data =					$response['body'];
 		$filename =				$response['headers']['z-filename'];
 		$asset_type =			isset( $response['headers']['z-asset-type'] )			? $response['headers']['z-asset-type']			: null;
+		$asset_id =				$response['headers']['z-asset-id'];
 		$asset_coin_cost =		isset( $response['headers']['z-coin-cost'] )			? $response['headers']['z-coin-cost']			: null;
 		$attribution_license =	isset( $response['headers']['z-attribution-license'] )	? $response['headers']['z-attribution-license']	: null;
 		$attribution_data =		isset( $response['headers']['z-attribution-data'] )		? $response['headers']['z-attribution-data']	: null;
@@ -583,7 +589,7 @@ class Boldgrid_Inspirations_Asset_Manager extends Boldgrid_Inspirations {
 		$existing_asset = $this->get_asset(
 			array (
 				'by' => 'asset_id',
-				'asset_id' => $response['headers']['z-asset-id']
+				'asset_id' => $asset_id
 			) );
 
 		$asset_previously_downloaded = true;
@@ -688,9 +694,12 @@ class Boldgrid_Inspirations_Asset_Manager extends Boldgrid_Inspirations {
 				throw new Exception( 'wp_insert_attachment() ERROR' );
 			}
 
+			// Save meta data for this attachment.
+			update_post_meta( $attachment_id, 'asset_id', $asset_id );
+
 			// Add this new asset to boldgrid_asset in wp_options
 			$asset_details = array (
-				'asset_id' => $response['headers']['z-asset-id'],
+				'asset_id' => $asset_id,
 				'coin_cost' => $asset_coin_cost,
 				'name' => $uploaded['file'],
 				'purchase_date' => '',
@@ -780,7 +789,7 @@ class Boldgrid_Inspirations_Asset_Manager extends Boldgrid_Inspirations {
 				$return_value = array (
 					'uploaded_url' => $uploaded['url'],
 					'attachment_id' => $attachment_id,
-					'asset_id' => $response['headers']['z-asset-id'],
+					'asset_id' => $asset_id,
 					'coin_cost' => $asset_coin_cost,
 					'headers' => $response['headers']
 				);
