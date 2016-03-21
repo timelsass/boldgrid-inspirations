@@ -2,9 +2,9 @@ var IMHWPB = IMHWPB || {};
 
 /**
  * Add GridBlock Set / New From GridBlocks.
- * 
+ *
  * A class used on the "New From GridBlocks" page.
- * 
+ *
  * @since 1.0.10
  */
 IMHWPB.AddGridBlockSet = function($) {
@@ -33,9 +33,9 @@ IMHWPB.AddGridBlockSet = function($) {
 
 	/**
 	 * Update ajaxurl for staging.
-	 * 
+	 *
 	 * If we're staging, append "?staging=1" to ajaxurl.
-	 * 
+	 *
 	 * @since 1.0.10
 	 */
 	this.ajaxurl_get = function() {
@@ -48,11 +48,11 @@ IMHWPB.AddGridBlockSet = function($) {
 
 	/**
 	 * Load an iframe with a src to the front end of the site.
-	 * 
+	 *
 	 * This iframe will be used to display previews of each selection when
 	 * they're clicked. This iframe is also scanned for stylesheets, each of
 	 * which are applied to the smaller, preview iframes.
-	 * 
+	 *
 	 * @since 1.0.9
 	 */
 	this.create_homepage_iframe = function() {
@@ -65,9 +65,19 @@ IMHWPB.AddGridBlockSet = function($) {
 
 		// When the iframe loads:
 		self.$homepage_iframe.load(function() {
-			// Get all of the stylesheets.
-			self.$homepage_iframe_stylesheets = self.$homepage_iframe
-					.contents().find('head').find('link[rel="stylesheet"]');
+			var head = self.$homepage_iframe.contents().find( 'head' ),
+				isBoldGridTheme = ( head.find( 'link[href*="/themes/boldgrid-"]' ).length > 0 );
+
+			/*
+			 * Get all of the stylesheets.
+			 * If this is not a BoldGrid theme, only get bootstrap for the grid.
+			 */
+			if( isBoldGridTheme ) {
+				self.$homepage_iframe_stylesheets = head.find( 'link[rel="stylesheet"] ');
+			} else {
+				self.$homepage_iframe_stylesheets = head.find(
+					'link[rel="stylesheet"][href*="/boldgrid-inspirations/assets/css/bootstrap/bootstrap."]' );
+			}
 
 			self.gridblock_set_preview_cleanup();
 
@@ -86,7 +96,7 @@ IMHWPB.AddGridBlockSet = function($) {
 
 	/**
 	 * Preview a GridBlock Set.
-	 * 
+	 *
 	 * @since 1.0.10
 	 */
 	this.gridblock_set_preview = function(category, key) {
@@ -126,10 +136,10 @@ IMHWPB.AddGridBlockSet = function($) {
 
 	/**
 	 * Clean up a preview.
-	 * 
+	 *
 	 * For example, remove the admin bar, the 'edit' link, etc. You don't need
 	 * to see these in a preview.
-	 * 
+	 *
 	 * @since 1.0.10
 	 */
 	this.gridblock_set_preview_cleanup = function() {
@@ -152,7 +162,7 @@ IMHWPB.AddGridBlockSet = function($) {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	this.gridblock_set_preview_fill = function($iframe, item) {
 		$iframe.contents().find('head').append(
@@ -172,7 +182,7 @@ IMHWPB.AddGridBlockSet = function($) {
 
 	/**
 	 * Show a "preview is loading" message.
-	 * 
+	 *
 	 * @since 1.0.10
 	 */
 	this.gridblock_set_preview_show_loading = function() {
@@ -185,10 +195,10 @@ IMHWPB.AddGridBlockSet = function($) {
 
 	/**
 	 * Create a 'lightbox' for our selection previews.
-	 * 
+	 *
 	 * The media modal makes a nice 'lightbox'. We'll create a media modal, wipe
 	 * it clean, and use it as we wish.
-	 * 
+	 *
 	 * @since 1.0.9
 	 */
 	this.create_media_modal_previewer = function() {
@@ -246,20 +256,20 @@ IMHWPB.AddGridBlockSet = function($) {
 
 	/**
 	 * Force fresh data on page load.
-	 * 
+	 *
 	 * When this page starts to render, #new_from_gridblocks_loaded == false.
-	 * 
+	 *
 	 * When this page has completely finished rendering,
 	 * #new_from_gridblocks_loaded == true.
-	 * 
+	 *
 	 * Because we're in init(), #new_from_gridblocks_loaded SHOULD == false.
-	 * 
+	 *
 	 * If it doesn't, the user probably clicked their back button, and
 	 * #new_from_gridblocks_loaded == true because of cache.
-	 * 
+	 *
 	 * In the event we're dealing with true, refresh the page to ensure fresh
 	 * content.
-	 * 
+	 *
 	 * @since 1.0.10
 	 */
 	this.force_fresh_data = function() {
@@ -275,10 +285,10 @@ IMHWPB.AddGridBlockSet = function($) {
 
 	/**
 	 * Install a GridBlock set.
-	 * 
+	 *
 	 * Make an ajax call to WP and request that it install a gridblock set into
 	 * a new page via the GridBlock's category and key.
-	 * 
+	 *
 	 * @since 1.0.10
 	 */
 	this.gridblock_set_install = function(category, key) {
@@ -295,10 +305,10 @@ IMHWPB.AddGridBlockSet = function($) {
 
 	/**
 	 * Get our GridBlock Sets.
-	 * 
+	 *
 	 * We get our GridBlock Sets from the DOM (if cached) or via ajax (if
 	 * getting fresh data).
-	 * 
+	 *
 	 * @since 1.0.10
 	 */
 	this.gridblock_sets_get = function() {
@@ -336,7 +346,7 @@ IMHWPB.AddGridBlockSet = function($) {
 
 	/**
 	 * Actions to take when our GridBlock Sets is invalid.
-	 * 
+	 *
 	 * @since 1.0.10
 	 */
 	this.gridblock_sets_invalid = function() {
@@ -358,7 +368,7 @@ IMHWPB.AddGridBlockSet = function($) {
 
 	/**
 	 * Actions to take when our GridBlock Sets are valid.
-	 * 
+	 *
 	 * @since 1.0.10
 	 */
 	this.gridblock_sets_valid = function() {
@@ -368,7 +378,7 @@ IMHWPB.AddGridBlockSet = function($) {
 
 	/**
 	 * Validate our GridBlock Sets.
-	 * 
+	 *
 	 * @since 1.0.10
 	 */
 	this.gridblock_sets_validate = function() {
@@ -390,7 +400,7 @@ IMHWPB.AddGridBlockSet = function($) {
 
 	/**
 	 * Init the page.
-	 * 
+	 *
 	 * @since 1.0.10
 	 */
 	this.init = function() {
@@ -399,7 +409,7 @@ IMHWPB.AddGridBlockSet = function($) {
 
 	/**
 	 * Fill our main container with GridBlock Set previews.
-	 * 
+	 *
 	 * @since 1.0.10
 	 */
 	this.main_container_fill = function() {
@@ -448,7 +458,7 @@ IMHWPB.AddGridBlockSet = function($) {
 
 							/*
 							 * Below are references to NON FIREFOX and FIREFOX.
-							 * 
+							 *
 							 * @see http://stackoverflow.com/questions/24686443/setting-content-of-iframe-using-javascript-fails-in-firefox
 							 */
 

@@ -24,6 +24,7 @@
 	transform: scale(0.285);
 	transform-origin: 0 0;
 	height: 1400px;
+	background: #fff;
 }
 
 /* Add the '+' sign in the blank preview. */
