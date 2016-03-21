@@ -1037,6 +1037,8 @@ for purchase, and will be removed from the cart.</p>
 
 		global $wpdb;
 
+		$attachment_id = ( int ) $asset['attachment_id'];
+
 		/**
 		 * If an asset has a coin cost <= 0, then it doesn't need purchase.
 		 */
@@ -1071,6 +1073,24 @@ for purchase, and will be removed from the cart.</p>
 			}
 		}
 
+		/*
+		 * Is this image used within shortcode? For example, is image 123 used in a gallery, such as
+		 * [gallery ids='123,456'].
+		 */
+		$regexp = '[\[][^\]]+[\'\", ]' . $attachment_id . '[^0-9]+.*[\]]';
+		$query = '
+			SELECT `ID`
+			FROM ' . $wpdb->posts . '
+			WHERE	`post_status` IN ("draft","publish") AND
+					`post_type` IN ("page","post") AND
+					`post_content` REGEXP "' . $regexp . '"
+		';
+		$in_shortcode = $wpdb->get_var( $query );
+		if ( ! empty( $in_shortcode ) ) {
+			$this->assets_needing_purchase['by_page_id'][$in_shortcode][] = $asset;
+			return true;
+		}
+
 		/**
 		 * Is this a featured image needing attribution?
 		 */
@@ -1084,7 +1104,7 @@ for purchase, and will be removed from the cart.</p>
 				$wpdb->postmeta.post_id = $wpdb->posts.ID AND
 				$wpdb->posts.post_status IN ('draft','publish') AND
 					$wpdb->posts.post_type IN ('page','post')
-						", $asset['attachment_id'] ) );
+						", $attachment_id ) );
 
 		// if we found results, then the image is being used in a page/post
 		if ( ! empty( $asset_a_featured_image ) ) {
@@ -1124,8 +1144,7 @@ for purchase, and will be removed from the cart.</p>
 		$array_file_names_to_query = array ();
 
 		// _wp_attachment_metadata
-		$wp_attachment_metadata = get_post_meta( $asset['attachment_id'],
-			'_wp_attachment_metadata', true );
+		$wp_attachment_metadata = get_post_meta( $attachment_id, '_wp_attachment_metadata', true );
 
 		if ( ! empty( $wp_attachment_metadata ) ) {
 			// save this metadata for future use
@@ -1137,7 +1156,7 @@ for purchase, and will be removed from the cart.</p>
 		}
 
 		// _wp_attached_file
-		$wp_attached_file = get_post_meta( $asset['attachment_id'], '_wp_attached_file', true );
+		$wp_attached_file = get_post_meta( $attachment_id, '_wp_attached_file', true );
 
 		if ( ! empty( $wp_attached_file ) ) {
 			// save this metadata for future use

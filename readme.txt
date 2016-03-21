@@ -30,6 +30,7 @@ The second phase is Customization; tools to transform your website into your vis
 * Bug fix:		JIRA WPB-1710	Fixed missing device preview tabs on Add New Theme preview modal.
 * Bug fix:		JIRA WPB-1710	Fixed notice dismissal checking.
 * Bug fix:		JIRA WPB-1749	On start over, staging menus are not deleted.
+* Bug fix:		JIRA WPB-1755	Gallery images not showing in cart.
 
 = 1.0.12 =
 * Bug fix:		JIRA WPB-1740	Fixed "In Menu" messages in editor when staging plugin is not active, and fixed saving menu selections.
