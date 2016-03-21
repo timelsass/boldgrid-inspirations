@@ -32,21 +32,21 @@ class Boldgrid_Inspirations_Purchase_For_Publish extends Boldgrid_Inspirations {
 	 */
 	public function add_hooks() {
 		if ( is_admin() ) {
-			// load up any css / js we need
+			// Load up any css / js we need.
 			add_action( 'admin_enqueue_scripts',
-				array (
+				array(
 					$this,
 					'enqueue_header_content'
-				) );
+			) );
 
-			// add a shopping cart icon to the admin header
-			add_action( 'admin_bar_menu', array (
+			// Add a shopping cart icon to the admin header.
+			add_action( 'admin_bar_menu', array(
 				$this,
 				'toolbar_link_to_mypage'
 			), 999 );
 
-			// add the submenu item "Cart"
-			add_action( 'admin_menu', array (
+			// Add the submenu item "Cart".
+			add_action( 'admin_menu', array(
 				$this,
 				'cart_checkout'
 			), 1234 );
@@ -54,33 +54,33 @@ class Boldgrid_Inspirations_Purchase_For_Publish extends Boldgrid_Inspirations {
 			// In the right sidebar, tell the user how many watermarked images they have on the
 			// page.
 			add_action( 'post_submitbox_misc_actions',
-				array (
+				array(
 					$this,
 					'post_submitbox_misc_actions_show_user_watermarked_image_count'
-				), 9 );
+			), 9 );
 
 			/**
 			 * AJAX calls
 			 */
 
 			add_action( 'wp_ajax_get_purchased_image_details',
-				array (
+				array(
 					$this,
 					'get_purchased_image_details_callback'
-				) );
+			) );
 
 			add_action( 'wp_ajax_re_download_purchased_image',
-				array (
+				array(
 					$this,
 					're_download_purchased_image_callback'
-				) );
+			) );
 
 			// The user checked / unchecked an image in the shopping cart.
 			add_action( 'wp_ajax_image_in_shopping_cart_checked',
-				array (
+				array(
 					$this,
 					'image_in_shopping_cart_checked_callback'
-				) );
+			) );
 		}
 	}
 
@@ -92,7 +92,7 @@ class Boldgrid_Inspirations_Purchase_For_Publish extends Boldgrid_Inspirations {
 		wp_register_style( 'purchase_for_publish',
 			plugins_url(
 				'/' . basename( BOLDGRID_BASE_DIR ) . '/assets/css/purchase_for_publish.css' ),
-			array (), BOLDGRID_INSPIRATIONS_VERSION );
+				array(), BOLDGRID_INSPIRATIONS_VERSION );
 
 		wp_enqueue_style( 'purchase_for_publish' );
 
@@ -102,13 +102,13 @@ class Boldgrid_Inspirations_Purchase_For_Publish extends Boldgrid_Inspirations {
 		if ( 'transactions_page_boldgrid-cart' == $hook ) {
 			wp_register_style( 'boldgrid-cart',
 				plugins_url( '/' . basename( BOLDGRID_BASE_DIR ) . '/assets/css/boldgrid-cart.css' ),
-				array (), BOLDGRID_INSPIRATIONS_VERSION );
+				array(), BOLDGRID_INSPIRATIONS_VERSION );
 
 			wp_enqueue_style( 'boldgrid-cart' );
 
 			wp_enqueue_script( 'boldgrid-cart',
 				plugins_url( '/assets/js/boldgrid-cart.js',
-					BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ), array (),
+					BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ), array(),
 				BOLDGRID_INSPIRATIONS_VERSION, true );
 		}
 
@@ -118,7 +118,7 @@ class Boldgrid_Inspirations_Purchase_For_Publish extends Boldgrid_Inspirations {
 
 		wp_enqueue_script( 'inspiration-ajax',
 			plugins_url( '/assets/js/ajax/ajax.js',
-				BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ), array (), BOLDGRID_INSPIRATIONS_VERSION,
+				BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ), array(), BOLDGRID_INSPIRATIONS_VERSION,
 			true );
 	}
 
@@ -182,9 +182,6 @@ class Boldgrid_Inspirations_Purchase_For_Publish extends Boldgrid_Inspirations {
 
 	/**
 	 * The user checked / unchecked an image in the shopping cart.
-	 *
-	 * @param int $_POST['asset_id']
-	 * @param string $_POST['checked']
 	 */
 	public function image_in_shopping_cart_checked_callback() {
 		global $wpdb;
@@ -222,18 +219,18 @@ class Boldgrid_Inspirations_Purchase_For_Publish extends Boldgrid_Inspirations {
 		$assetManager = new Boldgrid_Inspirations_Asset_Manager( $this->pluginPath );
 
 		$asset = $assetManager->get_asset(
-			array (
+			array(
 				'by' => 'asset_id',
-				'asset_id' => $asset_id
+				'asset_id' => $asset_id,
 			) );
 
 		$assetManager->update_asset(
-			array (
+			array(
 				'task' => 'update_key_value',
 				'asset_type' => 'image',
 				'asset_id' => $asset_id,
 				'key' => 'checked_in_cart',
-				'value' => $checked
+				'value' => $checked,
 			) );
 
 		echo 'success';
@@ -253,7 +250,7 @@ class Boldgrid_Inspirations_Purchase_For_Publish extends Boldgrid_Inspirations {
 			return false;
 		}
 
-		// loop through all the local prices
+		// Loop through all the local prices.
 		foreach ( $this->local_publish_cost_data as $asset_id => $asset_cost ) {
 			if ( $asset_cost != $this->remote_publish_cost_data->$asset_id ) {
 				return false;
@@ -276,11 +273,11 @@ class Boldgrid_Inspirations_Purchase_For_Publish extends Boldgrid_Inspirations {
 
 		// Get the count of images on this page that are watermarked:
 		$count_of_watermarked_images_on_this_page = isset(
-			$this->assets_needing_purchase['by_page_id'][$page_id] ) ? count(
-			$this->assets_needing_purchase['by_page_id'][$page_id] ) : 0;
+			$this->assets_needing_purchase['by_page_id'][ $page_id ] ) ? count(
+			$this->assets_needing_purchase['by_page_id'][ $page_id ] ) : 0;
 
 		// Should it say "Image" or "Images" ?
-		$text_images = ( ( int ) 1 == $count_of_watermarked_images_on_this_page ) ? 'Image' : 'Images';
+		$text_images = ( (int) 1 == $count_of_watermarked_images_on_this_page ) ? 'Image' : 'Images';
 
 		// If there are images that need purchasing, create a "Purchase" link:
 		$purchase_link = ( 0 == $count_of_watermarked_images_on_this_page ) ? '' : '<a href="admin.php?page=boldgrid-cart">Purchase</a>';
@@ -373,16 +370,16 @@ class Boldgrid_Inspirations_Purchase_For_Publish extends Boldgrid_Inspirations {
 		 * ********************************************************************
 		 */
 		foreach ( $local_publish_cost_data as $asset_id => $asset_cost ) {
-			// grab the details of the asset based off of asset_id
+			// Grab the details of the asset based off of asset_id.
 			$asset = $assetManager->get_asset(
-				array (
+				array(
 					'by' => 'asset_id',
-					'asset_id' => $asset_id
+					'asset_id' => $asset_id,
 				) );
 
-			$download_data = array (
+			$download_data = array(
 				'type' => 'built_photo_search_purchase',
-				'params' => array (
+				'params' => array(
 					'id_from_provider' => $asset['id_from_provider'],
 					'image_provider_id' => $asset['image_provider_id'],
 					'orientation' => $asset['orientation'],
@@ -390,7 +387,7 @@ class Boldgrid_Inspirations_Purchase_For_Publish extends Boldgrid_Inspirations {
 					'expected_coin_cost' => $asset['coin_cost'],
 					'boldgrid_connect_key' => $_POST['boldgrid_connect_key'],
 					'transaction_id' => $transaction_id,
-					'attachment_id' => $asset['attachment_id']
+					'attachment_id' => $asset['attachment_id'],
 				)
 			);
 
@@ -416,11 +413,11 @@ class Boldgrid_Inspirations_Purchase_For_Publish extends Boldgrid_Inspirations {
 			} else {
 				$total_coins_spent += $asset['coin_cost'];
 
-				// set the key/value pairs to update
-				$asset_data_to_update = array (
+				// Set the key/value pairs to update.
+				$asset_data_to_update = array(
 					'purchase_date' => date( 'Y-m-d H:i:s' ),
 					'transaction_item_id' => $call_to_download_and_attach['transaction_item_id'],
-					'transaction_id' => $call_to_download_and_attach['transaction_id']
+					'transaction_id' => $call_to_download_and_attach['transaction_id'],
 				);
 
 				// Set $transaction_id:
@@ -432,12 +429,12 @@ class Boldgrid_Inspirations_Purchase_For_Publish extends Boldgrid_Inspirations {
 				// ... and update them
 				foreach ( $asset_data_to_update as $update_key => $update_value ) {
 					$assetManager->update_asset(
-						array (
+						array(
 							'task' => 'update_key_value',
 							'asset_type' => 'image',
 							'asset_id' => $asset_id,
 							'key' => $update_key,
-							'value' => $update_value
+							'value' => $update_value,
 						) );
 				}
 
@@ -463,11 +460,7 @@ class Boldgrid_Inspirations_Purchase_For_Publish extends Boldgrid_Inspirations {
 	}
 
 	/**
-	 * Redownload purchased image callback
-	 *
-	 * @param int $_POST['image_provider_id']
-	 * @param int $_POST['id_from_provider']
-	 * @param int $_POST['user_transaction_item_id']
+	 * Redownload purchased image callback.
 	 */
 	public function re_download_purchased_image_callback() {
 		global $wpdb;
@@ -487,14 +480,14 @@ class Boldgrid_Inspirations_Purchase_For_Publish extends Boldgrid_Inspirations {
 		require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-asset-manager.php';
 		$assetManager = new Boldgrid_Inspirations_Asset_Manager( $this->pluginPath );
 
-		$download_data = array (
+		$download_data = array(
 			'type' => 'built_photo_search_purchase',
-			'params' => array (
+			'params' => array(
 				'id_from_provider' => $id_from_provider,
 				'image_provider_id' => $image_provider_id,
 				'user_transaction_item_id' => $user_transaction_item_id,
 				'expected_coin_cost' => '0',
-				'is_redownload' => true
+				'is_redownload' => true,
 			)
 		);
 
@@ -509,7 +502,7 @@ class Boldgrid_Inspirations_Purchase_For_Publish extends Boldgrid_Inspirations {
 	/**
 	 * Send publish status
 	 *
-	 * @param unknown $status
+	 * @param string $status A status message.
 	 */
 	public function send_publish_status( $status ) {
 		$oneliner = '
@@ -525,16 +518,16 @@ class Boldgrid_Inspirations_Purchase_For_Publish extends Boldgrid_Inspirations {
 	/**
 	 * Add an icon link on the admin bar to the cart
 	 *
-	 * @param object $wp_admin_bar
+	 * @param object $wp_admin_bar A WP_Admin_Bar class object.
 	 */
 	public function toolbar_link_to_mypage( $wp_admin_bar ) {
-		$args = array (
+		$args = array(
 			'id' => 'pfp',
 			'title' => '<span class="ab-icon"></span> (' .
 				 $this->get_total_cost_to_purchase_for_publishing() . ')',
 				'href' => 'admin.php?page=boldgrid-cart',
-				'meta' => array (
-					'class' => 'toolbar-pfp'
+				'meta' => array(
+					'class' => 'toolbar-pfp',
 				)
 		);
 		$wp_admin_bar->add_node( $args );
@@ -552,20 +545,20 @@ class Boldgrid_Inspirations_Purchase_For_Publish extends Boldgrid_Inspirations {
 		$local_updated = false;
 
 		foreach ( $this->remote_publish_cost_data as $asset_id => $asset_coin_cost ) {
-			$params = array (
+			$params = array(
 				'by' => 'asset_id',
-				'asset_id' => $asset_id
+				'asset_id' => $asset_id,
 			);
 			$current_asset = $assetManager->get_asset( $params );
 
-			// if the local prices does not match the remote prices...
+			// If the local prices does not match the remote prices.
 			if ( $current_asset['coin_cost'] != $asset_coin_cost ) {
-				$params = array (
+				$params = array(
 					'task' => 'update_key_value',
 					'asset_type' => 'image',
 					'asset_id' => $asset_id,
 					'key' => 'coin_cost',
-					'value' => $asset_coin_cost
+					'value' => $asset_coin_cost,
 				);
 
 				if ( null === $asset_coin_cost || '' == $asset_coin_cost ) {
@@ -612,29 +605,27 @@ for purchase, and will be removed from the cart.</p>
 		( 1 == $boldgrid_menu_options['boldgrid_menu_option'] ?
 
 		add_submenu_page( 'boldgrid-transactions', 'Cart', 'Cart', 'administrator',
-			'boldgrid-cart', array (
+			'boldgrid-cart', array(
 				$this,
-				'cart_checkout_admin_page'
+				'cart_checkout_admin_page',
 			) ) :
 
 		add_submenu_page( 'boldgrid-inspirations', 'Cart', 'Cart', 'administrator',
-			'boldgrid-cart', array (
+			'boldgrid-cart', array(
 				$this,
-				'cart_checkout_admin_page'
+				'cart_checkout_admin_page',
 			), 1900 ) );
 	}
 
 	/**
-	 * Cart checkout admin page
-	 *
-	 * @param string $_POST['task']
+	 * Cart checkout admin page.
 	 */
 	public function cart_checkout_admin_page() {
 		if ( isset( $_POST['task'] ) && 'purchase_all' == $_POST['task'] ) {
 			// Verify nonce:
 			if ( ! isset( $_POST['_wpnonce'] ) ||
 				 ! wp_verify_nonce( $_POST['_wpnonce'], 'purchase_for_publish' ) ) {
-				// nonce not verified; print an error message and return false:
+				// Nonce not verified; print an error message and return false.
 				?>
 <div class="error">
 	<p>Error processing request to purchase for publish; WordPress security
@@ -655,7 +646,7 @@ for purchase, and will be removed from the cart.</p>
 	/**
 	 * Create an array with assets needing purchase
 	 *
-	 * @param array $args
+	 * @param array $args An array of arguments.
 	 */
 	public function create_array_assets_needing_purchase( $args = array() ) {
 		/**
@@ -664,11 +655,11 @@ for purchase, and will be removed from the cart.</p>
 		 * ********************************************************************
 		 */
 		// Reset the array.
-		$this->assets_needing_purchase = array ();
+		$this->assets_needing_purchase = array();
 
 		// Process our args.
-		$defaults = array (
-			'process_checked_in_cart_attribute' => true
+		$defaults = array(
+			'process_checked_in_cart_attribute' => true,
 		);
 
 		$args = wp_parse_args( $args, $defaults );
@@ -711,10 +702,9 @@ for purchase, and will be removed from the cart.</p>
 	}
 
 	/**
-	 * Get all data for assets needing purchase
+	 * Get all data for assets needing purchase.
 	 *
-	 * @param array $args
-	 *
+	 * @param array $args An array of arguments.
 	 * @return array
 	 */
 	public function get_all_data_of_assets_needing_purchase( $args = array() ) {
@@ -722,35 +712,35 @@ for purchase, and will be removed from the cart.</p>
 
 		$args = wp_parse_args( $args, $defaults );
 
-		// get the array of assets needing purchase
+		// Get the array of assets needing purchase.
 		$this->create_array_assets_needing_purchase( $args );
 
-		// if we have assets needing purchase
+		// If we have assets needing purchase.
 		if ( isset( $this->assets_needing_purchase['by_page_id'] ) &&
 			 count( $this->assets_needing_purchase['by_page_id'] ) > 0 ) {
 
-			// loop through the each page
+			// Loop through the each page.
 			foreach ( $this->assets_needing_purchase['by_page_id'] as $post_id => $assets ) {
 
 				if ( is_numeric( $post_id ) ) {
-					// get the post
+					// Get the post.
 					$post = get_post( $post_id );
 
-					// get the post title
-					$this->assets_needing_purchase['page_data'][$post_id]['post_title'] = $post->post_title;
+					// Get the post title.
+					$this->assets_needing_purchase['page_data'][ $post_id ]['post_title'] = $post->post_title;
 				} else {
-					$this->assets_needing_purchase['page_data'][$post_id]['post_title'] = $post_id;
+					$this->assets_needing_purchase['page_data'][ $post_id ]['post_title'] = $post_id;
 				}
 
-				// foreach asset found on this page...
+				// Foreach asset found on this page.
 				foreach ( $assets as $asset_key => $asset ) {
 
-					// get the attachment meta data
+					// Get the attachment meta data.
 					$attachment_metadata = wp_prepare_attachment_for_js( $asset['attachment_id'] );
-					$this->assets_needing_purchase['by_page_id'][$post_id][$asset_key]['attachment_metadata'] = $attachment_metadata;
+					$this->assets_needing_purchase['by_page_id'][ $post_id ][ $asset_key ]['attachment_metadata'] = $attachment_metadata;
 
-					// get the thumbnail url
-					$this->assets_needing_purchase['by_page_id'][$post_id][$asset_key]['thumbnail_url'] = ( isset(
+					// Get the thumbnail url.
+					$this->assets_needing_purchase['by_page_id'][ $post_id ][ $asset_key ]['thumbnail_url'] = ( isset(
 						$attachment_metadata['sizes']['thumbnail'] ) ? $attachment_metadata['sizes']['thumbnail']['url'] : $attachment_metadata['sizes']['full']['url'] );
 				}
 			}
@@ -783,18 +773,18 @@ for purchase, and will be removed from the cart.</p>
 	 */
 	/* @formatter:on */
 	public function get_local_publish_cost_data() {
-		// If it's already set, then just return it:
+		// If it's already set, then just return it.
 		if ( isset( $this->local_publish_cost_data ) ) {
 			return $this->local_publish_cost_data;
 		}
 
-		// Get an array of all the assets needing purchase:
+		// Get an array of all the assets needing purchase.
 		$this->create_array_assets_needing_purchase();
 
 		if ( isset( $this->assets_needing_purchase['by_page_id'] ) ) {
 			foreach ( $this->assets_needing_purchase['by_page_id'] as $page_id => $array_of_assets ) {
 				foreach ( $array_of_assets as $asset_key => $asset ) {
-					$return[$asset['asset_id']] = $asset['coin_cost'];
+					$return[ $asset['asset_id'] ] = $asset['coin_cost'];
 				}
 			}
 		} else {
@@ -807,15 +797,13 @@ for purchase, and will be removed from the cart.</p>
 	}
 
 	/**
-	 * Ajax calls come here to get details by transaction_item_id
-	 *
-	 * @param int $_POST['transaction_item_id']
+	 * Ajax calls come here to get details by transaction_item_id.
 	 */
 	public function get_purchased_image_details_callback() {
-		// Connect WordPress database:
+		// Connect WordPress database.
 		global $wpdb;
 
-		// Get and make sure we have a valid $transaction_item_id:
+		// Get and make sure we have a valid $transaction_item_id.
 		$transaction_item_id = $_POST['transaction_item_id'];
 
 		if ( ! is_numeric( $transaction_item_id ) ) {
@@ -838,14 +826,14 @@ for purchase, and will be removed from the cart.</p>
 		require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-asset-manager.php';
 		$assetManager = new Boldgrid_Inspirations_Asset_Manager( $this->pluginPath );
 
-		// grab the details of the asset based off of asset_id
+		// Grab the details of the asset based off of asset_id.
 		$asset = $assetManager->get_asset(
-			array (
+			array(
 				'by' => 'transaction_item_id',
-				'transaction_item_id' => $transaction_item_id
+				'transaction_item_id' => $transaction_item_id,
 			) );
 
-		// Get all the local data for the attachment id:
+		// Get all the local data for the attachment id.
 		if ( isset( $asset['attachment_id'] ) && is_numeric( $asset['attachment_id'] ) ) {
 			$attachment_metadata = wp_prepare_attachment_for_js( $asset['attachment_id'] );
 
@@ -871,13 +859,13 @@ for purchase, and will be removed from the cart.</p>
 		$url_to_get_image_details = $boldgrid_configs['asset_server'] .
 			 $boldgrid_configs['ajax_calls']['image_get_details'];
 
-		$arguments = array (
+		$arguments = array(
 			'method' => 'POST',
-			'body' => array (
+			'body' => array(
 				'user_transaction_item_id' => $transaction_item_id,
-				'key' => $this->api_key_hash
+				'key' => $this->api_key_hash,
 			),
-			'timeout' => 20
+			'timeout' => 20,
 		);
 
 		$call_to_get_image_details = wp_remote_post( $url_to_get_image_details, $arguments );
@@ -888,10 +876,10 @@ for purchase, and will be removed from the cart.</p>
 
 			error_log(
 				__METHOD__ . ': Error: Could not retrieve image details from the asset server.  ' . print_r(
-					array (
+					array(
 						'url' => $url_to_get_image_details,
 						'arguments' => $arguments,
-						'response' => $call_to_get_image_details
+						'response' => $call_to_get_image_details,
 					), true ) );
 
 			wp_die();
@@ -899,7 +887,7 @@ for purchase, and will be removed from the cart.</p>
 
 		$image_data = json_decode( $call_to_get_image_details['body'] );
 
-		// If the remote data is bad, then log and exit:
+		// If the remote data is bad, then log and exit.
 		if ( empty( $image_data ) ) {
 			error_log(
 				__METHOD__ . ': Error in remote data call.  $call_to_get_image_details: ' .
@@ -917,20 +905,20 @@ for purchase, and will be removed from the cart.</p>
 		 */
 
 		if ( isset( $image_data->result->data->filename ) ) {
-			// Get the table prefix:
+			// Get the table prefix.
 			$table_prefix = $wpdb->prefix;
 
-			// Retrieve the first attachment id from matching posts:
+			// Retrieve the first attachment id from matching posts.
 			$attachment_id = $wpdb->get_var(
 				$wpdb->prepare(
-					"SELECT ID FROM " . $table_prefix .
-						 "posts WHERE post_type='attachment' AND guid LIKE '%%%s%%' AND guid NOT LIKE '%%%s%%'",
-						$image_data->result->data->filename,
-						$image_data->result->data->filename . '-' ) );
+					'SELECT ID FROM ' . $table_prefix .
+					"posts WHERE post_type='attachment' AND guid LIKE '%%%s%%' AND guid NOT LIKE '%%%s%%'",
+					$image_data->result->data->filename,
+					$image_data->result->data->filename . '-' ) );
 		}
 
 		if ( ! empty( $attachment_id ) ) {
-			// Image does exist in the local media library
+			// Image does exist in the local media library.
 			$attachment_metadata = wp_prepare_attachment_for_js( $attachment_id );
 
 			if ( false != $attachment_metadata ) {
@@ -948,11 +936,11 @@ for purchase, and will be removed from the cart.</p>
 		 * Send the details for the remote image:
 		 * **********************************************************************
 		 */
-		$return_data = array (
+		$return_data = array(
 			'data_type' => 'remote_data',
 			'thumbnail_url' => $image_data->result->data->thumbnail_url,
 			'id_from_provider' => $image_data->result->data->id_from_provider,
-			'image_provider_id' => $image_data->result->data->image_provider_id
+			'image_provider_id' => $image_data->result->data->image_provider_id,
 		);
 
 		echo json_encode( $return_data );
@@ -966,12 +954,12 @@ for purchase, and will be removed from the cart.</p>
 	 * @return boolean|unknown
 	 */
 	public function get_remote_publish_cost_data() {
-		// If we don't have any items needing purchase
+		// If we don't have any items needing purchase.
 		if ( false == $this->get_local_publish_cost_data() ) {
 			return false;
 		}
 
-		// If the data exists, just return it
+		// If the data exists, just return it.
 		if ( isset( $this->remote_publish_cost_data ) ) {
 			return $this->remote_publish_cost_data;
 		}
@@ -981,27 +969,27 @@ for purchase, and will be removed from the cart.</p>
 		$url_to_get_remote_publish_cost_data = $boldgrid_configs['asset_server'] .
 			 $boldgrid_configs['ajax_calls']['get-total-asset-cost'];
 
-		$arguments = array (
+		$arguments = array(
 			'method' => 'POST',
-			'body' => array (
+			'body' => array(
 				'key' => $this->api_key_hash,
-				'cost_data' => $this->get_local_publish_cost_data()
+				'cost_data' => $this->get_local_publish_cost_data(),
 			)
 		);
 
 		$response = wp_remote_post( $url_to_get_remote_publish_cost_data, $arguments );
 
-		// Error checking...
+		// Error checking.
 		if ( is_wp_error( $response ) ) {
 			error_log(
 				'Error: Could not retrieve asset cost details from the asset server!
 ' . print_r(
-					array (
+					array(
 						'Method' => __METHOD__,
 						'Error' => '$response is wp_error',
 						'url' => $url_to_get_remote_publish_cost_data,
 						'arguments' => $arguments,
-						'response' => $response
+						'response' => $response,
 					), true ) );
 
 			return false;
@@ -1024,10 +1012,9 @@ for purchase, and will be removed from the cart.</p>
 	 * This is an important array used throughout this class.
 	 * This method is currently only called by $this->create_array_assets_needing_purchase();
 	 *
-	 * @param array $asset
-	 * @param string $asset_type
-	 * @param array $args
-	 *
+	 * @param array $asset An asset.
+	 * @param string $asset_type An asset type.
+	 * @param array $args An array of arguments.
 	 * @return boolean
 	 */
 	public function asset_needs_purchase( $asset, $asset_type, $args = array() ) {
@@ -1037,7 +1024,7 @@ for purchase, and will be removed from the cart.</p>
 
 		global $wpdb;
 
-		$attachment_id = ( int ) $asset['attachment_id'];
+		$attachment_id = (int) $asset['attachment_id'];
 
 		/**
 		 * If an asset has a coin cost <= 0, then it doesn't need purchase.
@@ -1087,7 +1074,7 @@ for purchase, and will be removed from the cart.</p>
 		';
 		$in_shortcode = $wpdb->get_var( $query );
 		if ( ! empty( $in_shortcode ) ) {
-			$this->assets_needing_purchase['by_page_id'][$in_shortcode][] = $asset;
+			$this->assets_needing_purchase['by_page_id'][ $in_shortcode ][] = $asset;
 			return true;
 		}
 
@@ -1106,9 +1093,9 @@ for purchase, and will be removed from the cart.</p>
 					$wpdb->posts.post_type IN ('page','post')
 						", $attachment_id ) );
 
-		// if we found results, then the image is being used in a page/post
+		// If we found results, then the image is being used in a page/post.
 		if ( ! empty( $asset_a_featured_image ) ) {
-			$this->assets_needing_purchase['by_page_id'][$asset_a_featured_image][] = $asset;
+			$this->assets_needing_purchase['by_page_id'][ $asset_a_featured_image ][] = $asset;
 			return true;
 		}
 
@@ -1138,29 +1125,26 @@ for purchase, and will be removed from the cart.</p>
 		/*
 		 * We will create an array of names this asset could have. For example, the same asset might
 		 * have been resized into several different files / thumbnails, and we need to check for all
-		 * of
-		 * them.
+		 * of them.
 		 */
-		$array_file_names_to_query = array ();
+		$array_file_names_to_query = array();
 
-		// _wp_attachment_metadata
 		$wp_attachment_metadata = get_post_meta( $attachment_id, '_wp_attachment_metadata', true );
 
 		if ( ! empty( $wp_attachment_metadata ) ) {
-			// save this metadata for future use
-			$this->wp_options_asset[$asset_type][$asset['asset_key']]['_wp_attachment_metadata'] = $wp_attachment_metadata;
+			// Save this metadata for future use.
+			$this->wp_options_asset[ $asset_type ][ $asset['asset_key'] ]['_wp_attachment_metadata'] = $wp_attachment_metadata;
 
 			foreach ( $wp_attachment_metadata['sizes'] as $image_size ) {
 				$array_file_names_to_query[] = $image_size['file'];
 			}
 		}
 
-		// _wp_attached_file
 		$wp_attached_file = get_post_meta( $attachment_id, '_wp_attached_file', true );
 
 		if ( ! empty( $wp_attached_file ) ) {
-			// save this metadata for future use
-			$this->wp_options_asset[$asset_type][$asset['asset_key']]['_wp_attached_file'] = $wp_attached_file;
+			// Save this metadata for future use.
+			$this->wp_options_asset[ $asset_type ][ $asset['asset_key'] ]['_wp_attached_file'] = $wp_attached_file;
 
 			$array_file_names_to_query[] = $wp_attached_file;
 		}
@@ -1182,9 +1166,9 @@ for purchase, and will be removed from the cart.</p>
 		 * ************************************************************************
 		 */
 
-		// Then, loop through each filename and check if it is in a page / post
+		// Then, loop through each filename and check if it is in a page / post.
 
-		if ( $asset_type == 'image' && ! empty( $array_file_names_to_query ) ) {
+		if ( 'image' == $asset_type && ! empty( $array_file_names_to_query ) ) {
 			foreach ( $array_file_names_to_query as $file_name_to_query ) {
 				// SELECT post_title where post_content like
 				// '%2015/02/google-maps-int-1410976385-pi.jpg%'
@@ -1199,11 +1183,11 @@ for purchase, and will be removed from the cart.</p>
 			", '%' . $wpdb->esc_like( $file_name_to_query ) . '%' ) );
 				/* @formatter:on */
 
-				// If we found results, then the image is being used in a page/post:
-				// Example $asset_in_page: http://pastebin.com/DSiGZFN7
+				// If we found results, then the image is being used in a page/post.
+				// Example $asset_in_page: http://pastebin.com/DSiGZFN7.
 				if ( ! empty( $asset_in_page ) ) {
 					foreach ( $asset_in_page as $page_object ) {
-						$this->assets_needing_purchase['by_page_id'][$page_object->ID][] = $asset;
+						$this->assets_needing_purchase['by_page_id'][ $page_object->ID ][] = $asset;
 					}
 
 					return true;
@@ -1213,8 +1197,8 @@ for purchase, and will be removed from the cart.</p>
 				 * Is this a background image?
 				 */
 				$background_image = get_background_image();
-				if ( $file_name_to_query ==
-					 substr( $background_image, ( - 1 * strlen( $file_name_to_query ) ) ) ) {
+				if ( substr( $background_image, ( - 1 * strlen( $file_name_to_query ) ) ) ==
+						$file_name_to_query ) {
 					$this->assets_needing_purchase['by_page_id']['Background and Header'][] = $asset;
 
 					return true;
@@ -1234,8 +1218,8 @@ for purchase, and will be removed from the cart.</p>
 				if ( 1 == substr_count( $header_image, '/cropped-' ) ) {
 					$header_image = str_replace( '/cropped-', '/', $header_image );
 				}
-				if ( $file_name_to_query ==
-					 substr( $header_image, ( - 1 * strlen( $file_name_to_query ) ) ) ) {
+				if ( substr( $header_image, ( - 1 * strlen( $file_name_to_query ) ) ) ==
+						$file_name_to_query ) {
 					$this->assets_needing_purchase['by_page_id']['Background and Header'][] = $asset;
 
 					return true;
@@ -1244,7 +1228,7 @@ for purchase, and will be removed from the cart.</p>
 		}
 
 		// If we weren't able to find the asset being used in a page/post or as a featured image,
-		// then return false for asset_needs_attribution
+		// then return false for asset_needs_attribution.
 		return false;
 	}
 
@@ -1259,24 +1243,23 @@ for purchase, and will be removed from the cart.</p>
 		$url_to_get_balance = $boldgrid_configs['asset_server'] .
 			 $boldgrid_configs['ajax_calls']['get_coin_balance'];
 
-		$arguments = array (
+		$arguments = array(
 			'method' => 'POST',
-			'body' => array (
-				'key' => $this->api_key_hash
+			'body' => array(
+				'key' => $this->api_key_hash,
 			)
 		);
 
 		$response = wp_remote_post( $url_to_get_balance, $arguments );
 
 		if ( is_wp_error( $response ) ) {
-			// LOG:
 			error_log(
 				__METHOD__ . ': Error: Could not retrieve coin balance from the asset server!
 ' . print_r(
-					array (
+					array(
 						'url' => $url_to_get_balance,
 						'arguments' => $arguments,
-						'response' => $response
+						'response' => $response,
 					), true ) );
 
 			return false;
