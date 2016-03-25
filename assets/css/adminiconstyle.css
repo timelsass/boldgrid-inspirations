@@ -81,8 +81,7 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
-.boldgrid-icon:before,
-.theme-install-php .theme[aria-describedby*="boldgrid-"] .theme-name:before { 
+.boldgrid-icon:before {
 	content: "\e600";
 	font-family: 'boldgrid';
 	speak: none;
@@ -224,29 +223,60 @@ to {
 theme-install.php
 --------------------------------------------------------------*/
 .theme-install-php #recommend-boldgrid p {
-    margin: 0;
+	margin: 0;
 }
 
 .theme-install-php #recommend-boldgrid .recommend-boldgrid-text {
-    position: relative;
-    top: -8px;
-    margin-left: 7px;
+	position: relative;
+	top: -11px;
+	margin-left: 7px;
 }
 
-.theme-install-php #recommend-boldgrid .boldgrid-icon:before {
-    font-size: 30px;
-    color: #F95B26;
+.theme-install-php .boldgrid-cert,
+.theme-install-php .theme[aria-describedby*="boldgrid-"] .theme-name:after {
+	background: url(../images/bg-seal.png) no-repeat;
+}
+
+.theme-install-php .theme[aria-describedby*="boldgrid-"] .theme-name:after {
+	content: ' ';
+	width: 40px;
+	height: 40px;
+	display: block;
+	position: absolute;
+	left: -6px;
+	bottom: 36px;
+	background-size: 37px auto;
 }
 
 .theme-install-php .theme[aria-describedby*="boldgrid-"] .theme-name:before {
-    float: right;
-    font-size: 33px;
-    color: #F95B26;
+	content: 'Certified';
+	display: block;
+	width: 100%;
+	height: 18px;
+	background: #262626; /* Old browsers */
+	background: -moz-linear-gradient(left, #262626 0%, #ffffff 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(left, #262626 0%,#ffffff 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to right, #262626 0%,#ffffff 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	background-size: 100% 100%;
+	padding: 2px 0px;
+	position: absolute;
+	bottom: 48px;
+	left: 0px;
+	color: white;
+	text-transform: uppercase;
+	text-indent: 38px;
+	font-size: 10px;
+	font-family: Josefin Sans;
+	letter-spacing: .1em;
+	font-weight: 500;
 }
 
-@media (min-width: 782px) {
-    .theme-install-php .theme[aria-describedby*="boldgrid-"]:focus .theme-name:after,
-    .theme-install-php .theme[aria-describedby*="boldgrid-"]:hover .theme-name:after {
-        content: '';
-    }
+.theme-install-php .boldgrid-cert {
+	width: 38px;
+	height: 37px;
+	display: inline-block;
+}
+
+.theme-install-php .boldgrid-cert {
+	background-position: -1px 5px;
 }

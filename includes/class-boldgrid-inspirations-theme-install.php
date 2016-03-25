@@ -223,7 +223,7 @@ class Boldgrid_Inspirations_Theme_Install {
 		?>
 	<div id='recommend-boldgrid' class="notice notice-success">
 		<p>
-			<span class="boldgrid-icon"></span>
+			<span class="boldgrid-cert"></span>
 			<span class='recommend-boldgrid-text'>
 				We recommend choosing a BoldGrid Theme.
 				Our themes have theme specific content available through
@@ -236,12 +236,27 @@ class Boldgrid_Inspirations_Theme_Install {
 	}
 
 	/**
+	 * Enqueue styles for theme install page.
+	 *
+	 * @since 1.1
+	 */
+	public function enqueue_styles() {
+		$query_args = array(
+			'family' => 'Josefin+Sans',
+			'subset' => 'latin,latin-ext',
+		);
+
+		wp_enqueue_style( 'boldgrid-inspiration-theme-install', add_query_arg( $query_args, "//fonts.googleapis.com/css" ) );
+	}
+
+	/**
 	 * All actions that should occur on theme-install.php.
 	 *
 	 * @since 1.0.11
 	 */
 	public function load_theme_install() {
 		add_action( 'install_themes_tabs', array( $this, 'print_notice' ) );
+		add_action( 'admin_enqueue_scripts',  array( $this, 'enqueue_styles' ) );
 	}
 
 	/**
