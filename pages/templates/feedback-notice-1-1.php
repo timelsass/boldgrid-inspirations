@@ -61,6 +61,8 @@
 							?>'></textarea>
 					</div>
 				</div>
+				<div class='feedback-form-label'></div>
+				<div id='feedback-error-message' class='feedback-form-field'></div>
 			</div>
 			<div class='feedback-form-label'></div>
 			<div class='feedback-form-field'>

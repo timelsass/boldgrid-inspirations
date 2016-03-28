@@ -1,16 +1,30 @@
 /**
- * BoldGrid Feedback.
+ * The BoldGrid Feedback class is to manipulate the admin notice used to ask for
+ * feedback, and handle success and failure messages.
+ *
+ * @summary BoldGrid Feedback manipulation.
+ *
+ * @since 1.1
+ * @class IMHWPB.BoldGridFeedback
+ * @classdesc The BoldGrid Feedback class is to manipulate the admin notice used
+ *            to ask for feedback, and handle success and failure messages.
  */
 
 // Import IMHWPB.
 var IMHWPB = IMHWPB || {};
 
 /**
- * BoldGridFeedback class.
+ * BoldGrid Feedback class.
+ *
+ * The BoldGrid Feedback class is to manipulate the admin notice used to ask for
+ * feedback, and handle success and failure messages.
  *
  * @since 1.1
+ *
+ * @param object $
+ *            jQuery.
  */
-IMHWPB.BoldGridFeedback = function( configs ) {
+IMHWPB.BoldGridFeedback = function( $ ) {
 	// Declare vars.
 	var self = this;
 
@@ -21,9 +35,9 @@ IMHWPB.BoldGridFeedback = function( configs ) {
 	self.submitStatus = '';
 
 	// Use jQuery to check events and modify the form content.
-	jQuery( function() {
+	$( function() {
 		// Define a context selector for id "feedback-notice-1-1".
-		$feedbackNotice11 = jQuery( '#feedback-notice-1-1' );
+		$feedbackNotice11 = $( '#feedback-notice-1-1' );
 
 		// Define a context selector for id "feedback-type".
 		$feedbackNotice11Type = $feedbackNotice11.find( '#feedback-type' );
@@ -41,7 +55,7 @@ IMHWPB.BoldGridFeedback = function( configs ) {
 
 		// When the id "feedback-contact-checkbox" checkbox is checked, display
 		// "feedback-email-address".
-		$feedbackNotice11ContactCheckbox.change( self.toggle_feedback_email );
+		$feedbackNotice11ContactCheckbox.change( self.toggleFeedbackEmail );
 
 		// Handle when the feedback form submit button is clicked.
 		$feedbackSubmit.on( 'click', self.submit_feedback_form );
@@ -52,15 +66,15 @@ IMHWPB.BoldGridFeedback = function( configs ) {
 	 *
 	 * @since 1.1
 	 */
-	self.toggle_feedback_email = function() {
+	self.toggleFeedbackEmail = function() {
 		// Define a context selector.
 		$feedbackEmailAddress = $feedbackNotice11.find( '#feedback-email-address' );
 
 		// Toggle the display of the email address line.
 		if ( $feedbackNotice11ContactCheckbox.is( ':checked' ) ) {
-			$feedbackEmailAddress.css( 'display', 'block' );
+			$feedbackEmailAddress.show();
 		} else {
-			$feedbackEmailAddress.css( 'display', 'none' );
+			$feedbackEmailAddress.hide();
 		}
 	}
 
@@ -80,30 +94,30 @@ IMHWPB.BoldGridFeedback = function( configs ) {
 		$feedbackDiagnosticReportText = $feedbackNotice11.find( '#feedback-diagnostic-text' );
 
 		// Modify content based on selected feedback type.
-		if ( '' == $feedbackNotice11Type.val() ) {
+		if ( '' === $feedbackNotice11Type.val() ) {
 			// Hide the comment area.
-			$feedbackComment.css( 'display', 'none' );
+			$feedbackComment.hide();
 
 			// Hide the diagnostic report area.
-			$feedbackDiagnosticReport.css( 'display', 'none' );
+			$feedbackDiagnosticReport.hide();
 
 			// Disable the diagnostic report text area.
 			$feedbackDiagnosticReportText.prop( 'disabled', 'disabled' );
 
 			// Hide the submit button.
-			$feedbackSubmit.css( 'display', 'none' );
+			$feedbackSubmit.hide();
 
 			// Disable the submit button.
 			$feedbackSubmit.prop( 'disabled', 'disabled' );
 		} else {
 			// Show the comment area.
-			$feedbackComment.css( 'display', 'block' );
+			$feedbackComment.show();
 
 			// Enable the submit button.
 			$feedbackSubmit.prop( 'disabled', false );
 
 			// Show the submit button.
-			$feedbackSubmit.css( 'display', 'block' );
+			$feedbackSubmit.show();
 
 			// Toggle the display of the diagnostic report area.
 			if ( 'Bug report' == $feedbackNotice11Type.val() ) {
@@ -111,7 +125,7 @@ IMHWPB.BoldGridFeedback = function( configs ) {
 				$feedbackDiagnosticReportText.prop( 'disabled', false );
 
 				// Show the diagnostic report area.
-				$feedbackDiagnosticReport.css( 'display', 'block' );
+				$feedbackDiagnosticReport.show();
 
 				// Populate diagnostic data, if needed.
 				if ( '' == $feedbackDiagnosticReportText.val() ) {
@@ -123,27 +137,12 @@ IMHWPB.BoldGridFeedback = function( configs ) {
 				}
 			} else {
 				// Hide the diagnostic report area.
-				$feedbackDiagnosticReport.css( 'display', 'none' );
+				$feedbackDiagnosticReport.hide();
 
 				// Disable the diagnostic report text area.
 				$feedbackDiagnosticReportText.prop( 'disabled', 'disabled' );
 			}
 		}
-	}
-
-	/**
-	 * Set self.diagnosticData.
-	 *
-	 * @since 1.1
-	 *
-	 * @param string
-	 *            diagnosticData Diagnostic information in standard text.
-	 * @return null
-	 */
-	self.setDiagnosticData = function( diagnosticData ) {
-		self.diagnosticData = diagnosticData;
-
-		return;
 	}
 
 	/**
@@ -173,7 +172,7 @@ IMHWPB.BoldGridFeedback = function( configs ) {
 		};
 
 		// Make the call.
-		jQuery.ajax( {
+		$.ajax( {
 		    url : ajaxurl,
 		    data : data,
 		    async : false,
@@ -203,11 +202,14 @@ IMHWPB.BoldGridFeedback = function( configs ) {
 		// Define a context selector for id "feedback-notice-1-1-intro".
 		$feedbackHeader = $feedbackNotice11.find( '#feedback-notice-1-1-intro' );
 
-		// Define a context selector for id "feedback-notice-1-1".
+		// Define a context selector for id "feedback-notice-1-1-content".
 		$feedbackContent = $feedbackNotice11.find( '#feedback-notice-1-1-content' );
 
-		// Define a context selector for id "feedback-notice-1-1".
+		// Define a context selector for id "boldgrid-feedback-form".
 		$feedbackForm = $feedbackContent.find( '#boldgrid-feedback-form' );
+
+		// Define a context selector for id "feedback-error-message".
+		$feedbackError = $feedbackContent.find( '#feedback-error-message' );
 
 		// Get the form data.
 		formData.feedbackType = $feedbackForm.find( '#feedback-type' ).val();
@@ -237,7 +239,7 @@ IMHWPB.BoldGridFeedback = function( configs ) {
 		};
 
 		// Make the call.
-		jQuery.ajax( {
+		$.ajax( {
 		    url : ajaxurl,
 		    data : data,
 		    async : false,
@@ -253,28 +255,32 @@ IMHWPB.BoldGridFeedback = function( configs ) {
 
 		// Check response.
 		if ( 'Success' == submitStatus ) {
+			// Hide error message.
+			$feedbackError.hide();
+
 			// Replace the form with a success message.
 			markup = "<h2>Thanks for the feedback</h2>\n"
 			    + "<p>The BoldGrid team wants you to know that we are listening and every bit of </p>\n"
 			    + "<p>feedback helps us improve out tool.</p>";
+
+			// Empty the notice area.
+			$feedbackContent.empty();
+
+			// Insert markup in the notice.
+			$feedbackHeader.html( markup );
 		} else {
-			// Replace the form with an error message.
-			markup = "<h2>BoldGrid Feedback Request</h2>\n"
-			    + "<p>There was an error processing your request.  Please try again.</p>";
+			// Show error message.
+			markup = "<p>There was an error processing your request.  Please try again.</p>";
 
-			// Add the error class to the admin notice.
-			$feedbackNotice11.addClass( 'error' );
+			$feedbackError.html( markup );
+
+			// Unhide the error message.
+			$feedbackError.show();
 		}
-
-		// Empty the notice area.
-		$feedbackContent.empty();
-
-		// Insert markup in the notice.
-		$feedbackHeader.html( markup );
 
 		// Return false so the page does not reload.
 		return false;
 	}
 };
 
-new IMHWPB.BoldGridFeedback();
+new IMHWPB.BoldGridFeedback( jQuery );

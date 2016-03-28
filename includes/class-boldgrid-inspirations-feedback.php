@@ -429,6 +429,8 @@ class Boldgrid_Inspirations_Feedback {
 	 *
 	 * @since 1.1
 	 *
+	 * @global string $wp_version The WordPress version.
+	 *
 	 * @return null
 	 */
 	public function feedback_diagnostic_data_callback() {

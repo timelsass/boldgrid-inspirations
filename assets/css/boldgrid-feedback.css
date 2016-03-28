@@ -63,3 +63,9 @@
 	margin-top: 10px;
 	margin-bottom: 10px;
 }
+
+#feedback-error-message {
+	color: #ff0000;
+	display: none;
+	font-weight: bold;
+}
