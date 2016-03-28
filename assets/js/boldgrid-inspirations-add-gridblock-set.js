@@ -156,9 +156,6 @@ IMHWPB.AddGridBlockSet = function($) {
 				function(event) {
 					event.preventDefault();
 				});
-
-		// Remove the page title.
-		self.$homepage_iframe.contents().find('body .entry-title').remove();
 	}
 
 	/**

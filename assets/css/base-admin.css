@@ -258,10 +258,11 @@ Inline dashicons
 .spinner.inline.left-of-button {
 	float: right;
 	margin: 20px 5px 0px 15px;
+	visibility: visible;
 }
 
 /* Create an inline spinner floated next to an anchor. */
 .spinner.inline.left-of-anchor {
 	float: right;
-	margin-rgith: 5px;
+	margin-right: 5px;
 }

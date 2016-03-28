@@ -338,6 +338,7 @@ class Boldgrid_Inspirations_GridBlock_Sets_Admin {
 		// Get and update our preview page.
 		$preview_page = $preview_page_helper->get();
 		$preview_page->post_content = $gridblock_set['preview_data']['post_content'];
+		$preview_page->post_title = $gridblock_set['preview_data']['post_title'];
 
 		// Update the content of the preview page.
 		wp_update_post( $preview_page );
