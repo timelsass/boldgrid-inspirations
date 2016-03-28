@@ -325,7 +325,9 @@ IMHWPB.AddGridBlockSet = function($) {
 			self.$loading_message
 					.removeClass('hidden')
 					.html(
-							"<span class='spinner inline'></span>Downloading the newest GridBlock Sets. This may take up to one minute this first time.");
+							'<span class="spinner inline"></span> ' +
+							'Downloading the newest GridBlock Sets. ' +
+							'This may take up to one minute this first time.' );
 
 			var data = {
 				'action' : 'get_gridblock_sets'
