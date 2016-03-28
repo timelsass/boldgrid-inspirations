@@ -224,12 +224,15 @@ theme-install.php
 --------------------------------------------------------------*/
 .theme-install-php #recommend-boldgrid p {
 	margin: 0;
+	position: relative;
 }
 
 .theme-install-php #recommend-boldgrid .recommend-boldgrid-text {
-	position: relative;
-	top: -11px;
-	margin-left: 7px;
+	padding-left: 41px;
+	display: inline-block;
+	left: 18px;
+	padding-top: 10px;
+	padding-bottom: 10px;
 }
 
 .theme-install-php .boldgrid-cert,
@@ -272,9 +275,12 @@ theme-install.php
 }
 
 .theme-install-php .boldgrid-cert {
-	width: 38px;
-	height: 37px;
+	width: 39px;
+	height: 44px;
 	display: inline-block;
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
 }
 
 .theme-install-php .boldgrid-cert {
