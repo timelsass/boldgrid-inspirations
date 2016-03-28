@@ -143,8 +143,14 @@ IMHWPB.AddGridBlockSet = function($) {
 	 * @since 1.0.10
 	 */
 	this.gridblock_set_preview_cleanup = function() {
+
 		// Remove the admin bar, not really needed during a preview.
-		self.$homepage_iframe.contents().find('body #wpadminbar').remove();
+		self.$homepage_iframe.contents().find('body #wpadminbar, #boldgrid-reset-adminbar').remove();
+
+		// Remove the empty spacing from missing wpadminbar.
+		self.$homepage_iframe.contents().find( 'head' ).append(
+			$( '<style id="boldgrid-reset-adminbar" type="text/css"></style>' ).html( 'html{margin-top: 0px !important;}' )
+		);
 
 		// Remove the "Edit" link, not really needed during a preview.
 		self.$homepage_iframe.contents().find('body .post-edit-link').remove();
@@ -336,8 +342,7 @@ IMHWPB.AddGridBlockSet = function($) {
 		} else {
 			self.$loading_message
 					.removeClass('hidden')
-					.html(
-							"<p><span class='spinner inline'></span>Loading GridBlock Sets.</p>");
+					.html("<p><span class='spinner inline'></span>Loading GridBlock Sets.</p>");
 
 			self.gridblock_sets = IMHWPB.gridblock_sets;
 			self.gridblock_sets_validate();
