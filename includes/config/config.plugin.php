@@ -67,7 +67,7 @@ return array (
 		'bps-get-results' =>							'/api/built-photo-search/get-results',
 		'bps-save-new-query' =>							'/api/built-photo-search/save-new-query',
 		'bps-save-new-phrase-and-results' =>			'/api/built-photo-search/save-new-phrase-and-results',
-		
+
 		//Preview Server
 		'get-site-content' => 							'/wpb-maintenance/get-site-content.php',
 	),
@@ -75,7 +75,7 @@ return array (
 	'preview_server' =>									'https://wp-preview.boldgrid.com',
 	'author_preview_server' =>							'https://wp-staging.boldgrid.com',
 	'installation' => array (
-		'max_num_install_attempts' => 5 
+		'max_num_install_attempts' => 5
 	),
 	'plugins' => array(
 		'staging' => array (
@@ -95,10 +95,14 @@ return array (
 		),
 	),
 	'features' => array(
+		/*
+		 * This feature switch has been removed, but we are leaving this in as an example.
 		'boldgrid-theme-install' => array(
+			'stable',
 			'candidate',
 			'edge',
 		)
+		*/
 	)
 );
 /* @formatter:on */
