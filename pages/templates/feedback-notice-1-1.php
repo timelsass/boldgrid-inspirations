@@ -40,7 +40,8 @@
 				<div class='feedback-form-label'></div>
 				<div class='feedback-form-field'>
 					<input type='checkbox' id='feedback-contact-checkbox'
-						name='contact_me' value='Y' /> <?php echo __('Please contact me about my feedback'); ?>
+						name='contact_me' value='Y' /> <label
+						for='feedback-contact-checkbox'><?php echo __('Please contact me about my feedback'); ?></label>
 				</div>
 				<div id='feedback-email-address'>
 					<div class='feedback-form-label'><?php echo __('Email address'); ?></div>
