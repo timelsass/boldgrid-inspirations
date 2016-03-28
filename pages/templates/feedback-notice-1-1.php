@@ -34,7 +34,7 @@
 				<div class='feedback-form-label'><?php echo __('Comment'); ?></div>
 				<div>
 					<textarea id='feedback-comment' class='feedback-form-field'
-						name='comment' rows='4' cols='80'
+						name='comment' rows='4' cols='53'
 						placeholder='<?php echo __('Please type your feedback comment here.'); ?>'></textarea>
 				</div>
 				<div class='feedback-form-label'></div>
@@ -61,12 +61,16 @@
 							?>'></textarea>
 					</div>
 				</div>
+				<div id='feedback-error-message'>
+					<div class='feedback-form-label'></div>
+					<div class='feedback-form-field'></div>
+				</div>
 				<div class='feedback-form-label'></div>
-				<div id='feedback-error-message' class='feedback-form-field'></div>
-			</div>
-			<div class='feedback-form-label'></div>
-			<div class='feedback-form-field'>
-				<button id='feedback-submit' disabled='disabled'>Submit</button>
+				<div class='feedback-form-field'>
+					<button id='feedback-submit' class='button button-primary'
+						disabled='disabled'>Submit</button>
+					<span class="spinner"></span>
+				</div>
 			</div>
 		</form>
 	</div>

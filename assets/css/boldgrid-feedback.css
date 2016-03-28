@@ -69,3 +69,8 @@
 	display: none;
 	font-weight: bold;
 }
+
+#boldgrid-feedback-form .spinner {
+	float: none;
+	margin-top: 14px;
+}

@@ -31,9 +31,6 @@ IMHWPB.BoldGridFeedback = function( $ ) {
 	// Initialize self.diagnosticData.
 	self.diagnosticData = '';
 
-	// Initialize self.submitStatus.
-	self.submitStatus = '';
-
 	// Use jQuery to check events and modify the form content.
 	$( function() {
 		// Define a context selector for id "feedback-notice-1-1".
@@ -51,7 +48,7 @@ IMHWPB.BoldGridFeedback = function( $ ) {
 
 		// When the id "feedback-type" selection value changes, then modify form
 		// content.
-		$feedbackNotice11Type.change( self.toggle_type );
+		$feedbackNotice11Type.change( self.toggleType );
 
 		// When the id "feedback-contact-checkbox" checkbox is checked, display
 		// "feedback-email-address".
@@ -83,7 +80,7 @@ IMHWPB.BoldGridFeedback = function( $ ) {
 	 *
 	 * @since 1.1
 	 */
-	self.toggle_type = function() {
+	self.toggleType = function() {
 		// Define a context selector for id "feedback-comment-area".
 		$feedbackComment = $feedbackNotice11.find( '#feedback-comment-area' );
 
@@ -130,10 +127,7 @@ IMHWPB.BoldGridFeedback = function( $ ) {
 				// Populate diagnostic data, if needed.
 				if ( '' == $feedbackDiagnosticReportText.val() ) {
 					// Retrieve the data.
-					self.diagnosticData = self.populateDiagnosticData();
-
-					// Update the form.
-					$feedbackDiagnosticReportText.val( self.diagnosticData );
+					self.populateDiagnosticData();
 				}
 			} else {
 				// Hide the diagnostic report area.
@@ -161,7 +155,10 @@ IMHWPB.BoldGridFeedback = function( $ ) {
 
 		// Check if data was already retreived.
 		if ( self.diagnosticData.length > 0 ) {
-			return self.diagnosticData;
+			// Update the form.
+			$feedbackDiagnosticReportText.val( self.diagnosticData );
+
+			return;
 		}
 
 		// Retrieve the data via AJAX.
@@ -175,19 +172,17 @@ IMHWPB.BoldGridFeedback = function( $ ) {
 		$.ajax( {
 		    url : ajaxurl,
 		    data : data,
-		    async : false,
 		    type : 'post',
 		    dataType : 'text',
-		    success : function( output ) {
-			    diagnosticData = output;
+		    timeout : 10000,
+		    success : function( diagnosticData ) {
+			    // Set self.diagnosticData.
+			    self.diagnosticData = diagnosticData;
+
+			    // Update the form.
+			    $feedbackDiagnosticReportText.val( self.diagnosticData );
 		    }
 		} );
-
-		// Set self.diagnosticData.
-		self.diagnosticData = diagnosticData;
-
-		// Return the data.
-		return self.diagnosticData;
 	}
 
 	/**
@@ -197,7 +192,7 @@ IMHWPB.BoldGridFeedback = function( $ ) {
 	 */
 	self.submit_feedback_form = function() {
 		// Define a var object for the form data.
-		var formData = {}, markup;
+		var formData = {}, markup, errorCallback;
 
 		// Define a context selector for id "feedback-notice-1-1-intro".
 		$feedbackHeader = $feedbackNotice11.find( '#feedback-notice-1-1-intro' );
@@ -210,6 +205,12 @@ IMHWPB.BoldGridFeedback = function( $ ) {
 
 		// Define a context selector for id "feedback-error-message".
 		$feedbackError = $feedbackContent.find( '#feedback-error-message' );
+
+		// Disable the submit button.
+		$feedbackSubmit.prop( 'disabled', 'disabled' );
+
+		// Show the spinner.
+		$feedbackForm.find( '.spinner' ).addClass( 'is-active' );
 
 		// Get the form data.
 		formData.feedbackType = $feedbackForm.find( '#feedback-type' ).val();
@@ -232,6 +233,16 @@ IMHWPB.BoldGridFeedback = function( $ ) {
 
 		// Add feedback.
 
+		errorCallback = function() {
+			// Show error message.
+			markup = "<p>There was an error processing your request.  Please try again.</p>";
+
+			$feedbackError.find( '.feedback-form-field' ).html( markup );
+
+			// Unhide the error message.
+			$feedbackError.show();
+		}
+
 		// Generate the data array.
 		data = {
 		    'action' : 'boldgrid_feedback_submit',
@@ -239,44 +250,42 @@ IMHWPB.BoldGridFeedback = function( $ ) {
 		};
 
 		// Make the call.
-		$.ajax( {
-		    url : ajaxurl,
-		    data : data,
-		    async : false,
-		    type : 'post',
-		    dataType : 'text',
-		    success : function( reponse ) {
-			    submitStatus = reponse;
-		    }
-		} );
+		$
+		    .ajax( {
+		        url : ajaxurl,
+		        data : data,
+		        type : 'post',
+		        dataType : 'text',
+		        timeout : 10000,
+		        success : function( response ) {
+			        // Check response.
+			        if ( 'Success' == response ) {
+				        // Hide error message.
+				        $feedbackError.hide();
 
-		// Set self.submitStatus.
-		self.submitStatus = submitStatus;
+				        // Replace the form with a success message.
+				        markup = "<h2>Thanks for the feedback</h2>\n"
+				            + "<p>The BoldGrid team wants you to know that we are listening and every bit of </p>\n"
+				            + "<p>feedback helps us improve out tool.</p>";
 
-		// Check response.
-		if ( 'Success' == submitStatus ) {
-			// Hide error message.
-			$feedbackError.hide();
+				        // Empty the notice area.
+				        $feedbackContent.empty();
 
-			// Replace the form with a success message.
-			markup = "<h2>Thanks for the feedback</h2>\n"
-			    + "<p>The BoldGrid team wants you to know that we are listening and every bit of </p>\n"
-			    + "<p>feedback helps us improve out tool.</p>";
+				        // Insert markup in the notice.
+				        $feedbackHeader.html( markup );
+			        } else {
+				        errorCallback();
+			        }
+		        },
+		        error : errorCallback,
+		        complete : function() {
+			        // Hide the spinner.
+			        $feedbackForm.find( '.spinner' ).removeClass( 'is-active' );
 
-			// Empty the notice area.
-			$feedbackContent.empty();
-
-			// Insert markup in the notice.
-			$feedbackHeader.html( markup );
-		} else {
-			// Show error message.
-			markup = "<p>There was an error processing your request.  Please try again.</p>";
-
-			$feedbackError.html( markup );
-
-			// Unhide the error message.
-			$feedbackError.show();
-		}
+			        // Enable the submit button.
+			        $feedbackSubmit.prop( 'disabled', false );
+		        }
+		    } );
 
 		// Return false so the page does not reload.
 		return false;
