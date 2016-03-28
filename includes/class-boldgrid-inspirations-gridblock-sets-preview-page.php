@@ -210,10 +210,10 @@ class Boldgrid_Inspirations_GridBlock_Sets_Preview_Page {
 		// the current user. To update this number, we'll include the below javascript file.
 		$is_author_current_user = ( $preview_page->post_author == get_current_user_id() );
 		if ( 'edit.php' == $pagenow && $is_author_current_user ) {
-		wp_enqueue_script( 'boldgrid-all-pages-gridblock-preview',
-		plugins_url( 'assets/js/all-pages-mine-count.js',
-							BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ), array (),
-						BOLDGRID_INSPIRATIONS_VERSION );
+			wp_enqueue_script( 'boldgrid-all-pages-gridblock-preview',
+			plugins_url( 'assets/js/all-pages-mine-count.js',
+				BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ), array (),
+				BOLDGRID_INSPIRATIONS_VERSION );
 		}
 
 		return $counts;
