@@ -166,7 +166,10 @@ IMHWPB.AddGridBlockSet = function($) {
 				self.$homepage_iframe_stylesheets.clone());
 
 		// prevents scrollbars on the iframe.
-		$iframe.contents().find('body').css('overflow', 'hidden');
+		$iframe.contents().find('body').css({
+			'overflow': 'hidden',
+			'padding-top': '30px'
+		});
 
 		// Add our content to the preview.
 		$iframe.contents().find('body').html(
