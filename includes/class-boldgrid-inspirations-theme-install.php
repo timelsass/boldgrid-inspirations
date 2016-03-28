@@ -264,18 +264,15 @@ class Boldgrid_Inspirations_Theme_Install {
 	 */
 	public function add_hooks() {
 
-		if ( Boldgrid_Inspirations_Config::has_feature( 'boldgrid-theme-install', $this->configs ) ) {
+		// Actions only to occur on theme-install.php.
+		add_action( 'load-theme-install.php', array( $this, 'load_theme_install' ) );
 
-			// Actions only to occur on theme-install.php.
-			add_action( 'load-theme-install.php', array( $this, 'load_theme_install' ) );
+		// When installing theme that begins with boldgrid-, make check api.
+		add_filter( 'themes_api', array( $this, 'theme_information' ), 10, 3 );
 
-			// When installing theme that begins with boldgrid-, make check api.
-			add_filter( 'themes_api', array( $this, 'theme_information' ), 10, 3 );
-
-			// Return BoldGrid themes that match a users request params.
-			add_filter( 'themes_api', array( $this, 'query_themes_single' ), 10, 3 );
-			add_filter( 'themes_api_result', array( $this, 'query_themes' ), 10, 3 );
-		}
+		// Return BoldGrid themes that match a users request params.
+		add_filter( 'themes_api', array( $this, 'query_themes_single' ), 10, 3 );
+		add_filter( 'themes_api_result', array( $this, 'query_themes' ), 10, 3 );
 
 		if ( $this->is_inspiration_post_install() ) {
 			add_action( 'admin_footer', array (
