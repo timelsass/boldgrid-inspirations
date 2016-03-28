@@ -160,9 +160,6 @@ class Boldgrid_Inspirations_Asset_Manager extends Boldgrid_Inspirations {
 			throw new Exception( 'wp_insert_attachment() ERROR' );
 		}
 
-		// Save meta data for this attachment.
-		update_post_meta( $attachment_id, 'asset_id', $asset_id );
-
 		// Add this new asset to boldgrid_asset in wp_options
 		$asset_details = array (
 			'asset_id' => $asset_id,
@@ -693,9 +690,6 @@ class Boldgrid_Inspirations_Asset_Manager extends Boldgrid_Inspirations {
 			if ( 0 == $attachment_id ) {
 				throw new Exception( 'wp_insert_attachment() ERROR' );
 			}
-
-			// Save meta data for this attachment.
-			update_post_meta( $attachment_id, 'asset_id', $asset_id );
 
 			// Add this new asset to boldgrid_asset in wp_options
 			$asset_details = array (
