@@ -235,7 +235,6 @@ class Boldgrid_Inspirations_Options {
 		 */
 		// Define a set of options to DELETE, and then delete them.
 		$options_to_delete = array (
-			'boldgrid_dismissed_admin_notices',
 			'boldgrid_asset',
 			'boldgrid_install_options',
 			'boldgrid_attribution',
