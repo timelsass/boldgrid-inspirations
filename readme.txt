@@ -27,6 +27,7 @@ The second phase is Customization; tools to transform your website into your vis
 == Changelog ==
 
 = 1.1 In progress =
+* New feature:	JIRA WPB-1751	Added analysis processing and optional logging capabilities.
 * Bug fix:		JIRA WPB-1781	Removed boldgrid_dismissed_admin_notices from Start Over cleanup.
 * New feature:	JIRA WPB-1541	Added feedback notice.
 * Bug fix:		JIRA WPB-1747	New From GridBlocks: For non BoldGrid themes, only load grid css.

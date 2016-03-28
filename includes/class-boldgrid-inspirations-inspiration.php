@@ -467,6 +467,7 @@ class Boldgrid_Inspirations_Inspiration extends Boldgrid_Inspirations {
 		require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-pages-and-posts.php';
 		require_once BOLDGRID_BASE_DIR .
 			 '/includes/class-boldgrid-inspirations-gridblock-sets-admin.php';
+		require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-analysis.php';
 	}
 
 	/**
