@@ -2628,20 +2628,6 @@ class Boldgrid_Inspirations_Deploy {
 		// Do not install plugins if the forked plugin exists:
 		$original_active_path = $activate_path; // <-- overwriting if activating forked plugin
 
-		/**
-		 * BEGIN: Backwards compatibility - WPB-1330.
-		 * Temp - Removal Version 1.1
-		 */
-		if ( 'boldgrid-ninja-forms/ninja-forms.php' == $activate_path ) {
-			// Check if forked plugin active
-			if ( $this->external_plugin->is_active( 'boldgrid-forms/ninja-forms.php' ) ) {
-				return false;
-			}
-		}
-		/**
-		 * END: Backwards compatibility - WPB-1330.
-		 */
-
 		// If the plugin needs to be installed, first check for a forked version:
 		if ( false === $plugin_version_already_exists &&
 			 false === empty( $full_plugin_data->forked_plugin_path ) ) {
