@@ -51,7 +51,7 @@ class Boldgrid_Inspirations_Feedback {
 		) );
 
 		// Add an action to display admin notices.
-		if ( 'boldgrid-settings' != $_GET['page'] ) {
+		if ( empty( $_GET['page'] ) || 'boldgrid-settings' != $_GET['page'] ) {
 			add_action( 'admin_init', array (
 				$this,
 				'display_feedback_notice'
