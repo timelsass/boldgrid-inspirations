@@ -28,6 +28,7 @@ The second phase is Customization; tools to transform your website into your vis
 
 = 1.1.1 In progress =
 * Bug fix:						Fixed analysis include for preview server.
+* Bug fix:						New From GridBlocks: Asset download issues.
 
 = 1.1 =
 * New feature:	JIRA WPB-1751	Added analysis processing and optional logging capabilities.

@@ -286,7 +286,7 @@ class Boldgrid_Inspirations_GridBlock_Sets_Admin {
 
 				$image->setAttribute( 'src', $downloaded_image );
 			} elseif ( isset( $asset_id ) && is_numeric( $asset_id ) ) {
-				$downloaded_image = $this->download_and_attach_asset( $page_id, null, $asset_id );
+				$downloaded_image = $assetManager->download_and_attach_asset( $page_id, null, $asset_id );
 
 				$image->setAttribute( 'src', $downloaded_image );
 			}
