@@ -3287,48 +3287,48 @@ class Boldgrid_Inspirations_Deploy {
 		@ini_set( 'max_execution_time', 120 );
 
 		// Start analysis.
-		@Boldgrid_Inspirations_Analysis::start();
+		Boldgrid_Inspirations_Analysis::start();
 
 		// Get the theme id, category id, etc.
-		@Boldgrid_Inspirations_Analysis::log_entry( __METHOD__ . ': About to get deploy details.' );
+		Boldgrid_Inspirations_Analysis::log_entry( __METHOD__ . ': About to get deploy details.' );
 		$this->get_deploy_details();
-		@Boldgrid_Inspirations_Analysis::log_entry( __METHOD__ . ': Finished get deploy details.' );
+		Boldgrid_Inspirations_Analysis::log_entry( __METHOD__ . ': Finished get deploy details.' );
 
 		// Check permalink structure:
-		@Boldgrid_Inspirations_Analysis::log_entry(
+		Boldgrid_Inspirations_Analysis::log_entry(
 			__METHOD__ . ': About to check permalink structure.' );
 		$this->check_permalink_structure();
-		@Boldgrid_Inspirations_Analysis::log_entry(
+		Boldgrid_Inspirations_Analysis::log_entry(
 			__METHOD__ . ': Finished check permalink structure.' );
 
 		// Run the specified deployment:
 		switch ( $this->deploy_type ) {
 			case 'pages' :
-				@Boldgrid_Inspirations_Analysis::log_entry(
+				Boldgrid_Inspirations_Analysis::log_entry(
 					__METHOD__ . ': About to run deploy pages only.' );
 				$this->deploy_pages_only();
 				break;
 
 			case 'theme' :
-				@Boldgrid_Inspirations_Analysis::log_entry(
+				Boldgrid_Inspirations_Analysis::log_entry(
 					__METHOD__ . ': About to run deploy theme only.' );
 				$this->deploy_theme_only();
 				break;
 
 			default :
-				@Boldgrid_Inspirations_Analysis::log_entry(
+				Boldgrid_Inspirations_Analysis::log_entry(
 					__METHOD__ . ': About to run full deploy.' );
 				$this->full_deploy();
 				break;
 		}
 
-		@Boldgrid_Inspirations_Analysis::log_entry( __METHOD__ . ': Finished type deploy.' );
+		Boldgrid_Inspirations_Analysis::log_entry( __METHOD__ . ': Finished type deploy.' );
 
 		// If enabled, stop and report analysis.
-		@Boldgrid_Inspirations_Analysis::stop();
+		Boldgrid_Inspirations_Analysis::stop();
 
 		// Save report to the log.
-		@Boldgrid_Inspirations_Analysis::report( true );
+		Boldgrid_Inspirations_Analysis::report( true );
 	}
 
 	/**

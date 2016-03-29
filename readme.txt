@@ -26,6 +26,9 @@ The second phase is Customization; tools to transform your website into your vis
 
 == Changelog ==
 
+= 1.1.1 In progress =
+* Bug fix:						Fixed analysis include for preview server.
+
 = 1.1 =
 * New feature:	JIRA WPB-1751	Added analysis processing and optional logging capabilities.
 * Bug fix:		JIRA WPB-1781	Removed boldgrid_dismissed_admin_notices from Start Over cleanup.

@@ -111,6 +111,11 @@ class Boldgrid_Inspirations_Inspiration extends Boldgrid_Inspirations {
 	public function pre_add_hooks() {
 		// If not an Administrator or is the preview server, then do not load this section.
 		if ( ! current_user_can( 'manage_options' ) || $this->is_preview_server ) {
+			// Include Boldgrid_Inspirations_Analysis class.
+			if ( $this->is_preview_server ) {
+				require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-analysis.php';
+			}
+
 			return;
 		}
 
