@@ -51,10 +51,12 @@ class Boldgrid_Inspirations_Feedback {
 		) );
 
 		// Add an action to display admin notices.
-		add_action( 'admin_init', array (
-			$this,
-			'display_feedback_notice'
-		) );
+		if ( 'boldgrid-settings' != $_GET['page'] ) {
+			add_action( 'admin_init', array (
+				$this,
+				'display_feedback_notice'
+			) );
+		}
 
 		// Add an action to handle diagnostic data requests.
 		add_action( 'wp_ajax_boldgrid_feedback_diagnostic_data',

@@ -174,7 +174,6 @@ IMHWPB.BoldGridFeedback = function( $ ) {
 		    data : data,
 		    type : 'post',
 		    dataType : 'text',
-		    timeout : 10000,
 		    success : function( diagnosticData ) {
 			    // Set self.diagnosticData.
 			    self.diagnosticData = diagnosticData;
@@ -256,7 +255,6 @@ IMHWPB.BoldGridFeedback = function( $ ) {
 		        data : data,
 		        type : 'post',
 		        dataType : 'text',
-		        timeout : 10000,
 		        success : function( response ) {
 			        // Check response.
 			        if ( 'Success' == response ) {
@@ -266,7 +264,7 @@ IMHWPB.BoldGridFeedback = function( $ ) {
 				        // Replace the form with a success message.
 				        markup = "<h2>Thanks for the feedback</h2>\n"
 				            + "<p>The BoldGrid team wants you to know that we are listening and every bit of </p>\n"
-				            + "<p>feedback helps us improve out tool.</p>";
+				            + "<p>feedback helps us improve our tool.</p>";
 
 				        // Empty the notice area.
 				        $feedbackContent.empty();

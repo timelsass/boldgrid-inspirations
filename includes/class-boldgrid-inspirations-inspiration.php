@@ -278,12 +278,9 @@ class Boldgrid_Inspirations_Inspiration extends Boldgrid_Inspirations {
 					'check_asset_server_callback'
 				) );
 
-			// If allowed, then load the feedback class.
-			if ( false === parent::is_feedback_optout() ) {
-				// Include BoldGrid Inspirations Feedback:
-				require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-feedback.php';
-				$boldgrid_inspirations_feedback = new Boldgrid_Inspirations_Feedback();
-			}
+			// Include BoldGrid Inspirations Feedback:
+			require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-feedback.php';
+			$boldgrid_inspirations_feedback = new Boldgrid_Inspirations_Feedback();
 
 			// GridBlock Sets - Admin Page.
 			$gridblock_sets_admin = new Boldgrid_Inspirations_GridBlock_Sets_Admin( $this->configs );
