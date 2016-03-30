@@ -2996,21 +2996,19 @@ class Boldgrid_Inspirations_Deploy {
 	 */
 	public function full_deploy() {
 		// if we need to, fire up a new site.
-		Boldgrid_Inspirations_Analysis::log_entry( __METHOD__ . ': About to create new install.' );
+		Boldgrid_Inspirations_Analysis::log_entry( 'About to create new install.' );
 		$this->create_new_install();
-		Boldgrid_Inspirations_Analysis::log_entry( __METHOD__ . ': Finished create new install.' );
+		Boldgrid_Inspirations_Analysis::log_entry( 'Finished create new install.' );
 
 		// Updates the install Options.
-		Boldgrid_Inspirations_Analysis::log_entry(
-			__METHOD__ . ': About to update install options.' );
+		Boldgrid_Inspirations_Analysis::log_entry( 'About to update install options.' );
 		$this->update_install_options();
-		Boldgrid_Inspirations_Analysis::log_entry(
-			__METHOD__ . ': Finished update install options.' );
+		Boldgrid_Inspirations_Analysis::log_entry( 'Finished update install options.' );
 
 		// install the selected theme.
-		Boldgrid_Inspirations_Analysis::log_entry( __METHOD__ . ': About to deploy theme.' );
+		Boldgrid_Inspirations_Analysis::log_entry( 'About to deploy theme.' );
 		$deploy_theme_success = $this->deploy_theme();
-		Boldgrid_Inspirations_Analysis::log_entry( __METHOD__ . ': Finished deploy theme.' );
+		Boldgrid_Inspirations_Analysis::log_entry( 'Finished deploy theme.' );
 
 		// If theme deployemnt fails, then show a message to choose a different theme.
 		if ( ! $deploy_theme_success ) {
@@ -3033,9 +3031,9 @@ class Boldgrid_Inspirations_Deploy {
 		}
 
 		// import the selected page set.
-		Boldgrid_Inspirations_Analysis::log_entry( __METHOD__ . ': About to deploy page sets.' );
+		Boldgrid_Inspirations_Analysis::log_entry( 'About to deploy page sets.' );
 		$this->deploy_page_sets();
-		Boldgrid_Inspirations_Analysis::log_entry( __METHOD__ . ': Finished deploy page sets.' );
+		Boldgrid_Inspirations_Analysis::log_entry( 'Finished deploy page sets.' );
 
 		$boldgrid_inspiration_deploy_pages = new Boldgrid_Inspirations_Deploy_Pages(
 			array (
@@ -3043,10 +3041,10 @@ class Boldgrid_Inspirations_Deploy {
 			) );
 
 		// Create temp pages in order to force image creation.
-		Boldgrid_Inspirations_Analysis::log_entry( __METHOD__ . ': About to create temp pages.' );
+		Boldgrid_Inspirations_Analysis::log_entry( 'About to create temp pages.' );
 		$this->installed_page_ids = $boldgrid_inspiration_deploy_pages->deploy_temp_pages(
 			$this->full_page_list, $this->installed_page_ids );
-		Boldgrid_Inspirations_Analysis::log_entry( __METHOD__ . ': Finished creating temp pages.' );
+		Boldgrid_Inspirations_Analysis::log_entry( 'Finished creating temp pages.' );
 
 		// Download / setup the images required for each page/post.
 		//
@@ -3055,55 +3053,51 @@ class Boldgrid_Inspirations_Deploy {
 		//
 		// Option 2: Parallel.
 		Boldgrid_Inspirations_Analysis::log_entry(
-			__METHOD__ . ': About to deploy_page_sets_media_find_placeholders.' );
+			'About to deploy_page_sets_media_find_placeholders.' );
 		$this->deploy_page_sets_media_find_placeholders();
 		Boldgrid_Inspirations_Analysis::log_entry(
-			__METHOD__ . ': Finished deploy_page_sets_media_find_placeholders.' );
+			'Finished deploy_page_sets_media_find_placeholders.' );
 
 		Boldgrid_Inspirations_Analysis::log_entry(
-			__METHOD__ . ': About to deploy_page_sets_media_process_image_queue.' );
+			'About to deploy_page_sets_media_process_image_queue.' );
 		$this->deploy_page_sets_media_process_image_queue();
 		Boldgrid_Inspirations_Analysis::log_entry(
-			__METHOD__ . ': Finished deploy_page_sets_media_process_image_queue.' );
+			'Finished deploy_page_sets_media_process_image_queue.' );
 
 		Boldgrid_Inspirations_Analysis::log_entry(
-			__METHOD__ . ': About to deploy_page_sets_media_replace_placeholders.' );
+			'About to deploy_page_sets_media_replace_placeholders.' );
 		$this->deploy_page_sets_media_replace_placeholders();
 		Boldgrid_Inspirations_Analysis::log_entry(
-			__METHOD__ . ': Finished deploy_page_sets_media_replace_placeholders.' );
+			'Finished deploy_page_sets_media_replace_placeholders.' );
 
 		// Remove Temp pages that were created in order to force image creation.
-		Boldgrid_Inspirations_Analysis::log_entry( __METHOD__ . ': About to cleanup temp pages.' );
+		Boldgrid_Inspirations_Analysis::log_entry( 'About to cleanup temp pages.' );
 		$boldgrid_inspiration_deploy_pages->cleanup_temp_pages( $this->full_page_list,
 			$this->installed_page_ids );
 		$this->add_to_deploy_log( 'Created static page backups.' );
-		Boldgrid_Inspirations_Analysis::log_entry( __METHOD__ . ': Finished cleanup temp pages.' );
+		Boldgrid_Inspirations_Analysis::log_entry( 'Finished cleanup temp pages.' );
 
 		// download / setup the primary design elements.
-		Boldgrid_Inspirations_Analysis::log_entry( __METHOD__ . ': About to deploy_pde.' );
+		Boldgrid_Inspirations_Analysis::log_entry( 'About to deploy_pde.' );
 		$this->deploy_pde();
-		Boldgrid_Inspirations_Analysis::log_entry( __METHOD__ . ': Finished deploy_pde.' );
+		Boldgrid_Inspirations_Analysis::log_entry( 'Finished deploy_pde.' );
 
 		// create the attribution page.
-		Boldgrid_Inspirations_Analysis::log_entry(
-			__METHOD__ . ': About to build attribution page.' );
+		Boldgrid_Inspirations_Analysis::log_entry( 'About to build attribution page.' );
 		$this->build_attribution_page();
-		Boldgrid_Inspirations_Analysis::log_entry(
-			__METHOD__ . ': Finished build attribution page.' );
+		Boldgrid_Inspirations_Analysis::log_entry( 'Finished build attribution page.' );
 
 		if ( false == $this->is_preview_server ) {
 			// Install Site Wide Plugins.
-			Boldgrid_Inspirations_Analysis::log_entry(
-				__METHOD__ . ': About to install sitewide plugins.' );
+			Boldgrid_Inspirations_Analysis::log_entry( 'About to install sitewide plugins.' );
 			$this->install_sitewide_plugins();
-			Boldgrid_Inspirations_Analysis::log_entry(
-				__METHOD__ . ': Finished install sitewide plugins.' );
+			Boldgrid_Inspirations_Analysis::log_entry( 'Finished install sitewide plugins.' );
 		}
 
 		// do all final steps to finish deployment.
-		Boldgrid_Inspirations_Analysis::log_entry( __METHOD__ . ': About to finish deployment.' );
+		Boldgrid_Inspirations_Analysis::log_entry( 'About to finish deployment.' );
 		$this->finish_deployment();
-		Boldgrid_Inspirations_Analysis::log_entry( __METHOD__ . ': Finished deployement.' );
+		Boldgrid_Inspirations_Analysis::log_entry( 'Finished deployement.' );
 	}
 
 	/**
@@ -3276,39 +3270,34 @@ class Boldgrid_Inspirations_Deploy {
 		Boldgrid_Inspirations_Analysis::start();
 
 		// Get the theme id, category id, etc.
-		Boldgrid_Inspirations_Analysis::log_entry( __METHOD__ . ': About to get deploy details.' );
+		Boldgrid_Inspirations_Analysis::log_entry( 'About to get deploy details.' );
 		$this->get_deploy_details();
-		Boldgrid_Inspirations_Analysis::log_entry( __METHOD__ . ': Finished get deploy details.' );
+		Boldgrid_Inspirations_Analysis::log_entry( 'Finished get deploy details.' );
 
 		// Check permalink structure:
-		Boldgrid_Inspirations_Analysis::log_entry(
-			__METHOD__ . ': About to check permalink structure.' );
+		Boldgrid_Inspirations_Analysis::log_entry( 'About to check permalink structure.' );
 		$this->check_permalink_structure();
-		Boldgrid_Inspirations_Analysis::log_entry(
-			__METHOD__ . ': Finished check permalink structure.' );
+		Boldgrid_Inspirations_Analysis::log_entry( 'Finished check permalink structure.' );
 
 		// Run the specified deployment:
 		switch ( $this->deploy_type ) {
 			case 'pages' :
-				Boldgrid_Inspirations_Analysis::log_entry(
-					__METHOD__ . ': About to run deploy pages only.' );
+				Boldgrid_Inspirations_Analysis::log_entry( 'About to run deploy pages only.' );
 				$this->deploy_pages_only();
 				break;
 
 			case 'theme' :
-				Boldgrid_Inspirations_Analysis::log_entry(
-					__METHOD__ . ': About to run deploy theme only.' );
+				Boldgrid_Inspirations_Analysis::log_entry( 'About to run deploy theme only.' );
 				$this->deploy_theme_only();
 				break;
 
 			default :
-				Boldgrid_Inspirations_Analysis::log_entry(
-					__METHOD__ . ': About to run full deploy.' );
+				Boldgrid_Inspirations_Analysis::log_entry( 'About to run full deploy.' );
 				$this->full_deploy();
 				break;
 		}
 
-		Boldgrid_Inspirations_Analysis::log_entry( __METHOD__ . ': Finished type deploy.' );
+		Boldgrid_Inspirations_Analysis::log_entry( 'Finished type deploy.' );
 
 		// If enabled, stop and report analysis.
 		Boldgrid_Inspirations_Analysis::stop();

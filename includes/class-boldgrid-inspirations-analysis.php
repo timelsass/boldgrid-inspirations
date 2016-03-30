@@ -22,7 +22,7 @@ class Boldgrid_Inspirations_Analysis {
 	 *
 	 * @since 1.1
 	 * @access public
-	 * @static
+	 * @staticvar
 	 *
 	 * @var bool $enabled TRUE if analysis processing is enabled, FALSE if not enabled or unknown.
 	 */
@@ -33,7 +33,7 @@ class Boldgrid_Inspirations_Analysis {
 	 *
 	 * @since 1.1
 	 * @access public
-	 * @static
+	 * @staticvar
 	 *
 	 * @var float $start_time The analysis start time, in seconds, from microtime().
 	 */
@@ -44,7 +44,7 @@ class Boldgrid_Inspirations_Analysis {
 	 *
 	 * @since 1.1
 	 * @access public
-	 * @static
+	 * @staticvar
 	 *
 	 * @var float $end_time The analysis end time, in seconds, from microtime().
 	 */
@@ -55,7 +55,7 @@ class Boldgrid_Inspirations_Analysis {
 	 *
 	 * @since 1.1
 	 * @access public
-	 * @static
+	 * @staticvar
 	 *
 	 * @var array $log_entries {
 	 *      An array of log entry arrays.
@@ -68,6 +68,17 @@ class Boldgrid_Inspirations_Analysis {
 	 *      }
 	 */
 	public static $log_entries = array ();
+
+	/**
+	 * Log file path.
+	 *
+	 * @since 1.2
+	 * @access protected
+	 * @staticvar
+	 *
+	 * @var string
+	 */
+	protected static $log_file = 'boldgrid-inspirations-analysis.log';
 
 	/**
 	 * Start analysis and record the start time.
@@ -133,11 +144,48 @@ class Boldgrid_Inspirations_Analysis {
 			$note = null;
 		}
 
+		// Get backtrace data array, with no object.
+		$backtrace = debug_backtrace( false );
+
+		// Determine value for $function and $parent_function.
+		$function = '';
+		$parent_function = '';
+
+		if ( false === empty( $backtrace ) ) {
+			// Determine value for $function.
+			if ( false === empty( $backtrace[1]['class'] ) ) {
+				$function .= $backtrace[1]['class'];
+			}
+
+			if ( false === empty( $backtrace[1]['type'] ) ) {
+				$function .= $backtrace[1]['type'];
+			}
+
+			if ( false === empty( $backtrace[1]['function'] ) ) {
+				$function .= $backtrace[1]['function'];
+			}
+
+			// Determine value for $parent_function.
+			if ( false === empty( $backtrace[2]['class'] ) ) {
+				$parent_function .= $backtrace[2]['class'];
+			}
+
+			if ( false === empty( $backtrace[2]['type'] ) ) {
+				$parent_function .= $backtrace[2]['type'];
+			}
+
+			if ( false === empty( $backtrace[2]['function'] ) ) {
+				$parent_function .= $backtrace[2]['function'];
+			}
+		}
+
 		// Record time and memory usage in array.
 		self::$log_entries[] = array (
 			'time' => microtime( true ),
 			'memory' => memory_get_usage(),
-			'note' => $note
+			'note' => $note,
+			'function' => $function,
+			'parent_function' => $parent_function
 		);
 
 		return;
@@ -179,7 +227,7 @@ class Boldgrid_Inspirations_Analysis {
 	 * @static
 	 *
 	 * @param bool $write_log
-	 *        	If TRUE, then write the report to the log file.
+	 *        	If TRUE, then write the report to the log file. Default is FALSE.
 	 * @return string A string containing the completed analysis report.
 	 */
 	public static function report( $write_log = false ) {
@@ -206,25 +254,55 @@ class Boldgrid_Inspirations_Analysis {
 		$report .= 'Completed: ' . date( 'Y-m-d H:i:s', self::$end_time ) . PHP_EOL;
 
 		$report .= 'Duration: ' .
-			 number_format( ( self::$end_time - self::$start_time ), 2, '.', '' ) . ' seconds' .
+			 number_format( ( self::$end_time - self::$start_time ), 4, '.', '' ) . ' seconds' .
 			 PHP_EOL;
 
 		$report .= 'Log entry count: ' . count( self::$log_entries ) . PHP_EOL;
 
-		$report .= 'Log entries: (Unix Time | Memory in Bytes | Note):' . PHP_EOL;
+		$report .= 'Log entries: ' . PHP_EOL;
+
+		$report .= str_pad( 'Unix Time', 15 ) . ' | ' . str_pad( 'Duration', 6 ) . ' | ' .
+			 str_pad( 'Mem Bytes', 9 ) . ' | ' . str_pad( 'Parent Function', 50 ) . ' | ' .
+			 str_pad( 'Current Function', 50 ) . ' | Note' . PHP_EOL;
+
+		// Initialize $index for identifying the previous log entry.
+		$index = 0;
 
 		foreach ( self::$log_entries as $log_entry ) {
-			$report .= $log_entry['time'] . ' | ' . $log_entry['memory'] . ' | ' . $log_entry['note'] .
-				 PHP_EOL;
+			// Determine duration since last log line, of not the first line.
+			if ( 0 !== $index ) {
+				$duration = number_format(
+					( $log_entry['time'] - self::$log_entries[$index - 1]['time'] ), 4, '.', '' );
+			} else {
+				$duration = 'N/A';
+			}
+
+			// Get the parent function.
+			$parent_function = empty( $log_entry['parent_function'] ) ? 'N/A' : $log_entry['parent_function'];
+
+			// Get the current function.
+			$current_function = empty( $log_entry['function'] ) ? 'N/A' : $log_entry['function'];
+
+			// Add the log entry line.
+			$report .= str_pad( $log_entry['time'], 15 ) . ' | ' .
+				 str_pad( $duration, 8, ' ', STR_PAD_LEFT ) . ' | ' .
+				 str_pad( $log_entry['memory'], 9, ' ', STR_PAD_LEFT ) . ' | ' .
+				 str_pad( $parent_function, 50 ) . ' | ' . str_pad( $current_function, 50 ) . ' | ' .
+				 $log_entry['note'] . PHP_EOL;
+
+			// Increment $index.
+			$index ++;
 		}
+
+		// Add a line break and the end of the report.
+		$report .= PHP_EOL;
 
 		// If requested, write to the log file.
 		if ( true === $write_log ) {
-			$log_file = ABSPATH . 'boldgrid-inspirations-analysis.log';
+			$log_file_path = ABSPATH . self::$log_file;
+			file_put_contents( $log_file_path, $report, FILE_APPEND );
 
-			file_put_contents( $log_file, $report, FILE_APPEND );
-
-			chmod( $log_file, 0600 );
+			chmod( $log_file_path, 0600 );
 		}
 
 		// Return the report.
