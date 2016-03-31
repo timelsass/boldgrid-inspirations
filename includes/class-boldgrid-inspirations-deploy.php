@@ -343,12 +343,18 @@ class Boldgrid_Inspirations_Deploy {
 	}
 
 	/**
+	 * Grab installation details from the asset server.
+	 *
+	 * This method is intended to retrieve options in bulk instead of retrieving install data
+	 * 1 call at a time.
+	 *
+	 * @since 1.1.2
 	 *
 	 * @return array Array of pages.
 	 */
 	public function remote_install_options() {
 
-		$this->change_deploy_status( 'Updating Install Options...' );
+		$this->change_deploy_status( 'Updating Remote Install Options...' );
 
 		// Get configs.
 		$boldgrid_install_options = get_option( 'boldgrid_install_options' );
@@ -376,7 +382,7 @@ class Boldgrid_Inspirations_Deploy {
 		$boldgrid_install_options = array_merge( $boldgrid_install_options, $remote_options );
 		update_option( 'boldgrid_install_options', $boldgrid_install_options );
 
-		$this->add_to_deploy_log( 'Updated Install Options.' );
+		$this->add_to_deploy_log( 'Finished Updating Remote Install Options.' );
 	}
 
 	/**
