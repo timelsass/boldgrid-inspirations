@@ -296,10 +296,7 @@ class Boldgrid_Inspirations_Theme_Install {
 	/**
 	 * Overrides configs made to a theme.
 	 *
-	 * Override specific configs in a theme, so the previews can be dynamically
-	 * generated. We add the CSS via inline in the head here, instead of waiting
-	 * for the new CSS to be generated and compiled from SCSS on theme activation.
-	 * This is useful for the color palettes being able to be unique in categories.
+	 * Removes footer widget.
 	 *
 	 * @since 1.0.9
 	 *
@@ -310,18 +307,29 @@ class Boldgrid_Inspirations_Theme_Install {
 			'boldgrid_theme_framework_config',
 			function ( $boldgrid_theme_configs ) {
 				$boldgrid_install_options = get_option( 'boldgrid_install_options' );
-				if ( isset( $boldgrid_install_options['page_set_id'] ) ) {
-					$default_pagesets = array( 7,8,11,15,16,17,18 );
-					$page_set_id = $boldgrid_install_options['page_set_id'];
 
-					if ( in_array( $page_set_id, $default_pagesets, true ) ) {
-						$widget_instances = $boldgrid_theme_configs['widget']['widget_instances'];
-						$company_details_widget = $widget_instances['boldgrid-widget-3'];
-						$index = array_values( $company_details_widget );
-						$boldgrid_theme_configs['widget']['widget_instances']['footer-company-details'] = $index[0];
-						unset( $boldgrid_theme_configs['widget']['widget_instances']['boldgrid-widget-3'] );
-					}
+				$is_base_pageset = false;
+				if ( isset( $boldgrid_install_options['is_base_pageset'] ) ) {
+					// If base pageset bool is passed use it to determine if address widgets.
+					$is_base_pageset = (bool) $boldgrid_install_options['is_base_pageset'];
+				} else if ( ! empty( $boldgrid_install_options['page_set_id'] ) ){
+					/*
+					 * Backwards compatibility: pre 1.1.2 inspirations install.
+					 * Lookup ids if setting is not passed.
+					 */
+					$default_pagesets = array( 7, 8, 11, 15, 16, 17, 18 );
+					$page_set_id = $boldgrid_install_options['page_set_id'];
+					$is_base_pageset = in_array( $page_set_id, $default_pagesets );
 				}
+
+				if ( $is_base_pageset ) {
+					$widget_instances = $boldgrid_theme_configs['widget']['widget_instances'];
+					$company_details_widget = $widget_instances['boldgrid-widget-3'];
+					$index = array_values( $company_details_widget );
+					$boldgrid_theme_configs['widget']['widget_instances']['footer-company-details'] = $index[0];
+					unset( $boldgrid_theme_configs['widget']['widget_instances']['boldgrid-widget-3'] );
+				}
+
 				return $boldgrid_theme_configs;
 			},
 			10

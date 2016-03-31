@@ -343,6 +343,43 @@ class Boldgrid_Inspirations_Deploy {
 	}
 
 	/**
+	 *
+	 * @return array Array of pages.
+	 */
+	public function remote_install_options() {
+
+		$this->change_deploy_status( 'Updating Install Options...' );
+
+		// Get configs.
+		$boldgrid_install_options = get_option( 'boldgrid_install_options' );
+		$boldgrid_configs = $this->get_configs();
+
+		// Reach out to the asset server to get a collection of install options.
+		$get_install_details = $boldgrid_configs['asset_server'] .
+			$boldgrid_configs['ajax_calls']['get_install_details'];
+
+		$arguments = array (
+			'method' => 'POST',
+			'body' => array (
+				'subcategory_id' => $boldgrid_install_options['subcategory_id'],
+				'page_set_id' =>  $boldgrid_install_options['page_set_id'],
+				'key' => ! empty( $this->api_key_hash ) ? $this->api_key_hash : null,
+			),
+			'timeout' => 20
+		);
+
+		$response = wp_remote_retrieve_body( wp_remote_post( $get_install_details, $arguments ) );
+		$response = json_decode( $response ?: '', true );
+		$remote_options = ! empty( $response['result']['data'] ) ? $response['result']['data'] : array();
+
+		// Update the boldgird_ install options array.
+		$boldgrid_install_options = array_merge( $boldgrid_install_options, $remote_options );
+		update_option( 'boldgrid_install_options', $boldgrid_install_options );
+
+		$this->add_to_deploy_log( 'Updated Install Options.' );
+	}
+
+	/**
 	 * Get pages from POST request and return them in an array.
 	 *
 	 * @return array Array of pages.
@@ -3007,6 +3044,13 @@ class Boldgrid_Inspirations_Deploy {
 
 		// install the selected theme.
 		Boldgrid_Inspirations_Analysis::log_entry( 'About to deploy theme.' );
+		/*
+		 * Pass the requested install options to the asset server and return install
+		 * options that will be stored in the users WP.
+		 */
+		$this->remote_install_options();
+
+		// install the selected theme
 		$deploy_theme_success = $this->deploy_theme();
 		Boldgrid_Inspirations_Analysis::log_entry( 'Finished deploy theme.' );
 
