@@ -29,6 +29,7 @@ The second phase is Customization; tools to transform your website into your vis
 = 1.1.2 In progress =
 * Rework:		JIRA WPB-1751	Reworked analysis processing.
 * Update:		JIRA WPB-1658	Storing more reliable install data through inspirations.
+* Bug fix:		JIRA WPB-1787	When not using BoldGrid menu, cart does not dynamically update total page price.
 
 = 1.1.1 =
 * Bug fix:						Fixed analysis include for preview server.

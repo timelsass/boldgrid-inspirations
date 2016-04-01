@@ -405,7 +405,8 @@ class Boldgrid_Inspirations_Inspiration extends Boldgrid_Inspirations {
 			'toplevel_page_boldgrid-inspirations',
 			'transactions_page_boldgrid-cart',
 			'settings_page_boldgrid-settings',
-			'appearance_page_boldgrid-staging'
+			'appearance_page_boldgrid-staging',
+			'boldgrid_page_boldgrid-cart',
 		);
 
 		if ( in_array( $hook, $hooks_to_load_grid ) ) {

@@ -96,10 +96,12 @@ class Boldgrid_Inspirations_Purchase_For_Publish extends Boldgrid_Inspirations {
 
 		wp_enqueue_style( 'purchase_for_publish' );
 
-		/**
-		 * Page: boldgrid-cart
-		 */
-		if ( 'transactions_page_boldgrid-cart' == $hook ) {
+		// Cart.
+		$cart_hooks = array(
+			'boldgrid_page_boldgrid-cart',
+			'transactions_page_boldgrid-cart',
+		);
+		if ( in_array( $hook, $cart_hooks ) ) {
 			wp_register_style( 'boldgrid-cart',
 				plugins_url( '/' . basename( BOLDGRID_BASE_DIR ) . '/assets/css/boldgrid-cart.css' ),
 				array(), BOLDGRID_INSPIRATIONS_VERSION );
