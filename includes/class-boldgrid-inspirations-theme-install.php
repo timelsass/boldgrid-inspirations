@@ -312,7 +312,7 @@ class Boldgrid_Inspirations_Theme_Install {
 				if ( isset( $boldgrid_install_options['is_base_pageset'] ) ) {
 					// If base pageset bool is passed use it to determine if address widgets.
 					$is_base_pageset = (bool) $boldgrid_install_options['is_base_pageset'];
-				} else if ( ! empty( $boldgrid_install_options['page_set_id'] ) ){
+				} else if ( ! empty( $boldgrid_install_options['page_set_id'] ) ) {
 					/*
 					 * Backwards compatibility: pre 1.1.2 inspirations install.
 					 * Lookup ids if setting is not passed.

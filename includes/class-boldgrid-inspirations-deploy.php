@@ -364,14 +364,14 @@ class Boldgrid_Inspirations_Deploy {
 		$get_install_details = $boldgrid_configs['asset_server'] .
 			$boldgrid_configs['ajax_calls']['get_install_details'];
 
-		$arguments = array (
+		$arguments = array(
 			'method' => 'POST',
-			'body' => array (
+			'body' => array(
 				'subcategory_id' => $boldgrid_install_options['subcategory_id'],
-				'page_set_id' =>  $boldgrid_install_options['page_set_id'],
+				'page_set_id' => $boldgrid_install_options['page_set_id'],
 				'key' => ! empty( $this->api_key_hash ) ? $this->api_key_hash : null,
 			),
-			'timeout' => 20
+			'timeout' => 20,
 		);
 
 		$response = wp_remote_retrieve_body( wp_remote_post( $get_install_details, $arguments ) );
@@ -3050,13 +3050,14 @@ class Boldgrid_Inspirations_Deploy {
 
 		// install the selected theme.
 		Boldgrid_Inspirations_Analysis::log_entry( 'About to deploy theme.' );
+
 		/*
 		 * Pass the requested install options to the asset server and return install
 		 * options that will be stored in the users WP.
 		 */
 		$this->remote_install_options();
 
-		// install the selected theme
+		// Install the selected theme.
 		$deploy_theme_success = $this->deploy_theme();
 		Boldgrid_Inspirations_Analysis::log_entry( 'Finished deploy theme.' );
 
