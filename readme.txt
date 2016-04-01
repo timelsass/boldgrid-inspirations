@@ -31,6 +31,7 @@ The second phase is Customization; tools to transform your website into your vis
 * Update:		JIRA WPB-1658	Storing more reliable install data through inspirations.
 * Bug fix:		JIRA WPB-1787	When not using BoldGrid menu, cart does not dynamically update total page price.
 * Update:		JIRA WPB-1754	Remove attribution page from search results.
+* Bug fix:		JIRA WPB-asdf	webkit css missing from 'new from gridblocks'.
 
 = 1.1.1 =
 * Bug fix:						Fixed analysis include for preview server.

@@ -16,12 +16,16 @@
 	height: calc(1400px * 0.285);
 	float: none;
 	position: relative;
+	overflow: hidden;
 }
 
 .gridblock-set.theme .preview iframe {
 	width: 350.5%;
-	height: 1400px;
+	-ms-transform: scale(0.285);
+    -webkit-transform: scale(0.285);
 	transform: scale(0.285);
+	-ms-transform-origin: 0 0;
+	-webkit-transform-origin: 0 0;
 	transform-origin: 0 0;
 	height: 1400px;
 	background: #fff;
