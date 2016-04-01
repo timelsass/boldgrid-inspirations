@@ -110,7 +110,7 @@ class Boldgrid_Inspirations_Inspiration extends Boldgrid_Inspirations {
 	 */
 	public function pre_add_hooks() {
 		// Add hooks for users on the front end that are not logged in.
-		if( ! is_user_logged_in() && ! is_admin() ) {
+		if ( ! is_user_logged_in() && ! is_admin() ) {
 			$this->add_wp_hooks();
 		}
 

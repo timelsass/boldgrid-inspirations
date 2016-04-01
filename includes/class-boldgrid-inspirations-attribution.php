@@ -272,7 +272,7 @@ class Boldgrid_Inspirations_Attribution extends Boldgrid_Inspirations {
 	 * @link https://support.google.com/webmasters/answer/93710?hl=en
 	 */
 	public function noindex() {
-		if( $this->current_page_is_attribution_page() ) {
+		if ( $this->current_page_is_attribution_page() ) {
 			echo "\n<meta name='robots' content='noindex'>\n";
 		}
 	}
