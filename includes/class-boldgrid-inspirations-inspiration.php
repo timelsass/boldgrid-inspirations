@@ -303,6 +303,7 @@ class Boldgrid_Inspirations_Inspiration extends Boldgrid_Inspirations {
 		 */
 
 		// Attribution:
+		require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-attribution.php';
 		$attribution = new Boldgrid_Inspirations_Attribution();
 		$attribution->add_hooks();
 
@@ -491,7 +492,6 @@ class Boldgrid_Inspirations_Inspiration extends Boldgrid_Inspirations {
 		require_once BOLDGRID_BASE_DIR .
 			 '/includes/class-boldgrid-inspirations-gridblock-sets-admin.php';
 		require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-analysis.php';
-		require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-attribution.php';
 	}
 
 	/**
