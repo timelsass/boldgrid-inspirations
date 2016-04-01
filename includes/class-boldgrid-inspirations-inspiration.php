@@ -109,8 +109,14 @@ class Boldgrid_Inspirations_Inspiration extends Boldgrid_Inspirations {
 	 * Pre-add hooks
 	 */
 	public function pre_add_hooks() {
+		// Add hooks for users on the front end that are not logged in.
+		if( ! is_user_logged_in() && ! is_admin() ) {
+			$this->add_wp_hooks();
+		}
+
 		// If not an Administrator or is the preview server, then do not load this section.
 		if ( ! current_user_can( 'manage_options' ) || $this->is_preview_server ) {
+
 			// Include Boldgrid_Inspirations_Analysis class.
 			if ( $this->is_preview_server ) {
 				require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-analysis.php';
@@ -297,7 +303,6 @@ class Boldgrid_Inspirations_Inspiration extends Boldgrid_Inspirations {
 		 */
 
 		// Attribution:
-		require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-attribution.php';
 		$attribution = new Boldgrid_Inspirations_Attribution();
 		$attribution->add_hooks();
 
@@ -311,6 +316,21 @@ class Boldgrid_Inspirations_Inspiration extends Boldgrid_Inspirations {
 			 '/includes/class-boldgrid-inspirations-gridblock-sets-preview-page.php';
 		$gridblock_sets_preview_page = new Boldgrid_Inspirations_GridBlock_Sets_Preview_Page();
 		$gridblock_sets_preview_page->add_hooks();
+	}
+
+	/**
+	 * Add front end hooks.
+	 *
+	 * These hooks are triggered for users to the front end of the site that
+	 * are not logged in, i.e. standard website visitors.
+	 *
+	 * @since 1.1.2
+	 */
+	public function add_wp_hooks() {
+		$this->include_wp_files();
+
+		$attribution = new Boldgrid_Inspirations_Attribution();
+		$attribution->add_wp_hooks();
 	}
 
 	/**
@@ -471,6 +491,16 @@ class Boldgrid_Inspirations_Inspiration extends Boldgrid_Inspirations {
 		require_once BOLDGRID_BASE_DIR .
 			 '/includes/class-boldgrid-inspirations-gridblock-sets-admin.php';
 		require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-analysis.php';
+		require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-attribution.php';
+	}
+
+	/**
+	 * Include front end files.
+	 *
+	 * @since 1.1.2
+	 */
+	public function include_wp_files() {
+		require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-attribution.php';
 	}
 
 	/**
