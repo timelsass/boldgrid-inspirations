@@ -20,6 +20,42 @@ if ( ! defined( 'WPINC' ) ) {
  * BoldGrid Asset Manager class
  */
 class Boldgrid_Inspirations_Asset_Manager extends Boldgrid_Inspirations {
+	/**
+	 * Enable asset cache.
+	 *
+	 * This class property is a boolean switch to enable the asset file cache.
+	 *
+	 * @since 0.31
+	 * @access private
+	 *
+	 * @var bool
+	 */
+	private $enable_asset_cache = false;
+
+	/**
+	 * Cache folder path.
+	 *
+	 * @since 0.31
+	 * @access private
+	 *
+	 * @var string|null
+	 */
+	private $cache_folder = null;
+
+	/**
+	 * Is cache enabled.
+	 *
+	 * @return bool
+	 */
+	public function is_cache_enabled() {
+		return $this->enable_asset_cache;
+	}
+
+	/**
+	 * Constructor.
+	 *
+	 * @since 0.3
+	 */
 	public function __construct() {
 		parent::__construct();
 
@@ -31,11 +67,20 @@ class Boldgrid_Inspirations_Asset_Manager extends Boldgrid_Inspirations {
 	}
 
 	/**
+	 * Add hooks.
+	 *
+	 * @since 0.3
+	 *
+	 * @link https://developer.wordpress.org/reference/functions/is_admin/
+	 *
+	 * @return null
 	 */
 	public function add_hooks() {
 		if ( is_admin() ) {
-			// When inserting a gridblock, download and attach the assets used within. Then replace
-			// the empty 'url' with the url of the asset.
+			/*
+			 * When inserting a gridblock, download and attach the assets used within. Then replace
+			 * the empty 'url' with the url of the asset.
+			 */
 			add_filter( 'boldgrid_insert_attribute_assets',
 				array (
 					$this,
@@ -358,41 +403,229 @@ class Boldgrid_Inspirations_Asset_Manager extends Boldgrid_Inspirations {
 	}
 
 	/**
-	 * Configure asset file cache
+	 * Configure asset file cache.
+	 *
+	 * @return null
 	 */
 	public function configure_asset_cache() {
-		// Disable cache.
-		$this->enable_asset_cache = false;
-		return;
+		// Asset cache is only for preview servers.
+		if ( true !== $this->is_preview_server ) {
+			$this->enable_asset_cache = false;
 
-		// Asset cache is for preview servers
-		if ( true == $this->is_preview_server ) {
-			// Get the account home directory:
-
-			// Locate the home directory by environment variable:
-			$home_dir = realpath( getenv( 'HOME' ) );
-
-			// If we still do not have the home directory, then try other methods:
-			if ( empty( $home_dir ) ) {
-				// Locate the home directory by assumption:
-				$home_dir = dirname( ABSPATH );
-			}
-
-			// Trim any trailing slash (or backslash in Windows):
-			$home_dir = rtrim( $home_dir, '/' );
-
-			// configure our cache folder
-			$this->cache_folder = $home_dir . '/boldgrid-asset-cache';
-
-			// create the cache folder if this is the preview server and it doesn't exist.
-			if ( false == file_exists( $this->cache_folder ) ) {
-				mkdir( $this->cache_folder, 0700 );
-			}
+			return;
 		}
 
-		// only enable cache if the folder exists
-		$this->enable_asset_cache = isset( $this->cache_folder ) &&
-			 file_exists( $this->cache_folder );
+		// Locate the home directory by environment variable or use parent of ABSPATH.
+		$home_dir = false === empty( getenv( 'HOME' ) ) ? getenv( 'HOME' ) : dirname( ABSPATH );
+
+		// Trim any trailing slash (or backslash in Windows).
+		$home_dir = rtrim( $home_dir, DIRECTORY_SEPARATOR );
+
+		// If the home directory is not defined, not a directory or not writable, then disable cache.
+		if ( empty( $home_dir ) || false === is_dir( $home_dir ) ||
+			 false === is_writable( $home_dir ) ) {
+			$this->enable_asset_cache = false;
+
+			return;
+		}
+
+		// Set the cache directory path.
+		$this->cache_folder = $home_dir . '/boldgrid-asset-cache';
+
+		// Create the cache directory if it does not exist.
+		if ( false === file_exists( $this->cache_folder ) ) {
+			mkdir( $this->cache_folder, 0700 );
+		}
+
+		// Enable cache only if the cache folder is defined, is a directory, and is writable.
+		$this->enable_asset_cache = ( false === empty( $this->cache_folder ) &&
+			 is_dir( $this->cache_folder ) && is_writable( $this->cache_folder ) );
+	}
+
+	/**
+	 * Get shard directory.
+	 *
+	 * Returns a shard cache directory based on the first two characters of the cache id.
+	 *
+	 * @since 1.2
+	 *
+	 * @param string $cache_id
+	 *        	Cache id string.
+	 * @return string|bool Cache Directory path, or FALSE on failure.
+	 */
+	public function get_shard_directory( $cache_id ) {
+		// Validate parent cache directory.
+		if ( empty( $this->cache_folder ) || false === is_dir( $this->cache_folder ) ||
+			 false === is_writable( $this->cache_folder ) ) {
+			return false;
+		}
+
+		// Validate the cache id.
+		if ( empty( $cache_id ) || strlen( $cache_id ) < 2 ) {
+			return false;
+		}
+
+		// Get the shard directory name.
+		$shard_name = substr( $cache_id, 0, 2 );
+
+		// Set the shard directory path.
+		$shard_directory_path = $this->cache_folder . '/' . $shard_name;
+
+		// Ensure the directory exists.
+		if ( false === is_dir( $shard_directory_path ) ) {
+			mkdir( $shard_directory_path, 0700 );
+		}
+
+		// Validate shard cache directory.
+		if ( false === is_dir( $shard_directory_path ) ||
+			 false === is_writable( $shard_directory_path ) ) {
+			return false;
+		}
+
+		return $shard_directory_path;
+	}
+
+	/**
+	 * Get cache files by cache id.
+	 *
+	 * @param string $cache_id
+	 *        	A cache id string.
+	 * @return array|bool The file headers and body, in an array, or FALSE on error or not in cache.
+	 */
+	public function get_cache_files( $cache_id ) {
+		// If caching is not enabled, abort.
+		if ( true !== $this->enable_asset_cache ) {
+			return false;
+		}
+
+		// Try to get the $response from cache.
+		if ( false === empty( $cache_id ) ) {
+			// Get the shard cache directory.
+			$cache_directory = $this->get_shard_directory( $cache_id );
+
+			// Get the cache header and body file paths.
+			$cache_header_path = $cache_directory . '/' . $cache_id . '.txt';
+			$cache_body_path = $cache_directory . '/' . $cache_id . '.dat';
+
+			// Check if the shard cache directories exist.
+			$header_file_exists = file_exists( $cache_header_path );
+			$body_file_exists = file_exists( $cache_body_path );
+		}
+
+		if ( $header_file_exists && $body_file_exists ) {
+			// Use cache.
+
+			// Read the header and body files into $response array.
+			$response['headers'] = file_get_contents( $cache_header_path );
+			$response['body'] = file_get_contents( $cache_body_path );
+
+			// JSON decode the response headers.
+			$response['headers'] = json_decode( $response['headers'], true );
+
+			// If the cache file is invalid, then delete it and log.
+			if ( empty( $response['headers'] ) || empty( $response['body'] ) ) {
+				unlink( $cache_header_path );
+				unlink( $cache_body_path );
+
+				// LOG.
+				error_log(
+					__METHOD__ . ': Notice: Cache file was deleted; data was invalid.  ' . print_r(
+						array (
+							'$cache_id' => $cache_id,
+							'$cache_header_path' => $cache_header_path,
+							'$cache_body_path' => $cache_body_path
+						), true ) );
+
+				return false;
+			}
+
+			// Return the cached response.
+			return $response;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Save cache files.
+	 *
+	 * @param string $cache_id
+	 *        	A cache id.
+	 * @param array $response
+	 *        	An array containing the download file headers and body.
+	 *
+	 * @return bool Success of the cache file saves.
+	 */
+	public function save_cache_files( $cache_id, $response ) {
+		// If cache is not enabled, abort.
+		if ( true !== $this->enable_asset_cache ) {
+			return false;
+		}
+
+		// Validate input.
+		if ( empty( $cache_id ) || empty( $response['headers'] ) || empty( $response['body'] ) ) {
+			return false;
+		}
+
+		// Save the cache file.
+		// Get the shard cache directory.
+		$cache_directory = $this->get_shard_directory( $cache_id );
+
+		// Validate cache directory.
+		if ( empty( $cache_directory ) || false === is_writable( $cache_directory ) ) {
+			error_log(
+				__METHOD__ . ': Error: Cache directory "' . $cache_directory . '" is not writable.' );
+
+			return false;
+		}
+
+		// Set the cache header and body file paths.
+		$cache_header_path = $cache_directory . '/' . $cache_id . '.txt';
+		$cache_body_path = $cache_directory . '/' . $cache_id . '.dat';
+
+		// If the cache files already exist, abort.
+		if ( file_exists( $cache_header_path ) && file_exists( $cache_body_path ) ) {
+			return false;
+		}
+
+		// Remove some headers.
+		unset( $response['headers']['expires'] );
+		unset( $response['headers']['set-cookie'] );
+
+		// JSON encode the response headers.
+		$response_headers = json_encode( $response['headers'] );
+
+		// Save response header to a cache file.
+		$cache_header_written = file_put_contents( $cache_header_path, $response_headers );
+
+		unset( $response_headers );
+
+		// Check for write failure.
+		if ( false === $cache_header_written ) {
+			$asset_id = $response['headers']['z-asset-id'] ? $response['headers']['z-asset-id'] : 'UNKNOWN';
+
+			error_log(
+				__METHOD__ . ': Notice: Error writing cache header file "' . $cache_header_path .
+					 '" for asset id "' . $asset_id . '".' );
+
+			return false;
+		}
+
+		// Save the response body to a cache file.
+		$cache_body_written = file_put_contents( $cache_body_path, $response['body'] );
+
+		// Check for write failure.
+		if ( false === $cache_body_written ) {
+			$asset_id = $response['headers']['z-asset-id'] ? $response['headers']['z-asset-id'] : 'UNKNOWN';
+
+			error_log(
+				__METHOD__ . ': Notice: Error writing cache body file "' . $cache_body_path .
+					 '" for asset id "' . $asset_id . '".' );
+
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
@@ -442,42 +675,31 @@ class Boldgrid_Inspirations_Asset_Manager extends Boldgrid_Inspirations {
 		 */
 		// Set the PHP timeout limit to at least 120 seconds:
 		set_time_limit(
-			( ( $max_execution_time = ini_get( 'max_execution_time' ) ) >= 120 ? $max_execution_time : 120 ) );
+			( ( $max_execution_time = ini_get( 'max_execution_time' ) ) > 120 ? $max_execution_time : 120 ) );
+
+		// Initialize $image_from_cache.
+		$image_from_cache = false;
 
 		// If caching is enabled, try to get the $response from cache.
-		if ( isset( $info['cache_id'] ) && ! empty( $info['cache_id'] ) &&
-			 file_exists( $this->cache_folder . '/' . $info['cache_id'] . '.txt' ) ) {
-			$cache_file_path = realpath( $this->cache_folder . '/' . $info['cache_id'] . '.txt' );
+		if ( false === empty( $info['cache_id'] ) ) {
+			$response = $this->get_cache_files( $info['cache_id'] );
+		}
 
-			$cache_file_contents = file_get_contents( $cache_file_path );
+		// Check cache response.
+		if ( false === empty( $response ) ) {
+			// Using cache.
+			$image_from_cache = true;
+		}
 
-			$response = json_decode( $cache_file_contents, true );
+		// If caching is not being used, then download the file.
+		if ( true !== $image_from_cache ) {
+			// Not using cache.
 
-			// If the cache file is invalid, then delete it and log:
-			if ( null === $response ) {
-				unlink( $cache_file_path );
-
-				// LOG:
-				error_log(
-					__METHOD__ . ': Error: Cache file was deleted; data was invalid.  ' . print_r(
-						array (
-							'$asset_id' => $asset_id,
-							'$info' => $info,
-							'$cache_file_path' => $cache_file_path
-						), true ) );
-
-				return false;
-			} else {
-				$response['body'] = base64_decode( $response['body'] );
-
-				$image_from_cache = true;
-			}
-		} else {
-			// We're not using cache...
+			// File is not in cache, so download it.
 			$successful_download = false;
 			$download_timeouts = 0;
 
-			// Attempt to retrieve an image, retry if needed:
+			// Attempt to retrieve an image, retry if needed.
 			// If purchasing an image, then the following successful call will deduct coins.
 
 			while ( false === $successful_download && $download_timeouts < 3 ) {
@@ -495,13 +717,13 @@ class Boldgrid_Inspirations_Asset_Manager extends Boldgrid_Inspirations {
 						break;
 				}
 
-				// if this is a timeout...
+				// If this is a timeout.
 				if ( $response instanceof WP_Error && isset(
 					$response->errors['http_request_failed'][0] ) && substr_count(
 					$response->errors['http_request_failed'][0], 'Operation timed out' ) > 0 ) {
 					$download_timeouts ++;
 
-					// LOG:
+					// LOG.
 					error_log(
 						__METHOD__ . ': Error: Timeout downloading asset.  ' . print_r(
 							array (
@@ -517,8 +739,6 @@ class Boldgrid_Inspirations_Asset_Manager extends Boldgrid_Inspirations {
 			if ( false === $successful_download ) {
 				return false;
 			}
-
-			$image_from_cache = false;
 		}
 
 		/*
@@ -527,13 +747,12 @@ class Boldgrid_Inspirations_Asset_Manager extends Boldgrid_Inspirations {
 		 * - z-filename header.
 		 * - z-asset-id
 		 * - z-asset-type
-		 * We have an instance of WP_Error
-		 * We downloaded 0 bytes
+		 * We have an instance of WP_Error.
+		 * We downloaded 0 bytes.
 		 */
 		if ( $response instanceof WP_Error || ! isset( $response['headers']['z-filename'] ) ||
 			 ! isset( $response['headers']['z-asset-id'] ) ||
 			 ! isset( $response['headers']['z-asset-type'] ) || ! strlen( $response['body'] ) ) {
-			// LOG:
 			error_log(
 				__METHOD__ . ': Error: Error validating image.  ' . print_r(
 					array (
@@ -545,22 +764,11 @@ class Boldgrid_Inspirations_Asset_Manager extends Boldgrid_Inspirations {
 			return false;
 		}
 
-		// If caching is enabled, then save the cache file:
-		if ( true == $this->enable_asset_cache && false == $image_from_cache &&
-			 ! empty( $info['cache_id'] ) ) {
-			$cache_file_path = $this->cache_folder . '/' . $info['cache_id'] . '.txt';
-
-			// save the $response to cache
-			$myfile = fopen( $cache_file_path, 'w' ) || die( 'Unable to open file!' );
-
-			$tmp_response = $response;
-			$tmp_response['body'] = base64_encode( $response['body'] );
-			$json_encoded_response = json_encode( $tmp_response );
-
-			fwrite( $myfile, $json_encoded_response );
-			fclose( $myfile );
-
-			unset( $tmp_response );
+		// Save cache files, if enabled.
+		if ( true === $this->enable_asset_cache && true !== $image_from_cache &&
+			 false === empty( $info['cache_id'] ) ) {
+			// Save cache files.
+			$this->save_cache_files( $info['cache_id'], $response );
 		}
 
 		// Generate some variables for later use:
@@ -885,13 +1093,14 @@ class Boldgrid_Inspirations_Asset_Manager extends Boldgrid_Inspirations {
 	 * @return array
 	 */
 	public function get_asset_server_item_download_info( $item, $transaction_id = null ) {
-		// Get configs:
+		// Get configs.
 		$boldgrid_configs = $this->get_configs();
 
+		// Build return array.
 		switch ( gettype( $item ) ) {
 			case 'array' :
 				switch ( $item['type'] ) {
-					/**
+					/*
 					 * ********************************************************
 					 * Built photo search
 					 * ********************************************************
@@ -962,7 +1171,7 @@ class Boldgrid_Inspirations_Asset_Manager extends Boldgrid_Inspirations {
 
 						break;
 
-					/**
+					/*
 					 * ********************************************************
 					 * Stock Photography
 					 * ********************************************************
@@ -989,7 +1198,7 @@ class Boldgrid_Inspirations_Asset_Manager extends Boldgrid_Inspirations {
 				}
 				break;
 
-			/**
+			/*
 			 * ****************************************************************
 			 * if $item is a number, then assume it's an asset id
 			 * ****************************************************************
@@ -1008,8 +1217,8 @@ class Boldgrid_Inspirations_Asset_Manager extends Boldgrid_Inspirations {
 				break;
 		}
 
-		// set the cache_id
-		if ( true == $this->enable_asset_cache ) {
+		// Set the cache_id.
+		if ( true === $this->enable_asset_cache ) {
 			$return['cache_id'] = $this->set_cache_id( $return );
 		}
 
@@ -1093,37 +1302,86 @@ class Boldgrid_Inspirations_Asset_Manager extends Boldgrid_Inspirations {
 	}
 
 	/**
-	 * create unique cache id
+	 * Create unique cache id.
 	 *
-	 * 1. Remove the user's key from the data.
-	 * Otherwise, it will make the cache id's too unique, and they'll never be used.
-	 * 2. print_r the $return data, then md5 that. That's our cache id.
+	 * 1. Remove the user's key from the data. Otherwise, it will make the cache id's too unique,
+	 * and they'll never be used.
+	 * 2. Use print_r on $return data, then md5 the result, which is the cache id.
 	 *
-	 * @param array $cache_return
-	 *
-	 * @return string
+	 * @param array $cache_array
+	 *        	An array of data for the request.
+	 * @return string|false Returns a cache id string, or FALSE otherwise.
 	 */
-	public function set_cache_id( $cache_return ) {
-		// If we're working with a GET method
-		if ( 'get' == $cache_return['method'] ) {
-			$exploded_url = explode( '&key', $cache_return['url'] );
-
-			$cache_return['url'] = $exploded_url[0];
-
-			return md5( print_r( $cache_return, true ) );
+	public function set_cache_id( $cache_array ) {
+		// Validate input.
+		if ( empty( $cache_array ) ) {
+			return false;
 		}
 
-		// If we're workign with a POST method
-		if ( 'post' == $cache_return['method'] ) {
-			unset( $cache_return['arguments']['body']['key'] );
+		// Remove unneeded array elements.
+		if ( isset( $cache_array['headers'] ) ) {
+			unset( $cache_array['headers']['server'] );
+			unset( $cache_array['headers']['date'] );
+			unset( $cache_array['headers']['connection'] );
+			unset( $cache_array['headers']['set-cookie'] );
+			unset( $cache_array['headers']['cache-control'] );
+			unset( $cache_array['headers']['pragma'] );
+			unset( $cache_array['headers']['expires'] );
+			unset( $cache_array['headers']['access-control-allow-methods'] );
+			unset( $cache_array['headers']['access-control-allow-origin'] );
+		}
 
-			// remove the connect_key if it's there
-			if ( isset( $cache_return['arguments']['body']['boldgrid_connect_key'] ) ) {
-				$cache_return['arguments']['body']['boldgrid_connect_key'];
+		if ( isset( $cache_array['download_params'] ) ) {
+			unset( $cache_array['download_params']['key'] );
+			unset( $cache_array['download_params']['boldgrid_connect_key'] );
+			unset( $cache_array['download_params']['is_redownload'] );
+			unset( $cache_array['download_params']['user_transaction_item_id'] );
+		}
+
+		if ( isset( $cache_array['arguments']['timeout'] ) ) {
+			unset( $cache_array['arguments']['timeout'] );
+		}
+
+		unset( $cache_array['download_type'] );
+		unset( $cache_array['images_array_key'] );
+		unset( $cache_array['post_id'] );
+		unset( $cache_array['response'] );
+		unset( $cache_array['cookies'] );
+
+		// Remove key from the download url.
+		if ( isset( $cache_array['download_url'] ) ) {
+			$cache_array['download_url'] = preg_replace( '/&key=[0-9a-f]*/', '',
+				$cache_array['download_url'] );
+		}
+
+		// For WP calls.
+		if ( isset( $cache_array['method'] ) ) {
+			// GET method.
+			if ( 'get' == $cache_array['method'] ) {
+				$cache_array['url'] = preg_replace( '/&key=[0-9a-f]*/', '', $cache_array['url'] );
+			} else
+
+			// POST method.
+			if ( 'post' == $cache_array['method'] ) {
+				unset( $cache_array['arguments']['body']['key'] );
+
+				// remove the connect_key if it's there
+				if ( isset( $cache_array['arguments']['body']['boldgrid_connect_key'] ) ) {
+					$cache_array['arguments']['body']['boldgrid_connect_key'];
+				}
 			}
-
-			return md5( print_r( $cache_return, true ) );
+		} else {
+			// If body was passed by accident, then remove it.
+			if ( isset( $cache_array['body'] ) ) {
+				unset( $cache_array['body'] );
+			}
 		}
+
+		// Set cache_id.
+		$cache_id = md5( print_r( $cache_array, true ) );
+
+		// Return cache_id.
+		return $cache_id;
 	}
 
 	/**

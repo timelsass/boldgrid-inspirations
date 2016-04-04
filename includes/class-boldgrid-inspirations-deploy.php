@@ -353,7 +353,6 @@ class Boldgrid_Inspirations_Deploy {
 	 * @return array Array of pages.
 	 */
 	public function remote_install_options() {
-
 		$this->change_deploy_status( 'Updating Remote Install Options...' );
 
 		// Get configs.
@@ -362,21 +361,21 @@ class Boldgrid_Inspirations_Deploy {
 
 		// Reach out to the asset server to get a collection of install options.
 		$get_install_details = $boldgrid_configs['asset_server'] .
-			$boldgrid_configs['ajax_calls']['get_install_details'];
+			 $boldgrid_configs['ajax_calls']['get_install_details'];
 
-		$arguments = array(
+		$arguments = array (
 			'method' => 'POST',
-			'body' => array(
+			'body' => array (
 				'subcategory_id' => $boldgrid_install_options['subcategory_id'],
 				'page_set_id' => $boldgrid_install_options['page_set_id'],
-				'key' => ! empty( $this->api_key_hash ) ? $this->api_key_hash : null,
+				'key' => ! empty( $this->api_key_hash ) ? $this->api_key_hash : null
 			),
-			'timeout' => 20,
+			'timeout' => 20
 		);
 
 		$response = wp_remote_retrieve_body( wp_remote_post( $get_install_details, $arguments ) );
-		$response = json_decode( $response ?: '', true );
-		$remote_options = ! empty( $response['result']['data'] ) ? $response['result']['data'] : array();
+		$response = json_decode( $response ?  : '', true );
+		$remote_options = ! empty( $response['result']['data'] ) ? $response['result']['data'] : array ();
 
 		// Update the boldgird_ install options array.
 		$boldgrid_install_options = array_merge( $boldgrid_install_options, $remote_options );
@@ -1777,7 +1776,7 @@ class Boldgrid_Inspirations_Deploy {
 			// Iterate through $images_array:
 			foreach ( $images_array as $images_array_key => $image_data ) {
 				// Are we downloading an asset?
-				if ( isset( $image_data['asset_id'] ) and is_numeric( $image_data['asset_id'] ) ) {
+				if ( isset( $image_data['asset_id'] ) && is_numeric( $image_data['asset_id'] ) ) {
 					$download_url = $boldgrid_configs['asset_server'] .
 						 $boldgrid_configs['ajax_calls']['get_asset'] . '?id=' .
 						 $image_data['asset_id'] . '&key=' . $this->api_key_hash;
@@ -1864,51 +1863,97 @@ class Boldgrid_Inspirations_Deploy {
 		}
 
 		foreach ( $image_queue as $image_key => $image_data ) {
-			// Using curl_multi_:
-			${'ch' . $image_key} = curl_init();
+			// If image caching is enabled, then check cache.
+			if ( $this->AssetManager->is_cache_enabled() ) {
+				// Create an array to be used to set a cache id.
+				if ( isset( $image_data['bps_query_id'] ) ) {
+					$cache_array = array (
+						'id_from_provider' => $image_data['download_params']['id_from_provider'],
+						'image_provider_id' => $image_data['download_params']['image_provider_id'],
+						'imgr_image_id' => $image_data['download_params']['imgr_image_id'],
+						'width' => $image_data['download_params']['width'],
+						'orientation' => $image_data['download_params']['orientation'],
+						'image_size' => $image_data['download_params']['image_size']
+					);
+				} else {
+					$cache_array = $image_data;
+				}
 
-			curl_setopt( ${'ch' . $image_key}, CURLOPT_URL, $image_data['download_url'] );
-			curl_setopt( ${'ch' . $image_key}, CURLOPT_HEADER, true );
-			curl_setopt( ${'ch' . $image_key}, CURLOPT_RETURNTRANSFER, true );
-			curl_setopt( ${'ch' . $image_key}, CURLOPT_USERAGENT, $user_agent );
+				// Set the cache id.
+				$image_queue[$image_key]['cache_id'] = $this->AssetManager->set_cache_id(
+					$cache_array );
 
-			if ( 'post' == $image_data['download_type'] && ! empty( $image_data['download_params'] ) ) {
-				curl_setopt( ${'ch' . $image_key}, CURLOPT_POST, true );
-				curl_setopt( ${'ch' . $image_key}, CURLOPT_POSTFIELDS,
-					http_build_query( $image_data['download_params'] ) );
+				// Try to get the $response from cache.
+				if ( false === empty( $image_queue[$image_key]['cache_id'] ) ) {
+					$response[$image_key] = $this->AssetManager->get_cache_files(
+						$image_queue[$image_key]['cache_id'] );
+				}
 			}
 
-			curl_multi_add_handle( $mh, ${'ch' . $image_key} );
-		}
+			// If there was no cached response, then queue the download.
+			if ( empty( $response[$image_key] ) ) {
+				// Using curl_multi_:
+				${'ch' . $image_key} = curl_init();
 
-		// Using curl_multi_:
-		$still_running = null;
+				curl_setopt( ${'ch' . $image_key}, CURLOPT_URL, $image_data['download_url'] );
+				curl_setopt( ${'ch' . $image_key}, CURLOPT_HEADER, true );
+				curl_setopt( ${'ch' . $image_key}, CURLOPT_RETURNTRANSFER, true );
+				curl_setopt( ${'ch' . $image_key}, CURLOPT_USERAGENT, $user_agent );
 
-		do {
-			$mrc = curl_multi_exec( $mh, $still_running );
-		} while ( $still_running > 0 );
+				if ( 'post' == $image_data['download_type'] &&
+					 ! empty( $image_data['download_params'] ) ) {
+					curl_setopt( ${'ch' . $image_key}, CURLOPT_POST, true );
+					curl_setopt( ${'ch' . $image_key}, CURLOPT_POSTFIELDS,
+						http_build_query( $image_data['download_params'] ) );
+				}
 
-		while ( $still_running && CURLM_OK == $mrc ) {
-			if ( curl_multi_select( $mh ) != - 1 ) {
-				do {
-					$mrc = curl_multi_exec( $mh, $still_running );
-				} while ( $still_running > 0 );
+				curl_multi_add_handle( $mh, ${'ch' . $image_key} );
+
+				$image_queue[$image_key]['cached'] = false;
+			}else{
+				$image_queue[$image_key]['cached'] = true;
 			}
 		}
 
-		foreach ( $image_queue as $image_key => $image_data ) {
-			$response[$image_key] = curl_multi_getcontent( ${'ch' . $image_key} );
+		// If any curl handle was added to the $mh handle, then get data from curl_multi_.
+		if ( isset( $mh ) ) {
+			// Using curl_multi_.
+			$still_running = null;
 
-			curl_multi_remove_handle( $mh, ${'ch' . $image_key} );
+			do {
+				$mrc = curl_multi_exec( $mh, $still_running );
+			} while ( $still_running > 0 );
+
+			while ( $still_running && CURLM_OK == $mrc ) {
+				if ( curl_multi_select( $mh ) != - 1 ) {
+					do {
+						$mrc = curl_multi_exec( $mh, $still_running );
+					} while ( $still_running > 0 );
+				}
+			}
+
+			foreach ( $image_queue as $image_key => $image_data ) {
+				if ( empty( $response[$image_key] ) ) {
+					$response[$image_key] = curl_multi_getcontent( ${'ch' . $image_key} );
+
+					curl_multi_remove_handle( $mh, ${'ch' . $image_key} );
+				}
+			}
 		}
 
+		// Check responses.
 		foreach ( $image_queue as $image_key => $image_data ) {
-			$arrayify = $this->curl_response_arrayify( $response[$image_key] );
+			if ( isset( $response[$image_key]['headers'] ) ) {
+				$arrayify = $response[$image_key];
+			} else {
+				$arrayify = $this->curl_response_arrayify( $response[$image_key] );
+			}
 
-			// If we did not receive a filename in the headers, then log and skip:
+			// If we did not receive a filename in the headers, then log and skip.
 			if ( empty( $arrayify['headers']['z-filename'] ) ) {
-				// Remove any body, if present, before logging:
-				if ( isset( $arrayify['body'] ) ) {
+				// If body is binary, then remove it.
+				if ( false === empty( $arrayify['body'] ) &&
+					 Boldgrid_Inspirations_Utility::is_binary( $arrayify['body'] ) ) {
 					$arrayify['body'] = '(removed)';
 				}
 
@@ -1923,6 +1968,13 @@ class Boldgrid_Inspirations_Deploy {
 
 				// Skip this iteration in the loop:
 				continue;
+			} else {
+				// If image caching is enabled, a cache id exists, and was not retrieved from cache,
+				// then save to cache.
+				if ( $this->AssetManager->is_cache_enabled() &&
+					 false === empty( $image_data['cache_id'] ) && true !== $image_data['cached'] ) {
+					$this->AssetManager->save_cache_files( $image_data['cache_id'], $arrayify );
+				}
 			}
 
 			$attachment_data = $this->AssetManager->attach_asset(
