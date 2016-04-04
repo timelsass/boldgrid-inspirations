@@ -415,8 +415,11 @@ class Boldgrid_Inspirations_Asset_Manager extends Boldgrid_Inspirations {
 			return;
 		}
 
+		// Get the HOME environment variable.
+		$env_home = getenv( 'HOME' );
+
 		// Locate the home directory by environment variable or use parent of ABSPATH.
-		$home_dir = false === empty( getenv( 'HOME' ) ) ? getenv( 'HOME' ) : dirname( ABSPATH );
+		$home_dir = false === empty( $env_home ) ? $env_home : dirname( ABSPATH );
 
 		// Trim any trailing slash (or backslash in Windows).
 		$home_dir = rtrim( $home_dir, DIRECTORY_SEPARATOR );
