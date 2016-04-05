@@ -1943,7 +1943,7 @@ class Boldgrid_Inspirations_Deploy {
 
 		// Check responses.
 		foreach ( $image_queue as $image_key => $image_data ) {
-			if ( isset( $response[$image_key]['headers'] ) ) {
+			if ( isset( $response[$image_key]['headers']['z-filename'] ) ) {
 				$arrayify = $response[$image_key];
 			} else {
 				$arrayify = $this->curl_response_arrayify( $response[$image_key] );
