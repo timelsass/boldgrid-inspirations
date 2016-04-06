@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BoldGrid Source Code
  *
@@ -9,19 +8,12 @@
  * @author BoldGrid.com <wpb@boldgrid.com>
  */
 
-// Prevent direct calls
-if ( ! defined( 'WPINC' ) ) {
-	header( 'Status: 403 Forbidden' );
-	header( 'HTTP/1.1 403 Forbidden' );
-	exit();
-}
-
 /**
- * BoldGrid Inspirations Deploy class
+ * BoldGrid Inspirations Deploy class.
  */
 class Boldgrid_Inspirations_Deploy {
 	/**
-	 * configs array.
+	 * BoldGrid configs array.
 	 *
 	 * @access protected
 	 *
@@ -84,7 +76,7 @@ class Boldgrid_Inspirations_Deploy {
 	protected $full_page_list;
 
 	/**
-	 * Is this a preview server.
+	 * Is this a preview server?
 	 *
 	 * @access protected
 	 *
@@ -120,6 +112,15 @@ class Boldgrid_Inspirations_Deploy {
 	 * @var array
 	 */
 	public $plugin_installation_data = array ();
+	/**
+	 * Class property for the asset cache object (only for preview servers).
+	 *
+	 * @since 1.1.2
+	 * @access private
+	 *
+	 * @var object|null
+	 */
+	private $asset_cache = null;
 
 	/**
 	 * Constructor.
@@ -127,17 +128,25 @@ class Boldgrid_Inspirations_Deploy {
 	 * @param array $configs
 	 */
 	public function __construct( $configs ) {
+		// Set $this->configs class property.
 		$this->configs = $configs;
 
+		// Include the deploy pages class.
 		require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-deploy-pages.php';
+
+		// Instantiate the asset manager class.
 		require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-asset-manager.php';
 		$this->AssetManager = new Boldgrid_Inspirations_Asset_Manager();
 
+		// Get the asset cache object from the asset manager.
+		$this->asset_cache = $this->AssetManager->get_asset_cache();
+
+		// Instantiate the built photo search class.
 		require_once BOLDGRID_BASE_DIR .
 			 '/includes/class-boldgrid-inspirations-built-photo-search.php';
 		$this->BuiltPhotoSearch = new Boldgrid_Inspirations_Built_Photo_Search();
 
-		// Variables used for debug purposes:
+		// Variables used for debug purposes.
 		$this->start_time = time();
 		$this->timer_start = microtime( true );
 		$this->show_full_log = false;
@@ -195,7 +204,7 @@ class Boldgrid_Inspirations_Deploy {
 	 * @return null
 	 */
 	public function get_deploy_details() {
-		// Get configs:
+		// Get configs.
 		$boldgrid_configs = $this->get_configs();
 
 		/*
@@ -1861,7 +1870,7 @@ class Boldgrid_Inspirations_Deploy {
 
 		foreach ( $image_queue as $image_key => $image_data ) {
 			// If image caching is enabled, then check cache.
-			if ( $this->AssetManager->is_cache_enabled() ) {
+			if ( null !== $this->asset_cache ) {
 				// Create an array to be used to set a cache id.
 				if ( isset( $image_data['bps_query_id'] ) ) {
 					$cache_array = array (
@@ -1877,12 +1886,12 @@ class Boldgrid_Inspirations_Deploy {
 				}
 
 				// Set the cache id.
-				$image_queue[$image_key]['cache_id'] = $this->AssetManager->set_cache_id(
+				$image_queue[$image_key]['cache_id'] = $this->asset_cache->set_cache_id(
 					$cache_array );
 
 				// Try to get the $response from cache.
 				if ( false === empty( $image_queue[$image_key]['cache_id'] ) ) {
-					$response[$image_key] = $this->AssetManager->get_cache_files(
+					$response[$image_key] = $this->asset_cache->get_cache_files(
 						$image_queue[$image_key]['cache_id'] );
 				}
 			}
@@ -1968,9 +1977,9 @@ class Boldgrid_Inspirations_Deploy {
 			} else {
 				// If image caching is enabled, a cache id exists, and was not retrieved from cache,
 				// then save to cache.
-				if ( $this->AssetManager->is_cache_enabled() &&
-					 false === empty( $image_data['cache_id'] ) && true !== $image_data['cached'] ) {
-					$this->AssetManager->save_cache_files( $image_data['cache_id'], $arrayify );
+				if ( null !== $this->asset_cache && false === empty( $image_data['cache_id'] ) &&
+					 true !== $image_data['cached'] ) {
+					$this->asset_cache->save_cache_files( $image_data['cache_id'], $arrayify );
 				}
 			}
 
@@ -2631,17 +2640,17 @@ class Boldgrid_Inspirations_Deploy {
 	/**
 	 * Download and activate a plugin.
 	 *
-	 * @param string $url https://downloads.wordpress.org/plugin/quick-cache.140829.zip
-	 * @param string $activate_path quick-cache/quick-cache.php
-	 * @param string $version Version number
-	 * @param object $full_plugin_data Plugin details
+	 * @param string $url A URL such as "https://downloads.wordpress.org/plugin/quick-cache.140829.zip".
+	 * @param string $activate_path A plugin path such as "quick-cache/quick-cache.php".
+	 * @param string $version Version number.
+	 * @param object $full_plugin_data Plugin details.
 	 *
 	 * @return null
 	 */
 	public function download_and_install_plugin( $url, $activate_path, $version, $full_plugin_data ) {
 		$boldgrid_configs = $this->get_configs();
 
-		// If ASSET_SERVER in plugin url name, then replace it from configs:
+		// If ASSET_SERVER in plugin url name, then replace it from configs.
 		if ( false !== strpos( $url, 'ASSET_SERVER' ) ) {
 			// Replace ASSET_SERVER with the asset server name
 			$url = str_replace( 'ASSET_SERVER', $boldgrid_configs['asset_server'], $url );
