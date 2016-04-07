@@ -1,7 +1,7 @@
 /**
  * Throughout this document, "BoldGrid Connect Search" will be refered to as
  * BGCS.
- * 
+ *
  * You may also see a few references to .last(). This is because several media
  * modal's may be on the same page, not all of them active / visible. Using
  * last() seems to successfully grab the active media modal.
@@ -75,12 +75,12 @@ IMHWPB.InsertMediaTabManager = function() {
 		if (true == self.in_post || true == self.in_post_new) {
 			/*
 			 * Add the BGCS tab when:
-			 * 
+			 *
 			 * 1: The user clicks the "Add Media" button.
-			 * 
+			 *
 			 * 2. The user clicks the "Insert media" link in left menu of the
 			 * media modal.
-			 * 
+			 *
 			 * 3. The user clicks the "Add Media" button (visible in the button
 			 * menu when a user clicks on an image, setup within the
 			 * Inspirations Editor) - 'div[aria-label="Add Media"] button'
@@ -143,7 +143,7 @@ IMHWPB.InsertMediaTabManager = function() {
 
 	/**
 	 * Add tab "BoldGrid Connect Search".
-	 * 
+	 *
 	 * If it doesn't already exist, add the tab. Then bind the click event of
 	 * the tab.
 	 */
@@ -168,7 +168,7 @@ IMHWPB.InsertMediaTabManager = function() {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	self.add_bgcs_iframe = function() {
 		if (!jQuery('#boldgrid_connect_search_container').length) {
@@ -181,9 +181,9 @@ IMHWPB.InsertMediaTabManager = function() {
 	/**
 	 * Event handler for clicking any of the tabs: (Upload Files / Media Library /
 	 * BoldGrid Connect Search)
-	 * 
+	 *
 	 * 1: Toggle the 'active' state of the tab.
-	 * 
+	 *
 	 * 2: If necessary, show 'BoldGrid Connect Search".
 	 */
 	self.bind_boldgird_connect_search_tab_click = function() {
@@ -196,7 +196,7 @@ IMHWPB.InsertMediaTabManager = function() {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	self.bind_click_of_tabs = function() {
 		jQuery(document.body).on('click', '.media-router .media-menu-item',
@@ -222,7 +222,7 @@ IMHWPB.InsertMediaTabManager = function() {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	self.bind_click_customizer_add_new_buttons = function() {
 		// .customize-control-background .thumbnail img
@@ -237,7 +237,7 @@ IMHWPB.InsertMediaTabManager = function() {
 
 							/*
 							 * Find our BGCS tab.
-							 * 
+							 *
 							 * There may be multiple wp-uploader-id's on the
 							 * page, so grab the last() one, which should be the
 							 * active one.
@@ -295,7 +295,7 @@ IMHWPB.InsertMediaTabManager = function() {
 
 	/**
 	 * Handle the display of the boldgrid-connect-search iframe.
-	 * 
+	 *
 	 * This is ran after one of the tabs is clicked (Upload files / Media
 	 * library etc).
 	 */
@@ -334,7 +334,7 @@ IMHWPB.InsertMediaTabManager = function() {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	self.toggle_bottom_frame = function(action) {
 		self.$media_frame_content = jQuery('.media-frame-content').last();

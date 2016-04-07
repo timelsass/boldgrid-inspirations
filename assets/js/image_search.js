@@ -131,7 +131,7 @@ IMHWPB.StockImageSearch = function(configs) {
 	};
 
 	/**
-	 * 
+	 *
 	 */
 	this.event_handler_search_result_click = function(result) {
 		var image_provider_id = jQuery(result).data('image-provider-id');
@@ -262,7 +262,7 @@ IMHWPB.StockImageSearch = function(configs) {
 	};
 
 	/**
-	 * 
+	 *
 	 */
 	this.download_and_insert_into_page = function(anchor) {
 		var $c_ad = jQuery('#attachment_details');
@@ -282,7 +282,7 @@ IMHWPB.StockImageSearch = function(configs) {
 		}
 
 		jQuery(anchor).attr('disabled', true).text("Downloading image...");
-		
+
 		var $image_size_option_selected = jQuery('#image_size option:selected', $c_imhmf);
 
 		var data = {
@@ -390,7 +390,7 @@ IMHWPB.StockImageSearch = function(configs) {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	this.reset_search = function() {
 		self.page = 1;
@@ -400,7 +400,7 @@ IMHWPB.StockImageSearch = function(configs) {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	this.search_results_scroll = function() {
 		var scrollTop = jQuery('#search_results', $c_imhmf).scrollTop();
@@ -415,7 +415,7 @@ IMHWPB.StockImageSearch = function(configs) {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	this.toggle_search_results_by_requires_attribution = function() {
 		// determine whether or not "Attribution" is checked
