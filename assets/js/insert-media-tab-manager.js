@@ -175,8 +175,13 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 			tab = '<a href="#" class="media-menu-item boldgrid-connect-search">BoldGrid Connect Search</a>',
 			tabExists = $mediaRouter.find( '.boldgrid-connect-search:visible' ).length > 0;
 
+		// If the tab already exists, abort.
+		if( tabExists ) {
+			return;
+		}
+
 		// Determine if we should add the tab.
-		if( 'replace' === frame && ! tabExists ) {
+		if( 'replace' === frame ) {
 			addTab = true;
 		} else if( $insertMedia.hasClass( 'active' ) ) {
 			addTab = true;
