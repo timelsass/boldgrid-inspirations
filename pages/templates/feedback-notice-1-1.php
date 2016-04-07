@@ -11,6 +11,7 @@
 	</div>
 	<div id='feedback-notice-1-1-content'>
 		<form action='#' id='boldgrid-feedback-form' method='POST'>
+		<?php wp_nonce_field( 'feedback-notice-1-1' ); ?>
 			<div class='feedback-form-label'><?php echo __('Feedback type'); ?></div>
 			<div>
 				<select id='feedback-type' class='feedback-form-field'
@@ -61,6 +62,17 @@
 								'This area will be populated with diagnostic data to better assist you.' );
 							?>'></textarea>
 					</div>
+				</div>
+				<div class='feedback-form-label'><?php echo __('Website Experience'); ?></div>
+				<div>
+					<select id='feedback-experience' class='feedback-form-field'
+						name='experience'>
+						<option value=''><?php echo __('Select'); ?>...</option>
+						<option value='Just Started'><?php echo __('Just Started'); ?></option>
+						<option value='1-2 Years'><?php echo __('1-2 Years'); ?></option>
+						<option value='2-5 Years'><?php echo __('2-5 Years'); ?></option>
+						<option value='6+ Years'><?php echo __( '6+ Years' ); ?></option>
+					</select>
 				</div>
 				<div id='feedback-error-message'>
 					<div class='feedback-form-label'></div>
