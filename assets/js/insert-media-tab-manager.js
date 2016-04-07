@@ -9,7 +9,7 @@
 
 var IMHWPB = IMHWPB || {};
 
-IMHWPB.InsertMediaTabManager = function() {
+IMHWPB.InsertMediaTabManager = function( $ ) {
 	/**
 	 * ************************************************************************
 	 * Configure args and vars.
@@ -90,7 +90,7 @@ IMHWPB.InsertMediaTabManager = function() {
 							'click',
 							'#insert-media-button, .media-menu .media-menu-item:contains("Insert Media"), div[aria-label="Add Media"] button',
 							function() {
-								self.add_bgcs_tab_via_jquery();
+								self.add_bgcs_tab_via_jquery( null );
 
 								// Add the iframe
 								self.add_bgcs_iframe();
@@ -101,12 +101,33 @@ IMHWPB.InsertMediaTabManager = function() {
 										"a.media-menu-item:contains('Image Search')")
 										.remove();
 
-								self.media_modal_toggle_default_tab
+								self.media_modal_toggle_default_tab();
 							});
 
 			self.bind_click_of_tabs();
 		}
+
+		// Add BGCS when user clicks 'change' button within the editor.
+		jQuery( document.body ).on( 'click', 'div[aria-label="Change"]', function() {
+			self.addToReplace();
+		});
 	});
+
+	/**
+	 * Add BGCS tab to Replace media modal.
+	 *
+	 * @since 1.1.2
+	 */
+	this.addToReplace = function() {
+		// Wait 1/10 of a second, allow the 'Replace' media modal to show.
+		setTimeout( function() {
+		        self.add_bgcs_tab_via_jquery( 'replace' );
+
+		        self.add_bgcs_iframe();
+
+		        self.bind_click_of_tabs();
+		}, 100 );
+	}
 
 	/**
 	 * ************************************************************************
@@ -147,20 +168,23 @@ IMHWPB.InsertMediaTabManager = function() {
 	 * If it doesn't already exist, add the tab. Then bind the click event of
 	 * the tab.
 	 */
-	self.add_bgcs_tab_via_jquery = function() {
-		var tab = '<a href="#" class="media-menu-item boldgrid-connect-search">BoldGrid Connect Search</a>';
+	self.add_bgcs_tab_via_jquery = function( frame ) {
+		var addTab = false,
+			$insertMedia = $( '.media-menu:visible .media-menu-item:contains("Insert Media")' ),
+			$mediaRouter = $( '.media-router:visible' ),
+			tab = '<a href="#" class="media-menu-item boldgrid-connect-search">BoldGrid Connect Search</a>',
+			tabExists = $mediaRouter.find( '.boldgrid-connect-search:visible' ).length > 0;
 
-		// Only add the tab if we're on the "Insert Media" tab (left nav). If
-		// the tab is not active, then we're not on it, so abort.
-		if (!jQuery('.media-menu .media-menu-item:contains("Insert Media")')
-				.hasClass('active')) {
-			return;
+		// Determine if we should add the tab.
+		if( 'replace' === frame && ! tabExists ) {
+			addTab = true;
+		} else if( $insertMedia.hasClass( 'active' ) ) {
+			addTab = true;
 		}
 
-		// Only add the tab if it doesn't already exist.
-		if (!jQuery('.media-router .boldgrid-connect-search').length) {
-			// Add the tab.
-			jQuery('.media-router').append(tab);
+		// Add the tab.
+		if ( addTab ) {
+			$mediaRouter.append( tab );
 
 			// Add the event handler for the clicking of the tab.
 			self.bind_boldgird_connect_search_tab_click();
@@ -353,4 +377,4 @@ IMHWPB.InsertMediaTabManager = function() {
 	}
 };
 
-new IMHWPB.InsertMediaTabManager();
+new IMHWPB.InsertMediaTabManager( jQuery );

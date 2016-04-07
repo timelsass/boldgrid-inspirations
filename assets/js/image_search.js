@@ -1,6 +1,6 @@
 var IMHWPB = IMHWPB || {};
 
-IMHWPB.StockImageSearch = function(configs) {
+IMHWPB.StockImageSearch = function( configs, $ ) {
 	var self = this;
 
 	this.configs = configs;
@@ -313,6 +313,25 @@ IMHWPB.StockImageSearch = function(configs) {
 
 							jQuery(anchor).text("Image downloaded!");
 
+							// Success action for 'Replace Image' state.
+							if ( typeof parent.wp.media.frame !== 'undefined'
+							    && 'replace-image' === parent.wp.media.frame._state ) {
+							        self.refresh_media_library();
+
+							        // Wait 1 second for the media library to refresh.
+							        setTimeout(function() {
+							                // In the media library, click the image we just
+							                // downloaded.
+							                $( '.attachments', window.parent.document ).children(
+							                    "[data-id=" + response.attachment_id + "]" ).find(
+							                    '.attachment-preview' ).click();
+
+							                // Click the replace button.
+							                $( '.media-button-replace', window.parent.document ).click();
+							        }, 1000 );
+							        return;
+							}
+
 							/*
 							 * If this function exists && we're not in the
 							 * customizer, then send the image to the editor.
@@ -442,4 +461,4 @@ IMHWPB.StockImageSearch = function(configs) {
 	}
 };
 
-new IMHWPB.StockImageSearch(IMHWPB.configs);
+new IMHWPB.StockImageSearch( IMHWPB.configs, jQuery );
