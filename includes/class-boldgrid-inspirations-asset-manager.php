@@ -594,6 +594,15 @@ class Boldgrid_Inspirations_Asset_Manager extends Boldgrid_Inspirations {
 			$existing_asset_metadata = wp_get_attachment_metadata(
 				$existing_asset['attachment_id'] );
 
+			/*
+			 * Set the attachment id. We need to set this value because it may
+			 * be needed at the end of this method when we return data. In the
+			 * event an asset was never previously downloaded and we were not
+			 * in this conditional, $attachment_id would be set further down,
+			 * after we download the image for the first time.
+			 */
+			$attachment_id = $existing_asset['attachment_id'];
+
 			// Example $upload_dir: http://pastebin.com/d07HDtAv .
 			$upload_dir = wp_upload_dir();
 		}
