@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BoldGrid Source Code
  *
@@ -51,15 +50,12 @@ class Boldgrid_Inspirations_Feedback {
 		) );
 
 		// Add an action to display admin notices.
-		/*
-		 * Pending review.
-		 * if ( empty( $_GET['page'] ) || 'boldgrid-settings' != $_GET['page'] ) {
-		 * add_action( 'admin_init', array (
-		 * $this,
-		 * 'display_feedback_notice'
-		 * ) );
-		 * }
-		 */
+		if ( empty( $_GET['page'] ) || 'boldgrid-settings' !== $_GET['page'] ) {
+			add_action( 'admin_init', array (
+				$this,
+				'display_feedback_notice'
+			) );
+		}
 
 		// Add an action to handle diagnostic data requests.
 		add_action( 'wp_ajax_boldgrid_feedback_diagnostic_data',
@@ -119,13 +115,12 @@ class Boldgrid_Inspirations_Feedback {
 	 *
 	 * @since 1.0.12
 	 *
-	 * @param array $args
-	 *        	{
-	 *        	An argument array passed from do_action().
+	 * @param array $args {
+	 *        An argument array passed from do_action().
 	 *
-	 *        	@type int $page_id The client WordPress page id.
-	 *        	@type int $boldgrid_page_id BoldGrid page id.
-	 *        	}
+	 *        @type int $page_id The client WordPress page id.
+	 *        @type int $boldgrid_page_id BoldGrid page id.
+	 *        }
 	 * @return null
 	 */
 	public function gridblock_add_page( $args = null ) {
@@ -156,7 +151,7 @@ class Boldgrid_Inspirations_Feedback {
 
 		// If there is data, then send it.
 		if ( false === empty( $feedback_data ) ) {
-			// Deliver the data:
+			// Deliver the data.
 			$success = $this->deliver_payload( $feedback_data );
 		}
 
@@ -175,9 +170,7 @@ class Boldgrid_Inspirations_Feedback {
 	 *
 	 * @since 1.0.9
 	 *
-	 * @param $data Feedback
-	 *        	data array (from the WP Option "boldgrid_feedback").
-	 *
+	 * @param array $data Feedback data array (from the WP Option "boldgrid_feedback").
 	 * @return bool
 	 */
 	private function deliver_payload( $data = null ) {
@@ -186,15 +179,15 @@ class Boldgrid_Inspirations_Feedback {
 			return false;
 		}
 
-		// json_encode the data.
-		$feedback_data['boldgrid_feedback'] = json_encode( $data );
+		// Use json_encode to the data.
+		$feedback_data['boldgrid_feedback'] = wp_json_encode( $data );
 
 		// Send the data.
 		$response = Boldgrid_Inspirations::boldgrid_api_call( '/api/feedback/process', false,
 			$feedback_data, 'POST' );
 
 		// Check response.
-		if ( ! empty( $response ) && 'Data accepted' == $response->message ) {
+		if ( false === empty( $response ) && 'Data accepted' === $response->message ) {
 			// Success.
 			return true;
 		} else {
@@ -210,10 +203,8 @@ class Boldgrid_Inspirations_Feedback {
 	 *
 	 * @since 1.0.9
 	 *
-	 * @param string $metaname
-	 *        	A metaname key to identify the type of feedback.
-	 * @param mixed $metavalue
-	 *        	A metavalue, which can vary in type.
+	 * @param string $metaname A metaname key to identify the type of feedback.
+	 * @param mixed $metavalue A metavalue, which can vary in type.
 	 * @return bool
 	 */
 	public static function add_feedback( $metaname, $metavalue = null ) {
@@ -234,6 +225,9 @@ class Boldgrid_Inspirations_Feedback {
 			'timestamp' => $timestamp,
 			'value' => $metavalue
 		);
+
+		// Sanitize the option data.
+		$feedback_data = sanitize_option( 'boldgrid_feedback', $feedback_data );
 
 		// Save data.
 		update_option( 'boldgrid_feedback', $feedback_data );
@@ -308,14 +302,14 @@ class Boldgrid_Inspirations_Feedback {
 		$boldgrid_dismissed_notices = get_option( 'boldgrid_dismissed_admin_notices' );
 
 		// Is the notice already marked as dismissed.
-		$is_dismissed = ! ( false == $boldgrid_dismissed_notices ||
-			 false === in_array( 'feedback-notice-1-1', $boldgrid_dismissed_notices ) );
+		$is_dismissed = ! ( false === $boldgrid_dismissed_notices ||
+			 false === in_array( 'feedback-notice-1-1', $boldgrid_dismissed_notices, true ) );
 
 		// If the notice was dismissed more than a week ago, then clear the dismissal.
 		// Abort if a dismissal was in the last week.
 		if ( true === $is_dismissed ) {
 			foreach ( $boldgrid_dismissed_notices as $timestamp => $id ) {
-				if ( 'feedback-notice-1-1' == $id ) {
+				if ( 'feedback-notice-1-1' === $id ) {
 					// The notice id was found.
 					// If the dismissal was in the last week, abort.
 					if ( $timestamp > $seven_days_ago ) {
@@ -370,7 +364,7 @@ class Boldgrid_Inspirations_Feedback {
 			false === empty( $reseller_data['reseller_title'] ) ? $reseller_data['reseller_title'] : null );
 
 		// Display the notice.
-		include ( BOLDGRID_BASE_DIR . '/pages/templates/feedback-notice-1-1.php' );
+		include BOLDGRID_BASE_DIR . '/pages/templates/feedback-notice-1-1.php';
 
 		return;
 	}
@@ -394,6 +388,8 @@ class Boldgrid_Inspirations_Feedback {
 				BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ), array (), BOLDGRID_INSPIRATIONS_VERSION );
 
 		wp_enqueue_script( 'boldgrid-feedback-js' );
+
+		return;
 	}
 
 	/**
@@ -401,8 +397,7 @@ class Boldgrid_Inspirations_Feedback {
 	 *
 	 * @since 1.1
 	 *
-	 * @param array $_POST['form_data']
-	 *        	array of the form data.
+	 * @param array $_POST['form_data'] array of the form data.
 	 *
 	 * @return string Returns a string with either "true" or "false".
 	 */
@@ -411,7 +406,7 @@ class Boldgrid_Inspirations_Feedback {
 		$form_data = $_POST['form_data'];
 
 		// Validate form data.
-		if ( empty( $form_data ) ) {
+		if ( empty( $form_data ) || false !== is_array( $form_data ) ) {
 			return 'false';
 		}
 
@@ -434,50 +429,55 @@ class Boldgrid_Inspirations_Feedback {
 	 *
 	 * @since 1.1
 	 *
+	 * @see wp_verify_nonce
+	 * @see check_ajax_referer
 	 * @global string $wp_version The WordPress version.
 	 *
 	 * @return null
 	 */
 	public function feedback_diagnostic_data_callback() {
+		// Verify nonce.
+		if ( false === isset( $_POST['_wpnonce'] ) ||
+			 1 !== wp_verify_nonce( $_POST['_wpnonce'], 'feedback-notice-1-1' ) ||
+			 false === check_ajax_referer( 'feedback-notice-1-1' ) ) {
+			wp_die( 'Error: Security violation (invalid nonce).' );
+		}
+
 		// Initialize $return.
 		$return = 'This diagnostic data is populated to better assist you, and can be modified before submitted.' .
 			 PHP_EOL;
 
-		// Print the WordPress version.
+		// Import the WordPress global $wp_version.
 		global $wp_version;
 
-		$return .= 'WordPress Version: ' . $wp_version . PHP_EOL;
+		// Print WordPress Information.
+		$return .= 'WordPress Information:' . PHP_EOL;
+
+		// Print the WordPress version.
+		$return .= ' Version: ' . $wp_version . PHP_EOL;
 
 		// Print the WordPress home_url.
-		$return .= 'WordPress Home URL: ' . home_url() . PHP_EOL;
+		$return .= ' Home URL: ' . home_url() . PHP_EOL;
 
 		// Print the WordPress site_url.
-		$return .= 'WordPress Site URL: ' . site_url() . PHP_EOL;
+		$return .= ' Site URL: ' . site_url() . PHP_EOL;
 
 		// Print the WordPress Installation Root Directory.
-		$return .= 'WordPress Instllation Root: ' . ABSPATH . PHP_EOL;
+		$return .= ' Installation Root: ' . ABSPATH . PHP_EOL;
 
 		// Print the WordPress character set.
-		$return .= 'WordPress Character Set: ' . get_bloginfo( 'charset' ) . PHP_EOL;
+		$return .= ' Character Set: ' . get_bloginfo( 'charset' ) . PHP_EOL;
 
 		// Print the WordPress Language.
-		$return .= 'WordPress Language: ' . get_bloginfo( 'language' ) . PHP_EOL;
+		$return .= ' Language: ' . get_bloginfo( 'language' ) . PHP_EOL;
 
 		// Check if is multisite.
 		$is_multisite = is_multisite() ? 'Yes' : 'No';
 
-		$return .= 'WordPress Multisite: ' . $is_multisite . PHP_EOL;
+		$return .= ' Multisite: ' . $is_multisite . PHP_EOL;
 
 		// Print the WordPress filesystem method.
-		$return .= 'WordPress Filesystem Method: ' . get_filesystem_method() . PHP_EOL;
-
-		// Get BoldGrid settings.
-		$options = get_option( 'boldgrid_settings' );
-
-		// Print the update release channel.
-		$release_channel = isset( $options['release_channel'] ) ? $options['release_channel'] : 'stable';
-
-		$return .= 'BoldGrid Release Channel: ' . $release_channel . PHP_EOL;
+		$return .= ' Filesystem Method: ' . get_filesystem_method() . PHP_EOL;
 
 		// Get the site active plugin slugs.
 		$site_plugins = get_option( 'active_plugins', array () );
@@ -492,13 +492,13 @@ class Boldgrid_Inspirations_Feedback {
 		}
 
 		// Print the installed plugins.
-		$return .= 'Installed Plugins:' . PHP_EOL;
+		$return .= ' Installed Plugins:' . PHP_EOL;
 
 		$plugins = get_plugins();
 
 		// Print the installed plugin information.
 		foreach ( $plugins as $plugin_path => $plugin_data ) {
-			$active = false !== array_search( $plugin_path, $active_plugins ) ? ' (Active)' : '';
+			$active = ( false !== array_search( $plugin_path, $active_plugins ) ? ' (Active)' : '' );
 
 			$return .= '  ' . $plugin_data['Name'] . ' (' . $plugin_path . ') [' .
 				 $plugin_data['Version'] . ']' . $active . PHP_EOL;
@@ -513,26 +513,26 @@ class Boldgrid_Inspirations_Feedback {
 		$current_active_stylesheet = get_stylesheet();
 
 		// Determine if the boldgrid-staging theme is active.
-		$is_staging_active = false !== array_search( 'boldgrid-staging/boldgrid-staging.php',
-			$active_plugins );
+		$is_staging_active = ( false !== array_search( 'boldgrid-staging/boldgrid-staging.php',
+			$active_plugins ) );
 
 		// Get the current staging active theme.
 		$current_staging_stylesheet = get_option( 'boldgrid_staging_stylesheet' );
 
 		// Print all WordPress themes.
-		$return .= 'Installed Themes:' . PHP_EOL;
+		$return .= ' Installed Themes:' . PHP_EOL;
 
 		$themes = wp_get_themes( array (
 			'errors' => null
 		) );
 
 		foreach ( $themes as $key => $object ) {
-			$active = $current_active_stylesheet == $key ? ' (Active theme)' : '';
+			$active = ( $current_active_stylesheet === $key ? ' (Active theme)' : '' );
 
-			$staging = $current_staging_stylesheet == $key ? ' (Active Staging theme)' : '';
+			$staging = ( $current_staging_stylesheet === $key ? ' (Active Staging theme)' : '' );
 
-			$return .= '  ' . $object->get( 'Name' ) . ' (' . $key . ') [' . $object->get(
-				'Version' ) . ']' . $active . $staging . PHP_EOL;
+			$return .= '  ' . $object->get( 'Name' ) . ' (' . $key . ') [' .
+				 $object->get( 'Version' ) . ']' . $active . $staging . PHP_EOL;
 
 			$parent_theme = $object->get( 'parent' );
 
@@ -544,54 +544,58 @@ class Boldgrid_Inspirations_Feedback {
 
 		unset( $themes );
 
+		// Print BoldGrid Information.
+		$return .= 'BoldGrid Information:' . PHP_EOL;
+
+		// Get BoldGrid settings.
+		$options = get_option( 'boldgrid_settings' );
+
+		// Print the update release channel.
+		$release_channel = isset( $options['release_channel'] ) ? $options['release_channel'] : 'stable';
+
+		$return .= ' Release Channel: ' . $release_channel . PHP_EOL;
+
 		// Retrieve all WordPress Options.
 		$wp_options = wp_load_alloptions();
 
-		// Print the total number of WordPress database queries.
-		$return .= 'WordPress Database Query Count: ' . get_num_queries() . PHP_EOL;
+		// Print some BoldGrid WordPress Options.
+		$return .= ' WordPress Options:' . PHP_EOL;
 
-		// Get option names starting with boldgrid.
-		$bg_options = array ();
-
-		$exclude_options = array (
-			'boldgrid_dismissed_admin_notices',
-			'boldgrid_pointers',
-			'boldgrid_static_pages'
+		$include_options = array (
+			'boldgrid_api_key',
+			'boldgrid_site_hash',
+			'boldgrid_settings',
+			'boldgrid_reseller',
+			'boldgrid_has_built_site',
+			'boldgrid_install_options'
 		);
 
 		foreach ( $wp_options as $key => $value ) {
-			if ( 0 === strpos( $key, 'boldgrid' ) && false === array_search( $key,
-				$exclude_options ) ) {
-				$bg_options[$key] = $value;
+			if ( false !== array_search( $key, $include_options ) ) {
+				$return .= '  ' . $key . ': ' . $value . PHP_EOL;
 			}
 		}
-
-		// Print all BoldGrid WordPress Options.
-		$return .= 'BoldGrid WordPress Options: ' . json_encode( $bg_options ) . PHP_EOL;
 
 		// Print system information.
 		$return .= 'OS Information: ' . php_uname() . PHP_EOL;
 
+		// Print PHP Information.
+		$return .= 'PHP Information:' . PHP_EOL;
+
 		// Print PHP version.
-		$return .= 'PHP Version: ' . phpversion() . PHP_EOL;
+		$return .= ' Version: ' . phpversion() . PHP_EOL;
 
 		// Print PHP SAPI.
-		$return .= 'PHP SAPI: ' . php_sapi_name() . PHP_EOL;
-
-		// Print PHP Seetings.
-		$return .= 'PHP Settings: ' . json_encode( ini_get_all( null, false ) ) . PHP_EOL;
-
-		// Print PHP peak memory usage.
-		$return .= 'PHP Peak Memory Usage: ' . memory_get_peak_usage() . PHP_EOL;
-
-		// Include the size of the report.
-		$return .= 'Diagnostic Report Size: ' . strlen( $return ) . ' characters.' . PHP_EOL;
+		$return .= ' SAPI: ' . php_sapi_name() . PHP_EOL;
 
 		// Print the return text.
 		echo $return;
 
 		// Terminate this callback script.
 		wp_die();
+
+		// Return added for CodeSniffer.
+		return;
 	}
 
 	/**
@@ -602,12 +606,11 @@ class Boldgrid_Inspirations_Feedback {
 	 *
 	 * @since 1.1
 	 *
-	 * @param string $_POST['form_data']
-	 *        	A JSON array containing submitted form data.
+	 * @param string $_POST['form_data'] A JSON array containing submitted form data.
 	 * @return null
 	 */
 	public function feedback_submit_callback() {
-		// Validate $_POST['form_data'].
+		// Validate POST form_data.
 		if ( empty( $_POST['form_data'] ) ) {
 			echo 'Error: Empty form data set.';
 
@@ -628,5 +631,8 @@ class Boldgrid_Inspirations_Feedback {
 
 		// Terminate this callback script.
 		wp_die();
+
+		// Return added for CodeSniffer.
+		return;
 	}
 }

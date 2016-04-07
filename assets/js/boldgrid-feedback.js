@@ -46,6 +46,11 @@ IMHWPB.BoldGridFeedback = function( $ ) {
 		// button).
 		$feedbackSubmit = $feedbackNotice11.find( '#feedback-submit' );
 
+		// Get the wpnonce and referer values.
+		self.wpnonce = $feedbackNotice11.find( '#_wpnonce' ).val();
+
+		self.wpHttpReferer = $feedbackNotice11.find( '[name="_wp_http_referer"]' ).val();
+
 		// When the id "feedback-type" selection value changes, then modify form
 		// content.
 		$feedbackNotice11Type.change( self.toggleType );
@@ -150,7 +155,7 @@ IMHWPB.BoldGridFeedback = function( $ ) {
 	 * @return string Diagnostic information in standard text.
 	 */
 	self.populateDiagnosticData = function() {
-		// Initialize diagnosticData.
+		// Initialize variables.
 		var data, diagnosticData;
 
 		// Check if data was already retreived.
@@ -162,10 +167,11 @@ IMHWPB.BoldGridFeedback = function( $ ) {
 		}
 
 		// Retrieve the data via AJAX.
-
 		// Generate the data array.
 		data = {
-			'action' : 'boldgrid_feedback_diagnostic_data'
+		    'action' : 'boldgrid_feedback_diagnostic_data',
+		    '_wpnonce' : self.wpnonce,
+		    '_wp_http_referer' : self.wpHttpReferer
 		};
 
 		// Make the call.
@@ -245,7 +251,9 @@ IMHWPB.BoldGridFeedback = function( $ ) {
 		// Generate the data array.
 		data = {
 		    'action' : 'boldgrid_feedback_submit',
-		    'form_data' : formData
+		    'form_data' : formData,
+		    '_wpnonce' : self.wpnonce,
+		    '_wp_http_referer' : self.wpHttpReferer
 		};
 
 		// Make the call.
