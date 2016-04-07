@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BoldGrid Source Code
  *
@@ -9,19 +8,12 @@
  * @author BoldGrid.com <wpb@boldgrid.com>
  */
 
-// Prevent direct calls
-if ( ! defined( 'WPINC' ) ) {
-	header( 'Status: 403 Forbidden' );
-	header( 'HTTP/1.1 403 Forbidden' );
-	exit();
-}
-
 /**
- * BoldGrid Inspirations Deploy class
+ * BoldGrid Inspirations Deploy class.
  */
 class Boldgrid_Inspirations_Deploy {
 	/**
-	 * configs array.
+	 * BoldGrid configs array.
 	 *
 	 * @access protected
 	 *
@@ -84,7 +76,7 @@ class Boldgrid_Inspirations_Deploy {
 	protected $full_page_list;
 
 	/**
-	 * Is this a preview server.
+	 * Is this a preview server?
 	 *
 	 * @access protected
 	 *
@@ -120,6 +112,15 @@ class Boldgrid_Inspirations_Deploy {
 	 * @var array
 	 */
 	public $plugin_installation_data = array ();
+	/**
+	 * Class property for the asset cache object (only for preview servers).
+	 *
+	 * @since 1.1.2
+	 * @access private
+	 *
+	 * @var object|null
+	 */
+	private $asset_cache = null;
 
 	/**
 	 * Constructor.
@@ -127,17 +128,25 @@ class Boldgrid_Inspirations_Deploy {
 	 * @param array $configs
 	 */
 	public function __construct( $configs ) {
+		// Set $this->configs class property.
 		$this->configs = $configs;
 
+		// Include the deploy pages class.
 		require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-deploy-pages.php';
+
+		// Instantiate the asset manager class.
 		require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-asset-manager.php';
 		$this->AssetManager = new Boldgrid_Inspirations_Asset_Manager();
 
+		// Get the asset cache object from the asset manager.
+		$this->asset_cache = $this->AssetManager->get_asset_cache();
+
+		// Instantiate the built photo search class.
 		require_once BOLDGRID_BASE_DIR .
 			 '/includes/class-boldgrid-inspirations-built-photo-search.php';
 		$this->BuiltPhotoSearch = new Boldgrid_Inspirations_Built_Photo_Search();
 
-		// Variables used for debug purposes:
+		// Variables used for debug purposes.
 		$this->start_time = time();
 		$this->timer_start = microtime( true );
 		$this->show_full_log = false;
@@ -195,7 +204,7 @@ class Boldgrid_Inspirations_Deploy {
 	 * @return null
 	 */
 	public function get_deploy_details() {
-		// Get configs:
+		// Get configs.
 		$boldgrid_configs = $this->get_configs();
 
 		/*
@@ -490,12 +499,9 @@ class Boldgrid_Inspirations_Deploy {
 	 * Same as update_site_option, except with a retry feature with a timeout.
 	 * Also returns true if the old value matches the new value, instead of false.
 	 *
-	 * @param string $option
-	 *        	Option name.
-	 * @param mixed $value
-	 *        	Option value.
-	 * @param int $timeout
-	 *        	A timeout in seconds. Default is 5 seconds.
+	 * @param string $option Option name.
+	 * @param mixed $value Option value.
+	 * @param int $timeout A timeout in seconds. Default is 5 seconds.
 	 *
 	 * @return bool
 	 */
@@ -1864,7 +1870,7 @@ class Boldgrid_Inspirations_Deploy {
 
 		foreach ( $image_queue as $image_key => $image_data ) {
 			// If image caching is enabled, then check cache.
-			if ( $this->AssetManager->is_cache_enabled() ) {
+			if ( null !== $this->asset_cache ) {
 				// Create an array to be used to set a cache id.
 				if ( isset( $image_data['bps_query_id'] ) ) {
 					$cache_array = array (
@@ -1880,12 +1886,12 @@ class Boldgrid_Inspirations_Deploy {
 				}
 
 				// Set the cache id.
-				$image_queue[$image_key]['cache_id'] = $this->AssetManager->set_cache_id(
+				$image_queue[$image_key]['cache_id'] = $this->asset_cache->set_cache_id(
 					$cache_array );
 
 				// Try to get the $response from cache.
 				if ( false === empty( $image_queue[$image_key]['cache_id'] ) ) {
-					$response[$image_key] = $this->AssetManager->get_cache_files(
+					$response[$image_key] = $this->asset_cache->get_cache_files(
 						$image_queue[$image_key]['cache_id'] );
 				}
 			}
@@ -1910,7 +1916,7 @@ class Boldgrid_Inspirations_Deploy {
 				curl_multi_add_handle( $mh, ${'ch' . $image_key} );
 
 				$image_queue[$image_key]['cached'] = false;
-			}else{
+			} else {
 				$image_queue[$image_key]['cached'] = true;
 			}
 		}
@@ -1971,9 +1977,9 @@ class Boldgrid_Inspirations_Deploy {
 			} else {
 				// If image caching is enabled, a cache id exists, and was not retrieved from cache,
 				// then save to cache.
-				if ( $this->AssetManager->is_cache_enabled() &&
-					 false === empty( $image_data['cache_id'] ) && true !== $image_data['cached'] ) {
-					$this->AssetManager->save_cache_files( $image_data['cache_id'], $arrayify );
+				if ( null !== $this->asset_cache && false === empty( $image_data['cache_id'] ) &&
+					 true !== $image_data['cached'] ) {
+					$this->asset_cache->save_cache_files( $image_data['cache_id'], $arrayify );
 				}
 			}
 
@@ -2634,21 +2640,17 @@ class Boldgrid_Inspirations_Deploy {
 	/**
 	 * Download and activate a plugin.
 	 *
-	 * @param string $url
-	 *        	https://downloads.wordpress.org/plugin/quick-cache.140829.zip
-	 * @param string $activate_path
-	 *        	quick-cache/quick-cache.php
-	 * @param string $version
-	 *        	Version number
-	 * @param object $full_plugin_data
-	 *        	Plugin details
+	 * @param string $url A URL such as "https://downloads.wordpress.org/plugin/quick-cache.140829.zip".
+	 * @param string $activate_path A plugin path such as "quick-cache/quick-cache.php".
+	 * @param string $version Version number.
+	 * @param object $full_plugin_data Plugin details.
 	 *
 	 * @return null
 	 */
 	public function download_and_install_plugin( $url, $activate_path, $version, $full_plugin_data ) {
 		$boldgrid_configs = $this->get_configs();
 
-		// If ASSET_SERVER in plugin url name, then replace it from configs:
+		// If ASSET_SERVER in plugin url name, then replace it from configs.
 		if ( false !== strpos( $url, 'ASSET_SERVER' ) ) {
 			// Replace ASSET_SERVER with the asset server name
 			$url = str_replace( 'ASSET_SERVER', $boldgrid_configs['asset_server'], $url );
@@ -2805,8 +2807,7 @@ class Boldgrid_Inspirations_Deploy {
 
 		/**
 		 *
-		 * @param array $mimes
-		 *        	An associative array of mime types
+		 * @param array $mimes An associative array of mime types
 		 *
 		 * @return array Merged associative array of mime types.
 		 */
@@ -3091,17 +3092,10 @@ class Boldgrid_Inspirations_Deploy {
 	 */
 	public function full_deploy() {
 		// if we need to, fire up a new site.
-		Boldgrid_Inspirations_Analysis::log_entry( 'About to create new install.' );
 		$this->create_new_install();
-		Boldgrid_Inspirations_Analysis::log_entry( 'Finished create new install.' );
 
 		// Updates the install Options.
-		Boldgrid_Inspirations_Analysis::log_entry( 'About to update install options.' );
 		$this->update_install_options();
-		Boldgrid_Inspirations_Analysis::log_entry( 'Finished update install options.' );
-
-		// install the selected theme.
-		Boldgrid_Inspirations_Analysis::log_entry( 'About to deploy theme.' );
 
 		/*
 		 * Pass the requested install options to the asset server and return install
@@ -3111,7 +3105,6 @@ class Boldgrid_Inspirations_Deploy {
 
 		// Install the selected theme.
 		$deploy_theme_success = $this->deploy_theme();
-		Boldgrid_Inspirations_Analysis::log_entry( 'Finished deploy theme.' );
 
 		// If theme deployemnt fails, then show a message to choose a different theme.
 		if ( ! $deploy_theme_success ) {
@@ -3134,9 +3127,7 @@ class Boldgrid_Inspirations_Deploy {
 		}
 
 		// import the selected page set.
-		Boldgrid_Inspirations_Analysis::log_entry( 'About to deploy page sets.' );
 		$this->deploy_page_sets();
-		Boldgrid_Inspirations_Analysis::log_entry( 'Finished deploy page sets.' );
 
 		$boldgrid_inspiration_deploy_pages = new Boldgrid_Inspirations_Deploy_Pages(
 			array (
@@ -3144,10 +3135,8 @@ class Boldgrid_Inspirations_Deploy {
 			) );
 
 		// Create temp pages in order to force image creation.
-		Boldgrid_Inspirations_Analysis::log_entry( 'About to create temp pages.' );
 		$this->installed_page_ids = $boldgrid_inspiration_deploy_pages->deploy_temp_pages(
 			$this->full_page_list, $this->installed_page_ids );
-		Boldgrid_Inspirations_Analysis::log_entry( 'Finished creating temp pages.' );
 
 		// Download / setup the images required for each page/post.
 		//
@@ -3155,52 +3144,30 @@ class Boldgrid_Inspirations_Deploy {
 		// $this->deploy_page_sets_media();
 		//
 		// Option 2: Parallel.
-		Boldgrid_Inspirations_Analysis::log_entry(
-			'About to deploy_page_sets_media_find_placeholders.' );
 		$this->deploy_page_sets_media_find_placeholders();
-		Boldgrid_Inspirations_Analysis::log_entry(
-			'Finished deploy_page_sets_media_find_placeholders.' );
 
-		Boldgrid_Inspirations_Analysis::log_entry(
-			'About to deploy_page_sets_media_process_image_queue.' );
 		$this->deploy_page_sets_media_process_image_queue();
-		Boldgrid_Inspirations_Analysis::log_entry(
-			'Finished deploy_page_sets_media_process_image_queue.' );
 
-		Boldgrid_Inspirations_Analysis::log_entry(
-			'About to deploy_page_sets_media_replace_placeholders.' );
 		$this->deploy_page_sets_media_replace_placeholders();
-		Boldgrid_Inspirations_Analysis::log_entry(
-			'Finished deploy_page_sets_media_replace_placeholders.' );
 
 		// Remove Temp pages that were created in order to force image creation.
-		Boldgrid_Inspirations_Analysis::log_entry( 'About to cleanup temp pages.' );
 		$boldgrid_inspiration_deploy_pages->cleanup_temp_pages( $this->full_page_list,
 			$this->installed_page_ids );
 		$this->add_to_deploy_log( 'Created static page backups.' );
-		Boldgrid_Inspirations_Analysis::log_entry( 'Finished cleanup temp pages.' );
 
 		// download / setup the primary design elements.
-		Boldgrid_Inspirations_Analysis::log_entry( 'About to deploy_pde.' );
 		$this->deploy_pde();
-		Boldgrid_Inspirations_Analysis::log_entry( 'Finished deploy_pde.' );
 
 		// create the attribution page.
-		Boldgrid_Inspirations_Analysis::log_entry( 'About to build attribution page.' );
 		$this->build_attribution_page();
-		Boldgrid_Inspirations_Analysis::log_entry( 'Finished build attribution page.' );
 
 		if ( false == $this->is_preview_server ) {
 			// Install Site Wide Plugins.
-			Boldgrid_Inspirations_Analysis::log_entry( 'About to install sitewide plugins.' );
 			$this->install_sitewide_plugins();
-			Boldgrid_Inspirations_Analysis::log_entry( 'Finished install sitewide plugins.' );
 		}
 
 		// do all final steps to finish deployment.
-		Boldgrid_Inspirations_Analysis::log_entry( 'About to finish deployment.' );
 		$this->finish_deployment();
-		Boldgrid_Inspirations_Analysis::log_entry( 'Finished deployement.' );
 	}
 
 	/**
@@ -3247,10 +3214,8 @@ class Boldgrid_Inspirations_Deploy {
 	 * nav_menu_location settings from your old theme to your new theme. This is the only theme_mod
 	 * that is copied at this time.
 	 *
-	 * @param $new_stylesheet folder
-	 *        	name of theme just installed.
-	 * @param $initial_theme_mods theme_mods
-	 *        	of theme prior to deployment.
+	 * @param $new_stylesheet folder name of theme just installed.
+	 * @param $initial_theme_mods theme_mods of theme prior to deployment.
 	 */
 	public function deploy_theme_copy_theme_mods( $new_stylesheet, $initial_theme_mods ) {
 		$staging_prefix = $this->is_staging_install() ? 'boldgrid_staging_' : '';
@@ -3366,47 +3331,57 @@ class Boldgrid_Inspirations_Deploy {
 	 * Deployment
 	 */
 	public function do_deploy() {
+		// Get configs.
+		$boldgrid_configs = $this->get_configs();
+
 		// Set the PHP max_execution_time to 120 seconds (2 minutes):
 		@ini_set( 'max_execution_time', 120 );
 
-		// Start analysis.
-		Boldgrid_Inspirations_Analysis::start();
+		// Start XHProf.
+		if ( false === empty( $boldgrid_configs['xhprof'] ) && extension_loaded( 'xhprof' ) ) {
+			xhprof_enable( XHPROF_FLAGS_CPU | XHPROF_FLAGS_MEMORY );
+		}
 
 		// Get the theme id, category id, etc.
-		Boldgrid_Inspirations_Analysis::log_entry( 'About to get deploy details.' );
 		$this->get_deploy_details();
-		Boldgrid_Inspirations_Analysis::log_entry( 'Finished get deploy details.' );
 
 		// Check permalink structure:
-		Boldgrid_Inspirations_Analysis::log_entry( 'About to check permalink structure.' );
 		$this->check_permalink_structure();
-		Boldgrid_Inspirations_Analysis::log_entry( 'Finished check permalink structure.' );
 
 		// Run the specified deployment:
 		switch ( $this->deploy_type ) {
 			case 'pages' :
-				Boldgrid_Inspirations_Analysis::log_entry( 'About to run deploy pages only.' );
 				$this->deploy_pages_only();
 				break;
 
 			case 'theme' :
-				Boldgrid_Inspirations_Analysis::log_entry( 'About to run deploy theme only.' );
 				$this->deploy_theme_only();
 				break;
 
 			default :
-				Boldgrid_Inspirations_Analysis::log_entry( 'About to run full deploy.' );
 				$this->full_deploy();
 				break;
 		}
 
-		Boldgrid_Inspirations_Analysis::log_entry( 'Finished type deploy.' );
-
-		// If enabled, stop and report analysis.
-		Boldgrid_Inspirations_Analysis::stop();
-
 		// Save report to the log.
-		Boldgrid_Inspirations_Analysis::report( true );
+		if ( false === empty( $boldgrid_configs['xhprof'] ) && extension_loaded( 'xhprof' ) ) {
+			$xhprof_data = xhprof_disable();
+
+			$xhprof_utils_path = '/usr/share/pear/xhprof_lib/utils';
+
+			if ( file_exists( $xhprof_utils_path . '/xhprof_lib.php' ) &&
+				 file_exists( $xhprof_utils_path . '/xhprof_runs.php' ) ) {
+				require_once $xhprof_utils_path . '/xhprof_lib.php';
+				require_once $xhprof_utils_path . '/xhprof_runs.php';
+
+				$xhprof_runs = new XHProfRuns_Default();
+				$run_id = $xhprof_runs->save_run( $xhprof_data, 'xhprof_testing' );
+
+				error_log(
+					__METHOD__ . ': https://' . $_SERVER['HTTP_HOST'] . '/xhprof/index.php?run=' .
+						 $run_id . '&source=xhprof_testing' );
+			}
+		}
 	}
 
 	/**
@@ -3418,12 +3393,9 @@ class Boldgrid_Inspirations_Deploy {
 	 *
 	 * @since 1.0.8
 	 *
-	 * @param object $dom_item
-	 *        	A dom element, gathered elsewhere via a DOMDocument object.
-	 * @param string $attribute
-	 *        	An attribute of dom element, such as 'class' or 'src'.
-	 * @param string $value
-	 *        	A value to set for the above attribute.
+	 * @param object $dom_item A dom element, gathered elsewhere via a DOMDocument object.
+	 * @param string $attribute An attribute of dom element, such as 'class' or 'src'.
+	 * @param string $value A value to set for the above attribute.
 	 * @return string An updated $value.
 	 */
 	public function dom_element_append_attribute( $dom_item, $attribute, $value ) {

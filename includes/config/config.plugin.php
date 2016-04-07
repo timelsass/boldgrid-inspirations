@@ -104,7 +104,6 @@ return array (
 		)
 		*/
 	),
-	// Diagnostics.
-	'analysis_enabled' => false,
+	'xhprof' => false,
 );
 /* @formatter:on */

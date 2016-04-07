@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BoldGrid Source Code
  *
@@ -9,7 +8,7 @@
  * @author BoldGrid.com <wpb@boldgrid.com>
  */
 
-// Prevent direct calls
+// Prevent direct calls.
 if ( ! defined( 'WPINC' ) ) {
 	header( 'Status: 403 Forbidden' );
 	header( 'HTTP/1.1 403 Forbidden' );
@@ -26,12 +25,14 @@ class Boldgrid_Inspirations_Utility {
 	/**
 	 * Does $haystack end with $needle?
 	 *
+	 * @param string $haystack A string to be searched.
+	 * @param string $needle A search string.
 	 * @return boolean
 	 */
 	public static function endsWith( $haystack, $needle ) {
 		$length = strlen( $needle );
 
-		if ( $length == 0 ) {
+		if ( 0 === $length ) {
 			return true;
 		}
 
@@ -42,6 +43,8 @@ class Boldgrid_Inspirations_Utility {
 	 * This function allows you to easily include an inline js file.
 	 *
 	 * All js files must be located within the assets/js/inline folder.
+	 *
+	 * @param string $filename A filename.
 	 */
 	public static function inline_js_file( $filename ) {
 		$full_path_to_js = plugins_url( '/assets/js/inline/' . $filename,
@@ -58,6 +61,8 @@ class Boldgrid_Inspirations_Utility {
 
 	/**
 	 * Similar to inline_js_file(), except this allows you to run oneliners when a file cannot be used.
+	 *
+	 * @param string $oneliner A block of code.
 	 */
 	public static function inline_js_oneliner( $oneliner ) {
 		echo '
@@ -70,6 +75,8 @@ class Boldgrid_Inspirations_Utility {
 	/**
 	 * Does $haystack start with $needle?
 	 *
+	 * @param string $haystack A string to be searched.
+	 * @param string $needle A search string.
 	 * @return boolean
 	 */
 	public static function startsWith( $haystack, $needle ) {
@@ -85,12 +92,11 @@ class Boldgrid_Inspirations_Utility {
 	 *
 	 * @since 1.2
 	 *
-	 * @param string $string
-	 *        	A string to test.
+	 * @param string $string A string to test.
 	 * @return bool
 	 */
 	public static function is_binary( $string = null ) {
-		if ( null === $string && 0 == strlen( $string ) ) {
+		if ( null === $string && 0 === strlen( $string ) ) {
 			return false;
 		}
 
@@ -102,7 +108,7 @@ class Boldgrid_Inspirations_Utility {
 			$ascii = ord( $char );
 
 			// Check range: (32-126, 7 (TAB), 10 (LF), and 13 (CR)) are not binary.
-			if ( ( $ascii < 32 || $ascii > 126 ) && $ascii != 7 && $ascii != 10 && $ascii != 13 ) {
+			if ( ( $ascii < 32 || $ascii > 126 ) && 7 !== $ascii && 10 !== $ascii && 13 !== $ascii ) {
 				// A binary character was found.
 				return true;
 			}
