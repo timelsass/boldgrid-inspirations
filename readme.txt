@@ -27,6 +27,7 @@ The second phase is Customization; tools to transform your website into your vis
 == Changelog ==
 
 = 1.1.2 In progress =
+* Bug fix:		JIRA WPB-1809	Fixed undefined index "action" for some scenarios.  Optimized update class and addessed CodeSniffer items.
 * Rework:		JIRA WPB-1541	Reworked admin feedback notice.
 * Rework:		JIRA WPB-1751	Removed analysis processing and optional logging capabilities.  Added support for XHProf.
 * Bug fix:		JIRA WPB-1805	Now adds theme update info on the Customizer Themes page.
