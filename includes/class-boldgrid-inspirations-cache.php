@@ -20,11 +20,8 @@ class Boldgrid_Inspirations_Cache {
 	/**
 	 * Enable asset cache.
 	 *
-	 * This class property is a boolean switch to enable the asset file cache.
-	 *
 	 * @since 1.1.2
 	 * @access private
-	 *
 	 * @var bool
 	 */
 	private $enable_asset_cache = false;
@@ -34,7 +31,6 @@ class Boldgrid_Inspirations_Cache {
 	 *
 	 * @since 1.1.2
 	 * @access private
-	 *
 	 * @var string|null
 	 */
 	private $cache_folder = null;
