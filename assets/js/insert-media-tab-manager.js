@@ -34,7 +34,7 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 	// "Insert Media" button.
 	'.media-menu-item:contains("' + _wpMediaViewsL10n.insertMediaTitle + '"),' +
 	// Customizer Header "Add new image" button.
-	'#header_image-button,' +
+	'#customize-control-header_image .button.new,' +
 	// Customizer Background "Select Image" button.
 	'#background_image-button,' +
 	// Customizer Background thumbnail.

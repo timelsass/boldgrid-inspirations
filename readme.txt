@@ -26,6 +26,9 @@ The second phase is Customization; tools to transform your website into your vis
 
 == Changelog ==
 
+= 1.1.2.1 In progress =
+* Bug fix:						BoldGrid Connect Search: Was not being added when changing a header image in the Customizer.
+
 = 1.1.2 =
 * Bug fix:		JIRA WPB-1809	Fixed undefined index "action" for some scenarios.  Optimized update class and addessed CodeSniffer items.
 * Rework:		JIRA WPB-1541	Reworked admin feedback notice.
