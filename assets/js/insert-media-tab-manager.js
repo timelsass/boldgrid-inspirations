@@ -1,384 +1,266 @@
 /**
- * Throughout this document, "BoldGrid Connect Search" will be refered to as
- * BGCS.
+ * This file helps with adding the "BoldGrid Connect Search" tab to the media
+ * modal.
  *
- * You may also see a few references to .last(). This is because several media
- * modal's may be on the same page, not all of them active / visible. Using
- * last() seems to successfully grab the active media modal.
+ * Throughout this document, "BoldGrid Connect Search" will be refered to as
+ * BGCS. You may also see a few references to .last() or :visible. This is
+ * because several media modal's may be on the same page, not all of them active /
+ * visible. Using last() / :visible seems to successfully grab the active media
+ * modal.
+ *
+ * @summary Add the BGCS tab to media modals.
+ *
+ * @since 0.1
  */
 
 var IMHWPB = IMHWPB || {};
 
+/**
+ * Add the BGCS tab to media modals.
+ *
+ * @since 0.1
+ */
 IMHWPB.InsertMediaTabManager = function( $ ) {
-	/**
-	 * ************************************************************************
-	 * Configure args and vars.
-	 * ************************************************************************
-	 */
 	var self = this;
 
-	var post_id_param = (typeof IMHWPB.post_id === 'undefined') ? ''
-			: '&post_id=' + IMHWPB.post_id;
-
-	// Are we in the customizer?
-	var customizephp = 'customize.php';
-	self.in_customizer = window.location.pathname.slice(-customizephp.length) === customizephp;
-
-	// Are we editing a page?
-	var postphp = 'post.php';
-	self.in_post = window.location.pathname.slice(-postphp.length) === postphp;
-
-	// Are we creating a new page?
-	var postnewphp = 'post-new.php';
-	self.in_post_new = window.location.pathname.slice(-postnewphp.length) === postnewphp;
-
-	// Configure the &ref= for the BGCS iframe.
-	var ref = '';
-	if (true == self.in_customizer) {
-		ref = 'dashboard-customizer';
-	} else if ( true == self.in_post || true == self.in_post_new ) {
-		ref = 'dashboard-post'
-	} else {
-		ref = 'dashboard-media';
-	}
-
-	// Configure the iframe of BGCS.
-	self.iframe_html = '<div id="boldgrid_connect_search_container">'
-			+ '<iframe src="media-upload.php?chromeless=1' + post_id_param
-			+ '&tab=image_search&ref=' + ref
-			+ '" id="boldgrid_connect_search" class="hidden"></iframe>'
-			+ '</div>';
-
 	/**
-	 * ************************************************************************
-	 * On dom load:
-	 * ************************************************************************
-	 */
-	jQuery(function() {
-		/**
-		 * Customizer.
-		 */
-		if (true == self.in_customizer) {
-			// Add the BGCS tab.
-			self.add_bgcs_tab_via_backbone();
-
-			// When "Add media" button is clicked, modify the BGCS and add the
-			// new class.
-			self.bind_click_customizer_add_new_buttons();
-
-			self.bind_click_of_tabs();
-		}
-
-		/**
-		 * Add media via page / post editor.
-		 */
-		if (true == self.in_post || true == self.in_post_new) {
-			/*
-			 * Add the BGCS tab when:
-			 *
-			 * 1: The user clicks the "Add Media" button.
-			 *
-			 * 2. The user clicks the "Insert media" link in left menu of the
-			 * media modal.
-			 *
-			 * 3. The user clicks the "Add Media" button (visible in the button
-			 * menu when a user clicks on an image, setup within the
-			 * Inspirations Editor) - 'div[aria-label="Add Media"] button'
-			 */
-			jQuery(document.body)
-					.on(
-							'click',
-							'#insert-media-button, .media-menu .media-menu-item:contains("Insert Media"), div[aria-label="Add Media"] button',
-							function() {
-								self.add_bgcs_tab_via_jquery( null );
-
-								// Add the iframe
-								self.add_bgcs_iframe();
-
-								// Hide the "Image Search" tab in the left menu
-								// of the media modal.
-								jQuery(
-										"a.media-menu-item:contains('Image Search')")
-										.remove();
-
-								self.media_modal_toggle_default_tab();
-							});
-
-			self.bind_click_of_tabs();
-		}
-
-		// Add BGCS when user clicks 'change' button within the editor.
-		jQuery( document.body ).on( 'click', 'div[aria-label="Change"]', function() {
-			self.addToReplace();
-		});
-	});
-
-	/**
-	 * Add BGCS tab to Replace media modal.
+	 * A list of selectors, when clicked, that cause the BGCS tab to be added.
 	 *
 	 * @since 1.1.2
 	 */
-	this.addToReplace = function() {
-		// Wait 1/10 of a second, allow the 'Replace' media modal to show.
-		setTimeout( function() {
-		        self.add_bgcs_tab_via_jquery( 'replace' );
+	self.addTabTriggers = 'div[aria-label="Change"],' +
+	// "Add Media" button.
+	'#insert-media-button,' +
+	// "Insert Media" button.
+	'.media-menu-item:contains("' + _wpMediaViewsL10n.insertMediaTitle + '"),' +
+	// Customizer Header "Add new image" button.
+	'#header_image-button,' +
+	// Customizer Background "Select Image" button.
+	'#background_image-button,' +
+	// Customizer Background thumbnail.
+	'.customize-control-background img.attachment-thumb,' +
+	// Customizer Site Icon "Select Image" button.
+	'#site_icon-button,' +
+	// Customizer Site Logo "Select Image" button.
+	'#boldgrid_logo_setting-button';
 
-		        self.add_bgcs_iframe();
+	$( function() {
+		/*
+		 * When one of our addTabTrigger elements is clicked, wait 2/10's of a
+		 * second and then add our BoldGrid Connect Search tab. The timout is
+		 * there to ensure that the media modal has opened, we cannot add the
+		 * tab until it has opened. Please advise if you have a better technique
+		 * for adding tabs to the media modal.
+		 */
+		$( document.body ).on( 'click', self.addTabTriggers, function() {
+			setTimeout( function() {
+				self.addTab();
+			}, 200 )
+		} );
 
-		        self.bind_click_of_tabs();
-		}, 100 );
-	}
+		self.setIframe();
 
-	/**
-	 * ************************************************************************
-	 * Define our methods.
-	 * ************************************************************************
-	 */
-
-	/**
-	 * @thanks http://pucksart.com/wordpress-javascript-media-library/
-	 */
-	self.add_bgcs_tab_via_backbone = function() {
-		wp.media.view.MediaFrame.Select = wp.media.view.MediaFrame.Select
-				.extend({
-					browseRouter : function(routerView) {
-						"use strict";
-
-						routerView.set({
-							upload : {
-								text : _wpMediaViewsL10n.uploadFilesTitle,
-								priority : 20
-							},
-							browse : {
-								text : _wpMediaViewsL10n.mediaLibraryTitle,
-								priority : 40
-							},
-							myaction : {
-								text : "BoldGrid Connect Search",
-								priority : 50
-							}
-						});
-					}
-				});
-	}
+		self.onTabClick();
+	} );
 
 	/**
-	 * Add tab "BoldGrid Connect Search".
+	 * Add iframe loading message.
 	 *
-	 * If it doesn't already exist, add the tab. Then bind the click event of
-	 * the tab.
+	 * The BGCS iframe takes a few seconds to load. To ease the transition,
+	 * we'll show a loading message.
+	 *
+	 * @since 1.1.2
 	 */
-	self.add_bgcs_tab_via_jquery = function( frame ) {
-		var addTab = false,
-			$insertMedia = $( '.media-menu:visible .media-menu-item:contains("Insert Media")' ),
-			$mediaRouter = $( '.media-router:visible' ),
-			tab = '<a href="#" class="media-menu-item boldgrid-connect-search">BoldGrid Connect Search</a>',
-			tabExists = $mediaRouter.find( '.boldgrid-connect-search:visible' ).length > 0;
+	this.addLoadingMessage = function() {
+		var $content = $( '.media-frame-content:visible' ), $spinner = $( '<span class="spinner boldgrid_connect_search">Loading BoldGrid Connect Search.</span>' );
 
-		// If the tab already exists, abort.
-		if( tabExists ) {
+		// Add the spinner.
+		$content.append( $spinner );
+
+		// Show the spinner for 2 seconds, then fade out half a second.
+		setTimeout( function() {
+			$spinner.fadeOut( 500, function() {
+				$spinner.remove();
+			} );
+		}, 2000 );
+	}
+
+	/**
+	 * Add our BGCS tab.
+	 *
+	 * @since 1.1.2
+	 */
+	this.addTab = function() {
+		var addTab = false,
+		// In the left menu, there is an "Image Search" tab.
+		$imageSearchTab = $( "a.media-menu-item:contains('Image Search')" ),
+		// There may be multiple menus, find the one that is visible.
+		$mediaRouter = $( '.media-router:visible' ),
+		// Define the html that makes up our tab.
+		$tab = $( '<a href="#" class="media-menu-item boldgrid-connect-search hidden">BoldGrid Connect Search</a>' ),
+		// Check if there is already a visible "BoldGrid Connect Search" tab.
+		$bgcsTab = $mediaRouter.find( '.boldgrid-connect-search' ),
+		// Get our "Media Library" tab.
+		$libraryTab = $mediaRouter.find( '.media-menu-item:contains("'
+		    + _wpMediaViewsL10n.mediaLibraryTitle + '")' ),
+		// Get our "Upload Files" tab.
+		$uploadTab = $( '.media-menu-item:visible:contains("' + _wpMediaViewsL10n.uploadFilesTitle
+		    + '")' ),
+		// Find the number of active tabs.
+		activeTabs = $mediaRouter.find( '.media-menu-item.active' ).length;
+
+		/*
+		 * There are some cases when we don't need to add the tab. For example,
+		 * if we're on "Add GridBlocks", we don't want to add our tab. If we
+		 * don't see either the "Upload files" or "Media Library" tabs, then
+		 * abort.
+		 */
+		if ( 0 === $libraryTab.length || 0 === $uploadTab.length ) {
 			return;
 		}
 
-		// Determine if we should add the tab.
-		if( 'replace' === frame ) {
-			addTab = true;
-		} else if( $insertMedia.hasClass( 'active' ) ) {
-			addTab = true;
+		/*
+		 * There are some instances, though rare, that no tabs are selected. If
+		 * this is the case, click the "Media Library" tab.
+		 */
+		if ( activeTabs.length === 0 ) {
+			$libraryTab[ 0 ].click();
 		}
 
-		// Add the tab.
-		if ( addTab ) {
-			$mediaRouter.append( tab );
+		/*
+		 * Normally, when adding 'tabs' to the wp.media, they're added in the
+		 * left menu. BoldGrid Connect Search started off as a left menu item,
+		 * but for easier accessability, it was added as a main tab next to
+		 * "Upload Files" and "Insert Media". We no longer need the link in the
+		 * left menu, so remove it.
+		 */
+		$imageSearchTab.remove();
 
-			// Add the event handler for the clicking of the tab.
-			self.bind_boldgird_connect_search_tab_click();
-		}
-	}
-
-	/**
-	 *
-	 */
-	self.add_bgcs_iframe = function() {
-		if (!jQuery('#boldgrid_connect_search_container').length) {
-			jQuery(self.iframe_html).appendTo('.media-frame.mode-select');
-
-			self.$bolgrid_connect_search = jQuery('#boldgrid_connect_search');
-		}
-	}
-
-	/**
-	 * Event handler for clicking any of the tabs: (Upload Files / Media Library /
-	 * BoldGrid Connect Search)
-	 *
-	 * 1: Toggle the 'active' state of the tab.
-	 *
-	 * 2: If necessary, show 'BoldGrid Connect Search".
-	 */
-	self.bind_boldgird_connect_search_tab_click = function() {
-		jQuery('.media-menu-item').on('click', function() {
-			self.toggle_active_class_of_tags(this);
-
-			// Handle the display of "BoldGrid Connect Search".
-			self.toggle_boldgrid_connect_search(this);
-		});
-	}
-
-	/**
-	 *
-	 */
-	self.bind_click_of_tabs = function() {
-		jQuery(document.body).on('click', '.media-router .media-menu-item',
-				function() {
-					// When a tab is clicked, toggle BGCS.
-					self.toggle_boldgrid_connect_search(this);
-				});
-	}
-
-	/**
-	 * When you click "Add Media" for the first time, there may not be an active
-	 * tab by default. If this is the case, load the Media Library tab.
-	 */
-	self.media_modal_toggle_default_tab = function() {
-		// If no tabs are active:
-		if (!jQuery('.media-frame-routher').last().find(
-				'.media-router .media-menu-item.active').length) {
-			var $library_tab = jQuery('.media-frame-router').last().find(
-					'.media-router .media-menu-item').eq(1);
-
-			$library_tab.addClass('active').click();
-		}
-	}
-
-	/**
-	 *
-	 */
-	self.bind_click_customizer_add_new_buttons = function() {
-		// .customize-control-background .thumbnail img
-		// The above references the thumbnail of the current background image.
-
-		jQuery(document.body)
-				.on(
-						'click',
-						'#background_image-button, .button.new, #boldgrid_logo_setting-button, #site_icon-button, .customize-control-background .thumbnail img',
-						function() {
-							var this_button = jQuery(this);
-
-							/*
-							 * Find our BGCS tab.
-							 *
-							 * There may be multiple wp-uploader-id's on the
-							 * page, so grab the last() one, which should be the
-							 * active one.
-							 */
-							$bgcs_tab = jQuery(
-									'.media-frame-router .media-router .media-menu-item:contains("BoldGrid Connect Search")')
-									.last();
-
-							/*
-							 * BGCS is not applicable for "Site Logo" and "Site
-							 * Icon". If this media modal is for either of these
-							 * features, hide the BGCS button.
-							 */
-							var is_site_logo_button = (this_button
-									.is('#boldgrid_logo_setting-button')) ? true
-									: false;
-
-							var is_site_icon_button = (this_button
-									.is('#site_icon-button')) ? true : false;
-
-							if (is_site_logo_button || is_site_icon_button) {
-								$bgcs_tab.addClass('hidden');
-							} else {
-								$bgcs_tab.removeClass('hidden');
-							}
-
-							// If it has the active class, remove it
-							if (true == $bgcs_tab.hasClass('active')) {
-								$bgcs_tab.removeClass('active');
-							}
-
-							// Add our class.
-							$bgcs_tab.addClass('boldgrid-connect-search');
-
-							// Add the iframe
-							self.add_bgcs_iframe();
-
-							self.media_modal_toggle_default_tab();
-						});
-	}
-
-	/**
-	 * Handle the .active class of the tabs.
-	 */
-	self.toggle_active_class_of_tags = function(clicked_tab) {
-		// First, remove the .active class from all tabs.
-		jQuery('.media-router .media-menu-item').each(function() {
-			jQuery(this).removeClass('active');
-		});
-
-		// Then, add the .active class to the current tab
-		// clicked.
-		jQuery(clicked_tab).addClass('active');
-	}
-
-	/**
-	 * Handle the display of the boldgrid-connect-search iframe.
-	 *
-	 * This is ran after one of the tabs is clicked (Upload files / Media
-	 * library etc).
-	 */
-	self.toggle_boldgrid_connect_search = function(clicked_tab) {
-		self.$media_frame_content = jQuery('.media-frame-content').last();
-		self.$media_frame_toolbar = jQuery('.media-frame-toolbar').last();
-
-		// If this is the boldgrid-connect-search tab
-		if (jQuery(clicked_tab).hasClass('boldgrid-connect-search')) {
-			// If the iframe does not exist:
-			if (!jQuery('.media-frame-content #boldgrid_connect_search_clone').length) {
-				// Clone the iframe.
-				self.$new_iframe = self.$bolgrid_connect_search.clone();
-
-				// Show the iframe.
-				self.$new_iframe.attr('id', 'boldgrid_connect_search_clone')
-						.removeClass('hidden');
-
-				// Add the iframe to media-frame-content.
-				self.$new_iframe.appendTo('.media-frame-content');
+		/*
+		 * Take action if the tab already exists. For example, the user may have
+		 * been on the tab already and clicked 'x' to close the modal, then they
+		 * reopened the modal.
+		 */
+		if ( 1 === $bgcsTab.length ) {
+			/*
+			 * If the tab is active, 'reset' things by clicking the "Media
+			 * Library" tab.
+			 */
+			if ( $bgcsTab.hasClass( 'active' ) ) {
+				$libraryTab[ 0 ].click();
+				return;
 			} else {
-				// Because it exists, move it to the correct location.
-				$last_media_frame_content = jQuery('.media-frame-content')
-						.last();
-				self.$new_iframe.appendTo($last_media_frame_content);
-
-				// If the iframe does exist, then simply show it.
-				self.$new_iframe.removeClass('hidden');
+				return;
 			}
-
-			self.toggle_bottom_frame('hide');
-		} else {
-			jQuery('#boldgrid_connect_search_clone').addClass('hidden');
-			self.toggle_bottom_frame('show');
 		}
+
+		$mediaRouter.append( $tab );
+		$tab.fadeIn( 500 );
 	}
 
 	/**
+	 * Event handler for tab clicks.
 	 *
+	 * @since 1.1.2
 	 */
-	self.toggle_bottom_frame = function(action) {
-		self.$media_frame_content = jQuery('.media-frame-content').last();
-		self.$media_frame_toolbar = jQuery('.media-frame-toolbar').last();
+	this.onTabClick = function() {
+		$( document.body )
+		    .on(
+		        'click',
+		        '.media-router .media-menu-item',
+		        function() {
+			        var $content = $( '.media-frame-content:visible' ),
+			        // Our BGCS iframe.
+			        $iframe = $content.find( '#boldgrid_connect_search' ),
+			        // The content for the "Media Library" tab.
+			        $library = $content.find( '.attachments-browser' ),
+			        // The media router.
+			        $mediaRouter = $( '.media-router:visible', window.parent.document ), $priorTab = $mediaRouter
+			            .find( '.media-menu-item.active' ), $newTab = $( this ),
+			        // The "Media Library" tab.
+			        $libraryTab = $mediaRouter.find( '.media-menu-item:contains("'
+			            + _wpMediaViewsL10n.mediaLibraryTitle + '")' ),
+			        // The tab clicked.
+			        $tab = $( this ),
+			        // The toolbar, which is located under the content.
+			        $toolbar = $( '.media-frame-toolbar:visible' ),
+			        // The content for the "Upload Files" tab.
+			        $uploader = $content.find( '.uploader-inline-content' ),
+			        // The "BoldGrid Connect Search" tab.
+			        $bgcsTab = $mediaRouter.find( '.media-menu-item.boldgrid-connect-search',
+			            window.parent.document );
 
-		switch (action) {
-		case 'show':
-			self.$media_frame_toolbar.removeClass('hidden');
-			self.$media_frame_content.css('bottom', '61px');
-			break;
-		case 'hide':
-			self.$media_frame_toolbar.addClass('hidden');
-			self.$media_frame_content.css('bottom', '0px');
-			break;
+			        /*
+					 * In order for BGCS to work properly, there needs to be an
+					 * .attachments-browser within the DOM. That needed element
+					 * is created when the user clicks the "Media Library" tab.
+					 * If we've clicked the BGCS tab, and our last tab wasn't
+					 * the "Media Library", then we don't have a library. Click
+					 * the "Media Library" tab to generate our library, then
+					 * click the BGCS tab.
+					 */
+			        if ( $newTab.is( $bgcsTab ) && !$priorTab.is( $libraryTab ) ) {
+				        $libraryTab[ 0 ].click();
+				        $bgcsTab[ 0 ].click();
+				        return;
+			        }
+
+			        // Toggle the '.active' state of the tabs.
+			        $( '.media-router:visible .media-menu-item' ).removeClass( 'active' );
+			        $tab.addClass( 'active' );
+
+			        // If we have clicked on the BoldGrid tab.
+			        if ( $tab.hasClass( 'boldgrid-connect-search' ) ) {
+				        // Hide the uploader and the library.
+				        $uploader.addClass( 'hidden' );
+				        $library.addClass( 'hidden' );
+
+				        // If we don't already have our BoldGrid iframe, add it.
+				        if ( $iframe.length == 0 ) {
+					        self.addLoadingMessage();
+					        $content.append( self.iframe );
+				        }
+				        $iframe.removeClass( 'hidden' );
+
+				        // Hide the bottom tollbar.
+				        $toolbar.addClass( 'hidden' );
+				        $content.css( 'bottom', '0px' );
+			        } else {
+				        // Hide the BGCS iframe.
+				        $iframe.addClass( 'hidden' );
+
+				        // Show the uploader and library.
+				        $uploader.removeClass( 'hidden' );
+				        $library.removeClass( 'hidden' );
+
+				        // Show the bottom toolbar.
+				        $toolbar.removeClass( 'hidden' );
+				        $content.css( 'bottom', '61px' );
+			        }
+		        } );
+	}
+
+	/**
+	 * Configure our BoldGrid Connect Search iframe.
+	 *
+	 * @since 1.1.2
+	 */
+	this.setIframe = function() {
+		// Configure our post_id parameter for the iframe.
+		var post_id_param = ( typeof IMHWPB.post_id === 'undefined' ) ? '' : '&post_id='
+		    + IMHWPB.post_id, ref;
+
+		// Configure our referrer parameter for the iframe.
+		if ( 'object' == typeof window._wpCustomizeSettings ) {
+			ref = 'dashboard-customizer';
+		} else if ( 'post' == pagenow || 'page' == pagenow ) {
+			ref = 'dashboard-post';
+		} else {
+			ref = 'dashboard-media';
 		}
+
+		self.iframe = '<iframe src="media-upload.php?chromeless=1' + post_id_param
+		    + '&tab=image_search&ref=' + ref + '" id="boldgrid_connect_search"></iframe>';
 	}
 };
 
