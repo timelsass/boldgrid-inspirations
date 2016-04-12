@@ -2,7 +2,7 @@
 Contributors: imh_brad, joemoto, rramo012, timph
 Tags: inspiration,customization,build,create,design
 Requires at least: 4.3
-Tested up to: 4.4.2
+Tested up to: 4.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -26,7 +26,7 @@ The second phase is Customization; tools to transform your website into your vis
 
 == Changelog ==
 
-= 1.1.2 In progress =
+= 1.1.2 =
 * Bug fix:		JIRA WPB-1809	Fixed undefined index "action" for some scenarios.  Optimized update class and addessed CodeSniffer items.
 * Rework:		JIRA WPB-1541	Reworked admin feedback notice.
 * Rework:		JIRA WPB-1751	Removed analysis processing and optional logging capabilities.  Added support for XHProf.
