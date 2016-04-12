@@ -305,8 +305,6 @@ class Boldgrid_Inspirations_Inspiration extends Boldgrid_Inspirations {
 		// GridBlock Sets - Admin Page.
 		$gridblock_sets_admin = new Boldgrid_Inspirations_GridBlock_Sets_Admin( $this->configs );
 		$gridblock_sets_admin->add_hooks();
-
-		return;
 	}
 
 	/*
