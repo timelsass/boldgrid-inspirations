@@ -433,21 +433,21 @@ class Boldgrid_Inspirations_Feedback {
 		$return .= ' Site URL: ' . site_url() . PHP_EOL;
 
 		// Print the WordPress Installation Root Directory.
-		$return .= ' Installation Root: ' . ABSPATH . PHP_EOL;
+		//$return .= ' Installation Root: ' . ABSPATH . PHP_EOL;
 
 		// Print the WordPress character set.
-		$return .= ' Character Set: ' . get_bloginfo( 'charset' ) . PHP_EOL;
+		//$return .= ' Character Set: ' . get_bloginfo( 'charset' ) . PHP_EOL;
 
 		// Print the WordPress Language.
-		$return .= ' Language: ' . get_bloginfo( 'language' ) . PHP_EOL;
+		//$return .= ' Language: ' . get_bloginfo( 'language' ) . PHP_EOL;
 
 		// Check if is multisite.
-		$is_multisite = is_multisite() ? 'Yes' : 'No';
+		//$is_multisite = is_multisite() ? 'Yes' : 'No';
 
-		$return .= ' Multisite: ' . $is_multisite . PHP_EOL;
+		//$return .= ' Multisite: ' . $is_multisite . PHP_EOL;
 
 		// Print the WordPress filesystem method.
-		$return .= ' Filesystem Method: ' . get_filesystem_method() . PHP_EOL;
+		//$return .= ' Filesystem Method: ' . get_filesystem_method() . PHP_EOL;
 
 		// Get the site active plugin slugs.
 		$site_plugins = get_option( 'active_plugins', array () );
@@ -521,9 +521,9 @@ class Boldgrid_Inspirations_Feedback {
 		$options = get_option( 'boldgrid_settings' );
 
 		// Print the update release channel.
-		$release_channel = isset( $options['release_channel'] ) ? $options['release_channel'] : 'stable';
+		//$release_channel = isset( $options['release_channel'] ) ? $options['release_channel'] : 'stable';
 
-		$return .= ' Release Channel: ' . $release_channel . PHP_EOL;
+		//$return .= ' Release Channel: ' . $release_channel . PHP_EOL;
 
 		// Retrieve all WordPress Options.
 		$wp_options = wp_load_alloptions();
@@ -532,11 +532,11 @@ class Boldgrid_Inspirations_Feedback {
 		$return .= ' WordPress Options:' . PHP_EOL;
 
 		$include_options = array (
-			'boldgrid_api_key',
-			'boldgrid_site_hash',
-			'boldgrid_settings',
+			//'boldgrid_api_key',
+			//'boldgrid_site_hash',
+			//'boldgrid_settings',
 			'boldgrid_reseller',
-			'boldgrid_has_built_site',
+			//'boldgrid_has_built_site',
 			'boldgrid_install_options'
 		);
 
@@ -547,7 +547,7 @@ class Boldgrid_Inspirations_Feedback {
 		}
 
 		// Print system information.
-		$return .= 'OS Information: ' . php_uname() . PHP_EOL;
+		//$return .= 'OS Information: ' . php_uname() . PHP_EOL;
 
 		// Print PHP Information.
 		$return .= 'PHP Information:' . PHP_EOL;
@@ -556,7 +556,7 @@ class Boldgrid_Inspirations_Feedback {
 		$return .= ' Version: ' . phpversion() . PHP_EOL;
 
 		// Print PHP SAPI.
-		$return .= ' SAPI: ' . php_sapi_name() . PHP_EOL;
+		//$return .= ' SAPI: ' . php_sapi_name() . PHP_EOL;
 
 		// Print the return text.
 		echo $return;
