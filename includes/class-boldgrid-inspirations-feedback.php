@@ -393,37 +393,7 @@ class Boldgrid_Inspirations_Feedback {
 	}
 
 	/**
-	 * Callback for feedback forms.
-	 *
-	 * @since 1.1
-	 *
-	 * @param array $_POST['form_data'] array of the form data.
-	 *
-	 * @return string Returns a string with either "true" or "false".
-	 */
-	public function ask_feedback_callback() {
-		// Import form data from POST request.
-		$form_data = $_POST['form_data'];
-
-		// Validate form data.
-		if ( empty( $form_data ) || false !== is_array( $form_data ) ) {
-			return 'false';
-		}
-
-		// Add feedback for delivery.
-		self::add_feedback( 'feedback_form', $form_data );
-
-		// Get the current user id.
-		$user_id = get_current_user_id();
-
-		// Record feedback id and timestamp.
-		add_user_meta( $user_id, 'boldgrid_feedback_sent', $form_data );
-
-		return 'true';
-	}
-
-	/**
-	 * Callback for diagnotic data requests.
+	 * Callback for diagnostic data requests.
 	 *
 	 * This callback function prints a text report with diagnostic information.
 	 *
