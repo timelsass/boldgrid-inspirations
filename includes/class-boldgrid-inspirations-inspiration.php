@@ -339,6 +339,14 @@ class Boldgrid_Inspirations_Inspiration extends Boldgrid_Inspirations {
  * @since 1.1.2
  */
 public function add_wp_hooks() {
+	/*
+	 * At this time, there is one frontend hook configured to load. It is for Attribution, and is
+	 * intended to add 'noindex' to the attribution page so it is not picked up by search engines.
+	 * That new item is not yet ready for launch, and because it's the only hook, we'll abort
+	 * immediately for now.
+	 */
+	return;
+
 	$this->include_wp_files();
 
 	$attribution = new Boldgrid_Inspirations_Attribution();
