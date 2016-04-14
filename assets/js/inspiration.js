@@ -283,14 +283,14 @@ IMHWPB.Inspiration = function(configs, $) {
 		 */
 		jQuery('#base-website-selection, #boldgrid-theme-selection').on(
 				'click',
-				'.theme-actions .preview-button, .theme-screenshot',
+				'.theme-actions .preview-button, .available_theme',
 				function() {
 					var $this = jQuery(this);
 					// If the user clicked on the image, rewrite to the preview
 					// button so that the
 					// below queries will still work.
-					if ($this.hasClass('theme-screenshot')) {
-						$this = $this.closest('.available_theme').find('.preview-button');
+					if ( $this.hasClass( 'available_theme' ) ) {
+						$this = $this.find('.preview-button');
 					}
 					// Ignore click if preview button not found.
 					if ($this.length == false) {
@@ -328,7 +328,9 @@ IMHWPB.Inspiration = function(configs, $) {
 		jQuery('#base-website-selection').on(
 				'click',
 				'.theme-actions .select-button',
-				function() {
+				function( e ) {
+					e.stopPropagation();
+					
 					// Define vars.
 					var theme_id = jQuery(this).closest('.available_theme')
 							.data('theme-id'),
