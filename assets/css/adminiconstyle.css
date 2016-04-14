@@ -51,6 +51,25 @@
 	-moz-osx-font-smoothing: grayscale;
 }
 
+.theme-install-php .theme-browser .theme .theme-screenshot,
+.toplevel_page_boldgrid-inspirations .theme-browser .theme .theme-screenshot {
+	overflow: visible;
+}
+.theme-install-php  .theme-browser .theme .theme-screenshot img,
+.toplevel_page_boldgrid-inspirations .theme-browser .theme .theme-screenshot img {
+	transition: opacity 0s;
+}
+.theme-install-php .theme-browser .theme .theme-screenshot,
+.toplevel_page_boldgrid-inspirations .theme-browser .theme .theme-screenshot {
+	position: relative;
+	z-index: -1;
+}
+
+.theme-install-php .theme-browser .theme .theme-name,
+.toplevel_page_boldgrid-inspirations .theme-browser .theme .theme-name {
+	background-color: #FAFAFA;
+}
+
 #toplevel_page_boldgrid-transactions .wp-menu-image::before {
 	content: "\e800";
 	}
