@@ -26,6 +26,9 @@ The second phase is Customization; tools to transform your website into your vis
 
 == Changelog ==
 
+= 1.1.2.3 =
+* Update:				Sync version. See version 1.1.1.1.
+
 = 1.1.2.2 =
 * Bug fix:		JIRA WPB-1833	Fixed checking for previously downloaded assets in deployment when using multisite (wp-preview).
 
@@ -33,7 +36,6 @@ The second phase is Customization; tools to transform your website into your vis
 * Bug fix:		JIRA WPB-1817	BoldGrid Connect Search: Was not being added when changing a header image in the Customizer.
 * Rework:		JIRA WPB-1541	Removed feedback form bug report diagnostic report items.
 * Bug fix:		JIRA WPB-1816	Fixed update class interference with the Add Plugins page.
-
 
 = 1.1.2 =
 * Bug fix:		JIRA WPB-1809	Fixed undefined index "action" for some scenarios.  Optimized update class and addressed CodeSniffer items.
@@ -47,6 +49,9 @@ The second phase is Customization; tools to transform your website into your vis
 * Update:		JIRA WPB-1754	Remove attribution page from search results.
 * Bug fix:		JIRA WPB-1788	webkit css missing from 'new from gridblocks'.
 * New feature:	JIRA WPB-1806	Add 'BoldGrid search' tab when replacing an image.
+
+= 1.1.1.1 = 
+* Bug Fix:						Fixing logo display on login screen.
 
 = 1.1.1 =
 * Bug fix:						Fixed analysis include for preview server.

@@ -149,7 +149,7 @@ class Boldgrid_Inspirations_Branding {
 			<style type='text/css'>
 				.login h1 a {
 					background-image: url(" . esc_url( plugins_url() . '/' . basename( BOLDGRID_BASE_DIR ) .
-					'/assets/images/boldgrid-login-logo.png') . ")
+					'/assets/images/boldgrid-login-logo.png') . ") !important;
 				}
 			</style>
 		";
