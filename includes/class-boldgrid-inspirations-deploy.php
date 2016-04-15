@@ -446,8 +446,12 @@ class Boldgrid_Inspirations_Deploy {
 <?php
 			}
 
+			// Switch to the new blog.
 			$this->add_to_deploy_log( 'Switching to new blog...', false );
 			switch_to_blog( $new_blog_id );
+
+			// Ensure that we have the current boldgrid_asset information (should be empty).
+			$this->AssetManager->get_wp_options_asset();
 
 			// JoeC says site needs to be https, so let's get er done
 			$path_to_new_blog = esc_url(

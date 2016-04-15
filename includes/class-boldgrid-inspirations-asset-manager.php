@@ -828,8 +828,8 @@ class Boldgrid_Inspirations_Asset_Manager extends Boldgrid_Inspirations {
 		if ( 'asset_id' != $params['by'] && 'transaction_item_id' != $params['by'] &&
 			 'attachment_id' != $params['by'] ) {
 
-			// LOG:
-			error_log( __METHOD__ . ': Error: Invalid parameters: ' . print_r( $params ) );
+			// LOG.
+			error_log( __METHOD__ . ': Error: Invalid parameters: ' . print_r( $params, true ) );
 
 			return false;
 		}
