@@ -41,15 +41,6 @@ class Boldgrid_Inspirations_Options {
 	public $start_over_staging = false;
 
 	/**
-	 * Does the user want to trash or permanently delete their pages?
-	 *
-	 * @since 1.1.3
-	 * @access public
-	 * @var bool $permanently_delete
-	 */
-	public $permanently_delete = false;
-
-	/**
 	 * Get install options
 	 *
 	 * @return mixed
@@ -130,6 +121,8 @@ class Boldgrid_Inspirations_Options {
 	 * Delete all pages and menus
 	 */
 	public function cleanup_pages_and_menus() {
+		$delete_pages = ( isset( $_POST['delete_pages'] ) && 'true' == $_POST['delete_pages'] );
+
 		$post_types = array (
 			'page',
 			'post',
@@ -203,7 +196,7 @@ class Boldgrid_Inspirations_Options {
 		 */
 		if ( null != $page_ids ) {
 			foreach ( $page_ids as $page_id ) {
-				wp_delete_post( $page_id, $this->permanently_delete ); // 2nd param: false = trash, true = delete
+				wp_delete_post( $page_id, $delete_pages ); // 2nd param: false = trash, true = delete
 			}
 		}
 	}
@@ -624,9 +617,6 @@ No
 	 * Does the user want to start over with their active site, staging, or both?
 	 */
 	public function set_start_over_with() {
-		// Does the user want to just trash pages, or permanently delete them?
-		$this->permanently_delete = ( isset( $_POST['delete_pages'] ) && 'true' == $_POST['delete_pages'] );
-
 		// If the BoldGrid Staging plugin is not active, then force the following start_over
 		// settings and return;
 		if ( ! is_plugin_active( 'boldgrid-staging/boldgrid-staging.php' ) ) {
@@ -660,9 +650,6 @@ No
 
 		// Delete pages
 		$this->cleanup_pages_and_menus();
-
-		// Delete images.
-		$this->cleanup_images();
 
 		// Delete nav menus
 		$this->cleanup_nav_menus();
@@ -773,68 +760,6 @@ No
 					}
 				}
 			}
-		}
-	}
-
-	/**
-	 * Delete images.
-	 *
-	 * If the user is starting over and permanently deleting pages, then delete all of the images /
-	 * assets they downloaded too.
-	 *
-	 * @since 1.1.3
-	 */
-	protected function cleanup_images() {
-		$images = array();
-
-		/*
-		 * If the user is trashing pages and not permanently deleting them, abort. If the user
-		 * eventually restores those pages from trash, they'll be broken because we deleted the
-		 * images they linked to.
-		 */
-		if( false === $this->permanently_delete ) {
-			return;
-		}
-
-		/*
-		 * Create an array of options that contain assets. Essentially, we're taking into
-		 * consideration the BoldGrid Staging plugin. If the user is starting over with both active
-		 * and staging sites, then we have two sets of assets to delete.
-		 */
-		$options = array();
-
-		if( $this->start_over_active ) {
-			$options[] = 'boldgrid_asset';
-		}
-
-		if( $this->start_over_staging ) {
-			$options[] = 'boldgrid_staging_boldgrid_asset';
-		}
-
-		/*
-		 * Create an array of images that need to be deleted. Essentailly, create this array by
-		 * merging both the active and staging $asset['image'] arrays.
-		 */
-		foreach( $options as $option ) {
-			$assets = get_option( $option, array() );
-
-			if( empty( $assets['image'] ) ) {
-				continue;
-			} else {
-				$images = array_merge( $images, $assets['image'] );
-			}
-		}
-
-		 // Loop through each image and delete it. If the user purchased the image, don't delete it.
-		foreach( $images as $image ) {
-			$attachment_id = $image['attachment_id'];
-			$is_purchased = ( ! empty( $image['transaction_id'] ) );
-
-			if( $is_purchased ) {
-				continue;
-			}
-
-			wp_delete_attachment( $attachment_id );
 		}
 	}
 

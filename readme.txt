@@ -27,7 +27,6 @@ The second phase is Customization; tools to transform your website into your vis
 == Changelog ==
 
 = 1.1.3 In progress =
-* Bug fix:		JIRA WPB-1837	When starting over, delete images (Avoid mass duplicate images).
 * Bug fix:		JIRA WPB-1840	Fixing thumbnail presentation in inspirations and add new theme.
 
 = 1.1.2.3 =
