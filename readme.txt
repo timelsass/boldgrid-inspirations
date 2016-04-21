@@ -27,6 +27,7 @@ The second phase is Customization; tools to transform your website into your vis
 == Changelog ==
 
 = 1.1.3 In progress =
+* Bug fix:		JIRA WPB-1814	Fixed PHP notice in page and post editor for In Menu when there is a corrupted nav menu array.
 * Bug fix:		JIRA WPB-1823	Fixed display of "Themes" H1 and the additional themes bar when choosing active or staging before installing a theme.
 * Bug fix:		JIRA WPB-1840	Fixing thumbnail presentation in inspirations and add new theme.
 

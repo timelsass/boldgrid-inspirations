@@ -458,7 +458,7 @@ class Boldgrid_Inspirations_Pages_And_Posts {
 
 			// Get this menu's location name key.
 			foreach ( $menu_locations as $key => $value ) {
-				if ( $value == $nav_menu->term_id ) {
+				if ( $value == $nav_menu->term_id && isset( $menu_names[$key] ) ) {
 					$menu_location_names[] = $menu_names[$key];
 				}
 			}
