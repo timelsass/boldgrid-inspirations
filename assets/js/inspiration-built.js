@@ -36,8 +36,8 @@
 		self.$boldgrid_error_message = jQuery( '#boldgrid-error-message' );
 		self.$theme_selection = jQuery( '#boldgrid-theme-selection' );
 		self.$select_content_install_type = jQuery( '#select-content-install-type' );
-		self.$theme_selection_h1 = jQuery('#theme-selection-h1');
-		self.$additional_themes_bar = jQuery('#additional-themes-bar');
+		self.$themeSelectionH1 = jQuery('#theme-selection-h1');
+		self.$additionalThemesBar = jQuery('#additional-themes-bar');
 		self.$deploy_script = jQuery( '#post_deploy' );
 		self.$theme_selection_wrapper = $( '#theme-selection-wrapper' );
 		self.$theme_selection_spinner = self.$theme_selection_wrapper.find( '.spinner' );
@@ -108,10 +108,10 @@
 			self.$select_content_install_type.find( '.choice_intro_text' ).removeClass( 'hidden' );
 
 			// Hide the "Themes" H1.
-			self.$theme_selection_h1.hide();
+			self.$themeSelectionH1.hide();
 
 			// Hide the additional themes bar.
-			self.$additional_themes_bar.hide();
+			self.$additionalThemesBar.hide();
 
 			choice_mode = true;
 		} else {
@@ -173,10 +173,10 @@
 			}
 
 			// Show the "Themes" H1.
-			self.$theme_selection_h1.show();
+			self.$themeSelectionH1.show();
 
 			// Show the additional themes bar.
-			self.$additional_themes_bar.show();
+			self.$additionalThemesBar.show();
 
 			return false;
 		} );
