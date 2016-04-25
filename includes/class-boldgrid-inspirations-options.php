@@ -714,8 +714,8 @@ No
 			$boldgrid_forms['force_uninstall'] = true;
 
 			$plugin = 'boldgrid-ninja-forms/ninja-forms.php';
-			uninstall_plugin( $plugin );
 			deactivate_plugins( $plugin );
+			uninstall_plugin( $plugin );
 			update_option( 'recently_activated',
 				array (
 					$plugin => time()
