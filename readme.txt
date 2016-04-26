@@ -26,6 +26,9 @@ The second phase is Customization; tools to transform your website into your vis
 
 == Changelog ==
 
+= 1.1.4 In progress =
+* Bug fix:		JIRA WPB-1860	Fixed horizontal line through screenshot in step 2.
+
 = 1.1.3 =
 * Bug fix:		JIRA WPB-1824	Fixed order of plugin deactivation and uninstall in Start Over process.
 * Bug fix:		JIRA WPB-1814	Fixed PHP notice in page and post editor for In Menu when there is a corrupted nav menu array.
