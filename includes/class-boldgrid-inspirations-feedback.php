@@ -22,8 +22,25 @@ class Boldgrid_Inspirations_Feedback {
 	 * Add hooks.
 	 *
 	 * @since 1.0.9
+	 *
+	 * @global $pagenow The current WordPress page filename.
 	 */
 	public function __construct() {
+		// Get the current WordPress page filename.
+		global $pagenow;
+
+		// Is the current page for updates?
+		$update_pages = array(
+			'update-core.php',
+			'plugins.php',
+			'upgrade.php'
+		);
+
+		$is_update_page = in_array( $pagenow, $update_pages );
+
+		// Is the current page for settings?
+		$is_settings_page = ( 1 === preg_match( '/^options-/', $pagenow ) );
+
 		// Add an action to run when using the Customizer.
 		add_action( 'customize_register', array (
 			$this,
@@ -50,7 +67,7 @@ class Boldgrid_Inspirations_Feedback {
 		) );
 
 		// Add an action to display admin notices.
-		if ( empty( $_GET['page'] ) || 'boldgrid-settings' !== $_GET['page'] ) {
+		if ( false === ( is_network_admin() || $is_update_page || $is_settings_page ) ) {
 			add_action( 'admin_init', array (
 				$this,
 				'display_feedback_notice'

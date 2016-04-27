@@ -27,6 +27,7 @@ The second phase is Customization; tools to transform your website into your vis
 == Changelog ==
 
 = 1.1.4 In progress =
+* Bug fix:		JIRA WPB-1855	Do not display feedback notice on update or setting pages.
 * Bug fix:		JIRA WPB-1860	Fixed horizontal line through screenshot in step 2.
 * Bug fix:		JIRA WPB-1863	Cart does not look for watermarked images used within staged pages.
 
