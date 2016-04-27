@@ -7,9 +7,12 @@ if ( ! defined( 'WPINC' ) ) {
 	exit();
 }
 
+// Wrap the entire page within a '.wrap'.
+echo '<div class="wrap">';
+
 // get all the data we need to print the page
 $args = array (
-	'process_checked_in_cart_attribute' => false 
+	'process_checked_in_cart_attribute' => false
 );
 
 $data = $this->get_all_data_of_assets_needing_purchase( $args );
@@ -17,7 +20,7 @@ $data = $this->get_all_data_of_assets_needing_purchase( $args );
 $have_assets_needing_purchase = isset( $data['assets_needing_purchase']['by_page_id'] );
 
 // Check asset server availability:
-$is_asset_server_available = ( bool ) ( is_multisite() ? get_site_transient( 'boldgrid_available' ) : get_transient( 
+$is_asset_server_available = ( bool ) ( is_multisite() ? get_site_transient( 'boldgrid_available' ) : get_transient(
 	'boldgrid_available' ) );
 
 // Print a message for connection failure:
@@ -97,9 +100,9 @@ if ( $have_assets_needing_purchase ) {
 <form method="post" name="purchase_for_publish"
 	id="purchase_for_publish">
 	<?php
-	
+
 	echo wp_nonce_field( 'purchase_for_publish' );
-	
+
 	/**
 	 * ************************************************************************
 	 * Loop through each page.
@@ -108,40 +111,40 @@ if ( $have_assets_needing_purchase ) {
 	foreach ( $data['assets_needing_purchase']['by_page_id'] as $post_id => $assets ) {
 		// Set the price it will cost to purchase all images for this page.
 		$total_coin_cost_for_only_this_page = 0;
-		
+
 		// Get the link to edit this post.
 		if ( is_numeric( $post_id ) ) {
 			$link_edit_post = get_edit_post_link( $post_id );
 		} else {
 			$link_edit_post = get_admin_url( null, 'customize.php' );
 		}
-		
+
 		// Get the link to view the post.
 		if ( is_numeric( $post_id ) ) {
 			$link_view_post = get_page_link( $post_id );
 		} else {
 			$link_view_post = get_site_url();
 		}
-		
+
 		// How many columns are in the bootstrap row?
 		$grid_column_count = 0;
-		
+
 		// Have we closed the bootstrap row?
 		$grid_row_closed = true;
-		
+
 		// Print the header for this page.
-		echo sprintf( $page_header_template, 
+		echo sprintf( $page_header_template,
 			// post id
-			( is_numeric( $post_id ) ) ? $post_id : str_replace( ' ', '-', $post_id ), 
+			( is_numeric( $post_id ) ) ? $post_id : str_replace( ' ', '-', $post_id ),
 			// link to edit the post
-			$link_edit_post, 
+			$link_edit_post,
 			// post title
-			$data['assets_needing_purchase']['page_data'][$post_id]['post_title'], 
+			$data['assets_needing_purchase']['page_data'][$post_id]['post_title'],
 			// link to edit the post
-			$link_edit_post, 
+			$link_edit_post,
 			// link to view the post
 			$link_view_post );
-		
+
 		/**
 		 * ********************************************************************
 		 * Loop through each individual asset and print it.
@@ -155,7 +158,7 @@ if ( $have_assets_needing_purchase ) {
 				<?php
 				$grid_row_closed = false;
 			}
-			
+
 			/**
 			 * Has this image been previously 'checked' or unchecked?
 			 */
@@ -168,26 +171,26 @@ if ( $have_assets_needing_purchase ) {
 				$checked = 'checked';
 				$total_coin_cost_for_only_this_page += $asset['coin_cost'];
 			}
-			
+
 			// Print the container holding the image, dimensions, etc.
-			echo sprintf( $image_template, 
+			echo sprintf( $image_template,
 				// css class for the image container
-				$unselected_image, 
+				$unselected_image,
 				// thumbnail url to image
-				$asset['thumbnail_url'], 
+				$asset['thumbnail_url'],
 				// width of the image
-				$asset['attachment_metadata']['sizes']['full']['width'], 
+				$asset['attachment_metadata']['sizes']['full']['width'],
 				// heigh of the image
-				$asset['attachment_metadata']['sizes']['full']['height'], 
+				$asset['attachment_metadata']['sizes']['full']['height'],
 				// coin cost of the image
-				$asset['coin_cost'], 
+				$asset['coin_cost'],
 				// coin cost of the image (x2)
-				$asset['coin_cost'], 
+				$asset['coin_cost'],
 				// asset id
-				$asset['asset_id'], 
+				$asset['asset_id'],
 				// should the checkbox be auto checked?
 				$checked );
-			
+
 			// Increment the $grid_coloumn_count.
 			// If we've printed all our columns, close the row
 			$grid_column_count += 3;
@@ -200,13 +203,13 @@ if ( $have_assets_needing_purchase ) {
 				<?php
 			}
 		}
-		
+
 		/**
 		 * ********************************************************************
 		 * Close the page container.
 		 * ********************************************************************
 		 */
-		
+
 		// If we haven't closed the grid row, do so now.
 		if ( false == $grid_row_closed ) {
 			?>
@@ -214,17 +217,17 @@ if ( $have_assets_needing_purchase ) {
 			<?php
 			$grid_row_closed = true;
 		}
-		
+
 		// After printing all of the assets, print the total cost of the page.
-		echo sprintf( $page_header_template_end, 
+		echo sprintf( $page_header_template_end,
 			// post id
-			( is_numeric( $post_id ) ) ? $post_id : str_replace( ' ', '-', $post_id ), 
+			( is_numeric( $post_id ) ) ? $post_id : str_replace( ' ', '-', $post_id ),
 			// total cost for all the images on this page
-			$total_coin_cost_for_only_this_page, 
+			$total_coin_cost_for_only_this_page,
 			// total cost for all the images on this page
 			$total_coin_cost_for_only_this_page );
 	}
-	
+
 	/**
 	 * ************************************************************************
 	 * We have finished looping through each page.
@@ -267,7 +270,7 @@ if ( $have_assets_needing_purchase ) {
 		class="container-fluid cart-summary insufficient-funds hidden text-right">
 		<div class="row">
 			<div class="col-md-6 col-md-offset-6">
-				<div class="plugin-card boldgrid-plugin-card-full-width error">
+				<div class="plugin-card boldgrid-plugin-card-full-width error inline">
 					<div class="plugin-card-top">
 						Whoops! It looks like you'll need more Coins for this transaction.
 						You can remove images or <a
@@ -340,3 +343,6 @@ if ( $have_assets_needing_purchase ) {
 <p>There are currently no assets needing purchase.</p>
 <?php
 }
+
+// The entire page is wrapped within a '.wrap'. Close that div now.
+echo '</div>';

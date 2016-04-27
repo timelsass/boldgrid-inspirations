@@ -29,7 +29,7 @@ $purchase_coins_active = ( 'boldgrid-purchase-coins' == $_GET['page'] ? 'nav-tab
 
 <!-- tab navigation for transaction page -->
 <div id='boldgrid-transaction-tabs'>
-	<h3 class="nav-tab-wrapper">
+	<h2 class="nav-tab-wrapper">
 		<span class="boldgrid-transaction-tab">
 			<?php printf( '<a href="%s" class="nav-tab ' . esc_attr__( $transactions_active ) . '">' . esc_html__( 'Receipts / Transaction History' ) . '</a>', esc_url( add_query_arg('page', 'boldgrid-transactions', admin_url( 'admin.php' ) ) ) ); ?>
 		</span> <span class="boldgrid-transaction-tab">
@@ -37,5 +37,5 @@ $purchase_coins_active = ( 'boldgrid-purchase-coins' == $_GET['page'] ? 'nav-tab
 		</span> <span class="boldgrid-transaction-tab">
 			<?php printf( '<a href="%s" class="nav-tab ' . esc_attr__( $purchase_coins_active ) . '">' . esc_html__( 'Purchase Coins' ) . '</a>', esc_url( add_query_arg('page', 'boldgrid-purchase-coins', admin_url( 'admin.php' ) ) ) ); ?>
 		</span>
-	</h3>
+	</h2>
 </div>

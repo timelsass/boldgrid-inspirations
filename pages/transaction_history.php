@@ -7,10 +7,8 @@ if ( ! defined( 'WPINC' ) ) {
 	exit();
 }
 
-$is_asset_server_available = ( bool ) ( is_multisite() ? get_site_transient( 'boldgrid_available' ) : get_transient( 
+$is_asset_server_available = ( bool ) ( is_multisite() ? get_site_transient( 'boldgrid_available' ) : get_transient(
 	'boldgrid_available' ) );
-
-include BOLDGRID_BASE_DIR . '/pages/includes/cart_header.php';
 
 add_thickbox();
 
@@ -19,6 +17,10 @@ include BOLDGRID_BASE_DIR . '/pages/templates/transaction_history.php';
 ?>
 
 <div class='wrap'>
+
+<?php
+	include BOLDGRID_BASE_DIR . '/pages/includes/cart_header.php';
+?>
 
 	<h1>Transaction History</h1>
 

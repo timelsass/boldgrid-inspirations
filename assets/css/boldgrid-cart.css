@@ -1,6 +1,8 @@
 .container-fluid {
 	max-width: 1024px;
-	margin: 10px 20px 0px 2px;
+	margin: 10px 0px 0px 0px;
+	padding-left: 0px;
+	padding-right: 0px;
 }
 
 .plugin-card-top .col-md-3 {

@@ -8,11 +8,8 @@ if ( ! defined( 'WPINC' ) ) {
 }
 
 // Check asset server availability:
-$is_asset_server_available = ( bool ) ( is_multisite() ? get_site_transient( 'boldgrid_available' ) : get_transient( 
+$is_asset_server_available = ( bool ) ( is_multisite() ? get_site_transient( 'boldgrid_available' ) : get_transient(
 	'boldgrid_available' ) );
-
-// include the navigation
-include BOLDGRID_BASE_DIR . '/pages/includes/cart_header.php';
 
 // Print a message for connection failure:
 if ( false === $is_asset_server_available ) {
@@ -34,9 +31,9 @@ if ( isset( $boldgrid_reseller['reseller_amp_url'] ) ) {
 
 if ( isset( $boldgrid_reseller['reseller_title'] ) && isset( $reseller_url ) ) {
 	$reseller_link_template = ', <a href="%s" target="_blank">%s</a>';
-	$reseller_link = sprintf( $reseller_link_template, 
+	$reseller_link = sprintf( $reseller_link_template,
 		// URL to reseller website.
-		esc_url( $reseller_url ), 
+		esc_url( $reseller_url ),
 		// Title of reseller.
 		$boldgrid_reseller['reseller_title'] );
 } else {
@@ -46,6 +43,11 @@ if ( isset( $boldgrid_reseller['reseller_title'] ) && isset( $reseller_url ) ) {
 ?>
 
 <div class='wrap'>
+
+<?php
+	// include the navigation
+	include BOLDGRID_BASE_DIR . '/pages/includes/cart_header.php';
+?>
 
 	<div class='plugin-card'>
 

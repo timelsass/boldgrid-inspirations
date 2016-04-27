@@ -49,3 +49,8 @@ table.receipt tr:hover .redownload a {
 .pagination-links {
 	margin-left: 50px;
 }
+
+/* purchase coins */
+div#boldgrid-transaction-tabs + .plugin-card {
+	margin-top: 10px;
+}
