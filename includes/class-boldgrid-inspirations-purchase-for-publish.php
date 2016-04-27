@@ -799,6 +799,36 @@ for purchase, and will be removed from the cart.</p>
 	}
 
 	/**
+	 * Return post_status we will look for watermarked images within.
+	 *
+	 * By default, we will look for watermarked images within drafts and published pages.
+	 *
+	 * @since 1.1.4
+	 *
+	 * @return string A string to be used after in IN statement, example: ( 'draft', 'publish' ).
+	 */
+	public function get_post_status() {
+		$post_status = array( 'draft', 'publish' );
+
+		/**
+		 * Allow other plugins to change the post_status we look for watermarked images within.
+		 *
+		 * By default, we will look within drafts and published pages. Other plugins, such as the
+		 * BoldGrid Staging plugin, may want to look for watermarked images within staged pages.
+		 *
+		 * @since 1.1.4
+		 *
+		 * @param array $post_status The default post_status to look within for watermarked images.
+		*/
+		$post_status = apply_filters( 'boldgrid_cart_post_status', $post_status );
+
+		// Implode our array of $post_status to be used alongside an IN statement.
+		$post_status = '( "' . implode( '", "', esc_sql( $post_status ) ) . '" )';
+
+		return $post_status;
+	}
+
+	/**
 	 * Ajax calls come here to get details by transaction_item_id.
 	 */
 	public function get_purchased_image_details_callback() {
@@ -1062,6 +1092,8 @@ for purchase, and will be removed from the cart.</p>
 			}
 		}
 
+		$post_status = $this->get_post_status();
+
 		/*
 		 * Is this image used within shortcode? For example, is image 123 used in a gallery, such as
 		 * [gallery ids='123,456'].
@@ -1070,7 +1102,7 @@ for purchase, and will be removed from the cart.</p>
 		$query = '
 			SELECT `ID`
 			FROM ' . $wpdb->posts . '
-			WHERE	`post_status` IN ("draft","publish") AND
+			WHERE	`post_status` IN ' . $post_status . ' AND
 					`post_type` IN ("page","post") AND
 					`post_content` REGEXP "' . $regexp . '"
 		';
@@ -1091,7 +1123,7 @@ for purchase, and will be removed from the cart.</p>
 				WHERE	$wpdb->postmeta.meta_key = '_thumbnail_id' AND
 				$wpdb->postmeta.meta_value = %s AND
 				$wpdb->postmeta.post_id = $wpdb->posts.ID AND
-				$wpdb->posts.post_status IN ('draft','publish') AND
+				$wpdb->posts.post_status IN $post_status AND
 					$wpdb->posts.post_type IN ('page','post')
 						", $attachment_id ) );
 
@@ -1180,7 +1212,7 @@ for purchase, and will be removed from the cart.</p>
 						"	SELECT `ID`
 			FROM $wpdb->posts
 			WHERE `post_content` LIKE %s AND
-			`post_status` IN ('draft','publish') AND
+			`post_status` IN $post_status AND
 			`post_type` IN ('page','post')
 			", '%' . $wpdb->esc_like( $file_name_to_query ) . '%' ) );
 				/* @formatter:on */
