@@ -27,7 +27,7 @@ The second phase is Customization; tools to transform your website into your vis
 == Changelog ==
 
 = 1.1.4 In progress =
-* Update:		JIRA WPB-1865	Update style of 'Transacations' pages to better incorporate BoldGrid Staging's nav menu.
+* Update:		JIRA WPB-1865	Update style of 'Transactions' pages to better incorporate BoldGrid Staging's nav menu.
 * Bug fix:		JIRA WPB-1855	Do not display feedback notice on update or setting pages.
 * Bug fix:		JIRA WPB-1860	Fixed horizontal line through screenshot in step 2.
 * Bug fix:		JIRA WPB-1863	Cart does not look for watermarked images used within staged pages.
