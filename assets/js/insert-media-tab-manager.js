@@ -205,6 +205,20 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 				        return;
 			        }
 
+			        /*
+			         * Refresh the Media Library if we're going from the BGCS tab to the Library
+			         * tab. We may have downloaded an image while in the BGCS tab, so refresh the
+			         * Library so we can see our new image.
+			         */
+			        if( $newTab.is( $libraryTab ) && $priorTab.is( $bgcsTab ) ) {
+			        	if( wp.media.frame.content.get() !== null ) {
+			        		wp.media.frame.content.get().collection.props.set( { ignore: ( + new Date() ) } );
+			        		wp.media.frame.content.get().options.selection.reset();
+			        	} else {
+			        		wp.media.frame.library.props.set( { ignore: ( + new Date() ) } );
+			        	}
+			        }
+
 			        // Toggle the '.active' state of the tabs.
 			        $( '.media-router:visible .media-menu-item' ).removeClass( 'active' );
 			        $tab.addClass( 'active' );
