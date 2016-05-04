@@ -27,6 +27,7 @@ The second phase is Customization; tools to transform your website into your vis
 == Changelog ==
 
 = 1.1.4 In progress =
+* Bug fix:		JIRA WPB-1886	Fixed feedback notice being displayed too often (more than a week after submitting).
 * New feature:	JIRA WPB-1183	Refresh the Library Tab after downloading an image.
 * Update:		JIRA WPB-1865	Update style of 'Transactions' pages to better incorporate BoldGrid Staging's nav menu.
 * Update:		JIRA WPB-1884	Passed WordPress 4.5.1 testing.

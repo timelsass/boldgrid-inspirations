@@ -281,7 +281,7 @@ class Boldgrid_Inspirations_Feedback {
 		// Get the install timestamp.
 		$install_timestamp = $install_options['install_timestamp'];
 
-		// If is has been less than 7 days since a site was intalled, then abort.
+		// If is has been less than 7 days since a site was installed, then abort.
 		if ( $install_timestamp > $seven_days_ago ) {
 			return;
 		}
@@ -614,7 +614,7 @@ class Boldgrid_Inspirations_Feedback {
 		$user_id = get_current_user_id();
 
 		// Get boldgrid_feedback_sent (array of timestamps) from user metadata.
-		$feedback_sent = add_user_meta( $user_id, 'boldgrid_feedback_sent', time(), true );
+		$feedback_sent = add_user_meta( $user_id, 'boldgrid_feedback_sent', time(), false );
 
 		// Terminate this callback script.
 		wp_die();
