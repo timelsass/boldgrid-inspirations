@@ -2,7 +2,7 @@
 Contributors: imh_brad, joemoto, rramo012, timph
 Tags: inspiration,customization,build,create,design
 Requires at least: 4.3
-Tested up to: 4.5
+Tested up to: 4.5.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -29,6 +29,7 @@ The second phase is Customization; tools to transform your website into your vis
 = 1.1.4 In progress =
 * New feature:	JIRA WPB-1183	Refresh the Library Tab after downloading an image.
 * Update:		JIRA WPB-1865	Update style of 'Transactions' pages to better incorporate BoldGrid Staging's nav menu.
+* Update:		JIRA WPB-1884	Passed WordPress 4.5.1 testing.
 * Bug fix:		JIRA WPB-1855	Do not display feedback notice on update or setting pages.
 * Bug fix:		JIRA WPB-1860	Fixed horizontal line through screenshot in step 2.
 * Bug fix:		JIRA WPB-1863	Cart does not look for watermarked images used within staged pages.
