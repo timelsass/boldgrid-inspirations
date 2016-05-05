@@ -20,7 +20,7 @@ IMHWPB.TransactionHistory = function(configs) {
 
 	/**
 	 * "jQuery(function() {" is the shorthand for "$( document ).ready()"
-	 * 
+	 *
 	 * Code included inside $( document ).ready() will only run once the page
 	 * Document Object Model (DOM) is ready for JavaScript code to execute.
 	 */
@@ -178,7 +178,7 @@ IMHWPB.TransactionHistory = function(configs) {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	this.re_download_purchased_image = function(image_provider_id,
 			id_from_provider, user_transaction_item_id) {
@@ -204,7 +204,7 @@ IMHWPB.TransactionHistory = function(configs) {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	this.setup_pagination = function() {
 		// Show the first page
@@ -216,7 +216,7 @@ IMHWPB.TransactionHistory = function(configs) {
 
 	/**
 	 * Creating the pagination links, like:
-	 * 
+	 *
 	 * 1 | 2 | 3 | 4
 	 */
 	this.setup_pagination_selector = function() {
@@ -277,13 +277,13 @@ IMHWPB.TransactionHistory = function(configs) {
 
 	/**
 	 * Provide new jQuery instance methods
-	 * 
+	 *
 	 * @link http://api.jquery.com/jquery.fn.extend/
 	 */
 	jQuery.fn.extend({
 		/**
 		 * Stylize a wordpress table.
-		 * 
+		 *
 		 * Currently only adds the 'alternate' css class to every other tr
 		 */
 		style_wp_table : function() {
