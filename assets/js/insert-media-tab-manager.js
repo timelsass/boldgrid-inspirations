@@ -23,6 +23,16 @@ var IMHWPB = IMHWPB || {};
 IMHWPB.InsertMediaTabManager = function( $ ) {
 	var self = this;
 
+	/*
+	 * A list of jQuery selectors used throughout this class.
+	 *
+	 * @since 1.1.4
+	 */
+	self.selectors = {
+		insertMedia:  '.media-menu-item:contains("' + _wpMediaViewsL10n.insertMediaTitle + '")',
+		mediaLibrary: '.media-menu-item:contains("' + _wpMediaViewsL10n.mediaLibraryTitle + '")',
+	};
+
 	/**
 	 * A list of selectors, when clicked, that cause the BGCS tab to be added.
 	 *
@@ -32,7 +42,7 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 	// "Add Media" button.
 	'#insert-media-button,' +
 	// "Insert Media" button.
-	'.media-menu-item:contains("' + _wpMediaViewsL10n.insertMediaTitle + '"),' +
+	self.selectors.insertMedia + ',' +
 	// Customizer Header "Add new image" button.
 	'#customize-control-header_image .button.new,' +
 	// Customizer Background "Select Image" button.
@@ -61,6 +71,16 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 		self.setIframe();
 
 		self.onTabClick();
+
+		/*
+		 * If the user clicks "Insert Media" and the "Media Library" tab is selected by default,
+		 * refresh the media library.
+		 */
+		$( document.body ).on( 'click', self.selectors.insertMedia, function() {
+			if( $( self.selectors.mediaLibrary ).hasClass( 'active' ) ) {
+				self.refreshMediaLibrary();
+			}
+		} );
 	} );
 
 	/**
@@ -159,6 +179,22 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 	}
 
 	/**
+	 * @summary Refresh the Media Library.
+	 *
+	 * @link http://wordpress.stackexchange.com/questions/78230/trigger-refresh-for-new-media-manager-in-3-5
+	 *
+	 * @since 1.1.4
+	 */
+	this.refreshMediaLibrary = function() {
+		if( wp.media.frame.content.get() !== null ) {
+    		wp.media.frame.content.get().collection.props.set( { ignore: ( + new Date() ) } );
+    		wp.media.frame.content.get().options.selection.reset();
+    	} else {
+    		wp.media.frame.library.props.set( { ignore: ( + new Date() ) } );
+    	}
+	};
+
+	/**
 	 * Event handler for tab clicks.
 	 *
 	 * @since 1.1.2
@@ -178,8 +214,7 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 			        $mediaRouter = $( '.media-router:visible', window.parent.document ), $priorTab = $mediaRouter
 			            .find( '.media-menu-item.active' ), $newTab = $( this ),
 			        // The "Media Library" tab.
-			        $libraryTab = $mediaRouter.find( '.media-menu-item:contains("'
-			            + _wpMediaViewsL10n.mediaLibraryTitle + '")' ),
+			        $libraryTab = $mediaRouter.find( self.selectors.mediaLibrary ),
 			        // The tab clicked.
 			        $tab = $( this ),
 			        // The toolbar, which is located under the content.
@@ -205,18 +240,9 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 				        return;
 			        }
 
-			        /*
-			         * Refresh the Media Library if we're going from the BGCS tab to the Library
-			         * tab. We may have downloaded an image while in the BGCS tab, so refresh the
-			         * Library so we can see our new image.
-			         */
-			        if( $newTab.is( $libraryTab ) && $priorTab.is( $bgcsTab ) ) {
-			        	if( wp.media.frame.content.get() !== null ) {
-			        		wp.media.frame.content.get().collection.props.set( { ignore: ( + new Date() ) } );
-			        		wp.media.frame.content.get().options.selection.reset();
-			        	} else {
-			        		wp.media.frame.library.props.set( { ignore: ( + new Date() ) } );
-			        	}
+			        // Whenever the "Media Library" tab is clicked, refresh the library.
+			        if( $newTab.is( $libraryTab ) ) {
+			        	self.refreshMediaLibrary();
 			        }
 
 			        // Toggle the '.active' state of the tabs.
