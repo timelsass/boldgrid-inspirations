@@ -834,12 +834,26 @@ class Boldgrid_Inspirations_Asset_Manager extends Boldgrid_Inspirations {
 			return false;
 		}
 
-		// Check if data is present:
-		if ( empty( $this->wp_options_asset ) ) {
+		/*
+		 * Set the array of assets this method will search through.
+		 *
+		 * By default, we'll search through $this->wp_options_asset, which can be affected by the
+		 * BoldGrid Staging plugin.
+		 *
+		 * There are cases in which we need to force the search of an asset throught the staged
+		 * version of the boldgrid_asset option. This can be forced by passing in
+		 * $params[ 'staging' ] = true.
+		 */
+		if( isset( $params[ 'staging' ] ) && true === $params[ 'staging' ] ) {
+			$assets = get_option( 'boldgrid_staging_boldgrid_asset', array() );
+		} elseif( ! empty( $this->wp_options_asset ) ) {
+			$assets = $this->wp_options_asset;
+		} else {
+			// We have no assets, so return false.
 			return false;
 		}
 
-		foreach ( $this->wp_options_asset as $asset_type => $array_of_assets ) {
+		foreach ( $assets as $asset_type => $array_of_assets ) {
 			if ( is_array( $array_of_assets ) && count( $array_of_assets ) > 0 ) {
 				foreach ( $array_of_assets as $asset_key => $asset ) {
 					if ( $asset[$params['by']] == $params[$params['by']] ) {
@@ -849,6 +863,7 @@ class Boldgrid_Inspirations_Asset_Manager extends Boldgrid_Inspirations {
 			}
 		}
 
+		// If no asset was found, return false.
 		return false;
 	}
 

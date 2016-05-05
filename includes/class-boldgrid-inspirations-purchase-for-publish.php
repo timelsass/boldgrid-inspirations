@@ -859,11 +859,31 @@ for purchase, and will be removed from the cart.</p>
 		$assetManager = new Boldgrid_Inspirations_Asset_Manager( $this->pluginPath );
 
 		// Grab the details of the asset based off of asset_id.
-		$asset = $assetManager->get_asset(
-			array(
-				'by' => 'transaction_item_id',
-				'transaction_item_id' => $transaction_item_id,
-			) );
+		$search_params = array(
+			'by' => 'transaction_item_id',
+			'transaction_item_id' => $transaction_item_id,
+		);
+
+		$asset = $assetManager->get_asset( $search_params );
+
+		/*
+		 * Currently, there is an 'active' cart and a 'staging' cart.
+		 *
+		 * If the user purchases an image in their staging cart, the transaction info will have been
+		 * saved to boldgrid_staging_boldgrid_asset.
+		 *
+		 * Transactions are not flagged as active or staging.
+		 *
+		 * For any images purchased through the staged cart, the above call to get_asset() will fail
+		 * because it will try to get the asset from the active assets, not the staging assets.
+		 *
+		 * IF the call to get_asset above returned false, try again, but force the search within
+		 * staging assets.
+		 */
+		if( false === $asset ) {
+			$search_params[ 'staging' ] = true;
+			$asset = $assetManager->get_asset( $search_params );
+		}
 
 		// Get all the local data for the attachment id.
 		if ( isset( $asset['attachment_id'] ) && is_numeric( $asset['attachment_id'] ) ) {
