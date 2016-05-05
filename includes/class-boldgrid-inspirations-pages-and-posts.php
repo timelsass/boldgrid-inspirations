@@ -81,31 +81,30 @@ class Boldgrid_Inspirations_Pages_And_Posts {
 	 *
 	 * @since 1.0.8
 	 *
-	 * @param string $hook
-	 *        	The $hook_suffix for the current admin page.
+	 * @global object $post Data from the current post in The Loop.
+	 *
+	 * @param  string $hook The $hook_suffix for the current admin page.
 	 */
 	public function admin_enqueue_scripts( $hook ) {
-		switch ( $hook ) {
-			case 'post-new.php' :
-			case 'post.php' :
-				wp_enqueue_script( 'manage_menu_assignment_within_editor',
-					plugins_url( '/assets/js/manage_menu_assignment_within_editor.js',
-						BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ), array (),
-					BOLDGRID_INSPIRATIONS_VERSION, true );
+		global $post;
 
-				// boldgrid-in-menu.css
-				wp_register_style( 'boldgrid-in-menu-css',
-					plugins_url( '/assets/css/boldgrid-in-menu.css',
-						BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ), array (),
-					BOLDGRID_INSPIRATIONS_VERSION );
-				wp_enqueue_style( 'boldgrid-in-menu-css' );
+		$is_post_hook = ( 'post-new.php' === $hook || 'post.php' === $hook );
+		$is_post      = ( ! empty( $post->post_type ) && ( 'page' === $post->post_type || 'post' === $post->post_type ) );
 
-				// Coming soon, version 1.0.9 or 1.0.10
-				// wp_enqueue_script( 'suggest_crop_after_replace_image_in_editor',
-				// plugins_url( '/assets/js/suggest-crop-after-replace-image-in-editor.js',
-				// BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ), array (),
-				// BOLDGRID_INSPIRATIONS_VERSION, true );
-				break;
+		if( $is_post_hook && $is_post ) {
+			wp_enqueue_script( 'manage_menu_assignment_within_editor',
+				plugins_url( '/assets/js/manage_menu_assignment_within_editor.js', BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ),
+				array (),
+				BOLDGRID_INSPIRATIONS_VERSION,
+				true
+			);
+
+			wp_register_style( 'boldgrid-in-menu-css',
+				plugins_url( '/assets/css/boldgrid-in-menu.css', BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ),
+				array (),
+				BOLDGRID_INSPIRATIONS_VERSION
+			);
+			wp_enqueue_style( 'boldgrid-in-menu-css' );
 		}
 	}
 

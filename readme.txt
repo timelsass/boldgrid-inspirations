@@ -35,6 +35,7 @@ The second phase is Customization; tools to transform your website into your vis
 * Bug fix:		JIRA WPB-1860	Fixed horizontal line through screenshot in step 2.
 * Bug fix:		JIRA WPB-1863	Cart does not look for watermarked images used within staged pages.
 * Bug fix:		JIRA WPB-1891	View / Download of images within receipts not working for images purchased via Staging.
+* Bug fix:		JIRA WPB-1893	JS errors in console when viewing attachments.
 
 = 1.1.3 =
 * Bug fix:		JIRA WPB-1824	Fixed order of plugin deactivation and uninstall in Start Over process.
