@@ -284,7 +284,7 @@ class Boldgrid_Inspirations_Attribution extends Boldgrid_Inspirations {
 	 *
 	 * When displaying a menu using wp_page_menu, remove our Attribution page.
 	 *
-	 * @since 1.1.2
+	 * @since 1.1.4
 	 *
 	 * @param  array $args An array of page menu arguments.
 	 * @return array An array of page menu arguments.
