@@ -159,6 +159,8 @@ class Boldgrid_Inspirations_Attribution extends Boldgrid_Inspirations {
 					$this,
 					'remove_edit_page_link_from_attribution_page_bottom'
 				) );
+
+			add_filter( 'wp_page_menu_args' , array( $this, 'wp_page_menu_args' ) );
 		}
 	}
 
@@ -275,6 +277,38 @@ class Boldgrid_Inspirations_Attribution extends Boldgrid_Inspirations {
 		if ( $this->current_page_is_attribution_page() ) {
 			echo "\n<meta name='robots' content='noindex'>\n";
 		}
+	}
+
+	/**
+	 * Filter wp_page_menu_args.
+	 *
+	 * When displaying a menu using wp_page_menu, remove our Attribution page.
+	 *
+	 * @since 1.1.2
+	 *
+	 * @param  array $args An array of page menu arguments.
+	 * @return array An array of page menu arguments.
+	 */
+	public function wp_page_menu_args( $args ) {
+		$attribution_id = ( empty( $this->wp_options_attribution['page']['id'] ) ? null : $this->wp_options_attribution['page']['id'] );
+
+		/*
+		 * If we have an Attribution page, add it to the ['exclude'] value.
+		 *
+		 * The exclude value is a csv of page id's to exclude.
+		 *
+		 * If it is blank, then set it to our Attribution page's id.
+		 * Else there are values already there, then append our id.
+		 */
+		if( ! is_null( $attribution_id ) ) {
+			if( empty( $args['exclude'] ) ) {
+				$args['exclude'] = $attribution_id;
+			} else {
+				$args['exclude'] .= ',' . $attribution_id;
+			}
+		}
+
+		return $args;
 	}
 
 	/**
