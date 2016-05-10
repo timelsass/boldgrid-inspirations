@@ -2,7 +2,7 @@
 Contributors: imh_brad, joemoto, rramo012, timph
 Tags: inspiration,customization,build,create,design
 Requires at least: 4.3
-Tested up to: 4.5.1
+Tested up to: 4.5.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -26,7 +26,7 @@ The second phase is Customization; tools to transform your website into your vis
 
 == Changelog ==
 
-= 1.1.4 In progress =
+= 1.1.4 =
 * Bug fix:		JIRA WPB-1886	Fixed feedback notice being displayed too often (more than a week after submitting).
 * New feature:	JIRA WPB-1183	Refresh the Library Tab after downloading an image.
 * Update:		JIRA WPB-1865	Update style of 'Transactions' pages to better incorporate BoldGrid Staging's nav menu.
@@ -68,7 +68,7 @@ The second phase is Customization; tools to transform your website into your vis
 * Bug fix:		JIRA WPB-1788	webkit css missing from 'new from gridblocks'.
 * New feature:	JIRA WPB-1806	Add 'BoldGrid search' tab when replacing an image.
 
-= 1.1.1.1 = 
+= 1.1.1.1 =
 * Bug Fix:						Fixing logo display on login screen.
 
 = 1.1.1 =
