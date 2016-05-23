@@ -1331,20 +1331,20 @@ class Boldgrid_Inspirations_Asset_Manager extends Boldgrid_Inspirations {
 		$this->get_combined_assets();
 
 		// Determine if we are updating an Active or Staging asset.
-		$is_asset_active = ( $this->asset_id_data[ $asset_id ]['active'] === 'active' );
+		$is_asset_active = ( 'active' === $this->asset_id_data[ $asset_id ]['active'] );
 
 		// Determine the option name we will be working with.
 		$option_name = ( true === $is_asset_active ? 'boldgrid_asset' : 'boldgrid_staging_boldgrid_asset' );
 
 		// Get our assets.
-		if( true === $is_asset_active ) {
+		if ( true === $is_asset_active ) {
 			$assets = $this->get_active_assets();
 		} else {
 			$assets = get_option( $option_name );
 		}
 
 		// If we do not have any assets, return false.
-		if( false === $assets ) {
+		if ( false === $assets ) {
 			return false;
 		} else {
 			$assets = $this->fix_array_structure( $assets );
