@@ -26,6 +26,9 @@ The second phase is Customization; tools to transform your website into your vis
 
 == Changelog ==
 
+= 1.1.5 In progress =
+* Bug fix:		JIRA WPB-1914	Staged image used on Active page not showing in cart.
+
 = 1.1.4 =
 * Bug fix:		JIRA WPB-1886	Fixed feedback notice being displayed too often (more than a week after submitting).
 * New feature:	JIRA WPB-1183	Refresh the Library Tab after downloading an image.

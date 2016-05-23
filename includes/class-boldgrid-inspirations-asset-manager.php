@@ -1031,6 +1031,63 @@ class Boldgrid_Inspirations_Asset_Manager extends Boldgrid_Inspirations {
 	}
 
 	/**
+	 * Merge and return the Active and Staging values of the 'boldgrid_asset' option.
+	 *
+	 * @since 1.1.5
+	 *
+	 * @return array
+	 */
+	public function get_combined_assets() {
+		$is_staging_active = is_plugin_active( 'boldgrid-staging/boldgrid-staging.php' );
+
+		/*
+		 * The default value to return if our get_option calls below return false.
+		 *
+		 * This array will also be the return value of this method. Our two options will be
+		 * merged into this empty array.
+		 */
+		$default = array(
+			'plugin' => array(),
+			'theme' => array(),
+			'image' => array()
+		);
+
+		/*
+		 * If the BoldGrid Staging plugin is active, remove all filters for
+		 * 'pre_option_boldgrid_asset'.
+		 *
+		 * If we did not remove this filter, get_option( 'boldgrid_asset' ) would instead return
+		 * the 'boldgrid_staging_boldgrid_asset' option.
+		 */
+		remove_all_filters( 'pre_option_boldgrid_asset' );
+
+		$option = get_option( 'boldgrid_asset', $default );
+		$staging_option = get_option( 'boldgrid_staging_boldgrid_asset', $default );
+
+		/*
+		 * If the BoldGrid Staging plugin is active, we would have removed the filters for
+		 * 'pre_option_boldgrid_asset' a few lines above. Add the filter back.
+		 */
+		if( $is_staging_active ) {
+			$staging = new Boldgrid_Staging_Plugin;
+			add_action( 'pre_option_boldgrid_asset', array ( $staging, 'boldgrid_asset_pre_option' ) );
+		}
+
+		// Merge our active and staging options into $default.
+		foreach( array( 'plugin', 'theme', 'image' ) as $key ) {
+			if( isset( $option[ $key ] ) && is_array( $option[ $key ] ) ) {
+				$default[ $key ] = array_merge( $default[ $key ], $option[ $key ] );
+			}
+
+			if( isset( $staging_option[ $key ] ) && is_array( $staging_option[ $key ] ) ) {
+				$default[ $key ] = array_merge( $default[ $key ], $staging_option[ $key ] );
+			}
+		}
+
+		return $default;
+	}
+
+	/**
 	 * Is asset used within a certain post?
 	 *
 	 * @param object $post A WordPress post object.

@@ -651,6 +651,9 @@ for purchase, and will be removed from the cart.</p>
 	 * @param array $args An array of arguments.
 	 */
 	public function create_array_assets_needing_purchase( $args = array() ) {
+		require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-asset-manager.php';
+		$asset_manager = new Boldgrid_Inspirations_Asset_Manager( $this->pluginPath );
+
 		/**
 		 * ********************************************************************
 		 * Configure args and vars
@@ -667,7 +670,7 @@ for purchase, and will be removed from the cart.</p>
 		$args = wp_parse_args( $args, $defaults );
 
 		// Get all assets from the options table:
-		$this->wp_options_asset = get_option( 'boldgrid_asset' );
+		$this->wp_options_asset = $asset_manager->get_combined_assets();
 
 		/**
 		 * ********************************************************************
