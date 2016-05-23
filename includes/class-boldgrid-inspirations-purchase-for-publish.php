@@ -373,11 +373,18 @@ class Boldgrid_Inspirations_Purchase_For_Publish extends Boldgrid_Inspirations {
 		 */
 		foreach ( $local_publish_cost_data as $asset_id => $asset_cost ) {
 			// Grab the details of the asset based off of asset_id.
-			$asset = $assetManager->get_asset(
-				array(
-					'by' => 'asset_id',
-					'asset_id' => $asset_id,
-				) );
+			$params = array(
+				'by' => 'asset_id',
+				'asset_id' => $asset_id,
+			);
+
+			$asset = $assetManager->get_asset( $params );
+
+			// If we did not find an Active asset, look instead through the Staging assets.
+			if( false === $asset ) {
+				$params[ 'staging' ] = true;
+				$asset = $assetManager->get_asset( $params );
+			}
 
 			$download_data = array(
 				'type' => 'built_photo_search_purchase',

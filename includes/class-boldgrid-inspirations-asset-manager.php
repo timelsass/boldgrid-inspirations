@@ -23,6 +23,44 @@ class Boldgrid_Inspirations_Asset_Manager extends Boldgrid_Inspirations {
 	private $asset_cache = null;
 
 	/**
+	 * An array used to store data by asset id.
+	 *
+	 * @since  1.1.5
+	 * @access public
+	 *
+	 * @var    array
+	 */
+	public $asset_id_data = array();
+
+	/**
+	 * A default setup for the boldgrid_asset option.
+	 *
+	 * @since  1.1.5
+	 * @access public
+	 *
+	 * @var    array
+	 */
+	public $default_assets = array(
+		'plugin' => array(),
+		'theme'  => array(),
+		'image'  => array(),
+	);
+
+	/**
+	 * An array containing the different types of assets.
+	 *
+	 * @since  1.1.5
+	 * @access public
+	 *
+	 * @var    array
+	 */
+	public $asset_types = array(
+		'plugin',
+		'theme',
+		'image',
+	);
+
+	/**
 	 * Get the access cache object.
 	 *
 	 * @since 1.1.2
@@ -782,6 +820,66 @@ class Boldgrid_Inspirations_Asset_Manager extends Boldgrid_Inspirations {
 	}
 
 	/**
+	 * Ensure assets array has proper structure.
+	 *
+	 * The three type of assets ( plugin, theme, image ) should be arrays. Test each type. If it
+	 * is not an array, set it as an empty area.
+	 *
+	 * @since 1.1.5
+	 *
+	 * @param  array $assets An array of assets.
+	 * @return array
+	 */
+	public function fix_array_structure( $assets ) {
+		// If our assets is not an array, return the default structure.
+		if( ! is_array( $assets ) ) {
+			return $this->default_assets;
+		}
+
+		// Make sure each asset type is defined and is an array.
+		foreach( $this->asset_types as $type ) {
+			if( ! isset( $assets[ $type ] ) ) {
+				$assets[ $type ] = array();
+			} elseif ( ! is_array( $assets[ $type ] ) ) {
+				$assets[ $type ] = array();
+			}
+		}
+
+		return $assets;
+	}
+
+	/**
+	 * Get the Active 'boldgrid_asset' option.
+	 *
+	 * The requires disabling all filters for 'pre_option_boldgrid_asset'.
+	 *
+	 * @since 1.1.5
+	 *
+	 * @return array.
+	 */
+	public function get_active_assets() {
+		$is_staging_active = is_plugin_active( 'boldgrid-staging/boldgrid-staging.php' );
+
+		/*
+		 * If the BoldGrid Staging plugin is active, remove all filters for
+		 * 'pre_option_boldgrid_asset'.
+		 *
+		 * If we did not remove this filter, get_option( 'boldgrid_asset' ) would instead return
+		 * the 'boldgrid_staging_boldgrid_asset' option.
+		 */
+		remove_all_filters( 'pre_option_boldgrid_asset' );
+
+		$assets = get_option( 'boldgrid_asset' );
+
+		if( $is_staging_active ) {
+			$staging = new Boldgrid_Staging_Plugin;
+			add_action( 'pre_option_boldgrid_asset', array ( $staging, 'boldgrid_asset_pre_option' ) );
+		}
+
+		return $assets;
+	}
+
+	/**
 	 * Pass an attachment_id and return possible file names for the asset.
 	 *
 	 * For example, possible filenames include the file's filename as well as the filename of the
@@ -825,8 +923,9 @@ class Boldgrid_Inspirations_Asset_Manager extends Boldgrid_Inspirations {
 	 */
 	public function get_asset( $params ) {
 		// Validate parameters:
-		if ( 'asset_id' != $params['by'] && 'transaction_item_id' != $params['by'] &&
-			 'attachment_id' != $params['by'] ) {
+		if ( 'asset_id'            != $params['by'] &&
+			 'transaction_item_id' != $params['by'] &&
+			 'attachment_id'       != $params['by'] ) {
 
 			// LOG.
 			error_log( __METHOD__ . ': Error: Invalid parameters: ' . print_r( $params, true ) );
@@ -834,31 +933,12 @@ class Boldgrid_Inspirations_Asset_Manager extends Boldgrid_Inspirations {
 			return false;
 		}
 
-		/*
-		 * Set the array of assets this method will search through.
-		 *
-		 * By default, we'll search through $this->wp_options_asset, which can be affected by the
-		 * BoldGrid Staging plugin.
-		 *
-		 * There are cases in which we need to force the search of an asset throught the staged
-		 * version of the boldgrid_asset option. This can be forced by passing in
-		 * $params[ 'staging' ] = true.
-		 */
-		if( isset( $params[ 'staging' ] ) && true === $params[ 'staging' ] ) {
-			$assets = get_option( 'boldgrid_staging_boldgrid_asset', array() );
-		} elseif( ! empty( $this->wp_options_asset ) ) {
-			$assets = $this->wp_options_asset;
-		} else {
-			// We have no assets, so return false.
-			return false;
-		}
+		$assets = $this->get_combined_assets();
 
 		foreach ( $assets as $asset_type => $array_of_assets ) {
-			if ( is_array( $array_of_assets ) && count( $array_of_assets ) > 0 ) {
-				foreach ( $array_of_assets as $asset_key => $asset ) {
-					if ( $asset[$params['by']] == $params[$params['by']] ) {
-						return $asset;
-					}
+			foreach ( $array_of_assets as $asset_key => $asset ) {
+				if ( $asset[$params['by']] == $params[$params['by']] ) {
+					return $asset;
 				}
 			}
 		}
@@ -1021,9 +1101,7 @@ class Boldgrid_Inspirations_Asset_Manager extends Boldgrid_Inspirations {
 
 		// If the option doesn't already exist, initiate it.
 		if ( false === $this->wp_options_asset ) {
-			$this->wp_options_asset['image'] = '';
-			$this->wp_options_asset['plugin'] = '';
-			$this->wp_options_asset['theme'] = '';
+			$this->wp_options_asset = $this->default_assets;
 
 			// Save it.
 			$this->save_wp_options_asset();
@@ -1038,50 +1116,30 @@ class Boldgrid_Inspirations_Asset_Manager extends Boldgrid_Inspirations {
 	 * @return array
 	 */
 	public function get_combined_assets() {
-		$is_staging_active = is_plugin_active( 'boldgrid-staging/boldgrid-staging.php' );
 
 		/*
-		 * The default value to return if our get_option calls below return false.
-		 *
-		 * This array will also be the return value of this method. Our two options will be
-		 * merged into this empty array.
+		 * A generic return value for this method. Our Active and Staging options will be merged
+		 * into this empty array.
 		 */
-		$default = array(
-			'plugin' => array(),
-			'theme' => array(),
-			'image' => array()
-		);
+		$default = $this->default_assets;
 
-		/*
-		 * If the BoldGrid Staging plugin is active, remove all filters for
-		 * 'pre_option_boldgrid_asset'.
-		 *
-		 * If we did not remove this filter, get_option( 'boldgrid_asset' ) would instead return
-		 * the 'boldgrid_staging_boldgrid_asset' option.
-		 */
-		remove_all_filters( 'pre_option_boldgrid_asset' );
+		// Get all Active assets and flag them as Active.
+		$active_assets = $this->get_active_assets();
+		$active_assets = $this->fix_array_structure( $active_assets );
+		foreach( $active_assets['image'] as $key => $asset ) {
+			$this->asset_id_data[ $asset['asset_id'] ]['active'] = 'active';
+		}
 
-		$option = get_option( 'boldgrid_asset', $default );
-		$staging_option = get_option( 'boldgrid_staging_boldgrid_asset', $default );
-
-		/*
-		 * If the BoldGrid Staging plugin is active, we would have removed the filters for
-		 * 'pre_option_boldgrid_asset' a few lines above. Add the filter back.
-		 */
-		if( $is_staging_active ) {
-			$staging = new Boldgrid_Staging_Plugin;
-			add_action( 'pre_option_boldgrid_asset', array ( $staging, 'boldgrid_asset_pre_option' ) );
+		// Get all Staging assets and flag them as Staging.
+		$staging_assets = get_option( 'boldgrid_staging_boldgrid_asset' );
+		$staging_assets = $this->fix_array_structure( $staging_assets );
+		foreach( $staging_assets['image'] as $key => $asset ) {
+			$this->asset_id_data[ $asset['asset_id'] ]['active'] = 'staging';
 		}
 
 		// Merge our active and staging options into $default.
-		foreach( array( 'plugin', 'theme', 'image' ) as $key ) {
-			if( isset( $option[ $key ] ) && is_array( $option[ $key ] ) ) {
-				$default[ $key ] = array_merge( $default[ $key ], $option[ $key ] );
-			}
-
-			if( isset( $staging_option[ $key ] ) && is_array( $staging_option[ $key ] ) ) {
-				$default[ $key ] = array_merge( $default[ $key ], $staging_option[ $key ] );
-			}
+		foreach( $this->asset_types as $asset_type ) {
+				$default[ $asset_type ] = array_merge( $active_assets[ $asset_type ], $staging_assets[ $asset_type ] );
 		}
 
 		return $default;
@@ -1251,26 +1309,60 @@ class Boldgrid_Inspirations_Asset_Manager extends Boldgrid_Inspirations {
 	}
 
 	/**
-	 * Update asset.
+	 * Update an asset.
+	 *
+	 * One asset has an array of data stored about it. This method allows you to update either:
+	 * 1. The entire array of the asset data.
+	 * 2. One specific key / value of the asset array.
+	 *
+	 * This method will automatically determine if the asset in question is Active or Staging, and
+	 * update the applicable option ( boldgrid_asset or boldgrid_staging_boldgrid_asset ).
 	 *
 	 * @param array $params An array of parameters.
 	 *
 	 * @return bool
 	 */
 	public function update_asset( $params ) {
+		// Define a few variables to help code readability.
+		$asset_id = $params['asset_id'];
+		$type     = $params['asset_type'];
+
+		// Call the get_combined_assets method to set this class' asset_id_data property.
+		$this->get_combined_assets();
+
+		// Determine if we are updating an Active or Staging asset.
+		$is_asset_active = ( $this->asset_id_data[ $asset_id ]['active'] === 'active' );
+
+		// Determine the option name we will be working with.
+		$option_name = ( true === $is_asset_active ? 'boldgrid_asset' : 'boldgrid_staging_boldgrid_asset' );
+
+		// Get our assets.
+		if( true === $is_asset_active ) {
+			$assets = $this->get_active_assets();
+		} else {
+			$assets = get_option( $option_name );
+		}
+
+		// If we do not have any assets, return false.
+		if( false === $assets ) {
+			return false;
+		} else {
+			$assets = $this->fix_array_structure( $assets );
+		}
+
 		switch ( $params['task'] ) {
 			case 'update_key_value' :
 				// Loop through all assets of the given type: $params['asset_type'].
-				foreach ( $this->wp_options_asset[$params['asset_type']] as $asset_key => $asset ) {
+				foreach ( $assets[ $type ] as $asset_key => $asset ) {
 
 					// When we get an asset_id match.
-					if ( $asset['asset_id'] == $params['asset_id'] ) {
+					if ( $asset['asset_id'] == $asset_id ) {
 
 						// Update the key value.
-						$this->wp_options_asset[$params['asset_type']][$asset_key][$params['key']] = $params['value'];
+						$assets[ $type ][ $asset_key ][ $params['key'] ] = $params['value'];
 
-						// Save the updated assets.
-						$this->save_wp_options_asset();
+						// Save our updated assets.
+						update_option( $option_name, $assets );
 
 						return true;
 					}
@@ -1278,22 +1370,27 @@ class Boldgrid_Inspirations_Asset_Manager extends Boldgrid_Inspirations {
 				break;
 
 			case 'update_entire_asset' :
-				foreach ( $this->wp_options_asset as $asset_type => $array_of_assets ) {
-					if ( is_array( $array_of_assets ) and count( $array_of_assets ) > 0 ) {
-						foreach ( $array_of_assets as $asset_key => $asset ) {
-							if ( $asset['asset_id'] == $params['asset_id'] ) {
-								$this->wp_options_asset[$asset_type][$asset_key] = $params['asset'];
+				foreach ( $assets as $asset_type => $array_of_assets ) {
+					// Loop through all of the assets.
+					foreach ( $array_of_assets as $asset_key => $asset ) {
 
-								$this->save_wp_options_asset();
+						// If we have found an asset_id match.
+						if ( $asset['asset_id'] == $asset_id ) {
 
-								return true;
-							}
+							// Update the asset.
+							$assets[ $asset_type ][ $asset_key ] = $params['asset'];
+
+							// Save our updated assets.
+							update_option( $option_name, $assets );
+
+							return true;
 						}
 					}
 				}
 				break;
 		}
 
+		// If we have reached this point, we were unable to find and update the requested asset.
 		return false;
 	}
 }
