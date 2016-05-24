@@ -26,6 +26,9 @@ The second phase is Customization; tools to transform your website into your vis
 
 == Changelog ==
 
+= 1.1.6 In progress =
+* Bug fix:		JIRA WPB-1955	Fatal error: Class 'Boldgrid_Staging_Plugin' not found.
+
 = 1.1.5 =
 * Bug fix:		JIRA WPB-1914	Staged image used on Active page not showing in cart.
 

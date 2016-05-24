@@ -871,7 +871,7 @@ class Boldgrid_Inspirations_Asset_Manager extends Boldgrid_Inspirations {
 
 		$assets = get_option( 'boldgrid_asset' );
 
-		if( $is_staging_active ) {
+		if( $is_staging_active && class_exists( 'Boldgrid_Staging_Plugin' ) ) {
 			$staging = new Boldgrid_Staging_Plugin;
 			add_action( 'pre_option_boldgrid_asset', array ( $staging, 'boldgrid_asset_pre_option' ) );
 		}
