@@ -423,11 +423,12 @@ class Boldgrid_Inspirations_Feedback {
 	 * @return null
 	 */
 	public function feedback_diagnostic_data_callback() {
-		// Verify nonce.
-		if ( false === isset( $_POST['_wpnonce'] ) ||
-			 1 !== wp_verify_nonce( $_POST['_wpnonce'], 'feedback-notice-1-1' ) ||
-			 false === check_ajax_referer( 'feedback-notice-1-1' ) ) {
-			wp_die( 'Error: Security violation (invalid nonce).' );
+		// Check the nonce.
+		$nonce_check = check_ajax_referer( 'feedback-notice-1-1', 'feedback_auth', false );
+
+		if ( 1 !== $nonce_check ) {
+			// Terminate this callback script, with an error message.
+			wp_die( 'Error: WordPress security violation.' );
 		}
 
 		// Initialize $return.
@@ -597,18 +598,22 @@ class Boldgrid_Inspirations_Feedback {
 	 * @return null
 	 */
 	public function feedback_submit_callback() {
+		// Check the nonce.
+		$nonce_check = check_ajax_referer( 'feedback-notice-1-1', 'feedback_auth', false );
+
+		if ( 1 !== $nonce_check ) {
+			// Terminate this callback script, with an error message.
+			wp_die( 'Error: WordPress security violation.' );
+		}
+
 		// Validate POST form_data.
 		if ( empty( $_POST['form_data'] ) ) {
-			echo 'Error: Empty form data set.';
-
-			// Terminate this callback script.
-			wp_die();
+			// Terminate this callback script, with an error message.
+			wp_die( 'Error: Empty form data set.' );
 		}
 
 		// Add feedback.
 		self::add_feedback( 'feedback_form', $_POST['form_data'] );
-
-		echo 'Success';
 
 		// Get the current user id.
 		$user_id = get_current_user_id();
@@ -616,8 +621,8 @@ class Boldgrid_Inspirations_Feedback {
 		// Get boldgrid_feedback_sent (array of timestamps) from user metadata.
 		$feedback_sent = add_user_meta( $user_id, 'boldgrid_feedback_sent', time(), false );
 
-		// Terminate this callback script.
-		wp_die();
+		// Terminate this callback script, with a success message.
+		wp_die( 'Success' );
 
 		// Return added for CodeSniffer.
 		return;

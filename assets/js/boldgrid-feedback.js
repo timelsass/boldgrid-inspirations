@@ -47,7 +47,7 @@ IMHWPB.BoldGridFeedback = function( $ ) {
 		$feedbackSubmit = $feedbackNotice11.find( '#feedback-submit' );
 
 		// Get the wpnonce and referer values.
-		self.wpnonce = $feedbackNotice11.find( '#_wpnonce' ).val();
+		self.wpnonce = $feedbackNotice11.find( '#feedback_auth' ).val();
 
 		self.wpHttpReferer = $feedbackNotice11.find( '[name="_wp_http_referer"]' ).val();
 
@@ -170,7 +170,7 @@ IMHWPB.BoldGridFeedback = function( $ ) {
 		// Generate the data array.
 		data = {
 		    'action' : 'boldgrid_feedback_diagnostic_data',
-		    '_wpnonce' : self.wpnonce,
+		    'feedback_auth' : self.wpnonce,
 		    '_wp_http_referer' : self.wpHttpReferer
 		};
 
@@ -252,7 +252,7 @@ IMHWPB.BoldGridFeedback = function( $ ) {
 		data = {
 		    'action' : 'boldgrid_feedback_submit',
 		    'form_data' : formData,
-		    '_wpnonce' : self.wpnonce,
+		    'feedback_auth' : self.wpnonce,
 		    '_wp_http_referer' : self.wpHttpReferer
 		};
 
