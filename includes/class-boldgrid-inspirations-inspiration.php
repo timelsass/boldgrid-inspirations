@@ -305,6 +305,10 @@ class Boldgrid_Inspirations_Inspiration extends Boldgrid_Inspirations {
 		// GridBlock Sets - Admin Page.
 		$gridblock_sets_admin = new Boldgrid_Inspirations_GridBlock_Sets_Admin( $this->configs );
 		$gridblock_sets_admin->add_hooks();
+
+		// Inspirations - Design First.
+		$gridblock_sets_design_first = new Boldgrid_Inspirations_Design_First();
+		$gridblock_sets_design_first->add_hooks();
 	}
 
 	/*
@@ -500,6 +504,7 @@ public function include_admin_files() {
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-asset-manager.php';
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-pages-and-posts.php';
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-gridblock-sets-admin.php';
+	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-design-first.php';
 }
 
 /**
