@@ -1,0 +1,10 @@
+/* Page layout */
+#screen-design .left {
+	border: 1px solid #000;
+	width: 33%;
+}
+
+#screen-design .right {
+	border: 1px solid #000;
+	width: 66%;
+}
