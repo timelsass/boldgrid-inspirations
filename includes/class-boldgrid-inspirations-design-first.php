@@ -65,6 +65,8 @@ class Boldgrid_Inspirations_Design_First {
 		);
 		wp_enqueue_style( 'boldgrid-inspirations-design-first' );
 
+		wp_enqueue_style( 'dashicons' );
+
 		// Js.
 		wp_enqueue_script( 'boldgrid-inspirations-design-first',
 			plugins_url( 'assets/js/boldgrid-inspirations-design-first.js', BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ),
