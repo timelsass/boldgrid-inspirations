@@ -1457,7 +1457,7 @@ IMHWPB.Inspiration = function(configs, $) {
 	 */
 	this.get_theme_type = function () {
 		// Default to null to allow backend to choose default.
-		return self.$candidate_checkbox.prop('checked') ? "inprogress" : null;
+		return Inspiration.install_options.theme_release_channel;
 	};
 
 	/**

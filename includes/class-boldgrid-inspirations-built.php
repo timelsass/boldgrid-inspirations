@@ -226,6 +226,7 @@ class Boldgrid_Inspirations_Built {
 		}
 
 		$install_options['boldgrid_staging_options'] = $staging_install_options;
+		$install_options['theme_release_channel'] = Boldgrid_Inspirations_Theme_Install::fetch_theme_channel();
 
 		return $install_options;
 	}
@@ -467,6 +468,7 @@ class Boldgrid_Inspirations_Built {
 			}
 
 			$is_author = ! empty( $boldgrid_api_data->result->data->is_author );
+			$theme_channel = Boldgrid_Inspirations_Theme_Install::fetch_theme_channel();
 
 			// Include the inspirations page.
 			include BOLDGRID_BASE_DIR . '/pages/inspiration.php';

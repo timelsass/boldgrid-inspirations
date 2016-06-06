@@ -662,7 +662,8 @@ class Boldgrid_Inspirations_Deploy {
 			$theme_version_option_name = 'boldgrid_theme_revision_' .
 				 $this->theme_details->themeRevision->Title;
 
-			$theme_dir_exists = is_dir( ABSPATH . 'wp-content/themes/' . $theme_folder_name );
+			$theme_dir = ABSPATH . 'wp-content/themes/' . $theme_folder_name;
+			$theme_dir_exists = is_dir( $theme_dir );
 
 			if ( is_multisite() ) {
 				$installed_theme_version = get_site_option( $theme_version_option_name, null,
@@ -683,10 +684,18 @@ class Boldgrid_Inspirations_Deploy {
 				}
 			}
 
+			// If attempting to install over a .git directory, don't install theme.
+			// Only do this if is author because if a git is accidently commited,
+			// Theme will not install for anyone.
+			$is_git_theme = false;
+			if ( $theme_dir_exists && $this->is_author ) {
+				$is_git_theme = in_array( '.git', scandir( $theme_dir ) );
+			}
+
 			$incoming_theme_version = $this->theme_details->themeRevision->RevisionNumber;
 
-			$install_this_theme = ( $installed_theme_version != $incoming_theme_version ||
-				 false === $theme_dir_exists );
+			$is_version_change = $installed_theme_version != $incoming_theme_version;
+			$install_this_theme = ( $is_version_change || false === $theme_dir_exists ) && ! $is_git_theme;
 
 			/**
 			 * About to attempt to install this theme.
@@ -700,6 +709,11 @@ class Boldgrid_Inspirations_Deploy {
 
 				if ( ! empty( $this->api_key_hash ) ) {
 					$theme_url .= '&key=' . $this->api_key_hash;
+				}
+
+				// If this is a user environment, install for repo.boldgrid.com.
+				if ( ! $this->is_preview_server ) {
+					$theme_url = $this->theme_details['repo_download_link'];
 				}
 
 				$theme_installation_done = false;
@@ -818,6 +832,7 @@ class Boldgrid_Inspirations_Deploy {
 						// Increment the failed attempts counter:
 						$theme_installation_failed_attemps += 0.5;
 					} else {
+
 						// Delete the old theme, if exists:
 						if ( $theme->exists() ) {
 							delete_theme( $theme_folder_name );
@@ -844,7 +859,7 @@ class Boldgrid_Inspirations_Deploy {
 
 						// If Theme_Upgrader::install reports failure or we have no theme name, then
 						// something went wrong.
-						if ( ! $wp_theme_install_success || empty( $this->theme_name ) ) {
+						if ( ( ! $wp_theme_install_success || empty( $this->theme_name ) ) && ! $delete_theme ) {
 							// Delete the theme:
 							delete_theme( $this->theme_details->theme->Name );
 

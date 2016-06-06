@@ -227,7 +227,7 @@ class Boldgrid_Inspirations_Update {
 
 			foreach ( $boldgrid_api_data->result->data as $key => $value ) {
 				if ( preg_match( '/^reseller_/', $key ) ) {
-					$boldgrid_reseller_array[$key] = $boldgrid_api_data->result->data->$key;
+					$boldgrid_reseller_array[ $key ] = $boldgrid_api_data->result->data->$key;
 				}
 			}
 
@@ -436,6 +436,7 @@ class Boldgrid_Inspirations_Update {
 					$tags = $installed_theme->get( 'Tags' );
 
 					// Iterate through the tags to find theme id (boldgrid-theme-id-##).
+					$theme_id = null;
 					foreach ( $tags as $tag ) {
 						if ( preg_match( '/^boldgrid-theme-([0-9]+)$/', $tag, $matches ) ) {
 							$boldgrid_tag = $matches[0];
@@ -446,9 +447,14 @@ class Boldgrid_Inspirations_Update {
 						}
 					}
 
-					// Compare versions.
-					if ( isset( $theme_id ) && isset( $theme_versions[$theme_id]['version'] ) && version_compare(
-						$installed_theme->Version, $theme_versions[$theme_id]['version'], '<' ) ) {
+					// Check if update available for a theme by comparing versions.
+					$current_version = $installed_theme->Version;
+					$incoming_version = ! empty( $theme_versions[ $theme_id ]['version'] ) ?
+						$theme_versions[ $theme_id ]['version'] : null;
+					$update_available = $incoming_version && $current_version != $incoming_version;
+
+					// Update is available set transient.
+					if ( $update_available ) {
 
 						// Get the theme slug, name, and theme URI.
 						$slug = $installed_theme->get_template();
