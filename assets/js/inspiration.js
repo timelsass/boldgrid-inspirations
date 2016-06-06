@@ -1521,10 +1521,8 @@ IMHWPB.Inspiration = function(configs, $) {
 		};
 
 		success_action = function(msg) {
-			var is_active_theme_request = !self.get_theme_type();
-
 			// Show theme if is candidate or theme is active.
-			if ( msg.result.data.theme && ( msg.result.data.theme.is_candidate || is_active_theme_request) ) {
+			if ( msg.result.data.theme ) {
 
 				var source = jQuery("#build-profile-template-revised").html();
 

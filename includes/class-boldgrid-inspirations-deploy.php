@@ -688,7 +688,7 @@ class Boldgrid_Inspirations_Deploy {
 			// Only do this if is author because if a git is accidently commited,
 			// Theme will not install for anyone.
 			$is_git_theme = false;
-			if ( $theme_dir_exists && $this->is_author ) {
+			if ( $theme_dir_exists && $this->is_author && ! $this->is_preview_server ) {
 				$is_git_theme = in_array( '.git', scandir( $theme_dir ) );
 			}
 
@@ -713,7 +713,7 @@ class Boldgrid_Inspirations_Deploy {
 
 				// If this is a user environment, install for repo.boldgrid.com.
 				if ( ! $this->is_preview_server ) {
-					$theme_url = $this->theme_details['repo_download_link'];
+					$theme_url = $this->theme_details->repo_download_link;
 				}
 
 				$theme_installation_done = false;
