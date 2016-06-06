@@ -37,24 +37,40 @@ $lang = array(
 
 		<div class='left'>
 			<div class='coin-filter' ><?php echo $lang['CoinBudget']; ?> <span class='info-icon'></span></div>
-			<div class='coin-option' ><input type="radio" name="coin-budget" data-coin="20" checked > 0 - 20 <?php echo $lang['Coins']; ?></div>
-			<div class='coin-option' ><input type="radio" name="coin-budget" data-coin="40"> 0 - 40 <?php echo $lang['Coins']; ?></div>
-			<div class='coin-option' ><input type="radio" name="coin-budget" data-coin="60"> 0 - 60 <?php echo $lang['Coins']; ?></div>
-			<div class='coin-option' ><input type="radio" name="coin-budget" data-coin="80"> 0 - 80 <?php echo $lang['Coins']; ?></div>
-			<div class='coin-option' ><input type="radio" name="coin-budget" data-coin="0"> <?php echo $lang['Free']; ?></div>
+
+			<div class='coin-option' >
+				<input type="radio" name="coin-budget" data-coin="20" checked >
+				<span class='pointer'>0 - 20 <?php echo $lang['Coins']; ?></span>
+			</div>
+			<div class='coin-option' >
+				<input type="radio" name="coin-budget" data-coin="40">
+				<span class='pointer'>0 - 40 <?php echo $lang['Coins']; ?></span>
+			</div>
+			<div class='coin-option' >
+				<input type="radio" name="coin-budget" data-coin="60">
+				<span class='pointer'>0 - 60 <?php echo $lang['Coins']; ?></span>
+			</div>
+			<div class='coin-option' >
+				<input type="radio" name="coin-budget" data-coin="80">
+				<span class='pointer'>0 - 80 <?php echo $lang['Coins']; ?></span>
+			</div>
+			<div class='coin-option' >
+				<input type="radio" name="coin-budget" data-coin="0">
+				<span class='pointer'><?php echo $lang['Free']; ?></span>
+			</div>
 
 			<div class='page-set-filter' ><?php echo $lang['Pageset']; ?></div>
 			<div id='pageset-options'></div>
 		</div>
 
 		<div class='right'>
-			<div>
+			<div id='build-summary'>
 				<div style='float:left;'>
 					<span id='theme-title'></span>
 					<span id='sub-category-title'></span>
 				</div>
 				<div style='float:right;' class='coin-bg-s' >
-					<?php echo $lang['Coins']; ?>: <span id='build-cost'>..</span>
+					<?php echo $lang['Coins']; ?>: <span id='build-cost'>...</span>
 				</div>
 			</div>
 

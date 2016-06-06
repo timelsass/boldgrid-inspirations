@@ -3,7 +3,8 @@
 
 	<div class='category'>
 		<div class='sub-category'>
-			<input type="radio" name="sub-category" checked data-sub-category-id="0" > <?php echo __( 'All', 'boldgrid-inspirations' ); ?>
+			<input type="radio" name="sub-category" checked data-sub-category-id="0" >
+			<span class="sub-category-name"><?php echo __( 'All', 'boldgrid-inspirations' ); ?></span>
 		</div>
 	</div>
 
@@ -33,27 +34,26 @@
 <script type='text/html' id='tmpl-theme'>
 	<#
 		// Format our theme title.
-		data.theme.Title = data.theme.Name.replace( 'boldgrid-', '' );
+		data.build.ThemeName = data.build.ThemeName.replace( 'boldgrid-', '' );
 		data.key = IMHWPB.configs.api_key
 	#>
 	<div	class="theme"
 			tabindex="0"
-			aria-describedby="boldgrid-florentine-action boldgrid-florentine-name"
-			data-category-id="{{data.category.id}}"
-			data-sub-category-id="{{data.sub_category.id}}"
-			data-sub-category-title="{{data.sub_category.name}}"
-			data-page-set-id="{{data.sub_category.defaultPageSetId}}"
-			data-theme-id="{{data.theme.Id}}"
-			data-theme-title="{{data.theme.Title}}"
+			data-category-id="{{data.build.ParentCategoryId}}"
+			data-sub-category-id="{{data.build.CategoryId}}"
+			data-sub-category-title="{{data.build.SubCategoryName}}"
+			data-page-set-id="{{data.build.PageSetId}}"
+			data-theme-id="{{data.build.ThemeId}}"
+			data-theme-title="{{data.build.ThemeName}}"
 	">
 
 		<div class="theme-screenshot">
-			<img src="{{data.configs.asset_server}}/api/asset/get?key={{data.configs.api_key}}&id={{data.profile.asset_id}}" alt="">
+			<img class='lazy' data-original="{{data.configs.asset_server}}/api/asset/get?key={{data.configs.api_key}}&id={{data.build.AssetId}}" alt="" width='290' height='194'>
 		</div>
 
 		<h2 class="theme-name" >
-			<span class='name'>{{data.theme.Title}}</span>
-			<span class='sub-category-name'>- {{data.sub_category.name}}</span>
+			<span class='name'>{{data.build.ThemeName}}</span>
+			<span class='sub-category-name'>- {{data.build.SubCategoryName}}</span>
 		</h2>
 
 		<div class="theme-actions">
@@ -65,11 +65,13 @@
 <script type='text/html' id='tmpl-pagesets'>
 	<#
 		_.each( data, function( pageset ) {
+			pageset.is_default = pageset.is_default_page_set;
 			pageset.is_default_page_set = ( '1' === pageset.is_default_page_set ? 'checked' : '' );
+			pageset.page_set_description = pageset.page_set_description.replace(/'/g, "&#39;");
 	#>
-		<div class='pageset-option'>
-			<input type="radio" name="pageset" data-page-set-id="{{pageset.id}}" {{pageset.is_default_page_set}} > {{pageset.page_set_name}}<br />
-			{{pageset.page_set_description}}
+		<div class='pageset-option' title='{{pageset.page_set_description}}'>
+			<input type="radio" name="pageset" data-is-default="{{pageset.is_default}}" data-page-set-id="{{pageset.id}}" {{pageset.is_default_page_set}} >
+			<span class='pointer'>{{pageset.page_set_name}}</span>
 		</div>
 	<#
 		});

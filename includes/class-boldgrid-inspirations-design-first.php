@@ -32,6 +32,8 @@ class Boldgrid_Inspirations_Design_First {
 	 */
 	public function add_hooks() {
 		add_action( 'admin_menu', array( $this, 'add_menu' ) );
+
+		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 	}
 
 	/**
@@ -51,11 +53,13 @@ class Boldgrid_Inspirations_Design_First {
 	}
 
 	/**
-	 * Admin page.
 	 *
-	 * @since xxx
 	 */
-	public function admin_page() {
+	public function admin_enqueue_scripts( $hook ) {
+		if( 'inspirations_page_admin?page=boldgrid-inspirations-design-first' !== $hook ) {
+			return;
+		}
+
 		// Css.
 		wp_register_style(
 			'boldgrid-inspirations-design-first',
@@ -75,6 +79,21 @@ class Boldgrid_Inspirations_Design_First {
 			true
 		);
 
+		// Js.
+		wp_enqueue_script( 'boldgrid-lazyload',
+			plugins_url( 'assets/js/lazyload.js', BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ),
+			array ( 'jquery' ),
+			BOLDGRID_INSPIRATIONS_VERSION,
+			true
+		);
+	}
+
+	/**
+	 * Admin page.
+	 *
+	 * @since xxx
+	 */
+	public function admin_page() {
 		// Underscores Templates.
 		include BOLDGRID_BASE_DIR . '/pages/templates/boldgrid-inspirations-design-first.php';
 

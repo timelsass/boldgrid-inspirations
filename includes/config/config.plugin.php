@@ -25,6 +25,7 @@ return array (
 		'get_build_profile' =>							'/api/build/get',
 		'get_install_details' =>						'/api/build/get-install-details',
 		'get_build_profile_using_in_progress_theme' =>	'/api/build/get-using-in-progress-theme',
+		'get_generic' =>								'/api/build/get-generic',
 		// pde.
 		'get_curated' =>								'/api/pde/get-curated-asset',
 		// theme.

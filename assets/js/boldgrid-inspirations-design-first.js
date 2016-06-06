@@ -38,11 +38,13 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			$( 'input[name="pageset"]' ).attr( 'disabled', true );
 			$( 'input[name="sub-category"]' ).attr( 'disabled', true );
 			$( '#screen-content .button' ).prop( 'disabled', true );
+			$( '.top-menu a' ).addClass( 'disabled' );
 		} else {
 			$( 'input[name="coin-budget"]' ).attr( 'disabled', false );
 			$( 'input[name="pageset"]' ).attr( 'disabled', false );
 			$( 'input[name="sub-category"]' ).attr( 'disabled', false );
 			$( '#screen-content .button' ).prop( 'disabled', false );
+			$( '.top-menu a' ).removeClass( 'disabled' );
 		}
 	}
 
@@ -56,6 +58,10 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		$( '#screen-content iframe#theme-preview' )
 			.addClass( 'hidden' )
 			.css( 'display', '' );
+
+		// Load the theme title and sub category title.
+		$( '#sub-category-title' ).html( '- ' + self.$theme.closest( '.theme' ).attr( 'data-sub-category-title' ) );
+		$( '#theme-title' ).html( self.$theme.closest( '.theme' ).attr( 'data-theme-title' ) );
 
 		self.toggleStep( 'content' );
 
@@ -86,13 +92,40 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	this.init = function() {
 		self.initCategories();
 
-		$( '.wrap' ).on( 'click', '.expand', function() {
-			var $category = $( this ).closest( '.category' );
-			self.toggleCategory( $category );
+		$( '.wrap' ).on( 'click', '.category-name, .expand', function() {
+			var $category = $( this ).closest( '.category' ),
+				$expander = $category.find( '.expand' );
+			self.toggleCategory( $category, $expander );
 		});
+
+		$( '.wrap' ).on( 'mouseenter', '.category-name, .expand', function() {
+			var $category = $( this ).closest( '.category' );
+			$category.find( '.expand' ).addClass( 'blue');
+			$category.find( '.category-name' ).addClass( 'blue');
+		});
+
+		$( '.wrap' ).on( 'mouseleave', '.category-name, .expand', function() {
+			var $category = $( this ).closest( '.category' );
+			$category.find( '.expand' ).removeClass( 'blue');
+			$category.find( '.category-name' ).removeClass( 'blue');
+		});
+
+		$( '.wrap' ).on( 'mouseenter', '.sub-category-name', function() {
+			$( this ).addClass( 'blue' );
+		})
+
+		$( '.wrap' ).on( 'mouseleave', '.sub-category-name', function() {
+			$( this ).removeClass( 'blue' );
+		})
 
 		$( '.wrap' ).on( 'change', 'input[name="sub-category"]', function() {
 			var $subCategory = $( this );
+			self.toggleSubCategory( $subCategory );
+		});
+
+		$( '.wrap' ).on( 'click', '.sub-category-name', function() {
+			var $subCategory = $( this ).siblings( 'input[name="sub-category"]' );
+			$subCategory.prop( 'checked', true );
 			self.toggleSubCategory( $subCategory );
 		});
 
@@ -106,10 +139,43 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			self.$pageset = $( this );
 			self.loadBuild();
 		});
+		$( '.wrap' ).on( 'click', '.pageset-option span', function() {
+			self.$pageset = $( this ).siblings( 'input[name="pageset"]' );
+			self.$pageset.prop( 'checked', true );
+			self.loadBuild();
+		});
+
+		$( '.wrap' ).on( 'mouseenter', 'input[name="pageset"], .pageset-option span', function() {
+			var $option = $( this ).closest( '.pageset-option' );
+			$option.find( 'input[name="pageset"]' ).addClass( 'blue' );
+			$option.find( 'span' ).addClass( 'blue' );
+		});
+		$( '.wrap' ).on( 'mouseleave', 'input[name="pageset"], .pageset-option span', function() {
+			var $option = $( this ).closest( '.pageset-option' );
+			$option.find( 'input[name="pageset"]' ).removeClass( 'blue' );
+			$option.find( 'span' ).removeClass( 'blue' );
+		});
 
 		$( '.wrap' ).on( 'click', 'input[name="coin-budget"]', function() {
 			self.$budget = $( this );
 			self.loadBuild();
+		});
+
+		$( '.wrap' ).on( 'click', '.coin-option span', function() {
+			self.$budget = $( this ).siblings( 'input[name="coin-budget"]' );
+			self.$budget.prop( 'checked', true );
+			self.loadBuild();
+		});
+
+		$( '.wrap' ).on( 'mouseenter', 'input[name="coin-budget"], .coin-option span', function() {
+			var $option = $( this ).closest( '.coin-option' );
+			$option.find( 'input[name="coin-budget"]' ).addClass( 'blue' );
+			$option.find( 'span' ).addClass( 'blue' );
+		});
+		$( '.wrap' ).on( 'mouseleave', 'input[name="coin-budget"], .coin-option span', function() {
+			var $option = $( this ).closest( '.coin-option' );
+			$option.find( 'input[name="coin-budget"]' ).removeClass( 'blue' );
+			$option.find( 'span' ).removeClass( 'blue' );
 		});
 
 		$( '.wrap' ).on( 'click', '.top-menu a', function() {
@@ -124,9 +190,12 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		});
 
 		$( '#screen-content iframe#theme-preview' ).on( 'load', function() {
+			var $iframe = $( this );
 			$( '#screen-content .boldgrid-loading' ).fadeOut( function() {
 				self.allActions( 'enable' );
-				$( '#build-cost' ).animate( { opacity: 1 }, 400 );
+				$( '#build-cost' )
+					.html( $iframe.attr( 'data-build-cost') )
+					.animate( { opacity: 1 }, 400 );
 				$( '#screen-content iframe#theme-preview' ).fadeIn();
 			} );
 		});
@@ -158,45 +227,63 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 * @since xxx
 	 */
 	this.initThemes = function() {
-		var success_action = function( msg ) {
-			var template = wp.template( 'theme' );
+		var template = wp.template( 'theme' );
 
-			self.themes = msg.result.data;
-
-
-			_.each( self.categories, function( category ) {
-				_.each( category.subcategories, function( sub_category ) {
-					_.each( self.themes, function( theme ) {
-						var successBuildGeneric = function( msg ) {
-							//console.log( msg );
-							// self.$themes.append( template( msg.result.data.profile ) );
-							self.$themes.append( template( { configs: IMHWPB.configs, profile: msg.result.data.profile, sub_category: sub_category, theme: theme, category: category } ) );
-						}
-
-						data = {
-							'theme_id' :			theme.Id,
-							'cat_id' :				category.id,
-							'sub_cat_id' :			sub_category.id,
-							'page_set_id' :			sub_category.defaultPageSetId,
-							'pde' :					null,
-							'wp_language' :			'en-US',
-							'coin_budget' :			20,
-							'theme_version_type' :	null,
-							'page_version_type' :	null,
-							'site_hash' :			self.configs['site_hash'],
-							'inspirations_mode' :	'standard',
-							'is_generic' :			'true'
-						};
-						self.ajax.ajaxCall( data, 'get_build_profile', successBuildGeneric );
-
-						// console.log( { sub_category: sub_category, theme: theme, category: category } );
-						// self.$themes.append( template( { sub_category: sub_category, theme: theme, category: category } ) );
-					});
-				});
-			});
+		data = {
+			'site_hash' :			self.configs['site_hash'],
 		};
 
-		self.ajax.ajaxCall( {'inspirations_mode' : 'standard'}, 'get_all_active_themes', success_action );
+		var cow = function( msg ) {
+			_.each( msg.result.data, function( build ){
+				self.$themes.append( template( { configs: IMHWPB.configs, build: build } ) );
+			});
+
+			$("img.lazy").lazyload({threshold : 400});
+		}
+
+		self.ajax.ajaxCall( data, 'get_generic', cow );
+
+//		return;
+
+//		var success_action = function( msg ) {
+//			var template = wp.template( 'theme' );
+//
+//			self.themes = msg.result.data;
+//
+//
+//			_.each( self.categories, function( category ) {
+//				_.each( category.subcategories, function( sub_category ) {
+//					_.each( self.themes, function( theme ) {
+//						var successBuildGeneric = function( msg ) {
+//							console.log( msg );
+//							// self.$themes.append( template( msg.result.data.profile ) );
+//							self.$themes.append( template( { configs: IMHWPB.configs, profile: msg.result.data.profile, sub_category: sub_category, theme: theme, category: category } ) );
+//						}
+//
+//						data = {
+//							'theme_id' :			theme.Id,
+//							'cat_id' :				category.id,
+//							'sub_cat_id' :			sub_category.id,
+//							'page_set_id' :			sub_category.defaultPageSetId,
+//							'pde' :					null,
+//							'wp_language' :			'en-US',
+//							'coin_budget' :			20,
+//							'theme_version_type' :	null,
+//							'page_version_type' :	null,
+//							'site_hash' :			self.configs['site_hash'],
+//							'inspirations_mode' :	'standard',
+//							'is_generic' :			'true'
+//						};
+//						self.ajax.ajaxCall( data, 'get_generic', successBuildGeneric );
+//
+//						// console.log( { sub_category: sub_category, theme: theme, category: category } );
+//						// self.$themes.append( template( { sub_category: sub_category, theme: theme, category: category } ) );
+//					});
+//				});
+//			});
+//		};
+
+		//self.ajax.ajaxCall( {'inspirations_mode' : 'standard'}, 'get_all_active_themes', success_action );
 	}
 
 	/**
@@ -208,18 +295,11 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		// Disable all actions.
 		self.allActions( 'disable' );
 
-		// Load the theme title and sub category title.
-		$( '#sub-category-title' ).html( '- ' + self.$theme.closest( '.theme' ).attr( 'data-sub-category-title' ) );
-		$( '#theme-title' ).html( self.$theme.closest( '.theme' ).attr( 'data-theme-title' ) );
-
 		// Load our loading graphic.
 		$( '#build-cost' ).animate( { opacity: 0 }, 400 );
 		$( '#screen-content iframe#theme-preview' ).fadeOut( function() {
 			$( '#screen-content .boldgrid-loading' ).fadeIn( );
 		} );
-
-		// Reset the build cost.
-		$( '#build-cost' ).css( 'opacity', '0' );
 
 
 		var success_action = function( msg ) {
@@ -227,10 +307,9 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 				$iframe = $screenContent.find( 'iframe#theme-preview' ),
 				url = msg.result.data.profile.preview_url;
 
-			$iframe.attr( 'src', url );
-
-			// Load the cost of the build.
-			$( '#build-cost' ).html( msg.result.data.profile.coins )
+			$iframe
+				.attr( 'src', url )
+				.attr( 'data-build-cost', msg.result.data.profile.coins );
 		}
 
 		data = {
@@ -245,7 +324,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			'page_version_type' :	null,
 			'site_hash' :			self.configs['site_hash'],
 			'inspirations_mode' :	'standard',
-			'car' : 'moose'
+			'is_generic' :			( '1' === self.$pageset.attr( 'data-is-default' ) ? 'true' : 'false' ),
 		};
 
 		self.ajax.ajaxCall( data, 'get_build_profile', success_action );
@@ -254,7 +333,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	/**
 	 *
 	 */
-	this.toggleCategory = function( $category ) {
+	this.toggleCategory = function( $category, $expander ) {
 		var categoryId = $category.attr( 'data-category-id' ),
 			$subCategories = $category.find( '.sub-categories' );
 
@@ -264,9 +343,13 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		 */
 		if( $subCategories.is( ':visible' ) ) {
 			$subCategories.slideUp();
+			$expander.removeClass( 'expanded' );
 		} else {
+			$( '.sub-categories:visible' ).siblings( '.expand' ).removeClass( 'expanded' );
 			$( '.sub-categories:visible' ).slideUp();
+
 			$subCategories.slideDown();
+			$expander.addClass( 'expanded' );
 		}
 	}
 
@@ -304,8 +387,12 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			$( '.theme[data-sub-category-id]').removeClass( 'hidden' );
 		} else {
 			$( '.theme[data-sub-category-id="' + subCategoryId + '"]').removeClass( 'hidden' );
-			$( '.theme[data-sub-category-id!="' + subCategoryId + '"]').addClass( 'hidden' );
+			$( '.theme[data-sub-category-id!="' + subCategoryId + '"]')
+				.addClass( 'hidden' )
+				.appendTo( '.themes' );
 		}
+
+		$("img.lazy").lazyload({threshold : 400});
 	}
 
 	$( function() {

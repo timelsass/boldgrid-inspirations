@@ -36,16 +36,33 @@
 	font-weight: bold;
 }
 
-.category .expand {
+.category-name,
+.expand,
+.sub-category-name {
 	cursor: pointer;
 }
 
 .category .expand:after {
 	position: absolute;
-	content: "\f140";
-	font: normal 20px/1 dashicons;
-	top: 5px;
+	content: "\f345";
+	font: normal 16px/0 dashicons;
+	color: #7d7d7d;
+	top: 19px;
 	right: 5px;
+	-ms-transform:		rotate(90deg);
+    -webkit-transform:	rotate(90deg);
+    transform:			rotate(90deg);
+	transition:			transform 400ms;
+}
+
+.category .expand.expanded:after {
+	-ms-transform:		rotate(270deg);
+    -webkit-transform:	rotate(270deg);
+    transform:			rotate(270deg);
+}
+
+.category .expand.blue:after {
+	color: #00a1d0;
 }
 
 /* This class holds manu div.sub-category */
@@ -150,4 +167,14 @@ a.disabled {
 	left: 0px;
 	right: 0px;
 	background-color: #f1f1f1;
+}
+
+.theme-screenshot .img {
+	width: 290px;
+	height: 217px;
+	/* 194 */
+}
+
+.blue {
+	color: #00a1d0;
 }
