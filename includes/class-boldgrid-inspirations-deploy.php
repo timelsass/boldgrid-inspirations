@@ -654,8 +654,14 @@ class Boldgrid_Inspirations_Deploy {
 				}
 			}
 
-			// Get the theme details:
-			$theme_folder_name = wp_basename( $this->theme_details->themeAssetFilename, '.zip' );
+			// Theme Folder name is the same as theme name.
+			$theme_folder_name = $this->theme_details->theme->Name;
+
+			if ( $this->is_preview_server ) {
+				// Use the random filename instead.
+				$theme_folder_name = wp_basename( $this->theme_details->themeAssetFilename, '.zip' );
+			}
+
 			$theme = wp_get_theme( $theme_folder_name );
 
 			// Get the installed theme version timestamp from wp options:
@@ -859,7 +865,7 @@ class Boldgrid_Inspirations_Deploy {
 
 						// If Theme_Upgrader::install reports failure or we have no theme name, then
 						// something went wrong.
-						if ( ( ! $wp_theme_install_success || empty( $this->theme_name ) ) && ! $delete_theme ) {
+						if ( ( ! $wp_theme_install_success || empty( $this->theme_name ) ) ) {
 							// Delete the theme:
 							delete_theme( $this->theme_details->theme->Name );
 
