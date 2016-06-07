@@ -27,7 +27,7 @@ The second phase is Customization; tools to transform your website into your vis
 == Changelog ==
 
 = 1.1.6 In progress =
-* New feature:	JIRA WPB-1839	Users can now change their release channel.
+* New feature:	JIRA WPB-1839	Users can now change their theme release channel.
 * Security fix:	JIRA WPB-1977	Validate nonce for feedback form diagnostic data callback and form submit.
 * Bug fix:		JIRA WPB-1955	Fatal error: Class 'Boldgrid_Staging_Plugin' not found.
 
