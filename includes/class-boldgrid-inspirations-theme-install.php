@@ -54,6 +54,13 @@ class Boldgrid_Inspirations_Theme_Install {
 		return $theme_success && $inspiration_install && 'themes.php' == $pagenow;
 	}
 
+	/**
+	 * Get a users saved theme release channel.
+	 *
+	 * @since 1.1.6
+	 *
+	 * @return string $theme_channel.
+	 */
 	public static function fetch_theme_channel() {
 		$boldgrid_settings = get_option( 'boldgrid_settings' );
 		$theme_channel = ! empty( $boldgrid_settings['theme_release_channel'] ) ?
