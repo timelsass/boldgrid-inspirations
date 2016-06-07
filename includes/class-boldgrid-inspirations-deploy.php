@@ -644,7 +644,7 @@ class Boldgrid_Inspirations_Deploy {
 
 		foreach ( array (
 			'child',
-			'parent'
+			//'parent'
 		) as $entity ) {
 			if ( 'parent' == $entity ) {
 				$this->theme_details = $this->theme_details->parent;
