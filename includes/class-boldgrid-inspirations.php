@@ -296,9 +296,9 @@ class Boldgrid_Inspirations {
 				$boldgrid_api_data = get_transient( 'boldgrid_api_data' );
 			}
 
-			// If the API data was just retrieved and is ok, then just return it:
+			// If the API data was just retrieved (last 5 seconds) and is ok, then just return it.
 			if ( ! empty( $boldgrid_api_data ) && ! ( isset( $_GET['force-check'] ) &&
-				 isset( $boldgrid_api_data->updated ) && $boldgrid_api_data->updated < time() - 60 ) ) {
+				 isset( $boldgrid_api_data->updated ) && $boldgrid_api_data->updated < time() - 5 ) ) {
 
 				return $boldgrid_api_data;
 			}

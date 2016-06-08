@@ -61,7 +61,7 @@ class Boldgrid_Inspirations_Update {
 			// Make an array of plugin update pages.
 			$plugin_update_pages = array (
 				'plugins.php',
-				'update-core.php'
+				'update-core.php',
 			);
 
 			// Is page for plugin information?
@@ -81,26 +81,30 @@ class Boldgrid_Inspirations_Update {
 					array (
 						$this,
 						'custom_plugins_transient_update'
-					), 10, 1 );
+					)
+				);
 
 				add_filter( 'plugins_api',
 					array (
 						$this,
 						'custom_plugins_transient_update'
-					), 10, 1 );
+					)
+				);
 
 				// Force WP to check for updates, don't rely on cache / transients.
 				add_filter( 'site_transient_update_plugins',
 					array (
 						$this,
 						'site_transient_update_plugins'
-					), 10 );
+					)
+				);
 			}
 
 			// Make an array of theme update pages.
 			$theme_update_pages = array (
 				'themes.php',
-				'update-core.php'
+				'update-core.php',
+				'update.php',
 			);
 
 			// Is this a theme upgrade action?
@@ -113,13 +117,15 @@ class Boldgrid_Inspirations_Update {
 					array (
 						$this,
 						'custom_themes_transient_update'
-					), 10, 1 );
+					)
+				);
 
 				add_filter( 'site_transient_update_themes',
 					array (
 						$this,
 						'custom_themes_transient_update'
-					), 10, 1 );
+					)
+				);
 			}
 		}
 
@@ -149,9 +155,9 @@ class Boldgrid_Inspirations_Update {
 			$boldgrid_api_data = get_transient( 'boldgrid_api_data' );
 		}
 
-		// If the API data was just retrieved and is ok, then just return it.
+		// If the API data was just retrieved (last 5 seconds) and is ok, then just return it.
 		if ( false === empty( $boldgrid_api_data ) && isset( $boldgrid_api_data->updated ) &&
-			 $boldgrid_api_data->updated >= time() - 60 ) {
+			 $boldgrid_api_data->updated >= time() - 5 ) {
 
 			return $boldgrid_api_data;
 		}
@@ -264,9 +270,6 @@ class Boldgrid_Inspirations_Update {
 		// Get the BoldGrid Inspirations class object.
 		$boldgrid_inspirations = self::get_boldgrid_inspirations();
 
-		// Get BoldGrid Inspirations configs.
-		$boldgrid_configs = $boldgrid_inspirations->get_configs();
-
 		// If the api data transient does not exist or is a force check, then get the data and set
 		// it.
 		if ( empty( $boldgrid_api_data ) || isset( $_GET['force-check'] ) ) {
@@ -277,6 +280,9 @@ class Boldgrid_Inspirations_Update {
 		if ( empty( $boldgrid_api_data ) ) {
 			return $transient;
 		}
+
+		// Get BoldGrid Inspirations configs.
+		$boldgrid_configs = $boldgrid_inspirations->get_configs();
 
 		// Get the current WordPress page filename.
 		global $pagenow;
@@ -406,13 +412,10 @@ class Boldgrid_Inspirations_Update {
 		// Get the BoldGrid Inspirations class object for getting configs.
 		$boldgrid_inspirations = self::get_boldgrid_inspirations();
 
-		// Get configs.
-		$boldgrid_configs = $boldgrid_inspirations->get_configs();
-
 		// If the api data transient does not exist or is a force check, then get the data and set
 		// it.
 		if ( empty( $boldgrid_api_data ) || isset( $_GET['force-check'] ) ) {
-			$boldgrid_api_data = self::update_api_data( $boldgrid_configs );
+			$boldgrid_api_data = self::update_api_data();
 		}
 
 		// If we have no data, then return.
