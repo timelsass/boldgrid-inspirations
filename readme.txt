@@ -27,6 +27,7 @@ The second phase is Customization; tools to transform your website into your vis
 == Changelog ==
 
 = 1.1.7 In progress =
+* New feature:	JIRA WPB-1905	Added capability for auto-updates of boldgrid-inspirations by API response.
 * Bug fix:		JIRA WPB-2002	Fixed theme update issue where upgrader says is up to date at times.
 
 = 1.1.6 =

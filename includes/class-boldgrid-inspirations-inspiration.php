@@ -103,6 +103,21 @@ class Boldgrid_Inspirations_Inspiration extends Boldgrid_Inspirations {
 				$this,
 				'boldgrid_activate'
 			) );
+
+		// If DOING_CRON, then check if this plugin should be auto-updated.
+		if ( defined( 'DOING_CRON' ) && DOING_CRON ){
+			// Load the pluggable class, if needed.
+			require_once ABSPATH . 'wp-includes/pluggable.php';
+
+			// Include the update class.
+			require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-update.php';
+
+			// Instantiate the update class.
+			$plugin_update = new Boldgrid_Inspirations_Update( null );
+
+			// Check and update plugins.
+			$plugin_update->wp_update_this_plugin();
+		}
 	}
 
 	/**
