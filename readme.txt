@@ -26,6 +26,9 @@ The second phase is Customization; tools to transform your website into your vis
 
 == Changelog ==
 
+= 1.1.7 In progress =
+* Bug fix:		JIRA WPB-2002	Fixed theme update issue where upgrader says is up to date at times.
+
 = 1.1.6 =
 * New feature:	JIRA WPB-1839	Users can now change their theme release channel.
 * Security fix:	JIRA WPB-1977	Validate nonce for feedback form diagnostic data callback and form submit.
