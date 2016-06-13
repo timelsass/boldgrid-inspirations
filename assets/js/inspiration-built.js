@@ -68,9 +68,11 @@
 
 		// Inputs from the deployment form.
 		self.deploy_inputs = {
-		    $deploy_type : self.$deploy_script.find( 'input[name="deploy-type"]' ),
-		    $theme : self.$deploy_script.find( 'input[name="boldgrid_theme_id"]' ),
-		    $staging : self.$deploy_script.find( '[name="staging"]' ),
+			$pde : self.$deploy_script.find( 'input[name="boldgrid_pde"]' ),
+			$subcategory_id : self.$deploy_script.find( 'input[name="boldgrid_sub_cat_id"]' ),
+			$deploy_type : self.$deploy_script.find( 'input[name="deploy-type"]' ),
+			$theme : self.$deploy_script.find( 'input[name="boldgrid_theme_id"]' ),
+			$staging : self.$deploy_script.find( '[name="staging"]' ),
 		};
 
 		// Self Inspiration Load.
@@ -378,8 +380,14 @@
 			// Define pde.
 			pde = $this.closest( '.theme-actions' ).data( 'pde' );
 
+			if( 'object' == typeof pde ) {
+				pde = JSON.stringify( pde );
+			}
+
+			self.deploy_inputs.$pde.val( pde );
 			self.deploy_inputs.$deploy_type.val( 'theme' );
 			self.deploy_inputs.$theme.val( theme_id );
+			self.deploy_inputs.$subcategory_id.val( self.install_options.subcategory_id );
 		};
 
 		/*
