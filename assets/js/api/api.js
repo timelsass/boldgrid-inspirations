@@ -1,6 +1,6 @@
 var IMHWPB = IMHWPB || {};
 
-IMHWPB.Api = function(configs) {
+IMHWPB.Api = function( configs ) {
 	( function( $ ) {
 		var self = this;
 		$c_zakn = $( '#container_boldgrid_api_key_notice' );
@@ -60,64 +60,63 @@ IMHWPB.Api = function(configs) {
 		 * Bind events -
 		 * When the submit button is pressed:
 		 */
-		$("#boldgrid-api-form").submit(function(e){
+		$( '#boldgrid-api-form' ).submit( function( e ){
 			e.preventDefault();
 		});
 		$( '#boldgrid-api-loading', $c_zakn ).hide();
-		$('#submit_api_key', $c_zakn).on('click', function() {
-			var api_key = $('#boldgrid_api_key', $c_zakn).val()
-				.replace(/[^a-z0-9]/gi,'')
-				.substr(0, 32)
-				.replace(/(.{8})/g,"$1\-")
-				.slice(0, - 1);
-			self.set(api_key);
+		$( '#submit_api_key', $c_zakn ).on('click', function() {
+			var api_key = $( '#boldgrid_api_key', $c_zakn ).val()
+				.replace( /[^a-z0-9]/gi,'' )
+				.substr( 0, 32 )
+				.replace( /(.{8})/g,"$1\-" )
+				.slice( 0, - 1 );
+			self.set( api_key );
 			// hide the button
 			$( this ).hide();
 			// show the loading graphic
-			$('#boldgrid-api-loading', $c_zakn).show();
+			$( '#boldgrid-api-loading', $c_zakn ).show();
 		});
 
 		/**
 		 * Function declaraions
 		 */
-		this.set = function(api_key) {
+		this.set = function( api_key ) {
 			var data = {
 				'action'  : 'set_api_key',
 				'api_key' :  api_key
 			};
 
-			$.post( ajaxurl, data, function(response) {
+			$.post( ajaxurl, data, function( response ) {
 				// if the key was saved successfully
-				if ('true' == response) {
+				if ( 'true' == response ) {
 					// change the notice from red to green
-					$c_zakn.toggleClass('error').toggleClass(
-							'updated');
+					$c_zakn.toggleClass( 'error' ).toggleClass( 'updated' );
 					// then update the message
-					$('#boldgrid_api_key_notice_message', $c_zakn)
-						.html( 'Your api key has been saved successfully! <a onClick="window.location.reload(true)" style="cursor:pointer;"> Dismiss Notification</a>');
+					$( '#boldgrid_api_key_notice_message', $c_zakn )
+						.html( 'Your api key has been saved successfully! <a onClick="window.location.reload(true)" style="cursor:pointer;"> Dismiss Notification</a>' );
 					// remove the loading graphic since success
-					$('#boldgrid-api-loading', $c_zakn).fadeOut();
+					$( '#boldgrid-api-loading', $c_zakn ).fadeOut();
 					// and finally hide the input elements as we
 					// don't need them anymore.
-					$('#boldgrid_api_key', $c_zakn).fadeOut();
+					$( '#boldgrid_api_key', $c_zakn ).fadeOut();
 					// reload page after 3 sec
-					setTimeout( function(){
+					setTimeout( function() {
 						window.location.reload();
 					}, 3000 );
 
-				} else if ('error saving key' == response) {
+				} else if ( 'error saving key' == response ) {
 					// hide loading
-					$('#boldgrid-api-loading', $c_zakn).hide();
+					$( '#boldgrid-api-loading', $c_zakn ).hide();
 					// show button
-					$('#submit_api_key', $c_zakn).show();
-					$('#boldgrid_api_key_notice_message', $c_zakn)
-						.html( 'There was an error saving your key.<br />Please try entering your BoldGrid Connect Key again.');
+					$( '#submit_api_key', $c_zakn ).show();
+					$( '#boldgrid_api_key_notice_message', $c_zakn )
+						.html( 'There was an error saving your key.<br />Please try entering your BoldGrid Connect Key again.' );
 				} else {
 					// hide loading
-					$('#boldgrid-api-loading', $c_zakn).hide();
+					$( '#boldgrid-api-loading', $c_zakn ).hide();
 					// show button
-					$('#submit_api_key', $c_zakn).show();
-					$('#boldgrid_api_key_notice_message', $c_zakn)
+					$( '#submit_api_key', $c_zakn ).show();
+					$( '#boldgrid_api_key_notice_message', $c_zakn )
 						.html( 'Your API key appears to be invalid!<br />Please try to enter your BoldGrid Connect Key again.');
 
 				}
