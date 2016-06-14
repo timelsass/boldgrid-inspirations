@@ -161,6 +161,11 @@ class Boldgrid_Inspirations_Inspiration extends Boldgrid_Inspirations {
 				// If the asset server is unavailable and we previously validated, then add hooks:
 				$this->add_hooks();
 			}
+			// IMHWPB.configs.
+			add_action( 'admin_head', array (
+				$this,
+				'add_boldgrid_configs_to_header'
+			) );
 		}
 	}
 
@@ -299,12 +304,6 @@ class Boldgrid_Inspirations_Inspiration extends Boldgrid_Inspirations {
 		// Pages And Posts.
 		$boldgrid_pages_and_posts = new Boldgrid_Inspirations_Pages_And_Posts();
 		$boldgrid_pages_and_posts->add_hooks();
-
-		// IMHWPB.configs.
-		add_action( 'admin_head', array (
-			$this,
-			'add_boldgrid_configs_to_header'
-		) );
 
 		// Check the connection to the asset server.
 		add_action( 'wp_ajax_check_asset_server',

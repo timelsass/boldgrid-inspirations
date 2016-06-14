@@ -535,18 +535,40 @@ class Boldgrid_Inspirations {
 	public function prompt_for_api_key() {
 		?>
 <div id="container_boldgrid_api_key_notice" class="error">
-	<h2 class="dashicons-before dashicons-admin-network">BoldGrid API Check</h2>
-	<p id="boldgrid_api_key_notice_message">
-		It appears you have not entered your BoldGrid Connect Key.<br />
-		Please enter your <b>32 digit BoldGrid Connect Key</b> below and click
-		submit.
-	</p>
-	<form id="boldgrid-api-form">
-		<input type="text" id="boldgrid_api_key" maxlength="37"
-			placeholder="XXXXXXXX - XXXXXXXX - XXXXXXXX - XXXXXXXX" />
-		<button id="submit_api_key" class="button button-primary">Submit</button>
-		<span><div id="boldgrid-api-loading" class="boldgrid-wp-spin"></div></span>
-	</form>
+	<div class="api-notice">
+		<h2 class="dashicons-before dashicons-admin-network">BoldGrid API Check</h2>
+		<a href="#" class="boldgridApiKeyLink">Don't have an API key yet?</a><br /><br />
+		<p id="boldgrid_api_key_notice_message">
+			It appears you have not entered your BoldGrid Connect Key.<br />
+			Please enter your <b>32 digit BoldGrid Connect Key</b> below and click
+			submit.
+		</p>
+		<form id="boldgrid-api-form">
+			<input type="text" id="boldgrid_api_key" maxlength="37"
+				placeholder="XXXXXXXX - XXXXXXXX - XXXXXXXX - XXXXXXXX" />
+			<button id="submit_api_key" class="button button-primary">Submit</button>
+			<span><div id="boldgrid-api-loading" class="boldgrid-wp-spin"></div></span>
+		</form>
+	</div>
+	<div class="new-api-key hidden">
+		<h2 class="dashicons-before dashicons-admin-network">Request a BoldGrid API Key</h2>
+		<a href="#" class="enterKeyLink">Have an API key to enter?</a><br /><br />
+		<div class="key-request-content">
+			<p id="requestKeyMessage">
+				Please fill in the information below to obtain a BoldGrid Connect Key.<br />
+			</p>
+			<p class="error-alerts"></p>
+			<form id="requestKeyForm">
+				<label>First Name:</label>
+				<input type="text" id="firstName" maxlength="50" placeholder="First Name" />
+				<label>Last Name:</label>
+				<input type="text" id="lastName" maxlength="50" placeholder="Last Name" />
+				<label>E-mail:</label>
+				<input type="text" id="emailAddr" maxlength="50" placeholder="your@name.com" /><br />
+				<button id="requestKey" class="button button-primary">Submit</button>
+			</form>
+		</div>
+	</div>
 </div>
 <?php
 	}

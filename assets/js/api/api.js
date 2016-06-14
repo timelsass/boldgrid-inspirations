@@ -4,6 +4,57 @@ IMHWPB.Api = function(configs) {
 	var self = this;
 	$c_zakn = jQuery( '#container_boldgrid_api_key_notice' );
 
+	/** Toggle the forms around **/
+	jQuery( '.boldgridApiKeyLink', $c_zakn ).on( 'click', function() {
+		jQuery( '.api-notice', $c_zakn ).hide();
+		jQuery( '.new-api-key', $c_zakn ).fadeIn( 'slow' );
+	});
+	jQuery( '.enterKeyLink', $c_zakn ).on( 'click', function() {
+		jQuery( '.new-api-key', $c_zakn ).hide();
+		jQuery( '.api-notice', $c_zakn ).fadeIn( 'slow' );
+	});
+
+	/** submit action **/
+	jQuery( "#requestKeyForm" ).submit( function( event ) {
+		event.preventDefault();
+		var $form = jQuery( this ),
+			$firstName = $form.find( '#firstName' ).val(),
+			$lastName = $form.find( '#lastName' ).val(),
+			$email = $form.find( '#emailAddr' ).val()
+			$alertBox = jQuery( '.error-alerts' );
+		// basic js checks before serverside verification.
+		if ( ! $firstName ) {
+			$alertBox.text( 'First name is required.' );
+			return false;
+		}
+		if ( ! $lastName ) {
+			$alertBox.text( 'Last name is required.' );
+			return false;
+		}
+		if ( ! ( $email.indexOf( '@' ) > -1 && $email.indexOf( '.' ) > -1 ) ) {
+			$alertBox.text( 'Please enter a valid e-mail address.' );
+			return false;
+		}
+		var posting = jQuery.post( IMHWPB.configs.asset_server + IMHWPB.configs.ajax_calls.generate_api_key,
+			{
+				first: $firstName,
+				last: $lastName,
+				email: $email,
+			}
+		);
+		posting.done( function( response ) {
+			if ( 400 === response.status ) {
+				jQuery( '.error-alerts' ).text( response.message );
+			}
+			if ( 200 === response.status ) {
+				jQuery( '.key-request-content' ).text( response.message );
+			}
+		});
+	});
+
+	//jQuery.post( IMHWPB.configs.ajax_calls.generate_api_key)
+
+
 	/**
 	 * Bind events -
 	 * When the submit button is pressed:
@@ -52,7 +103,7 @@ IMHWPB.Api = function(configs) {
 				setTimeout( function(){
 					window.location.reload();
 				}, 3000 );
-	
+
 			} else if ('error saving key' == response) {
 				// hide loading
 				jQuery('#boldgrid-api-loading', $c_zakn).hide();
