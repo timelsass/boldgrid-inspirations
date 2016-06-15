@@ -933,8 +933,18 @@ class Boldgrid_Inspirations_Deploy {
 				$this->set_theme_mod_id( $theme_folder_name, $this->theme_details->theme->Id );
 
 				if ( $this->activate_theme ) {
+					$activation_theme = $theme_folder_name;
+
+					// For authors, activate the git repo instead of the theme.
+					if ( $this->is_author && ! empty( $this->theme_details->theme->GitRepoUrl ) ) {
+						$repo_name = basename( $this->theme_details->theme->GitRepoUrl );
+						if ( file_exists( get_theme_root() . '/' . $repo_name ) ) {
+							$activation_theme = $repo_name;
+						}
+					}
+
 					// Activate the theme:
-					switch_theme( $theme_folder_name );
+					switch_theme( $activation_theme );
 				}
 			}
 
