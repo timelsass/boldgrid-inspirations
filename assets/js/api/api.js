@@ -54,20 +54,23 @@ IMHWPB.Api = function( configs ) {
 				$email = $form.find( '#emailAddr' ).val(),
 				$link = $form.find( '#siteUrl' ).val(),
 				$alertBox = $( '.error-alerts' );
+				$('.error-color').removeClass( 'error-color' );
 			// basic js checks before serverside verification.
 			if ( ! $firstName ) {
 				$alertBox.text( 'First name is required.' );
+				$form.find( '#firstName' ).prev().addClass( 'error-color' );
 				return false;
 			}
 			if ( ! $lastName ) {
 				$alertBox.text( 'Last name is required.' );
+				$form.find( '#lastName' ).prev().addClass( 'error-color' );
 				return false;
 			}
 			if ( ! ( $email.indexOf( '@' ) > -1 && $email.indexOf( '.' ) > -1 ) ) {
 				$alertBox.text( 'Please enter a valid e-mail address.' );
+				$form.find( '#emailAddr' ).prev().addClass( 'error-color' );
 				return false;
 			}
-			console.log( $link );
 			var posting = $.post( IMHWPB.configs.asset_server + IMHWPB.configs.ajax_calls.generate_api_key,
 				{
 					first: $firstName,
@@ -78,6 +81,12 @@ IMHWPB.Api = function( configs ) {
 			);
 			posting.done( function( response ) {
 				if ( 400 === response.status ) {
+					if ( response.message.indexOf( 'name' ) >= 0 ) {
+						$form.find( '#firstName, #lastName' ).prev().addClass( 'error-color' );
+					}
+					if ( response.message.indexOf( 'e-mail' ) >= 0 ) {
+						$form.find( '#emailAddr' ).prev().addClass( 'error-color' );
+					}
 					$alertBox.text( response.message );
 				}
 				if ( 200 === response.status ) {

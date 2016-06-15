@@ -140,6 +140,9 @@
 .error-alerts {
 	color: red;
 }
+.error-color {
+	color: red;
+}
 
 input#boldgrid_api_key {
 	margin-left: 66px !important;
