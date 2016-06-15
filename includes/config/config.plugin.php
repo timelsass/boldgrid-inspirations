@@ -57,7 +57,7 @@ return array (
 		'get_transaction_history' =>					'/api/user/get-coin-history',
 		'get_coin_balance' =>							'/api/user/get-coin-balance',
 		'validate_connect_key' =>						'/api/user/validate-connect-key',
-		'generate_api_key'	=>							'/api/reseller/generateKey',
+		'generate_api_key'	=>							'/api/open/generateKey',
 		// image.
 		'image_search' =>								'/api/image/search',
 		'image_get_details' =>							'/api/image/get-details',
