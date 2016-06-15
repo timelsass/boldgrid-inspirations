@@ -530,9 +530,27 @@ class Boldgrid_Inspirations {
 	}
 
 	/**
+	 * Check if string is null or empty
+	 *
+	 * @return bool Whether or not string is empty.
+	 * @since 1.X
+	 */
+	public function is_null_or_empty( $var ) {
+		return ( ! isset( $var ) || trim( $var )==='' );
+	}
+
+	/**
 	 * Print a notice asking the user to input their api_key
 	 */
 	public function prompt_for_api_key() {
+		// Get current user.
+		$current_user = wp_get_current_user();
+		// E-mail is always checked and is a required wp field for user.
+		$email = $current_user->user_email;
+		// First name if exists from user.
+		$first_name = $this->is_null_or_empty( $current_user->user_firstname ) ? '' : $current_user->user_firstname;
+		// Last name if exists from user.
+		$last_name = $this->is_null_or_empty( $current_user->user_lastname ) ? '' : $current_user->user_lastname;
 		?>
 <div id="container_boldgrid_api_key_notice" class="error">
 	<div class="api-notice">
@@ -560,11 +578,11 @@ class Boldgrid_Inspirations {
 			<p class="error-alerts"></p>
 			<form id="requestKeyForm">
 				<label>First Name:</label>
-				<input type="text" id="firstName" maxlength="50" placeholder="First Name" />
+				<input type="text" id="firstName" maxlength="50" placeholder="First Name" value="<?php echo $first_name ?>" />
 				<label>Last Name:</label>
-				<input type="text" id="lastName" maxlength="50" placeholder="Last Name" />
+				<input type="text" id="lastName" maxlength="50" placeholder="Last Name" value="<?php echo $last_name ?>" />
 				<label>E-mail:</label>
-				<input type="text" id="emailAddr" maxlength="50" placeholder="your@name.com" /><br />
+				<input type="text" id="emailAddr" maxlength="50" placeholder="your@name.com" value="<?php echo $email ?>" /><br />
 				<input type="hidden" id="siteUrl" value='<?php echo get_admin_url(); ?>' /><br />
 				<button id="requestKey" class="button button-primary">Submit</button>
 			</form>

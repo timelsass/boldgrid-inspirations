@@ -3,6 +3,36 @@ var IMHWPB = IMHWPB || {};
 IMHWPB.Api = function( configs ) {
 	( function( $ ) {
 		var self = this;
+
+		/**
+		 * Set key if parameter is set.
+		 */
+		$( function() {
+			var $activateKey = self.GetURLParameter( 'activateKey' ),
+			    container = $( 'container_boldgrid_api_key_notice' );
+			if ( $activateKey ) {
+				document.getElementById( 'boldgrid_api_key' ).value=$activateKey;
+				//$( '#boldgrid_api_key' ).val( $ac)
+				$( '#submit_api_key' ).click();
+			}
+		});
+
+		/**
+		 * Get parameter from URL
+		 *
+		 * @link http://www.jquerybyexample.net/2012/06/get-url-parameters-using-jquery.html
+		 */
+		this.GetURLParameter = function(sParam) {
+			var sPageURL = window.location.search.substring( 1 );
+			var sURLVariables = sPageURL.split( '&' );
+			for ( var i = 0; i < sURLVariables.length; i++ ) {
+				var sParameterName = sURLVariables[i].split( '=' );
+				if ( sParameterName[0] == sParam ) {
+					return sParameterName[1];
+				}
+			}
+		};
+
 		$c_zakn = $( '#container_boldgrid_api_key_notice' );
 
 		/** Toggle the forms around **/
@@ -56,7 +86,6 @@ IMHWPB.Api = function( configs ) {
 			});
 		});
 
-		//$.post( IMHWPB.configs.ajax_calls.generate_api_key)
 
 
 		/**
@@ -66,6 +95,7 @@ IMHWPB.Api = function( configs ) {
 		$( '#boldgrid-api-form' ).submit( function( e ){
 			e.preventDefault();
 		});
+
 		$( '#boldgrid-api-loading', $c_zakn ).hide();
 		$( '#submit_api_key', $c_zakn ).on('click', function() {
 			var api_key = $( '#boldgrid_api_key', $c_zakn ).val()
