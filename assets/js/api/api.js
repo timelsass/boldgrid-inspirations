@@ -22,6 +22,7 @@ IMHWPB.Api = function( configs ) {
 				$firstName = $form.find( '#firstName' ).val(),
 				$lastName = $form.find( '#lastName' ).val(),
 				$email = $form.find( '#emailAddr' ).val(),
+				$link = $form.find( '#siteUrl' ).val(),
 				$alertBox = $( '.error-alerts' );
 			// basic js checks before serverside verification.
 			if ( ! $firstName ) {
@@ -36,11 +37,13 @@ IMHWPB.Api = function( configs ) {
 				$alertBox.text( 'Please enter a valid e-mail address.' );
 				return false;
 			}
+			console.log( $link );
 			var posting = $.post( IMHWPB.configs.asset_server + IMHWPB.configs.ajax_calls.generate_api_key,
 				{
 					first: $firstName,
 					last: $lastName,
 					email: $email,
+					link: $link,
 				}
 			);
 			posting.done( function( response ) {

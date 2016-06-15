@@ -565,6 +565,7 @@ class Boldgrid_Inspirations {
 				<input type="text" id="lastName" maxlength="50" placeholder="Last Name" />
 				<label>E-mail:</label>
 				<input type="text" id="emailAddr" maxlength="50" placeholder="your@name.com" /><br />
+				<input type="hidden" id="siteUrl" value='<?php echo get_admin_url(); ?>' /><br />
 				<button id="requestKey" class="button button-primary">Submit</button>
 			</form>
 		</div>
