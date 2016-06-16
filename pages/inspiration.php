@@ -26,13 +26,13 @@ add_thickbox();
 <h2 class="nav-tab-wrapper hidden" id='button_navigation'>
 	<a href="#" id='nav-step-1' data-step='1'
 		class="nav-tab nav-tab-active"><?php echo $nav_steps['step-1']['title']; ?></a>
-		
+
 		<?php if (isset($nav_steps['step-3'])) { ?>
 	<a href="#" id='nav-step-2' data-step='2' class="nav-tab"><?php echo $nav_steps['step-2']['title']; ?></a>
 		<?php } ?>
-		
+
 		<?php if (isset($nav_steps['step-3'])) { ?>
-		 	<a href="#" id='nav-step-3' data-step='3' class="nav-tab"><?php echo $nav_steps['step-3']['title']; ?></a> 
+		 	<a href="#" id='nav-step-3' data-step='3' class="nav-tab"><?php echo $nav_steps['step-3']['title']; ?></a>
 		<?php } ?>
 </h2>
 
@@ -233,7 +233,7 @@ add_thickbox();
 		<tr>
 			<td>Theme Version</td>
 			<td><input type='text' name='boldgrid_theme_version_type'
-				id='boldgrid_theme_version_type' value='active' /></td>
+				id='boldgrid_theme_version_type' value='<?php echo $theme_channel ?>' /></td>
 		</tr>
 		<tr>
 			<td>Page Version</td>

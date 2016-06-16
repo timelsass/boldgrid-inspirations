@@ -14,21 +14,39 @@
 class Boldgrid_Inspirations_Update {
 
 	/**
-	 * BoldGrid Inspirations class object.
+	 * BoldGrid Inspirations Configuration.
 	 *
-	 * @var object The BoldGrid Inspirations object.
+	 * @since 1.1.7
+	 * @access private
+	 * @static
+	 *
+	 * @var array
 	 */
-	private static $boldgrid_inspirations = null;
+	private static $configs = array();
 
 	/**
 	 * Setter for the BoldGrid Inspirations class object.
 	 *
-	 * @param object $boldgrid_inspirations The BoldGrid Inspirations object.
+	 * @since 1.1.7
+	 * @access private
+	 * @static
 	 *
+	 * @param array $configs The BoldGrid configuration array.
 	 * @return bool
 	 */
-	private static function set_boldgrid_inspirations( $boldgrid_inspirations ) {
-		self::$boldgrid_inspirations = $boldgrid_inspirations;
+	private static function set_configs( $configs = array() ) {
+		// If configs is empty, then get and set the array.
+		if ( true === empty( $configs ) ) {
+			// Load the Boldgrid_Inspirations_Config class if needed.
+			if ( false === class_exists( 'Boldgrid_Inspirations_Config' ) ) {
+				require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-config.php';
+			}
+
+			// Get the configs.
+			$configs = Boldgrid_Inspirations_Config::get_format_configs();
+		}
+
+		self::$configs = $configs;
 
 		return true;
 	}
@@ -36,10 +54,18 @@ class Boldgrid_Inspirations_Update {
 	/**
 	 * Getter for the BoldGrid Inspirations class object.
 	 *
-	 * @return object
+	 * @since 1.1.7
+	 * @static
+	 *
+	 * @return array
 	 */
-	public static function get_boldgrid_inspirations() {
-		return self::$boldgrid_inspirations;
+	public static function get_configs() {
+		// Set the configs, if not set.
+		if ( true === empty( self::$configs ) ) {
+			self::set_configs();
+		}
+
+		return self::$configs;
 	}
 
 	/**
@@ -47,11 +73,17 @@ class Boldgrid_Inspirations_Update {
 	 *
 	 * @global $pagenow The current WordPress page filename.
 	 *
-	 * @param object $boldgrid_inspirations The BoldGrid Inspirations object.
+	 * @param object $boldgrid_inspirations The BoldGrid Inspirations object (optional).
 	 */
 	public function __construct( $boldgrid_inspirations ) {
-		// Set the BoldGrid Inspirations class object.
-		self::set_boldgrid_inspirations( $boldgrid_inspirations );
+		// Set the BoldGrid configuration array.
+		if ( true === is_a ( $boldgrid_inspirations, 'BoldGrid_Inspirations' ) ) {
+			// Object.
+			self::set_configs( $boldgrid_inspirations->get_configs() );
+		} else {
+			// Static.
+			self::set_configs();
+		}
 
 		// Only for wp-admin.
 		if ( is_admin() ) {
@@ -61,7 +93,7 @@ class Boldgrid_Inspirations_Update {
 			// Make an array of plugin update pages.
 			$plugin_update_pages = array (
 				'plugins.php',
-				'update-core.php'
+				'update-core.php',
 			);
 
 			// Is page for plugin information?
@@ -76,31 +108,35 @@ class Boldgrid_Inspirations_Update {
 			// Add filters to modify plugin update transient information.
 			if ( in_array( $pagenow, $plugin_update_pages, true ) || $is_plugin_information ||
 				 $is_plugin_update ) {
-			// Add filters.
+				// Add filters.
 				add_filter( 'pre_set_site_transient_update_plugins',
 					array (
 						$this,
 						'custom_plugins_transient_update'
-					), 10, 1 );
+					)
+				);
 
 				add_filter( 'plugins_api',
 					array (
 						$this,
 						'custom_plugins_transient_update'
-					), 10, 1 );
+					)
+				);
 
 				// Force WP to check for updates, don't rely on cache / transients.
 				add_filter( 'site_transient_update_plugins',
 					array (
 						$this,
 						'site_transient_update_plugins'
-					), 10 );
+					)
+				);
 			}
 
 			// Make an array of theme update pages.
 			$theme_update_pages = array (
 				'themes.php',
-				'update-core.php'
+				'update-core.php',
+				'update.php',
 			);
 
 			// Is this a theme upgrade action?
@@ -113,13 +149,15 @@ class Boldgrid_Inspirations_Update {
 					array (
 						$this,
 						'custom_themes_transient_update'
-					), 10, 1 );
+					)
+				);
 
 				add_filter( 'site_transient_update_themes',
 					array (
 						$this,
 						'custom_themes_transient_update'
-					), 10, 1 );
+					)
+				);
 			}
 		}
 
@@ -149,9 +187,9 @@ class Boldgrid_Inspirations_Update {
 			$boldgrid_api_data = get_transient( 'boldgrid_api_data' );
 		}
 
-		// If the API data was just retrieved and is ok, then just return it.
+		// If the API data was just retrieved (last 5 seconds) and is ok, then just return it.
 		if ( false === empty( $boldgrid_api_data ) && isset( $boldgrid_api_data->updated ) &&
-			 $boldgrid_api_data->updated >= time() - 60 ) {
+			 $boldgrid_api_data->updated >= time() - 5 ) {
 
 			return $boldgrid_api_data;
 		}
@@ -159,87 +197,74 @@ class Boldgrid_Inspirations_Update {
 		// Initialize $boldgrid_api_data.
 		$boldgrid_api_data = null;
 
-		// Get the BoldGrid Inspirations class object.
-		$boldgrid_inspirations = self::get_boldgrid_inspirations();
+		// Get BoldGrid configs, or just set the required info.
+		$boldgrid_configs = self::get_configs();
 
-		// Get BoldGrid Inspirations configs, or just set the required info.
-		if ( null !== $boldgrid_inspirations ) {
-			$boldgrid_configs = $boldgrid_inspirations->get_configs();
-		} else {
-			$config_include_path = BOLDGRID_BASE_DIR .
-				 '/includes/class-boldgrid-inspirations-config.php';
-
-			if ( file_exists( $config_include_path ) ) {
-				require_once $config_include_path;
-
-				$boldgrid_configs = Boldgrid_Inspirations_Config::get_format_configs();
-			} else {
-				$boldgrid_configs['ajax_calls']['get_version'] = '/api/plugin/check-version';
-			}
+		// If the ajax call path is not available.
+		if ( false === isset( $boldgrid_configs['ajax_calls']['get_version'] ) ) {
+			$boldgrid_configs['ajax_calls']['get_version'] = '/api/plugin/check-version';
 		}
 
 		// If we have no transient but do have configs, then get data and set transient.
-		if ( false === empty( $boldgrid_configs ) ) {
-			// Load the Boldgrid_Inspirations class if needed.
-			if ( false === class_exists( 'Boldgrid_Inspirations' ) ) {
-				require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations.php';
-			}
+		// Load the Boldgrid_Inspirations class if needed.
+		if ( false === class_exists( 'Boldgrid_Inspirations' ) ) {
+			require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations.php';
+		}
 
-			// Get the latest version information (API call).
-			$boldgrid_api_data = Boldgrid_Inspirations::boldgrid_api_call(
-				$boldgrid_configs['ajax_calls']['get_version'] );
+		// Get the latest version information (API call).
+		$boldgrid_api_data = Boldgrid_Inspirations::boldgrid_api_call(
+			$boldgrid_configs['ajax_calls']['get_version'] );
 
-			// Check asset server availability.
-			if ( isset( $boldgrid_api_data->status ) ) {
-				Boldgrid_Inspirations::set_is_asset_server_available( true );
-			} else {
-				Boldgrid_Inspirations::set_is_asset_server_available( false );
+		// Check asset server availability.
+		if ( isset( $boldgrid_api_data->status ) ) {
+			Boldgrid_Inspirations::set_is_asset_server_available( true );
+		} else {
+			Boldgrid_Inspirations::set_is_asset_server_available( false );
 
-				return false;
-			}
+			return false;
+		}
 
-			// Fail if we do not have success.
-			if ( 200 !== $boldgrid_api_data->status || 'OK' !== $boldgrid_api_data->message ) {
-				error_log(
-					__METHOD__ . ': Failed to get valid updated boldgrid_api_data.  ' . print_r(
-						array (
-							'uri' => $boldgrid_configs['ajax_calls']['get_version'],
-							'$boldgrid_api_data' => $boldgrid_api_data
-						), true ) );
-
-				return false;
-			}
-
-			// Add the current timestamp (in seconds).
-			$boldgrid_api_data->updated = time();
-
-			// Set api data transient, expired in 8 hours.
-			if ( is_multisite() ) {
-				delete_site_transient( 'boldgrid_api_data' );
-				set_site_transient( 'boldgrid_api_data', $boldgrid_api_data, 8 * HOUR_IN_SECONDS );
-			} else {
-				delete_transient( 'boldgrid_api_data' );
-				set_transient( 'boldgrid_api_data', $boldgrid_api_data, 8 * HOUR_IN_SECONDS );
-			}
-
-			// Update boldgrid_reseller option.
-			$boldgrid_reseller_array = array ();
-
-			foreach ( $boldgrid_api_data->result->data as $key => $value ) {
-				if ( preg_match( '/^reseller_/', $key ) ) {
-					$boldgrid_reseller_array[$key] = $boldgrid_api_data->result->data->$key;
-				}
-			}
-
-			// Set the reseller option from api data, or mark as no brand if no reseller data.
-			if ( count( $boldgrid_reseller_array ) ) {
-				update_option( 'boldgrid_reseller', $boldgrid_reseller_array );
-			} else {
-				update_option( 'boldgrid_reseller',
+		// Fail if we do not have success.
+		if ( 200 !== $boldgrid_api_data->status || 'OK' !== $boldgrid_api_data->message ) {
+			error_log(
+				__METHOD__ . ': Failed to get valid updated boldgrid_api_data.  ' . print_r(
 					array (
-						'reseller_nobrand' => true
-					) );
+						'uri' => $boldgrid_configs['ajax_calls']['get_version'],
+						'$boldgrid_api_data' => $boldgrid_api_data
+					), true ) );
+
+			return false;
+		}
+
+		// Add the current timestamp (in seconds).
+		$boldgrid_api_data->updated = time();
+
+		// Set api data transient, expired in 8 hours.
+		if ( is_multisite() ) {
+			delete_site_transient( 'boldgrid_api_data' );
+			set_site_transient( 'boldgrid_api_data', $boldgrid_api_data, 8 * HOUR_IN_SECONDS );
+		} else {
+			delete_transient( 'boldgrid_api_data' );
+			set_transient( 'boldgrid_api_data', $boldgrid_api_data, 8 * HOUR_IN_SECONDS );
+		}
+
+		// Update boldgrid_reseller option.
+		$boldgrid_reseller_array = array ();
+
+		foreach ( $boldgrid_api_data->result->data as $key => $value ) {
+			if ( preg_match( '/^reseller_/', $key ) ) {
+				$boldgrid_reseller_array[ $key ] = $boldgrid_api_data->result->data->$key;
 			}
+		}
+
+		// Set the reseller option from api data, or mark as no brand if no reseller data.
+		if ( count( $boldgrid_reseller_array ) ) {
+			update_option( 'boldgrid_reseller', $boldgrid_reseller_array );
+		} else {
+			update_option( 'boldgrid_reseller',
+				array (
+					'reseller_nobrand' => true
+				) );
 		}
 
 		return $boldgrid_api_data;
@@ -261,12 +286,6 @@ class Boldgrid_Inspirations_Update {
 			$boldgrid_api_data = get_transient( 'boldgrid_api_data' );
 		}
 
-		// Get the BoldGrid Inspirations class object.
-		$boldgrid_inspirations = self::get_boldgrid_inspirations();
-
-		// Get BoldGrid Inspirations configs.
-		$boldgrid_configs = $boldgrid_inspirations->get_configs();
-
 		// If the api data transient does not exist or is a force check, then get the data and set
 		// it.
 		if ( empty( $boldgrid_api_data ) || isset( $_GET['force-check'] ) ) {
@@ -277,6 +296,9 @@ class Boldgrid_Inspirations_Update {
 		if ( empty( $boldgrid_api_data ) ) {
 			return $transient;
 		}
+
+		// Get configs.
+		$boldgrid_configs = self::get_configs();
 
 		// Get the current WordPress page filename.
 		global $pagenow;
@@ -356,7 +378,7 @@ class Boldgrid_Inspirations_Update {
 			$transient->new_version = $boldgrid_api_data->result->data->version;
 			// $transient->active_installs = false;
 		} else {
-			// For plugins.php and update-core.php pages.
+			// For plugins.php and update-core.php pages, and DOING_CRON.
 			$obj = new stdClass();
 			$obj->slug = 'boldgrid-inspirations';
 			$obj->plugin = 'boldgrid-inspirations/boldgrid-inspirations.php';
@@ -403,16 +425,10 @@ class Boldgrid_Inspirations_Update {
 			$boldgrid_api_data = get_transient( 'boldgrid_api_data' );
 		}
 
-		// Get the BoldGrid Inspirations class object for getting configs.
-		$boldgrid_inspirations = self::get_boldgrid_inspirations();
-
-		// Get configs.
-		$boldgrid_configs = $boldgrid_inspirations->get_configs();
-
 		// If the api data transient does not exist or is a force check, then get the data and set
 		// it.
 		if ( empty( $boldgrid_api_data ) || isset( $_GET['force-check'] ) ) {
-			$boldgrid_api_data = self::update_api_data( $boldgrid_configs );
+			$boldgrid_api_data = self::update_api_data();
 		}
 
 		// If we have no data, then return.
@@ -436,6 +452,7 @@ class Boldgrid_Inspirations_Update {
 					$tags = $installed_theme->get( 'Tags' );
 
 					// Iterate through the tags to find theme id (boldgrid-theme-id-##).
+					$theme_id = null;
 					foreach ( $tags as $tag ) {
 						if ( preg_match( '/^boldgrid-theme-([0-9]+)$/', $tag, $matches ) ) {
 							$boldgrid_tag = $matches[0];
@@ -446,9 +463,14 @@ class Boldgrid_Inspirations_Update {
 						}
 					}
 
-					// Compare versions.
-					if ( isset( $theme_id ) && isset( $theme_versions[$theme_id]['version'] ) && version_compare(
-						$installed_theme->Version, $theme_versions[$theme_id]['version'], '<' ) ) {
+					// Check if update available for a theme by comparing versions.
+					$current_version = $installed_theme->Version;
+					$incoming_version = ! empty( $theme_versions[ $theme_id ]['version'] ) ?
+						$theme_versions[ $theme_id ]['version'] : null;
+					$update_available = $incoming_version && $current_version != $incoming_version;
+
+					// Update is available set transient.
+					if ( $update_available ) {
 
 						// Get the theme slug, name, and theme URI.
 						$slug = $installed_theme->get_template();
@@ -518,6 +540,69 @@ class Boldgrid_Inspirations_Update {
 		}
 
 		return $value;
+	}
+
+	/**
+	 * Action to add a filter to check if this plugin should be auto-updated.
+	 *
+	 * @since 1.1.7
+	 */
+	public function wp_update_this_plugin () {
+		// Add filters to modify plugin update transient information.
+		add_filter( 'pre_set_site_transient_update_plugins',
+			array (
+				$this,
+				'custom_plugins_transient_update'
+			)
+		);
+
+		add_filter( 'plugins_api',
+			array (
+				$this,
+				'custom_plugins_transient_update'
+			)
+		);
+
+		add_filter( 'site_transient_update_plugins',
+			array (
+				$this,
+				'site_transient_update_plugins'
+			)
+		);
+
+		add_filter( 'auto_update_plugin',
+			array (
+				$this,
+				'auto_update_this_plugin'
+			), 10, 2
+		);
+
+		add_filter( 'auto_update_plugins',
+			array (
+				$this,
+				'auto_update_this_plugin'
+			), 10, 2
+		);
+
+		// Have WordPress check for plugin updates.
+		wp_maybe_auto_update();
+	}
+
+	/**
+	 * Filter to check if this plugin should be auto-updated.
+	 *
+	 * @since 1.1.7
+	 *
+	 * @param bool $update Whether or not this plugin is set to update.
+	 * @param object $item The plugin transient object.
+	 * @return bool Whether or not to update this plugin.
+	 */
+	public function auto_update_this_plugin ( $update, $item ) {
+		if ( isset( $item->slug['boldgrid-inspirations'] ) && isset( $item->autoupdate ) ) {
+			return true;
+		} else {
+			return $update;
+		}
 	}
 
 	/**

@@ -334,11 +334,18 @@ class Boldgrid_Inspirations_Options {
 				'boldgrid_options_global_text'
 			), 'boldgrid-settings' );
 
-		// Add the setting field for plugin update release channel:
-		add_settings_field( 'boldgrid_select_release_channel', 'Update Channel<br />',
+		// Add the setting field for plugin update release channel.
+		add_settings_field( 'boldgrid_select_release_channel', 'Plugin Update Channel<br />',
 			array (
 				$this,
-				'boldgrid_option_select_release_channel_text'
+				'plugin_channel_text'
+			), 'boldgrid-settings', 'boldgrid_options_main' );
+
+		// Add the setting field for theme update release channel.
+		add_settings_field( 'boldgrid_select_theme_release_channel', 'Theme Update Channel<br />',
+			array (
+				$this,
+				'theme_channel_text'
 			), 'boldgrid-settings', 'boldgrid_options_main' );
 
 		// Add setting field for menu reordering switching
@@ -397,9 +404,27 @@ No
 	}
 
 	/**
+	 * Display the release channel options for plugins.
+	 *
+	 * @since 1.1.6
+	 */
+	public function plugin_channel_text() {
+		$this->boldgrid_option_select_release_channel_text();
+	}
+
+	/**
+	 * Display the release channel options for themes.
+	 *
+	 * @since 1.1.6
+	 */
+	public function theme_channel_text() {
+		$this->boldgrid_option_select_release_channel_text( 'theme_' );
+	}
+
+	/**
 	 * Display the options page setting for Update Channel
 	 */
-	public function boldgrid_option_select_release_channel_text() {
+	public function boldgrid_option_select_release_channel_text( $type = '' ) {
 		// Retrieve the blog option boldgrid_settings:
 		$options = get_option( 'boldgrid_settings' );
 
@@ -407,7 +432,7 @@ No
 		$show_all_channels = ( isset( $_GET['channels'] ) && 'all' == $_GET['channels'] ) ? true : false;
 
 		// Ensure there is a site option copied from the blog option boldgrid_settings:
-		if ( ! empty( $options['release_channel'] ) ) {
+		if ( ! empty( $options[ $type . 'release_channel' ] ) ) {
 			update_option( 'boldgrid_settings', $options );
 		}
 
@@ -419,24 +444,29 @@ No
 		 */
 
 		// STABLE
-		$stable_checked = ( ! isset( $options['release_channel'] ) ||
-			 ( isset( $options['release_channel'] ) && 'stable' == $options['release_channel'] ) ) ? 'checked' : '';
-		$channel_options[] = '<input type="radio" id="release_channel_stable" name="boldgrid_settings[release_channel]" value="stable" ' .
+		$stable_checked = ( ! isset( $options[ $type . 'release_channel' ] ) ||
+			 ( isset( $options[ $type . 'release_channel'] ) && 'stable' == $options[ $type . 'release_channel'] ) ) ? 'checked' : '';
+
+		$channel_options[] = '<input type="radio" id="' . $type .
+			'release_channel_stable" name="boldgrid_settings[' . $type . 'release_channel]" value="stable" ' .
 			 $stable_checked . ' /> Stable';
 
 		// EDGE
-		$edge_checked = ( isset( $options['release_channel'] ) &&
-			 $options['release_channel'] == "edge" ) ? 'checked' : '';
-		$channel_options[] = '<input type="radio" id="release_channel_edge" name="boldgrid_settings[release_channel]" value="edge" ' .
+		$edge_checked = ( isset( $options[ $type . 'release_channel'] ) &&
+			 $options[ $type . 'release_channel' ] == "edge" ) ? 'checked' : '';
+
+		$channel_options[] = '<input type="radio" id="' . $type .
+			'release_channel_edge" name="boldgrid_settings[' . $type . 'release_channel]" value="edge" ' .
 			 $edge_checked . '/> Edge';
 
 		// CANDIDATE
-		$candidate_checked = ( isset( $options['release_channel'] ) &&
-			 $options['release_channel'] == "candidate" ) ? 'checked' : '';
+		$candidate_checked = ( isset( $options[ $type . 'release_channel' ] ) &&
+			 $options[ $type . 'release_channel' ] == "candidate" ) ? 'checked' : '';
 
 		// Only display candidate if it is checked or true == $show_all_channels
 		if ( 'checked' == $candidate_checked || true === $show_all_channels ) {
-			$channel_options[] = '<input type="radio" id="release_channel_candidate" name="boldgrid_settings[release_channel]" value="candidate" ' .
+			$channel_options[] = '<input type="radio" id="' . $type . 'release_channel_candidate" name="boldgrid_settings['
+				. $type . 'release_channel]" value="candidate" ' .
 				 $candidate_checked . ' /> Candidate';
 		}
 
@@ -496,6 +526,7 @@ No
 
 		// release version to use
 		$new_boldgrid_settings['release_channel'] = isset( $boldgrid_settings['release_channel'] ) ? $boldgrid_settings['release_channel'] : 'stable';
+		$new_boldgrid_settings['theme_release_channel'] = isset( $boldgrid_settings['theme_release_channel'] ) ? $boldgrid_settings['theme_release_channel'] : 'stable';
 
 		// Delete the transient holding the cached version data:
 		if ( is_multisite() ) {

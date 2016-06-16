@@ -26,7 +26,13 @@ The second phase is Customization; tools to transform your website into your vis
 
 == Changelog ==
 
-= 1.1.6 In progress =
+= 1.1.7 In progress =
+* New feature:	JIRA WPB-1905	Added capability for auto-updates of boldgrid-inspirations by API response.
+* Bug fix:		JIRA WPB-2002	Fixed theme update issue where upgrader says is up to date at times.
+* Bug fix:		JIRA WPB-2006	Pdes and Homepage not installing correctly on Inpirations Theme Only installs.
+
+= 1.1.6 =
+* New feature:	JIRA WPB-1839	Users can now change their theme release channel.
 * Security fix:	JIRA WPB-1977	Validate nonce for feedback form diagnostic data callback and form submit.
 * Bug fix:		JIRA WPB-1955	Fatal error: Class 'Boldgrid_Staging_Plugin' not found.
 

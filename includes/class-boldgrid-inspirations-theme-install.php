@@ -55,6 +55,21 @@ class Boldgrid_Inspirations_Theme_Install {
 	}
 
 	/**
+	 * Get a users saved theme release channel.
+	 *
+	 * @since 1.1.6
+	 *
+	 * @return string $theme_channel.
+	 */
+	public static function fetch_theme_channel() {
+		$boldgrid_settings = get_option( 'boldgrid_settings' );
+		$theme_channel = ! empty( $boldgrid_settings['theme_release_channel'] ) ?
+			$boldgrid_settings['theme_release_channel'] : 'stable';
+
+		return $theme_channel;
+	}
+
+	/**
 	 * Make and API call to the asset server to get Wordpress data for all BG themes.
 	 *
 	 * WP Data includes num downloaded, ratings, version, screenshot url, download link, ect.
@@ -73,6 +88,7 @@ class Boldgrid_Inspirations_Theme_Install {
 			'body' => array(
 				'key' => $configs['api_key'],
 				'theme-name' => $theme_name,
+				'channel' => self::fetch_theme_channel(),
 				'args' => $args
 			)
 		) );

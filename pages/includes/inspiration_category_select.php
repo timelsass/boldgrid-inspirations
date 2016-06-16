@@ -11,17 +11,3 @@
 
 <?php
 include BOLDGRID_BASE_DIR . '/pages/includes/browse_category.php';
-
-// Give the user the option to choose to see Candidate themes / pages.
-if ( isset( $_GET['channels'] ) && 'all' == $_GET['channels'] ) {
-	?>
-<br>
-<div>
-	<label><input type="checkbox" name="candidate">Display Candidate Themes
-		(Internal Only)</label>
-</div>
-<div>
-	<label><input type="checkbox" name="candidate_pages">Display Candidate
-		Pages (Internal Only)</label>
-</div>
-<?php } ?>
