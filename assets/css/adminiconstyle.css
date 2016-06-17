@@ -138,6 +138,9 @@
 .boldgridApiKeyLink {
 	margin-left: 66px;
 }
+#requestKeyMessage {
+	margin-right: 66px;
+}
 .error-alerts {
 	color: red;
 }

@@ -573,7 +573,7 @@ class Boldgrid_Inspirations {
 		<a href="#" class="enterKeyLink">Have an API key to enter?</a><br /><br />
 		<div class="key-request-content">
 			<p id="requestKeyMessage">
-				Please fill in the information below to obtain a BoldGrid Connect Key.<br />
+				There are two types of BoldGrid Connect Keys, a Free Connect Key or an Official Host Premium Connect Key. Premium Keys are highly recommended and may already come with your hosting account. If you do not have a Premium Key, you may request a Free Key below. Please visit <a href="https://www.boldgrid.com/get-it-now/">our site</a> for full details.<br />
 			</p>
 			<p class="error-alerts"></p>
 			<form id="requestKeyForm">
