@@ -557,11 +557,11 @@ class Boldgrid_Inspirations {
 		<h2 class="dashicons-before dashicons-admin-network">BoldGrid API Check</h2>
 		<a href="#" class="boldgridApiKeyLink">Don't have an API key yet?</a><br /><br />
 		<p id="boldgrid_api_key_notice_message">
-			It appears you have not entered your BoldGrid Connect Key.<br />
 			Please enter your <b>32 digit BoldGrid Connect Key</b> below and click
 			submit.
 		</p>
 		<form id="boldgrid-api-form">
+			<div class="tos-box"><input type="checkbox" id="tos-box" value="0">I agree to the <a href="https://www.boldgrid.com/terms-of-use-and-privacy">Terms of Use and Privacy Policy</a>.</div><br>
 			<input type="text" id="boldgrid_api_key" maxlength="37"
 				placeholder="XXXXXXXX - XXXXXXXX - XXXXXXXX - XXXXXXXX" />
 			<button id="submit_api_key" class="button button-primary">Submit</button>
