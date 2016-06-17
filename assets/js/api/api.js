@@ -12,7 +12,6 @@ IMHWPB.Api = function( configs ) {
 			    container = $( 'container_boldgrid_api_key_notice' );
 			if ( $activateKey ) {
 				document.getElementById( 'boldgrid_api_key' ).value = $activateKey;
-				$( '#submit_api_key' ).click();
 			}
 		});
 
