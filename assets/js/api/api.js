@@ -58,7 +58,9 @@ IMHWPB.Api = function( configs ) {
 				$lastName = $form.find( '#lastName' ).val(),
 				$email = $form.find( '#emailAddr' ).val(),
 				$link = $form.find( '#siteUrl' ).val(),
-				$alertBox = $( '.error-alerts' );
+				$alertBox = $( '.error-alerts' ),
+				$genericError = 'There was an error communicating with the BoldGrid Connect Key server.  Please try again.';
+
 
 				$('.error-color').removeClass( 'error-color' );
 
@@ -89,12 +91,13 @@ IMHWPB.Api = function( configs ) {
 			);
 
 			posting.done( function( response ) {
+				$alertBox.text( $genericError );
 				if ( 400 === response.status ) {
-					if ( response.message.indexOf( 'Last name' ) >= 0 ) {
-						$form.find( '#lastName' ).prev().addClass( 'error-color' );
-					}
 					if ( response.message.indexOf( 'First name' ) >= 0 ) {
 						$form.find( '#firstName' ).prev().addClass( 'error-color' );
+					}
+					if ( response.message.indexOf( 'Last name' ) >= 0 ) {
+						$form.find( '#lastName' ).prev().addClass( 'error-color' );
 					}
 					if ( response.message.indexOf( 'e-mail' ) >= 0 ) {
 						$form.find( '#emailAddr' ).prev().addClass( 'error-color' );
@@ -104,6 +107,8 @@ IMHWPB.Api = function( configs ) {
 				if ( 200 === response.status ) {
 					$( '.key-request-content' ).text( response.message );
 				}
+			}).fail( function() {
+				$alertBox.text( $genericError );
 			});
 		});
 
