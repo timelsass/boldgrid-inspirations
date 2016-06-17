@@ -90,8 +90,11 @@ IMHWPB.Api = function( configs ) {
 
 			posting.done( function( response ) {
 				if ( 400 === response.status ) {
-					if ( response.message.indexOf( 'name' ) >= 0 ) {
-						$form.find( '#firstName, #lastName' ).prev().addClass( 'error-color' );
+					if ( response.message.indexOf( 'Last name' ) >= 0 ) {
+						$form.find( '#lastName' ).prev().addClass( 'error-color' );
+					}
+					if ( response.message.indexOf( 'First name' ) >= 0 ) {
+						$form.find( '#firstName' ).prev().addClass( 'error-color' );
 					}
 					if ( response.message.indexOf( 'e-mail' ) >= 0 ) {
 						$form.find( '#emailAddr' ).prev().addClass( 'error-color' );
