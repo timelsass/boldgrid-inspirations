@@ -300,6 +300,11 @@ class Boldgrid_Inspirations_Update {
 		// Get configs.
 		$boldgrid_configs = self::get_configs();
 
+		// If the API key is not set, then abort; return unchanged plugin update transient.
+		if( true === empty( $boldgrid_configs['api_key'] ) ){
+			return $transient;
+		}
+
 		// Get the current WordPress page filename.
 		global $pagenow;
 

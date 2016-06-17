@@ -561,6 +561,7 @@ class Boldgrid_Inspirations {
 			submit.
 		</p>
 		<form id="boldgrid-api-form">
+		<?php wp_nonce_field( 'boldgrid_set_key', 'set_key_auth' ); ?>
 			<div class="tos-box"><input type="checkbox" id="tos-box" value="0">I agree to the <a href="https://www.boldgrid.com/terms-of-use-and-privacy">Terms of Use and Privacy Policy</a>.</div><br>
 			<input type="text" id="boldgrid_api_key" maxlength="37"
 				placeholder="XXXXXXXX - XXXXXXXX - XXXXXXXX - XXXXXXXX" />
@@ -573,7 +574,7 @@ class Boldgrid_Inspirations {
 		<a href="#" class="enterKeyLink">Have an API key to enter?</a><br /><br />
 		<div class="key-request-content">
 			<p id="requestKeyMessage">
-				There are two types of BoldGrid Connect Keys, a Free Connect Key or an Official Host Premium Connect Key. Premium Keys are highly recommended and may already come with your hosting account. If you do not have a Premium Key, you may request a Free Key below. Please visit <a href="https://www.boldgrid.com/get-it-now/">our site</a> for full details.<br />
+				There are two types of BoldGrid Connect Key, a free key or an Official Host Premium Connect Key. A Premium Connect Key is highly recommended and may already come with your hosting account. If you do not have a Premium Connect Key, then you may request a free key below. Please visit <a href="https://www.boldgrid.com/get-it-now/">our site</a> for full details.<br />
 			</p>
 			<p class="error-alerts"></p>
 			<form id="requestKeyForm">
@@ -610,47 +611,101 @@ class Boldgrid_Inspirations {
 
 	/**
 	 * Store the user's api_key as wp_option.
+	 *
 	 * This function is called via ajax.
 	 *
 	 * @param string $_POST['api_key']
 	 */
 	public function set_api_key_callback() {
-		// Check input API key:
+		// Set messages.
+		$messages = array(
+			'success' => 'Your api key has been saved successfully.',
+			'invalid_key' => 'Your API key appears to be invalid!<br />Please try to enter your BoldGrid Connect Key again.',
+			'error_saving_key' => 'There was an error saving your key.<br />Please try entering your BoldGrid Connect Key again.',
+			'nonce_failed' => 'Security violation (invalid nonce).',
+		);
+
+		// Verify nonce.
+		if ( false === isset( $_POST['set_key_auth'] ) ||
+			1 !== check_ajax_referer( 'boldgrid_set_key', 'set_key_auth', false ) ) {
+				echo $messages['nonce_failed'];
+
+				wp_die();
+			}
+
+		// Check input API key.
 		if ( empty( $_POST['api_key'] ) ) {
-			// Failure
-			echo 'invalid key';
+			// Failure.
+			echo wp_json_encode(
+				array(
+					'success' => false,
+					'error' => 'invalid_key',
+					'message' => $messages['invalid_key'],
+				)
+			);
+
 			wp_die();
 		}
 
 		$api_key_hash = self::hash_api_key( $_POST['api_key'] );
 
 		if ( null === $api_key_hash ) {
-			// Failure
-			echo 'invalid key';
+			// Failure.
+			echo wp_json_encode(
+				array(
+					'success' => false,
+					'error' => 'invalid_key',
+					'message' => $messages['invalid_key'],
+				)
+			);
+
 			wp_die();
 		}
 
 		$boldgrid_api_data = $this->verify_api_key();
 
 		if ( ! is_object( $boldgrid_api_data ) ) {
-			// LOG:
+			// LOG.
 			error_log(
 				__METHOD__ . ': Error: $boldgrid_api_data is not an object.  $boldgrid_api_data: ' . print_r(
 					$boldgrid_api_data, true ) );
 
-			echo 'error saving key';
-		} elseif ( 'OK' == $boldgrid_api_data->message ) {
-			// Success
-			echo 'true';
+			echo wp_json_encode(
+				array(
+					'success' => false,
+					'error' => 'error_saving_key',
+					'message' => $messages['error_saving_key'],
+				)
+			);
+		} elseif ( 'OK' === $boldgrid_api_data->message ) {
+			// Success.
+			echo wp_json_encode(
+				array(
+					'success' => true,
+					'message' => $messages['success'],
+				)
+			);
 
-			// Update the API key option:
+			// Update the API key option.
 			update_option( 'boldgrid_api_key', $api_key_hash );
-		} elseif ( 'Unauthorized' == $boldgrid_api_data->message ) {
-			// Failure
-			echo 'invalid key';
+		} elseif ( 'Unauthorized' === $boldgrid_api_data->message ) {
+			// Failure.
+			echo wp_json_encode(
+				array(
+					'success' => false,
+					'error' => 'invalid_key',
+					'message' => $messages['invalid_key'],
+				)
+			);
 		} else {
-			// Failure
-			echo 'error saving key';
+			// Failure.
+			echo wp_json_encode(
+				array(
+					'success' => false,
+					'error' => 'error_saving_key',
+					'message' => $messages['error_saving_key'],
+				)
+			);
 		}
 
 		wp_die();

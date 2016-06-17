@@ -11,8 +11,7 @@ IMHWPB.Api = function( configs ) {
 			var $activateKey = self.GetURLParameter( 'activateKey' ),
 			    container = $( 'container_boldgrid_api_key_notice' );
 			if ( $activateKey ) {
-				document.getElementById( 'boldgrid_api_key' ).value=$activateKey;
-				//$( '#boldgrid_api_key' ).val( $ac)
+				document.getElementById( 'boldgrid_api_key' ).value = $activateKey;
 				$( '#submit_api_key' ).click();
 			}
 		});
@@ -22,11 +21,15 @@ IMHWPB.Api = function( configs ) {
 		 *
 		 * @link http://www.jquerybyexample.net/2012/06/get-url-parameters-using-jquery.html
 		 */
-		this.GetURLParameter = function(sParam) {
-			var sPageURL = window.location.search.substring( 1 );
-			var sURLVariables = sPageURL.split( '&' );
+		this.GetURLParameter = function( sParam ) {
+			var sPageURL, sURLVariables, sParameterName;
+
+			sPageURL = window.location.search.substring( 1 );
+			sURLVariables = sPageURL.split( '&' );
+
 			for ( var i = 0; i < sURLVariables.length; i++ ) {
-				var sParameterName = sURLVariables[i].split( '=' );
+				sParameterName = sURLVariables[i].split( '=' );
+
 				if ( sParameterName[0] == sParam ) {
 					return sParameterName[1];
 				}
@@ -45,17 +48,21 @@ IMHWPB.Api = function( configs ) {
 			$( '.api-notice', $c_zakn ).fadeIn( 'slow' );
 		});
 
-		/** submit action **/
+		/** Submit action **/
 		$( "#requestKeyForm" ).submit( function( event ) {
 			event.preventDefault();
-			var $form = $( this ),
+
+			var posting,
+				$form = $( this ),
 				$firstName = $form.find( '#firstName' ).val(),
 				$lastName = $form.find( '#lastName' ).val(),
 				$email = $form.find( '#emailAddr' ).val(),
 				$link = $form.find( '#siteUrl' ).val(),
 				$alertBox = $( '.error-alerts' );
+
 				$('.error-color').removeClass( 'error-color' );
-			// basic js checks before serverside verification.
+
+			// Basic js checks before server-side verification.
 			if ( ! $firstName ) {
 				$alertBox.text( 'First name is required.' );
 				$form.find( '#firstName' ).prev().addClass( 'error-color' );
@@ -71,7 +78,8 @@ IMHWPB.Api = function( configs ) {
 				$form.find( '#emailAddr' ).prev().addClass( 'error-color' );
 				return false;
 			}
-			var posting = $.post( IMHWPB.configs.asset_server + IMHWPB.configs.ajax_calls.generate_api_key,
+
+			posting = $.post( IMHWPB.configs.asset_server + IMHWPB.configs.ajax_calls.generate_api_key,
 				{
 					first: $firstName,
 					last: $lastName,
@@ -79,6 +87,7 @@ IMHWPB.Api = function( configs ) {
 					link: $link,
 				}
 			);
+
 			posting.done( function( response ) {
 				if ( 400 === response.status ) {
 					if ( response.message.indexOf( 'name' ) >= 0 ) {
@@ -98,14 +107,16 @@ IMHWPB.Api = function( configs ) {
 
 
 		/**
-		 * Bind events -
-		 * When the submit button is pressed:
+		 * Bind events.
+		 *
+		 * When the submit button is pressed.
 		 */
 		$( '#boldgrid-api-form' ).submit( function( e ){
 			e.preventDefault();
 		});
 
 		$( '#boldgrid-api-loading', $c_zakn ).hide();
+
 		$( '#submit_api_key', $c_zakn ).on('click', function() {
 			if ( ! $( '#tos-box:checked').length  ) {
 				$( '#boldgrid_api_key_notice_message', $c_zakn )
@@ -117,55 +128,109 @@ IMHWPB.Api = function( configs ) {
 				.substr( 0, 32 )
 				.replace( /(.{8})/g,"$1\-" )
 				.slice( 0, - 1 );
+
 			self.set( api_key );
+
 			// hide the button
 			$( this ).hide();
+
 			// show the loading graphic
 			$( '#boldgrid-api-loading', $c_zakn ).show();
 		});
 
 		/**
-		 * Function declaraions
+		 * Set the API key.
 		 */
 		this.set = function( api_key ) {
-			var data = {
+			var data, nonce, wpHttpReferer;
+
+			// Create a context selector for the BoldGrid API key entry form.
+			$apiForm = $('#boldgrid-api-form');
+
+			// Get the wpnonce and referer values.
+			nonce = $apiForm.find( '#set_key_auth' ).val();
+
+			wpHttpReferer = $apiForm.find( '[name="_wp_http_referer"]' ).val();
+
+			// Create the data set to post.
+			data = {
 				'action'  : 'set_api_key',
-				'api_key' :  api_key
+				'api_key' :  api_key,
+				'set_key_auth' : nonce,
+				'_wp_http_referer' : wpHttpReferer,
 			};
 
 			$.post( ajaxurl, data, function( response ) {
-				// if the key was saved successfully
-				if ( 'true' == response ) {
-					// change the notice from red to green
+				// Declare variables.
+				var responseObj, message;
+
+				// Parse the response.
+				responseObj = JSON && JSON.parse( response ) || $.parseJSON( response );
+
+				// If the key was saved successfully.
+				if ( true === responseObj.success ) {
+					// Change the notice from red to green.
 					$c_zakn.toggleClass( 'error' ).toggleClass( 'updated' );
-					// then update the message
+
+					// Set message.
+					if ( responseObj.message !== undefined ) {
+						$message = responseObj.message;
+					} else {
+						$message = 'Your api key has been saved successfully.';
+					}
+
 					$( '#boldgrid_api_key_notice_message', $c_zakn )
-						.html( 'Your api key has been saved successfully! <a onClick="window.location.reload(true)" style="cursor:pointer;"> Dismiss Notification</a>' );
-					// remove the loading graphic since success
-					$( '#boldgrid-api-loading', $c_zakn ).fadeOut();
-					// and finally hide the input elements as we
-					// don't need them anymore.
-					$( '#boldgrid_api_key', $c_zakn ).fadeOut();
-					// reload page after 3 sec
+						.html( $message + ' <a onClick="window.location.reload(true)" style="cursor:pointer;"> Dismiss Notification</a>' );
+
+					// Remove the loading graphic since success.
+					$( '#boldgrid-api-loading', $c_zakn )
+						.fadeOut();
+
+					// Finally hide the input elements as we do not need them anymore.
+					$( '#boldgrid_api_key', $c_zakn )
+						.fadeOut();
+
+					// Reload page after 3 seconds.
 					setTimeout( function() {
 						window.location.reload();
 					}, 3000 );
 
-				} else if ( 'error saving key' == response ) {
-					// hide loading
-					$( '#boldgrid-api-loading', $c_zakn ).hide();
-					// show button
-					$( '#submit_api_key', $c_zakn ).show();
-					$( '#boldgrid_api_key_notice_message', $c_zakn )
-						.html( 'There was an error saving your key.<br />Please try entering your BoldGrid Connect Key again.' );
-				} else {
-					// hide loading
-					$( '#boldgrid-api-loading', $c_zakn ).hide();
-					// show button
-					$( '#submit_api_key', $c_zakn ).show();
-					$( '#boldgrid_api_key_notice_message', $c_zakn )
-						.html( 'Your API key appears to be invalid!<br />Please try to enter your BoldGrid Connect Key again.');
+				} else if ( responseObj.error !== undefined && 'error_saving_key' === responseObj.error ) {
+					// Hide loading.
+					$( '#boldgrid-api-loading', $c_zakn )
+						.hide();
 
+					// Show button.
+					$( '#submit_api_key', $c_zakn )
+						.show();
+
+					// Set message.
+					if ( responseObj.message !== undefined ) {
+						$message = responseObj.message;
+					} else {
+						$message = 'There was an error saving your key.<br />Please try entering your BoldGrid Connect Key again.';
+					}
+
+					$( '#boldgrid_api_key_notice_message', $c_zakn )
+						.html( $message );
+				} else {
+					// Hide loading.
+					$( '#boldgrid-api-loading', $c_zakn )
+						.hide();
+
+					// Show button.
+					$( '#submit_api_key', $c_zakn )
+						.show();
+
+					// Set message.
+					if ( responseObj.message !== undefined ) {
+						$message = responseObj.message;
+					} else {
+						$message = 'Your API key appears to be invalid!<br />Please try to enter your BoldGrid Connect Key again.';
+					}
+
+					$( '#boldgrid_api_key_notice_message', $c_zakn )
+						.html( $message );
 				}
 			});
 		};
