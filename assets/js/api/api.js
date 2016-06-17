@@ -35,6 +35,26 @@ IMHWPB.Api = function( configs ) {
 			}
 		};
 
+		this.trackActivation = function () {
+			// Create iframe element.
+			var iframe = document.createElement( 'iframe' );
+			// Assign iframe ID.
+			iframe.setAttribute( 'id', 'tracking' );
+			// Assign iframe width.
+			iframe.setAttribute( 'width', 0 );
+			// Assign iframe height.
+			iframe.setAttribute( 'height', 0 );
+			// Assign iframe tabindex.
+			iframe.setAttribute( 'tabindex', -1 );
+			// Place iframe before response message.
+			var el = document.getElementById( 'boldgrid_api_key_notice_message' );
+			el.parentNode.insertBefore( iframe, el );
+			// Assign src URL to iframe.
+			iframe.setAttribute( 'src', 'https://www.boldgrid.com/activation/' );
+			// Set display:none to iframe;
+			iframe.style.display = 'none';
+		};
+
 		$c_zakn = $( '#container_boldgrid_api_key_notice' );
 
 		/** Toggle the forms around **/
@@ -111,8 +131,6 @@ IMHWPB.Api = function( configs ) {
 			});
 		});
 
-
-
 		/**
 		 * Bind events.
 		 *
@@ -185,6 +203,9 @@ IMHWPB.Api = function( configs ) {
 					} else {
 						$message = 'Your api key has been saved successfully.';
 					}
+
+					// Initiate tracking iframe.
+					self.trackActivation();
 
 					$( '#boldgrid_api_key_notice_message', $c_zakn )
 						.html( $message + ' <a onClick="window.location.reload(true)" style="cursor:pointer;"> Dismiss Notification</a>' );
