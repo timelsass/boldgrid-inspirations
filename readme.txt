@@ -26,7 +26,7 @@ The second phase is Customization; tools to transform your website into your vis
 
 == Changelog ==
 
-= 1.1.7 In progress =
+= 1.1.7 =
 * Bug fix:		JIRA WPB-2032	Fixed issue when activating key.  Added nonce to api key form.
 * Rework:		JIRA WPB-2030	Updated the "I don't have an API key" section.
 * New feature:	JIRA WPB-2029	Added TOS box to API key submission form.
