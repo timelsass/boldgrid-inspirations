@@ -60,7 +60,7 @@ IMHWPB.EasyAttachmentPreviewSize = function() {
 
 	/**
 	 * Get dimensions from a string like this:
-	 * 
+	 *
 	 * Full Size – 1600 × 1067
 	 */
 	self.get_dimensions = function( text ) {
@@ -102,18 +102,18 @@ IMHWPB.EasyAttachmentPreviewSize = function() {
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	self.hide_preview = function() {
 		$preview = jQuery('div#easy_attachment_preview_size');
 		$preview.addClass('hidden');
 
-		jQuery('.easy-attachment-preview-size-hidden').removeClass( 
+		jQuery('.easy-attachment-preview-size-hidden').removeClass(
 				'easy-attachment-preview-size-hidden');
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	self.show_preview = function(e) {
 		// Get the dimensions of the attachment.
