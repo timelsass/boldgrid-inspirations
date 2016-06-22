@@ -32,7 +32,7 @@ IMHWPB.TransactionHistory = function(configs) {
 		// A user has clicked "view" next to a transaction
 		jQuery('#transactions').on('click', '.view', function() {
 			var transaction_id = jQuery(this).data('transaction-id');
-			var transaction = null
+			var transaction = null;
 			jQuery.each(transactions, function() {
 				if (this.transaction_id == transaction_id) {
 					transaction = this;
@@ -48,7 +48,7 @@ IMHWPB.TransactionHistory = function(configs) {
 		// re-download-purchased-image
 		jQuery(document).on('click', 'a.re-download-purchased-image',
 				function() {
-					self.process_click_re_download(this)
+					self.process_click_re_download(this);
 				});
 
 		/**
@@ -73,7 +73,7 @@ IMHWPB.TransactionHistory = function(configs) {
 		var page_to_toggle = $anchor.attr('data-page');
 
 		self.pagination_toggle_rows(page_to_toggle);
-	}
+	};
 
 	/**
 	 * After getting transaction history from server, display it in a table
@@ -108,7 +108,7 @@ IMHWPB.TransactionHistory = function(configs) {
 		if (transaction_count > self.pagination_per_page) {
 			self.setup_pagination();
 		}
-	}
+	};
 
 	/**
 	 * start = the page number to show
@@ -120,14 +120,12 @@ IMHWPB.TransactionHistory = function(configs) {
 		// Hide all tr's.
 		$table_trs.addClass('hidden');
 
-		var starting_index = self.pagination_per_page * show_page
-				- self.pagination_per_page;
+		var starting_index = self.pagination_per_page * show_page - self.pagination_per_page;
 
 		// Then show only the one's we want.
-		$table_trs.slice(starting_index,
-				(starting_index + self.pagination_per_page)).removeClass(
-				'hidden');
-	}
+		$table_trs.slice( starting_index, ( starting_index + self.pagination_per_page ) )
+			.removeClass( 'hidden' );
+	};
 
 	/**
 	 * Process user's click of "Download Image".
@@ -175,7 +173,7 @@ IMHWPB.TransactionHistory = function(configs) {
 				}).fail(fail).always(function() {
 			self.downloading = false;
 		});
-	}
+	};
 
 	/**
 	 *
@@ -201,7 +199,7 @@ IMHWPB.TransactionHistory = function(configs) {
 			}
 
 		});
-	}
+	};
 
 	/**
 	 *
@@ -212,7 +210,7 @@ IMHWPB.TransactionHistory = function(configs) {
 
 		// Add the pagination selector.
 		self.setup_pagination_selector();
-	}
+	};
 
 	/**
 	 * Creating the pagination links, like:
@@ -258,7 +256,7 @@ IMHWPB.TransactionHistory = function(configs) {
 		jQuery('.pagination-go-to-page').on('click', function() {
 			self.bind_pagination_go_to_page_links(this);
 		});
-	}
+	};
 
 	/**
 	 * Pass a transaction object, and we will display it using handlebars. Our
@@ -273,7 +271,7 @@ IMHWPB.TransactionHistory = function(configs) {
 		tb_show("Invoice", '#TB_inline?inlineId=transaction&modal=false', true);
 
 		self.update_receipt_for_stock_photo_purchase();
-	}
+	};
 
 	/**
 	 * Provide new jQuery instance methods
@@ -397,7 +395,7 @@ IMHWPB.TransactionHistory = function(configs) {
 							jQuery.post(ajaxurl, data, success_action);
 						});
 
-	}
-}
+	};
+};
 
 new IMHWPB.TransactionHistory(IMHWPB.configs);
