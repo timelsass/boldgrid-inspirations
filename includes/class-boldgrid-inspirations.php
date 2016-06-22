@@ -662,9 +662,27 @@ class Boldgrid_Inspirations {
 			wp_die();
 		}
 
+		// Delete the boldgrid_api_data transient.
+		if ( true === is_multisite() ){
+			delete_site_transient( 'boldgrid_api_data' );
+		} else {
+			delete_transient( 'boldgrid_api_data' );
+		}
+
+		// Verify the key.
 		$boldgrid_api_data = $this->verify_api_key();
 
-		if ( ! is_object( $boldgrid_api_data ) ) {
+		// Interpret result.
+		if ( 'api call failed' === $boldgrid_api_data ) {
+			// Failure.
+			echo wp_json_encode(
+				array(
+					'success' => false,
+					'error' => 'invalid_key',
+					'message' => $messages['invalid_key'],
+				)
+			);
+		} elseif ( false === is_object( $boldgrid_api_data ) ) {
 			// LOG.
 			error_log(
 				__METHOD__ . ': Error: $boldgrid_api_data is not an object.  $boldgrid_api_data: ' . print_r(
