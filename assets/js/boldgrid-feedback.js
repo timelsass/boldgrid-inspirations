@@ -130,7 +130,7 @@ IMHWPB.BoldGridFeedback = function( $ ) {
 				$feedbackDiagnosticReport.show();
 
 				// Populate diagnostic data, if needed.
-				if ( '' == $feedbackDiagnosticReportText.val() ) {
+				if ( '' === $feedbackDiagnosticReportText.val() ) {
 					// Retrieve the data.
 					self.populateDiagnosticData();
 				}
