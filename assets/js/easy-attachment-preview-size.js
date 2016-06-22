@@ -99,7 +99,7 @@ IMHWPB.EasyAttachmentPreviewSize = function() {
 		} else {
 			return false;
 		}
-	}
+	};
 
 	/**
 	 *
