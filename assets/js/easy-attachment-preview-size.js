@@ -8,7 +8,7 @@ IMHWPB.EasyAttachmentPreviewSize = function() {
 	 * On dom load.
 	 * ************************************************************************
 	 */
-	jQuery(function() {
+	jQuery( function() {
 		self.baseAdmin = new IMHWPB.BaseAdmin();
 
 		/**
@@ -16,13 +16,13 @@ IMHWPB.EasyAttachmentPreviewSize = function() {
 		 */
 		jQuery( document.body ).on( 'mousedown', 'select.size', function() {
 			var $select = jQuery( this );
-			var option_count = parseInt( $select.children('option').length );
-			var size = parseInt( $select.attr('size') );
+			var option_count = parseInt( $select.children( 'option' ).length );
+			var size = parseInt( $select.attr( 'size' ) );
 
 			if ( 1 === size || isNaN( size ) ) {
 				$select.attr( 'size', option_count );
-				$select.height('auto');
-				$select.addClass('easy-attachment-preview-size');
+				$select.height( 'auto' );
+				$select.addClass( 'easy-attachment-preview-size' );
 			}
 		});
 
@@ -65,7 +65,7 @@ IMHWPB.EasyAttachmentPreviewSize = function() {
 	 */
 	self.get_dimensions = function( text ) {
 		// Example of 'text': "Full Size – 1600 × 1067"
-		var initial_split = text.split(' × ');
+		var initial_split = text.split( ' × ' );
 
 		// Validate our data up to this point.
 		if ( 2 != initial_split.length ) {
@@ -79,10 +79,10 @@ IMHWPB.EasyAttachmentPreviewSize = function() {
 		var split_right = initial_split[1].trim();
 
 		// Get the width:
-		var left_split = split_left.split(' ');
+		var left_split = split_left.split( ' ' );
 		var width = parseInt( left_split[ left_split.length - 1 ] );
 
-		var right_split = split_right.split(' ');
+		var right_split = split_right.split( ' ' );
 		var height = parseInt( right_split[0] );
 
 		// Validate our data up to this point.
@@ -129,36 +129,34 @@ IMHWPB.EasyAttachmentPreviewSize = function() {
 		// Add the preview, after the <select>, if it doesn't exist yet.
 		if ( ! jQuery('div#easy_attachment_preview_size').length ) {
 			jQuery('<div id="easy_attachment_preview_size"></div>')
-					.insertAfter('select.easy-attachment-preview-size');
-			// .prependTo('.media-modal .media-frame');
+				.insertAfter('select.easy-attachment-preview-size');
 		}
 
 		// z-indexing use to be easy... Hide a few things that overlap when we
 		// don't want them to.
-		jQuery(
-				'.media-toolbar select, a.media-menu-item,.media-modal-content .media-frame .media-frame-menu,#media-search-input,.media-toolbar')
-				.addClass('easy-attachment-preview-size-hidden');
+		jQuery( '.media-toolbar select, a.media-menu-item,.media-modal-content .media-frame .media-frame-menu,#media-search-input,.media-toolbar' )
+			.addClass( 'easy-attachment-preview-size-hidden' );
 
 		// Show the preview.
-		$preview = jQuery('div#easy_attachment_preview_size');
+		$preview = jQuery( 'div#easy_attachment_preview_size' );
 
 		// Reset the Preview.
-		$preview.removeClass('easy_attachment_preview_size_100').removeClass(
-				'easy_attachment_preview_size_iframed');
+		$preview.removeClass( 'easy_attachment_preview_size_100' )
+			.removeClass( 'easy_attachment_preview_size_iframed' );
 
 		// Adust the dimensions of the preview font size.
-		$preview.width( dimensions.width ).height( dimensions.height ).removeClass(
-				'hidden').html(
-				"<em>Image size preview</em>:<br /><br />" + innerHTML );
+		$preview.width( dimensions.width ).height( dimensions.height )
+			.removeClass( 'hidden' )
+			.html( "<em>Image size preview</em>:<br /><br />" + innerHTML );
 
 		// Adjust the positioning if need be.
-		if ( typeof self.baseAdmin.GetURLParameter('ref') != 'undefined' ) {
-			$preview.addClass('easy_attachment_preview_size_iframed');
+		if ( typeof self.baseAdmin.GetURLParameter( 'ref' ) != 'undefined' ) {
+			$preview.addClass( 'easy_attachment_preview_size_iframed' );
 		}
 
 		// Adjust the preview text size if necessary
 		if ( dimensions.width < 100 || dimensions.height < 100 ) {
-			$preview.addClass('easy_attachment_preview_size_100');
+			$preview.addClass( 'easy_attachment_preview_size_100' );
 		}
 	};
 };
