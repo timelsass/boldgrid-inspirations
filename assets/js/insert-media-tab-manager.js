@@ -199,83 +199,79 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 	 */
 	this.onTabClick = function() {
 		$( document.body )
-		    .on(
-		        'click',
-		        '.media-router .media-menu-item',
-		        function() {
-			        var $content = $( '.media-frame-content:visible' ),
-			        // Our BGCS iframe.
-			        $iframe = $content.find( '#boldgrid_connect_search' ),
-			        // The content for the "Media Library" tab.
-			        $library = $content.find( '.attachments-browser' ),
-			        // The media router.
-			        $mediaRouter = $( '.media-router:visible', window.parent.document ), $priorTab = $mediaRouter
-			            .find( '.media-menu-item.active' ), $newTab = $( this ),
-			        // The "Media Library" tab.
-			        $libraryTab = $mediaRouter.find( self.selectors.mediaLibrary ),
-			        // The tab clicked.
-			        $tab = $( this ),
-			        // The toolbar, which is located under the content.
-			        $toolbar = $( '.media-frame-toolbar:visible' ),
-			        // The content for the "Upload Files" tab.
-			        $uploader = $content.find( '.uploader-inline-content' ),
-			        // The "BoldGrid Connect Search" tab.
-			        $bgcsTab = $mediaRouter.find( '.media-menu-item.boldgrid-connect-search',
-			            window.parent.document );
+			.on( 'click', '.media-router .media-menu-item', function() {
+				var $content = $( '.media-frame-content:visible' ),
+				// Our BGCS iframe.
+				$iframe = $content.find( '#boldgrid_connect_search' ),
+				// The content for the "Media Library" tab.
+				$library = $content.find( '.attachments-browser' ),
+				// The media router.
+				$mediaRouter = $( '.media-router:visible', window.parent.document ), $priorTab = $mediaRouter
+					.find( '.media-menu-item.active' ), $newTab = $( this ),
+				// The "Media Library" tab.
+				$libraryTab = $mediaRouter.find( self.selectors.mediaLibrary ),
+				// The tab clicked.
+				$tab = $( this ),
+				// The toolbar, which is located under the content.
+				$toolbar = $( '.media-frame-toolbar:visible' ),
+				// The content for the "Upload Files" tab.
+				$uploader = $content.find( '.uploader-inline-content' ),
+				// The "BoldGrid Connect Search" tab.
+				$bgcsTab = $mediaRouter.find( '.media-menu-item.boldgrid-connect-search', window.parent.document );
 
-			        /*
-					 * In order for BGCS to work properly, there needs to be an
-					 * .attachments-browser within the DOM. That needed element
-					 * is created when the user clicks the "Media Library" tab.
-					 * If we've clicked the BGCS tab, and our last tab wasn't
-					 * the "Media Library", then we don't have a library. Click
-					 * the "Media Library" tab to generate our library, then
-					 * click the BGCS tab.
-					 */
-			        if ( $newTab.is( $bgcsTab ) && !$priorTab.is( $libraryTab ) ) {
-				        $libraryTab[ 0 ].click();
-				        $bgcsTab[ 0 ].click();
-				        return;
-			        }
+			/*
+			 * In order for BGCS to work properly, there needs to be an
+			 * .attachments-browser within the DOM. That needed element
+			 * is created when the user clicks the "Media Library" tab.
+			 * If we've clicked the BGCS tab, and our last tab wasn't
+			 * the "Media Library", then we don't have a library. Click
+			 * the "Media Library" tab to generate our library, then
+			 * click the BGCS tab.
+			 */
+			if ( $newTab.is( $bgcsTab ) && !$priorTab.is( $libraryTab ) ) {
+				$libraryTab[ 0 ].click();
+				$bgcsTab[ 0 ].click();
+				return;
+			}
 
-			        // Whenever the "Media Library" tab is clicked, refresh the library.
-			        if( $newTab.is( $libraryTab ) ) {
-			        	self.refreshMediaLibrary();
-			        }
+			// Whenever the "Media Library" tab is clicked, refresh the library.
+			if ( $newTab.is( $libraryTab ) ) {
+				self.refreshMediaLibrary();
+			}
 
-			        // Toggle the '.active' state of the tabs.
-			        $( '.media-router:visible .media-menu-item' ).removeClass( 'active' );
-			        $tab.addClass( 'active' );
+			// Toggle the '.active' state of the tabs.
+			$( '.media-router:visible .media-menu-item' ).removeClass( 'active' );
+			$tab.addClass( 'active' );
 
-			        // If we have clicked on the BoldGrid tab.
-			        if ( $tab.hasClass( 'boldgrid-connect-search' ) ) {
-				        // Hide the uploader and the library.
-				        $uploader.addClass( 'hidden' );
-				        $library.addClass( 'hidden' );
+			// If we have clicked on the BoldGrid tab.
+			if ( $tab.hasClass( 'boldgrid-connect-search' ) ) {
+				// Hide the uploader and the library.
+				$uploader.addClass( 'hidden' );
+				$library.addClass( 'hidden' );
 
-				        // If we don't already have our BoldGrid iframe, add it.
-				        if ( $iframe.length == 0 ) {
-					        self.addLoadingMessage();
-					        $content.append( self.iframe );
-				        }
-				        $iframe.removeClass( 'hidden' );
+				// If we don't already have our BoldGrid iframe, add it.
+				if ( 0 === $iframe.length ) {
+					self.addLoadingMessage();
+					$content.append( self.iframe );
+				}
+				$iframe.removeClass( 'hidden' );
 
-				        // Hide the bottom tollbar.
-				        $toolbar.addClass( 'hidden' );
-				        $content.css( 'bottom', '0px' );
-			        } else {
-				        // Hide the BGCS iframe.
-				        $iframe.addClass( 'hidden' );
+				// Hide the bottom tollbar.
+				$toolbar.addClass( 'hidden' );
+				$content.css( 'bottom', '0px' );
+			} else {
+				// Hide the BGCS iframe.
+				$iframe.addClass( 'hidden' );
 
-				        // Show the uploader and library.
-				        $uploader.removeClass( 'hidden' );
-				        $library.removeClass( 'hidden' );
+				// Show the uploader and library.
+				$uploader.removeClass( 'hidden' );
+				$library.removeClass( 'hidden' );
 
-				        // Show the bottom toolbar.
-				        $toolbar.removeClass( 'hidden' );
-				        $content.css( 'bottom', '61px' );
-			        }
-		        } );
+				// Show the bottom toolbar.
+				$toolbar.removeClass( 'hidden' );
+				$content.css( 'bottom', '61px' );
+			}
+		} );
 	};
 
 	/**
