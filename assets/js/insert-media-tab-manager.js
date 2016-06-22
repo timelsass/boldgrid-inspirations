@@ -65,7 +65,7 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 		$( document.body ).on( 'click', self.addTabTriggers, function() {
 			setTimeout( function() {
 				self.addTab();
-			}, 200 )
+			}, 200 );
 		} );
 
 		self.setIframe();
@@ -103,7 +103,7 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 				$spinner.remove();
 			} );
 		}, 2000 );
-	}
+	};
 
 	/**
 	 * Add our BGCS tab.
@@ -121,11 +121,9 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 		// Check if there is already a visible "BoldGrid Connect Search" tab.
 		$bgcsTab = $mediaRouter.find( '.boldgrid-connect-search' ),
 		// Get our "Media Library" tab.
-		$libraryTab = $mediaRouter.find( '.media-menu-item:contains("'
-		    + _wpMediaViewsL10n.mediaLibraryTitle + '")' ),
+		$libraryTab = $mediaRouter.find( '.media-menu-item:contains("' + _wpMediaViewsL10n.mediaLibraryTitle + '")' ),
 		// Get our "Upload Files" tab.
-		$uploadTab = $( '.media-menu-item:visible:contains("' + _wpMediaViewsL10n.uploadFilesTitle
-		    + '")' ),
+		$uploadTab = $( '.media-menu-item:visible:contains("' + _wpMediaViewsL10n.uploadFilesTitle + '")' ),
 		// Find the number of active tabs.
 		activeTabs = $mediaRouter.find( '.media-menu-item.active' ).length;
 
@@ -176,7 +174,7 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 
 		$mediaRouter.append( $tab );
 		$tab.fadeIn( 500 );
-	}
+	};
 
 	/**
 	 * @summary Refresh the Media Library.
@@ -187,11 +185,11 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 	 */
 	this.refreshMediaLibrary = function() {
 		if( wp.media.frame.content.get() !== null ) {
-    		wp.media.frame.content.get().collection.props.set( { ignore: ( + new Date() ) } );
-    		wp.media.frame.content.get().options.selection.reset();
-    	} else {
-    		wp.media.frame.library.props.set( { ignore: ( + new Date() ) } );
-    	}
+			wp.media.frame.content.get().collection.props.set( { ignore: ( + new Date() ) } );
+			wp.media.frame.content.get().options.selection.reset();
+		} else {
+			wp.media.frame.library.props.set( { ignore: ( + new Date() ) } );
+		}
 	};
 
 	/**
@@ -278,7 +276,7 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 				        $content.css( 'bottom', '61px' );
 			        }
 		        } );
-	}
+	};
 
 	/**
 	 * Configure our BoldGrid Connect Search iframe.
@@ -287,8 +285,7 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 	 */
 	this.setIframe = function() {
 		// Configure our post_id parameter for the iframe.
-		var post_id_param = ( typeof IMHWPB.post_id === 'undefined' ) ? '' : '&post_id='
-		    + IMHWPB.post_id, ref;
+		var post_id_param = ( typeof IMHWPB.post_id === 'undefined' ) ? '' : '&post_id=' + IMHWPB.post_id, ref;
 
 		// Configure our referrer parameter for the iframe.
 		if ( 'object' == typeof window._wpCustomizeSettings ) {
@@ -299,9 +296,8 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 			ref = 'dashboard-media';
 		}
 
-		self.iframe = '<iframe src="media-upload.php?chromeless=1' + post_id_param
-		    + '&tab=image_search&ref=' + ref + '" id="boldgrid_connect_search"></iframe>';
-	}
+		self.iframe = '<iframe src="media-upload.php?chromeless=1' + post_id_param + '&tab=image_search&ref=' + ref + '" id="boldgrid_connect_search"></iframe>';
+	};
 };
 
 new IMHWPB.InsertMediaTabManager( jQuery );
