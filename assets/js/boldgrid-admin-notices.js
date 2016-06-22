@@ -26,7 +26,7 @@ IMHWPB.BoldGridAdminNotices = function(configs) {
 
 		jQuery.post(ajaxurl, data, function(response) {
 		});
-	}
+	};
 };
 
 new IMHWPB.BoldGridAdminNotices();
