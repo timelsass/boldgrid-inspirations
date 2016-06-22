@@ -105,12 +105,12 @@ IMHWPB.EasyAttachmentPreviewSize = function() {
 	 *
 	 */
 	self.hide_preview = function() {
-		$preview = jQuery('div#easy_attachment_preview_size');
-		$preview.addClass('hidden');
+		$preview = jQuery( 'div#easy_attachment_preview_size' );
+		$preview.addClass( 'hidden' );
 
-		jQuery('.easy-attachment-preview-size-hidden').removeClass(
-				'easy-attachment-preview-size-hidden');
-	}
+		jQuery( '.easy-attachment-preview-size-hidden' )
+			.removeClass( 'easy-attachment-preview-size-hidden' );
+	};
 
 	/**
 	 *
