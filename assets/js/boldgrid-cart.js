@@ -113,14 +113,14 @@ IMHWPB.BoldGrid_Cart = function(configs) {
 	 */
 	this.get_coin_balance = function() {
 		return Number(coin_balance_element.attr('data-coin-balance'));
-	}
+	};
 
 	/**
 	 * Return the total cost.
 	 */
 	this.get_total_cost = function() {
 		return Number(total_cost_element.attr('data-total-cost'));
-	}
+	};
 
 	/**
 	 * Update the 'checked_in_cart' attribute of the asset.
@@ -137,7 +137,7 @@ IMHWPB.BoldGrid_Cart = function(configs) {
 				alert("Error, image selection has not been updated.");
 			}
 		});
-	}
+	};
 
 	/**
 	 * Display a message if there are any errors when trying to submit request
@@ -145,7 +145,7 @@ IMHWPB.BoldGrid_Cart = function(configs) {
 	 */
 	this.set_purchase_error = function(msg) {
 		purchase_error_element.html(msg);
-	}
+	};
 
 	/**
 	 * Determine whether or not to show/hide the insufficient funds message and
@@ -173,11 +173,11 @@ IMHWPB.BoldGrid_Cart = function(configs) {
 				self.purchase_all_for_publishing.removeAttr('disabled');
 			}
 		}
-	}
+	};
 
 	/**
 	 * Validate the form.
-	 * 
+	 *
 	 * If valid, submit the form to "purchase all for publishing".
 	 */
 	this.validate_form = function() {
@@ -222,7 +222,7 @@ IMHWPB.BoldGrid_Cart = function(configs) {
 		/**
 		 * ********************************************************************
 		 * Validate the Connect Key with BoldGrid.
-		 * 
+		 *
 		 * If valid, submit the form.
 		 * ********************************************************************
 		 */
@@ -233,7 +233,7 @@ IMHWPB.BoldGrid_Cart = function(configs) {
 				jQuery('span#purchase_error').html(
 						'Invalid BoldGrid Connect Key!');
 			}
-		}
+		};
 
 		data = {
 			'api_key' : boldgrid_connect_key
@@ -243,7 +243,7 @@ IMHWPB.BoldGrid_Cart = function(configs) {
 	};
 
 	/**
-	 * 
+	 *
 	 */
 	this.update_all_price_totals = function() {
 		// The total cost of all images on all pages.
@@ -312,7 +312,7 @@ IMHWPB.BoldGrid_Cart = function(configs) {
 
 		// Toggle the "Insufficient funds" notice.
 		self.toggle_insufficient_funds();
-	}
-}
+	};
+};
 
 new IMHWPB.BoldGrid_Cart(IMHWPB.configs);
