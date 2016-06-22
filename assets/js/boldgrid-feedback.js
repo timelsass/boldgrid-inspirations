@@ -270,9 +270,9 @@ IMHWPB.BoldGridFeedback = function( $ ) {
 				        $feedbackError.hide();
 
 				        // Replace the form with a success message.
-				        markup = "<h2>Thanks for the feedback</h2>\n"
-				            + "<p>The BoldGrid team wants you to know that we are listening and every bit of </p>\n"
-				            + "<p>feedback helps us improve our tool.</p>";
+				        markup = "<h2>Thanks for the feedback</h2>\n" +
+				            "<p>The BoldGrid team wants you to know that we are listening and every bit of </p>\n" +
+				            "<p>feedback helps us improve our tool.</p>";
 
 				        // Empty the notice area.
 				        $feedbackContent.empty();
