@@ -26,14 +26,14 @@ IMHWPB.BaseAdmin = function() {
 
 	/**
 	 * Init.
-	 * 
+	 *
 	 * @since 1.0.10
 	 */
 	this.init = function() {
 		/*
 		 * Avoid this error: Uncaught TypeError: self.update_customizer_link is
 		 * not a function.
-		 * 
+		 *
 		 * Only call self.update_customizer_link if it is a function.
 		 */
 		if ('function' === typeof (self.update_customizer_link)) {
@@ -41,11 +41,11 @@ IMHWPB.BaseAdmin = function() {
 		}
 
 		self.init_gridblock_sets();
-	}
+	};
 
 	/**
 	 * Get parameter from URL
-	 * 
+	 *
 	 * @link http://www.jquerybyexample.net/2012/06/get-url-parameters-using-jquery.html
 	 */
 	this.GetURLParameter = function(sParam) {
@@ -57,10 +57,10 @@ IMHWPB.BaseAdmin = function() {
 				return sParameterName[1];
 			}
 		}
-	}
+	};
 
 	/**
-	 * 
+	 *
 	 */
 	this.show_pointer = function(element, selector) {
 		// Abort if necessary.
@@ -81,30 +81,30 @@ IMHWPB.BaseAdmin = function() {
 		if ('yes' != pointer_is_dismissed) {
 			wp_help_pointer_open(i);
 		}
-	}
+	};
 
 	/**
 	 * Sort a column in a table.
-	 * 
+	 *
 	 * @thanks http://stackoverflow.com/questions/16588123/sorting-tables-by-columns-jquery
 	 */
 	this.sort_table_column = function(this_th) {
 		/**
 		 * Get the th the user clicked on.
-		 * 
+		 *
 		 * For example, if you're sorting by date, it will be:
 		 */
 		/*
 		 * <th class='sort-date sorted asc'>
-		 * 
+		 *
 		 * <a href=''>
-		 * 
+		 *
 		 * <span>Date</span>
-		 * 
+		 *
 		 * <span class="sorting-indicator"></span>
-		 * 
+		 *
 		 * </a>
-		 * 
+		 *
 		 * </th>
 		 */
 		var $this_th = jQuery(this_th);
@@ -132,11 +132,11 @@ IMHWPB.BaseAdmin = function() {
 				return tda > tdb ? 1 : tda < tdb ? -1 : 0;
 			}
 		}).appendTo($tbody);
-	}
+	};
 
 	/**
 	 * Init any methods needed pertaining to "Add GridBlock Set".
-	 * 
+	 *
 	 * @since 1.0.10
 	 */
 	this.init_gridblock_sets = function() {
@@ -151,24 +151,24 @@ IMHWPB.BaseAdmin = function() {
 			jQuery('#wp-admin-bar-new-page a').attr('href',
 					IMHWPB.gridblock_sets_admin);
 		}
-	}
+	};
 
 	/**
 	 * Ensure "Customize" link goes to customize.php.
-	 * 
+	 *
 	 * There are several plugins, such as "theme check", that modify the link
 	 * where "Customize" goes. This function will change it back to
 	 * customize.php
 	 */
 	this.update_customizer_link = function() {
 		var useAdminMenu = 0;
-		
+
 		// Set useAdminMenu.
 		if ( IMHWPB.configs !== undefined && IMHWPB.configs.settings !== undefined
 				&& IMHWPB.configs.settings.boldgrid_menu_option !== undefined ) {
 			useAdminMenu = IMHWPB.configs.settings.boldgrid_menu_option;
 		}
-		
+
 		if ( 1 == useAdminMenu && 'undefined' != typeof pagenow && 'dashboard-network' != pagenow ) {
 			// Configure the correct link.
 			var correct_link = 'customize.php?return='
@@ -178,7 +178,7 @@ IMHWPB.BaseAdmin = function() {
 			// Apply this link to "Customize".
 			jQuery('#menu-appearance a.menu-top').attr('href', correct_link);
 		}
-	}
+	};
 
 	/**
 	 * Update the shopping cart total.
@@ -200,7 +200,7 @@ IMHWPB.BaseAdmin = function() {
 
 		// Update the cart element.
 		$cart.html(new_cart_html);
-	}
+	};
 };
 
 new IMHWPB.BaseAdmin();
