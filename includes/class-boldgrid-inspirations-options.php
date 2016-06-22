@@ -393,31 +393,6 @@ class Boldgrid_Inspirations_Options {
 	}
 
 	/**
-	 * Display the options page setting for Auto Update option
-	 */
-	public function boldgrid_option_auto_update_text() {
-		$options = get_option( 'boldgrid_settings' );
-
-		?><input type="radio" id="auto_update"
-	name="boldgrid_settings[auto_update]" value="1"
-	<?php
-		if ( ! ( isset( $options['auto_update'] ) && 0 == $options['auto_update'] ) ) {
-			echo ' checked';
-		}
-		?> />
-Yes &nbsp;
-<input type="radio" id="auto_update"
-	name="boldgrid_settings[auto_update]" value="0"
-	<?php
-		if ( 0 == $options['auto_update'] ) {
-			echo ' checked';
-		}
-		?> />
-No
-		 <?php
-	}
-
-	/**
 	 * Display the release channel options for plugins.
 	 *
 	 * @since 1.1.6
