@@ -160,7 +160,7 @@ IMHWPB.EasyAttachmentPreviewSize = function() {
 		if ( dimensions.width < 100 || dimensions.height < 100 ) {
 			$preview.addClass('easy_attachment_preview_size_100');
 		}
-	}
+	};
 };
 
 new IMHWPB.EasyAttachmentPreviewSize();
