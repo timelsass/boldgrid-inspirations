@@ -90,7 +90,7 @@ IMHWPB.PagenowPostnew = function( $ ) {
 			selected_menu_names.push( $( this ).attr( 'data-menu-name' ) );
 		} );
 
-		if ( 0 == selected_menu_names.length ) {
+		if ( 0 === selected_menu_names.length ) {
 			selected_menu_names = 'None';
 		} else {
 			selected_menu_names = selected_menu_names.join( ', ' );
@@ -101,7 +101,7 @@ IMHWPB.PagenowPostnew = function( $ ) {
 
 	/**
 	 * Reset menu name selections back to the original values.
-	 * 
+	 *
 	 * @since 1.0.11
 	 */
 	self.resetMenuSelections = function() {
@@ -124,8 +124,7 @@ IMHWPB.PagenowPostnew = function( $ ) {
 		if ( selected_dev_group == IMHWPB.loaded_dev_group ) {
 			// Reset to the original loaded selections.
 			using_original_selections = IMHWPB.original_selections;
-		} else if ( 'staging' == selected_dev_group
-		    && 'undefined' != typeof IMHWPB.original_selections_staging ) {
+		} else if ( 'staging' == selected_dev_group && 'undefined' != typeof IMHWPB.original_selections_staging ) {
 			// Staging site.
 			using_original_selections = IMHWPB.original_selections_staging;
 		} else {
