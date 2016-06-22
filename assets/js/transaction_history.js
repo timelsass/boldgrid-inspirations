@@ -218,8 +218,7 @@ IMHWPB.TransactionHistory = function(configs) {
 	 */
 	this.setup_pagination_selector = function() {
 		// Calculate the number of pages
-		var pagination_pages_count = Math.ceil(jQuery(self.$table_trs).size()
-				/ self.pagination_per_page);
+		var pagination_pages_count = Math.ceil(jQuery(self.$table_trs).size() / self.pagination_per_page);
 
 		// If we only have 1 page, abort, that's not pagination silly.
 		if (1 == pagination_pages_count) {
