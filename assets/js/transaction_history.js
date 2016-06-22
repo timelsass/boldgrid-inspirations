@@ -83,8 +83,8 @@ IMHWPB.TransactionHistory = function(configs) {
 		transactions = msg.result.data.transactions;
 
 		// Determine which template to use based on the number of transactions
-		if (0 == transactions.length) {
-			var source = jQuery("#no-transactions-template").html();
+		if ( 0 === transactions.length ) {
+			var source = jQuery( "#no-transactions-template" ).html();
 		} else {
 			var source = jQuery("#transactions-template").html();
 		}
@@ -130,15 +130,15 @@ IMHWPB.TransactionHistory = function(configs) {
 	/**
 	 * Process user's click of "Download Image".
 	 */
-	this.process_click_re_download = function(link) {
-		var $this = jQuery(link);
+	this.process_click_re_download = function( link ) {
+		var $this = jQuery( link );
 
 		// Add a spinner to show this image is being redownloaded.
 		var spinner = "<span class='spinner' style='visibility:visible; float:none;'></span>";
-		$this.replaceWith(spinner);
+		$this.replaceWith( spinner );
 
 		// If there is already a download attempt, abort.
-		if (self.downloading) {
+		if ( self.downloading ) {
 			return;
 		}
 		self.downloading = true;
@@ -152,25 +152,24 @@ IMHWPB.TransactionHistory = function(configs) {
 
 		// If the image download fails:
 		var fail = function() {
-			$redownload_td.html('Image not available');
+			$redownload_td.html( 'Image not available' );
 		};
 
 		// If the image download is successful:
-		deferred.done(
-				function(response) {
-					var response = JSON.parse(response);
+		deferred.done( function( response ) {
+			var response = JSON.parse( response );
 
-					if (response.attachment_id) {
-						// Change the link from 'Download Image' to
-						// 'View Image'.
-						var view_image_link = "<a href='post.php?post="
-								+ response.attachment_id
-								+ "&action=edit'>View Image</a>";
-						$redownload_td.html(view_image_link);
-					} else {
-						fail();
-					}
-				}).fail(fail).always(function() {
+			if ( response.attachment_id ) {
+				// Change the link from 'Download Image' to
+				// 'View Image'.
+				var view_image_link = "<a href='post.php?post=" +
+					response.attachment_id +
+					"&action=edit'>View Image</a>";
+				$redownload_td.html(view_image_link);
+			} else {
+				fail();
+			}
+		}).fail( fail ).always( function() {
 			self.downloading = false;
 		});
 	};
@@ -237,8 +236,8 @@ IMHWPB.TransactionHistory = function(configs) {
 				current_class = '';
 			}
 
-			var pagination_link = "<a class='pointer pagination-go-to-page "
-					+ current_class + "' data-page='" + i + "'>" + i + "</a>";
+			var pagination_link = "<a class='pointer pagination-go-to-page " +
+				current_class + "' data-page='" + i + "'>" + i + "</a>";
 
 			if (1 == i) {
 				pagination_html += pagination_link;
@@ -311,90 +310,66 @@ IMHWPB.TransactionHistory = function(configs) {
 		var tds_of_stock_photo_purchase = jQuery('div#TB_window div#TB_ajaxContent table tbody tr td:contains("Stock Photo Purchase")');
 
 		// loop through each of those td's
-		jQuery(tds_of_stock_photo_purchase)
-				.each(
-						function(index) {
-							var this_td = jQuery(this).get(0);
+		jQuery( tds_of_stock_photo_purchase ).each( function( index ) {
+			var this_td = jQuery(this).get(0);
 
-							// get the user-transaction-item-id
-							var user_transaction_item_id = jQuery(this)
-									.closest('tr').data(
-											'user-transaction-item-id');
+			// get the user-transaction-item-id
+			var user_transaction_item_id = jQuery(this)
+					.closest('tr').data(
+							'user-transaction-item-id');
 
-							// get the details of this image (like thumbnail
-							// url)
-							var data = {
-								'action' : 'get_purchased_image_details',
-								'transaction_item_id' : user_transaction_item_id
-							};
+			// get the details of this image (like thumbnail
+			// url)
+			var data = {
+				'action' : 'get_purchased_image_details',
+				'transaction_item_id' : user_transaction_item_id
+			};
 
-							var success_action = function(response) {
-								try {
-									response = JSON.parse(response);
-								} catch (e) {
-									// error parsing string as
-									// jquery
-									return;
-								}
+			var success_action = function( response ) {
+				try {
+					response = JSON.parse( response );
+				} catch ( e ) {
+					// error parsing string as jquery
+					return;
+				}
 
-								// Get the td that will hold the
-								// thumbnail,
-								$thumbnail_td = jQuery(this_td).closest('tr')
-										.find('.thumbnail');
+				// Get the td that will hold the
+				// thumbnail,
+				$thumbnail_td = jQuery( this_td ).closest( 'tr' ).find( '.thumbnail' );
 
-								// Get the td that will hold the re-download
-								// link.
-								$redownload_td = jQuery(this_td).closest('tr')
-										.find('.redownload');
+				// Get the td that will hold the re-download
+				// link.
+				$redownload_td = jQuery( this_td ).closest( 'tr' ).find( '.redownload' );
 
-								switch (response.data_type) {
-								case "local_data":
-
-									var thumbnail_html = "<img src='"
-											+ response.sizes.thumbnail.url
-											+ "' />";
-									var view_in_gallery_link = "<a href='"
-											+ response.editLink
-											+ "'>View Image</a>";
-
-									$thumbnail_td.html(thumbnail_html);
-									$redownload_td.html(view_in_gallery_link);
-
-									break;
-
-								case "local_library_data":
-									var thumbnail_html = "<img src='"
-											+ response.sizes.thumbnail.url
-											+ "' />";
-									var view_in_gallery_link = "<a href='post.php?post="
-											+ response.attachment_id
-											+ "&action=edit'>View Image</a>";
-
-									$thumbnail_td.html(thumbnail_html);
-									$redownload_td.html(view_in_gallery_link);
-									break;
-
-								case "remote_data":
-									var thumbnail_html = "<img src='"
-											+ response.thumbnail_url + "' />";
-
-									var download_image_link = "<a data-image-provider-id='"
-											+ response.image_provider_id
-											+ "' data-id-from-provider='"
-											+ response.id_from_provider
-											+ "' data-user-transaction-item-id='"
-											+ user_transaction_item_id
-											+ "' class='re-download-purchased-image pointer'>Download Image</a>";
-
-									$thumbnail_td.html(thumbnail_html);
-									$redownload_td.html(download_image_link);
-									break;
-								}
-							};
-
-							jQuery.post(ajaxurl, data, success_action);
-						});
-
+				switch ( response.data_type ) {
+					case "local_data":
+						var thumbnail_html = "<img src='" + response.sizes.thumbnail.url + "' />";
+						var view_in_gallery_link = "<a href='" + response.editLink + "'>View Image</a>";
+						$thumbnail_td.html( thumbnail_html );
+						$redownload_td.html( view_in_gallery_link );
+						break;
+					case "local_library_data":
+						var thumbnail_html = "<img src='" + response.sizes.thumbnail.url + "' />";
+						var view_in_gallery_link = "<a href='post.php?post=" + response.attachment_id + "&action=edit'>View Image</a>";
+						$thumbnail_td.html( thumbnail_html );
+						$redownload_td.html( view_in_gallery_link );
+						break;
+					case "remote_data":
+						var thumbnail_html = "<img src='" + response.thumbnail_url + "' />";
+						var download_image_link = "<a data-image-provider-id='" +
+							response.image_provider_id +
+							"' data-id-from-provider='" +
+							response.id_from_provider +
+							"' data-user-transaction-item-id='" +
+							user_transaction_item_id +
+							"' class='re-download-purchased-image pointer'>Download Image</a>";
+						$thumbnail_td.html( thumbnail_html );
+						$redownload_td.html( download_image_link );
+						break;
+				}
+			};
+			jQuery.post( ajaxurl, data, success_action );
+		});
 	};
 };
 
