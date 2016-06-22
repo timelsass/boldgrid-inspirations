@@ -74,7 +74,7 @@ IMHWPB.BoldGrid_Cart = function(configs) {
 			var checked = jQuery(this).attr('checked') ? true : false;
 
 			// If applicable, add opacity to the image to show it's unselectd.
-			if (true == checked) {
+			if ( true === checked ) {
 				image_container.removeClass('unselected-image');
 				self.baseAdmin.update_header_cart(image_price);
 			} else {
@@ -190,20 +190,19 @@ IMHWPB.BoldGrid_Cart = function(configs) {
 		 * ********************************************************************
 		 */
 
-		var boldgrid_connect_key = jQuery(
-				'form#purchase_for_publish input[id=boldgrid_connect_key]')
-				.val().trim();
+		var boldgrid_connect_key = jQuery( 'form#purchase_for_publish input[id=boldgrid_connect_key]' )
+			.val().trim();
 
 		// Abort if the user did not enter their BoldGrid Connect Key.
-		if ('' == boldgrid_connect_key) {
-			self.set_purchase_error(error_no_key_entered);
+		if ( '' === boldgrid_connect_key ) {
+			self.set_purchase_error( error_no_key_entered );
 			return false;
 		}
 
 		// Abort if the user entered an invalid BoldGrid Connect Key (either too
 		// long or short)
-		if (boldgrid_connect_key.length < 32) {
-			self.set_purchase_error(error_key_too_short);
+		if ( boldgrid_connect_key.length < 32 ) {
+			self.set_purchase_error( error_key_too_short );
 			return false;
 		}
 
@@ -214,7 +213,7 @@ IMHWPB.BoldGrid_Cart = function(configs) {
 		 */
 
 		// Abort if the user did not click the checkbox.
-		if (false == jQuery("#agree_to_tos").is(':checked')) {
+		if ( false === jQuery( "#agree_to_tos" ).is( ':checked' ) ) {
 			self.set_purchase_error(error_tos_not_agreed_to);
 			return false;
 		}
@@ -226,8 +225,8 @@ IMHWPB.BoldGrid_Cart = function(configs) {
 		 * If valid, submit the form.
 		 * ********************************************************************
 		 */
-		var success_action = function(response) {
-			if (true == response.result.data) {
+		var success_action = function( response ) {
+			if ( true == response.result.data ) {
 				jQuery('form#purchase_for_publish').submit();
 			} else {
 				jQuery('span#purchase_error').html(
