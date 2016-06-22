@@ -103,8 +103,7 @@ IMHWPB.BoldGrid_Cart = function(configs) {
 
 		// Update the cart total after purchase.
 		if (typeof boldgrid_cart_total_coins_spent != 'undefined') {
-			self.baseAdmin.update_header_cart(-1
-					* boldgrid_cart_total_coins_spent);
+			self.baseAdmin.update_header_cart( -1 * boldgrid_cart_total_coins_spent );
 		}
 	});
 
