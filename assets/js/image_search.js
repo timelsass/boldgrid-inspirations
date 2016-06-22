@@ -39,7 +39,7 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 
 		jQuery( '#search_results', $c_imhmf ).scroll( function() {
 			self.search_results_scroll();
-		} )
+		} );
 	} );
 
 	// this function is triggered by the click/button/search event handler
@@ -60,7 +60,7 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 
 		// Are we already search?
 		if ( 1 == self.currently_searching ) {
-			return false
+			return false;
 		} else {
 			self.currently_searching = 1;
 		}
@@ -74,12 +74,12 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 
 		// setup our variables
 		var data = {
-		    'query' : query,
-		    'free' : jQuery( '#free', $c_imhmf ).val(),
-		    'attribution' : jQuery( '#attribution', $c_imhmf ).is( ':checked' ),
-		    'paid' : jQuery( '#paid', $c_imhmf ).val(),
-		    'palette' : jQuery( '#palette', $c_imhmf ).val(),
-		    'page' : self.page
+			'query' : query,
+			'free' : jQuery( '#free', $c_imhmf ).val(),
+			'attribution' : jQuery( '#attribution', $c_imhmf ).is( ':checked' ),
+			'paid' : jQuery( '#paid', $c_imhmf ).val(),
+			'palette' : jQuery( '#palette', $c_imhmf ).val(),
+			'page' : self.page,
 		};
 
 		var api_call_image_search_success_action = function( msg ) {
@@ -215,7 +215,7 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 				jQuery( '#attachment_details', $c_imhmf ).html( template() );
 			}
 
-		}
+		};
 
 		/**
 		 * ajax / reach out for the attachment details
@@ -360,7 +360,7 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 				        self.download_success_action_customizer( response );
 			        }
 		        } );
-	}
+	};
 
 	/**
 	 * If in the Customizer, this is the function to run after a successful
@@ -387,7 +387,7 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 		// the image, we'll be cropping it. We'll need to see the buttons
 		// for 'crop / not now'.
 		jQuery( '.media-frame-toolbar', window.parent.document ).last().removeClass( 'hidden' );
-	}
+	};
 
 	/**
 	 * Refresh the images in the library.
@@ -407,7 +407,7 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 				ignore : ( +new Date() )
 			} );
 		}
-	}
+	};
 
 	/**
 	 *
@@ -417,7 +417,7 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 		self.last_query = '';
 
 		jQuery( $c_sr ).empty();
-	}
+	};
 
 	/**
 	 *
@@ -432,7 +432,7 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 		if ( pixels_bottom_unseen <= loading_message_outer_height ) {
 			self.initiate_stock_image_search();
 		}
-	}
+	};
 
 	/**
 	 *
@@ -459,7 +459,7 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 				}
 			}
 		} );
-	}
+	};
 };
 
 new IMHWPB.StockImageSearch( IMHWPB.configs, jQuery );
