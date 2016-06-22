@@ -78,7 +78,7 @@ IMHWPB.BoldGridFeedback = function( $ ) {
 		} else {
 			$feedbackEmailAddress.hide();
 		}
-	}
+	};
 
 	/**
 	 * Toggle the display of the diagnostic report.
@@ -142,7 +142,7 @@ IMHWPB.BoldGridFeedback = function( $ ) {
 				$feedbackDiagnosticReportText.prop( 'disabled', 'disabled' );
 			}
 		}
-	}
+	};
 
 	/**
 	 * Populate diagnostic data.
@@ -188,7 +188,7 @@ IMHWPB.BoldGridFeedback = function( $ ) {
 			    $feedbackDiagnosticReportText.val( self.diagnosticData );
 		    }
 		} );
-	}
+	};
 
 	/**
 	 * Submit feedback form.
@@ -246,7 +246,7 @@ IMHWPB.BoldGridFeedback = function( $ ) {
 
 			// Unhide the error message.
 			$feedbackError.show();
-		}
+		};
 
 		// Generate the data array.
 		data = {
@@ -295,7 +295,7 @@ IMHWPB.BoldGridFeedback = function( $ ) {
 
 		// Return false so the page does not reload.
 		return false;
-	}
+	};
 };
 
 new IMHWPB.BoldGridFeedback( jQuery );
