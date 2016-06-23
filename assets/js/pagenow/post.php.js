@@ -23,7 +23,7 @@ IMHWPB.PagenowPost = function( $ ) {
 		self.baseAdmin.$wrap.find( 'h1 a' ).after( '<a href="' +
 		IMHWPB.gridblock_sets_admin + '" class="page-title-action">' +
 		self.baseAdmin.strings.add_gridblock_set + '</a>' );
-	}
+	};
 
 	/**
 	 * Init.
@@ -32,7 +32,7 @@ IMHWPB.PagenowPost = function( $ ) {
 	 */
 	this.init = function() {
 		self.init_gridblock_sets();
-	}
+	};
 
 	/**
 	 * Init all actions on 'edit.php' pertaining to GridBlock Sets.
@@ -52,7 +52,7 @@ IMHWPB.PagenowPost = function( $ ) {
 			self.baseAdmin.$wrap_header.find( 'a' )
 				.attr( 'href', IMHWPB.gridblock_sets_admin ) ;
 		}
-	}
-}
+	};
+};
 
 new IMHWPB.PagenowPost( jQuery );
