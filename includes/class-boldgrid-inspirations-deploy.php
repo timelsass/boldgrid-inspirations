@@ -76,6 +76,15 @@ class Boldgrid_Inspirations_Deploy {
 	protected $full_page_list;
 
 	/**
+	 * Is this a generic build?
+	 *
+	 * @access protected
+	 *
+	 * @var bool
+	 */
+	protected $is_generic = false;
+
+	/**
 	 * Is this a preview server?
 	 *
 	 * @access protected
@@ -320,6 +329,11 @@ class Boldgrid_Inspirations_Deploy {
 
 		$this->boldgrid_build_profile_id = isset( $_POST['boldgrid_build_profile_id'] ) ? intval(
 			$_POST['boldgrid_build_profile_id'] ) : null;
+
+		// Is this a generic build?
+		if( $this->is_preview_server && isset( $_POST['is_generic'] ) && '1' === $_POST['is_generic'] ) {
+			$this->is_generic = true;
+		}
 	}
 
 	/**
@@ -1773,7 +1787,8 @@ class Boldgrid_Inspirations_Deploy {
 			'key' => $this->api_key_hash,
 			'image_placeholders_needing_images' => json_encode(
 				$this->image_placeholders_needing_images ),
-			'coin_budget' => $this->coin_budget
+			'coin_budget' => $this->coin_budget,
+			'is_generic' => $this->is_generic,
 		);
 
 		// Get configs:
