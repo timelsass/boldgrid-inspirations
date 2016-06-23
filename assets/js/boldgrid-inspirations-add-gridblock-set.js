@@ -44,7 +44,7 @@ IMHWPB.AddGridBlockSet = function($) {
 		} else {
 			return ajaxurl;
 		}
-	}
+	};
 
 	/**
 	 * Load an iframe with a src to the front end of the site.
@@ -92,7 +92,7 @@ IMHWPB.AddGridBlockSet = function($) {
 			// show our loading message.
 			self.$homepage_iframe.attr('src', '');
 		});
-	}
+	};
 
 	/**
 	 * Preview a GridBlock Set.
@@ -132,7 +132,7 @@ IMHWPB.AddGridBlockSet = function($) {
 				self.gridblock_set_preview_cleanup();
 			});
 		});
-	}
+	};
 
 	/**
 	 * Clean up a preview.
@@ -162,7 +162,7 @@ IMHWPB.AddGridBlockSet = function($) {
 				function(event) {
 					event.preventDefault();
 				});
-	}
+	};
 
 	/**
 	 *
@@ -184,7 +184,7 @@ IMHWPB.AddGridBlockSet = function($) {
 
 		$iframe.contents().find('body').addClass(
 				'palette-primary mce-content-body');
-	}
+	};
 
 	/**
 	 * Show a "preview is loading" message.
@@ -197,7 +197,7 @@ IMHWPB.AddGridBlockSet = function($) {
 
 		self.$homepage_iframe.contents().find('body').html(
 				self.strings.homepage_iframe_loading);
-	}
+	};
 
 	/**
 	 * Create a 'lightbox' for our selection previews.
@@ -258,7 +258,7 @@ IMHWPB.AddGridBlockSet = function($) {
 			self.page_previewer.close();
 			self.$homepage_iframe.attr('src', '');
 		});
-	}
+	};
 
 	/**
 	 * Force fresh data on page load.
@@ -283,7 +283,7 @@ IMHWPB.AddGridBlockSet = function($) {
 				.val()) {
 			location.reload(true);
 		}
-	}
+	};
 
 	// We want to refresh the page as soon as we know we should. Therefore, run
 	// this.force_fresh_data() immediately after it is declared.
@@ -307,7 +307,7 @@ IMHWPB.AddGridBlockSet = function($) {
 		jQuery.post(self.ajaxurl_get(), data, function(response) {
 			window.location = 'post.php?post=' + response + '&action=edit';
 		});
-	}
+	};
 
 	/**
 	 * Get our GridBlock Sets.
@@ -349,7 +349,7 @@ IMHWPB.AddGridBlockSet = function($) {
 			self.gridblock_sets = IMHWPB.gridblock_sets;
 			self.gridblock_sets_validate();
 		}
-	}
+	};
 
 	/**
 	 * Actions to take when our GridBlock Sets is invalid.
@@ -371,7 +371,7 @@ IMHWPB.AddGridBlockSet = function($) {
 			// Try to get the GridBlock Sets again.
 			self.gridblock_sets_get();
 		});
-	}
+	};
 
 	/**
 	 * Actions to take when our GridBlock Sets are valid.
@@ -381,7 +381,7 @@ IMHWPB.AddGridBlockSet = function($) {
 	this.gridblock_sets_valid = function() {
 		self.create_media_modal_previewer();
 		self.create_homepage_iframe();
-	}
+	};
 
 	/**
 	 * Validate our GridBlock Sets.
@@ -403,7 +403,7 @@ IMHWPB.AddGridBlockSet = function($) {
 		} else {
 			self.gridblock_sets_invalid();
 		}
-	}
+	};
 
 	/**
 	 * Init the page.
@@ -412,7 +412,7 @@ IMHWPB.AddGridBlockSet = function($) {
 	 */
 	this.init = function() {
 		self.gridblock_sets_get();
-	}
+	};
 
 	/**
 	 * Fill our main container with GridBlock Set previews.
@@ -516,7 +516,7 @@ IMHWPB.AddGridBlockSet = function($) {
 		// When all is said and done, label it so.
 		// Please see comments within this.force_fresh_data() for more details.
 		$('#new_from_gridblocks_loaded', self.baseAdmin.$wrap).val('true');
-	}
+	};
 };
 
 new IMHWPB.AddGridBlockSet(jQuery);
