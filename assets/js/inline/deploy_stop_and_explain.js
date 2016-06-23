@@ -21,7 +21,7 @@ jQuery('html, body').animate({
 
 //Reach out and hit the front end of the site to make sure all after theme switch hooks are fired
 jQuery.ajax({
-	  url: IMHWPB.configs['site_url'],
+	url: IMHWPB.configs.site_url,
 });
 
 jQuery(function() {
