@@ -1,6 +1,6 @@
 function boldgrid_mce_image_left() {
-	var left_image = "<img class='alignleft' src='http://placehold.it/250x250' alt='' />\
-        <p>This is a paragraph with an image aligned to the left. Replace this text with your own text. It's easy! This is a paragraph with an image aligned to the left. Replace this text with your own text. It's easy! This is a paragraph with an image aligned to the left. Replace this text with your own text. It's easy! This is a paragraph with an image aligned to the left. Replace this text with your own text. It's easy!<br /><br />This is a paragraph with an image aligned to the left. Replace this text with your own text. It's easy!</p>";
+	var left_image = "<img class='alignleft' src='http://placehold.it/250x250' alt='' />" +
+        "<p>This is a paragraph with an image aligned to the left. Replace this text with your own text. It's easy! This is a paragraph with an image aligned to the left. Replace this text with your own text. It's easy! This is a paragraph with an image aligned to the left. Replace this text with your own text. It's easy! This is a paragraph with an image aligned to the left. Replace this text with your own text. It's easy!<br /><br />This is a paragraph with an image aligned to the left. Replace this text with your own text. It's easy!</p>";
 	return left_image;
 }
 
@@ -10,7 +10,7 @@ tinymce.create('tinymce.plugins.imhwpb', {
 	 * created. This call is done before the editor instance has finished it's
 	 * initialization so use the onInit event of the editor instance to
 	 * intercept that event.
-	 * 
+	 *
 	 * @param {tinymce.Editor}
 	 *            ed Editor instance that the plugin is initialized in.
 	 * @param {string}
@@ -37,7 +37,7 @@ tinymce.create('tinymce.plugins.imhwpb', {
 	 * class is a more easy way of adding buttons but you sometimes need to
 	 * create more complex controls like listboxes, split buttons etc then this
 	 * method can be used to create those.
-	 * 
+	 *
 	 * @param {String}
 	 *            n Name of the control to create.
 	 * @param {tinymce.ControlManager}

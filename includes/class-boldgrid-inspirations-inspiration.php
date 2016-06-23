@@ -127,6 +127,23 @@ class Boldgrid_Inspirations_Inspiration extends Boldgrid_Inspirations {
 		// Add hooks for users on the front end that are not logged in.
 		if ( ! is_user_logged_in() && ! is_admin() ) {
 			$this->add_wp_hooks();
+
+			// Get BoldGrid settings.
+			if ( true === is_multisite() ) {
+				$boldgrid_settings = get_blog_option( 1, 'boldgrid_settings' );
+			} else {
+				$boldgrid_settings = get_option( 'boldgrid_settings' );
+			}
+
+			// Enable plugin auto-updates, if enabled in the BoldGrid settings.
+			if ( false === empty( $boldgrid_settings['plugin_autoupdate'] ) ) {
+				add_filter( 'auto_update_plugin', '__return_true' );
+			}
+
+			// Enable theme auto-updates, if enabled in the BoldGrid settings.
+			if ( false === empty( $boldgrid_settings['theme_autoupdate'] ) ) {
+				add_filter( 'auto_update_theme', '__return_true' );
+			}
 		}
 
 		// If POST is an API key activation call, then handle the callback:

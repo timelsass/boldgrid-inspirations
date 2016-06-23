@@ -341,11 +341,25 @@ class Boldgrid_Inspirations_Options {
 				'plugin_channel_text'
 			), 'boldgrid-settings', 'boldgrid_options_main' );
 
+		// Add the setting field for plugin auto-updates.
+		add_settings_field( 'boldgrid_auto_plugin_updates', 'Plugin Auto-Updates<br />',
+			array (
+				$this,
+				'plugin_autoupdate_text'
+			), 'boldgrid-settings', 'boldgrid_options_main' );
+
 		// Add the setting field for theme update release channel.
 		add_settings_field( 'boldgrid_select_theme_release_channel', 'Theme Update Channel<br />',
 			array (
 				$this,
 				'theme_channel_text'
+			), 'boldgrid-settings', 'boldgrid_options_main' );
+
+		// Add the setting field for plugin auto-updates.
+		add_settings_field( 'boldgrid_auto_theme_updates', 'Theme Auto-Updates<br />',
+			array (
+				$this,
+				'theme_autoupdate_text'
 			), 'boldgrid-settings', 'boldgrid_options_main' );
 
 		// Add setting field for menu reordering switching
@@ -379,31 +393,6 @@ class Boldgrid_Inspirations_Options {
 	}
 
 	/**
-	 * Display the options page setting for Auto Update option
-	 */
-	public function boldgrid_option_auto_update_text() {
-		$options = get_option( 'boldgrid_settings' );
-
-		?><input type="radio" id="auto_update"
-	name="boldgrid_settings[auto_update]" value="1"
-	<?php
-		if ( ! ( isset( $options['auto_update'] ) && 0 == $options['auto_update'] ) ) {
-			echo ' checked';
-		}
-		?> />
-Yes &nbsp;
-<input type="radio" id="auto_update"
-	name="boldgrid_settings[auto_update]" value="0"
-	<?php
-		if ( 0 == $options['auto_update'] ) {
-			echo ' checked';
-		}
-		?> />
-No
-		 <?php
-	}
-
-	/**
 	 * Display the release channel options for plugins.
 	 *
 	 * @since 1.1.6
@@ -422,55 +411,123 @@ No
 	}
 
 	/**
-	 * Display the options page setting for Update Channel
+	 * Display the options page setting for Update Channel.
 	 */
 	public function boldgrid_option_select_release_channel_text( $type = '' ) {
-		// Retrieve the blog option boldgrid_settings:
+		// Retrieve the blog option boldgrid_settings.
 		$options = get_option( 'boldgrid_settings' );
 
 		// Should we show the candidate option?
-		$show_all_channels = ( isset( $_GET['channels'] ) && 'all' == $_GET['channels'] ) ? true : false;
+		$show_all_channels = ( true === isset( $_GET['channels'] ) && 'all' === $_GET['channels'] );
 
-		// Ensure there is a site option copied from the blog option boldgrid_settings:
-		if ( ! empty( $options[ $type . 'release_channel' ] ) ) {
+		// Ensure there is a site option copied from the blog option boldgrid_settings.
+		if ( false === empty( $options[ $type . 'release_channel' ] ) ) {
 			update_option( 'boldgrid_settings', $options );
 		}
 
-		/**
-		 * Print the radio buttons for stage, edge, and candidate (if applicable)
+		/*
+		 * Print the radio buttons for stage, edge, and candidate (if applicable).
 		 *
-		 * 1: Create an array $channel_options of radio options
-		 * 2: Use implode to diplay the array of radio options
+		 * 1: Create an array $channel_options of radio options.
+		 * 2: Use implode to display the array of radio options.
 		 */
 
-		// STABLE
-		$stable_checked = ( ! isset( $options[ $type . 'release_channel' ] ) ||
+		// STABLE.
+		$stable_checked = ( false === isset( $options[ $type . 'release_channel' ] ) ||
 			 ( isset( $options[ $type . 'release_channel'] ) && 'stable' == $options[ $type . 'release_channel'] ) ) ? 'checked' : '';
 
 		$channel_options[] = '<input type="radio" id="' . $type .
 			'release_channel_stable" name="boldgrid_settings[' . $type . 'release_channel]" value="stable" ' .
 			 $stable_checked . ' /> Stable';
 
-		// EDGE
-		$edge_checked = ( isset( $options[ $type . 'release_channel'] ) &&
+		// EDGE.
+		$edge_checked = ( true === isset( $options[ $type . 'release_channel'] ) &&
 			 $options[ $type . 'release_channel' ] == "edge" ) ? 'checked' : '';
 
 		$channel_options[] = '<input type="radio" id="' . $type .
 			'release_channel_edge" name="boldgrid_settings[' . $type . 'release_channel]" value="edge" ' .
 			 $edge_checked . '/> Edge';
 
-		// CANDIDATE
-		$candidate_checked = ( isset( $options[ $type . 'release_channel' ] ) &&
-			 $options[ $type . 'release_channel' ] == "candidate" ) ? 'checked' : '';
+		// CANDIDATE.
+		$candidate_checked = ( true === isset( $options[ $type . 'release_channel' ] ) &&
+			 'candidate' === $options[ $type . 'release_channel' ] ) ? 'checked' : '';
 
-		// Only display candidate if it is checked or true == $show_all_channels
-		if ( 'checked' == $candidate_checked || true === $show_all_channels ) {
+		// Only display candidate if it is checked or true == $show_all_channels.
+		if ( 'checked' === $candidate_checked || true === $show_all_channels ) {
 			$channel_options[] = '<input type="radio" id="' . $type . 'release_channel_candidate" name="boldgrid_settings['
 				. $type . 'release_channel]" value="candidate" ' .
 				 $candidate_checked . ' /> Candidate';
 		}
 
 		echo implode( $channel_options, ' &nbsp; ' );
+	}
+
+	/**
+	 * Display the options page setting for Plugin Auto-Updates.
+	 *
+	 * @since 1.1.8
+	 *
+	 * @return null
+	 */
+	public function plugin_autoupdate_text() {
+		// If a multisite and not on blog id 1, then show a message with a link to go there.
+		if ( true === is_multisite() && 1 !== get_current_blog_id() ) {
+			?>
+			This setting must be set in your primary blog.  Click
+			<a href='<?php echo get_admin_url( 1, '/options-general.php?page=boldgrid-settings' ); ?>'>
+			here</a> to go the BoldGrid Settings page in your primary blog.
+			<?php
+
+			return;
+		}
+
+		// Retrieve the WP option boldgrid_settings.
+		$options = get_option( 'boldgrid_settings' );
+
+		$enabled = ( false === empty( $options['plugin_autoupdate'] ) ? 'checked' : '' );
+
+		$disabled = ( '' === $enabled ? 'checked' : '' );
+
+		echo '<input type="radio" id="plugin_autoupdate_enabled"
+		 	name="boldgrid_settings[plugin_autoupdate]" value="1"' . $enabled . ' /> Enabled &nbsp;
+		 	<input type="radio" id="plugin_autoupdate_enabled"
+		 	name="boldgrid_settings[plugin_autoupdate]" value="0"' . $disabled . ' /> Disabled';
+
+		return;
+	}
+
+	/**
+	 * Display the options page setting for Theme Auto-Updates.
+	 *
+	 * @since 1.1.8
+	 *
+	 * @return null
+	 */
+	public function theme_autoupdate_text() {
+		// If a multisite and not on blog id 1, then show a message with a link to go there.
+		if ( true === is_multisite() && 1 !== get_current_blog_id() ) {
+			?>
+			This setting must be set in your primary blog.  Click
+			<a href='<?php echo get_admin_url( 1, '/options-general.php?page=boldgrid-settings' ); ?>'>
+			here</a> to go the BoldGrid Settings page in your primary blog.
+			<?php
+
+			return;
+		}
+
+		// Retrieve the WP option boldgrid_settings.
+		$options = get_option( 'boldgrid_settings' );
+
+		$enabled = ( false === empty( $options['theme_autoupdate'] ) ? 'checked' : '' );
+
+		$disabled = ( '' === $enabled ? 'checked' : '' );
+
+		echo '<input type="radio" id="theme_autoupdate_enabled"
+		 	name="boldgrid_settings[theme_autoupdate]" value="1"' . $enabled . ' /> Enabled &nbsp;
+		 	<input type="radio" id="theme_autoupdate_enabled"
+		 	name="boldgrid_settings[theme_autoupdate]" value="0"' . $disabled . ' /> Disabled';
+
+		return;
 	}
 
 	/**
@@ -509,34 +566,40 @@ No
 	}
 
 	/**
-	 * Validate the submitted options
+	 * Validate the submitted options.
+	 *
+	 * @param array $boldgrid_settings An array of boldgrid settings.
+	 * @return array A validated array of boldgrid settings.
 	 */
 	public function boldgrid_options_validate( $boldgrid_settings ) {
-		// Validate settings:
-
-		// menu reordering
+		// Menu reordering.
 		$new_boldgrid_settings['boldgrid_menu_option'] = ( ( isset(
 			$boldgrid_settings['boldgrid_menu_option'] ) &&
 			 1 == $boldgrid_settings['boldgrid_menu_option'] ) ? 1 : 0 );
 
-		// Feedback opt-out:
+		// Feedback opt-out.
 		$new_boldgrid_settings['boldgrid_feedback_optout'] = ( ( isset(
 			$boldgrid_settings['boldgrid_feedback_optout'] ) &&
 			 1 == $boldgrid_settings['boldgrid_feedback_optout'] ) ? 1 : 0 );
 
-		// release version to use
+		// Release version to use.
 		$new_boldgrid_settings['release_channel'] = isset( $boldgrid_settings['release_channel'] ) ? $boldgrid_settings['release_channel'] : 'stable';
 		$new_boldgrid_settings['theme_release_channel'] = isset( $boldgrid_settings['theme_release_channel'] ) ? $boldgrid_settings['theme_release_channel'] : 'stable';
 
-		// Delete the transient holding the cached version data:
+		// Plugin auto-updates.
+		$new_boldgrid_settings['plugin_autoupdate'] = ( false === empty( $boldgrid_settings['plugin_autoupdate'] ) ? 1 : 0 );
+
+		// Theme auto-updates.
+		$new_boldgrid_settings['theme_autoupdate'] = ( false === empty( $boldgrid_settings['theme_autoupdate'] ) ? 1 : 0 );
+
+		// Delete the transient holding the cached version data.
 		if ( is_multisite() ) {
 			delete_site_transient( 'boldgrid_api_data' );
-			delete_transient( 'boldgrid_api_data' );
 		} else {
 			delete_transient( 'boldgrid_api_data' );
 		}
 
-		// Return the new validated settings:
+		// Return the new validated settings.
 		return $new_boldgrid_settings;
 	}
 

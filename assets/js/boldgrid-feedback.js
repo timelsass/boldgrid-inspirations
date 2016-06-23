@@ -78,7 +78,7 @@ IMHWPB.BoldGridFeedback = function( $ ) {
 		} else {
 			$feedbackEmailAddress.hide();
 		}
-	}
+	};
 
 	/**
 	 * Toggle the display of the diagnostic report.
@@ -130,7 +130,7 @@ IMHWPB.BoldGridFeedback = function( $ ) {
 				$feedbackDiagnosticReport.show();
 
 				// Populate diagnostic data, if needed.
-				if ( '' == $feedbackDiagnosticReportText.val() ) {
+				if ( '' === $feedbackDiagnosticReportText.val() ) {
 					// Retrieve the data.
 					self.populateDiagnosticData();
 				}
@@ -142,7 +142,7 @@ IMHWPB.BoldGridFeedback = function( $ ) {
 				$feedbackDiagnosticReportText.prop( 'disabled', 'disabled' );
 			}
 		}
-	}
+	};
 
 	/**
 	 * Populate diagnostic data.
@@ -169,26 +169,26 @@ IMHWPB.BoldGridFeedback = function( $ ) {
 		// Retrieve the data via AJAX.
 		// Generate the data array.
 		data = {
-		    'action' : 'boldgrid_feedback_diagnostic_data',
-		    'feedback_auth' : self.wpnonce,
-		    '_wp_http_referer' : self.wpHttpReferer
+			'action' : 'boldgrid_feedback_diagnostic_data',
+			'feedback_auth' : self.wpnonce,
+			'_wp_http_referer' : self.wpHttpReferer,
 		};
 
 		// Make the call.
-		$.ajax( {
-		    url : ajaxurl,
-		    data : data,
-		    type : 'post',
-		    dataType : 'text',
-		    success : function( diagnosticData ) {
-			    // Set self.diagnosticData.
-			    self.diagnosticData = diagnosticData;
+		$.ajax({
+			url : ajaxurl,
+			data : data,
+			type : 'post',
+			dataType : 'text',
+			success : function( diagnosticData ) {
+				// Set self.diagnosticData.
+				self.diagnosticData = diagnosticData;
 
-			    // Update the form.
-			    $feedbackDiagnosticReportText.val( self.diagnosticData );
-		    }
-		} );
-	}
+				// Update the form.
+				$feedbackDiagnosticReportText.val( self.diagnosticData );
+			},
+		});
+	};
 
 	/**
 	 * Submit feedback form.
@@ -226,7 +226,6 @@ IMHWPB.BoldGridFeedback = function( $ ) {
 
 		if ( formData.contactMe.is( ':checked' ) ) {
 			formData.emailAddress = $feedbackForm.find( '#feedback-email' ).val();
-
 			formData.contactMe = 'Yes';
 		} else {
 			formData.contactMe = 'No';
@@ -237,65 +236,60 @@ IMHWPB.BoldGridFeedback = function( $ ) {
 		}
 
 		// Add feedback.
-
 		errorCallback = function() {
 			// Show error message.
 			markup = "<p>There was an error processing your request.  Please try again.</p>";
-
 			$feedbackError.find( '.feedback-form-field' ).html( markup );
-
 			// Unhide the error message.
 			$feedbackError.show();
-		}
+		};
 
 		// Generate the data array.
 		data = {
-		    'action' : 'boldgrid_feedback_submit',
-		    'form_data' : formData,
-		    'feedback_auth' : self.wpnonce,
-		    '_wp_http_referer' : self.wpHttpReferer
+			'action' : 'boldgrid_feedback_submit',
+			'form_data' : formData,
+			'feedback_auth' : self.wpnonce,
+			'_wp_http_referer' : self.wpHttpReferer,
 		};
 
 		// Make the call.
-		$
-		    .ajax( {
-		        url : ajaxurl,
-		        data : data,
-		        type : 'post',
-		        dataType : 'text',
-		        success : function( response ) {
-			        // Check response.
-			        if ( 'Success' == response ) {
-				        // Hide error message.
-				        $feedbackError.hide();
+		$.ajax({
+			url : ajaxurl,
+			data : data,
+			type : 'post',
+			dataType : 'text',
+			success : function( response ) {
+				// Check response.
+				if ( 'Success' == response ) {
+					// Hide error message.
+					$feedbackError.hide();
 
-				        // Replace the form with a success message.
-				        markup = "<h2>Thanks for the feedback</h2>\n"
-				            + "<p>The BoldGrid team wants you to know that we are listening and every bit of </p>\n"
-				            + "<p>feedback helps us improve our tool.</p>";
+					// Replace the form with a success message.
+					markup = "<h2>Thanks for the feedback</h2>\n" +
+						"<p>The BoldGrid team wants you to know that we are listening and every bit of </p>\n" +
+						"<p>feedback helps us improve our tool.</p>";
 
-				        // Empty the notice area.
-				        $feedbackContent.empty();
+						// Empty the notice area.
+						$feedbackContent.empty();
 
-				        // Insert markup in the notice.
-				        $feedbackHeader.html( markup );
-			        } else {
-				        errorCallback();
-			        }
-		        },
-		        error : errorCallback,
-		        complete : function() {
-			        // Hide the spinner.
-			        $feedbackForm.find( '.spinner' ).removeClass( 'is-active' );
+						// Insert markup in the notice.
+						$feedbackHeader.html( markup );
+					} else {
+						errorCallback();
+					}
+				},
+				error : errorCallback,
+				complete : function() {
+					// Hide the spinner.
+					$feedbackForm.find( '.spinner' ).removeClass( 'is-active' );
 
-			        // Enable the submit button.
-			        $feedbackSubmit.prop( 'disabled', false );
-		        }
-		    } );
-
+					// Enable the submit button.
+					$feedbackSubmit.prop( 'disabled', false );
+				}
+			});
 		// Return false so the page does not reload.
 		return false;
-	}
+	};
 };
 
 new IMHWPB.BoldGridFeedback( jQuery );

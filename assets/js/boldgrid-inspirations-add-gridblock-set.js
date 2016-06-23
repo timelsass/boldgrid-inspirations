@@ -21,8 +21,7 @@ IMHWPB.AddGridBlockSet = function($) {
 
 	// An object of strings used within this class.
 	self.strings = {
-		homepage_iframe : '<iframe id="homepage" src="' + IMHWPB.homepage_url
-				+ '"></iframe>',
+		homepage_iframe : '<iframe id="homepage" src="' + IMHWPB.homepage_url + '"></iframe>',
 		homepage_iframe_loading : '<div style="position:fixed; top:45%; left:45%;">Loading preview...</div>',
 		select_message : '<p>Select a GridBlock Set below to use with your new page.</p>'
 	};
@@ -44,7 +43,7 @@ IMHWPB.AddGridBlockSet = function($) {
 		} else {
 			return ajaxurl;
 		}
-	}
+	};
 
 	/**
 	 * Load an iframe with a src to the front end of the site.
@@ -92,7 +91,7 @@ IMHWPB.AddGridBlockSet = function($) {
 			// show our loading message.
 			self.$homepage_iframe.attr('src', '');
 		});
-	}
+	};
 
 	/**
 	 * Preview a GridBlock Set.
@@ -132,7 +131,7 @@ IMHWPB.AddGridBlockSet = function($) {
 				self.gridblock_set_preview_cleanup();
 			});
 		});
-	}
+	};
 
 	/**
 	 * Clean up a preview.
@@ -145,7 +144,7 @@ IMHWPB.AddGridBlockSet = function($) {
 	this.gridblock_set_preview_cleanup = function() {
 
 		// Remove the admin bar, not really needed during a preview.
-		self.$homepage_iframe.contents().find('body #wpadminbar, #boldgrid-reset-adminbar').remove();
+		self.$homepage_iframe.contents().find( 'body #wpadminbar, #boldgrid-reset-adminbar' ).remove();
 
 		// Remove the empty spacing from missing wpadminbar.
 		self.$homepage_iframe.contents().find( 'head' ).append(
@@ -153,38 +152,36 @@ IMHWPB.AddGridBlockSet = function($) {
 		);
 
 		// Remove the "Edit" link, not really needed during a preview.
-		self.$homepage_iframe.contents().find('body .post-edit-link').remove();
+		self.$homepage_iframe.contents().find( 'body .post-edit-link' ).remove();
 
 		// Prevent any link clicks within the iframe.
 		// This iframe is meant to preview a single page, and not for browsing
 		// the site.
-		self.$homepage_iframe.contents().find('body a').on('click',
-				function(event) {
-					event.preventDefault();
-				});
-	}
+		self.$homepage_iframe.contents().find( 'body a' ).on( 'click', function( e ) {
+			e.preventDefault();
+		});
+	};
 
 	/**
 	 *
 	 */
-	this.gridblock_set_preview_fill = function($iframe, item) {
-		$iframe.contents().find('head').append(
-				self.$homepage_iframe_stylesheets.clone());
+	this.gridblock_set_preview_fill = function( $iframe, item ) {
+		$iframe.contents().find( 'head' )
+			.append( self.$homepage_iframe_stylesheets.clone() );
 
 		// prevents scrollbars on the iframe.
-		$iframe.contents().find('body').css({
+		$iframe.contents().find( 'body' ).css({
 			'overflow': 'hidden',
 			'padding-top': '30px'
 		});
 
 		// Add our content to the preview.
-		$iframe.contents().find('body').html(
-				'<div class="container">' + item.preview_data.post_content
-						+ '</div>');
+		$iframe.contents().find( 'body' )
+			.html( '<div class="container">' + item.preview_data.post_content + '</div>' );
 
-		$iframe.contents().find('body').addClass(
-				'palette-primary mce-content-body');
-	}
+		$iframe.contents().find( 'body' )
+			.addClass( 'palette-primary mce-content-body' );
+	};
 
 	/**
 	 * Show a "preview is loading" message.
@@ -197,7 +194,7 @@ IMHWPB.AddGridBlockSet = function($) {
 
 		self.$homepage_iframe.contents().find('body').html(
 				self.strings.homepage_iframe_loading);
-	}
+	};
 
 	/**
 	 * Create a 'lightbox' for our selection previews.
@@ -258,7 +255,7 @@ IMHWPB.AddGridBlockSet = function($) {
 			self.page_previewer.close();
 			self.$homepage_iframe.attr('src', '');
 		});
-	}
+	};
 
 	/**
 	 * Force fresh data on page load.
@@ -283,7 +280,7 @@ IMHWPB.AddGridBlockSet = function($) {
 				.val()) {
 			location.reload(true);
 		}
-	}
+	};
 
 	// We want to refresh the page as soon as we know we should. Therefore, run
 	// this.force_fresh_data() immediately after it is declared.
@@ -307,7 +304,7 @@ IMHWPB.AddGridBlockSet = function($) {
 		jQuery.post(self.ajaxurl_get(), data, function(response) {
 			window.location = 'post.php?post=' + response + '&action=edit';
 		});
-	}
+	};
 
 	/**
 	 * Get our GridBlock Sets.
@@ -319,25 +316,24 @@ IMHWPB.AddGridBlockSet = function($) {
 	 */
 	this.gridblock_sets_get = function() {
 		// If we don't have any cached data:
-		if ('undefined' == typeof IMHWPB.gridblock_sets
-				|| false == IMHWPB.gridblock_sets['kitchen_sink']
-				|| 0 == IMHWPB.gridblock_sets['kitchen_sink'].length) {
-			self.$loading_message
-					.removeClass('hidden')
+		if ( 'undefined' == typeof IMHWPB.gridblock_sets ||
+			false === IMHWPB.gridblock_sets.kitchen_sink ||
+			0 === IMHWPB.gridblock_sets.kitchen_sink.length ) {
+				self.$loading_message.removeClass( 'hidden' )
 					.html(
-							'<span class="spinner inline"></span> ' +
-							'Downloading the newest GridBlock Sets. ' +
-							'This may take up to one minute this first time.' );
+						'<span class="spinner inline"></span> ' +
+						'Downloading the newest GridBlock Sets. ' +
+						'This may take up to one minute this first time.' );
 
 			var data = {
 				'action' : 'get_gridblock_sets'
 			};
 
-			jQuery.post(self.ajaxurl_get(), data, function(response) {
-				if (0 == response) {
+			jQuery.post(self.ajaxurl_get(), data, function( response ) {
+				if ( 0 == response ) {
 					self.gridblock_sets_invalid();
 				} else {
-					self.gridblock_sets = JSON.parse(response);
+					self.gridblock_sets = JSON.parse( response );
 					self.gridblock_sets_validate();
 				}
 			});
@@ -349,7 +345,7 @@ IMHWPB.AddGridBlockSet = function($) {
 			self.gridblock_sets = IMHWPB.gridblock_sets;
 			self.gridblock_sets_validate();
 		}
-	}
+	};
 
 	/**
 	 * Actions to take when our GridBlock Sets is invalid.
@@ -358,20 +354,20 @@ IMHWPB.AddGridBlockSet = function($) {
 	 */
 	this.gridblock_sets_invalid = function() {
 		// Hide the loading message.
-		self.$loading_message.addClass('hidden');
+		self.$loading_message.addClass( 'hidden' );
 
-		var template = wp.template('gridblock_set_error_fetching');
-		self.$main_container.before(template());
+		var template = wp.template( 'gridblock_set_error_fetching' );
+		self.$main_container.before( template() );
 
 		// Bind the "Try again" button.
-		$('#try_again').on('click', function() {
+		$( '#try_again' ).on( 'click', function() {
 			// Remove the error message.
-			$(this).closest('div').remove();
+			$( this ).closest( 'div' ).remove();
 
 			// Try to get the GridBlock Sets again.
 			self.gridblock_sets_get();
 		});
-	}
+	};
 
 	/**
 	 * Actions to take when our GridBlock Sets are valid.
@@ -381,7 +377,7 @@ IMHWPB.AddGridBlockSet = function($) {
 	this.gridblock_sets_valid = function() {
 		self.create_media_modal_previewer();
 		self.create_homepage_iframe();
-	}
+	};
 
 	/**
 	 * Validate our GridBlock Sets.
@@ -391,11 +387,11 @@ IMHWPB.AddGridBlockSet = function($) {
 	this.gridblock_sets_validate = function() {
 		var valid = false;
 
-		if ('undefined' != typeof self.gridblock_sets['kitchen_sink']
-				&& 'undefined' != typeof self.gridblock_sets['kitchen_sink']['data']
-				&& 'undefined' != typeof self.gridblock_sets['kitchen_sink']['data']['pages']
-				&& self.gridblock_sets['kitchen_sink']['data']['pages'].length > 0) {
-			valid = true;
+		if ( 'undefined' != typeof self.gridblock_sets.kitchen_sink &&
+			'undefined' != typeof self.gridblock_sets.kitchen_sink.data &&
+			'undefined' != typeof self.gridblock_sets.kitchen_sink.data.pages &&
+			self.gridblock_sets.kitchen_sink.data.pages.length > 0 ) {
+				valid = true;
 		}
 
 		if (valid) {
@@ -403,7 +399,7 @@ IMHWPB.AddGridBlockSet = function($) {
 		} else {
 			self.gridblock_sets_invalid();
 		}
-	}
+	};
 
 	/**
 	 * Init the page.
@@ -412,7 +408,7 @@ IMHWPB.AddGridBlockSet = function($) {
 	 */
 	this.init = function() {
 		self.gridblock_sets_get();
-	}
+	};
 
 	/**
 	 * Fill our main container with GridBlock Set previews.
@@ -424,99 +420,81 @@ IMHWPB.AddGridBlockSet = function($) {
 		self.$main_container.empty();
 
 		// Add our blank container.
-		var template = wp.template('gridblock_set_blank_container');
-		self.$main_container.append(template);
-		self.$main_container
-				.find('.gridblock-set.blank')
-				.on(
-						'click',
-						function() {
-							$(this)
-									.find('a.button-primary')
-									.attr('disabled', 'disabled')
-									.css('opacity', 1)
-									.html("Loading")
-									.after(
-											"<span class='spinner inline left-of-anchor'></span>");
-							window.location.href = 'post-new.php?post_type=page&';
-						});
+		var template = wp.template( 'gridblock_set_blank_container' );
+		self.$main_container.append( template );
+		self.$main_container.find( '.gridblock-set.blank' )
+			.on( 'click', function() {
+				$(this)
+					.find( 'a.button-primary' )
+					.attr( 'disabled', 'disabled' )
+					.css( 'opacity', 1 )
+					.html( "Loading" )
+					.after( "<span class='spinner inline left-of-anchor'></span>" );
+				window.location.href = 'post-new.php?post_type=page&';
+			});
 
-		template = wp.template('gridblock_set_container');
+		template = wp.template( 'gridblock_set_container' );
 
 		var category = 'kitchen_sink';
 
-		$
-				.each(
-						self.gridblock_sets[category]['data']['pages'],
-						function(key, item) {
-							var data = {
-								title : item.preview_data.post_title,
-								post_type : item.preview_data.post_type,
-								wp_page_layout : item.preview_data.wp_page_layout,
-								key : key,
-								category : category
-							};
-							self.$main_container.append(template(data));
+		$.each( self.gridblock_sets[category].data.pages, function( key, item ) {
+			var data = {
+				title : item.preview_data.post_title,
+				post_type : item.preview_data.post_type,
+				wp_page_layout : item.preview_data.wp_page_layout,
+				key : key,
+				category : category
+			};
+			self.$main_container.append(template(data));
 
-							var $iframe = $(
-									'[data-gridblock-set-key=' + key
-											+ '][data-gridblock-set-category="'
-											+ category + '"]').find('iframe');
+			var $iframe = $( '[data-gridblock-set-key=' + key +
+				'][data-gridblock-set-category="' + category + '"]' ).find( 'iframe' );
 
-							/*
-							 * Below are references to NON FIREFOX and FIREFOX.
-							 *
-							 * @see http://stackoverflow.com/questions/24686443/setting-content-of-iframe-using-javascript-fails-in-firefox
-							 */
+			/*
+			 * Below are references to NON FIREFOX and FIREFOX.
+			 *
+			 * @see http://stackoverflow.com/questions/24686443/setting-content-of-iframe-using-javascript-fails-in-firefox
+			 */
 
-							// NON FIREFOX
-							self.gridblock_set_preview_fill($iframe, item);
-							// FIREFOX
-							$iframe.load(function() {
-								self.gridblock_set_preview_fill($iframe, item);
-							});
+			// NON FIREFOX
+			self.gridblock_set_preview_fill( $iframe, item );
+			// FIREFOX
+			$iframe.load( function() {
+				self.gridblock_set_preview_fill( $iframe, item );
+			});
 
-							// Add click event to 'preview'.
-							var $preview_button = $iframe
-									.siblings('.preview-fader');
-							$preview_button.on('click', function() {
-								self.gridblock_set_preview(category, key);
-							});
+			// Add click event to 'preview'.
+			var $preview_button = $iframe.siblings( '.preview-fader' );
+			$preview_button.on( 'click', function() {
+				self.gridblock_set_preview( category, key );
+			});
 
-							// Add click event to 'Select'.
-							var $select_button = $iframe
-									.closest('.gridblock-set')
-									.find('.controls a')
-									.on(
-											'click',
-											function() {
-												// 1: Disable the button.
-												// 2: Show the button (even if
-												// the user mouses out).
-												// 3: Set the button text to
-												// "Installing..."
-												$(this)
-														.attr('disabled',
-																'disabled')
-														.css('opacity', 1)
-														.html("Installing")
-														.after(
-																"<span class='spinner inline left-of-anchor'></span>");
+			// Add click event to 'Select'.
+			var $select_button = $iframe.closest( '.gridblock-set' )
+				.find( '.controls a' ).on( 'click', function() {
+					// 1: Disable the button.
+					// 2: Show the button (even if
+					// the user mouses out).
+					// 3: Set the button text to
+					// "Installing..."
+					$( this ).attr( 'disabled', 'disabled' )
+						.css( 'opacity', 1 )
+						.html( 'Installing' )
+						.after( "<span class='spinner inline left-of-anchor'></span>" );
 
-												self.gridblock_set_install(
-														category, key);
-											});
-						});
+					self.gridblock_set_install( category, key );
+				});
+		});
 
 		// After we have filled our main container, hide the loading message.
-		self.$loading_message.addClass('hidden');
+		self.$loading_message.addClass( 'hidden' );
 
-		self.$main_container.before(self.strings.select_message);
+		self.$main_container.before( self.strings.select_message );
 
 		// When all is said and done, label it so.
 		// Please see comments within this.force_fresh_data() for more details.
-		$('#new_from_gridblocks_loaded', self.baseAdmin.$wrap).val('true');
-	}
+		$( '#new_from_gridblocks_loaded', self.baseAdmin.$wrap ).val( 'true' );
+	};
 };
 
 new IMHWPB.AddGridBlockSet(jQuery);

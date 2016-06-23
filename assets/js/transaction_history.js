@@ -32,7 +32,7 @@ IMHWPB.TransactionHistory = function(configs) {
 		// A user has clicked "view" next to a transaction
 		jQuery('#transactions').on('click', '.view', function() {
 			var transaction_id = jQuery(this).data('transaction-id');
-			var transaction = null
+			var transaction = null;
 			jQuery.each(transactions, function() {
 				if (this.transaction_id == transaction_id) {
 					transaction = this;
@@ -48,7 +48,7 @@ IMHWPB.TransactionHistory = function(configs) {
 		// re-download-purchased-image
 		jQuery(document).on('click', 'a.re-download-purchased-image',
 				function() {
-					self.process_click_re_download(this)
+					self.process_click_re_download(this);
 				});
 
 		/**
@@ -73,7 +73,7 @@ IMHWPB.TransactionHistory = function(configs) {
 		var page_to_toggle = $anchor.attr('data-page');
 
 		self.pagination_toggle_rows(page_to_toggle);
-	}
+	};
 
 	/**
 	 * After getting transaction history from server, display it in a table
@@ -83,8 +83,8 @@ IMHWPB.TransactionHistory = function(configs) {
 		transactions = msg.result.data.transactions;
 
 		// Determine which template to use based on the number of transactions
-		if (0 == transactions.length) {
-			var source = jQuery("#no-transactions-template").html();
+		if ( 0 === transactions.length ) {
+			var source = jQuery( "#no-transactions-template" ).html();
 		} else {
 			var source = jQuery("#transactions-template").html();
 		}
@@ -108,7 +108,7 @@ IMHWPB.TransactionHistory = function(configs) {
 		if (transaction_count > self.pagination_per_page) {
 			self.setup_pagination();
 		}
-	}
+	};
 
 	/**
 	 * start = the page number to show
@@ -120,27 +120,25 @@ IMHWPB.TransactionHistory = function(configs) {
 		// Hide all tr's.
 		$table_trs.addClass('hidden');
 
-		var starting_index = self.pagination_per_page * show_page
-				- self.pagination_per_page;
+		var starting_index = self.pagination_per_page * show_page - self.pagination_per_page;
 
 		// Then show only the one's we want.
-		$table_trs.slice(starting_index,
-				(starting_index + self.pagination_per_page)).removeClass(
-				'hidden');
-	}
+		$table_trs.slice( starting_index, ( starting_index + self.pagination_per_page ) )
+			.removeClass( 'hidden' );
+	};
 
 	/**
 	 * Process user's click of "Download Image".
 	 */
-	this.process_click_re_download = function(link) {
-		var $this = jQuery(link);
+	this.process_click_re_download = function( link ) {
+		var $this = jQuery( link );
 
 		// Add a spinner to show this image is being redownloaded.
 		var spinner = "<span class='spinner' style='visibility:visible; float:none;'></span>";
-		$this.replaceWith(spinner);
+		$this.replaceWith( spinner );
 
 		// If there is already a download attempt, abort.
-		if (self.downloading) {
+		if ( self.downloading ) {
 			return;
 		}
 		self.downloading = true;
@@ -154,28 +152,27 @@ IMHWPB.TransactionHistory = function(configs) {
 
 		// If the image download fails:
 		var fail = function() {
-			$redownload_td.html('Image not available');
+			$redownload_td.html( 'Image not available' );
 		};
 
 		// If the image download is successful:
-		deferred.done(
-				function(response) {
-					var response = JSON.parse(response);
+		deferred.done( function( response ) {
+			var response = JSON.parse( response );
 
-					if (response.attachment_id) {
-						// Change the link from 'Download Image' to
-						// 'View Image'.
-						var view_image_link = "<a href='post.php?post="
-								+ response.attachment_id
-								+ "&action=edit'>View Image</a>";
-						$redownload_td.html(view_image_link);
-					} else {
-						fail();
-					}
-				}).fail(fail).always(function() {
+			if ( response.attachment_id ) {
+				// Change the link from 'Download Image' to
+				// 'View Image'.
+				var view_image_link = "<a href='post.php?post=" +
+					response.attachment_id +
+					"&action=edit'>View Image</a>";
+				$redownload_td.html(view_image_link);
+			} else {
+				fail();
+			}
+		}).fail( fail ).always( function() {
 			self.downloading = false;
 		});
-	}
+	};
 
 	/**
 	 *
@@ -201,7 +198,7 @@ IMHWPB.TransactionHistory = function(configs) {
 			}
 
 		});
-	}
+	};
 
 	/**
 	 *
@@ -212,7 +209,7 @@ IMHWPB.TransactionHistory = function(configs) {
 
 		// Add the pagination selector.
 		self.setup_pagination_selector();
-	}
+	};
 
 	/**
 	 * Creating the pagination links, like:
@@ -221,26 +218,25 @@ IMHWPB.TransactionHistory = function(configs) {
 	 */
 	this.setup_pagination_selector = function() {
 		// Calculate the number of pages
-		var pagination_pages_count = Math.ceil(jQuery(self.$table_trs).size()
-				/ self.pagination_per_page);
+		var pagination_pages_count = Math.ceil( jQuery( self.$table_trs ).size() / self.pagination_per_page );
 
 		// If we only have 1 page, abort, that's not pagination silly.
-		if (1 == pagination_pages_count) {
+		if ( 1 == pagination_pages_count ) {
 			return;
 		}
 
 		// Create the html.
 		var pagination_html = "<span class='pagination-links'>";
 		var current_class = '';
-		for (i = 1; i <= pagination_pages_count; i++) {
-			if (1 == i) {
+		for ( i = 1; i <= pagination_pages_count; i++ ) {
+			if ( 1 == i ) {
 				current_class = 'current';
 			} else {
 				current_class = '';
 			}
 
-			var pagination_link = "<a class='pointer pagination-go-to-page "
-					+ current_class + "' data-page='" + i + "'>" + i + "</a>";
+			var pagination_link = "<a class='pointer pagination-go-to-page " +
+				current_class + "' data-page='" + i + "'>" + i + "</a>";
 
 			if (1 == i) {
 				pagination_html += pagination_link;
@@ -258,7 +254,7 @@ IMHWPB.TransactionHistory = function(configs) {
 		jQuery('.pagination-go-to-page').on('click', function() {
 			self.bind_pagination_go_to_page_links(this);
 		});
-	}
+	};
 
 	/**
 	 * Pass a transaction object, and we will display it using handlebars. Our
@@ -273,7 +269,7 @@ IMHWPB.TransactionHistory = function(configs) {
 		tb_show("Invoice", '#TB_inline?inlineId=transaction&modal=false', true);
 
 		self.update_receipt_for_stock_photo_purchase();
-	}
+	};
 
 	/**
 	 * Provide new jQuery instance methods
@@ -313,91 +309,67 @@ IMHWPB.TransactionHistory = function(configs) {
 		var tds_of_stock_photo_purchase = jQuery('div#TB_window div#TB_ajaxContent table tbody tr td:contains("Stock Photo Purchase")');
 
 		// loop through each of those td's
-		jQuery(tds_of_stock_photo_purchase)
-				.each(
-						function(index) {
-							var this_td = jQuery(this).get(0);
+		jQuery( tds_of_stock_photo_purchase ).each( function( index ) {
+			var this_td = jQuery(this).get(0);
 
-							// get the user-transaction-item-id
-							var user_transaction_item_id = jQuery(this)
-									.closest('tr').data(
-											'user-transaction-item-id');
+			// get the user-transaction-item-id
+			var user_transaction_item_id = jQuery(this)
+					.closest('tr').data(
+							'user-transaction-item-id');
 
-							// get the details of this image (like thumbnail
-							// url)
-							var data = {
-								'action' : 'get_purchased_image_details',
-								'transaction_item_id' : user_transaction_item_id
-							};
+			// get the details of this image (like thumbnail
+			// url)
+			var data = {
+				'action' : 'get_purchased_image_details',
+				'transaction_item_id' : user_transaction_item_id
+			};
 
-							var success_action = function(response) {
-								try {
-									response = JSON.parse(response);
-								} catch (e) {
-									// error parsing string as
-									// jquery
-									return;
-								}
+			var success_action = function( response ) {
+				try {
+					response = JSON.parse( response );
+				} catch ( e ) {
+					// error parsing string as jquery
+					return;
+				}
 
-								// Get the td that will hold the
-								// thumbnail,
-								$thumbnail_td = jQuery(this_td).closest('tr')
-										.find('.thumbnail');
+				// Get the td that will hold the
+				// thumbnail,
+				$thumbnail_td = jQuery( this_td ).closest( 'tr' ).find( '.thumbnail' );
 
-								// Get the td that will hold the re-download
-								// link.
-								$redownload_td = jQuery(this_td).closest('tr')
-										.find('.redownload');
+				// Get the td that will hold the re-download
+				// link.
+				$redownload_td = jQuery( this_td ).closest( 'tr' ).find( '.redownload' );
 
-								switch (response.data_type) {
-								case "local_data":
-
-									var thumbnail_html = "<img src='"
-											+ response.sizes.thumbnail.url
-											+ "' />";
-									var view_in_gallery_link = "<a href='"
-											+ response.editLink
-											+ "'>View Image</a>";
-
-									$thumbnail_td.html(thumbnail_html);
-									$redownload_td.html(view_in_gallery_link);
-
-									break;
-
-								case "local_library_data":
-									var thumbnail_html = "<img src='"
-											+ response.sizes.thumbnail.url
-											+ "' />";
-									var view_in_gallery_link = "<a href='post.php?post="
-											+ response.attachment_id
-											+ "&action=edit'>View Image</a>";
-
-									$thumbnail_td.html(thumbnail_html);
-									$redownload_td.html(view_in_gallery_link);
-									break;
-
-								case "remote_data":
-									var thumbnail_html = "<img src='"
-											+ response.thumbnail_url + "' />";
-
-									var download_image_link = "<a data-image-provider-id='"
-											+ response.image_provider_id
-											+ "' data-id-from-provider='"
-											+ response.id_from_provider
-											+ "' data-user-transaction-item-id='"
-											+ user_transaction_item_id
-											+ "' class='re-download-purchased-image pointer'>Download Image</a>";
-
-									$thumbnail_td.html(thumbnail_html);
-									$redownload_td.html(download_image_link);
-									break;
-								}
-							};
-
-							jQuery.post(ajaxurl, data, success_action);
-						});
-
-	}
-}
+				switch ( response.data_type ) {
+					case "local_data":
+						var thumbnail_html = "<img src='" + response.sizes.thumbnail.url + "' />";
+						var view_in_gallery_link = "<a href='" + response.editLink + "'>View Image</a>";
+						$thumbnail_td.html( thumbnail_html );
+						$redownload_td.html( view_in_gallery_link );
+						break;
+					case "local_library_data":
+						var thumbnail_html = "<img src='" + response.sizes.thumbnail.url + "' />";
+						var view_in_gallery_link = "<a href='post.php?post=" + response.attachment_id + "&action=edit'>View Image</a>";
+						$thumbnail_td.html( thumbnail_html );
+						$redownload_td.html( view_in_gallery_link );
+						break;
+					case "remote_data":
+						var thumbnail_html = "<img src='" + response.thumbnail_url + "' />";
+						var download_image_link = "<a data-image-provider-id='" +
+							response.image_provider_id +
+							"' data-id-from-provider='" +
+							response.id_from_provider +
+							"' data-user-transaction-item-id='" +
+							user_transaction_item_id +
+							"' class='re-download-purchased-image pointer'>Download Image</a>";
+						$thumbnail_td.html( thumbnail_html );
+						$redownload_td.html( download_image_link );
+						break;
+				}
+			};
+			jQuery.post( ajaxurl, data, success_action );
+		});
+	};
+};
 
 new IMHWPB.TransactionHistory(IMHWPB.configs);

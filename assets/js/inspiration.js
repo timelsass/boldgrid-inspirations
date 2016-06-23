@@ -82,7 +82,7 @@ IMHWPB.Inspiration = function(configs, $) {
 		// If 'select-install-type' is not visible, then staging is not an
 		// option.
 		// So, set self.install_type to 'active'.
-		if( true == jQuery('div#select-install-type').hasClass('hidden') ) {
+		if( true === jQuery('div#select-install-type').hasClass('hidden') ) {
 			self.install_type = 'active';
 		}
 
@@ -94,7 +94,7 @@ IMHWPB.Inspiration = function(configs, $) {
 			// are sure they want
 			// to leave the page.
 			if('standard' == boldgrid_inspirations_type &&
-					false == self.clicked_install && null != self.install_type) {
+					false === self.clicked_install && null !== self.install_type) {
 				return 'You have not installed your BoldGrid website yet. If you leave this page, your changes will be lost. Would you still like to leave this page?';
 			}
 		});
@@ -186,9 +186,7 @@ IMHWPB.Inspiration = function(configs, $) {
 					// will then trigger
 					// a click on "Thai" found under the "Browse Categories"
 					// section.
-					var sub_category_link = jQuery(
-							"div.sub_categories span[data-sub-category-id='"
-									+ sub_category_id + "']", $c_wpbody);
+					var sub_category_link = jQuery( "div.sub_categories span[data-sub-category-id='" + sub_category_id + "']", $c_wpbody );
 
 					jQuery(sub_category_link).click();
 
@@ -209,9 +207,8 @@ IMHWPB.Inspiration = function(configs, $) {
 
 							// If the user is trying to search without a search
 							// word.
-							if (!q) {
-								alert('Oops! It looks like you did not enter a search word.')
-
+							if ( !q ) {
+								alert( 'Oops! It looks like you did not enter a search word.' );
 								return false;
 							}
 
@@ -222,8 +219,7 @@ IMHWPB.Inspiration = function(configs, $) {
 								'q' : q
 							};
 
-							self.ajax.ajaxCall(data, 'category_search',
-									category_search_success_action);
+							self.ajax.ajaxCall( data, 'category_search', category_search_success_action );
 
 							return false;
 						});
@@ -246,7 +242,7 @@ IMHWPB.Inspiration = function(configs, $) {
 
 			// If this budget is already selected, no need to do anything else,
 			// abort.
-			if (true == jQuery(this).hasClass('current')) {
+			if ( true === jQuery( this ).hasClass( 'current' ) ) {
 				return;
 			}
 
@@ -293,7 +289,7 @@ IMHWPB.Inspiration = function(configs, $) {
 						$this = $this.find('.preview-button');
 					}
 					// Ignore click if preview button not found.
-					if ($this.length == false) {
+					if ( false === $this.length ) {
 						return false;
 					}
 
@@ -330,7 +326,7 @@ IMHWPB.Inspiration = function(configs, $) {
 				'.theme-actions .select-button',
 				function( e ) {
 					e.stopPropagation();
-					
+
 					// Define vars.
 					var theme_id = jQuery(this).closest('.available_theme')
 							.data('theme-id'),
@@ -497,7 +493,7 @@ IMHWPB.Inspiration = function(configs, $) {
 		var count_additional_themes = jQuery('#step-2-additional-themes-message').nextAll('.theme').length;
 
 		// Abort if necessary.
-		if(2 != self.get_current_step() || 0 == count_additional_themes) {
+		if( 2 != self.get_current_step() || 0 === count_additional_themes ) {
 			return;
 		}
 
@@ -529,7 +525,7 @@ IMHWPB.Inspiration = function(configs, $) {
 
 			// If this is the first theme in the row, its margin will be set as
 			// the standard.
-			if( false == last_margin ) {
+			if( false === last_margin ) {
 				standard_margin = current_margin;
 			}
 
@@ -539,9 +535,8 @@ IMHWPB.Inspiration = function(configs, $) {
 			// Set the 'last_margin' and determine if we should keep looping.
 			// We only need to scan the first row of themes, as the 2nd row and
 			// so on will all have the same margins.
-			if( false != last_margin && current_margin != last_margin ) {
+			if( false !== last_margin && current_margin != last_margin ) {
 				last_margin = current_margin;
-
 				return false;
 			}else {
 				last_margin = current_margin;
@@ -603,7 +598,7 @@ IMHWPB.Inspiration = function(configs, $) {
 
 		// After showing the modal, remind the user they're installing to active
 		// / staged.
-		if (true == Inspiration.mode_data.staging_active) {
+		if (true === Inspiration.mode_data.staging_active) {
 			// Set the text if we don't have it.
 			if('undefined' == typeof Inspiration.mode_data.install_destination_text) {
 				Inspiration.mode_data.install_destination_text = ('stage' == Inspiration.mode_data.install_destination) ? 'Staging' : 'Active';
@@ -725,14 +720,14 @@ IMHWPB.Inspiration = function(configs, $) {
 
 		// [ ] [N] Staging plugin is active.
 		// [ ] [N] Already has an active site.
-		if(false == Inspiration.mode_data.staging_active && 'active' == Inspiration.mode_data.install_destination) {
+		if( false === Inspiration.mode_data.staging_active && 'active' == Inspiration.mode_data.install_destination ) {
 			// Show the "Continue" button.
 			self.$select_install_type.find('.no_staging_intro_text').removeClass('hidden');
 		}
 
 		// [ ] [N] Staging plugin is active.
 		// [Y] [ ] Already has an active site.
-		if(false == Inspiration.mode_data.staging_active && 'stage' == Inspiration.mode_data.install_destination) {
+		if( false === Inspiration.mode_data.staging_active && 'stage' == Inspiration.mode_data.install_destination ) {
 		}
 
 		// This simply calls self.boldgrid_load_categories();.
@@ -751,7 +746,7 @@ IMHWPB.Inspiration = function(configs, $) {
 			// Load additional themes.
 			self.boldgrid_sub_category_selected(self.base_pageset_id,self.step_1_last_sub_category_id);
 		});
-	}
+	};
 
 	/**
 	 * Reset available themes.
@@ -763,7 +758,7 @@ IMHWPB.Inspiration = function(configs, $) {
 		// Hide the 'load more themes' buttons.
 		self.$step_2_load_more_themes.hide();
 		self.$step_2_request_a_theme.hide();
-	}
+	};
 
 	/**
 	 * Fix a bug causing chrome / webkit to crash.
@@ -783,7 +778,7 @@ IMHWPB.Inspiration = function(configs, $) {
 	 */
 	this.reset_preview_iframe_src = function() {
 		jQuery('#preview_iframe').attr('src','');
-	}
+	};
 
 	this.resizeTB = function(width, height) {
 		// are we working with %.
@@ -831,7 +826,7 @@ IMHWPB.Inspiration = function(configs, $) {
 					(element_offset.left + element_width + 15) + 'px').css('display','inline');
 			break;
 		}
-	}
+	};
 
 	/**
 	 * Remind the user which installation type they're installing their site to.
@@ -862,7 +857,7 @@ IMHWPB.Inspiration = function(configs, $) {
 		markup = self.compiled_templates.recognized_site(handlerbars_data);
 
 		self.$step_1.prepend(markup);
-	}
+	};
 
 	/**
 	 * Show subcategories.
@@ -1053,7 +1048,7 @@ IMHWPB.Inspiration = function(configs, $) {
 
 			self.$step_1.prepend(markup);
 		});
-	}
+	};
 
 	/**
 	 * Compiles all templates when the page loads.
@@ -1112,7 +1107,7 @@ IMHWPB.Inspiration = function(configs, $) {
 
 		// Update the device tabs.
 		var arrayLength = devices.length;
-		for (var i = 0; i < arrayLength; i++) {
+		for ( var i = 0; i < arrayLength; i++ ) {
 			if (now_selected == devices[i]) {
 				jQuery('#' + devices[i]).addClass('nav-tab-active');
 			} else {
@@ -1123,7 +1118,7 @@ IMHWPB.Inspiration = function(configs, $) {
 		// Update the css for the preview div / iframe.
 
 		// Loop through each device.
-		for (var i = 0; i < devices.length; i++) {
+		for ( var i = 0; i < devices.length; i++ ) {
 			// Configure the class name.
 			var className = "preview_" + devices[i];
 			// If we clicked on the tab (ie. tablet) that we're currently
@@ -1158,7 +1153,7 @@ IMHWPB.Inspiration = function(configs, $) {
 			self.$step_2_load_more_themes.hide();
 			self.$step_2_request_a_theme.show();
 		}
-	}
+	};
 
 	/**
 	 * Give the user the option to 'try again' if we could't load the pageset
@@ -1179,7 +1174,7 @@ IMHWPB.Inspiration = function(configs, $) {
 		jQuery('button#try_again_page_set_preview').on('click',function() {
 			self.boldgrid_load_page_set_preview(page_set_id);
 		});
-	}
+	};
 
 	/**
 	 * Toggle steps.
@@ -1193,7 +1188,7 @@ IMHWPB.Inspiration = function(configs, $) {
 		 * If the user is clicking the 2nd or 3rd step, only allow them to
 		 * continue if they are allowed to.
 		 */
-		if((2 == s || 3 == s) && true == jQuery('a#nav-step-' + s).hasClass('not-allowed')) {
+		if((2 == s || 3 == s) && true === jQuery('a#nav-step-' + s).hasClass('not-allowed')) {
 			return;
 		}
 
@@ -1252,7 +1247,7 @@ IMHWPB.Inspiration = function(configs, $) {
 	 */
 	this.boldgrid_select_theme = function(theme_id, pde, theme_title) {
 		// If we're passing arguments, take action on them.
-		if (null != theme_id) {
+		if (null !== theme_id) {
 			jQuery('#boldgrid_theme_id').val(theme_id);
 		}
 
@@ -1266,7 +1261,7 @@ IMHWPB.Inspiration = function(configs, $) {
 		 * If we're passing in an object, JSON.stringify it before setting the
 		 * value of #boldgrid_pde.
 		 */
-		if (pde != null) {
+		if (pde !== null) {
 			if('object' == typeof pde) {
 				pde = JSON.stringify(pde);
 			}
@@ -1326,7 +1321,7 @@ IMHWPB.Inspiration = function(configs, $) {
 
 		// If we don't pass in a page_set_id, set it to the value of the
 		// currently selected page set.
-		if(null ==  page_set_id) {
+		if(null ===  page_set_id) {
 			page_set_id = self.get_selected_page_set();
 		}
 
@@ -1372,8 +1367,8 @@ IMHWPB.Inspiration = function(configs, $) {
 			'coin_budget' : self.get_selected_coin_budget(),
 			'theme_version_type' : self.get_theme_type(),
 			'page_version_type' : self.get_page_type(),
-			'site_hash' : self.configs['site_hash'],
-			'inspirations_mode' : 'standard'
+			'site_hash' : self.configs.site_hash,
+			'inspirations_mode' : 'standard',
 		};
 
 		// DEPRECATED $loading_wrapper.removeClass('hidden');
@@ -1403,7 +1398,7 @@ IMHWPB.Inspiration = function(configs, $) {
 				'preview_url' : response.preview_url,
 				'theme_title' : response.theme_title,
 				'coins' : response.coins
-			}
+			};
 
 			// Setup handlebars and pass our data to it.
 			var psps_source = jQuery("#page-set-preview-select-template")
@@ -1416,9 +1411,8 @@ IMHWPB.Inspiration = function(configs, $) {
 
 		failure_action = function() {
 			self.try_again_load_page_set_preview(page_set_id);
-
 			return false;
-		}
+		};
 
 		// Occurs on success or failure.
 		complete_action = function () {
@@ -1433,9 +1427,9 @@ IMHWPB.Inspiration = function(configs, $) {
 	 * Create page set thumbnail URL.
 	 */
 	this.create_page_set_thumbnail_url = function( asset_id ) {
-		return   self.api_url
-		+ self.configs.ajax_calls['get_asset'] + "?"
-		+ self.api_key_query_str + "&id=" + asset_id;
+		return   self.api_url +
+			self.configs.ajax_calls.get_asset + "?" +
+			self.api_key_query_str + "&id=" + asset_id;
 	};
 
 	/**
@@ -1443,14 +1437,14 @@ IMHWPB.Inspiration = function(configs, $) {
 	 */
 	this.get_selected_coin_budget = function() {
 		return jQuery('a.coin_budget.current').data('value');
-	}
+	};
 
 	/**
 	 * Get the selected page set id.
 	 */
 	this.get_selected_page_set = function() {
-		return jQuery('input[name=available_page_set_id]:checked').val()
-	}
+		return jQuery('input[name=available_page_set_id]:checked').val();
+	};
 
 	/**
 	 * Get theme type based on checkbox.
@@ -1489,13 +1483,13 @@ IMHWPB.Inspiration = function(configs, $) {
 			'pde' : jQuery('#boldgrid_pde').val(),
 			'wp_language' : jQuery('#wp_language').val(),
 			'coin_budget' : self.get_selected_coin_budget(),
-			'site_hash' : self.configs['site_hash']
+			'site_hash' : self.configs.site_hash,
 		};
 
 		check_remaining_builds = function () {
 			self.num_themes_to_load = self.num_themes_to_load - 1;
 			// If we've loaded all of the themes that need to be loaded.
-			if (self.num_themes_to_load == 0) {
+			if ( self.num_themes_to_load === 0 ) {
 
 				// Hide the 'loading message'.
 				self.$boldgrid_loading.removeClass('is-active');
@@ -1509,7 +1503,7 @@ IMHWPB.Inspiration = function(configs, $) {
 
 				// If we ultimately displayed no previews for the user, show an
 				// error message.
-				if (false == jQuery('#available_themes').html()) {
+				if ( false === jQuery( '#available_themes' ).html() ) {
 					jQuery('#step-2').hide();
 					self.$step_2_loading_message.addClass('hidden');
 					jQuery('#boldgrid-error-message').removeClass('hidden');
@@ -1602,7 +1596,7 @@ IMHWPB.Inspiration = function(configs, $) {
 			 * 'additional_themes' will be used instead.
 			 */
 			var available_themes = response.result.data.themes;
-			if(available_themes.length == 0 && response.result.data.additional_themes.length > 0) {
+			if( available_themes.length === 0 && response.result.data.additional_themes.length > 0 ) {
 				available_themes = response.result.data.additional_themes;
 				// We're only going to load X themes at a time, so slice the
 				// array.
@@ -1610,7 +1604,7 @@ IMHWPB.Inspiration = function(configs, $) {
 
 				// Because we're loading additional themes, we need to display
 				// the applicable message if it's not already displayed.
-				if( true == self.$step_2_additional_themes_message.hasClass('hidden')) {
+				if( true === self.$step_2_additional_themes_message.hasClass('hidden')) {
 					self.$step_2_additional_themes_message.removeClass('hidden').appendTo(self.$step_2_available_themes);
 				}
 			}
@@ -1714,10 +1708,10 @@ IMHWPB.Inspiration = function(configs, $) {
 	 * Set the coin value in the preview modal.
 	 */
 	this.set_preview_modal_coin_value = function() {
-		var coin_value_html = 0 == self.latest_single_build_coin_value ? '0' : '0 - ' + self.latest_single_build_coin_value;
+		var coin_value_html = 0 === self.latest_single_build_coin_value ? '0' : '0 - ' + self.latest_single_build_coin_value;
 
 		jQuery('div#preview div.coins span.coins').html(coin_value_html);
-	}
+	};
 
 	/**
 	 * Set themes currently showing in step 2.
@@ -1730,14 +1724,14 @@ IMHWPB.Inspiration = function(configs, $) {
 		});
 
 		self.themes_currently_showing_in_step_2 = themes;
-	}
+	};
 
 	/**
 	 * Process the category search results.
 	 */
 	var category_search_success_action = function(msg) {
 		data = msg.result.data;
-		data['query'] = jQuery('#category-search-input', $c_wpbody).val();
+		data.query = jQuery('#category-search-input', $c_wpbody).val();
 		var source = jQuery("#category-search-results-template", $c_wpbody)
 				.html();
 		var template = Handlebars.compile(source);
@@ -1757,7 +1751,7 @@ IMHWPB.Inspiration = function(configs, $) {
 
 		jQuery('a#nav-step-2').addClass('not-allowed');
 		jQuery('a#nav-step-3').addClass('not-allowed');
-	}
+	};
 };
 
 IMHWPB.Inspiration.instance = new IMHWPB.Inspiration(IMHWPB.configs, jQuery);

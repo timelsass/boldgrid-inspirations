@@ -132,13 +132,21 @@
 }
 
 #boldgrid_api_key_notice_message,
+.tos-box,
 .key-request-content,
 .enterKeyLink,
 .boldgridApiKeyLink {
 	margin-left: 66px;
 }
+#requestKeyMessage {
+	margin-right: 66px;
+}
 .error-alerts {
 	color: red;
+}
+.error-color::before {
+	content: '*';
+	padding-right: 5px;
 }
 .error-color {
 	color: red;
