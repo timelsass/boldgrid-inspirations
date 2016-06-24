@@ -106,6 +106,15 @@ class Boldgrid_Inspirations_Inspiration extends Boldgrid_Inspirations {
 
 		// If DOING_CRON, then check if this plugin should be auto-updated.
 		if ( defined( 'DOING_CRON' ) && DOING_CRON ){
+			// Ensure required definitions for pluggable.
+			if ( false === defined( 'AUTH_COOKIE' ) ) {
+				define( 'AUTH_COOKIE', null );
+			}
+
+			if ( false === defined( 'LOGGED_IN_COOKIE' ) ) {
+				define( 'LOGGED_IN_COOKIE', null );
+			}
+
 			// Load the pluggable class, if needed.
 			require_once ABSPATH . 'wp-includes/pluggable.php';
 
