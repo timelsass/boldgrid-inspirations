@@ -152,6 +152,15 @@ a.button.button-small.view-image-in-library {
 }
 
 /* ************************************************************************
+Media Modal > Image Crop
+************************************************************************* */
+
+/* Prevent a portait image from displaying atop "Crop Image" and "Skip Cropping" buttons. */
+.media-frame .media-frame-content .crop-content {
+	height: calc(100% - 60px);
+}
+
+/* ************************************************************************
 Adjustments against WP's media queries in wp-includes/css/media-views.css
 ************************************************************************* */
 @media only screen and (max-width: 900px) {

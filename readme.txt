@@ -31,6 +31,7 @@ The second phase is Customization; tools to transform your website into your vis
 * Testing:		JIRA WPB-2046	Tested on WordPress 4.5.3.
 * New feature:	JIRA WPB-599	Added options for plugin and theme auto-updates via WordPress autoupdater.
 * Update:		JIRA WPB-2008	Deploy class updated to allow for is_generic flag.
+* Bug fix:		JIRA WPB-1950	Prevent a portait image from displaying atop 'Crop Image' and 'Skip Cropping' buttons.
 
 = 1.1.7 =
 * Bug fix:		JIRA WPB-2032	Fixed issue when activating key.  Added nonce to api key form.
