@@ -64,18 +64,9 @@
 	color: #00a1d0;
 }
 
-/* This class holds manu div.sub-category */
-.sub-categories {
-	margin-top: 10px;
-}
-
 /* Category filter radio buttons */
-div.sub-category {
-	padding: 5px 0px;
-}
-
-.sub-category .sub-category-name {
-	font-style: italic;
+.sub-category {
+	padding: 1em;
 }
 
 /* Theme name */
@@ -86,7 +77,7 @@ div.sub-category {
 
 #theme-title {
 	font-weight: bold;
-	font-size: 15px;
+	font-size: 14px;
 }
 
 /* Sub category name */
@@ -107,13 +98,12 @@ div.sub-category {
 
 /* Theme */
 .theme {
-    -webkit-transition-property:		-webkit-box-shadow;
-    -webkit-transition-duration:		.05s;
-    -webkit-transition-timing-function:	ease-in-out;
-
-    transition-property:		box-shadow;
-    transition-duration:		.05s;
-    transition-timing-function:	ease-in-out;
+	-webkit-transition-property:		-webkit-box-shadow;
+	-webkit-transition-duration:		.05s;
+	-webkit-transition-timing-function:	ease-in-out;
+	transition-property:		box-shadow;
+	transition-duration:		.05s;
+	transition-timing-function:	ease-in-out;
 }
 
 /* Theme hover */
