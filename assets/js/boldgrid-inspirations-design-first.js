@@ -108,7 +108,11 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 
 		$( '.wrap' ).on( 'click', '.sub-category', function() {
 			var $subCategory = $( this ).find( 'input[name="sub-category"]' );
+			$( '.sub-category.active' ).removeClass( 'active' );
 			$subCategory.prop( 'checked', true );
+			if ( $subCategory.is( ':checked' ) ) {
+				$( this ).addClass( 'active' );
+			}
 			self.toggleSubCategory( $subCategory );
 		});
 

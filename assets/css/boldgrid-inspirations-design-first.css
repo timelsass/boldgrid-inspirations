@@ -148,6 +148,7 @@ a.disabled {
 	/* 194 */
 }
 
+.sub-category.active,
 .blue {
 	background-color: #00a1d0;
 	color: white;
