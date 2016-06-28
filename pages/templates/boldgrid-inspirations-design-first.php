@@ -25,15 +25,7 @@
 		data.build.ThemeName = data.build.ThemeName.replace( 'boldgrid-', '' );
 		data.key = IMHWPB.configs.api_key
 	#>
-	<div	class="theme"
-			tabindex="0"
-			data-category-id="{{data.build.ParentCategoryId}}"
-			data-sub-category-id="{{data.build.CategoryId}}"
-			data-sub-category-title="{{data.build.SubCategoryName}}"
-			data-page-set-id="{{data.build.PageSetId}}"
-			data-theme-id="{{data.build.ThemeId}}"
-			data-theme-title="{{data.build.ThemeName}}"
-	">
+	<div class="theme" tabindex="0" data-category-id="{{data.build.ParentCategoryId}}" data-sub-category-id="{{data.build.CategoryId}}" data-sub-category-title="{{data.build.SubCategoryName}}" data-page-set-id="{{data.build.PageSetId}}" data-theme-id="{{data.build.ThemeId}}" data-theme-title="{{data.build.ThemeName}}"">
 
 		<div class="theme-screenshot">
 			<img class='lazy' data-original="{{data.configs.asset_server}}/api/asset/get?key={{data.configs.api_key}}&id={{data.build.AssetId}}" alt="" width='290' height='194'>
