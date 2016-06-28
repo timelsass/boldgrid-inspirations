@@ -11,10 +11,8 @@
 	<#
 		_.each( data, function( category ) {
 	#>
-			<div class='category' data-category-id='{{category.id}}' >
-				<span class='category-name' >{{category.name}}</span>
-				<a class='expand'></a>
-				<div class='sub-categories hidden' data-category-id='{{category.id}}'>
+			<div class='category' data-category-id='{{category.id}}' data-category-name='{{category.name}}' >
+				<div class='sub-categories' data-category-id='{{category.id}}' >
 	<#
 				_.each( category.subcategories, function( sub_category ) {
 	#>
