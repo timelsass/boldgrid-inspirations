@@ -27,9 +27,8 @@
 }
 
 .category {
-	padding: 10px;
+	padding: 0 1em;
 	position: relative;
-	border-top: 1px solid #ddd;
 }
 
 .category-name {
@@ -111,10 +110,10 @@ div.sub-category {
     -webkit-transition-property:		-webkit-box-shadow;
     -webkit-transition-duration:		.05s;
     -webkit-transition-timing-function:	ease-in-out;
-    
+
     transition-property:		box-shadow;
     transition-duration:		.05s;
-    transition-timing-function:	ease-in-out;	
+    transition-timing-function:	ease-in-out;
 }
 
 /* Theme hover */
