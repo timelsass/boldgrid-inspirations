@@ -1,7 +1,7 @@
 <script type="text/html" id="tmpl-init-categories">
 	<div class='category-filter' ><?php echo __( 'Category filter', 'boldgrid-inspirations' ); ?></div>
 
-	<div class="sub-category">
+	<div class="sub-category active">
 		<input type="radio" name="sub-category" checked data-sub-category-id="0" >
 		<span class="sub-category-name"><?php echo __( 'All', 'boldgrid-inspirations' ); ?></span>
 	</div>
