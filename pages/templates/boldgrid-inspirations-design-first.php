@@ -7,11 +7,11 @@
 	</div>
 
 	<# _.each( data, function( category ) { #>
-		<div class="category" data-category-id='{{category.id}}' data-category-name='{{category.name}}' >
-			<div class='sub-categories' data-category-id='{{category.id}}' >
+		<div class="category" data-category-id="{{category.id}}" data-category-name="{{category.name}}" >
+			<div class="sub-categories" data-category-id="{{category.id}}" >
 				<# _.each( category.subcategories, function( sub_category ) { #>
-					<div class='sub-category'>
-						<input type="radio" name="sub-category" data-sub-category-id="{{sub_category.id}}"> <span class='sub-category-name'>{{sub_category.name}}</span>
+					<div class="sub-category">
+						<input type="radio" name="sub-category" data-sub-category-id="{{sub_category.id}}"> <span class="sub-category-name">{{sub_category.name}}</span>
 					</div>
 				<# }); #>
 			</div>
