@@ -46,7 +46,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			$( '#screen-content .button' ).prop( 'disabled', false );
 			$( '.top-menu a' ).removeClass( 'disabled' );
 		}
-	}
+	};
 
 	/**
 	 * User chooses a theme
@@ -80,9 +80,9 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			self.$budget = $( 'input[name="coin-budget"]:checked' );
 
 			self.loadBuild();
-		}
+		};
 		self.ajax.ajaxCall( {'category_id' : $theme.closest( '.theme' ).attr( 'data-category-id' )}, 'get_category_page_sets', pagesetSuccess );
-	}
+	};
 
 	/**
 	 * Init.
@@ -112,11 +112,11 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 
 		$( '.wrap' ).on( 'mouseenter', '.sub-category-name', function() {
 			$( this ).addClass( 'blue' );
-		})
+		});
 
 		$( '.wrap' ).on( 'mouseleave', '.sub-category-name', function() {
 			$( this ).removeClass( 'blue' );
-		})
+		});
 
 		$( '.wrap' ).on( 'change', 'input[name="sub-category"]', function() {
 			var $subCategory = $( this );
@@ -199,7 +199,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 				$( '#screen-content iframe#theme-preview' ).fadeIn();
 			} );
 		});
-	}
+	};
 
 	/**
 	 * Init the list of categories.
@@ -219,7 +219,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		};
 
 		self.ajax.ajaxCall( {'inspirations_mode' : 'standard'}, 'get_categories', success_action );
-	}
+	};
 
 	/**
 	 * Init Themes.
@@ -230,7 +230,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		var template = wp.template( 'theme' );
 
 		data = {
-			'site_hash' :			self.configs['site_hash'],
+			'site_hash' : self.configs.site_hash,
 		};
 
 		var cow = function( msg ) {
@@ -238,8 +238,8 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 				self.$themes.append( template( { configs: IMHWPB.configs, build: build } ) );
 			});
 
-			$("img.lazy").lazyload({threshold : 400});
-		}
+			$( "img.lazy" ).lazyload({threshold : 400});
+		};
 
 		self.ajax.ajaxCall( data, 'get_generic', cow );
 
@@ -284,7 +284,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 //		};
 
 		//self.ajax.ajaxCall( {'inspirations_mode' : 'standard'}, 'get_all_active_themes', success_action );
-	}
+	};
 
 	/**
 	 * Load a new build on the Content tab.
@@ -310,7 +310,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			$iframe
 				.attr( 'src', url )
 				.attr( 'data-build-cost', msg.result.data.profile.coins );
-		}
+		};
 
 		data = {
 			'theme_id' :			self.$theme.closest( '.theme' ).attr( 'data-theme-id' ),
@@ -322,13 +322,13 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			'coin_budget' :			self.$budget.attr( 'data-coin' ),
 			'theme_version_type' :	null,
 			'page_version_type' :	null,
-			'site_hash' :			self.configs['site_hash'],
+			'site_hash' :			self.configs.site_hash,
 			'inspirations_mode' :	'standard',
 			'is_generic' :			( '1' === self.$pageset.attr( 'data-is-default' ) ? 'true' : 'false' ),
 		};
 
 		self.ajax.ajaxCall( data, 'get_build_profile', success_action );
-	}
+	};
 
 	/**
 	 *
@@ -351,7 +351,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			$subCategories.slideDown();
 			$expander.addClass( 'expanded' );
 		}
-	}
+	};
 
 	/**
 	 *
@@ -375,7 +375,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			$content.removeClass( 'hidden' );
 			$design.addClass( 'hidden' );
 		}
-	}
+	};
 
 	/**
 	 *
@@ -393,7 +393,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		}
 
 		$("img.lazy").lazyload({threshold : 400});
-	}
+	};
 
 	$( function() {
 		self.init();
