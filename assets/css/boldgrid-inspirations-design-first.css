@@ -26,16 +26,6 @@
 	text-transform: uppercase;
 }
 
-.category {
-	position: relative;
-}
-
-.category-name {
-	font-weight: bold;
-}
-
-.category-name,
-.expand,
 .sub-category {
 	cursor: pointer;
 }

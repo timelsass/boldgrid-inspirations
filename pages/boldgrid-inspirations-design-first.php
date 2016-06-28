@@ -36,8 +36,9 @@ $lang = array(
 	<div id='screen-content' class='hidden' >
 
 		<div class='left'>
+			<div class='page-set-filter' ><?php echo $lang['Pageset']; ?></div>
+			<div id='pageset-options'></div>
 			<div class='coin-filter' ><?php echo $lang['CoinBudget']; ?> <span class='info-icon'></span></div>
-
 			<div class='coin-option' >
 				<input type="radio" name="coin-budget" data-coin="20" checked >
 				<span class='pointer'>0 - 20 <?php echo $lang['Coins']; ?></span>
@@ -58,9 +59,6 @@ $lang = array(
 				<input type="radio" name="coin-budget" data-coin="0">
 				<span class='pointer'><?php echo $lang['Free']; ?></span>
 			</div>
-
-			<div class='page-set-filter' ><?php echo $lang['Pageset']; ?></div>
-			<div id='pageset-options'></div>
 		</div>
 
 		<div class='right'>
