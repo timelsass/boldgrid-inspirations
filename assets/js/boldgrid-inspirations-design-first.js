@@ -84,6 +84,10 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		self.ajax.ajaxCall( {'category_id' : $theme.closest( '.theme' ).attr( 'data-category-id' )}, 'get_category_page_sets', pagesetSuccess );
 	};
 
+	this.toggleCheckbox = function () {
+		var $subCategory = $( 'input[name="sub-category"]:checked' );
+		$subCategory.parent().css( 'background', 'blue' );
+	}
 	/**
 	 * Init.
 	 *
@@ -91,31 +95,10 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 */
 	this.init = function() {
 		self.initCategories();
+		self.toggleCheckbox();
 
-		$( '.wrap' ).on( 'click', '.category-name, .expand', function() {
-			var $category = $( this ).closest( '.category' ),
-				$expander = $category.find( '.expand' );
-			self.toggleCategory( $category, $expander );
-		});
-
-		$( '.wrap' ).on( 'mouseenter', '.category-name, .expand', function() {
-			var $category = $( this ).closest( '.category' );
-			$category.find( '.expand' ).addClass( 'blue');
-			$category.find( '.category-name' ).addClass( 'blue');
-		});
-
-		$( '.wrap' ).on( 'mouseleave', '.category-name, .expand', function() {
-			var $category = $( this ).closest( '.category' );
-			$category.find( '.expand' ).removeClass( 'blue');
-			$category.find( '.category-name' ).removeClass( 'blue');
-		});
-
-		$( '.wrap' ).on( 'mouseenter', '.sub-category-name', function() {
-			$( this ).addClass( 'blue' );
-		});
-
-		$( '.wrap' ).on( 'mouseleave', '.sub-category-name', function() {
-			$( this ).removeClass( 'blue' );
+		$( '.wrap' ).on( 'mouseenter mouseleave', '.sub-category', function() {
+			$( this ).toggleClass( 'blue' );
 		});
 
 		$( '.wrap' ).on( 'change', 'input[name="sub-category"]', function() {
@@ -123,8 +106,8 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			self.toggleSubCategory( $subCategory );
 		});
 
-		$( '.wrap' ).on( 'click', '.sub-category-name', function() {
-			var $subCategory = $( this ).siblings( 'input[name="sub-category"]' );
+		$( '.wrap' ).on( 'click', '.sub-category', function() {
+			var $subCategory = $( this ).find( 'input[name="sub-category"]' );
 			$subCategory.prop( 'checked', true );
 			self.toggleSubCategory( $subCategory );
 		});

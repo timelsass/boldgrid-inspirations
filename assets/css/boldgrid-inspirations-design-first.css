@@ -27,7 +27,6 @@
 }
 
 .category {
-	padding: 0 1em;
 	position: relative;
 }
 
@@ -37,36 +36,21 @@
 
 .category-name,
 .expand,
-.sub-category-name {
+.sub-category {
 	cursor: pointer;
 }
 
-.category .expand:after {
-	position: absolute;
-	content: "\f345";
-	font: normal 16px/0 dashicons;
-	color: #7d7d7d;
-	top: 19px;
-	right: 5px;
-	-ms-transform:		rotate(90deg);
-    -webkit-transform:	rotate(90deg);
-    transform:			rotate(90deg);
-	transition:			transform 400ms;
-}
-
-.category .expand.expanded:after {
-	-ms-transform:		rotate(270deg);
-    -webkit-transform:	rotate(270deg);
-    transform:			rotate(270deg);
-}
-
-.category .expand.blue:after {
-	color: #00a1d0;
-}
-
 /* Category filter radio buttons */
+input[type="radio"][name="sub-category"] {
+	visibility: hidden;
+}
 .sub-category {
 	padding: .5em 0;
+	-webkit-transition: background-color .3s linear, color .3s linear;
+	-moz-transition: background-color .3s linear, color .3s linear;
+	-o-transition: background-color .3s linear, color .3s linear;
+	-ms-transition: background-color .3s linear, color .3s linear;
+	transition: background-color .3s linear, color .3s linear;
 }
 
 /* Theme name */
@@ -165,5 +149,6 @@ a.disabled {
 }
 
 .blue {
-	color: #00a1d0;
+	background-color: #00a1d0;
+	color: white;
 }
