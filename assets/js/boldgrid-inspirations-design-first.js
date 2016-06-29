@@ -135,14 +135,14 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			self.loadBuild();
 		});
 
+		// Coin Budgets.
 		$( '.wrap' ).on( 'click', '.coin-option', function() {
-			self.$budget = $( this );
-			self.loadBuild();
-		});
-
-		$( '.wrap' ).on( 'click', '.coin-option span', function() {
-			self.$budget = $( this ).siblings( 'input[name="coin-budget"]' );
-			self.$budget.prop( 'checked', true );
+			var $coinInput = $( this ).find( 'input[name="coin-budget"]' );
+			$( '.coin-option.active' ).removeClass( 'active' );
+			$coinInput.prop( 'checked', true );
+			if ( $coinInput.is( ':checked' ) ) {
+				$( this ).addClass( 'active' );
+			}
 			self.loadBuild();
 		});
 
