@@ -25,15 +25,20 @@
 	font-weight: bold;
 	text-transform: uppercase;
 }
-
+.coin-option,
+.pageset-option,
 .sub-category {
 	cursor: pointer;
 }
 
-/* Category filter radio buttons */
+/* Radio Buttons */
+input[type="radio"][name="pageset"],
+input[type="radio"][name="coin-budget"],
 input[type="radio"][name="sub-category"] {
 	visibility: hidden;
 }
+.coin-option,
+.pageset-option,
 .sub-category {
 	padding: .5em 0;
 	-webkit-transition: background-color .3s linear, color .3s linear;
@@ -138,6 +143,8 @@ a.disabled {
 	/* 194 */
 }
 
+.pageset-option.active,
+.coin-option.active,
 .sub-category.active,
 .blue {
 	background-color: #00a1d0;

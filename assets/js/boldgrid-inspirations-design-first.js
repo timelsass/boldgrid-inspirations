@@ -97,7 +97,8 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		self.initCategories();
 		self.toggleCheckbox();
 
-		$( '.wrap' ).on( 'mouseenter mouseleave', '.sub-category', function() {
+		// Hovers.
+		$( '.wrap' ).on( 'mouseenter mouseleave', '.sub-category, .pageset-option, .coin-option', function() {
 			$( this ).toggleClass( 'blue' );
 		});
 
@@ -106,6 +107,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			self.toggleSubCategory( $subCategory );
 		});
 
+		// Subcategories.
 		$( '.wrap' ).on( 'click', '.sub-category', function() {
 			var $subCategory = $( this ).find( 'input[name="sub-category"]' );
 			$( '.sub-category.active' ).removeClass( 'active' );
@@ -122,28 +124,18 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			self.chooseTheme( $theme );
 		});
 
-		$( '.wrap' ).on( 'click', 'input[name="pageset"]', function() {
-			self.$pageset = $( this );
-			self.loadBuild();
-		});
-		$( '.wrap' ).on( 'click', '.pageset-option span', function() {
-			self.$pageset = $( this ).siblings( 'input[name="pageset"]' );
-			self.$pageset.prop( 'checked', true );
+		// Pageset Options.
+		$( '.wrap' ).on( 'click', '.pageset-option', function() {
+			var $pagesetInput = $( this ).find( 'input[name="pageset"]' );
+			$( '.pageset-option.active' ).removeClass( 'active' );
+			$pagesetInput.prop( 'checked', true );
+			if ( $pagesetInput.is( ':checked' ) ) {
+				$( this ).addClass( 'active' );
+			}
 			self.loadBuild();
 		});
 
-		$( '.wrap' ).on( 'mouseenter', 'input[name="pageset"], .pageset-option span', function() {
-			var $option = $( this ).closest( '.pageset-option' );
-			$option.find( 'input[name="pageset"]' ).addClass( 'blue' );
-			$option.find( 'span' ).addClass( 'blue' );
-		});
-		$( '.wrap' ).on( 'mouseleave', 'input[name="pageset"], .pageset-option span', function() {
-			var $option = $( this ).closest( '.pageset-option' );
-			$option.find( 'input[name="pageset"]' ).removeClass( 'blue' );
-			$option.find( 'span' ).removeClass( 'blue' );
-		});
-
-		$( '.wrap' ).on( 'click', 'input[name="coin-budget"]', function() {
+		$( '.wrap' ).on( 'click', '.coin-option', function() {
 			self.$budget = $( this );
 			self.loadBuild();
 		});
@@ -152,17 +144,6 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			self.$budget = $( this ).siblings( 'input[name="coin-budget"]' );
 			self.$budget.prop( 'checked', true );
 			self.loadBuild();
-		});
-
-		$( '.wrap' ).on( 'mouseenter', 'input[name="coin-budget"], .coin-option span', function() {
-			var $option = $( this ).closest( '.coin-option' );
-			$option.find( 'input[name="coin-budget"]' ).addClass( 'blue' );
-			$option.find( 'span' ).addClass( 'blue' );
-		});
-		$( '.wrap' ).on( 'mouseleave', 'input[name="coin-budget"], .coin-option span', function() {
-			var $option = $( this ).closest( '.coin-option' );
-			$option.find( 'input[name="coin-budget"]' ).removeClass( 'blue' );
-			$option.find( 'span' ).removeClass( 'blue' );
 		});
 
 		$( '.wrap' ).on( 'click', '.top-menu a', function() {
