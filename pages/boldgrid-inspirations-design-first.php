@@ -10,75 +10,72 @@ $lang = array(
 );
 
 ?>
-<div class='wrap'>
+<div class="wrap">
 
-	<div class='top-menu' >
-		<a class='active' data-step='design' ><?php echo $lang['Design'] ?></a>
-		<a class='disabled' data-step='content' ><?php echo $lang['Content']; ?></a>
+	<div class="top-menu">
+		<a class="active" data-step="design" ><?php echo $lang['Design'] ?></a>
+		<a class="disabled" data-step="content" ><?php echo $lang['Content']; ?></a>
 	</div>
 
-	<div style='clear:both;' ></div>
+	<div style="clear:both;"></div>
 
-	<div id='screen-design'>
-
-		<div class='left' id='categories' >
+	<div id="screen-design">
+		<div class="left" id="categories">
 			<strong>Category Filter</strong>
 		</div>
-
-		<div class='theme-browser rendered right'>
-			<div class='themes wp-clearfix'>
-			</div>
+		<div class="theme-browser rendered right">
+			<div class="themes wp-clearfix"></div>
 		</div>
 	</div>
 
-	<div style='clear:both;'></div>
+	<div style="clear:both;"></div>
 
-	<div id='screen-content' class='hidden' >
+	<div id="screen-content" class="hidden" >
 
-		<div class='left'>
-			<div class='page-set-filter' ><?php echo $lang['Pageset']; ?></div>
-			<div id='pageset-options'></div>
-			<div class='coin-filter' ><?php echo $lang['CoinBudget']; ?> <span class='info-icon'></span></div>
-			<div class='coin-option active' >
+		<div class="left">
+			<div class="page-set-filter"><?php echo $lang['Pageset']; ?></div>
+			<div id="pageset-options"></div>
+			<div class="coin-filter"><?php echo $lang['CoinBudget']; ?> <span class="info-icon"></span></div>
+			<div class="coin-option active">
 				<input type="radio" name="coin-budget" data-coin="20" checked >
-				<span class='pointer'>0 - 20 <?php echo $lang['Coins']; ?></span>
+				<span class="pointer">0 - 20 <?php echo $lang['Coins']; ?></span>
 			</div>
-			<div class='coin-option' >
+			<div class="coin-option">
 				<input type="radio" name="coin-budget" data-coin="40">
-				<span class='pointer'>0 - 40 <?php echo $lang['Coins']; ?></span>
+				<span class="pointer">0 - 40 <?php echo $lang['Coins']; ?></span>
 			</div>
-			<div class='coin-option' >
+			<div class="coin-option">
 				<input type="radio" name="coin-budget" data-coin="60">
-				<span class='pointer'>0 - 60 <?php echo $lang['Coins']; ?></span>
+				<span class="pointer">0 - 60 <?php echo $lang['Coins']; ?></span>
 			</div>
-			<div class='coin-option' >
+			<div class="coin-option">
 				<input type="radio" name="coin-budget" data-coin="80">
-				<span class='pointer'>0 - 80 <?php echo $lang['Coins']; ?></span>
+				<span class="pointer">0 - 80 <?php echo $lang['Coins']; ?></span>
 			</div>
-			<div class='coin-option' >
+			<div class="coin-option">
 				<input type="radio" name="coin-budget" data-coin="0">
-				<span class='pointer'><?php echo $lang['Free']; ?></span>
+				<span class="pointer"><?php echo $lang['Free']; ?></span>
 			</div>
 		</div>
 
-		<div class='right'>
-			<div id='build-summary'>
-				<div style='float:left;'>
-					<span id='theme-title'></span>
-					<span id='sub-category-title'></span>
+		<div class="right">
+			<div id="build-summary">
+				<div style="float:left;">
+					<span id="theme-title"></span>
+					<span id="sub-category-title"></span>
 				</div>
-				<div style='float:right;' class='coin-bg-s' >
-					<?php echo $lang['Coins']; ?>: <span id='build-cost'>...</span>
+				<div style="float:right;" class="coin-bg-s">
+					<?php echo $lang['Coins']; ?>: <span id="build-cost">...</span>
 				</div>
 			</div>
 
-			<div style='clear:both;'></div>
+			<div style="clear:both;"></div>
 
-			<div style='margin:10px 0px;'>
+			<div style="margin:10px 0px;">
 				<button class="button button-primary">Install</button>
 			</div>
 
-			<iframe id='theme-preview'></iframe>
+			<iframe id="theme-preview"></iframe>
 
 			<div class="loading-wrapper boldgrid-loading hidden"></div>
 		</div>
