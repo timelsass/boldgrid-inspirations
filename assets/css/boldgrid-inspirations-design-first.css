@@ -145,3 +145,8 @@ a.disabled {
 	background-color: #00a1d0;
 	color: white;
 }
+
+/* Back/Install Buttons */
+.inspirations.button {
+	padding: 0 3em;
+}
