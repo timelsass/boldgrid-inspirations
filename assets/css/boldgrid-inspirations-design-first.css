@@ -222,11 +222,7 @@ a.disabled {
 	}
 }
 
-.collapsed .wp-full-overlay-footer .devices button:before {
-	display: none;
-}
-
-.preview-mobile .wp-full-overlay-main {
+#theme-preview .preview-mobile {
 	margin: auto 0 auto -160px;
 	width: 320px;
 	height: 480px;
@@ -235,7 +231,7 @@ a.disabled {
 	left: 50%;
 }
 
-.preview-tablet .wp-full-overlay-main {
+#theme-preview .preview-tablet {
 	margin: auto 0 auto -360px;
 	width: 720px; /* Size is loosely based on a typical "tablet" device size. Intentionally ambiguous - this does not represent any particular device precisely. */
 	height: 1080px;
