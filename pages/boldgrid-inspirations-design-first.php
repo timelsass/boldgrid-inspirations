@@ -66,15 +66,15 @@ $lang = array(
 						<span id="sub-category-title"></span> | <span id="build-cost">...</span> <?php echo $lang['Coins']; ?>
 					</span>
 				</div>
-				<div style="float:right;" class="coin-bg-s">
-					<?php echo $lang['Coins']; ?>: <span id="build-cost">...</span>
+				<div style="float:right;">
+					<button class="inspirations button button-secondary">Back</button>
+					<button class="inspirations button button-primary">Install</button>
 				</div>
 			</div>
 
 			<div style="clear:both;"></div>
 
 			<div style="margin:10px 0px;">
-				<button class="button button-primary">Install</button>
 			</div>
 
 			<iframe id="theme-preview"></iframe>
