@@ -97,11 +97,6 @@ iframe#theme-preview {
 	height: 800px;
 }
 
-.coin-option,
-.pageset-option {
-	padding: 10px 15px;
-}
-
 .info-icon:before {
 	content: "\f223";
 	font: normal 16px/1 dashicons;
