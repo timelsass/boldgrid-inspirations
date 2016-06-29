@@ -14,6 +14,10 @@ if ( ! defined( 'WPINC' ) ) {
 	exit();
 }
 
+?>
+<div class='wrap'>
+<?php
+
 include BOLDGRID_BASE_DIR . '/pages/templates/get_categories.php';
 include BOLDGRID_BASE_DIR . '/pages/templates/build_profile.php';
 include BOLDGRID_BASE_DIR . '/pages/templates/get_page_sets.php';
@@ -263,4 +267,6 @@ add_thickbox();
 	<div class="wp-pointer-arrow">
 		<div class="wp-pointer-arrow-inner"></div>
 	</div>
+</div>
+
 </div>

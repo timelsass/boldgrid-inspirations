@@ -27,6 +27,7 @@ The second phase is Customization; tools to transform your website into your vis
 == Changelog ==
 
 = 1.1.8 In progress =
+* Bug fix:		JIRA WPB-2058	Added wrap class to Inspirations, so admin notices are displayed at the top.
 * Bug fix:		JIRA WPB-2041	Fixed BoldGrid theme update check in WordPress 4.6.
 * Testing:		JIRA WPB-2046	Tested on WordPress 4.5.3.
 * New feature:	JIRA WPB-599	Added options for plugin and theme auto-updates via WordPress autoupdater.
