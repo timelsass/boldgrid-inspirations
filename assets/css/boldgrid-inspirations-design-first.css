@@ -222,8 +222,8 @@ a.disabled {
 	}
 }
 
-#theme-preview .preview-mobile {
-	margin: auto 0 auto -160px;
+#theme-preview.preview-mobile {
+	margin: auto 0 auto 0;
 	width: 320px;
 	height: 480px;
 	max-height: 100%;
@@ -231,8 +231,8 @@ a.disabled {
 	left: 50%;
 }
 
-#theme-preview .preview-tablet {
-	margin: auto 0 auto -360px;
+#theme-preview.preview-tablet {
+	margin: auto 0 auto 0;
 	width: 720px; /* Size is loosely based on a typical "tablet" device size. Intentionally ambiguous - this does not represent any particular device precisely. */
 	height: 1080px;
 	max-height: 100%;

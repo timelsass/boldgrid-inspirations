@@ -87,7 +87,23 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	this.toggleCheckbox = function () {
 		var $subCategory = $( 'input[name="sub-category"]:checked' );
 		$subCategory.parent().css( 'background', 'blue' );
-	}
+	};
+
+	this.devicePreviews = function () {
+		var previewer = $( '#theme-preview' );
+		// Desktop previews.
+		$( '.wrap' ).on( 'click', '.preview-desktop', function() {
+			previewer.removeClass();
+		});
+		// Tablet previews.
+		$( '.wrap' ).on( 'click', '.preview-tablet', function() {
+			previewer.removeClass().addClass( 'preview-tablet' );
+		});
+		// Mobile previews.
+		$( '.wrap' ).on( 'click', '.preview-mobile', function() {
+			previewer.removeClass().addClass( 'preview-mobile' );
+		});
+	};
 	/**
 	 * Init.
 	 *
@@ -96,6 +112,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	this.init = function() {
 		self.initCategories();
 		self.toggleCheckbox();
+		self.devicePreviews();
 
 		// Hovers.
 		$( '.wrap' ).on( 'mouseenter mouseleave', '.sub-category, .pageset-option, .coin-option', function() {
