@@ -116,6 +116,12 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			previewer.removeClass().addClass( 'preview-mobile' );
 		});
 	};
+
+	this.backButton = function() {
+		$( '.inspirations.button-secondary' ).on( 'click', function() {
+			self.toggleStep( 'design' );
+		});
+	};
 	/**
 	 * Init.
 	 *
@@ -125,7 +131,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		self.initCategories();
 		self.toggleCheckbox();
 		self.devicePreviews();
-
+		self.backButton();
 		// Hovers.
 		$( '.wrap' ).on( 'mouseenter mouseleave', '.sub-category, .pageset-option, .coin-option', function() {
 			$( this ).toggleClass( 'blue' );
