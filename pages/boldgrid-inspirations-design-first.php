@@ -39,7 +39,7 @@ $lang = array(
 			<div class='page-set-filter' ><?php echo $lang['Pageset']; ?></div>
 			<div id='pageset-options'></div>
 			<div class='coin-filter' ><?php echo $lang['CoinBudget']; ?> <span class='info-icon'></span></div>
-			<div class='coin-option' >
+			<div class='coin-option active' >
 				<input type="radio" name="coin-budget" data-coin="20" checked >
 				<span class='pointer'>0 - 20 <?php echo $lang['Coins']; ?></span>
 			</div>
