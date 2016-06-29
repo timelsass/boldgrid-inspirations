@@ -5,6 +5,7 @@ $lang = array(
 	'Content' =>	__( 'Content', 'boldgrid-inspirations' ),
 	'CoinBudget' =>	__( 'Coin Budget', 'boldgrid-inspirations'),
 	'Coins' =>		__( 'Coins', 'boldgrid-inspirations' ),
+	'Category' =>   __( 'Category Filter', 'boldgrid-inspirations' ),
 	'Pageset' =>	__( 'Pageset', 'boldgrid-inspirations' ),
 	'Free' =>		__( 'Free', 'boldgrid-inspirations' ),
 	'Desktop' =>    __( 'Enter desktop preview mode', 'boldgrid-inspirations' ),
@@ -24,7 +25,7 @@ $lang = array(
 
 	<div id="screen-design">
 		<div class="left" id="categories">
-			<strong>Category Filter</strong>
+			<strong><?php echo $lang['Category']; ?></strong>
 		</div>
 		<div class="theme-browser rendered right">
 			<div class="themes wp-clearfix"></div>

@@ -336,29 +336,6 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	/**
 	 *
 	 */
-	this.toggleCategory = function( $category, $expander ) {
-		var categoryId = $category.attr( 'data-category-id' ),
-			$subCategories = $category.find( '.sub-categories' );
-
-		/*
-		 * If the selected category is expanded, slide it up.
-		 * Otherwise, slide up all visible categories and slide down our selected category.
-		 */
-		if( $subCategories.is( ':visible' ) ) {
-			$subCategories.slideUp();
-			$expander.removeClass( 'expanded' );
-		} else {
-			$( '.sub-categories:visible' ).siblings( '.expand' ).removeClass( 'expanded' );
-			$( '.sub-categories:visible' ).slideUp();
-
-			$subCategories.slideDown();
-			$expander.addClass( 'expanded' );
-		}
-	};
-
-	/**
-	 *
-	 */
 	this.toggleStep = function( step ) {
 		var $content = $( '#screen-content' ),
 			$design = $( '#screen-design' ),
