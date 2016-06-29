@@ -125,8 +125,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 
 	this.mobileMenuToggle = function() {
 		$( '.drawer-toggle' ).on( 'click', function() {
-			$( '#screen-design .left' ).toggle( 'slow' )
-			.toggleClass( 'expanded collapsed' );
+			$( '#screen-design .left' ).toggle( 'slow' );
 		});
 	};
 	/**

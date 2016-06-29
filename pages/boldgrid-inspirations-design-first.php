@@ -40,7 +40,7 @@ $lang = array(
 				</div>
 			<!-- End of Mobile Filter-->
 		</div>
-		<div class="left collapsed" id="categories">
+		<div class="left" id="categories">
 			<strong><?php echo $lang['Category']; ?></strong>
 		</div>
 		<div class="theme-browser rendered right">
