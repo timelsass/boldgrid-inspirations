@@ -7,6 +7,9 @@ $lang = array(
 	'Coins' =>		__( 'Coins', 'boldgrid-inspirations' ),
 	'Pageset' =>	__( 'Pageset', 'boldgrid-inspirations' ),
 	'Free' =>		__( 'Free', 'boldgrid-inspirations' ),
+	'Desktop' =>    __( 'Enter desktop preview mode', 'boldgrid-inspirations' ),
+	'Tablet' =>     __( 'Enter tablet preview mode', 'boldgrid-inspirations' ),
+	'Mobile' =>     __( 'Enter mobile preview mode', 'boldgrid-inspirations' ),
 );
 
 ?>
