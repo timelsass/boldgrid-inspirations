@@ -150,3 +150,94 @@ a.disabled {
 .inspirations.button {
 	padding: 0 3em;
 }
+
+/* Device/preview size toggles */
+.devices {
+	margin-left: 2.5em;
+}
+
+.devices button {
+	display: inline-flex;
+	cursor: pointer;
+	background: transparent;
+	border: none;
+	height: 45px;
+	padding: 0 3px;
+	margin: 0 0 0 -4px;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	border-top: 1px solid transparent;
+	border-bottom: 4px solid transparent;
+	-webkit-transition: background .1s ease-in-out;
+	transition: background .1s ease-in-out;
+}
+
+.devices button:focus {
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	outline: none;
+}
+
+.devices button:before {
+	display: inline-block;
+	-webkit-font-smoothing: antialiased;
+	font: normal 20px/30px "dashicons";
+	vertical-align: top;
+	margin: 3px 0;
+	padding: 4px 8px;
+	color: #656a6f;
+}
+
+.devices button.active {
+	border-bottom-color: #191e23;
+}
+
+.devices button:focus {
+	border-bottom-color: #0073aa;
+}
+
+.devices button.active:before,
+.devices button:hover:before,
+.devices button:focus:before {
+	color: #191e23;
+}
+
+.devices .preview-desktop:before {
+	content: "\f472";
+}
+
+.devices .preview-tablet:before {
+	content: "\f471";
+}
+
+.devices .preview-mobile:before {
+	content: "\f470";
+}
+
+@media screen and (max-width:1024px) {
+	.devices {
+		display: none;
+	}
+}
+
+.collapsed .wp-full-overlay-footer .devices button:before {
+	display: none;
+}
+
+.preview-mobile .wp-full-overlay-main {
+	margin: auto 0 auto -160px;
+	width: 320px;
+	height: 480px;
+	max-height: 100%;
+	max-width: 100%;
+	left: 50%;
+}
+
+.preview-tablet .wp-full-overlay-main {
+	margin: auto 0 auto -360px;
+	width: 720px; /* Size is loosely based on a typical "tablet" device size. Intentionally ambiguous - this does not represent any particular device precisely. */
+	height: 1080px;
+	max-height: 100%;
+	max-width: 100%;
+	left: 50%;
+}

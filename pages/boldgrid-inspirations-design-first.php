@@ -87,12 +87,7 @@ $lang = array(
 			</div>
 
 			<div style="clear:both;"></div>
-
-			<div style="margin:10px 0px;">
-			</div>
-
 			<iframe id="theme-preview"></iframe>
-
 			<div class="loading-wrapper boldgrid-loading hidden"></div>
 		</div>
 	</div>
