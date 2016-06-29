@@ -61,7 +61,7 @@ input[type="radio"][name="sub-category"] {
 
 /* Sub category name */
 .theme-name .sub-category-name,
-#sub-category-title {
+.summary-subheading {
 	color: #aaa;
 	font-size: 12px;
 	font-style: italic;

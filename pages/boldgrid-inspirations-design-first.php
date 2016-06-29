@@ -62,7 +62,9 @@ $lang = array(
 			<div id="build-summary">
 				<div style="float:left;">
 					<span id="theme-title"></span>
-					<span id="sub-category-title"></span>
+					<span class ="summary-subheading">
+						<span id="sub-category-title"></span> | <span id="build-cost">...</span> <?php echo $lang['Coins']; ?>
+					</span>
 				</div>
 				<div style="float:right;" class="coin-bg-s">
 					<?php echo $lang['Coins']; ?>: <span id="build-cost">...</span>
