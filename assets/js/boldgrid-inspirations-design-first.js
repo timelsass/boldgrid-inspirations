@@ -123,11 +123,92 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		});
 	};
 
+	this.isMobile = function() {
+		return ( $( '.wp-filter:visible').length === 0 ? false : true );
+	};
+
+	this.mobileToggle = function() {
+		$( '#screen-design .left' ).toggle( 'slow' );
+	};
+
+	this.mobileCollapse = function() {
+		var $mobileMenu = $( '#screen-design .left' );
+		if ( $mobileMenu.is( ':visible' ) ) {
+			self.mobileToggle();
+		}
+	};
+
 	this.mobileMenuToggle = function() {
-		$( '.drawer-toggle' ).on( 'click', function() {
-			$( '#screen-design .left' ).toggle( 'slow' );
+		if ( self.isMobile() ) {
+			$( '.drawer-toggle' ).on( 'click', function() {
+				self.mobileToggle();
+			});
+		}
+	};
+
+
+	/**
+	 * Handles the Show All filter.
+	 */
+	this.showAll = function() {
+		if ( self.isMobile() ) {
+			$( '.wrap' ).on( 'click', '[data-sort="show-all"]', function() {
+				var $all = $( '[data-sub-category-id="0"]' );
+				// Remove all active classes from sub categories.
+				$( '.sub-category.active' ).removeClass( 'active' );
+				// Check radio.
+				$all.prop( 'checked', true );
+				// Check radio check.
+				if ( $all.is( ':checked' ) ) {
+					$all.parent( '.sub-category' ).addClass( 'active' );
+				}
+				// collapse mobile.
+				self.mobileCollapse();
+				// Display all themes.
+				$( '.theme[data-sub-category-id]').fadeIn();
+				// toggle the current class for show all.
+				self.toggleShowAll( $all.parent( '.sub-category' ) );
+			});
+		}
+	};
+
+	this.toggleShowAll = function( o ) {
+		var $showAll = $( '[data-sort="show-all"]' ),
+		    $subcatId = o.find( '[data-sub-category-id]' ).data( 'sub-category-id');
+
+		// Add current class to show all filter if previewing all themes.
+		$showAll.addClass( 'current' );
+		// If we aren't clicking on All remove that class.
+		if ( 0 !== $subcatId ) {
+			$showAll.removeClass( 'current' );
+		}
+	};
+
+	this.subcategories = function() {
+		// Subcategories.
+		$( '.wrap' ).on( 'click', '.sub-category', function() {
+			var $subCategory = $( this ).find( 'input[name="sub-category"]' ),
+			    ref = $( this );
+
+			$( '.sub-category.active' ).removeClass( 'active' );
+			$subCategory.prop( 'checked', true );
+
+			if ( $subCategory.is( ':checked' ) ) {
+				ref.addClass( 'active' );
+			}
+
+			// Mobile actions.
+			if ( self.isMobile() ) {
+				// Toggle the show all filter.
+				self.toggleShowAll( ref );
+				// Collapse the menu when selection is made.
+				self.mobileToggle();
+			}
+			// Always toggle subcategory.
+			self.toggleSubCategory( $subCategory );
 		});
 	};
+
 	/**
 	 * Init.
 	 *
@@ -139,25 +220,11 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		self.devicePreviews();
 		self.backButton();
 		self.mobileMenuToggle();
+		self.subcategories();
+		self.showAll();
 		// Hovers.
 		$( '.wrap' ).on( 'mouseenter mouseleave', '.sub-category, .pageset-option, .coin-option', function() {
 			$( this ).toggleClass( 'blue' );
-		});
-
-		$( '.wrap' ).on( 'change', 'input[name="sub-category"]', function() {
-			var $subCategory = $( this );
-			self.toggleSubCategory( $subCategory );
-		});
-
-		// Subcategories.
-		$( '.wrap' ).on( 'click', '.sub-category', function() {
-			var $subCategory = $( this ).find( 'input[name="sub-category"]' );
-			$( '.sub-category.active' ).removeClass( 'active' );
-			$subCategory.prop( 'checked', true );
-			if ( $subCategory.is( ':checked' ) ) {
-				$( this ).addClass( 'active' );
-			}
-			self.toggleSubCategory( $subCategory );
 		});
 
 		$( '.wrap' ).on( 'click', '.theme-actions a.button-primary', function() {
