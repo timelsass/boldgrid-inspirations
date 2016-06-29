@@ -150,6 +150,7 @@ a.disabled {
 /* Back/Install Buttons */
 .inspirations.button {
 	padding: 0 3em;
+	margin-top: .5em;
 }
 
 /* Device/preview size toggles */
