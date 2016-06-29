@@ -122,6 +122,13 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			self.toggleStep( 'design' );
 		});
 	};
+
+	this.mobileMenuToggle = function() {
+		$( '.drawer-toggle' ).on( 'click', function() {
+			$( '#screen-design .left' ).toggle( 'slow' )
+			.toggleClass( 'expanded collapsed' );
+		});
+	};
 	/**
 	 * Init.
 	 *
@@ -132,6 +139,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		self.toggleCheckbox();
 		self.devicePreviews();
 		self.backButton();
+		self.mobileMenuToggle();
 		// Hovers.
 		$( '.wrap' ).on( 'mouseenter mouseleave', '.sub-category, .pageset-option, .coin-option', function() {
 			$( this ).toggleClass( 'blue' );

@@ -24,7 +24,23 @@ $lang = array(
 	<div style="clear:both;"></div>
 
 	<div id="screen-design">
-		<div class="left" id="categories">
+		<div class="inspirations-mobile-toggle">
+			<!-- Mobile Filter-->
+				<div class="wp-filter">
+					<ul class="filter-links">
+						<li><a href="#" data-sort="show-all" class="current">Show All</a></li>
+					</ul>
+					<a class="drawer-toggle" href="#">Filter Themes</a>
+					<div class="filter-drawer">
+						<div class="buttons">
+							<a class="apply-filters button button-secondary" href="#">Apply Filters<span></span></a>
+							<a class="clear-filters button button-secondary" href="#">Clear</a>
+						</div>
+					</div>
+				</div>
+			<!-- End of Mobile Filter-->
+		</div>
+		<div class="left collapsed" id="categories">
 			<strong><?php echo $lang['Category']; ?></strong>
 		</div>
 		<div class="theme-browser rendered right">

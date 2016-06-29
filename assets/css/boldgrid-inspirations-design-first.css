@@ -239,3 +239,27 @@ a.disabled {
 	max-width: 100%;
 	left: 50%;
 }
+.wp-filter {
+	display: none;
+}
+
+@media screen and (max-width: 782px) {
+	#screen-design .left {
+		width: 100%;
+		display: none;
+	}
+	.wp-filter {
+		display: block;
+	}
+	#screen-design .right,
+	#screen-content .right {
+		width: 100%;
+	}
+}
+
+/* Force left menu to be open on desktop if it was previously collapsed in mobile. */
+@media (min-width: 783px) {
+	#screen-design .left {
+		display: block !important;
+	}
+}
