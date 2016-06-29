@@ -45,9 +45,10 @@
 	<# _.each( data, function( pageset ) {
 		pageset.is_default = pageset.is_default_page_set;
 		pageset.is_default_page_set = ( '1' === pageset.is_default_page_set ? 'checked' : '' );
+		pageset.is_active = ( '1' === pageset.is_default ? 'active' : '' );
 		pageset.page_set_description = pageset.page_set_description.replace(/'/g, "&#39;");
 	#>
-		<div class="pageset-option" title="{{pageset.page_set_description}}">
+		<div class="pageset-option {{pageset.is_active}}" title="{{pageset.page_set_description}}">
 			<input type="radio" name="pageset" data-is-default="{{pageset.is_default}}" data-page-set-id="{{pageset.id}}" {{pageset.is_default_page_set}} >
 			<span class="pointer">{{pageset.page_set_name}}</span>
 		</div>
