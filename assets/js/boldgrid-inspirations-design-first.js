@@ -93,14 +93,26 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		var previewer = $( '#theme-preview' );
 		// Desktop previews.
 		$( '.wrap' ).on( 'click', '.preview-desktop', function() {
+			$( '.devices .active' )
+				.attr( 'aria-pressed', 'false' )
+				.removeClass( 'active' );
+			$( this ).attr( 'aria-pressed', 'true' ).addClass( 'active' );
 			previewer.removeClass();
 		});
 		// Tablet previews.
 		$( '.wrap' ).on( 'click', '.preview-tablet', function() {
+			$( '.devices .active' )
+				.attr( 'aria-pressed', 'false' )
+				.removeClass( 'active' );
+			$( this ).attr( 'aria-pressed', 'true' ).addClass( 'active' );
 			previewer.removeClass().addClass( 'preview-tablet' );
 		});
 		// Mobile previews.
 		$( '.wrap' ).on( 'click', '.preview-mobile', function() {
+			$( '.devices .active' )
+				.attr( 'aria-pressed', 'false' )
+				.removeClass( 'active' );
+			$( this ).attr( 'aria-pressed', 'true' ).addClass( 'active' );
 			previewer.removeClass().addClass( 'preview-mobile' );
 		});
 	};
