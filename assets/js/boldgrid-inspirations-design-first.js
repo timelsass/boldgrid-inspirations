@@ -183,6 +183,9 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		});
 	};
 
+	/**
+	 * Toggle the show all current class.
+	 */
 	this.toggleShowAll = function( o ) {
 		var $showAll = $( '[data-sort="show-all"]' ),
 		    $subcatId = o.find( '[data-sub-category-id]' ).data( 'sub-category-id');
@@ -195,6 +198,9 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		}
 	};
 
+	/**
+	 * Subcategories event handler.
+	 */
 	this.subcategories = function() {
 		// Subcategories.
 		$( '.wrap' ).on( 'click', '.sub-category', function() {
@@ -332,14 +338,11 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 * @since xxx
 	 */
 	this.initCategories = function( ) {
-
 		var success_action = function( msg ) {
 			var template = wp.template('init-categories');
 
 			self.categories = msg.result.data.categories;
-
 			self.$categories.html( ( template( self.categories ) ) );
-
 			self.initThemes();
 		};
 

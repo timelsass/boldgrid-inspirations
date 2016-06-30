@@ -248,6 +248,7 @@ a.disabled {
 }
 
 @media screen and (max-width: 782px) {
+	#screen-content .left,
 	#screen-design .left {
 		width: 100%;
 		display: none;
