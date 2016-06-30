@@ -306,8 +306,9 @@ a.disabled {
 		display: block !important;
 	}
 }
-@media (min-width: 1423px ) {
-	#content-design .left {
+
+@media (min-width: 1423px) {
+	#content-content .left {
 		display: block !important;
 	}
 }
