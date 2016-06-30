@@ -162,27 +162,25 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 * Handles the Show All filter.
 	 */
 	 this.showAll = function() {
-		if ( self.isMobile() ) {
-			$( '.wrap' ).on( 'click', '[data-sort="show-all"]', function() {
-				var $all = $( '[data-sub-category-id="0"]' ),
-				    ref = $all.parent( '.sub-category' );
+		$( '.wrap' ).on( 'click', '[data-sort="show-all"]', function() {
+			var $all = $( '[data-sub-category-id="0"]' ),
+			    ref = $all.parent( '.sub-category' );
 
-				// Remove all active classes from sub categories.
-				$( '.sub-category.active' ).removeClass( 'active' );
-				// Check radio.
-				$all.prop( 'checked', true );
-				// Check radio check.
-				if ( $all.is( ':checked' ) ) {
-					ref.addClass( 'active' );
-				}
-				// collapse mobile.
-				self.mobileCollapse();
-				// Display all themes.
-				self.toggleSubCategory( $all );
-				// toggle the current class for show all.
-				self.toggleShowAll( ref );
-			});
-		}
+			// Remove all active classes from sub categories.
+			$( '.sub-category.active' ).removeClass( 'active' );
+			// Check radio.
+			$all.prop( 'checked', true );
+			// Check radio check.
+			if ( $all.is( ':checked' ) ) {
+				ref.addClass( 'active' );
+			}
+			// collapse mobile.
+			self.mobileCollapse();
+			// Display all themes.
+			self.toggleSubCategory( $all );
+			// toggle the current class for show all.
+			self.toggleShowAll( ref );
+		});
 	};
 
 	this.toggleShowAll = function( o ) {
