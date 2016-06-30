@@ -177,6 +177,8 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			}
 			// collapse mobile.
 			self.mobileCollapse();
+			// Update filter text.
+			self.updateFilterText( 'All' );
 			// Display all themes.
 			self.toggleSubCategory( $all );
 			// toggle the current class for show all.
@@ -200,6 +202,13 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	};
 
 	/**
+	 * Update the filter text on the mobile view.
+	 */
+	this.updateFilterText = function( text ) {
+		$( '.theme-count' ).text( text );
+	};
+
+	/**
 	 * Subcategories event handler.
 	 */
 	this.subcategories = function() {
@@ -216,7 +225,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			if ( $subCategory.is( ':checked' ) ) {
 				ref.addClass( 'active' );
 			}
-			$( '.theme-count' ).text( $subcategoryName );
+			self.updateFilterText( $subcategoryName );
 			// Toggle the show all filter.
 			self.toggleShowAll( ref );
 			// Mobile actions.
