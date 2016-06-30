@@ -27,6 +27,9 @@ $lang = array(
 		<div class="inspirations-mobile-toggle">
 			<!-- Mobile Filter-->
 				<div class="wp-filter">
+					<div class="filter-count">
+						<span class="count theme-count">All</span>
+					</div>
 					<ul class="filter-links">
 						<li><a href="#" data-sort="show-all" class="current">Show All</a></li>
 					</ul>

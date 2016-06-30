@@ -72,7 +72,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 
 		// Load pagesets
 		var pagesetSuccess = function( msg ) {
-			var template = wp.template('pagesets');
+			var template = wp.template( 'pagesets' );
 
 			$( '#pageset-options' ).html( ( template( msg.result.data.pageSets ) ) );
 
@@ -206,6 +206,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		// Subcategories.
 		$( '.wrap' ).on( 'click', '.sub-category', function() {
 			var $subCategory = $( this ).find( 'input[name="sub-category"]' ),
+			    $subcategoryName = $( this ).find( '.sub-category-name' ).text(),
 			    ref = $( this );
 			// Remove any active classes.
 			$( '.sub-category.active' ).removeClass( 'active' );
@@ -215,6 +216,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			if ( $subCategory.is( ':checked' ) ) {
 				ref.addClass( 'active' );
 			}
+			$( '.theme-count' ).text( $subcategoryName );
 			// Toggle the show all filter.
 			self.toggleShowAll( ref );
 			// Mobile actions.
@@ -427,7 +429,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		// Load our loading graphic.
 		$( '#build-cost' ).animate( { opacity: 0 }, 400 );
 		$( '#screen-content iframe#theme-preview' ).fadeOut( function() {
-			$( '#screen-content .boldgrid-loading' ).fadeIn( );
+			$( '#screen-content .boldgrid-loading' ).fadeIn();
 		} );
 
 
