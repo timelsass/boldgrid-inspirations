@@ -220,6 +220,10 @@ a.disabled {
 	.devices {
 		display: none;
 	}
+	.inspirations.button {
+		margin-top: 0;
+		margin-bottom: 1em;
+	}
 }
 
 #theme-preview.preview-mobile {
