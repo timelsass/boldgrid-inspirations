@@ -491,7 +491,9 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 
 		if( '0' === subCategoryId ) {
 			$( '.theme[data-sub-category-id]').removeClass( 'hidden' );
+			$( '.theme-name .sub-category-name' ).show();
 		} else {
+			$( '.theme-name .sub-category-name' ).hide();
 			$( '.theme[data-sub-category-id="' + subCategoryId + '"]').removeClass( 'hidden' );
 			$( '.theme[data-sub-category-id!="' + subCategoryId + '"]')
 				.addClass( 'hidden' )
