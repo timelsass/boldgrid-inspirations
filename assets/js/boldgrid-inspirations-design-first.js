@@ -117,20 +117,34 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		});
 	};
 
+	/**
+	 * Event handler for the back button on step 2.
+	 */
 	this.backButton = function() {
 		$( '.inspirations.button-secondary' ).on( 'click', function() {
 			self.toggleStep( 'design' );
 		});
 	};
 
+	/**
+	 * Checks to see if the mobile menu is actually displayed.
+	 *
+	 * @return boolean
+	 */
 	this.isMobile = function() {
 		return ( $( '.wp-filter:visible').length === 0 ? false : true );
 	};
 
+	/**
+	 * Toggle the mobile menu open and closed.
+	 */
 	this.mobileToggle = function() {
 		$( '#screen-design .left' ).toggle( 'slow' );
 	};
 
+	/**
+	 * Force the mobile menu to close.
+	 */
 	this.mobileCollapse = function() {
 		var $mobileMenu = $( '#screen-design .left' );
 		if ( $mobileMenu.is( ':visible' ) ) {
@@ -146,25 +160,37 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		}
 	};
 
-
 	/**
 	 * Handles the Show All filter.
 	 */
-	this.showAll = function() {
-		var $all = $( 'input[data-sub-category-id="0"]' );
-		$( '.wrap' ).on( 'click', '[data-sort="show-all"]', function() {
-			$all.prop( 'checked', true );
-			if ( $all.is( ':checked' ) ) {
-				$all.addClass( 'active' );
-			}
-			self.mobileCollapse();
-			self.toggleSubCategory( $all );
-		});
+	 this.showAll = function() {
+		if ( self.isMobile() ) {
+			$( '.wrap' ).on( 'click', '[data-sort="show-all"]', function() {
+				var $all = $( '[data-sub-category-id="0"]' ),
+				    ref = $all.parent( '.sub-category' );
+
+				// Remove all active classes from sub categories.
+				$( '.sub-category.active' ).removeClass( 'active' );
+				// Check radio.
+				$all.prop( 'checked', true );
+				// Check radio check.
+				if ( $all.is( ':checked' ) ) {
+					ref.addClass( 'active' );
+				}
+				// collapse mobile.
+				self.mobileCollapse();
+				// Display all themes.
+				self.toggleSubCategory( $all );
+				// toggle the current class for show all.
+				self.toggleShowAll( ref );
+			});
+		}
 	};
 
 	this.toggleShowAll = function( o ) {
 		var $showAll = $( '[data-sort="show-all"]' ),
 		    $subcatId = o.find( '[data-sub-category-id]' ).data( 'sub-category-id');
+
 		// Add current class to show all filter if previewing all themes.
 		$showAll.addClass( 'current' );
 		// If we aren't clicking on All remove that class.
@@ -178,18 +204,18 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		$( '.wrap' ).on( 'click', '.sub-category', function() {
 			var $subCategory = $( this ).find( 'input[name="sub-category"]' ),
 			    ref = $( this );
-
+			// Remove any active classes.
 			$( '.sub-category.active' ).removeClass( 'active' );
+			// Mark subcategory as active.
 			$subCategory.prop( 'checked', true );
-
+			// Add active class.
 			if ( $subCategory.is( ':checked' ) ) {
 				ref.addClass( 'active' );
 			}
-
+			// Toggle the show all filter.
+			self.toggleShowAll( ref );
 			// Mobile actions.
 			if ( self.isMobile() ) {
-				// Toggle the show all filter.
-				self.toggleShowAll( ref );
 				// Collapse the menu when selection is made.
 				self.mobileToggle();
 			}
@@ -198,11 +224,88 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		});
 	};
 
+	/**
+	 * Selects theme to load to continue on to step 2 of inspirations.
+	 */
 	this.selectTheme = function() {
 		$( '.wrap' ).on( 'click', '.theme-actions a.button-primary, .theme', function() {
 			var $theme = $( this );
 			self.$theme = $theme;
 			self.chooseTheme( $theme );
+		});
+	};
+
+	/**
+	 * Sets the hover colors class.
+	 */
+	this.hoverColors = function() {
+		// Hovers.
+		$( '.wrap' ).on( 'mouseenter mouseleave', '.sub-category, .pageset-option, .coin-option', function() {
+			$( this ).toggleClass( 'blue' );
+		});
+	};
+
+	/**
+	 * Click event handler for pageset options section.
+	 */
+	this.pagesetOptions = function() {
+		// Pageset Options.
+		$( '.wrap' ).on( 'click', '.pageset-option', function() {
+			var $pagesetInput = $( this ).find( 'input[name="pageset"]' );
+			$( '.pageset-option.active' ).removeClass( 'active' );
+			$pagesetInput.prop( 'checked', true );
+			if ( $pagesetInput.is( ':checked' ) ) {
+				$( this ).addClass( 'active' );
+			}
+			self.loadBuild();
+		});
+	};
+
+	/**
+	 * Click event handler for coin budget options section.
+	 */
+	this.coinOptions = function() {
+		// Coin Budgets.
+		$( '.wrap' ).on( 'click', '.coin-option', function() {
+			var $coinInput = $( this ).find( 'input[name="coin-budget"]' );
+			$( '.coin-option.active' ).removeClass( 'active' );
+			$coinInput.prop( 'checked', true );
+			if ( $coinInput.is( ':checked' ) ) {
+				$( this ).addClass( 'active' );
+			}
+			self.loadBuild();
+		});
+	};
+
+	/**
+	 * Loads the iframe for the theme preview.
+	 */
+	this.iframeLoad = function() {
+		$( '#screen-content iframe#theme-preview' ).on( 'load', function() {
+			var $iframe = $( this );
+			$( '#screen-content .boldgrid-loading' ).fadeOut( function() {
+				self.allActions( 'enable' );
+				$( '#build-cost' )
+					.html( $iframe.attr( 'data-build-cost') )
+					.animate( { opacity: 1 }, 400 );
+				$( '#screen-content iframe#theme-preview' ).fadeIn();
+			} );
+		});
+	};
+
+	/**
+	 * Manages the steps (tabs) of inspirations.
+	 */
+	this.steps = function() {
+		$( '.wrap' ).on( 'click', '.top-menu a', function() {
+			var $link = $( this ),
+				step = $link.attr( 'data-step' );
+
+			if( $link.hasClass( 'disabled' ) ) {
+				return;
+			} else {
+				self.toggleStep( step );
+			}
 		});
 	};
 
@@ -220,54 +323,11 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		self.subcategories();
 		self.selectTheme();
 		self.showAll();
-		// Hovers.
-		$( '.wrap' ).on( 'mouseenter mouseleave', '.sub-category, .pageset-option, .coin-option', function() {
-			$( this ).toggleClass( 'blue' );
-		});
-
-		// Pageset Options.
-		$( '.wrap' ).on( 'click', '.pageset-option', function() {
-			var $pagesetInput = $( this ).find( 'input[name="pageset"]' );
-			$( '.pageset-option.active' ).removeClass( 'active' );
-			$pagesetInput.prop( 'checked', true );
-			if ( $pagesetInput.is( ':checked' ) ) {
-				$( this ).addClass( 'active' );
-			}
-			self.loadBuild();
-		});
-
-		// Coin Budgets.
-		$( '.wrap' ).on( 'click', '.coin-option', function() {
-			var $coinInput = $( this ).find( 'input[name="coin-budget"]' );
-			$( '.coin-option.active' ).removeClass( 'active' );
-			$coinInput.prop( 'checked', true );
-			if ( $coinInput.is( ':checked' ) ) {
-				$( this ).addClass( 'active' );
-			}
-			self.loadBuild();
-		});
-
-		$( '.wrap' ).on( 'click', '.top-menu a', function() {
-			var $link = $( this ),
-				step = $link.attr( 'data-step' );
-
-			if( $link.hasClass( 'disabled' ) ) {
-				return;
-			} else {
-				self.toggleStep( step );
-			}
-		});
-
-		$( '#screen-content iframe#theme-preview' ).on( 'load', function() {
-			var $iframe = $( this );
-			$( '#screen-content .boldgrid-loading' ).fadeOut( function() {
-				self.allActions( 'enable' );
-				$( '#build-cost' )
-					.html( $iframe.attr( 'data-build-cost') )
-					.animate( { opacity: 1 }, 400 );
-				$( '#screen-content iframe#theme-preview' ).fadeIn();
-			} );
-		});
+		self.hoverColors();
+		self.coinOptions();
+		self.pagesetOptions();
+		self.iframeLoad();
+		self.steps();
 	};
 
 	/**
