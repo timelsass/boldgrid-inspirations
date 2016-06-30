@@ -153,11 +153,9 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	};
 
 	this.mobileMenuToggle = function() {
-		if ( self.isMobile() ) {
-			$( '.drawer-toggle' ).on( 'click', function() {
-				self.mobileToggle();
-			});
-		}
+		$( '.drawer-toggle' ).on( 'click', function() {
+			self.mobileToggle();
+		});
 	};
 
 	/**
