@@ -272,6 +272,7 @@ a.disabled {
 	#screen-content .left {
 		width: 100%;
 		background-color: transparent;
+		margin-bottom: 2em;
 	}
 	.pageset-option,
 	.coin-option {

@@ -289,7 +289,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			$( '#screen-content .boldgrid-loading' ).fadeOut( function() {
 				self.allActions( 'enable' );
 				$( '#build-cost' )
-					.html( $iframe.attr( 'data-build-cost') )
+					.html( $iframe.attr( 'data-build-cost' ) + ' Coins' )
 					.animate( { opacity: 1 }, 400 );
 				$( '#screen-content iframe#theme-preview' ).fadeIn();
 			} );

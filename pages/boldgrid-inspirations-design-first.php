@@ -87,7 +87,7 @@ $lang = array(
 				<div style="float:left;">
 					<span id="theme-title"></span>
 					<span class ="summary-subheading">
-						<span id="sub-category-title"></span> | <span id="build-cost">...</span> <?php echo $lang['Coins']; ?>
+						<span id="sub-category-title"></span> | <span id="build-cost">...</span>
 						<span class="devices">
 							<button type="button" class="preview-desktop active" aria-pressed="true" data-device="desktop">
 								<span class="screen-reader-text"><?php echo $lang['Desktop']; ?></span>
