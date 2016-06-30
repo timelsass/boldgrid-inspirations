@@ -68,6 +68,12 @@ input[type="radio"][name="sub-category"] {
 	font-weight: normal;
 }
 
+/* Coin Budget Styling */
+#build-cost::before {
+	content: '/';
+	padding: 0 .5em;
+}
+
 /* Theme screenshot hover / focus */
 .theme-browser.rendered .theme:hover .theme-screenshot img,
 .theme-browser.rendered .theme:focus .theme-screenshot img {
