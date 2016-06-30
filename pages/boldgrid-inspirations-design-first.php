@@ -59,28 +59,32 @@ $lang = array(
 			<!-- End of Mobile Filter-->
 		</div>
 		<div class="left">
-			<div class="page-set-filter"><?php echo $lang['Pageset']; ?></div>
-			<div id="pageset-options"></div>
-			<div class="coin-filter"><?php echo $lang['CoinBudget']; ?> <span class="info-icon"></span></div>
-			<div class="coin-option active">
-				<input type="radio" name="coin-budget" data-coin="20" checked >
-				<span class="pointer">0 - 20 <?php echo $lang['Coins']; ?></span>
+			<div class="content-menu-section">
+				<div class="page-set-filter"><?php echo $lang['Pageset']; ?></div>
+				<div id="pageset-options"></div>
 			</div>
-			<div class="coin-option">
-				<input type="radio" name="coin-budget" data-coin="40">
-				<span class="pointer">0 - 40 <?php echo $lang['Coins']; ?></span>
-			</div>
-			<div class="coin-option">
-				<input type="radio" name="coin-budget" data-coin="60">
-				<span class="pointer">0 - 60 <?php echo $lang['Coins']; ?></span>
-			</div>
-			<div class="coin-option">
-				<input type="radio" name="coin-budget" data-coin="80">
-				<span class="pointer">0 - 80 <?php echo $lang['Coins']; ?></span>
-			</div>
-			<div class="coin-option">
-				<input type="radio" name="coin-budget" data-coin="0">
-				<span class="pointer"><?php echo $lang['Free']; ?></span>
+			<div class="content-menu-section">
+				<div class="coin-filter"><?php echo $lang['CoinBudget']; ?> <span class="info-icon"></span></div>
+				<div class="coin-option active">
+					<input type="radio" name="coin-budget" data-coin="20" checked >
+					<span class="pointer">0 - 20 <?php echo $lang['Coins']; ?></span>
+				</div>
+				<div class="coin-option">
+					<input type="radio" name="coin-budget" data-coin="40">
+					<span class="pointer">0 - 40 <?php echo $lang['Coins']; ?></span>
+				</div>
+				<div class="coin-option">
+					<input type="radio" name="coin-budget" data-coin="60">
+					<span class="pointer">0 - 60 <?php echo $lang['Coins']; ?></span>
+				</div>
+				<div class="coin-option">
+					<input type="radio" name="coin-budget" data-coin="80">
+					<span class="pointer">0 - 80 <?php echo $lang['Coins']; ?></span>
+				</div>
+				<div class="coin-option">
+					<input type="radio" name="coin-budget" data-coin="0">
+					<span class="pointer"><?php echo $lang['Free']; ?></span>
+				</div>
 			</div>
 		</div>
 

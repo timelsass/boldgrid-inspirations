@@ -252,6 +252,9 @@ a.disabled {
 		width: 100%;
 		display: none;
 	}
+	#screen-content .wp-filter {
+		padding: .8em 0;
+	}
 	.wp-filter {
 		display: block;
 	}
@@ -263,6 +266,7 @@ a.disabled {
 
 /* Force left menu to be open on desktop if it was previously collapsed in mobile. */
 @media (min-width: 783px) {
+	#content-design .left,
 	#screen-design .left {
 		display: block !important;
 	}
