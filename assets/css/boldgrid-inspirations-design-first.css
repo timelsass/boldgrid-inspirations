@@ -309,6 +309,9 @@ a.disabled {
 
 @media (min-width: 1423px) {
 	#content-content .left {
-		display: block !important;
+		display: block !important; /* Show left menu on large screens. */
+	}
+	html {
+		overflow-y: scroll; /** Force to prevent previews from jumping around between loads. **/
 	}
 }
