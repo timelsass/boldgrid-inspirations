@@ -491,8 +491,10 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 
 		if( '0' === subCategoryId ) {
 			$( '.theme[data-sub-category-id]').removeClass( 'hidden' );
+			// Show subcategory name if browsing all subcategories.
 			$( '.theme-name .sub-category-name' ).show();
 		} else {
+			// Hide subcategory name if browsing singular subcategory.
 			$( '.theme-name .sub-category-name' ).hide();
 			$( '.theme[data-sub-category-id="' + subCategoryId + '"]').removeClass( 'hidden' );
 			$( '.theme[data-sub-category-id!="' + subCategoryId + '"]')
@@ -500,7 +502,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 				.appendTo( '.themes' );
 		}
 
-		$("img.lazy").lazyload({threshold : 400});
+		$( 'img.lazy' ).lazyload({threshold : 400});
 	};
 
 	$( function() {
