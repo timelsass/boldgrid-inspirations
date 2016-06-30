@@ -139,6 +139,22 @@ a.disabled {
 	/* 194 */
 }
 
+/* Filter Toggle Styles. */
+.wp-filter .drawer-toggle {
+	border-radius: 4px;
+}
+.wp-filter .drawer-toggle.open {
+	border-radius: 4px;
+	color: white;
+	background: #72777c;
+}
+.wp-filter .drawer-toggle.open:hover {
+	color: white;
+}
+.wp-filter .drawer-toggle.open:before {
+	color: white;
+}
+
 .pageset-option.active,
 .coin-option.active,
 .sub-category.active,
@@ -308,7 +324,7 @@ a.disabled {
 }
 
 @media (min-width: 1423px) {
-	#content-content .left {
+	#screen-content .left {
 		display: block !important; /* Show left menu on large screens. */
 	}
 	html {

@@ -140,6 +140,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 */
 	this.mobileToggle = function() {
 		$( '.left' ).toggle( 'slow' );
+		$( '.drawer-toggle' ).toggleClass( 'open' );
 	};
 
 	/**
