@@ -48,7 +48,7 @@ $lang = array(
 		<div class="inspirations-mobile-toggle">
 			<!-- Mobile Filter-->
 				<div class="wp-filter">
-					<a class="drawer-toggle" href="#">Filter Themes</a>
+					<a class="drawer-toggle" href="#">Change Content</a>
 				</div>
 			<!-- End of Mobile Filter-->
 		</div>

@@ -139,14 +139,14 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 * Toggle the mobile menu open and closed.
 	 */
 	this.mobileToggle = function() {
-		$( '#screen-design .left' ).toggle( 'slow' );
+		$( '.left' ).toggle( 'slow' );
 	};
 
 	/**
 	 * Force the mobile menu to close.
 	 */
 	this.mobileCollapse = function() {
-		var $mobileMenu = $( '#screen-design .left' );
+		var $mobileMenu = $( '.left' );
 		if ( $mobileMenu.is( ':visible' ) ) {
 			self.mobileToggle();
 		}

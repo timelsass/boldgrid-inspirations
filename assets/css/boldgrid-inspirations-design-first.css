@@ -142,6 +142,8 @@ a.disabled {
 .pageset-option.active,
 .coin-option.active,
 .sub-category.active,
+.pageset-option.blue,
+.coin-option.blue,
 .blue {
 	background-color: #00a1d0;
 	color: white;
@@ -246,6 +248,33 @@ a.disabled {
 .wp-filter {
 	display: none;
 }
+@media (min-width: 782px) and (max-width: 1423px) {
+	#screen-design .left,
+	#screen-content .left {
+		display: none;
+	}
+	#screen-content .left {
+		width: 100%;
+		background-color: transparent;
+	}
+	.pageset-option,
+	.coin-option {
+		background-color: #fff;
+	}
+
+	#screen-content .right {
+		width: 100%;
+	}
+	#screen-content .wp-filter {
+		display: block;
+		padding: .8em 0;
+	}
+	.content-menu-section {
+		float: left;
+		width: 25%;
+		padding-right: 1em;
+	}
+}
 
 @media screen and (max-width: 782px) {
 	#screen-content .left,
@@ -264,12 +293,21 @@ a.disabled {
 	#screen-content .right {
 		width: 100%;
 	}
+	.inspirations.button {
+		padding: .3em 1em;
+		margin-top: -0.8em;
+		margin-bottom: 1em;
+	}
 }
 
 /* Force left menu to be open on desktop if it was previously collapsed in mobile. */
 @media (min-width: 783px) {
-	#content-design .left,
 	#screen-design .left {
+		display: block !important;
+	}
+}
+@media (min-width: 1423px ) {
+	#content-design .left {
 		display: block !important;
 	}
 }
