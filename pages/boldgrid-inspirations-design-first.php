@@ -31,12 +31,6 @@ $lang = array(
 						<li><a href="#" data-sort="show-all" class="current">Show All</a></li>
 					</ul>
 					<a class="drawer-toggle" href="#">Filter Themes</a>
-					<div class="filter-drawer">
-						<div class="buttons">
-							<a class="apply-filters button button-secondary" href="#">Apply Filters<span></span></a>
-							<a class="clear-filters button button-secondary" href="#">Clear</a>
-						</div>
-					</div>
 				</div>
 			<!-- End of Mobile Filter-->
 		</div>

@@ -252,6 +252,7 @@ a.disabled {
 	#screen-design .left {
 		width: 100%;
 		display: none;
+		margin-bottom: 2em;
 	}
 	#screen-content .wp-filter {
 		padding: .8em 0;
