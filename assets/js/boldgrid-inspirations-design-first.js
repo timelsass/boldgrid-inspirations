@@ -151,31 +151,20 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 * Handles the Show All filter.
 	 */
 	this.showAll = function() {
-		if ( self.isMobile() ) {
-			$( '.wrap' ).on( 'click', '[data-sort="show-all"]', function() {
-				var $all = $( '[data-sub-category-id="0"]' );
-				// Remove all active classes from sub categories.
-				$( '.sub-category.active' ).removeClass( 'active' );
-				// Check radio.
-				$all.prop( 'checked', true );
-				// Check radio check.
-				if ( $all.is( ':checked' ) ) {
-					$all.parent( '.sub-category' ).addClass( 'active' );
-				}
-				// collapse mobile.
-				self.mobileCollapse();
-				// Display all themes.
-				$( '.theme[data-sub-category-id]').fadeIn();
-				// toggle the current class for show all.
-				self.toggleShowAll( $all.parent( '.sub-category' ) );
-			});
-		}
+		var $all = $( 'input[data-sub-category-id="0"]' );
+		$( '.wrap' ).on( 'click', '[data-sort="show-all"]', function() {
+			$all.prop( 'checked', true );
+			if ( $all.is( ':checked' ) ) {
+				$all.addClass( 'active' );
+			}
+			self.mobileCollapse();
+			self.toggleSubCategory( $all );
+		});
 	};
 
 	this.toggleShowAll = function( o ) {
 		var $showAll = $( '[data-sort="show-all"]' ),
 		    $subcatId = o.find( '[data-sub-category-id]' ).data( 'sub-category-id');
-
 		// Add current class to show all filter if previewing all themes.
 		$showAll.addClass( 'current' );
 		// If we aren't clicking on All remove that class.
@@ -209,6 +198,14 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		});
 	};
 
+	this.selectTheme = function() {
+		$( '.wrap' ).on( 'click', '.theme-actions a.button-primary, .theme', function() {
+			var $theme = $( this );
+			self.$theme = $theme;
+			self.chooseTheme( $theme );
+		});
+	};
+
 	/**
 	 * Init.
 	 *
@@ -221,16 +218,11 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		self.backButton();
 		self.mobileMenuToggle();
 		self.subcategories();
+		self.selectTheme();
 		self.showAll();
 		// Hovers.
 		$( '.wrap' ).on( 'mouseenter mouseleave', '.sub-category, .pageset-option, .coin-option', function() {
 			$( this ).toggleClass( 'blue' );
-		});
-
-		$( '.wrap' ).on( 'click', '.theme-actions a.button-primary', function() {
-			var $theme = $( this );
-			self.$theme = $theme;
-			self.chooseTheme( $theme );
 		});
 
 		// Pageset Options.
