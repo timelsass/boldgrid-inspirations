@@ -51,7 +51,13 @@ $lang = array(
 	<div style="clear:both;"></div>
 
 	<div id="screen-content" class="hidden" >
-
+		<div class="inspirations-mobile-toggle">
+			<!-- Mobile Filter-->
+				<div class="wp-filter">
+					<a class="drawer-toggle" href="#">Filter Themes</a>
+				</div>
+			<!-- End of Mobile Filter-->
+		</div>
 		<div class="left">
 			<div class="page-set-filter"><?php echo $lang['Pageset']; ?></div>
 			<div id="pageset-options"></div>
