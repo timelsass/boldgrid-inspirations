@@ -328,11 +328,28 @@ a.disabled {
 	#screen-design .left {
 		display: block !important;
 	}
+	#screen-design {
+		padding-top: 5em;
+	}
+	.top-menu {
+		width: 100%;
+		z-index: 999;
+		position: fixed;
+	}
+	#screen-design .left {
+		position: fixed;
+	}
 }
 
 @media (min-width: 1423px) {
 	#screen-content .left {
 		display: block !important; /* Show left menu on large screens. */
+	}
+	#screen-content {
+		padding-top: 5em;
+	}
+	#screen-content .left {
+		position: fixed;
 	}
 	html {
 		overflow-y: scroll; /** Force to prevent previews from jumping around between loads. **/
