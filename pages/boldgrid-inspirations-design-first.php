@@ -16,7 +16,7 @@ $lang = array(
 ?>
 <div class="wrap">
 
-	<div class="top-menu">
+	<div class="top-menu design">
 		<a class="active" data-step="design" ><?php echo $lang['Design'] ?></a>
 		<a class="disabled" data-step="content" ><?php echo $lang['Content']; ?></a>
 	</div>
