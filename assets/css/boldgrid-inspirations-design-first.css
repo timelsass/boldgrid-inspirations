@@ -331,7 +331,7 @@ a.disabled {
 	#screen-design {
 		padding-top: 5em;
 	}
-	.top-menu {
+	.top-menu.design {
 		width: 100%;
 		z-index: 999;
 		position: fixed;
@@ -344,6 +344,11 @@ a.disabled {
 @media (min-width: 1423px) {
 	#screen-content .left {
 		display: block !important; /* Show left menu on large screens. */
+	}
+	.top-menu.content {
+		width: 100%;
+		z-index: 999;
+		position: fixed;
 	}
 	#screen-content {
 		padding-top: 5em;
