@@ -217,6 +217,8 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			var $subCategory = $( this ).find( 'input[name="sub-category"]' ),
 			    $subcategoryName = $( this ).find( '.sub-category-name' ).text(),
 			    ref = $( this );
+			// Reset scroll position.
+			window.scrollTo( 0, 0 );
 			// Remove any active classes.
 			$( '.sub-category.active' ).removeClass( 'active' );
 			// Mark subcategory as active.
