@@ -482,12 +482,16 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		if( 'design' === step ) {
 			$contentLink.removeClass( 'active' );
 			$designLink.addClass( 'active' );
+			$designLink.parent( '.top-menu' ).removeClass( 'content' );
+			$designLink.parent( '.top-menu' ).addClass( 'design' );
 
 			$content.addClass( 'hidden' );
 			$design.removeClass( 'hidden' );
 		} else {
 			$contentLink.addClass( 'active' );
 			$designLink.removeClass( 'active' );
+			$contentLink.parent( '.top-menu' ).removeClass( 'design' );
+			$contentLink.parent( '.top-menu' ).addClass( 'content' );
 
 			$content.removeClass( 'hidden' );
 			$design.addClass( 'hidden' );
