@@ -27,6 +27,9 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	self.$pageset = '';
 	self.$budget = '';
 
+	// scroll position.
+	self.scrollPosition = '';
+
 	/**
 	 * Enable or disable all actions on the page.
 	 *
@@ -244,7 +247,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 * Selects theme to load to continue on to step 2 of inspirations.
 	 */
 	this.selectTheme = function() {
-		$( '.wrap' ).on( 'click', '.theme-actions a.button-primary, .theme', function() {
+		$( '.wrap' ).on( 'click', '.theme', function() {
 			var $theme = $( this );
 			self.$theme = $theme;
 			self.chooseTheme( $theme );
@@ -313,7 +316,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 * Manages the steps (tabs) of inspirations.
 	 */
 	this.steps = function() {
-		$( '.wrap' ).on( 'click', '.top-menu a', function() {
+		$( '.wrap' ).on( 'click', '.top-menu [data-step]', function() {
 			var $link = $( this ),
 				step = $link.attr( 'data-step' );
 
@@ -489,7 +492,12 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 
 			$content.addClass( 'hidden' );
 			$design.removeClass( 'hidden' );
+			// Restore scroll position when coming back to design page.
+			$( document ).scrollTop( self.scrollPosition );
 		} else {
+			// Store the scroll position of the design page.
+			self.scrollPosition = $( document ).scrollTop();
+			console.info( self.scrollPosition );
 			$contentLink.addClass( 'active' );
 			$designLink.removeClass( 'active' );
 			$contentLink.parent( '.top-menu' ).removeClass( 'design' );
@@ -523,6 +531,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	};
 
 	$( function() {
+		console.log('test');
 		self.init();
 	});
 };
