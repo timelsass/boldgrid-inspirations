@@ -497,7 +497,6 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		} else {
 			// Store the scroll position of the design page.
 			self.scrollPosition = $( document ).scrollTop();
-			console.info( self.scrollPosition );
 			$contentLink.addClass( 'active' );
 			$designLink.removeClass( 'active' );
 			$contentLink.parent( '.top-menu' ).removeClass( 'design' );
@@ -531,7 +530,6 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	};
 
 	$( function() {
-		console.log('test');
 		self.init();
 	});
 };
