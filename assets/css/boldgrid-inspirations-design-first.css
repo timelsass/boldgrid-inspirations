@@ -74,13 +74,6 @@ input[type="radio"][name="sub-category"] {
 	padding: 0 .5em;
 }
 
-/* Theme screenshot hover / focus */
-.theme-browser.rendered .theme:hover .theme-screenshot img,
-.theme-browser.rendered .theme:focus .theme-screenshot img {
-	/* Override WordPress style and keep opacity at 1.0 instead of 0.4 */
-	opacity: 1.0 !important;
-}
-
 /* Theme */
 .theme {
 	-webkit-transition-property:		-webkit-box-shadow;

@@ -29,14 +29,14 @@
 		<div class="theme-screenshot">
 			<img class="lazy" data-original="{{data.configs.asset_server}}/api/asset/get?key={{data.configs.api_key}}&id={{data.build.AssetId}}" alt="" width="290" height="194">
 		</div>
-
+		<span class="more-details">Preview</span>
 		<h2 class="theme-name" >
 			<span class="name">{{data.build.ThemeName}}</span>
 			<span class="sub-category-name">- {{data.build.SubCategoryName}}</span>
 		</h2>
 
 		<div class="theme-actions">
-			<a class="button button-primary hide-if-no-customize">Select</a>
+			<a class="button button-primary hide-if-no-customize">Preview</a>
 		</div>
 	</div>
 </script>

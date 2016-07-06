@@ -328,6 +328,11 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		});
 	};
 
+	this.themePreviews = function() {
+		$( '.wrap' ).on( 'mouseover', '.theme', function() {
+			$(this).css( 'opactiy', '.04 !important' );
+		});
+	};
 	/**
 	 * Init.
 	 *
@@ -339,6 +344,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		self.devicePreviews();
 		self.backButton();
 		self.mobileMenuToggle();
+		self.themePreviews();
 		self.subcategories();
 		self.selectTheme();
 		self.showAll();
