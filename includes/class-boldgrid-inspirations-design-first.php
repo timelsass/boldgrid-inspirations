@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BoldGrid Source Code
  *
@@ -17,13 +16,6 @@
  * @since xxx
  */
 class Boldgrid_Inspirations_Design_First {
-	/**
-	 * Constructor.
-	 *
-	 * @since xxx
-	 */
-	public function __construct( ) {
-	}
 
 	/**
 	 * Add hooks.
@@ -42,7 +34,7 @@ class Boldgrid_Inspirations_Design_First {
 	 * @since xxx
 	 */
 	public function add_menu() {
-		add_submenu_page (
+		add_submenu_page(
 			'boldgrid-inspirations',
 			'Design First',
 			'Design First',
@@ -53,12 +45,23 @@ class Boldgrid_Inspirations_Design_First {
 	}
 
 	/**
+	 * Enqueue scripts.
 	 *
+	 * @since xxx
+	 * @param string $hook Hook for page.
 	 */
 	public function admin_enqueue_scripts( $hook ) {
-		if( 'inspirations_page_admin?page=boldgrid-inspirations-design-first' !== $hook ) {
+		if ( 'inspirations_page_admin?page=boldgrid-inspirations-design-first' !== $hook ) {
 			return;
 		}
+
+		// Add active color palette css.
+		add_action('admin_head',
+			array(
+				$this,
+				'admin_colors',
+			)
+		);
 
 		// Css.
 		wp_register_style(
@@ -74,7 +77,7 @@ class Boldgrid_Inspirations_Design_First {
 		// Js.
 		wp_enqueue_script( 'boldgrid-inspirations-design-first',
 			plugins_url( 'assets/js/boldgrid-inspirations-design-first.js', BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ),
-			array (),
+			array(),
 			BOLDGRID_INSPIRATIONS_VERSION,
 			true
 		);
@@ -82,10 +85,25 @@ class Boldgrid_Inspirations_Design_First {
 		// Js.
 		wp_enqueue_script( 'boldgrid-lazyload',
 			plugins_url( 'assets/js/lazyload.js', BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ),
-			array ( 'jquery' ),
+			array( 'jquery' ),
 			BOLDGRID_INSPIRATIONS_VERSION,
 			true
 		);
+	}
+
+	/**
+	 * Adds inline CSS to admin_head using the active color palette.
+	 *
+	 * @since xxx
+	 */
+	public function admin_colors() {
+		global $_wp_admin_css_colors;
+		$this->admin_colors = $_wp_admin_css_colors;
+		$user = get_user_option( 'admin_color' );
+		echo '<style>
+			.pageset-option.active,.coin-option.active,.sub-category.active,.pageset-option.blue,.coin-option.blue,.blue { background-color:' . $this->admin_colors[ $user ]->colors[3] . ' !important; }
+			.devices button:focus { border-bottom-color: ' . $this->admin_colors[ $user ]->colors[3] . '; }
+			</style>';
 	}
 
 	/**

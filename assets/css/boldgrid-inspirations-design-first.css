@@ -167,7 +167,6 @@ a.disabled {
 .pageset-option.blue,
 .coin-option.blue,
 .blue {
-	background-color: #00a1d0;
 	color: white;
 }
 
@@ -216,10 +215,6 @@ a.disabled {
 
 .devices button.active {
 	border-bottom-color: #191e23;
-}
-
-.devices button:focus {
-	border-bottom-color: #0073aa;
 }
 
 .devices button.active:before,
