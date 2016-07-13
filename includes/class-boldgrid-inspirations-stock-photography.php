@@ -22,39 +22,39 @@ if ( ! defined( 'WPINC' ) ) {
 class Boldgrid_Inspirations_Stock_Photography extends Boldgrid_Inspirations {
 	public function __construct( $pluginPath ) {
 		$this->pluginPath = $pluginPath;
-		
+
 		parent::__construct( $pluginPath );
 	}
-	
+
 	/**
 	 * Add dashboard media tabs
 	 *
-	 * @param string $hook        	
+	 * @param string $hook
 	 */
 	public function add_dashboard_media_tabs( $hook ) {
 		global $pagenow;
-		
+
 		$pages_to_add_menu = array (
 			'upload.php',
-			'media-new.php' 
+			'media-new.php'
 		);
-		
+
 		if ( in_array( $pagenow, $pages_to_add_menu ) ) {
 			// Determine which page should be active
 			$is_library = ( 'upload.php' == $pagenow && ( ! isset( $_GET['page'] ) ||
 				 ( isset( $_GET['page'] ) && 'boldgrid-connect-search' != $_GET['page'] ) ) );
-			
+
 			$is_boldgrid_connect_search = ( 'upload.php' == $pagenow && isset( $_GET['page'] ) &&
 				 'boldgrid-connect-search' == $_GET['page'] );
-			
+
 			$is_upload = ( 'media-new.php' == $pagenow );
-			
+
 			$library_active = true == $is_library ? 'nav-tab-active' : '';
-			
+
 			$boldgrid_connect_search_active = true == $is_boldgrid_connect_search ? 'nav-tab-active' : '';
-			
+
 			$upload_active = true == $is_upload ? 'nav-tab-active' : '';
-			
+
 			?>
 <div class="wrap">
 	<h2 class="nav-tab-wrapper">
@@ -69,54 +69,54 @@ class Boldgrid_Inspirations_Stock_Photography extends Boldgrid_Inspirations {
 <?php
 		}
 	}
-	
+
 	/**
 	 * Hooks required for the Stock Photography class
 	 */
 	public function add_hooks() {
-		add_filter( 'media_upload_tabs', 
+		add_filter( 'media_upload_tabs',
 			array (
 				$this,
-				'custom_media_upload_image_search' 
+				'custom_media_upload_image_search'
 			) );
-		
-		add_action( 'media_upload_image_search', 
+
+		add_action( 'media_upload_image_search',
 			array (
 				$this,
-				'custom_media_upload_tab_content' 
+				'custom_media_upload_tab_content'
 			) );
-		
+
 		add_action( 'admin_enqueue_scripts', array (
 			$this,
-			'enqueue_header_content' 
+			'enqueue_header_content'
 		) );
-		
+
 		// Handle the user clicking "Download and insert into page"
-		add_action( 'wp_ajax_download_and_insert_into_page', 
+		add_action( 'wp_ajax_download_and_insert_into_page',
 			array (
 				$this,
-				'download_and_insert_into_page_callback' 
+				'download_and_insert_into_page_callback'
 			) );
-		
+
 		if ( is_admin() ) {
 			// Add a sub menu item to "Media", "BoldGrid Connect Search".
-			add_action( 'admin_menu', 
+			add_action( 'admin_menu',
 				array (
 					$this,
-					'register_boldgrid_connect_search_page' 
+					'register_boldgrid_connect_search_page'
 				) );
-			
+
 			add_action( 'admin_notices', array (
 				$this,
-				'add_dashboard_media_tabs' 
+				'add_dashboard_media_tabs'
 			) );
-			
-			add_filter( 'ajax_query_attachments_args', 
+
+			add_filter( 'ajax_query_attachments_args',
 				array (
 					$this,
-					'ajax_query_attachments_args' 
+					'ajax_query_attachments_args'
 				) );
-			
+
 			/**
 			 * When an image is cropped, save the cropping details.
 			 *
@@ -125,28 +125,28 @@ class Boldgrid_Inspirations_Stock_Photography extends Boldgrid_Inspirations {
 			 * # wp_create_file_in_uploads - wp_create_file_in_uploads (header image)
 			 * # crop-image - wp_create_file_in_uploads (background image)
 			 */
-			add_filter( 'wp_create_file_in_uploads', 
+			add_filter( 'wp_create_file_in_uploads',
 				array (
 					$this,
-					'wp_create_file_in_uploads' 
+					'wp_create_file_in_uploads'
 				), 10, 2 );
-			
+
 			add_action( 'crop-image', array (
 				$this,
-				'wp_create_file_in_uploads' 
+				'wp_create_file_in_uploads'
 			) );
 		}
 	}
-	
+
 	/**
 	 */
 	public function ajax_query_attachments_args( $query ) {
 		$query['orderby'] = 'ID';
 		$query['order'] = 'DESC';
-		
+
 		return $query;
 	}
-	
+
 	/**
 	 * Generate the css / js / html for the Dashboard >> Media >> BoldGrid Connect Search page.
 	 */
@@ -172,56 +172,56 @@ iframe#boldgrid_connect_search {
 </div>
 <?php
 	}
-	
+
 	/**
 	 * Add tab for custom media upload image search
 	 *
-	 * @param array $tabs        	
+	 * @param array $tabs
 	 */
 	public function custom_media_upload_image_search( $tabs ) {
 		$newtab['image_search'] = 'Image Search';
-		
+
 		return array_merge( $tabs, $newtab );
 	}
-	
+
 	/**
 	 * Add custom media upload tab content
 	 */
 	public function custom_media_upload_tab_content() {
 		wp_iframe( array (
 			$this,
-			'include_image_search_php' 
+			'include_image_search_php'
 		) );
 	}
-	
+
 	/**
 	 * Handle the user clicking "Download and insert into page"
 	 *
-	 * @param string $_POST['caption']        	
-	 * @param string $_POST['alignment']        	
-	 * @param string $_POST['alt_text']        	
-	 * @param string $_POST['title']        	
-	 * @param int $_POST['post_id']        	
-	 * @param string $_POST['image_provider_id']        	
-	 * @param string $_POST['id_from_provider']        	
-	 * @param string $_POST['image_size']        	
-	 * @param string $_POST['width']        	
-	 * @param string $_POST['height']        	
+	 * @param string $_POST['caption']
+	 * @param string $_POST['alignment']
+	 * @param string $_POST['alt_text']
+	 * @param string $_POST['title']
+	 * @param int $_POST['post_id']
+	 * @param string $_POST['image_provider_id']
+	 * @param string $_POST['id_from_provider']
+	 * @param string $_POST['image_size']
+	 * @param string $_POST['width']
+	 * @param string $_POST['height']
 	 */
 	public function download_and_insert_into_page_callback() {
 		global $wpdb;
-		
+
 		// An array of info to send back to the browser.
 		$response = array ();
-		
+
 		require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-asset-manager.php';
-		
+
 		$this->AssetManager = new Boldgrid_Inspirations_Asset_Manager();
-		
+
 		$boldgrid_configs = $this->get_configs();
-		
+
 		$post_id = ! empty( $_POST['post_id'] ) ? $_POST['post_id'] : false;
-		
+
 		$item = array (
 			'type' => 'stock_photography_download',
 			'params' => array (
@@ -230,39 +230,39 @@ iframe#boldgrid_connect_search {
 				'image_provider_id' => $_POST['image_provider_id'],
 				'image_size' => $_POST['image_size'],
 				'width' => isset( $_POST['width'] ) ? $_POST['width'] : null,
-				'height' => isset( $_POST['height'] ) ? $_POST['height'] : null 
-			) 
+				'height' => isset( $_POST['height'] ) ? $_POST['height'] : null
+			)
 		);
-		
-		$image = $this->AssetManager->download_and_attach_asset( $post_id, null, $item, 'all', 
+
+		$image = $this->AssetManager->download_and_attach_asset( $post_id, null, $item, 'all',
 			false );
-		
+
 		$response['attachment_id'] = $image['attachment_id'];
-		
+
 		$response['attachment_url'] = wp_get_attachment_url( $image['attachment_id'] );
-		
+
 		// Config attributes for image tag, if we have a caption:
 		if ( ! empty( $_POST['caption'] ) ) {
 			$caption = sanitize_text_field( $_POST['caption'] );
-			
+
 			$caption_id = 'id="attachment_' . $image['attachment_id'] . '"';
-			
+
 			$caption_align = 'align="align' . sanitize_text_field( $_POST['alignment'] ) . '"';
-			
+
 			$image_class = '';
 		} else {
 			$image_class = 'class="align' . sanitize_text_field( $_POST['alignment'] ) . ' wp-image-' .
 				 $image['attachment_id'] . '"';
 		}
-		
+
 		$image_alt_text = ( empty( $_POST['alt_text'] ) ? '' : 'alt="' .
 			 sanitize_text_field( $_POST['alt_text'] ) . '"' );
-		
+
 		// If inseting into a page in the editor, then include markup:
 		if ( isset( $image['headers']['z-width'] ) && $image['headers']['z-height'] ) {
 			$image_width_and_height = 'width="' . $image['headers']['z-width'] . '" height="' .
 				 $image['headers']['z-height'] . '"';
-			
+
 			// Return / echo the image tag, if we have a caption:
 			if ( ! empty( $_POST['caption'] ) ) {
 				$response['html_for_editor'] = '[caption ' . $caption_id . ' ' . $caption_align .
@@ -273,31 +273,31 @@ iframe#boldgrid_connect_search {
 					 $image_width_and_height . ' ' . $image_alt_text . ' ' . $image_class . ' />';
 			}
 		}
-		
+
 		echo json_encode( $response );
-		
+
 		wp_die();
 	}
-	
+
 	/**
 	 * Include image search PHP file
 	 */
 	public function include_image_search_php() {
 		include BOLDGRID_BASE_DIR . '/pages/image_search.php';
 	}
-	
+
 	/**
 	 * Add a sub menu item to "Media", "BoldGrid Connect Search".
 	 */
 	public function register_boldgrid_connect_search_page() {
-		add_submenu_page( 'upload.php', 'BoldGrid Connect Search', 'BoldGrid Connect Search', 
-			'manage_options', 'boldgrid-connect-search', 
+		add_submenu_page( 'upload.php', 'BoldGrid Connect Search', 'BoldGrid Connect Search',
+			'manage_options', 'boldgrid-connect-search',
 			array (
 				$this,
-				'boldgrid_connect_search_page' 
+				'boldgrid_connect_search_page'
 			) );
 	}
-	
+
 	/**
 	 * When an image is cropped, save the cropping details.
 	 *
@@ -352,138 +352,138 @@ iframe#boldgrid_connect_search {
 			return $path;
 		} else {
 			$cropDetails = $_POST['cropDetails'];
-			
+
 			// If we don't have a dst_width:
 			if ( ! isset( $cropDetails['dst_width'] ) ) {
 				$cropDetails['dst_width'] = ( isset( $cropDetails['width'] ) ) ? $cropDetails['width'] : null;
 			}
-			
+
 			// If we don't have a dst_height:
 			if ( ! isset( $cropDetails['dst_height'] ) ) {
 				$cropDetails['dst_height'] = ( isset( $cropDetails['height'] ) ) ? $cropDetails['height'] : null;
 			}
 		}
-		
+
 		// If we don't have a post action, abort.
 		if ( ! isset( $_POST['action'] ) ) {
 			return path;
 		}
-		
+
 		$allowed_actions = array (
 			'custom-header-crop',
-			'crop-image' 
+			'crop-image'
 		);
-		
+
 		if ( ! in_array( $_POST['action'], $allowed_actions ) ) {
 			return $path;
 		}
-		
+
 		// Get the asset.
 		require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-asset-manager.php';
 		$this->AssetManager = new Boldgrid_Inspirations_Asset_Manager();
-		
-		$asset = $this->AssetManager->get_asset( 
+
+		$asset = $this->AssetManager->get_asset(
 			array (
 				'by' => 'attachment_id',
-				'attachment_id' => $attachment_id 
+				'attachment_id' => $attachment_id
 			) );
-		
+
 		// If this is not an asset, abort.
 		if ( false == $asset ) {
 			return $path;
 		}
-		
+
 		// Add the new crop details to the asset.
 		$asset['crops'][] = array (
 			'cropDetails' => $cropDetails,
-			'path' => $path 
+			'path' => $path
 		);
-		
+
 		// Update the asset.
-		$this->AssetManager->update_asset( 
+		$this->AssetManager->update_asset(
 			array (
 				'task' => 'update_entire_asset',
 				'asset_id' => $asset['asset_id'],
-				'asset' => $asset 
+				'asset' => $asset
 			) );
-		
-		$asset = $this->AssetManager->get_asset( 
+
+		$asset = $this->AssetManager->get_asset(
 			array (
 				'by' => 'attachment_id',
-				'attachment_id' => $attachment_id 
+				'attachment_id' => $attachment_id
 			) );
-		
+
 		return $path;
 	}
-	
+
 	/**
 	 * Register styles/scripts
 	 */
 	public function enqueue_header_content( $hook ) {
 		wp_enqueue_media();
-		
+
 		// Get 'tab' from the url.
 		// Example url: https://domain.com/wp-admin/media-upload.php?&tab=image_search
 		$tab = ( isset( $_GET['tab'] ) ? $_GET['tab'] : null );
-		
+
 		// Are we within the iframe that does image searches?
 		$in_image_search_iframe = ( 'media-upload-popup' == $hook && 'image_search' == $tab );
-		
+
 		// Are we on a page with the 'Add Media' button?
 		// post.php: Editing an existing page.
 		// post-new.php: Creating a new page.
 		$in_page_editor = ( in_array( $hook, array (
 			'post.php',
-			'post-new.php' 
+			'post-new.php'
 		) ) );
-		
+
 		// Are we in the Customizer?
 		$in_customizer = ( 'widgets.php' == $hook );
-		
+
 		if ( $in_customizer || $in_image_search_iframe || $in_page_editor ) {
-			wp_register_style( 'wp_iframe-media_upload', 
-				plugins_url( 
-					'/' . basename( BOLDGRID_BASE_DIR ) . '/assets/css/wp_iframe-media_upload.css' ), 
+			wp_register_style( 'wp_iframe-media_upload',
+				plugins_url(
+					'/' . basename( BOLDGRID_BASE_DIR ) . '/assets/css/wp_iframe-media_upload.css' ),
 				array (), BOLDGRID_INSPIRATIONS_VERSION );
-			
+
 			wp_enqueue_style( 'wp_iframe-media_upload' );
 		}
-		
+
 		// only load these if we're looking at the image_search.php page via "add media"
 		if ( $in_image_search_iframe ) {
 			// used for window.send_to_editor
 			wp_enqueue_script( 'media-upload' );
 			wp_enqueue_style( 'admin-bar' );
 			wp_enqueue_style( 'wp-auth-check' );
-			
+
 			// handlebars
-			wp_enqueue_script( 'inspiration-handle-bars', 
-				plugins_url( 'assets/js/handlebars/handlebars-v2.0.0.js', 
-					BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ), array (), 
+			wp_enqueue_script( 'inspiration-handle-bars',
+				plugins_url( 'assets/js/handlebars/handlebars-v2.0.0.js',
+					BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ), array (),
 				BOLDGRID_INSPIRATIONS_VERSION, true );
-			
-			wp_enqueue_script( 'inspiration-handle-helper', 
-				plugins_url( 'assets/js/handlebars/handle-bar-helpers.js', 
-					BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ), array (), 
+
+			wp_enqueue_script( 'inspiration-handle-helper',
+				plugins_url( 'assets/js/handlebars/handle-bar-helpers.js',
+					BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ), array (),
 				BOLDGRID_INSPIRATIONS_VERSION, true );
-			
-			wp_enqueue_script( 'inspiration-ajax', 
-				plugins_url( '/assets/js/ajax/ajax.js', 
-					BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ), array (), 
+
+			wp_enqueue_script( 'inspiration-ajax',
+				plugins_url( '/assets/js/ajax/ajax.js',
+					BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ), array (),
 				BOLDGRID_INSPIRATIONS_VERSION, true );
-			
-			wp_enqueue_script( 'image_search', 
-				plugins_url( '/assets/js/image_search.js', 
-					BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ), array (), 
+
+			wp_enqueue_script( 'image_search',
+				plugins_url( '/assets/js/image_search.js',
+					BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ), array (),
 				BOLDGRID_INSPIRATIONS_VERSION, true );
 		}
-		
+
 		global $wp_customize;
-		
+
 		if ( ( 'post.php' == $hook || 'post-new.php' == $hook ) || ( isset( $wp_customize ) ) ) {
-			wp_enqueue_script( 'insert-media-tab-manager', 
-				plugins_url( '/assets/js/insert-media-tab-manager.js', 
-					BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ), array (), 
+			wp_enqueue_script( 'insert-media-tab-manager',
+				plugins_url( '/assets/js/insert-media-tab-manager.js',
+					BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ), array (),
 				BOLDGRID_INSPIRATIONS_VERSION, true );
 		}
 	}
