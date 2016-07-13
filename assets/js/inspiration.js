@@ -587,7 +587,17 @@ IMHWPB.Inspiration = function(configs, $) {
 	 * Get current step.
 	 */
 	this.get_current_step = function () {
-		return jQuery('.nav-tab-active:visible').data('step');
+		var step = jQuery('.nav-tab-active:visible').data('step');
+
+		/*
+		 * Inspirations > Install New Themes does not have any nav-tabs. If our step is undefined,
+		 * assume we're in 'Install New Theme' and set step to 1.
+		 */
+		if( step === undefined ) {
+			step = 1;
+		}
+
+		return step;
 	};
 
 	/**

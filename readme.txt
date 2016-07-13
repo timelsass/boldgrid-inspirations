@@ -26,6 +26,9 @@ The second phase is Customization; tools to transform your website into your vis
 
 == Changelog ==
 
+= 1.1.9 In progress =
+* Bug fix:		JIRA WPB-2104	Go back button hides all themes (Inspirations > Add Theme).
+
 = 1.1.8 =
 * Bug fix:		JIRA WPB-2058	Added wrap class to Inspirations, so admin notices are displayed at the top.
 * Bug fix:		JIRA WPB-2041	Fixed BoldGrid theme update check in WordPress 4.6.
