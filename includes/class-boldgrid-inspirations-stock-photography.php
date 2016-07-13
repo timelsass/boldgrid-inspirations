@@ -159,7 +159,7 @@ class Boldgrid_Inspirations_Stock_Photography extends Boldgrid_Inspirations {
 
 iframe#boldgrid_connect_search {
 	width: 100%;
-	height: 100%;
+	height: calc(100% - 20px);
 	min-height: 420px;
 	border: 1px solid #ddd;
 }
