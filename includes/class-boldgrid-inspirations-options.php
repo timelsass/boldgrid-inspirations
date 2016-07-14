@@ -199,6 +199,18 @@ class Boldgrid_Inspirations_Options {
 				wp_delete_post( $page_id, $delete_pages ); // 2nd param: false = trash, true = delete
 			}
 		}
+
+		/*
+		 * If the user is starting over with their staging site, set the BoldGrid Staging's session
+		 * setting to point the user to their active site.
+		 *
+		 * If the user's last setting before starting over pointed them to staging, and they delete
+		 * their staging site, then let's not send them to their staging site when they don't
+		 * have one.
+		 */
+		if( session_id() && $this->start_over_staging ) {
+			$_SESSION['wp_staging_view_version'] = 'production';
+		}
 	}
 
 	/**
