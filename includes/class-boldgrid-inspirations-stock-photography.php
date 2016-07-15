@@ -139,8 +139,32 @@ class Boldgrid_Inspirations_Stock_Photography extends Boldgrid_Inspirations {
 	}
 
 	/**
+	 * Filter query attachment args.
+	 *
+	 * When this method was initially comitted almost one year ago, it lacked a description. Looking
+	 * through commit logs, this method was including in a commit that added BoldGrid Connect
+	 * Search to the Customizer. I believe this filter adjusts the images in the media library so
+	 * that the newest ones appear first. If you download an image with BoldGrid Connect Search,
+	 * this method ensures it will show first in your media library.
+	 *
+	 * @param  array $query An array of query variables.
+	 * @return array
 	 */
-	public function ajax_query_attachments_args( $query ) {
+	public function ajax_query_attachments_args( $query = array() ) {
+		/*
+		 * We do not want to adjust query attachment args when an ajax request is being made for
+		 * images in a gallery. IF WE DID adjust the order of that query, the images would always
+		 * return in DESC order, instead of the specific order the user set them in (dragged / dropped).
+		 *
+		 * There is not a specific flag that says a query is for gallery images. However, gallery ajax
+		 * calls do set the limit to -1, so that all images in the gallery are returned.
+		 *
+		 * If this is a call for a gallery, don't modify the query, just return.
+		 */
+		if( isset( $query[ 'posts_per_page' ] ) && -1 == $query[ 'posts_per_page' ] ) {
+			return $query;
+		}
+
 		$query['orderby'] = 'ID';
 		$query['order'] = 'DESC';
 
