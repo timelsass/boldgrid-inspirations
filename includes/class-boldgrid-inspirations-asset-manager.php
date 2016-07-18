@@ -79,6 +79,12 @@ class Boldgrid_Inspirations_Asset_Manager extends Boldgrid_Inspirations {
 	public function __construct() {
 		parent::__construct();
 
+		// If Imagick is used, then set the thread limit to 1 to avoid known issues.
+		if ( extension_loaded( 'imagick' ) && class_exists( 'Imagick' ) ) {
+			// The imagick::RESOURCETYPE_THREAD may not be declared, so use the int 6.
+			Imagick::setResourceLimit( 6, 1 );
+		}
+
 		// If on a preview server, then instantiate the cache class.
 		if ( true === $this->is_preview_server ) {
 			require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-cache.php';
