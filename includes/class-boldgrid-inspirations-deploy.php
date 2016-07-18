@@ -713,8 +713,11 @@ class Boldgrid_Inspirations_Deploy {
 			}
 
 			$incoming_theme_version = $this->theme_details->themeRevision->RevisionNumber;
+			$incoming_version_number = ! empty( $this->theme_details->themeRevision->VersionNumber ) ?
+				$this->theme_details->themeRevision->VersionNumber : null;
+			$installed_version_number = is_object( $theme ) ? $theme->get('Version') : null;
 
-			$is_version_change = $installed_theme_version != $incoming_theme_version;
+			$is_version_change = $incoming_version_number && ( $incoming_version_number != $installed_version_number );
 			$install_this_theme = ( $is_version_change || false === $theme_dir_exists ) && ! $is_git_theme;
 
 			/**
