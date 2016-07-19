@@ -33,6 +33,7 @@ The second phase is Customization; tools to transform your website into your vis
 * Bug fix:		JIRA WPB-2107	BoldGrid Connect Search overlapping footer (Dashboard > Media).
 * Bug fix:		JIRA WPB-2109	Session issues when starting over and importing active site.
 * Bug fix:		JIRA WPB-2116	Changes to the order of images in a gallery are not saving.
+* Update:						Changed text of getting and entering connect keys.
 
 = 1.1.8 =
 * Bug fix:		JIRA WPB-2058	Added wrap class to Inspirations, so admin notices are displayed at the top.
