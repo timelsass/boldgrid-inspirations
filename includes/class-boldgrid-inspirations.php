@@ -554,7 +554,7 @@ class Boldgrid_Inspirations {
 		?>
 <div id="container_boldgrid_api_key_notice" class="error">
 	<div class="api-notice">
-		<h2 class="dashicons-before dashicons-admin-network">BoldGrid API Check</h2>
+		<h2 class="dashicons-before dashicons-admin-network"><?php _e( 'Enter Your BoldGrid Connect Key' ); ?></h2>
 		<a href="#" class="boldgridApiKeyLink">Don't have an API key yet?</a><br /><br />
 		<p id="boldgrid_api_key_notice_message">
 			Please enter your <b>32 digit BoldGrid Connect Key</b> below and click
@@ -570,7 +570,7 @@ class Boldgrid_Inspirations {
 		</form>
 	</div>
 	<div class="new-api-key hidden">
-		<h2 class="dashicons-before dashicons-admin-network">Request a BoldGrid API Key</h2>
+		<h2 class="dashicons-before dashicons-admin-network"><?php _e( 'Request a BoldGrid Connect Key' ); ?></h2>
 		<a href="#" class="enterKeyLink">Have an API key to enter?</a><br /><br />
 		<div class="key-request-content">
 			<p id="requestKeyMessage">
