@@ -555,7 +555,7 @@ class Boldgrid_Inspirations {
 <div id="container_boldgrid_api_key_notice" class="error">
 	<div class="api-notice">
 		<h2 class="dashicons-before dashicons-admin-network"><?php _e( 'Enter Your BoldGrid Connect Key' ); ?></h2>
-		<a href="#" class="boldgridApiKeyLink">Don't have an API key yet?</a><br /><br />
+		<a href="#" class="boldgridApiKeyLink"><?php _e( 'Don\'t have an API key yet or lost your key?' ); ?></a><br /><br />
 		<p id="boldgrid_api_key_notice_message">
 			Please enter your <b>32 digit BoldGrid Connect Key</b> below and click
 			submit.
