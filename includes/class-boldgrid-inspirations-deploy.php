@@ -256,6 +256,7 @@ class Boldgrid_Inspirations_Deploy {
 		// Get and set the subcategory:
 		// REQUIRED todo: subcategory_id is used in deploy_page_sets to get homepage data... Should
 		// this actually be category_id ?
+		$this->subcategory_id = null;
 		if ( false === empty( $_POST['boldgrid_sub_cat_id'] ) ) {
 			// For most requests:
 			$this->subcategory_id = intval( $_POST['boldgrid_sub_cat_id'] );
@@ -270,7 +271,7 @@ class Boldgrid_Inspirations_Deploy {
 				$install_options = get_option( 'boldgrid_install_options' );
 			}
 
-			if ( false === empty( $install_options ) ) {
+			if ( ! empty ( $install_options['subcategory_id'] ) ) {
 				$this->subcategory_id = $install_options['subcategory_id'];
 			}
 		}

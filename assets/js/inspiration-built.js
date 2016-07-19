@@ -589,6 +589,8 @@
 		// Update vars.
 		data = {
 		    'build_any' : build_any,
+		    'theme_version_type' : IMHWPB.Inspiration.instance.get_theme_type(),
+		    'page_version_type' : IMHWPB.Inspiration.instance.get_page_type(),
 		    'theme_id' : theme_id,
 		    'sub_cat_id' : sub_cat_id,
 		    'default_page_set_id' : page_set_id,

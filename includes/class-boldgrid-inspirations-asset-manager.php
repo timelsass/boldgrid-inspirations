@@ -186,6 +186,7 @@ class Boldgrid_Inspirations_Asset_Manager extends Boldgrid_Inspirations {
 	 *
 	 * @throws Exception
 	 *
+	 * @param array $params The input parameters.
 	 * @return int|array|string
 	 */
 	public function attach_asset( $params ) {
@@ -276,7 +277,13 @@ class Boldgrid_Inspirations_Asset_Manager extends Boldgrid_Inspirations {
 			// Update metadata for the attachment.
 			$result = wp_update_attachment_metadata( $attachment_id, $attach_data );
 
+			// Check if there was an error.
 			if ( false === $result ) {
+				// Strip body in params, if present.
+				if ( true === isset( $params['body'] ) ) {
+					unset( $params['body'] );
+				}
+
 				// Log.
 				error_log(
 					__METHOD__ . ': Error: wp_update_attachment_metadata() returned an error. ' . print_r(
@@ -286,8 +293,7 @@ class Boldgrid_Inspirations_Asset_Manager extends Boldgrid_Inspirations {
 							'$attach_data' => $attach_data,
 							'$uploaded' => $uploaded,
 							'$this->is_preview_server' => $this->is_preview_server,
-							'$add_meta_data' => $add_meta_data,
-							'$info' => $info
+							'$params' => $params,
 						), true ) );
 			}
 		}
