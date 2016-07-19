@@ -182,7 +182,7 @@ class Boldgrid_Inspirations_Options {
 
 		$attribution = get_option( 'boldgrid_attribution' );
 
-		if ( false !== $attribution ) {
+		if ( is_array( $attribution ) && ! empty( $attribution['page']['id'] ) ) {
 			$page_ids[] = $attribution['page']['id'];
 		}
 
