@@ -145,7 +145,8 @@ IMHWPB.Api = function( configs ) {
 		$( '#submit_api_key', $c_zakn ).on('click', function() {
 			if ( ! $( '#tos-box:checked').length  ) {
 				$( '#boldgrid_api_key_notice_message', $c_zakn )
-					.html( 'You must agree to the Terms of Service before continuing.' );
+					.html( 'You must agree to the Terms of Service before continuing.' )
+					.addClass( 'error-color' );
 				return false;
 			}
 			var api_key = $( '#boldgrid_api_key', $c_zakn ).val()
@@ -155,9 +156,11 @@ IMHWPB.Api = function( configs ) {
 				.slice( 0, - 1 );
 			if ( ! api_key ) {
 				$( '#boldgrid_api_key_notice_message', $c_zakn )
-					.html( 'You must enter a valid BoldGrid Connect Key.' );
+					.html( 'You must enter a valid BoldGrid Connect Key.' )
+					.addClass( 'error-color' );
 				return false;
 			}
+			$( '#boldgrid_api_key_notice_message', $c_zakn ).removeClass( 'error-color' );
 
 			self.set( api_key );
 
