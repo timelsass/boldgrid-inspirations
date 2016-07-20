@@ -561,7 +561,7 @@ class Boldgrid_Inspirations {
 		</p>
 		<form id="boldgrid-api-form">
 		<?php wp_nonce_field( 'boldgrid_set_key', 'set_key_auth' ); ?>
-			<div class="tos-box"><input type="checkbox" id="tos-box" value="0">I agree to the <a href="https://www.boldgrid.com/terms-of-use-and-privacy">Terms of Use and Privacy Policy</a>.</div><br>
+			<div class="tos-box"><input type="checkbox" id="tos-box" value="0">I agree to the <a href="https://www.boldgrid.com/terms-of-use-and-privacy" target="_blank">Terms of Use and Privacy Policy</a>.</div><br>
 			<input type="text" id="boldgrid_api_key" maxlength="37"
 				placeholder="XXXXXXXX - XXXXXXXX - XXXXXXXX - XXXXXXXX" />
 			<button id="submit_api_key" class="button button-primary">Submit</button>
