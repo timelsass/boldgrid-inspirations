@@ -80,9 +80,13 @@ class Boldgrid_Inspirations_Asset_Manager extends Boldgrid_Inspirations {
 		parent::__construct();
 
 		// If Imagick is used, then set the thread limit to 1 to avoid known issues.
-		if ( extension_loaded( 'imagick' ) && class_exists( 'Imagick' ) ) {
+		require_once ABSPATH . 'wp-includes/class-wp-image-editor.php';
+		require_once ABSPATH . 'wp-includes/class-wp-image-editor-imagick.php';
+
+		if ( true === WP_Image_Editor_Imagick::test() ) {
 			// The imagick::RESOURCETYPE_THREAD may not be declared, so use the int 6.
-			Imagick::setResourceLimit( 6, 1 );
+			// Silence warning due to static call to non-static method.
+			@Imagick::setResourceLimit( 6, 1 );
 		}
 
 		// If on a preview server, then instantiate the cache class.
