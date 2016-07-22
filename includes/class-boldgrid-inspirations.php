@@ -559,11 +559,11 @@ class Boldgrid_Inspirations {
 			Please enter your <b>32 digit BoldGrid Connect Key</b> below and click
 			submit.
 		</p>
-		<form id="boldgrid-api-form">
+		<form id='boldgrid-api-form' autocomplete='off'>
 		<?php wp_nonce_field( 'boldgrid_set_key', 'set_key_auth' ); ?>
 			<div class="tos-box"><input type="checkbox" id="tos-box" value="0">I agree to the <a href="https://www.boldgrid.com/terms-of-use-and-privacy" target="_blank">Terms of Use and Privacy Policy</a>.</div><br>
-			<input type="text" id="boldgrid_api_key" maxlength="37"
-				placeholder="XXXXXXXX - XXXXXXXX - XXXXXXXX - XXXXXXXX" />
+			<input type='text' id='boldgrid_api_key' maxlength='37'
+				placeholder='XXXXXXXX - XXXXXXXX - XXXXXXXX - XXXXXXXX' autocomplete='off' />
 			<button id="submit_api_key" class="button button-primary">Submit</button>
 			<span><div id="boldgrid-api-loading" class="boldgrid-wp-spin"></div></span>
 		</form>

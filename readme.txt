@@ -26,6 +26,9 @@ The second phase is Customization; tools to transform your website into your vis
 
 == Changelog ==
 
+= 1.2.1 In progress =
+* Security:		JIRA WPB-2151	Disabled autocomplete for API key entry fields.
+
 = 1.2 =
 * Bug fix:		JIRA WPB-2119	For asset downloads, when Imagick is loaded, set the thread limit to 1.
 * Bug fix:		JIRA WPB-2125	Fixing issue where theme was overwritten without version change.

@@ -287,7 +287,7 @@ if ( $have_assets_needing_purchase ) {
 			<div class="col-md-6 col-md-offset-6">
 				BoldGrid Connect Key: <input type="text" name='boldgrid_connect_key'
 					id='boldgrid_connect_key' size="37" maxlength="37"
-					placeholder="XXXXXXXX - XXXXXXXX - XXXXXXXX - XXXXXXXX" />
+					placeholder="XXXXXXXX - XXXXXXXX - XXXXXXXX - XXXXXXXX" autocomplete='off' />
 				<div>
 					<a
 						href='https://www.boldgrid.com/support/where-to-get-a-boldgrid-connect-key/'
