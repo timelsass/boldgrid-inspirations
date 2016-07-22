@@ -34,6 +34,7 @@ The second phase is Customization; tools to transform your website into your vis
 * Bug fix:		JIRA WPB-2109	Session issues when starting over and importing active site.
 * Bug fix:		JIRA WPB-2116	Changes to the order of images in a gallery are not saving.
 * Bug fix:		JIRA WPB-2134	Staging's boldgrid_attribution option and 'Uninitialized string offset' Notice.
+* Bug fix:		JIRA WPB-2135	Image not replaced in Page & Post Editor after using Connect Search.
 * Update:						Changed text of getting and entering connect keys.
 
 = 1.1.8 =
