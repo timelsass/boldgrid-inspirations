@@ -568,11 +568,11 @@ class Boldgrid_Inspirations {
 			<span><div id="boldgrid-api-loading" class="boldgrid-wp-spin"></div></span>
 		</form>
 		<br />
-		<a href="#" class="boldgridApiKeyLink"><?php _e( 'Don\'t have an API key yet or lost your key?' ); ?></a>
+		<a href="#" class="boldgridApiKeyLink"><?php _e( 'Don\'t have a Connect Key yet or lost your Key?' ); ?></a>
 	</div>
 	<div class="new-api-key hidden">
 		<h2 class="dashicons-before dashicons-admin-network"><?php _e( 'Request a BoldGrid Connect Key' ); ?></h2>
-		<a href="#" class="enterKeyLink">Have an API key to enter?</a><br /><br />
+		<a href="#" class="enterKeyLink">Have a Connect Key to enter?</a><br /><br />
 		<div class="key-request-content">
 			<p id="requestKeyMessage">
 				There are two types of BoldGrid Connect Keys, a free key or an Official Host Premium Connect Key. <b>A Premium Connect Key is highly recommended and may already come with your hosting account.</b> If you do not have a Premium Connect Key, then you may request a free key below. Please visit <a href="https://www.boldgrid.com/get-it-now/" target="_blank">our site</a> for full details.<br /><br />If you have lost your key, you can have it resent by entering your information below.<br />
