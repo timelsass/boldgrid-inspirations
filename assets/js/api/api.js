@@ -248,7 +248,7 @@ IMHWPB.Api = function( configs ) {
 					}
 
 					$( '#boldgrid_api_key_notice_message', $c_zakn )
-						.html( $message );
+						.html( $message ).addClass( 'error-color' );
 				} else {
 					// Hide loading.
 					$( '#boldgrid-api-loading', $c_zakn )
@@ -266,7 +266,7 @@ IMHWPB.Api = function( configs ) {
 					}
 
 					$( '#boldgrid_api_key_notice_message', $c_zakn )
-						.html( $message );
+						.html( $message ).addClass( 'error-color' );
 				}
 			});
 		};
