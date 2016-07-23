@@ -28,7 +28,7 @@ div.sub_categories ul {
 div.available_theme_waiting {
 	/* background: #ddd; */
 	/* border: 1px dashed #000; */
-	
+
 }
 
 /*
@@ -627,12 +627,12 @@ input[type="text"]{
     box-shadow: none;
     color: #949494;
     outline: 0 none;
-    transition: border-color 0.05s ease-in-out 0s;	
+    transition: border-color 0.05s ease-in-out 0s;
 	height:45px;
 	width:240px;
 	font-family: 'Lato';
 	font-size:12px;
-	padding-left:15px;	
+	padding-left:15px;
 }
 */
 #searchwrapper {
@@ -660,12 +660,12 @@ input[type="text"]{
 
 /* Themes */
 
-/* Within inspiration, undo default WP theme when hovering over a theme preview 
+/* Within inspiration, undo default WP theme when hovering over a theme preview
 .theme-browser .theme .theme-actions {
 	opacity: 1;
 }
 
-/* Within inspiration, undo default WP theme when hovering over a theme preview 
+/* Within inspiration, undo default WP theme when hovering over a theme preview
 .theme-browser.rendered .theme:focus .theme-screenshot img,
 	.theme-browser.rendered .theme:hover .theme-screenshot img {
 	opacity: 1;
@@ -1164,10 +1164,12 @@ Inspirations - Install New themes
 .wp-filter .hidden {
 	display: none;
 }
-
 .wp-filter .drawer-toggle:before {
 	display: none;
 	color: red;
+}
+.wrap.step-2-nav-bar {
+	margin: 0;
 }
 
 /* WordPress' default behavior is to remove the border from the
