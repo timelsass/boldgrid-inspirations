@@ -205,7 +205,7 @@ class Boldgrid_Inspirations_Branding {
 		<?php
 		} else {
 			?>
-			Check out the<a href="http://www.boldgrid.com/documentation"
+			Check out the<a href="http://www.boldgrid.com/support/"
 		target="_blank">BoldGrid Education Channel</a>!
 		<?php
 		}
