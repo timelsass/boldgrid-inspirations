@@ -27,6 +27,7 @@ The second phase is Customization; tools to transform your website into your vis
 == Changelog ==
 
 = 1.2 =
+* Bug fix:		JIRA WPB-2145	Fixing issue with theme screenshots on Chrome Ubuntu.
 * Bug fix:		JIRA WPB-2119	For asset downloads, when Imagick is loaded, set the thread limit to 1.
 * Bug fix:		JIRA WPB-2125	Fixing issue where theme was overwritten without version change.
 * Bug fix:		JIRA WPB-2104	Go back button hides all themes (Inspirations > Add Theme).
