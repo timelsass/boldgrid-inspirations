@@ -26,9 +26,6 @@ The second phase is Customization; tools to transform your website into your vis
 
 == Changelog ==
 
-= 1.2.1 In progress =
-* Security:		JIRA WPB-2151	Disabled autocomplete for API key entry fields.
-
 = 1.2 =
 * Bug fix:		JIRA WPB-2119	For asset downloads, when Imagick is loaded, set the thread limit to 1.
 * Bug fix:		JIRA WPB-2125	Fixing issue where theme was overwritten without version change.
@@ -38,7 +35,9 @@ The second phase is Customization; tools to transform your website into your vis
 * Bug fix:		JIRA WPB-2116	Changes to the order of images in a gallery are not saving.
 * Bug fix:		JIRA WPB-2134	Staging's boldgrid_attribution option and 'Uninitialized string offset' Notice.
 * Bug fix:		JIRA WPB-2135	Image not replaced in Page & Post Editor after using Connect Search.
+* Bug fix:		JIRA WPB-2160	New From GridBlocks, multiple pages are installed.
 * Update:						Changed text of getting and entering connect keys.
+* Security:		JIRA WPB-2151	Disabled autocomplete for API key entry fields.
 
 = 1.1.8 =
 * Bug fix:		JIRA WPB-2058	Added wrap class to Inspirations, so admin notices are displayed at the top.
