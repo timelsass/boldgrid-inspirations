@@ -81,6 +81,11 @@ class Boldgrid_Inspirations_Inspiration extends Boldgrid_Inspirations {
 			'boldgrid_load_textdomain'
 		) );
 
+		// Initialize the Theme builder.
+		require_once BOLDGRID_BASE_DIR . '/includes/theme-builder/class-boldgrid-inspirations-theme-builder.php';
+		$theme_builder = new Boldgrid_Inspirations_Theme_Builder();
+		$theme_builder->init();
+
 		// This class is instantiated in later hook.
 		require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-theme-install.php';
 		// Apply BoldGrid theme config modifications
