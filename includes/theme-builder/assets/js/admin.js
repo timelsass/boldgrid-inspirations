@@ -7,20 +7,39 @@ BOLDGRID.ThemeBuilder = BOLDGRID.ThemeBuilder || {};
 	
 	BOLDGRID.ThemeBuilder = {
 			
+		$themes : null,
+		themeTemplate : null,
+			
 		init : function () {
-			self.onload();
+			$( document ).ready( self.onload );
 		},
 		onload : function () {
-			console.log('fff');
-			$( document ).on( 'load', self.requestThemes );
+			self.$themes = $('.themes');
+			self.themeTemplate = wp.template( 'boldgrid-theme-builder-theme' );
+			self.requestThemes();
 		},
 		requestThemes : function () {
 			
-			var template = wp.template( 'boldgrid-theme-builder-theme' ),
-				renderedTemplate = template();
-			
-			console.log( renderedTemplate );
-		}
+			$.ajax( {
+			    type: 'post',
+			    dataType : 'json',
+				url : ajaxurl,
+				data : {
+					'count': 15,
+					'action': 'boldgrid_random_theme'
+				}
+			} ).success( function ( response ) {
+				
+				if ( ! response.results ) {
+					alert('failure');
+				}
+				
+				$.each( response.results.sites, function () {
+					self.$themes.append( self.themeTemplate( this ) );
+				} );
+			} );
+		},
+		
 	};
 	
 	self = BOLDGRID.ThemeBuilder;

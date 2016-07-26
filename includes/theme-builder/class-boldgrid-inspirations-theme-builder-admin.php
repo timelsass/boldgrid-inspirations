@@ -26,17 +26,17 @@ class Boldgrid_Inspirations_Theme_Builder_Admin {
 	}
 
 	public function render_admin_page() {
-		print include 'view/admin.php';
+		include 'view/admin.php';
 	}
 
 	public function print_templates() {
-		//print include 'template/theme.php';
+		include 'template/theme.php';
 	}
 
 	public function enqueue_scripts() {
 		wp_enqueue_script(
 			'boldgrid-theme-builder',
-			plugins_url( 'includes/theme-builder/assets/js/admin.js' , __FILE__ ),
+			plugins_url( 'assets/js/admin.js' , __FILE__ ),
 			array( 'jquery' ),
 			'1.0',
 			true
