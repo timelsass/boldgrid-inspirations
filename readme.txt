@@ -2,7 +2,7 @@
 Contributors: imh_brad, joemoto, rramo012, timph
 Tags: inspiration,customization,build,create,design
 Requires at least: 4.3
-Tested up to: 4.5.2
+Tested up to: 4.5.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -26,8 +26,29 @@ The second phase is Customization; tools to transform your website into your vis
 
 == Changelog ==
 
-= 1.1.8 In progress =
+= 1.2.1 =
+* Bug fix:		JIRA WPB-2160	New From GridBlocks, multiple pages are installed.
+* Update:						Changed text of getting and entering connect keys.
+* Security:		JIRA WPB-2151	Disabled autocomplete for API key entry fields.
+* Bug fix:		JIRA WPB-2145	Fixing issue with theme screenshots on Chrome Ubuntu.
+
+= 1.2 =
+* Bug fix:		JIRA WPB-2119	For asset downloads, when Imagick is loaded, set the thread limit to 1.
+* Bug fix:		JIRA WPB-2125	Fixing issue where theme was overwritten without version change.
+* Bug fix:		JIRA WPB-2104	Go back button hides all themes (Inspirations > Add Theme).
+* Bug fix:		JIRA WPB-2107	BoldGrid Connect Search overlapping footer (Dashboard > Media).
+* Bug fix:		JIRA WPB-2109	Session issues when starting over and importing active site.
+* Bug fix:		JIRA WPB-2116	Changes to the order of images in a gallery are not saving.
+* Bug fix:		JIRA WPB-2134	Staging's boldgrid_attribution option and 'Uninitialized string offset' Notice.
+* Bug fix:		JIRA WPB-2135	Image not replaced in Page & Post Editor after using Connect Search.
+
+= 1.1.8 =
+* Bug fix:		JIRA WPB-2058	Added wrap class to Inspirations, so admin notices are displayed at the top.
+* Bug fix:		JIRA WPB-2041	Fixed BoldGrid theme update check in WordPress 4.6.
+* Testing:		JIRA WPB-2046	Tested on WordPress 4.5.3.
 * New feature:	JIRA WPB-599	Added options for plugin and theme auto-updates via WordPress autoupdater.
+* Update:		JIRA WPB-2008	Deploy class updated to allow for is_generic flag.
+* Bug fix:		JIRA WPB-1950	Prevent a portait image from displaying atop 'Crop Image' and 'Skip Cropping' buttons.
 
 = 1.1.7 =
 * Bug fix:		JIRA WPB-2032	Fixed issue when activating key.  Added nonce to api key form.

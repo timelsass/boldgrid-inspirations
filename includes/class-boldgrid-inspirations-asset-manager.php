@@ -79,6 +79,16 @@ class Boldgrid_Inspirations_Asset_Manager extends Boldgrid_Inspirations {
 	public function __construct() {
 		parent::__construct();
 
+		// If Imagick is used, then set the thread limit to 1 to avoid known issues.
+		require_once ABSPATH . 'wp-includes/class-wp-image-editor.php';
+		require_once ABSPATH . 'wp-includes/class-wp-image-editor-imagick.php';
+
+		if ( true === WP_Image_Editor_Imagick::test() ) {
+			// The imagick::RESOURCETYPE_THREAD may not be declared, so use the int 6.
+			// Silence warning due to static call to non-static method.
+			@Imagick::setResourceLimit( 6, 1 );
+		}
+
 		// If on a preview server, then instantiate the cache class.
 		if ( true === $this->is_preview_server ) {
 			require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-cache.php';
@@ -180,6 +190,7 @@ class Boldgrid_Inspirations_Asset_Manager extends Boldgrid_Inspirations {
 	 *
 	 * @throws Exception
 	 *
+	 * @param array $params The input parameters.
 	 * @return int|array|string
 	 */
 	public function attach_asset( $params ) {
@@ -270,7 +281,13 @@ class Boldgrid_Inspirations_Asset_Manager extends Boldgrid_Inspirations {
 			// Update metadata for the attachment.
 			$result = wp_update_attachment_metadata( $attachment_id, $attach_data );
 
+			// Check if there was an error.
 			if ( false === $result ) {
+				// Strip body in params, if present.
+				if ( true === isset( $params['body'] ) ) {
+					unset( $params['body'] );
+				}
+
 				// Log.
 				error_log(
 					__METHOD__ . ': Error: wp_update_attachment_metadata() returned an error. ' . print_r(
@@ -280,8 +297,7 @@ class Boldgrid_Inspirations_Asset_Manager extends Boldgrid_Inspirations {
 							'$attach_data' => $attach_data,
 							'$uploaded' => $uploaded,
 							'$this->is_preview_server' => $this->is_preview_server,
-							'$add_meta_data' => $add_meta_data,
-							'$info' => $info
+							'$params' => $params,
 						), true ) );
 			}
 		}

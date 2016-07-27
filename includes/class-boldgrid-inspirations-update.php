@@ -442,8 +442,10 @@ class Boldgrid_Inspirations_Update {
 		}
 
 		// Get theme versions from $boldgrid_api_data, as an array.
+		// Using json_encode rather than wp_json_encode, due to an empty array in WP 4.6.
 		$theme_versions = json_decode(
-			wp_json_encode( $boldgrid_api_data->result->data->theme_versions ), true );
+			json_encode( $boldgrid_api_data->result->data->theme_versions ), true
+		);
 
 		// Get installed themes (array of WP_Theme objects).
 		$installed_themes = wp_get_themes();

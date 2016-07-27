@@ -256,6 +256,7 @@ class Boldgrid_Inspirations_Deploy {
 		// Get and set the subcategory:
 		// REQUIRED todo: subcategory_id is used in deploy_page_sets to get homepage data... Should
 		// this actually be category_id ?
+		$this->subcategory_id = null;
 		if ( false === empty( $_POST['boldgrid_sub_cat_id'] ) ) {
 			// For most requests:
 			$this->subcategory_id = intval( $_POST['boldgrid_sub_cat_id'] );
@@ -270,7 +271,7 @@ class Boldgrid_Inspirations_Deploy {
 				$install_options = get_option( 'boldgrid_install_options' );
 			}
 
-			if ( false === empty( $install_options ) ) {
+			if ( ! empty ( $install_options['subcategory_id'] ) ) {
 				$this->subcategory_id = $install_options['subcategory_id'];
 			}
 		}
@@ -713,8 +714,11 @@ class Boldgrid_Inspirations_Deploy {
 			}
 
 			$incoming_theme_version = $this->theme_details->themeRevision->RevisionNumber;
+			$incoming_version_number = ! empty( $this->theme_details->themeRevision->VersionNumber ) ?
+				$this->theme_details->themeRevision->VersionNumber : null;
+			$installed_version_number = is_object( $theme ) ? $theme->get('Version') : null;
 
-			$is_version_change = $installed_theme_version != $incoming_theme_version;
+			$is_version_change = $incoming_version_number && ( $incoming_version_number != $installed_version_number );
 			$install_this_theme = ( $is_version_change || false === $theme_dir_exists ) && ! $is_git_theme;
 
 			/**

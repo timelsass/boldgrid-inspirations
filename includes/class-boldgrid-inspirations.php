@@ -554,27 +554,28 @@ class Boldgrid_Inspirations {
 		?>
 <div id="container_boldgrid_api_key_notice" class="error">
 	<div class="api-notice">
-		<h2 class="dashicons-before dashicons-admin-network">BoldGrid API Check</h2>
-		<a href="#" class="boldgridApiKeyLink">Don't have an API key yet?</a><br /><br />
+		<h2 class="dashicons-before dashicons-admin-network"><?php _e( 'Enter Your BoldGrid Connect Key' ); ?></h2>
 		<p id="boldgrid_api_key_notice_message">
 			Please enter your <b>32 digit BoldGrid Connect Key</b> below and click
 			submit.
 		</p>
-		<form id="boldgrid-api-form">
+		<form id='boldgrid-api-form' autocomplete='off'>
 		<?php wp_nonce_field( 'boldgrid_set_key', 'set_key_auth' ); ?>
-			<div class="tos-box"><input type="checkbox" id="tos-box" value="0">I agree to the <a href="https://www.boldgrid.com/terms-of-use-and-privacy">Terms of Use and Privacy Policy</a>.</div><br>
-			<input type="text" id="boldgrid_api_key" maxlength="37"
-				placeholder="XXXXXXXX - XXXXXXXX - XXXXXXXX - XXXXXXXX" />
+			<div class="tos-box"><input type="checkbox" id="tos-box" value="0">I agree to the <a href="https://www.boldgrid.com/software-privacy-policy/" target="_blank">Terms of Use and Privacy Policy</a>.</div><br>
+			<input type='text' id='boldgrid_api_key' maxlength='37'
+				placeholder='XXXXXXXX - XXXXXXXX - XXXXXXXX - XXXXXXXX' autocomplete='off' />
 			<button id="submit_api_key" class="button button-primary">Submit</button>
 			<span><div id="boldgrid-api-loading" class="boldgrid-wp-spin"></div></span>
 		</form>
+		<br />
+		<a href="#" class="boldgridApiKeyLink"><?php _e( 'Don\'t have a Connect Key yet or lost your Key?' ); ?></a>
 	</div>
 	<div class="new-api-key hidden">
-		<h2 class="dashicons-before dashicons-admin-network">Request a BoldGrid API Key</h2>
-		<a href="#" class="enterKeyLink">Have an API key to enter?</a><br /><br />
+		<h2 class="dashicons-before dashicons-admin-network"><?php _e( 'Request a BoldGrid Connect Key' ); ?></h2>
+		<a href="#" class="enterKeyLink">Have a Connect Key to enter?</a><br /><br />
 		<div class="key-request-content">
 			<p id="requestKeyMessage">
-				There are two types of BoldGrid Connect Key, a free key or an Official Host Premium Connect Key. A Premium Connect Key is highly recommended and may already come with your hosting account. If you do not have a Premium Connect Key, then you may request a free key below. Please visit <a href="https://www.boldgrid.com/get-it-now/">our site</a> for full details.<br />
+				There are two types of BoldGrid Connect Keys, a free key or an Official Host Premium Connect Key. <b>A Premium Connect Key is highly recommended and may already come with your hosting account.</b> If you do not have a Premium Connect Key, then you may request a free key below. Please visit <a href="https://www.boldgrid.com/get-it-now/" target="_blank">our site</a> for full details.<br /><br />If you have lost your key, you can have it resent by entering your information below.<br />
 			</p>
 			<p class="error-alerts"></p>
 			<form id="requestKeyForm">

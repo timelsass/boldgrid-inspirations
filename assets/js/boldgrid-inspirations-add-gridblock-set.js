@@ -105,6 +105,8 @@ IMHWPB.AddGridBlockSet = function($) {
 
 		// Add click event to 'Select'.
 		$('#page_previewer .media-toolbar-primary button.button-primary')
+				// Remove previous click events, otherwise we would be installing every page previewed.
+				.unbind( 'click' )
 				.on(
 						'click',
 						function() {

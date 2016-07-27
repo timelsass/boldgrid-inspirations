@@ -106,6 +106,15 @@ class Boldgrid_Inspirations_Inspiration extends Boldgrid_Inspirations {
 
 		// If DOING_CRON, then check if this plugin should be auto-updated.
 		if ( defined( 'DOING_CRON' ) && DOING_CRON ){
+			// Ensure required definitions for pluggable.
+			if ( false === defined( 'AUTH_COOKIE' ) ) {
+				define( 'AUTH_COOKIE', null );
+			}
+
+			if ( false === defined( 'LOGGED_IN_COOKIE' ) ) {
+				define( 'LOGGED_IN_COOKIE', null );
+			}
+
 			// Load the pluggable class, if needed.
 			require_once ABSPATH . 'wp-includes/pluggable.php';
 
@@ -278,6 +287,10 @@ class Boldgrid_Inspirations_Inspiration extends Boldgrid_Inspirations {
 		// Dashboard.
 		$dashboard = new Boldgrid_Inspirations_Dashboard( $this->pluginPath );
 		$dashboard->add_hooks();
+
+		// Customizer.
+		$customizer = new Boldgrid_Inspirations_Customizer( $this->pluginPath );
+		$customizer->add_hooks();
 
 		// BoldGrid Tutorials.
 		$tutorials = new Boldgrid_Inspirations_Tutorials( $this->pluginPath );
@@ -530,8 +543,8 @@ public function include_admin_files() {
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-receipts.php';
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-purchase-coins.php';
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-admin-notices.php';
-	require_once BOLDGRID_BASE_DIR .
-		 '/includes/class-boldgrid-inspirations-easy-attachment-preview-size.php';
+	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-easy-attachment-preview-size.php';
+	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-customizer.php';
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-asset-manager.php';
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-pages-and-posts.php';
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-gridblock-sets-admin.php';

@@ -13,7 +13,6 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 
 	this.last_query = '';
 	this.page = 1;
-	this.currently_searching = 0;
 
 	// include additional submodules
 	self.ajax = new IMHWPB.Ajax( configs );
@@ -203,7 +202,7 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 
 				// event handler: user clicks "Insert into page"
 				jQuery( '#download_and_insert_into_page' ).on( 'click', function() {
-					self.download_and_insert_into_page( this );
+					self.download( $( this ) );
 				} );
 			} else {
 				/*
@@ -223,6 +222,32 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 		self.ajax.ajaxCall( data, 'image_get_details', api_call_image_get_details_success_action );
 
 	};
+
+	/**
+	 * @summary Determine where we are downloading an image from.
+	 *
+	 * For example, we can be downloading it from within the Customizer, Dashboard > Media, etc.
+	 *
+	 * @since 1.1.9
+	 *
+	 * @return string.
+	 */
+	this.getAction = function() {
+		var inCustomizer = ( 'dashboard-customizer' === self.baseAdmin.GetURLParameter( 'ref' ) ),
+			action = null;
+
+		if ( typeof parent.wp.media.frame !== 'undefined' && 'replace-image' === parent.wp.media.frame._state ) {
+			action = 'replace-image';
+		} else if( typeof parent.window.send_to_editor === 'function' && false === inCustomizer ) {
+			action = 'editor';
+		} else if( 'dashboard-media' === self.baseAdmin.GetURLParameter( 'ref' ) ) {
+			action = 'dashboard-media';
+		} else if( true === inCustomizer ) {
+			action = 'customizer';
+		}
+
+		return action;
+	}
 
 	/**
 	 * Set the alignment to the current image's alignment
@@ -266,28 +291,26 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 	};
 
 	/**
+	 * @summary Download an image from the search results.
 	 *
+	 * @since 1.1.9
+	 *
+	 * @param jQuery object $anchor The "Download" button the user clicked.
 	 */
-	this.download_and_insert_into_page = function( anchor ) {
-		var $c_ad = jQuery( '#attachment_details' );
+	this.download = function( $anchor ) {
+		var $c_ad = $( '#attachment_details' ),
+			$image_size_option_selected = $( '#image_size option:selected', $c_imhmf ),
+			// Are we currently downloading an image?
+			$currently_downloading = $( '#currently_downloading_image', $c_ad );
 
-		/**
-		 * Are we already downloading?
-		 */
-		var currently_downloading = jQuery( '#currently_downloading_image', $c_ad );
-		// If we're already downloading...
-		if ( '1' == jQuery( currently_downloading ).val() ) {
-			// then abort the current download request
+		// Are we already downloading an image? If so, abort. Else, flag that we are.
+		if ( '1' === $currently_downloading.val() ) {
 			return;
-			// else [we're not currenlty downloading]]
 		} else {
-			// flag that we're currently downloading
-			jQuery( currently_downloading ).val( '1' );
+			$currently_downloading.val( '1' );
 		}
 
-		jQuery( anchor ).attr( 'disabled', true ).text( "Downloading image..." );
-
-		var $image_size_option_selected = jQuery( '#image_size option:selected', $c_imhmf );
+		$anchor.attr( 'disabled', true ).text( "Downloading image..." );
 
 		var data = {
 		    'action' : 'download_and_insert_into_page',
@@ -304,90 +327,55 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 		    'height' : $image_size_option_selected.attr( 'data-height' ),
 		};
 
-		jQuery
-		    .post(
-		        ajaxurl,
-		        data,
-		        function( response ) {
-			        // Are we in the Customizer?
-			        var in_customizer = ( 'dashboard-customizer' == self.baseAdmin
-			            .GetURLParameter( 'ref' ) ) ? true : false;
+		jQuery.post( ajaxurl, data, function( response ) {
+			response = JSON.parse( response );
 
-			        response = JSON.parse( response );
+			$anchor.text( "Image downloaded!" );
 
-			        jQuery( anchor ).text( "Image downloaded!" );
-
-			        // Success action for 'Replace Image' state.
-			        if ( typeof parent.wp.media.frame !== 'undefined'
-			            && 'replace-image' === parent.wp.media.frame._state ) {
-				        self.refresh_media_library();
-
-				        // Wait 1 second for the media library to refresh.
-				        setTimeout( function() {
-					        // In the media library, click the image we just
-					        // downloaded.
-					        $( '.attachments', window.parent.document ).children(
-					            "[data-id=" + response.attachment_id + "]" ).find(
-					            '.attachment-preview' ).click();
-
-					        // Click the replace button.
-					        $( '.media-button-replace', window.parent.document ).click();
-				        }, 1000 );
-				        return;
-			        }
-
-			        /*
-					 * If this function exists && we're not in the customizer,
-					 * then send the image to the editor.
-					 */
-			        if ( typeof parent.window.send_to_editor == 'function'
-			            && false === in_customizer ) {
-				        parent.window.send_to_editor( response.html_for_editor );
-			        }
-
-			        // If 'image search' is being called from the
-			        // Dashboard >> Media:
-			        if ( 'dashboard-media' == self.baseAdmin.GetURLParameter( 'ref' ) ) {
-				        var anchor_to_view_attachment_details_media_library = '<a href="post.php?post='
-				            + response.attachment_id
-				            + '&action=edit" target="_parent" class="button button-small view-image-in-library">View image in Media Library</a>';
-				        jQuery( anchor ).after( anchor_to_view_attachment_details_media_library );
-
-			        }
-
-			        // If we're in the customzer
-			        if ( true === in_customizer ) {
-				        self.download_success_action_customizer( response );
-			        }
-		        } );
+			self.downloadSuccess( response, $anchor );
+		});
 	};
 
 	/**
-	 * If in the Customizer, this is the function to run after a successful
-	 * image download.
+	 * Take different actions based upon where we're downloading the image from.
+	 *
+	 * @since 1.1.9
+	 *
+	 * @param object        response Our response from ajax / downloading our image.
+	 * @param jQuery object $anchor   A reference to our Download button.
 	 */
-	this.download_success_action_customizer = function( response ) {
-		// If we're not in the customizer, abort.
-		if ( 'dashboard-customizer' !== self.baseAdmin.GetURLParameter( 'ref' ) ) {
-			return;
-		}
+	this.downloadSuccess = function( response, $anchor ) {
+		var action = self.getAction();
 
-		self.refresh_media_library();
+		switch( action ) {
+			case 'replace-image':
 
-		// In the media library, click the image that was just downloaded.
-		// Then, click the select button.
-		setTimeout( function() {
-			jQuery( '.attachments', window.parent.document ).children(
-			    "[data-id=" + response.attachment_id + "]" ).find( '.attachment-preview' ).click();
+				self.refresh_media_library();
+				self.whenInLibrary( response.attachment_id, action );
 
-			jQuery( '.media-button-select', window.parent.document ).click();
-		}, 1000 );
+				break;
+			case 'editor':
 
-		// Make sure the toolbar at the bottom is visible. After selecting
-		// the image, we'll be cropping it. We'll need to see the buttons
-		// for 'crop / not now'.
-		jQuery( '.media-frame-toolbar', window.parent.document ).last().removeClass( 'hidden' );
-	};
+				parent.window.send_to_editor( response.html_for_editor );
+
+				break;
+			case 'dashboard-media':
+
+				var anchor_to_view_attachment_details_media_library = '<a href="post.php?post='
+		            + response.attachment_id
+		            + '&action=edit" target="_parent" class="button button-small view-image-in-library">View image in Media Library</a>';
+
+		        $anchor.after( anchor_to_view_attachment_details_media_library );
+
+				break;
+			case 'customizer':
+
+				self.refresh_media_library();
+	        	self.whenInLibrary( response.attachment_id, action );
+
+				break;
+		};
+	}
 
 	/**
 	 * Refresh the images in the library.
@@ -460,6 +448,87 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 			}
 		} );
 	};
+
+	/**
+	 * @summary Take action when an image is found in the Media Library.
+	 *
+	 * This method is triggered after we have downloaded an image. We wait for the new image to
+	 * appear in the Media Library, then we take action.
+	 *
+	 * This method uses an Interval to check the Media Library for the new image. The Interval is
+	 * used as there does not seem to be an action triggered after a successful Media Library refresh.
+	 *
+	 * @since 1.1.9
+	 *
+	 * @param int attachmentId ID of the attachment we're looking for.
+	 * @param string action The location we're downloading the image from. For example, Customizer.
+	 */
+	this.whenInLibrary = function( attachmentId, action ) {
+		var
+			// How much time has elapsed since we began looking for the image?
+			elapsed = 0,
+			// Wait up to 10 seconds for the new image to appear in the  library.
+			elapsedLimit = 10000,
+			// Has the new image been found in the library?
+			found,
+			// How often should we check to see if the new image is in the library.
+			interval = 100,
+			// An Interval to check for the new image in the library
+			checkInLibrary,
+			// A reference to the attachment in the library.
+			$attachment;
+
+		checkInLibrary = setInterval( function() {
+			// Has our attachment been found in the Media Library?
+			found = ( $( '.attachments', window.parent.document ).children( "[data-id=" + attachmentId + "]" ).length > 0 );
+
+			/*
+			 * Take action based upon whether or not our new image is in the Media Library.
+			 *
+			 * If the image has been found:
+			 * # Clear the interval, no need to keep looking.
+			 * # Run additional actions based upon whether we're in the customizer or replacing an image.
+			 *
+			 * Else:
+			 * # Increase the elapsed time. If we've reached our limit, clear the interval and abort.
+			 */
+			if( found ) {
+				clearInterval( checkInLibrary );
+
+				$attachment = $( '.attachments', window.parent.document ).children( "[data-id=" + attachmentId + "]" ).find( '.attachment-preview' );
+
+				switch( action ) {
+					case 'replace-image':
+
+						// In the media library, click the image we just downloaded, then click 'Replace'.
+				        $attachment.click();
+				        $( '.media-button-replace', window.parent.document ).click();
+
+						break;
+
+					case 'customizer':
+
+						/*
+						 * Make sure the toolbar at the bottom is visible. After selecting the image,
+						 * we'll be cropping it. We'll need to see the buttons for 'crop / not now'.
+						 */
+						$( '.media-modal:visible', window.parent.document ).find( '.media-frame-toolbar' ).removeClass( 'hidden' );
+
+						// In the media library, click the image that was just downloaded. Then, click the select button.
+						$attachment.click();
+						$( '.media-button-select', window.parent.document ).click();
+
+						break;
+				}
+			} else {
+				elapsed += interval;
+
+				if( elapsed >= elapsedLimit ) {
+					clearInterval( checkInLibrary );
+				}
+			}
+		}, interval );
+	}
 };
 
 new IMHWPB.StockImageSearch( IMHWPB.configs, jQuery );
