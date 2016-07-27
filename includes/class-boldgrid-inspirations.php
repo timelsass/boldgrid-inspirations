@@ -26,6 +26,7 @@ class Boldgrid_Inspirations {
 	/**
 	 * Array of BoldGrid specific configs
 	 *
+	 * @access protected
 	 * @var array
 	 */
 	protected $configs = null;
@@ -35,6 +36,7 @@ class Boldgrid_Inspirations {
 	 * if this returns null its because you called it on an instance that has not run
 	 * "passes_api_check"
 	 *
+	 * @access protected
 	 * @var bool
 	 */
 	protected $passed_key_validation = false;
@@ -54,9 +56,29 @@ class Boldgrid_Inspirations {
 	/**
 	 * Class property for asset server availability
 	 *
+	 * @access private
 	 * @var bool
+	 * @static
 	 */
 	private static $is_asset_server_available = false;
+
+	/**
+	 * Set the required PHP version.
+	 *
+	 * @access private
+	 * @var string
+	 * @static
+	 */
+	private static $required_php_version = '5.3';
+
+	/**
+	 * Set the required WordPress version.
+	 *
+	 * @access private
+	 * @var string
+	 * @static
+	 */
+	private static $required_wp_version = '4.2';
 
 	/**
 	 * Constructor
@@ -863,10 +885,7 @@ class Boldgrid_Inspirations {
 	 * @return bool Whether or not the current PHP version is supported.
 	 */
 	public static function is_php_compatible() {
-		// Set the required PHP version.
-		$required_php_version = '5.3';
-
-		if ( version_compare( phpversion(), $required_php_version, '<' ) ) {
+		if ( version_compare( phpversion(), self::$required_php_version, '<' ) ) {
 			return false;
 		} else {
 			return true;
@@ -887,7 +906,8 @@ class Boldgrid_Inspirations {
 		if ( true !== self::is_php_compatible() ) {
 			self::deactivate(
 				'<p><center><strong>BoldGrid Inspirations</strong> requires PHP ' .
-				 $required_php_version . ' or greater.</center></p>', 'Plugin Activation Error',
+				 self::$required_php_version . ' or greater.</center></p>',
+				'Plugin Activation Error',
 				array (
 					'response' => 200,
 					'back_link' => TRUE
@@ -899,12 +919,11 @@ class Boldgrid_Inspirations {
 		// die.
 		global $wp_version;
 
-		$required_wp_version = '4.2';
-
-		if ( version_compare( $wp_version, $required_wp_version, '<' ) ) {
+		if ( version_compare( $wp_version, self::$required_wp_version, '<' ) ) {
 			self::deactivate(
 				'<p><center><strong>BoldGrid Inspirations</strong> requires WordPress ' .
-				 $required_wp_version . ' or higher.</center></p>', 'Plugin Activation Error',
+				 self::$required_wp_version . ' or higher.</center></p>',
+				'Plugin Activation Error',
 				array (
 					'response' => 200,
 					'back_link' => TRUE
