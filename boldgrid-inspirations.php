@@ -54,4 +54,7 @@ if ( true === Boldgrid_Inspirations::is_php_compatible() ) {
 		$inspiration,
 		'pre_add_hooks'
 	) );
+} else {
+	// If PHP is not compatible, deactivate and die if activating from an admin page, or do nothing.
+	add_action( 'admin_init', 'Boldgrid_Inspirations::check_php_wp_version' );
 }

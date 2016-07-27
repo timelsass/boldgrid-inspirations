@@ -876,20 +876,23 @@ class Boldgrid_Inspirations {
 	/**
 	 * Check PHP and WordPress versions for compatibility
 	 *
+	 * @static
+	 *
 	 * @see self::is_php_compatible().
 	 * @see $this->deactivate().
 	 * @global string $wp_version The WordPress version string.
 	 */
-	public function check_php_wp_versions() {
+	public static function check_php_wp_version() {
 		// Check that PHP is installed at our required version or deactivate and die.
 		if ( true !== self::is_php_compatible() ) {
-			$this->deactivate(
+			self::deactivate(
 				'<p><center><strong>BoldGrid Inspirations</strong> requires PHP ' .
-					 $required_php_version . ' or greater.</center></p>', 'Plugin Activation Error',
-					array (
-						'response' => 200,
-						'back_link' => TRUE
-					) );
+				 $required_php_version . ' or greater.</center></p>', 'Plugin Activation Error',
+				array (
+					'response' => 200,
+					'back_link' => TRUE
+				)
+			);
 		}
 
 		// Check to see if WordPress version is installed at our required minimum or deactivate and
@@ -899,13 +902,14 @@ class Boldgrid_Inspirations {
 		$required_wp_version = '4.2';
 
 		if ( version_compare( $wp_version, $required_wp_version, '<' ) ) {
-			$this->deactivate(
+			self::deactivate(
 				'<p><center><strong>BoldGrid Inspirations</strong> requires WordPress ' .
-					 $required_wp_version . ' or higher.</center></p>', 'Plugin Activation Error',
-					array (
-						'response' => 200,
-						'back_link' => TRUE
-					) );
+				 $required_wp_version . ' or higher.</center></p>', 'Plugin Activation Error',
+				array (
+					'response' => 200,
+					'back_link' => TRUE
+				)
+			);
 		}
 	}
 
@@ -916,12 +920,13 @@ class Boldgrid_Inspirations {
 	 *
 	 * @since 1.2.2
 	 * @access private
+	 * @static
 	 *
 	 * @param string $message A message for wp_die to display.
 	 * @param string $title A title for wp_die to display.
 	 * @param array $array A control array for wp_die.
 	 */
-	private function deactivate( $message = '', $title = '', $array = array() ) {
+	private static function deactivate( $message = '', $title = '', $array = array() ) {
 		deactivate_plugins( BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' );
 
 		wp_die( $message, $title, $array );
