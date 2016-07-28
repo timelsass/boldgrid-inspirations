@@ -286,7 +286,7 @@ div.play-button:hover {
 }
 
 /** BoldGrid News Widget Styles **/
-#boldgrid_news_widget  {
+#boldgrid_news_widget .rss-date {
 	margin-left: 1em;
 	color: #72777c;
 	font-size: 13px;
