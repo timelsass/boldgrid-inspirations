@@ -1,6 +1,5 @@
 <div id='feedback-notice-1-1'>
 	<div id='feedback-notice-1-1-header'>
-		<div class='boldgrid-icon'></div>
 		<div id='feedback-notice-1-1-intro'>
 			<h2><?php echo __( 'BoldGrid Feedback Request' ); ?></h2>
 			<p><?php echo __( 'We love feedback, both positive and negative.  It helps us build a better tool.' ); ?></p>
