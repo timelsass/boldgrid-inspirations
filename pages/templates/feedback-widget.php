@@ -18,13 +18,7 @@
 					<option value='Theme design'><?php echo __('Theme design'); ?></option>
 					<option value='General usability'><?php echo __('General usability'); ?></option>
 					<option value='Feature suggestion'><?php echo __('Feature suggestion'); ?></option>
-					<option value='Your host'><?php
-					echo __( 'Your web hosting provider' );
-
-					if ( null !== $reseller_title ) {
-						echo ' (' . $reseller_title . ')';
-					}
-					?></option>
+					<option value='Your host'><?php echo __( 'Your web hosting provider' ); ?></option>
 					<option value='Bug report'><?php echo __('Bug report'); ?></option>
 					<option value='Other'><?php echo __('Other'); ?></option>
 				</select>

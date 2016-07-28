@@ -33,12 +33,6 @@
   -o-animation: fadein 3s; /* Opera */
 }
 
-#boldgrid_news_widget .rss-date {
-	margin-left: 1em;
-	color: #72777c;
-	font-size: 13px;
-}
-
 @keyframes fadein {
     from {
         opacity:0;
@@ -289,4 +283,24 @@ div.play-button:hover {
   font-weight: bold;
   padding: 3px 8px;
   border-radius: 90%;
+}
+
+/** BoldGrid News Widget Styles **/
+#boldgrid_news_widget  {
+	margin-left: 1em;
+	color: #72777c;
+	font-size: 13px;
+}
+
+/** BoldGrid Feedback Widget Styles **/
+#boldgrid_feedback_widget select,
+#boldgrid_feedback_widget textarea,
+#boldgrid_feedback_widget input[type="text"] {
+	width: 100%;
+}
+#boldgrid_feedback_widget .feedback-form-label {
+	padding: .4em 0;
+}
+#boldgrid_feedback_widget #feedback-comment-area {
+	display: none;
 }
