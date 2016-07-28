@@ -33,6 +33,12 @@
   -o-animation: fadein 3s; /* Opera */
 }
 
+#boldgrid_news_widget .rss-date {
+	margin-left: 1em;
+	color: #72777c;
+	font-size: 13px;
+}
+
 @keyframes fadein {
     from {
         opacity:0;
