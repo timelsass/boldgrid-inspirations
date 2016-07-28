@@ -426,4 +426,49 @@ class Boldgrid_Inspirations_Dashboard extends Boldgrid_Inspirations {
 	public function boldgrid_welcome_panel() {
 		include BOLDGRID_BASE_DIR . '/pages/boldgrid-dashboard-widget.php';
 	}
+
+	public function boldgrid_news_widget() {
+		$rss = fetch_feed( "https://www.boldgrid.com/feed/" );
+
+		if ( is_wp_error($rss) ) {
+			if ( is_admin() || current_user_can( 'manage_options' ) ) {
+				echo '<p>';
+				printf( __( '<strong>RSS Error</strong>: %s' ), $rss->get_error_message() );
+				echo '</p>';
+			}
+			return;
+		}
+
+		if ( ! $rss->get_item_quantity() ) {
+			echo '<p>There are no updates to show right now!</p>';
+			$rss->__destruct();
+			unset( $rss );
+			return;
+		}
+
+		echo "<ul>\n";
+
+		if ( ! isset( $items ) )
+			$items = 3;
+		foreach ( $rss->get_items( 0, $items ) as $item ) {
+			$publisher = '';
+			$site_link = '';
+			$link = '';
+			$content = '';
+			$date = $item->get_date();
+			$link = esc_url( strip_tags( $item->get_link() ) );
+			$title = esc_html( $item->get_title() );
+			$content = $item->get_content();
+			$content = wp_html_excerpt( $content, 250 ) . ' ...';
+
+			echo "<li><span class='rss-title'><a class='rsswidget' href='$link' target='_blank'>$title</a></span><span class='rss-date'>$date</span>\n<div class='rssSummary'>$content</div>\n";
+		}
+
+		echo "</ul>\n";
+		$rss->__destruct();
+		unset( $rss );
+	}
+	public function add_dashboard_widget() {
+		wp_add_dashboard_widget( 'boldgrid_news_widget', 'BoldGrid.com News', array( $this, 'boldgrid_news_widget' ) );
+	}
 }
