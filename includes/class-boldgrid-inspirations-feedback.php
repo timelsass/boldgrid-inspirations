@@ -522,7 +522,7 @@ class Boldgrid_Inspirations_Feedback {
 			$return .= '  ' . $object->get( 'Name' ) . ' (' . $key . ') [' .
 				 $object->get( 'Version' ) . ']' . $active . $staging . PHP_EOL;
 
-			$parent_theme = $object->get( 'parent' );
+			$parent_theme = $object->get( 'Template' );
 
 			$return .= '    Parent Theme: ' . ( $parent_theme ? $parent_theme : 'None' ) . PHP_EOL;
 
