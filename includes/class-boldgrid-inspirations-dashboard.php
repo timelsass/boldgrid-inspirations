@@ -480,17 +480,21 @@ class Boldgrid_Inspirations_Dashboard extends Boldgrid_Inspirations {
 		$rss->__destruct();
 		unset( $rss );
 	}
+
+	/**
+	 * Creates the BoldGrid Feedback Widget in dashboard.
+	 *
+	 * @since 1.2.2
+	 */
 	public function boldgrid_feedback_widget() {
 		// Get the admin email address.
 		$user_email = '';
-
 		if ( function_exists( 'wp_get_current_user' ) &&
 			 false !== ( $current_user = wp_get_current_user() ) ) {
 			$user_email = $current_user->user_email;
 		}
 		include BOLDGRID_BASE_DIR . '/pages/templates/feedback-widget.php';
 	}
-
 
 	/**
 	 * Adds the widgets we created to the WordPress dashboard.
