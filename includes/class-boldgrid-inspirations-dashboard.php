@@ -64,7 +64,14 @@ class Boldgrid_Inspirations_Dashboard extends Boldgrid_Inspirations {
 		), 104 ) );
 
 		if ( is_admin() ) {
-		add_action( 'wp_dashboard_setup', array( $this, 'add_dashboard_widget' ) );
+			wp_register_script( 'boldgrid-feedback-js',
+				plugins_url( 'assets/js/boldgrid-feedback.js',
+					BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ), array ( 'jquery' ), BOLDGRID_INSPIRATIONS_VERSION );
+
+			wp_enqueue_script( 'boldgrid-feedback-js' );
+
+			add_action( 'wp_dashboard_setup', array( $this, 'add_dashboard_widget' ) );
+
 			// grab array of settings for boldgrid from database
 			$boldgrid_menu_options = get_option( 'boldgrid_settings' );
 
@@ -473,6 +480,17 @@ class Boldgrid_Inspirations_Dashboard extends Boldgrid_Inspirations {
 		$rss->__destruct();
 		unset( $rss );
 	}
+	public function boldgrid_feedback_widget() {
+		// Get the admin email address.
+		$user_email = '';
+
+		if ( function_exists( 'wp_get_current_user' ) &&
+			 false !== ( $current_user = wp_get_current_user() ) ) {
+			$user_email = $current_user->user_email;
+		}
+		include BOLDGRID_BASE_DIR . '/pages/templates/feedback-widget.php';
+	}
+
 
 	/**
 	 * Adds the widgets we created to the WordPress dashboard.
@@ -481,5 +499,6 @@ class Boldgrid_Inspirations_Dashboard extends Boldgrid_Inspirations {
 	 */
 	public function add_dashboard_widget() {
 		wp_add_dashboard_widget( 'boldgrid_news_widget', 'BoldGrid.com News', array( $this, 'boldgrid_news_widget' ) );
+		wp_add_dashboard_widget( 'boldgrid_feedback_widget', 'BoldGrid Feedback', array( $this, 'boldgrid_feedback_widget' ) );
 	}
 }
