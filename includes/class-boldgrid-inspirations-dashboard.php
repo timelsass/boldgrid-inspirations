@@ -427,6 +427,11 @@ class Boldgrid_Inspirations_Dashboard extends Boldgrid_Inspirations {
 		include BOLDGRID_BASE_DIR . '/pages/boldgrid-dashboard-widget.php';
 	}
 
+	/**
+	 * Creates the BoldGrid.com News Widget in dashboard.
+	 *
+	 * @since 1.2.2
+	 */
 	public function boldgrid_news_widget() {
 		$rss = fetch_feed( "https://www.boldgrid.com/feed/" );
 
@@ -468,6 +473,12 @@ class Boldgrid_Inspirations_Dashboard extends Boldgrid_Inspirations {
 		$rss->__destruct();
 		unset( $rss );
 	}
+
+	/**
+	 * Adds the widgets we created to the WordPress dashboard.
+	 *
+	 * @since 1.2.2
+	 */
 	public function add_dashboard_widget() {
 		wp_add_dashboard_widget( 'boldgrid_news_widget', 'BoldGrid.com News', array( $this, 'boldgrid_news_widget' ) );
 	}
