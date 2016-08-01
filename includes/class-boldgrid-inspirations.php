@@ -26,6 +26,7 @@ class Boldgrid_Inspirations {
 	/**
 	 * Array of BoldGrid specific configs
 	 *
+	 * @access protected
 	 * @var array
 	 */
 	protected $configs = null;
@@ -35,6 +36,7 @@ class Boldgrid_Inspirations {
 	 * if this returns null its because you called it on an instance that has not run
 	 * "passes_api_check"
 	 *
+	 * @access protected
 	 * @var bool
 	 */
 	protected $passed_key_validation = false;
@@ -54,9 +56,29 @@ class Boldgrid_Inspirations {
 	/**
 	 * Class property for asset server availability
 	 *
+	 * @access private
 	 * @var bool
+	 * @static
 	 */
 	private static $is_asset_server_available = false;
+
+	/**
+	 * Set the required PHP version.
+	 *
+	 * @access private
+	 * @var string
+	 * @static
+	 */
+	private static $required_php_version = '5.3';
+
+	/**
+	 * Set the required WordPress version.
+	 *
+	 * @access private
+	 * @var string
+	 * @static
+	 */
+	private static $required_wp_version = '4.2';
 
 	/**
 	 * Constructor
@@ -855,36 +877,78 @@ class Boldgrid_Inspirations {
 	}
 
 	/**
-	 * Check PHP and WordPress versions for compatibility
+	 * Check PHP version.
+	 *
+	 * @since 1.2.2
+	 * @static
+	 *
+	 * @return bool Whether or not the current PHP version is supported.
 	 */
-	public function check_php_wp_versions() {
-		// Check that PHP is installed at our required version or deactivate and die:
-		$required_php_version = '5.3';
-		if ( version_compare( phpversion(), $required_php_version, '<' ) ) {
-			deactivate_plugins( BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' );
-			wp_die(
+	public static function is_php_compatible() {
+		if ( version_compare( phpversion(), self::$required_php_version, '<' ) ) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	/**
+	 * Check PHP and WordPress versions for compatibility
+	 *
+	 * @static
+	 *
+	 * @see self::is_php_compatible().
+	 * @see $this->deactivate().
+	 * @global string $wp_version The WordPress version string.
+	 */
+	public static function check_php_wp_version() {
+		// Check that PHP is installed at our required version or deactivate and die.
+		if ( true !== self::is_php_compatible() ) {
+			self::deactivate(
 				'<p><center><strong>BoldGrid Inspirations</strong> requires PHP ' .
-					 $required_php_version . ' or greater.</center></p>', 'Plugin Activation Error',
-					array (
-						'response' => 200,
-						'back_link' => TRUE
-					) );
+				 self::$required_php_version . ' or greater.</center></p>',
+				'Plugin Activation Error',
+				array (
+					'response' => 200,
+					'back_link' => TRUE
+				)
+			);
 		}
 
 		// Check to see if WordPress version is installed at our required minimum or deactivate and
-		// die:
+		// die.
 		global $wp_version;
-		$required_wp_version = '4.2';
-		if ( version_compare( $wp_version, $required_wp_version, '<' ) ) {
-			deactivate_plugins( BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' );
-			wp_die(
+
+		if ( version_compare( $wp_version, self::$required_wp_version, '<' ) ) {
+			self::deactivate(
 				'<p><center><strong>BoldGrid Inspirations</strong> requires WordPress ' .
-					 $required_wp_version . ' or higher.</center></p>', 'Plugin Activation Error',
-					array (
-						'response' => 200,
-						'back_link' => TRUE
-					) );
+				 self::$required_wp_version . ' or higher.</center></p>',
+				'Plugin Activation Error',
+				array (
+					'response' => 200,
+					'back_link' => TRUE
+				)
+			);
 		}
+	}
+
+	/**
+	 * Deactivate and die.
+	 *
+	 * Used if PHP or WordPress version check fails.
+	 *
+	 * @since 1.2.2
+	 * @access private
+	 * @static
+	 *
+	 * @param string $message A message for wp_die to display.
+	 * @param string $title A title for wp_die to display.
+	 * @param array $array A control array for wp_die.
+	 */
+	private static function deactivate( $message = '', $title = '', $array = array() ) {
+		deactivate_plugins( BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' );
+
+		wp_die( $message, $title, $array );
 	}
 
 	/**

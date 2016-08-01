@@ -218,7 +218,7 @@ class Boldgrid_Inspirations_Inspiration extends Boldgrid_Inspirations {
 			// Check PHP and WordPress versions for compatibility.
 			add_action( 'admin_init', array (
 				$this,
-				'check_php_wp_versions'
+				'check_php_wp_version'
 			) );
 
 			// BoldGrid help link in the WordPress Help context tab.
