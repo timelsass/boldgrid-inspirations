@@ -65,6 +65,8 @@ class Boldgrid_Inspirations_Built {
 		$this->inspiration = $inspiration;
 	}
 
+	public $design_first = true;
+
 	/**
 	 * The Steps that are shown for both journeys
 	 *
@@ -339,29 +341,75 @@ class Boldgrid_Inspirations_Built {
 
 			// Enqueue Scripts
 			if ( ! isset( $_REQUEST['task'] ) ) {
-				wp_enqueue_script( 'inspiration-js',
-					plugins_url( 'assets/js/inspiration.js',
-						BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ), array (),
-					BOLDGRID_INSPIRATIONS_VERSION, true );
 
-				wp_enqueue_script( 'jquery-ui-autocomplete' );
+				if( $this->design_first ) {
+					add_thickbox();
 
-				wp_register_script( 'boldgrid-inspiration-built',
-					plugins_url( 'assets/js/inspiration-built.js',
+					// Css.
+					wp_register_style(
+						'boldgrid-inspirations-design-first',
+						plugins_url( '/assets/css/boldgrid-inspirations-design-first.css', BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ),
+						array(),
+						BOLDGRID_INSPIRATIONS_VERSION
+					);
+					wp_enqueue_style( 'boldgrid-inspirations-design-first' );
+
+					wp_enqueue_style( 'dashicons' );
+
+					// Js.
+					wp_enqueue_script( 'boldgrid-inspirations-design-first',
+						plugins_url( 'assets/js/boldgrid-inspirations-design-first.js', BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ),
+						array(),
+						BOLDGRID_INSPIRATIONS_VERSION,
+						true
+					);
+
+					wp_localize_script( 'boldgrid-inspirations-design-first',
+						'Inspiration',
+						array (
+							'active' => 'Active',
+							'staging' => 'Staging',
+						)
+					);
+
+					// Js.
+					wp_enqueue_script( 'boldgrid-lazyload',
+						plugins_url( 'assets/js/lazyload.js', BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ),
+						array( 'jquery' ),
+						BOLDGRID_INSPIRATIONS_VERSION,
+						true
+					);
+				} else {
+					wp_enqueue_script( 'inspiration-js',
+						plugins_url( 'assets/js/inspiration.js',
 						BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ),
-					array (
-						'inspiration-js'
-					), BOLDGRID_INSPIRATIONS_VERSION, true );
+						array (),
+						BOLDGRID_INSPIRATIONS_VERSION,
+						true
+					);
 
-				wp_localize_script( 'boldgrid-inspiration-built', 'Inspiration',
-					array (
-						'build_status' => $this->mode_data['mode'],
-						'install_options' => $this->install_options,
-						'page_selection' => $this->mode_data['page_selection'],
-						'mode_data' => $this->mode_data
-					) );
+					wp_enqueue_script( 'jquery-ui-autocomplete' );
 
-				wp_enqueue_script( 'boldgrid-inspiration-built' );
+					wp_register_script( 'boldgrid-inspiration-built',
+						plugins_url( 'assets/js/inspiration-built.js',
+						BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ),
+						array ( 'inspiration-js' ),
+						BOLDGRID_INSPIRATIONS_VERSION,
+						true
+					);
+
+					wp_localize_script( 'boldgrid-inspiration-built',
+						'Inspiration',
+						array (
+							'build_status' => $this->mode_data['mode'],
+							'install_options' => $this->install_options,
+							'page_selection' => $this->mode_data['page_selection'],
+							'mode_data' => $this->mode_data
+						)
+					);
+
+					wp_enqueue_script( 'boldgrid-inspiration-built' );
+				}
 			}
 		}
 	}
@@ -419,65 +467,113 @@ class Boldgrid_Inspirations_Built {
 			wp_die( $this->inspiration->notify_connection_issue() );
 		}
 
-		// If the users task is deploy, include the deploy files.
+		// Determine which page to show.
 		if ( isset( $_POST['task'] ) && 'deploy' == $_POST['task'] ) {
-			// Check nonce:
-			if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], 'deploy' ) ) {
-				// Could not validate nonce.
-				wp_die( 'You must deploy a website from BoldGrid Inspirations Step 3!' );
-			} else {
-				// Clear to deploy.
-				$this->inspiration->deploy_script();
-			}
-
-			// The user is installing a theme only.
-			// Take to a confirmation page where the user can activate it.
-		} else if ( isset( $_GET['task'] ) && 'theme-install-success' == $_GET['task'] ) {
-			$stylesheet = strip_tags( $_GET['stylesheet'] );
-			$staging = strip_tags( $_GET['staging'] );
-			$error = false;
-			$wp_theme = wp_get_theme( $stylesheet );
-
-			if ( is_object( $wp_theme ) ) {
-				$staging_url = '';
-
-				if ( '1' == $staging ) {
-					$staging_url = '&staging=1';
-				}
-
-				$theme_label = $wp_theme->Name . ' - ' . $wp_theme->Version;
-				$theme_styelsheet = $stylesheet;
-
-				$enable_theme_url = wp_nonce_url(
-					get_admin_url() . 'themes.php?action=activate' . $staging_url . '&stylesheet=' .
-						 $theme_styelsheet, 'switch-theme_' . $stylesheet );
-			} else {
-				$error = true;
-			}
-
-			include BOLDGRID_BASE_DIR . '/pages/theme-install-success.php';
+			$which = 'deploy';
+		} elseif ( isset( $_GET['task'] ) && 'theme-install-success' == $_GET['task'] ) {
+			$which = 'theme';
 		} else {
-			// Set $nav_steps for the template "/pages/inspirations.php".
-			$nav_steps = $this->nav_steps[$this->mode_data['mode']];
+			$which = 'standard';
+		}
 
-			// Get the boldgrid_api_data transient to get is_author.
-			if ( is_multisite() ) {
-				$boldgrid_api_data = get_site_transient( 'boldgrid_api_data' );
-			} else {
-				$boldgrid_api_data = get_transient( 'boldgrid_api_data' );
+		switch( $which ) {
+			case 'deploy':
+				$this->inspiration_page_deploy();
+				break;
+			case 'theme':
+				$this->inspiration_page_theme();
+				break;
+			case 'standard':
+				if( $this->design_first ) {
+					$this->inspiration_page_design_first();
+				} else {
+					$this->inspiration_page_standard( $boldgrid_configs );
+				}
+				break;
+		}
+	}
+
+	/**
+	 *
+	 */
+	public function inspiration_page_deploy() {
+		// Check nonce:
+		if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], 'deploy' ) ) {
+			// Could not validate nonce.
+			wp_die( 'You must deploy a website from BoldGrid Inspirations Step 3!' );
+		} else {
+			// Clear to deploy.
+			$this->inspiration->deploy_script();
+		}
+	}
+
+	/**
+	 *
+	 */
+	public function inspiration_page_design_first() {
+		$theme_channel = Boldgrid_Inspirations_Theme_Install::fetch_theme_channel();
+
+		// Underscores Templates.
+		include BOLDGRID_BASE_DIR . '/pages/templates/boldgrid-inspirations-design-first.php';
+
+		// Intro template.
+		include BOLDGRID_BASE_DIR . '/pages/includes/boldgrid-inspirations/intro.php';
+
+		// Page template.
+		include BOLDGRID_BASE_DIR . '/pages/boldgrid-inspirations-design-first.php';
+	}
+
+	public function inspiration_page_standard( $boldgrid_configs ) {
+		// Set $nav_steps for the template "/pages/inspirations.php".
+		$nav_steps = $this->nav_steps[$this->mode_data['mode']];
+
+		// Get the boldgrid_api_data transient to get is_author.
+		if ( is_multisite() ) {
+			$boldgrid_api_data = get_site_transient( 'boldgrid_api_data' );
+		} else {
+			$boldgrid_api_data = get_transient( 'boldgrid_api_data' );
+		}
+
+		$is_author = ! empty( $boldgrid_api_data->result->data->is_author );
+		$theme_channel = Boldgrid_Inspirations_Theme_Install::fetch_theme_channel();
+
+		// Include the inspirations page.
+		include BOLDGRID_BASE_DIR . '/pages/inspiration.php';
+
+		// @todo: This variable can probably be removed in the future.
+		// Set a javascript variable to flag this inspirations_type.
+		wp_localize_script( 'boldgrid-inspiration-built', 'boldgrid_inspirations_type',
+			$this->mode_data['mode'] );
+
+	}
+
+	/**
+	 *
+	 */
+	public function inspiration_page_theme() {
+		$stylesheet = strip_tags( $_GET['stylesheet'] );
+		$staging = strip_tags( $_GET['staging'] );
+		$error = false;
+		$wp_theme = wp_get_theme( $stylesheet );
+
+		if ( is_object( $wp_theme ) ) {
+			$staging_url = '';
+
+			if ( '1' == $staging ) {
+				$staging_url = '&staging=1';
 			}
 
-			$is_author = ! empty( $boldgrid_api_data->result->data->is_author );
-			$theme_channel = Boldgrid_Inspirations_Theme_Install::fetch_theme_channel();
+			$theme_label = $wp_theme->Name . ' - ' . $wp_theme->Version;
+			$theme_styelsheet = $stylesheet;
 
-			// Include the inspirations page.
-			include BOLDGRID_BASE_DIR . '/pages/inspiration.php';
-
-			// @todo: This variable can probably be removed in the future.
-			// Set a javascript variable to flag this inspirations_type.
-			wp_localize_script( 'boldgrid-inspiration-built', 'boldgrid_inspirations_type',
-				$this->mode_data['mode'] );
+			$enable_theme_url = wp_nonce_url(
+				get_admin_url() . 'themes.php?action=activate' . $staging_url . '&stylesheet=' .
+				$theme_styelsheet, 'switch-theme_' . $stylesheet );
+		} else {
+			$error = true;
 		}
+
+		include BOLDGRID_BASE_DIR . '/pages/theme-install-success.php';
 	}
 
 	/**

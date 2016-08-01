@@ -1,20 +1,21 @@
 <?php
+
 // Configure variables.
 $lang = array(
-	'Design' =>		__( 'Design', 'boldgrid-inspirations' ),
-	'Content' =>	__( 'Content', 'boldgrid-inspirations' ),
-	'CoinBudget' =>	__( 'Coin Budget', 'boldgrid-inspirations'),
-	'Coins' =>		__( 'Coins', 'boldgrid-inspirations' ),
-	'Category' =>   __( 'Category Filter', 'boldgrid-inspirations' ),
-	'Pageset' =>	__( 'Pageset', 'boldgrid-inspirations' ),
-	'Free' =>		__( 'Free', 'boldgrid-inspirations' ),
-	'Desktop' =>    __( 'Enter desktop preview mode', 'boldgrid-inspirations' ),
-	'Tablet' =>     __( 'Enter tablet preview mode', 'boldgrid-inspirations' ),
-	'Mobile' =>     __( 'Enter mobile preview mode', 'boldgrid-inspirations' ),
+	'Design' =>								__( 'Design', 'boldgrid-inspirations' ),
+	'Content' =>							__( 'Content', 'boldgrid-inspirations' ),
+	'CoinBudget' =>							__( 'Coin Budget', 'boldgrid-inspirations'),
+	'Coins' =>								__( 'Coins', 'boldgrid-inspirations' ),
+	'Category' =>							__( 'Category Filter', 'boldgrid-inspirations' ),
+	'Pageset' =>							__( 'Pageset', 'boldgrid-inspirations' ),
+	'Free' =>								__( 'Free', 'boldgrid-inspirations' ),
+	'Desktop' =>							__( 'Enter desktop preview mode', 'boldgrid-inspirations' ),
+	'Tablet' =>								__( 'Enter tablet preview mode', 'boldgrid-inspirations' ),
+	'Mobile' =>								__( 'Enter mobile preview mode', 'boldgrid-inspirations' ),
 );
 
 ?>
-<div class="wrap">
+<div class="wrap main hidden">
 
 	<div class="top-menu design">
 		<a class="active" data-step="design" ><?php echo $lang['Design'] ?></a>
@@ -106,7 +107,7 @@ $lang = array(
 				</div>
 				<div style="float:right;">
 					<button class="inspirations button button-secondary">Back</button>
-					<button class="inspirations button button-primary">Install</button>
+					<button class="inspirations button button-primary install">Install</button>
 				</div>
 			</div>
 
@@ -118,25 +119,40 @@ $lang = array(
 
 </div>
 
-<form method="post" name="post_deploy" id="post_deploy" style="display: none;" action="admin.php?page=boldgrid-inspirations" >
+
+
+
+<div id='install-modal' class='hidden' >
+	<h1><?php _e('Install your new website!','boldgrid-inspirations'); ?></h1>
+	<p><?php _e('<strong>Congratulations</strong>, you\'ve completed the first three steps!','boldgrid-inspirations'); ?></p>
+	<p><?php _e('Before you can add your own personal touches to your <span id="install-modal-destination"></span> website, we\'ll first need to install your new website for you. After installation, you can add your own images, change text, etc.','boldgrid-inspirations'); ?></p>
+	<p><?php _e('Are you ready to install this website?','boldgrid-inspirations'); ?></p>
+	<p class='center' id='install-buttons'>
+		<button class="go-back button button-secondary"><?php _e('Go back','boldgrid-inspirations'); ?></button>
+		<button class='button button-primary install-this-website'><?php _e('Install this website!','boldgrid-inspirations'); ?></button>
+	</p>
+</div>
+
+
+<form class="hidden" method="post" name="post_deploy" id="post_deploy" action="admin.php?page=boldgrid-inspirations" >
 	<input type="hidden" name="task"                           id="task"                           value="deploy" >
-	<input type="hidden" name="_wpnonce"                       id="_wpnonce"                       value="0d14469600" >
+	<input type="hidden" name="_wpnonce"                       id="_wpnonce"                       value="<?php echo wp_nonce_field( 'deploy' ); ?>" >
 	<input type="text"   name="boldgrid_cat_id"                id="boldgrid_cat_id"                value="-1" >
 	<input type="text"   name="boldgrid_sub_cat_id"            id="boldgrid_sub_cat_id"            value="-1" >
 	<input type="text"   name="boldgrid_theme_id"              id="boldgrid_theme_id"              value="-1" >
 	<input type="text"   name="boldgrid_page_set_id"           id="boldgrid_page_set_id"           value="-1" >
-	<input type="text"   name="boldgrid_api_key_hash"          id="boldgrid_api_key_hash"          value="87" >
-	<input type="text"   name="boldgrid_new_path"              id="boldgrid_new_path"              value="0310254001464869383" >
+	<input type="text"   name="boldgrid_api_key_hash"          id="boldgrid_api_key_hash"          value="<?php echo (isset($boldgrid_configs['api_key']) ? $boldgrid_configs['api_key'] : null); ?>" >
+	<input type="text"   name="boldgrid_new_path"              id="boldgrid_new_path"              value="<?php echo str_replace('.','',str_replace(' ','',microtime())); ?>" >
 	<input type="text"   name="boldgrid_pde"                   id="boldgrid_pde"                   value="" >
 	<input type="text"   name="boldgrid_language_id"           id="boldgrid_language_id"           value="" >
 	<input type="text"   name="boldgrid_build_profile_id"      id="boldgrid_build_profile_id"      value="" >
 	<input type="text"   name="coin_budget"                    id="coin_budget"                    value="20" >
-	<input type="text"   name="boldgrid_theme_version_type"    id="boldgrid_theme_version_type"    value="active" >
+	<input type="text"   name="boldgrid_theme_version_type"    id="boldgrid_theme_version_type"    value="<?php echo $theme_channel ?>" >
 	<input type="text"   name="boldgrid_page_set_version_type" id="boldgrid_page_set_version_type" value="active" >
 	<input type="text"   name="deploy-type"                                                        value="" >
 	<input type="text"   name="pages"                                                              value="" >
 	<input type="text"   name="staging"                                                            value="" >
 	<input type="hidden" name="_wp_http_referer"                                                   value="/single-site/wp-admin/admin.php?page=boldgrid-inspirations&amp;boldgrid-tab=install" >
-	<input type="hidden"                                       id="wp_language"                    value="en-US" >
+	<input type="hidden"                                       id="wp_language"                    value="<?php echo bloginfo( 'language' ); ?>" >
 	<input type="submit"                                                                           value="Deploy" >
 </form>

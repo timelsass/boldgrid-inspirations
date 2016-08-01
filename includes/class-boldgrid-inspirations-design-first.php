@@ -17,6 +17,9 @@
  */
 class Boldgrid_Inspirations_Design_First {
 
+	public function __construct( ) {
+	}
+
 	/**
 	 * Add hooks.
 	 *
@@ -112,8 +115,13 @@ class Boldgrid_Inspirations_Design_First {
 	 * @since xxx
 	 */
 	public function admin_page() {
+		add_thickbox();
+
 		// Underscores Templates.
 		include BOLDGRID_BASE_DIR . '/pages/templates/boldgrid-inspirations-design-first.php';
+
+		// Intro template.
+		include BOLDGRID_BASE_DIR . '/pages/includes/boldgrid-inspirations/intro.php';
 
 		// Page template.
 		include BOLDGRID_BASE_DIR . '/pages/boldgrid-inspirations-design-first.php';

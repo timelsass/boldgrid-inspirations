@@ -130,6 +130,53 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	};
 
 	/**
+	 *
+	 */
+	this.bindInstallModal = function() {
+		$( 'button.install' ).click( function() {
+			tb_show("Installation", '#TB_inline?inlineId=install-modal&modal=false', true);
+		});
+
+		$( 'button.go-back' ).on( 'click', function() {
+			tb_remove();
+		});
+
+		/*
+		 * Bind click of "Install this website!".
+		 *
+		 * This is the button that submits the #post_deploy form and actually installs a website.
+		 */
+		$( 'button.install-this-website' ).on( 'click', function() {
+			$( '#post_deploy' ).submit();
+		});
+	}
+
+	/**
+	 *
+	 */
+	this.bindIntroSelection = function() {
+		$('#select-install-type a.button').on( 'click', function() {
+			var $button = $(this);
+
+			// Hide the #select-install-type container.
+			$button.closest('.wrap').addClass('hidden');
+
+			switch( $button.attr('data-install-type') ) {
+				case 'staging':
+					$( 'input[name="staging"]' ).val( 1 );
+					$( '#install-modal-destination' ).html( Inspiration.staging );
+					break;
+				case 'active':
+					$( 'input[name="staging"]' ).val( '' );
+					$( '#install-modal-destination' ).html( Inspiration.active );
+					break;
+			}
+
+			$( '.wrap.main' ).removeClass( 'hidden' );
+		});
+	}
+
+	/**
 	 * Checks to see if the mobile menu is actually displayed.
 	 *
 	 * @return boolean
@@ -347,6 +394,8 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		self.pagesetOptions();
 		self.iframeLoad();
 		self.steps();
+		self.bindIntroSelection();
+		self.bindInstallModal();
 	};
 
 	/**
@@ -462,7 +511,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			'cat_id' :				self.$theme.closest( '.theme' ).attr( 'data-category-id' ),
 			'sub_cat_id' :			self.$theme.closest( '.theme' ).attr( 'data-sub-category-id' ),
 			'page_set_id' :			self.$pageset.attr( 'data-page-set-id' ),
-			'pde' :					null,
+			'pde' :					self.$theme.closest( '.theme' ).attr( 'data-pde' ),
 			'wp_language' :			'en-US',
 			'coin_budget' :			self.$budget.attr( 'data-coin' ),
 			'theme_version_type' :	null,
@@ -471,6 +520,15 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			'inspirations_mode' :	'standard',
 			'is_generic' :			( '1' === self.$pageset.attr( 'data-is-default' ) ? 'true' : 'false' ),
 		};
+
+		// Set form.
+		$( '[name=boldgrid_cat_id]' ).val( data.cat_id );
+		$( '[name=boldgrid_sub_cat_id]' ).val( data.sub_cat_id );
+		$( '[name=boldgrid_theme_id]' ).val( data.theme_id );
+		$( '[name=boldgrid_page_set_id]' ).val( data.page_set_id );
+		$( '[name=boldgrid_api_key_hash]' ).val( data.site_hash );
+		$( '[name=boldgrid_pde]' ).val( data.pde );
+		$( '[name=coin_budget]' ).val( data.coin_budget );
 
 		self.ajax.ajaxCall( data, 'get_build_profile', success_action );
 	};

@@ -351,8 +351,8 @@ class Boldgrid_Inspirations_Inspiration extends Boldgrid_Inspirations {
 		$gridblock_sets_admin->add_hooks();
 
 		// Inspirations - Design First.
-		$gridblock_sets_design_first = new Boldgrid_Inspirations_Design_First();
-		$gridblock_sets_design_first->add_hooks();
+		//$gridblock_sets_design_first = new Boldgrid_Inspirations_Design_First( );
+		//$gridblock_sets_design_first->add_hooks();
 	}
 
 	/*
@@ -490,7 +490,9 @@ public function boldgrid_style( $hook ) {
 		'transactions_page_boldgrid-cart',
 		'settings_page_boldgrid-settings',
 		'appearance_page_boldgrid-staging',
-		'boldgrid_page_boldgrid-cart'
+		'boldgrid_page_boldgrid-cart',
+		// Inspirations design first
+		'inspirations_page_admin?page=boldgrid-inspirations-design-first',
 	);
 
 	if ( in_array( $hook, $hooks_to_load_grid ) ) {
