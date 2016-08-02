@@ -84,6 +84,10 @@ switch( $scenario ) {
 					<p>' . $lang['staging-yes-active-no'] . '</p>';
 		$bottom = sprintf( $templates['buttons']['install_to_active'], $lang['new_theme_for_staging'], $lang['install_new_active_site'] );
 		break;
+	default:
+		$top = 'Missing top';
+		$bottom = 'Missing bottom';
+		break;
 }
 
 // Print.
