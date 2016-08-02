@@ -500,7 +500,7 @@ class Boldgrid_Inspirations_Dashboard extends Boldgrid_Inspirations {
 	 * @since 1.2.2
 	 */
 	public function add_dashboard_widget() {
-		wp_add_dashboard_widget( 'boldgrid_news_widget', 'BoldGrid.com News', array( $this, 'boldgrid_news_widget' ) );
-		wp_add_dashboard_widget( 'boldgrid_feedback_widget', 'BoldGrid Feedback', array( $this, 'boldgrid_feedback_widget' ) );
+		wp_add_dashboard_widget( 'boldgrid_news_widget', __( 'BoldGrid.com News', 'boldgrid-inspirations' ), array( $this, 'boldgrid_news_widget' ) );
+		wp_add_dashboard_widget( 'boldgrid_feedback_widget', __( 'BoldGrid Feedback', 'boldgrid-inspirations' ), array( $this, 'boldgrid_feedback_widget' ) );
 	}
 }
