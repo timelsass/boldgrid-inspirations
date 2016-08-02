@@ -41,28 +41,6 @@ class Boldgrid_Inspirations_Dashboard extends Boldgrid_Inspirations {
 			update_option( 'boldgrid_settings', $boldgrid_settings );
 		}
 
-		/**
-		 * Check if we are using multisite or not, then change our hook location and
-		 * priority accordingly.
-		 *
-		 * @bugfix JIRA WPB-687
-		 */
-
-		// if not using multisite
-		( ! is_multisite() == true ?
-
-		// remove WP core's editor submenu item via admin init
-		add_action( 'admin_init', array (
-			$this,
-			'boldgrid_remove_editor'
-		), 105 ) :
-
-		// or if using multisite, then remove the action before it happens on single site
-		remove_action( 'admin_menu', array (
-			$this,
-			'_add_themes_utility_last'
-		), 104 ) );
-
 		if ( is_admin() ) {
 			wp_register_script( 'boldgrid-feedback-js',
 				plugins_url( 'assets/js/boldgrid-feedback.js',
@@ -90,6 +68,27 @@ class Boldgrid_Inspirations_Dashboard extends Boldgrid_Inspirations {
 
 			// if option is marked to rearrange admin menus
 			if ( 1 == $boldgrid_menu_options['boldgrid_menu_option'] ) {
+				/**
+				 * Check if we are using multisite or not, then change our hook location and
+				 * priority accordingly.
+				 *
+				 * @bugfix JIRA WPB-687
+				 */
+				// if not using multisite
+				( ! is_multisite() == true ?
+
+					// remove WP core's editor submenu item via admin init
+					add_action( 'admin_init', array (
+						$this,
+						'boldgrid_remove_editor'
+					), 105 ) :
+
+					// or if using multisite, then remove the action before it happens on single site
+					remove_action( 'admin_menu', array (
+						$this,
+						'_add_themes_utility_last'
+					), 104 )
+				);
 
 				// then... rearrange them...
 				add_action( 'admin_menu', array (
@@ -104,7 +103,6 @@ class Boldgrid_Inspirations_Dashboard extends Boldgrid_Inspirations {
 						'boldgrid_remove_customizer'
 					), 999 );
 			} else {
-
 				// create a single menu item
 				add_action( 'admin_menu',
 					array (
