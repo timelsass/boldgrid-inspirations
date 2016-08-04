@@ -136,10 +136,13 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 	 *
 	 */
 	this.event_handler_search_result_click = function( result ) {
-		var image_provider_id = jQuery( result ).data( 'image-provider-id' );
-		var id_from_provider = jQuery( result ).data( 'id-from-provider' );
-
-		var attachment_details = jQuery( '#attachment_details', $c_imhmf );
+		var image_provider_id = jQuery( result ).data( 'image-provider-id' ),
+			id_from_provider = jQuery( result ).data( 'id-from-provider' ),
+			attachment_details = jQuery( '#attachment_details', $c_imhmf ),
+			// Count of image sizes that have been flagged as recommended.
+			recommendedCount,
+			// The select element with options of different image sizes.
+			$imageSelect;
 
 		// show loading message...
 		jQuery( attachment_details )
@@ -181,6 +184,22 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 				var source = jQuery( "#attachment-details-template" ).html();
 				var template = Handlebars.compile( source );
 				jQuery( '#attachment_details', $c_imhmf ).html( template( msg.result.data ) );
+
+				// After the attachment details pane has been loaded, set a few variables.
+				$imageSelect = $( '#image_size' );
+				recommendedCount = $imageSelect.find( 'option.recommended_image_size' ).length;
+
+				/*
+				 * If we have no recommended image sizes, by default select the last / largest image
+				 * in the results.
+				 *
+				 * If we did not do this, when searching for large background images we would see
+				 * 75px by 75px as the default option rather than a large image we need such as
+				 * 1920px by 1080.
+				 */
+				if( 0 === recommendedCount ) {
+					$imageSelect.find( 'option:last' ).prop( 'selected', true );
+				}
 
 				// PreSelect Alignment if replacing an image
 				self.select_image_alignment();

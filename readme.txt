@@ -32,6 +32,7 @@ The second phase is Customization; tools to transform your website into your vis
 * New feature:  				Added BoldGrid news widget to dashboard.
 * Bug fix: 		JIRA WPB-1994	Fixed issue with WP Theme Editor not being available.
 * New feature: 					Added BoldGrid Feedback widget.
+* Bug fix:		JIRA WPB-2169	Connect Search defaults to smallest image size when no recommended sizes available.
 
 = 1.2.1 =
 * Bug fix:		JIRA WPB-2160	New From GridBlocks, multiple pages are installed.
