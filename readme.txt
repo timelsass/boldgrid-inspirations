@@ -27,6 +27,7 @@ The second phase is Customization; tools to transform your website into your vis
 == Changelog ==
 
 = 1.2.3 In Progress =
+* Rework:		JIRA WPB-2150	Moved API methods to a new class.
 * Bug fix:      JIRA WPB-2224	Hide the email address field when widget is loaded.
 
 = 1.2.2 =
