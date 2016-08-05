@@ -406,17 +406,20 @@ class Boldgrid_Inspirations_Built {
 
 	/**
 	 * Callback that will render the Boldgrid Inspiration phase.
+	 *
+	 * @see Boldgrid_Inspirations_Api::boldgrid_api_call().
 	 */
 	public function inspiration_page() {
 		$boldgrid_configs = Boldgrid_Inspirations_Config::get_format_configs();
 
-		$api_call_results = Boldgrid_Inspirations::boldgrid_api_call(
-			$boldgrid_configs['ajax_calls']['get_version'] );
+		$api_call_results = Boldgrid_Inspirations_Api::boldgrid_api_call(
+			$boldgrid_configs['ajax_calls']['get_version']
+		);
 
 		if ( is_null( $api_call_results ) ) {
 			error_log( __METHOD__ . ': Error getting BoldGrid version.' );
 
-			wp_die( $this->inspiration->notify_connection_issue() );
+			wp_die( $this->inspiration->api->notify_connection_issue() );
 		}
 
 		// If the users task is deploy, include the deploy files.
