@@ -27,7 +27,7 @@ The second phase is Customization; tools to transform your website into your vis
 == Changelog ==
 
 = 1.2.2 In progress =
-* Rework:		JIRA WPB-2150	Moved API methods to a new class.
+* Rework:		JIRA WPB-2150	Moved API methods to a new class, formatting, and phpcs rework.
 * Bug fix:		JIRA WPB-2058	Added wrap class to the tutorials page.
 * Bug fix:		JIRA WPB-2184	In PHP 5.2, deactivate and die properly.
 * New feature:  				Added BoldGrid news widget to dashboard.
