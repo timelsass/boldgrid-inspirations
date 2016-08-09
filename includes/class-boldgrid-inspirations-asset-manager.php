@@ -971,8 +971,6 @@ class Boldgrid_Inspirations_Asset_Manager extends Boldgrid_Inspirations {
 	 * We will check the $item variable to determine if we're downloading an asset
 	 * or something else.
 	 *
-	 * @see Boldgrid_Inspirations_Api::get_api_key_hash().
-	 *
 	 * @param int|array $item An asset id or an array of parameters.
 	 * @param int $transaction_id An optional transaction id.
 	 * @return array
@@ -999,7 +997,7 @@ class Boldgrid_Inspirations_Asset_Manager extends Boldgrid_Inspirations {
 									'method' => 'POST',
 									'body' => array (
 									/* @formatter:off */
-									'key' => $this->api->get_api_key_hash(),
+									'key' => $this->api_key_hash,
 									'id_from_provider' 			=> $item['params']['id_from_provider'],
 									'image_provider_id' 		=> 	$item['params']['image_provider_id'],
 									'imgr_image_id' 			=> 	isset( $item['params']['imgr_image_id'] )				? $item['params']['imgr_image_id']				: null,
@@ -1023,7 +1021,7 @@ class Boldgrid_Inspirations_Asset_Manager extends Boldgrid_Inspirations {
 									'method' => 'POST',
 									'body' => array (
 										/* @formatter:off */
-										'key' => $this->api->get_api_key_hash(),
+										'key' => $this->api_key_hash,
 										'id_from_provider' 			=> $item['params']['id_from_provider'],
 										'image_provider_id' 		=> 	$item['params']['image_provider_id'],
 										'imgr_image_id' 			=> 	isset( $item['params']['imgr_image_id'] )				? $item['params']['imgr_image_id']				: null,
@@ -1068,7 +1066,7 @@ class Boldgrid_Inspirations_Asset_Manager extends Boldgrid_Inspirations {
 							'arguments' => array (
 								'method' => 'POST',
 								'body' => array (
-									'key' 				=> 	$this->api->get_api_key_hash(),
+									'key' 				=> 	$this->api_key_hash,
 									'id_from_provider' 	=> 	$_POST['id_from_provider'],
 									'image_provider_id' => 	$_POST['image_provider_id'],
 									'image_size' 		=> 	$_POST['image_size'],
@@ -1092,7 +1090,7 @@ class Boldgrid_Inspirations_Asset_Manager extends Boldgrid_Inspirations {
 				/* @formatter:off */
 				$url = $boldgrid_configs['asset_server'] . $boldgrid_configs['ajax_calls']['get_asset'] .
 					'?id=' 				. 	$item .
-					'&key=' 			. 	$this->api->get_api_key_hash();
+					'&key=' 			. 	$this->api_key_hash;
 				/* @formatter:on */
 
 				$return = array (

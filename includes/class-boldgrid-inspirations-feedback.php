@@ -186,7 +186,6 @@ class Boldgrid_Inspirations_Feedback {
 	 * Deliver the feedback payload to the asset server.
 	 *
 	 * @since 1.0.9
-	 * @see Boldgrid_Inspirations_Api::boldgrid_api_call().
 	 *
 	 * @param array $data Feedback data array (from the WP Option "boldgrid_feedback").
 	 * @return bool
@@ -201,7 +200,7 @@ class Boldgrid_Inspirations_Feedback {
 		$feedback_data['boldgrid_feedback'] = wp_json_encode( $data );
 
 		// Send the data.
-		$response = Boldgrid_Inspirations_Api::boldgrid_api_call( '/api/feedback/process', false,
+		$response = Boldgrid_Inspirations::boldgrid_api_call( '/api/feedback/process', false,
 			$feedback_data, 'POST' );
 
 		// Check response.
