@@ -68,34 +68,6 @@ class Boldgrid_Inspirations_Built {
 	public $design_first = true;
 
 	/**
-	 * The Steps that are shown for both journeys
-	 *
-	 * @var array
-	 */
-	private $nav_steps = array (
-		'standard' => array (
-			'step-1' => array (
-				'title' => 'Step 1: Category',
-				'content' => 'includes/inspiration_category_select.php'
-			),
-			'step-2' => array (
-				'title' => 'Step 2: Base Website',
-				'content' => 'includes/base_website.php'
-			),
-			'step-3' => array (
-				'title' => 'Step 3: Pages',
-				'content' => 'includes/page_set_selection.php'
-			)
-		),
-		'inspired' => array (
-			'step-1' => array (
-				'title' => 'Themes',
-				'content' => 'includes/theme_selection.php'
-			)
-		)
-	);
-
-	/**
 	 * Add actions/hooks
 	 */
 	public function add_hooks() {
@@ -125,15 +97,9 @@ class Boldgrid_Inspirations_Built {
 	 * Generate the scenario data and add the users menu items.
 	 */
 	public function admin_menu() {
-		$this->staging_plugin_active = $this->check_staging_plugin();
-		$this->mode_data = $this->generate_scenarios();
-
-		global $boldgrid_inspiration_menu_items;
-		$boldgrid_inspiration_menu_items = $this->mode_data['menu'];
-
 		$this->add_top_menu_item( 'boldgrid-inspirations' );
 
-		self::add_sub_menu_items( $boldgrid_inspiration_menu_items, 'boldgrid-inspirations' );
+		self::add_sub_menu_items( 'boldgrid-inspirations' );
 	}
 
 	/**
@@ -251,6 +217,27 @@ class Boldgrid_Inspirations_Built {
 	}
 
 	/**
+	 *
+	 */
+	public function has_active_bg_site( $install_options ) {
+		// If we have no installed_pages saved in install_options, return false.
+		if( empty( $install_options['active_options']['installed_pages'] ) ) {
+			return false;
+		}
+
+		// Generate a CSV of pages installed by BoldGrid.
+		$installed_pages = implode( ',', $install_options['active_options']['installed_pages'] );
+
+		$pages = get_pages( array(
+			'include' => $installed_pages,
+			'post_status' => 'publish'
+		));
+
+		// If we have at least one 'BoldGrid installed page' published, return true.
+		return ( ! empty( $pages ) );
+	}
+
+	/**
 	 * Check to see if the user has an active site
 	 *
 	 * @return boolean
@@ -305,6 +292,73 @@ class Boldgrid_Inspirations_Built {
 	}
 
 	/**
+	 *
+	 */
+	public static function has_blank_active_site() {
+		/*
+		 * Get a list of all active pages.
+		 *
+		 * If we have an active Attribution page, exclude that from the list.
+		 */
+		$attribution_page = get_page_by_title( 'Attribution' );
+
+		if( is_object( $attribution_page ) ) {
+			$exclude = $attribution_page->ID;
+		} else {
+			$exclude = '';
+		}
+
+		$pages = get_pages( array(
+			'exclude' => $exclude,
+			'post_status' => 'publish',
+		));
+
+		// If there are no active pages, return true.
+		if ( empty( $pages ) ) {
+			return true;
+		}
+
+		// Get default pages we're expecting.
+		$default_pages = array(
+			'sample' => get_page_by_title( 'Sample Page' ),
+			'coming_soon' => get_page_by_title( 'WEBSITE COMING SOON' ),
+		);
+
+		// How many of our default pages were found.
+		$default_pages_found = 0;
+		foreach( $default_pages as $page ) {
+			if( is_object( $page ) ) {
+				$default_pages_found++;
+			}
+		}
+
+		/*
+		 * If the count of our pages found is the same as our count of default pages found, then we
+		 * have a blank site.
+		 */
+		if( $default_pages_found == count( $pages ) ) {
+			return true;
+		}
+		/*
+		 * If the number of pages we have is <= the number of default pages found, then we have
+		 * a blank site.
+		 *
+		 * EQUALS
+		 * If we have 2 pages and we have 2 default_pages_found, then every page we have is a default
+		 * page.
+		 *
+		 * LESS THAN
+		 * If we have 1 page and we have 2 default pages, then one of our default pages is the current
+		 * page.
+		 */
+		if( count( $pages ) <= $default_pages_found ) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	/**
 	 * Get the staging theme name from the staging plugin
 	 *
 	 * @return WP_Theme | null
@@ -337,81 +391,50 @@ class Boldgrid_Inspirations_Built {
 	public function enqueue_scripts() {
 		$current_screen = get_current_screen();
 
-		if ( 'toplevel_page_boldgrid-inspirations' == $current_screen->base ) {
-
-			// Enqueue Scripts
-			if ( ! isset( $_REQUEST['task'] ) ) {
-
-				if( $this->design_first ) {
-					add_thickbox();
-
-					// Css.
-					wp_register_style(
-						'boldgrid-inspirations-design-first',
-						plugins_url( '/assets/css/boldgrid-inspirations-design-first.css', BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ),
-						array(),
-						BOLDGRID_INSPIRATIONS_VERSION
-					);
-					wp_enqueue_style( 'boldgrid-inspirations-design-first' );
-
-					wp_enqueue_style( 'dashicons' );
-
-					// Js.
-					wp_enqueue_script( 'boldgrid-inspirations-design-first',
-						plugins_url( 'assets/js/boldgrid-inspirations-design-first.js', BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ),
-						array(),
-						BOLDGRID_INSPIRATIONS_VERSION,
-						true
-					);
-
-					wp_localize_script( 'boldgrid-inspirations-design-first',
-						'Inspiration',
-						array (
-							'active' => 'Active',
-							'staging' => 'Staging',
-						)
-					);
-
-					// Js.
-					wp_enqueue_script( 'boldgrid-lazyload',
-						plugins_url( 'assets/js/lazyload.js', BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ),
-						array( 'jquery' ),
-						BOLDGRID_INSPIRATIONS_VERSION,
-						true
-					);
-				} else {
-					wp_enqueue_script( 'inspiration-js',
-						plugins_url( 'assets/js/inspiration.js',
-						BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ),
-						array (),
-						BOLDGRID_INSPIRATIONS_VERSION,
-						true
-					);
-
-					wp_enqueue_script( 'jquery-ui-autocomplete' );
-
-					wp_register_script( 'boldgrid-inspiration-built',
-						plugins_url( 'assets/js/inspiration-built.js',
-						BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ),
-						array ( 'inspiration-js' ),
-						BOLDGRID_INSPIRATIONS_VERSION,
-						true
-					);
-
-					wp_localize_script( 'boldgrid-inspiration-built',
-						'Inspiration',
-						array (
-							'build_status' => $this->mode_data['mode'],
-							'install_options' => $this->install_options,
-							'page_selection' => $this->mode_data['page_selection'],
-							'mode_data' => $this->mode_data
-						)
-					);
-
-					wp_enqueue_script( 'boldgrid-inspiration-built' );
-				}
-			}
+		if( 'toplevel_page_boldgrid-inspirations' != $current_screen->base ) {
+			return;
 		}
+
+		if( isset( $_REQUEST['task'] ) ) {
+			return;
+		}
+
+		add_thickbox();
+
+		// Css.
+		wp_register_style(
+			'boldgrid-inspirations-design-first',
+			plugins_url( '/assets/css/boldgrid-inspirations-design-first.css', BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ),
+			array(),
+			BOLDGRID_INSPIRATIONS_VERSION
+		);
+		wp_enqueue_style( 'boldgrid-inspirations-design-first' );
+
+		wp_enqueue_style( 'dashicons' );
+
+		// Js.
+		wp_enqueue_script( 'boldgrid-inspirations-design-first',
+			plugins_url( 'assets/js/boldgrid-inspirations-design-first.js', BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ),
+			array(),
+			BOLDGRID_INSPIRATIONS_VERSION,
+			true
+		);
+
+		wp_localize_script( 'boldgrid-inspirations-design-first',
+			'Inspiration',
+			array (
+				'active' => 'Active',
+				'staging' => 'Staging',
+			)
+		);
+
+		// Js.
+		wp_enqueue_script( 'boldgrid-lazyload',
+			plugins_url( 'assets/js/lazyload.js', BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ),
+			array( 'jquery' ),
+			BOLDGRID_INSPIRATIONS_VERSION,
+			true
+		);
 	}
 
 	/**
@@ -430,26 +453,15 @@ class Boldgrid_Inspirations_Built {
 	/**
 	 * Add Layouts Menu Item after pages.
 	 */
-	public static function add_sub_menu_items( $menu_items, $top_level ) {
-		$static_top_level = $top_level;
+	public static function add_sub_menu_items( $top_level ) {
+		$slug = self::get_menu_slug( $top_level );
 
-		// Add the themes submenu if needed.
-		if ( false !== array_search( 'Themes', $menu_items ) ) {
-
-			$slug = self::get_menu_slug( $top_level );
-			add_submenu_page( $static_top_level, 'Install New Themes', 'Install New Themes',
-				'manage_options',
-				$slug ? $slug : 'admin.php?page=boldgrid-inspirations&boldgrid-tab=themes' );
-		}
-
-		// Add the Install submenu if needed.
-		if ( false !== array_search( 'Install', $menu_items ) ) {
-
-			$slug = self::get_menu_slug( $top_level );
-			add_submenu_page( $static_top_level, 'Install New Site', 'Install New Site',
-				'manage_options',
-				$slug ? $slug : 'admin.php?page=boldgrid-inspirations&boldgrid-tab=install' );
-		}
+		add_submenu_page( $top_level,
+			'Install New Site',
+			'Install New Site',
+			'manage_options',
+			$slug ? $slug : 'admin.php?page=boldgrid-inspirations&boldgrid-tab=install'
+		);
 	}
 
 	/**
@@ -470,28 +482,15 @@ class Boldgrid_Inspirations_Built {
 			wp_die( $this->inspiration->api->notify_connection_issue() );
 		}
 
-		// Determine which page to show.
-		if ( isset( $_POST['task'] ) && 'deploy' == $_POST['task'] ) {
-			$which = 'deploy';
-		} elseif ( isset( $_GET['task'] ) && 'theme-install-success' == $_GET['task'] ) {
-			$which = 'theme';
-		} else {
-			$which = 'standard';
-		}
+		// Determine which page to show and then show it.
+		$which = ( isset( $_POST['task'] ) && 'deploy' == $_POST['task'] ? 'deploy' : 'standard' );
 
 		switch( $which ) {
 			case 'deploy':
 				$this->inspiration_page_deploy();
 				break;
-			case 'theme':
-				$this->inspiration_page_theme();
-				break;
 			case 'standard':
-				if( $this->design_first ) {
-					$this->inspiration_page_design_first();
-				} else {
-					$this->inspiration_page_standard( $boldgrid_configs );
-				}
+				$this->inspiration_page_design_first();
 				break;
 		}
 	}
@@ -516,6 +515,8 @@ class Boldgrid_Inspirations_Built {
 	public function inspiration_page_design_first() {
 		$theme_channel = Boldgrid_Inspirations_Theme_Install::fetch_theme_channel();
 
+		$mode_data = $this->generate_scenarios();
+
 		// Underscores Templates.
 		include BOLDGRID_BASE_DIR . '/pages/templates/boldgrid-inspirations-design-first.php';
 
@@ -526,314 +527,29 @@ class Boldgrid_Inspirations_Built {
 		include BOLDGRID_BASE_DIR . '/pages/boldgrid-inspirations-design-first.php';
 	}
 
-	public function inspiration_page_standard( $boldgrid_configs ) {
-		// Set $nav_steps for the template "/pages/inspirations.php".
-		$nav_steps = $this->nav_steps[$this->mode_data['mode']];
-
-		// Get the boldgrid_api_data transient to get is_author.
-		if ( is_multisite() ) {
-			$boldgrid_api_data = get_site_transient( 'boldgrid_api_data' );
-		} else {
-			$boldgrid_api_data = get_transient( 'boldgrid_api_data' );
-		}
-
-		$is_author = ! empty( $boldgrid_api_data->result->data->is_author );
-		$theme_channel = Boldgrid_Inspirations_Theme_Install::fetch_theme_channel();
-
-		// Include the inspirations page.
-		include BOLDGRID_BASE_DIR . '/pages/inspiration.php';
-
-		// @todo: This variable can probably be removed in the future.
-		// Set a javascript variable to flag this inspirations_type.
-		wp_localize_script( 'boldgrid-inspiration-built', 'boldgrid_inspirations_type',
-			$this->mode_data['mode'] );
-
-	}
-
 	/**
+	 * Determine the user's scenario.
 	 *
-	 */
-	public function inspiration_page_theme() {
-		$stylesheet = strip_tags( $_GET['stylesheet'] );
-		$staging = strip_tags( $_GET['staging'] );
-		$error = false;
-		$wp_theme = wp_get_theme( $stylesheet );
-
-		if ( is_object( $wp_theme ) ) {
-			$staging_url = '';
-
-			if ( '1' == $staging ) {
-				$staging_url = '&staging=1';
-			}
-
-			$theme_label = $wp_theme->Name . ' - ' . $wp_theme->Version;
-			$theme_styelsheet = $stylesheet;
-
-			$enable_theme_url = wp_nonce_url(
-				get_admin_url() . 'themes.php?action=activate' . $staging_url . '&stylesheet=' .
-				$theme_styelsheet, 'switch-theme_' . $stylesheet );
-		} else {
-			$error = true;
-		}
-
-		include BOLDGRID_BASE_DIR . '/pages/theme-install-success.php';
-	}
-
-	/**
-	 * Determine the users Scenario.
+	 * # The user has a blank website.							has_blank_active_site()
+	 * # The user has an active site built with BoldGrid.		has_active_bg_site()
+	 * # The user has an active site not build with BoldGrid.	Deduced by has_blank_active_site()
+	 * 															and has_active_bg_site().
+	 * # The user has a staging site.
 	 *
 	 * @return array
 	 */
 	public function generate_scenarios() {
 		$this->install_options = self::find_all_install_options();
 
-		// Does the user have Active or Staging Sites.
-		$has_active_site = self::has_active_site();
-		$has_staged_site = $this->has_staged_site();
-
-		// Has the user built their staging and/or active site with BoldGrid?.
-		$has_built_with_wpb = ( $has_active_site && 'yes' == get_option( 'boldgrid_has_built_site' ) );
-
-		$has_built_with_wpb_staged = ( $has_staged_site && 'yes' == get_option(
-			'boldgrid_staging_boldgrid_has_built_site' ) );
-
-		// This is a fail safe if installing a website does not complete.
-		// If the users has installed pages then the user must have built with BoldGrid.
-		// If this is not true, it is because an installation has failed, override the active site
-		// so that the user can reenter the process.
-		if ( $this->install_options['active_options']['installed_pages'] && $has_active_site &&
-			 false == $has_built_with_wpb ) {
-			$has_active_site = false;
-		}
-
-		// This is the same for the above but for failed staged sites.
-		if ( $this->install_options['boldgrid_staging_options']['installed_pages'] &&
-			 $has_staged_site && false == $has_built_with_wpb_staged ) {
-			$has_staged_site = false;
-		}
-
-		// The user has built either of their sites with boldgrid.
-		$has_built_with_either = ( $has_built_with_wpb || $has_built_with_wpb_staged );
-
-		/*
-		 * Given the previous settings.
-		 * - determine what will display in the menu.
-		 * - whether we will install into stage, or active.
-		 */
-		// A site can only change pages, if its been built with boldgrid.
-		$menu_options = array ();
-
-		$site_install_destination = $inspired_install_destination = false;
-
-		$inspiration_settings = array (
-			$has_active_site,
-			$has_staged_site,
-			$this->staging_plugin_active,
-			$has_built_with_either
-		);
-
-		switch ( $inspiration_settings ) {
-			case array (
-				false,
-				false,
-				false,
-				false
-			) :
-				$menu_options = array (
-					'Inspiration'
-				);
-				$site_install_destination = 'active';
-				break;
-
-			case array (
-				false,
-				false,
-				true,
-				false
-			) :
-				$menu_options = array (
-					'Inspiration'
-				);
-				$site_install_destination = 'choice';
-				break;
-
-			case array (
-				true,
-				false,
-				true,
-				false
-			) :
-				$menu_options = array (
-					'Themes',
-					'Install'
-				);
-				$site_install_destination = 'stage';
-				$inspired_install_destination = 'active';
-				break;
-
-			case array (
-				false,
-				true,
-				true,
-				false
-			) :
-				$menu_options = array (
-					'Themes',
-					'Install'
-				);
-				$site_install_destination = 'active';
-				$inspired_install_destination = 'stage';
-				break;
-
-			case array (
-				false,
-				true,
-				true,
-				true
-			) :
-				$menu_options = array (
-					'Themes',
-					'Install'
-				);
-				$site_install_destination = 'active';
-				$inspired_install_destination = 'stage';
-				break;
-
-			case array (
-				true,
-				false,
-				false,
-				false
-			) :
-				$menu_options = array (
-					'Themes'
-				);
-				$inspired_install_destination = 'active';
-				break;
-
-			case array (
-				true,
-				false,
-				false,
-				true
-			) :
-				$menu_options = array (
-					'Themes'
-				);
-				$inspired_install_destination = 'active';
-				break;
-
-			case array (
-				true,
-				false,
-				true,
-				true
-			) :
-				$menu_options = array (
-					'Themes',
-					'Install'
-				);
-				$site_install_destination = 'stage';
-				$inspired_install_destination = 'active';
-				break;
-
-			case array (
-				true,
-				true,
-				true,
-				false
-			) :
-				$menu_options = array (
-					'Themes'
-				);
-				$inspired_install_destination = 'choice';
-				break;
-
-			case array (
-				true,
-				true,
-				true,
-				true
-			) :
-				$menu_options = array (
-					'Themes'
-				);
-				$inspired_install_destination = 'choice';
-				break;
-
-			default :
-				$menu_options = array (
-					'Inspiration'
-				);
-				break;
-		}
-
-		// Mode is either Standard or Inspired
-		// Standard indicated that the user is building an entire site
-		// Inspired indicates that the user is adding pages or themes
-		$mode = 'standard';
-
-		$inspired_settings = array (
-			'themes'
-		);
-
-		$tab_request = isset( $_REQUEST['boldgrid-tab'] ) ? $_REQUEST['boldgrid-tab'] : null;
-
-		if ( in_array( $tab_request, $inspired_settings ) ) {
-			$mode = 'inspired';
-		}
-
-		// If the user did not request a tab, that the request will be the first option of the menu
-		if ( ! $tab_request && in_array( strtolower( $menu_options[0] ), $inspired_settings ) ) {
-			$mode = 'inspired';
-		}
-
-		//
-		if ( ( 'inspired' == $mode && $tab_request ) || 'install' == $tab_request ) {
-			$page_selection = $tab_request;
-		} else {
-			$page_selection = strtolower( $menu_options[0] );
-		}
-
-		// We are inspired, install settings don't matter.
-		if ( 'inspired' == $mode ) {
-			$site_install_destination = false;
-		}
-
-		// We are going into install, inspired setting does not matter.
-		if ( 'standard' == $mode ) {
-			$inspired_install_destination = false;
-		}
-
-		$build_any = false;
-
-		// Build any indicates that we dont have a subcategory, so the build process
-		// will build any category.
-		if ( 'inspired' == $mode && false == $has_built_with_either ) {
-			$build_any = true;
-		}
-
-		// If either of these are set to stage, we will default to stage.
-
 		// Create return array.
-		$return = array (
-			'menu' => $menu_options,
-			'mode' => $mode,
-			'page_selection' => $page_selection,
-			'install_destination' => $site_install_destination,
-			'inspired_install_destination' => $inspired_install_destination,
-			'open-section' => ( ! empty( $_GET['force-section'] ) ) ? sanitize_text_field(
-				$_GET['force-section'] ) : '',
-			'staging_active' => $this->staging_plugin_active,
-			'build_any' => $build_any,
-			'url' => get_admin_url() . 'admin.php?page=boldgrid-inspirations',
-			'has_active_site' => $has_active_site,
-			'has_staged_site' => $has_staged_site,
-			'has_built_with_either' => $has_built_with_either
+		return array (
+			'has_active_bg_site' =>		$this->has_active_bg_site( $this->install_options ),
+			'has_staged_site' =>		$this->has_staged_site(),
+			'has_blank_active_site' =>	self::has_blank_active_site(),
+			'open-section' =>			( ! empty( $_GET['force-section'] ) ) ? sanitize_text_field( $_GET['force-section'] ) : '',
+			'staging_active' =>			$this->check_staging_plugin(),
+			'url' =>					get_admin_url() . 'admin.php?page=boldgrid-inspirations',
 		);
-
-		// Return the array.
-		return $return;
 	}
 
 	/**
