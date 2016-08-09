@@ -301,6 +301,7 @@ div.play-button:hover {
 #boldgrid_feedback_widget .feedback-form-label {
 	padding: .4em 0;
 }
+#boldgrid_feedback_widget #feedback-email-address,
 #boldgrid_feedback_widget #feedback-comment-area {
 	display: none;
 }
