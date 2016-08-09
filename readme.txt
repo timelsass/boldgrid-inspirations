@@ -26,6 +26,9 @@ The second phase is Customization; tools to transform your website into your vis
 
 == Changelog ==
 
+= 1.2.3 In Progress =
+* Bug fix:      JIRA WPB-2224	Hide the email address field when widget is loaded.
+
 = 1.2.2 =
 * Bug fix:		JIRA WPB-2058	Added wrap class to the tutorials page.
 * Bug fix:		JIRA WPB-2184	In PHP 5.2, deactivate and die properly.
