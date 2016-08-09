@@ -177,20 +177,27 @@ class Boldgrid_Inspirations_Update {
 	/**
 	 * Update api data transient from data on our asset server.
 	 *
+	 * @see Boldgrid_Inspirations_Update::get_configs().
+	 * @see Boldgrid_Inspirations_Api::boldgrid_api_call().
+	 * @see Boldgrid_Inspirations_Api::set_is_asset_server_available().
+	 *
 	 * @return object $boldgrid_api_data or false
 	 */
 	public static function update_api_data() {
+		// Determine if multisite.
+		$is_multisite = is_multisite();
+
 		// Get api data transient.
-		if ( is_multisite() ) {
+		if ( true === $is_multisite ) {
 			$boldgrid_api_data = get_site_transient( 'boldgrid_api_data' );
 		} else {
 			$boldgrid_api_data = get_transient( 'boldgrid_api_data' );
 		}
 
 		// If the API data was just retrieved (last 5 seconds) and is ok, then just return it.
-		if ( false === empty( $boldgrid_api_data ) && isset( $boldgrid_api_data->updated ) &&
-			 $boldgrid_api_data->updated >= time() - 5 ) {
-
+		if ( false === empty( $boldgrid_api_data ) &&
+		true === isset( $boldgrid_api_data->updated ) &&
+		$boldgrid_api_data->updated >= time() - 5 ) {
 			return $boldgrid_api_data;
 		}
 
@@ -212,14 +219,15 @@ class Boldgrid_Inspirations_Update {
 		}
 
 		// Get the latest version information (API call).
-		$boldgrid_api_data = Boldgrid_Inspirations::boldgrid_api_call(
-			$boldgrid_configs['ajax_calls']['get_version'] );
+		$boldgrid_api_data = Boldgrid_Inspirations_Api::boldgrid_api_call(
+			$boldgrid_configs['ajax_calls']['get_version']
+		);
 
 		// Check asset server availability.
 		if ( isset( $boldgrid_api_data->status ) ) {
-			Boldgrid_Inspirations::set_is_asset_server_available( true );
+			Boldgrid_Inspirations_Api::set_is_asset_server_available( true );
 		} else {
-			Boldgrid_Inspirations::set_is_asset_server_available( false );
+			Boldgrid_Inspirations_Api::set_is_asset_server_available( false );
 
 			return false;
 		}
@@ -227,11 +235,14 @@ class Boldgrid_Inspirations_Update {
 		// Fail if we do not have success.
 		if ( 200 !== $boldgrid_api_data->status || 'OK' !== $boldgrid_api_data->message ) {
 			error_log(
-				__METHOD__ . ': Failed to get valid updated boldgrid_api_data.  ' . print_r(
+				__METHOD__ . ': Failed to get valid updated boldgrid_api_data.  ' .
+				print_r(
 					array (
 						'uri' => $boldgrid_configs['ajax_calls']['get_version'],
-						'$boldgrid_api_data' => $boldgrid_api_data
-					), true ) );
+						'$boldgrid_api_data' => $boldgrid_api_data,
+					), true
+				)
+			);
 
 			return false;
 		}
@@ -240,7 +251,7 @@ class Boldgrid_Inspirations_Update {
 		$boldgrid_api_data->updated = time();
 
 		// Set api data transient, expired in 8 hours.
-		if ( is_multisite() ) {
+		if ( true === $is_multisite ) {
 			delete_site_transient( 'boldgrid_api_data' );
 			set_site_transient( 'boldgrid_api_data', $boldgrid_api_data, 8 * HOUR_IN_SECONDS );
 		} else {

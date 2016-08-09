@@ -11,24 +11,20 @@
  * License: GPL
  */
 
-// Prevent direct calls.
-if ( false === defined( 'WPINC' ) ) {
-	header( 'Status: 403 Forbidden' );
-	header( 'HTTP/1.1 403 Forbidden' );
-	exit();
-}
-
 // Define version.
 if ( false === defined( 'BOLDGRID_INSPIRATIONS_VERSION' ) ) {
 	define( 'BOLDGRID_INSPIRATIONS_VERSION', '1.2.1' );
 }
 
-// Used for other BoldGrid plugins to locate the core plugin directory.
+// Used for this and other BoldGrid plugins to locate the core plugin directory.
 if ( false === defined( 'BOLDGRID_BASE_DIR' ) ) {
 	define( 'BOLDGRID_BASE_DIR', dirname( __FILE__ ) );
 }
 
-// If our class is not loaded, then include it.
+// Prevent direct calls.
+require BOLDGRID_BASE_DIR . '/includes/partial-page/restrict-direct-access.php';
+
+// If our class is not loaded, then require it.
 if ( false === class_exists( 'Boldgrid_Inspirations' ) ) {
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations.php';
 }
@@ -43,7 +39,7 @@ if ( true === Boldgrid_Inspirations::is_php_compatible() ) {
 		'configDir' => BOLDGRID_BASE_DIR . '/includes/config'
 	);
 
-	// Instantiate the inspiration class.
+	// Instantiate the inspiration class (also loads the parent class Boldgrid_Inspirations).
 	$inspiration = new Boldgrid_Inspirations_Inspiration( $settings );
 
 	// Add pre-init hooks.

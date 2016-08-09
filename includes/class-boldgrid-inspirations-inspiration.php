@@ -46,36 +46,34 @@ class Boldgrid_Inspirations_Inspiration extends Boldgrid_Inspirations {
 	public function __construct( $pluginPath ) {
 		$this->pluginPath = $pluginPath;
 		parent::__construct( $pluginPath );
-
-		require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-utility.php';
 	}
 
 	/**
-	 * Add pre-init hooks
+	 * Add pre-init hooks.
 	 */
 	public function add_pre_init_hooks() {
-		// Update user metadata for last login:
+		// Update user metadata for last login.
 		add_action( 'wp_login', array (
 			$this,
 			'update_last_login'
 		) );
 
-		// Ensure there is reseller info, if available:
+		// Ensure there is reseller info, if available.
 		if ( false === get_option( 'boldgrid_reseller' ) ) {
 
-			// Include the update class:
+			// Include the update class.
 			require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-update.php';
 
-			// Call the update_api_data method to get the latest data and set the reseller option:
+			// Call the update_api_data method to get the latest data and set the reseller option.
 			Boldgrid_Inspirations_Update::update_api_data();
 		}
 
-		// Branding
+		// Branding.
 		require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-branding.php';
 		$branding = new Boldgrid_Inspirations_Branding();
 		$branding->add_hooks();
 
-		// After plugins have been loaded, load the textdomain:
+		// After plugins have been loaded, load the textdomain.
 		add_action( 'plugins_loaded', array (
 			$this,
 			'boldgrid_load_textdomain'
@@ -83,12 +81,12 @@ class Boldgrid_Inspirations_Inspiration extends Boldgrid_Inspirations {
 
 		// This class is instantiated in later hook.
 		require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-theme-install.php';
-		// Apply BoldGrid theme config modifications
+		// Apply BoldGrid theme config modifications.
 		Boldgrid_Inspirations_Theme_Install::universal_framework_configs();
 
 		// If not on a network admin page, load stuff.
 		if ( false === is_network_admin() ) {
-			// This class is instantiated in later hook
+			// This class is instantiated in later hook.
 			require_once BOLDGRID_BASE_DIR .
 				 '/includes/class-boldgrid-inspirations-theme-install.php';
 
@@ -105,7 +103,7 @@ class Boldgrid_Inspirations_Inspiration extends Boldgrid_Inspirations {
 			) );
 
 		// If DOING_CRON, then check if this plugin should be auto-updated.
-		if ( defined( 'DOING_CRON' ) && DOING_CRON ){
+		if ( true === defined( 'DOING_CRON' ) && DOING_CRON ){
 			// Ensure required definitions for pluggable.
 			if ( false === defined( 'AUTH_COOKIE' ) ) {
 				define( 'AUTH_COOKIE', null );
@@ -130,11 +128,16 @@ class Boldgrid_Inspirations_Inspiration extends Boldgrid_Inspirations {
 	}
 
 	/**
-	 * Pre-add hooks
+	 * Pre-add hooks.
+	 *
+	 * @see Boldgrid_Inspirations_Api::add_hooks_to_prompt_for_api_key().
+	 * @see Boldgrid_Inspirations_Config::get_format_configs().
+	 * @see Boldgrid_Inspirations_Api::get_is_asset_server_available().
+	 * @see Boldgrid_Inspirations_Api::passes_api_check();
 	 */
 	public function pre_add_hooks() {
 		// Add hooks for users on the front end that are not logged in.
-		if ( ! is_user_logged_in() && ! is_admin() ) {
+		if ( true !== is_user_logged_in() && true !== is_admin() ) {
 			$this->add_wp_hooks();
 
 			// Get BoldGrid settings.
@@ -156,35 +159,35 @@ class Boldgrid_Inspirations_Inspiration extends Boldgrid_Inspirations {
 		}
 
 		// If POST is an API key activation call, then handle the callback:
-		if ( isset( $_POST['action'] ) && isset( $_POST['api_key'] ) &&
-			 'set_api_key' == $_POST['action'] ) {
-			$this->add_hooks_to_prompt_for_api_key();
+		if ( true === isset( $_POST['action'] ) && true === isset( $_POST['api_key'] ) &&
+		'set_api_key' === $_POST['action'] ) {
+			$this->api->add_hooks_to_prompt_for_api_key();
 		} else {
-			// Get the configs:
-			$configs = $this->get_configs();
+			// Get the configs.
+			$configs = Boldgrid_Inspirations_Config::get_format_configs();
 
-			// Get the API hash from configs:
-			$api_key_hash = isset( $configs['api_key'] ) ? $configs['api_key'] : null;
+			// Get the API hash from configs.
+			$api_key_hash = ( true === isset( $configs['api_key'] ) ? $configs['api_key'] : null );
 
-			// Verify API key and add hooks, or prompt for api key:
+			// Verify API key and add hooks, or prompt for api key.
 			$passes_api_check = false;
 
-			if ( ! empty( $api_key_hash ) ) {
-				$passes_api_check = $this->passes_api_check( true );
+			if ( false === empty( $api_key_hash ) ) {
+				$passes_api_check = $this->api->passes_api_check( true );
 			}
 
-			// Get the stored BoldGrid site hash:
+			// Get the stored BoldGrid site hash.
 			$boldgrid_site_hash = get_option( 'boldgrid_site_hash' );
 
-			if ( $passes_api_check ) {
-				// API key check passed, add hooks:
+			if ( true === $passes_api_check ) {
+				// API key check passed, add hooks.
 				$this->add_hooks();
-			} elseif ( empty( $api_key_hash ) ) {
-				// API key is no good; prompt to enter a valid key:
-				$this->add_hooks_to_prompt_for_api_key();
-			} elseif ( true !== parent::get_is_asset_server_available() &&
-				 ! empty( $boldgrid_site_hash ) ) {
-				// If the asset server is unavailable and we previously validated, then add hooks:
+			} elseif ( true === empty( $api_key_hash ) ) {
+				// API key is no good; prompt to enter a valid key.
+				$this->api->add_hooks_to_prompt_for_api_key();
+			} elseif ( true !== Boldgrid_Inspirations_Api::get_is_asset_server_available() &&
+				 false === empty( $boldgrid_site_hash ) ) {
+				// If the asset server is unavailable and we previously validated, then add hooks.
 				$this->add_hooks();
 			}
 			// IMHWPB.configs.
@@ -338,9 +341,10 @@ class Boldgrid_Inspirations_Inspiration extends Boldgrid_Inspirations {
 		// Check the connection to the asset server.
 		add_action( 'wp_ajax_check_asset_server',
 			array (
-				$this,
-				'check_asset_server_callback'
-			) );
+				$this->api,
+				'check_asset_server_callback',
+			)
+		);
 
 		// Include BoldGrid Inspirations Feedback.
 		require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-feedback.php';

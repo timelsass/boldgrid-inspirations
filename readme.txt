@@ -27,10 +27,14 @@ The second phase is Customization; tools to transform your website into your vis
 == Changelog ==
 
 = 1.2.2 In progress =
+* Rework:		JIRA WPB-2150	Moved API methods to a new class, formatting, and phpcs rework.
 * Bug fix:		JIRA WPB-2058	Added wrap class to the tutorials page.
 * Bug fix:		JIRA WPB-2184	In PHP 5.2, deactivate and die properly.
 * New feature:  				Added BoldGrid news widget to dashboard.
 * Bug fix: 		JIRA WPB-1994	Fixed issue with WP Theme Editor not being available.
+* New feature: 					Added BoldGrid Feedback widget.
+* Bug fix:		JIRA WPB-2169	Connect Search defaults to smallest image size when no recommended sizes available.
+* Bug fix:    JIRA WPB-2192 Allow bug report to correctly show parent themes if submitted.
 
 = 1.2.1 =
 * Bug fix:		JIRA WPB-2160	New From GridBlocks, multiple pages are installed.

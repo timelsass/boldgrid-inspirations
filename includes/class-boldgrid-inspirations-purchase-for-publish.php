@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BoldGrid Source Code
  *
@@ -9,22 +8,18 @@
  * @author BoldGrid.com <wpb@boldgrid.com>
  */
 
-// Prevent direct calls
-if ( ! defined( 'WPINC' ) ) {
-	header( 'Status: 403 Forbidden' );
-	header( 'HTTP/1.1 403 Forbidden' );
-	exit();
-}
-
 /**
- * BoldGrid Purchase for Publish class
+ * BoldGrid Purchase for Publish class.
  */
 class Boldgrid_Inspirations_Purchase_For_Publish extends Boldgrid_Inspirations {
+	/**
+	 * Constructor.
+	 *
+	 * @param string $pluginPath The plugin path.
+	 */
 	public function __construct( $pluginPath ) {
 		$this->pluginPath = $pluginPath;
 		parent::__construct( $pluginPath );
-
-		$this->api_key_hash = isset( $this->configs['api_key'] ) ? $this->configs['api_key'] : null;
 	}
 
 	/**
@@ -832,6 +827,8 @@ for purchase, and will be removed from the cart.</p>
 
 	/**
 	 * Ajax calls come here to get details by transaction_item_id.
+	 *
+	 * @see Boldgrid_Inspirations_Api::get_api_key_hash().
 	 */
 	public function get_purchased_image_details_callback() {
 		// Connect WordPress database.
@@ -917,7 +914,7 @@ for purchase, and will be removed from the cart.</p>
 			'method' => 'POST',
 			'body' => array(
 				'user_transaction_item_id' => $transaction_item_id,
-				'key' => $this->api_key_hash,
+				'key' => $this->api->get_api_key_hash(),
 			),
 			'timeout' => 20,
 		);
@@ -1003,7 +1000,9 @@ for purchase, and will be removed from the cart.</p>
 	}
 
 	/**
-	 * Get remote publish cost data
+	 * Get remote publish cost data.
+	 *
+	 * @see Boldgrid_Inspirations_Api::get_api_key_hash().
 	 *
 	 * @return boolean|unknown
 	 */
@@ -1026,7 +1025,7 @@ for purchase, and will be removed from the cart.</p>
 		$arguments = array(
 			'method' => 'POST',
 			'body' => array(
-				'key' => $this->api_key_hash,
+				'key' => $this->api->get_api_key_hash(),
 				'cost_data' => $this->get_local_publish_cost_data(),
 			)
 		);
@@ -1289,7 +1288,9 @@ for purchase, and will be removed from the cart.</p>
 	}
 
 	/**
-	 * Get current coin balance
+	 * Get current coin balance.
+	 *
+	 * @see Boldgrid_Inspirations_Api::get_api_key_hash().
 	 *
 	 * @return boolean
 	 */
@@ -1302,7 +1303,7 @@ for purchase, and will be removed from the cart.</p>
 		$arguments = array(
 			'method' => 'POST',
 			'body' => array(
-				'key' => $this->api_key_hash,
+				'key' => $this->api->get_api_key_hash(),
 			)
 		);
 
