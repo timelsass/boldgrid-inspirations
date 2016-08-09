@@ -11,12 +11,12 @@
 require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-config.php';
 
 /**
- * BoldGrid Inspirations class.
+ * BoldGrid Inspirations class
  */
 class Boldgrid_Inspirations {
 
 	/**
-	 * Array of BoldGrid specific configs.
+	 * Array of BoldGrid specific configs
 	 *
 	 * @access protected
 	 * @var array
@@ -24,7 +24,7 @@ class Boldgrid_Inspirations {
 	protected $configs = null;
 
 	/**
-	 * Class property for $is_preview_server.
+	 * Class property for $is_preview_server
 	 *
 	 * @var bool
 	 */
@@ -264,17 +264,9 @@ class Boldgrid_Inspirations {
 		// Check that PHP is installed at our required version or deactivate and die.
 		if ( true !== self::is_php_compatible() ) {
 			self::deactivate(
-				sprintf(
-					esc_html__(
-						'%sBoldGrid Inspirations%s requires PHP %s or greater.%s',
-						'boldgrid-inspirations'
-					),
-					'<p><center><strong>',
-					'</strong>',
-					self::$required_php_version,
-					'</center></p>'
-				),
-				esc_html__( 'Plugin Activation Error', 'boldgrid-inspirations' ),
+				'<p><center><strong>BoldGrid Inspirations</strong> requires PHP ' .
+				 self::$required_php_version . ' or greater.</center></p>',
+				'Plugin Activation Error',
 				array (
 					'response' => 200,
 					'back_link' => TRUE
@@ -288,17 +280,9 @@ class Boldgrid_Inspirations {
 
 		if ( version_compare( $wp_version, self::$required_wp_version, '<' ) ) {
 			self::deactivate(
-				sprintf(
-					esc_html__(
-						'%sBoldGrid Inspirations%s requires WordPress %s or higher.%s',
-						'boldgrid-inspirations'
-					),
-					'<p><center><strong>',
-					'</strong>',
-					self::$required_wp_version,
-					'</center></p>'
-				),
-				esc_html__( 'Plugin Activation Error', 'boldgrid-inspirations' ),
+				'<p><center><strong>BoldGrid Inspirations</strong> requires WordPress ' .
+				 self::$required_wp_version . ' or higher.</center></p>',
+				'Plugin Activation Error',
 				array (
 					'response' => 200,
 					'back_link' => TRUE
@@ -318,35 +302,12 @@ class Boldgrid_Inspirations {
 	 *
 	 * @param string $message A message for wp_die to display.
 	 * @param string $title A title for wp_die to display.
-	 * @param array  $args A control array for wp_die.
+	 * @param array $array A control array for wp_die.
 	 */
-	private static function deactivate( $message = '', $title = '', $args = array() ) {
-		// Deactivate the plugin.
+	private static function deactivate( $message = '', $title = '', $array = array() ) {
 		deactivate_plugins( BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' );
 
-		// If there is no message, then supply one.
-		if ( true === empty( $message ) ) {
-			$message = 'BoldGrid Inspirations ' . esc_html__(
-				'has been deactivated.', 'boldgrid-inspirations'
-			);
-		}
-
-		// If there is no title, then supply one.
-		if ( true === empty( $title ) ) {
-			$title = 'BoldGrid Inspirations ' . esc_html__(
-				'Deactivated', 'boldgrid-inspirations'
-			);
-		}
-
-		// If the array of arguments is empty, then create it.
-		if ( true === empty( $args ) ) {
-			$args = array (
-				'response' => 200,
-				'back_link' => TRUE
-			);
-		}
-
-		wp_die( $message, $title, $args );
+		wp_die( $message, $title, $array );
 	}
 
 	/**

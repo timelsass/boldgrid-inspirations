@@ -49,31 +49,31 @@ class Boldgrid_Inspirations_Inspiration extends Boldgrid_Inspirations {
 	}
 
 	/**
-	 * Add pre-init hooks.
+	 * Add pre-init hooks
 	 */
 	public function add_pre_init_hooks() {
-		// Update user metadata for last login.
+		// Update user metadata for last login:
 		add_action( 'wp_login', array (
 			$this,
 			'update_last_login'
 		) );
 
-		// Ensure there is reseller info, if available.
+		// Ensure there is reseller info, if available:
 		if ( false === get_option( 'boldgrid_reseller' ) ) {
 
-			// Include the update class.
+			// Include the update class:
 			require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-update.php';
 
-			// Call the update_api_data method to get the latest data and set the reseller option.
+			// Call the update_api_data method to get the latest data and set the reseller option:
 			Boldgrid_Inspirations_Update::update_api_data();
 		}
 
-		// Branding.
+		// Branding
 		require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-branding.php';
 		$branding = new Boldgrid_Inspirations_Branding();
 		$branding->add_hooks();
 
-		// After plugins have been loaded, load the textdomain.
+		// After plugins have been loaded, load the textdomain:
 		add_action( 'plugins_loaded', array (
 			$this,
 			'boldgrid_load_textdomain'
@@ -81,12 +81,12 @@ class Boldgrid_Inspirations_Inspiration extends Boldgrid_Inspirations {
 
 		// This class is instantiated in later hook.
 		require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-theme-install.php';
-		// Apply BoldGrid theme config modifications.
+		// Apply BoldGrid theme config modifications
 		Boldgrid_Inspirations_Theme_Install::universal_framework_configs();
 
 		// If not on a network admin page, load stuff.
 		if ( false === is_network_admin() ) {
-			// This class is instantiated in later hook.
+			// This class is instantiated in later hook
 			require_once BOLDGRID_BASE_DIR .
 				 '/includes/class-boldgrid-inspirations-theme-install.php';
 
@@ -103,7 +103,7 @@ class Boldgrid_Inspirations_Inspiration extends Boldgrid_Inspirations {
 			) );
 
 		// If DOING_CRON, then check if this plugin should be auto-updated.
-		if ( true === defined( 'DOING_CRON' ) && DOING_CRON ){
+		if ( defined( 'DOING_CRON' ) && DOING_CRON ){
 			// Ensure required definitions for pluggable.
 			if ( false === defined( 'AUTH_COOKIE' ) ) {
 				define( 'AUTH_COOKIE', null );
