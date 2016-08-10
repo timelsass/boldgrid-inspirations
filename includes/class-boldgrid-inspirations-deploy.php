@@ -121,6 +121,7 @@ class Boldgrid_Inspirations_Deploy {
 	 * @var array
 	 */
 	public $plugin_installation_data = array ();
+
 	/**
 	 * Class property for the asset cache object (only for preview servers).
 	 *
@@ -130,6 +131,14 @@ class Boldgrid_Inspirations_Deploy {
 	 * @var object|null
 	 */
 	private $asset_cache = null;
+
+	/**
+	 * Does the user want to start over before deployment?
+	 *
+	 * @since x.x.x
+	 * @access public
+	 */
+	public $start_over = false;
 
 	/**
 	 * Constructor.
@@ -346,6 +355,11 @@ class Boldgrid_Inspirations_Deploy {
 		// Is this a generic build?
 		if( $this->is_preview_server && isset( $_POST['is_generic'] ) && '1' === $_POST['is_generic'] ) {
 			$this->is_generic = true;
+		}
+
+		// Does the user want to start over?
+		if( isset( $_POST['start_over'] ) && 'true' === $_POST['start_over'] ) {
+			$this->start_over = true;
 		}
 	}
 
@@ -1020,6 +1034,40 @@ class Boldgrid_Inspirations_Deploy {
 
 		$theme_mods['_boldgrid_theme_id'] = $theme_id;
 		update_option( 'theme_mods_' . $theme_name, $theme_mods );
+	}
+
+	/**
+	 * Start over before deployment.
+	 *
+	 * @since x.x.x
+	 */
+	public function start_over() {
+		// If the user does not want to start over, abort.
+		if( true !== $this->start_over ) {
+			return;
+		}
+
+		// Check our nonce.
+		check_admin_referer( 'deploy', 'deploy' );
+
+		$start_over = new BoldGrid_Inspirations_Start_over();
+
+		// Are we starting over with our active site?
+		$start_over->start_over_active = true;
+
+		// Are we starting over with our staging site?
+		$start_over->start_over_staging = false;
+
+		// Are we deleting forms?
+		$start_over->delete_forms = true;
+
+		// Are we deleting pages?
+		$start_over->delete_pages = true;
+
+		// Are we deleting themes?
+		$start_over->delete_themes = true;
+
+		$start_over->start_over();
 	}
 
 	/**
@@ -3444,6 +3492,9 @@ class Boldgrid_Inspirations_Deploy {
 
 		// Check permalink structure:
 		$this->check_permalink_structure();
+
+		// Start over.
+		$this->start_over();
 
 		// Run the specified deployment:
 		switch ( $this->deploy_type ) {

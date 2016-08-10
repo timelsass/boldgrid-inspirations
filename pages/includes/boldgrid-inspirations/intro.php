@@ -30,7 +30,7 @@ foreach( $to_check as $check ) {
  * [ ] has_staged_site
  * [ ] staging_active
  */
-if( 'TFFF' === $scenario ) {
+if( 'TFFF' === $scenario || 'test' === 'test' ) {
 	$top = $standard_intro;
 	$bottom = '<a class="button button-primary">' . __( 'Begin Inspirations', 'boldgrid-inspirations' ) . '</a>';
 }

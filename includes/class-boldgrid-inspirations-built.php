@@ -522,14 +522,10 @@ class Boldgrid_Inspirations_Built {
 	 *
 	 */
 	public function inspiration_page_deploy() {
-		// Check nonce:
-		if ( ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], 'deploy' ) ) {
-			// Could not validate nonce.
-			wp_die( 'You must deploy a website from BoldGrid Inspirations Step 3!' );
-		} else {
-			// Clear to deploy.
-			$this->inspiration->deploy_script();
-		}
+		// Check nonce.
+		check_admin_referer( 'deploy', 'deploy' );
+
+		$this->inspiration->deploy_script();
 	}
 
 	/**
