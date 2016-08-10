@@ -1870,10 +1870,11 @@ class Boldgrid_Inspirations_Deploy {
 		 * ********************************************************************
 		 */
 		$params = array (
-			'key'								=> $this->api_key_hash,
-			'image_placeholders_needing_images'	=> json_encode( $this->image_placeholders_needing_images ),
-			'coin_budget'						=> $this->coin_budget,
-			'is_generic'						=> $this->is_generic
+			'key' => $api_key_hash, 
+			'image_placeholders_needing_images' => json_encode(
+				$this->image_placeholders_needing_images ),
+			'coin_budget' => $this->coin_budget,
+			'is_generic' => $this->is_generic,
 		);
 
 		// Get configs:
