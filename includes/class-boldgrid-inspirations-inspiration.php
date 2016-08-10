@@ -555,6 +555,7 @@ public function include_admin_files() {
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-pages-and-posts.php';
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-gridblock-sets-admin.php';
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-design-first.php';
+	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-start-over.php';
 }
 
 /**

@@ -166,13 +166,15 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 					$( 'input[name="staging"]' ).val( 1 );
 					$( '#install-modal-destination' ).html( Inspiration.staging );
 					break;
-				case 'active':
+				default:
 					$( 'input[name="staging"]' ).val( '' );
 					$( '#install-modal-destination' ).html( Inspiration.active );
 					break;
 			}
 
 			$( '.wrap.main' ).removeClass( 'hidden' );
+
+			$( "img.lazy" ).lazyload({threshold : 500});
 		});
 	}
 
@@ -318,11 +320,17 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		// Pageset Options.
 		$( '.wrap' ).on( 'click', '.pageset-option', function() {
 			var $pagesetInput = $( this ).find( 'input[name="pageset"]' );
+
 			$( '.pageset-option.active' ).removeClass( 'active' );
+
 			$pagesetInput.prop( 'checked', true );
+
 			if ( $pagesetInput.is( ':checked' ) ) {
 				$( this ).addClass( 'active' );
 			}
+
+			self.$pageset = $( 'input[name="pageset"]:checked' );
+
 			self.loadBuild();
 		});
 	};
@@ -334,11 +342,17 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		// Coin Budgets.
 		$( '.wrap' ).on( 'click', '.coin-option', function() {
 			var $coinInput = $( this ).find( 'input[name="coin-budget"]' );
+
 			$( '.coin-option.active' ).removeClass( 'active' );
+
 			$coinInput.prop( 'checked', true );
+
 			if ( $coinInput.is( ':checked' ) ) {
 				$( this ).addClass( 'active' );
 			}
+
+			self.$budget = $( 'input[name="coin-budget"]:checked' );
+
 			self.loadBuild();
 		});
 	};

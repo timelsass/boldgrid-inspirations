@@ -94,6 +94,21 @@ class Boldgrid_Inspirations_Built {
 	}
 
 	/**
+	 * Adds inline CSS to admin_head using the active color palette.
+	 *
+	 * @since xxx
+	 */
+	public function admin_colors() {
+		global $_wp_admin_css_colors;
+		$this->admin_colors = $_wp_admin_css_colors;
+		$user = get_user_option( 'admin_color' );
+		echo '<style>
+			.pageset-option.active,.coin-option.active,.sub-category.active,.pageset-option.blue,.coin-option.blue,.blue { background-color:' . $this->admin_colors[ $user ]->colors[3] . ' !important; }
+			.devices button:focus { border-bottom-color: ' . $this->admin_colors[ $user ]->colors[3] . '; }
+			</style>';
+	}
+
+	/**
 	 * Generate the scenario data and add the users menu items.
 	 */
 	public function admin_menu() {
@@ -399,6 +414,14 @@ class Boldgrid_Inspirations_Built {
 			return;
 		}
 
+		// Add active color palette css.
+		add_action('admin_head',
+			array(
+				$this,
+				'admin_colors',
+			)
+		);
+
 		add_thickbox();
 
 		// Css.
@@ -513,6 +536,17 @@ class Boldgrid_Inspirations_Built {
 	 *
 	 */
 	public function inspiration_page_design_first() {
+		$boldgrid_configs = Boldgrid_Inspirations_Config::get_format_configs();
+
+		$api_call_results = Boldgrid_Inspirations_Api::boldgrid_api_call(
+			$boldgrid_configs['ajax_calls']['get_version']
+		);
+
+		if ( is_null( $api_call_results ) ) {
+			error_log( __METHOD__ . ': Error getting BoldGrid version.' );
+			wp_die( $this->inspiration->api->notify_connection_issue() );
+		}
+
 		$theme_channel = Boldgrid_Inspirations_Theme_Install::fetch_theme_channel();
 
 		$mode_data = $this->generate_scenarios();
