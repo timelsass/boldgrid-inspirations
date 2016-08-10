@@ -404,7 +404,7 @@ IMHWPB.Inspiration = function(configs, $) {
 					});
 		}
 
-		jQuery('#preview_iframe').load(function() {
+		jQuery( '#preview_iframe' ).on( 'load', function() {
 			self.hide_loading_message_preview_iframe();
 		});
 
