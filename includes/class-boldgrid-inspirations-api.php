@@ -590,7 +590,22 @@ class Boldgrid_Inspirations_Api {
 				'Security violation (invalid nonce).'
 				, 'boldgrid-inspirations'
 			),
+			'insufficient_permissions' => __( 'BoldGrid API keys can only be saved by Admins. Please contact your WordPress Admin for assistance with saving your key.', 'boldgrid-inspirations' ),
 		);
+
+		// If the current user cannot manage options, they do not have permission to set the api key.
+		if( ! current_user_can( 'manage_options' ) ) {
+			// Failure.
+			echo wp_json_encode(
+				array(
+					'success' => false,
+					'error' => 'insufficient_permissions',
+					'message' => $messages['insufficient_permissions'],
+				)
+			);
+
+			wp_die();
+		}
 
 		// Verify nonce.
 		if ( false === isset( $_POST['set_key_auth'] ) ||
