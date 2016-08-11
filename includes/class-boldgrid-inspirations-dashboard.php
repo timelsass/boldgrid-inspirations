@@ -162,11 +162,15 @@ class Boldgrid_Inspirations_Dashboard extends Boldgrid_Inspirations {
 		$menu[5][0] = 'Blog Posts';
 
 		// Rename Appearance menu item to Customize
-		$menu[60][0] = 'Customize';
-		$menu[60][6] = 'dashicons-admin-customize';
+		if( current_user_can( 'edit_theme_options' ) ) {
+			$menu[60][0] = 'Customize';
+			$menu[60][6] = 'dashicons-admin-customize';
+		}
 
 		// Rename Reading Submenu item to Blog
-		$submenu['options-general.php'][20][0] = 'Blog';
+		if( current_user_can( 'manage_options' ) ) {
+			$submenu['options-general.php'][20][0] = 'Blog';
+		}
 
 		// Remove Background from Admin Menu
 		unset( $submenu['themes.php'][20] );
