@@ -637,6 +637,16 @@ public function add_boldgrid_configs_to_header() {
 			return true;
 		}
 
+		// Pages > All Pages.
+		if( 'edit.php' === $pagenow && current_user_can( 'edit_posts' ) ) {
+			return true;
+		}
+
+		// Editing a page.
+		if( 'post.php' === $pagenow && current_user_can( 'edit_posts' ) ) {
+			return true;
+		}
+
 		return false;
 	}
 
