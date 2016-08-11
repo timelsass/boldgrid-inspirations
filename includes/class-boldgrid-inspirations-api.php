@@ -117,6 +117,11 @@ class Boldgrid_Inspirations_Api {
 	 * @see Boldgrid_Inspirations_Api::get_is_asset_server_available().
 	 */
 	public function check_asset_server_callback() {
+		// If you are not at least a Contributer, there's no need to be making api calls.
+		if( ! current_user_can( 'edit_posts' ) ) {
+			return false;
+		}
+
 		// Verify API key, which connects to the asset server and sets the status.
 		$this->verify_api_key();
 

@@ -183,6 +183,12 @@ class Boldgrid_Inspirations_Purchase_For_Publish extends Boldgrid_Inspirations {
 	public function image_in_shopping_cart_checked_callback() {
 		global $wpdb;
 
+		// Only Administrators can be in the cart.
+		if( ! current_user_can( 'manage_options' ) ) {
+			echo __( 'Insufficient permissions', 'boldgrid-inspirations' );
+			wp_die();
+		}
+
 		$asset_id = intval( $_POST['asset_id'] );
 		$checked = trim( $_POST['checked'] );
 
@@ -460,6 +466,11 @@ class Boldgrid_Inspirations_Purchase_For_Publish extends Boldgrid_Inspirations {
 	 */
 	public function re_download_purchased_image_callback() {
 		global $wpdb;
+
+		// Only Administrators can re-download purchased images.
+		if( ! current_user_can( 'manage_options' ) ) {
+			wp_die();
+		}
 
 		// Get input POST vars:
 		$image_provider_id = $_POST['image_provider_id'];
@@ -828,11 +839,19 @@ for purchase, and will be removed from the cart.</p>
 	/**
 	 * Ajax calls come here to get details by transaction_item_id.
 	 *
+	 * When you are reviewing your transaction history and click 'View' for an invoice, this method
+	 * gets data for each of your images.
+	 *
 	 * @see Boldgrid_Inspirations_Api::get_api_key_hash().
 	 */
 	public function get_purchased_image_details_callback() {
 		// Connect WordPress database.
 		global $wpdb;
+
+		// Only Administrators can see transaction data.
+		if( ! current_user_can( 'manage_options' ) ) {
+			wp_die();
+		}
 
 		// Get and make sure we have a valid $transaction_item_id.
 		$transaction_item_id = $_POST['transaction_item_id'];

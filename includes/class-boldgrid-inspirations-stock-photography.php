@@ -238,13 +238,32 @@ iframe#boldgrid_connect_search {
 		// An array of info to send back to the browser.
 		$response = array ();
 
+		// Get our post ID from $_POST.
+		$post_id = ! empty( $_POST['post_id'] ) ? (int) $_POST['post_id'] : false;
+
+		// Get our post based upon the id.
+		$post = get_post( $post_id );
+
+		// If this is an invalid post, abort.
+		if( ! is_object( $post ) ) {
+			wp_die();
+		}
+
+		// If this is a page and the user cannot edit pages, abort.
+		if( 'page' == $post->post_type && ! current_user_can( 'edit_pages' ) ) {
+			wp_die();
+		}
+
+		// If this is a post and the user cannot edit posts, abort.
+		if( 'post' == $post->post_type && ! current_user_can( 'edit_posts' ) ) {
+			wp_die();
+		}
+
 		require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-asset-manager.php';
 
 		$this->AssetManager = new Boldgrid_Inspirations_Asset_Manager();
 
 		$boldgrid_configs = $this->get_configs();
-
-		$post_id = ! empty( $_POST['post_id'] ) ? $_POST['post_id'] : false;
 
 		$item = array (
 			'type' => 'stock_photography_download',

@@ -308,6 +308,11 @@ public function admin_notice() {
 public function boldgrid_dismiss_notice_callback() {
 	global $wpdb;
 
+	// If the user cannot install a plugin, they cannot hide this notice.
+	if( ! current_user_can( 'install_plugins' ) ) {
+		wp_die();
+	}
+
 	// if we have valid data...
 	if ( 'class-dependency-plugins' == $_POST['notice'] ) {
 		// get the dismissed notices
