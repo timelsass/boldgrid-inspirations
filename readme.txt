@@ -33,6 +33,7 @@ The second phase is Customization; tools to transform your website into your vis
 * Bug fix:		JIRA WBP-2236	Errors everywhere when logging in as an Editor.
 * Bug fix:		JIRA WPB-2234	Add current_user_can checks to Boldgrid_Inspirations->set_api_key_callback().
 * Bug fix:		JIRA WPB-2237	Limit ajax requests by user.
+* Bug fix:		JIRA WPB-2240	Limit printing of configs in head.
 
 = 1.2.2 =
 * Bug fix:		JIRA WPB-2058	Added wrap class to the tutorials page.
