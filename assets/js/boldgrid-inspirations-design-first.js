@@ -87,11 +87,17 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		self.ajax.ajaxCall( {'category_id' : $theme.closest( '.theme' ).attr( 'data-category-id' )}, 'get_category_page_sets', pagesetSuccess );
 	};
 
+	/**
+	 *
+	 */
 	this.toggleCheckbox = function () {
 		var $subCategory = $( 'input[name="sub-category"]:checked' );
 		$subCategory.parent().css( 'background', 'blue' );
 	};
 
+	/**
+	 *
+	 */
 	this.devicePreviews = function () {
 		var previewer = $( '#theme-preview' );
 		// Desktop previews.
@@ -147,12 +153,19 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		 * This is the button that submits the #post_deploy form and actually installs a website.
 		 */
 		$( 'button.install-this-website' ).on( 'click', function() {
+			// Disable the "Go back" and "Install this website" buttons.
+			$( '#install-buttons button' ).prop( 'disabled', true );
+
+			$( '#install-buttons' ).append( '<span class="spinner inline"></span>' );
+
 			$( '#post_deploy' ).submit();
 		});
 	}
 
 	/**
+	 * @summary Bind events to the button clicks of the intro.
 	 *
+	 * @since 1.2.3
 	 */
 	this.bindIntroSelection = function() {
 		$('#select-install-type a.button').on( 'click', function() {
@@ -170,6 +183,11 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 					$( 'input[name="staging"]' ).val( '' );
 					$( '#install-modal-destination' ).html( Inspiration.active );
 					break;
+			}
+
+			// If the button indicates a start over, update the deploy form.
+			if( 'true' === $button.attr('data-start-over') ) {
+				$( '#start_over' ).val( 'true' );
 			}
 
 			$( '.wrap.main' ).removeClass( 'hidden' );

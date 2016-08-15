@@ -124,6 +124,10 @@ a.disabled {
 	cursor: not-allowed;
 }
 
+a.wait {
+	cursor: wait;
+}
+
 .boldgrid-loading {
 	position: absolute;
 	top: 69px;
@@ -258,6 +262,26 @@ a.disabled {
 .wp-filter {
 	display: none;
 }
+
+/**
+* Media queries appear in this order:
+*
+* For average size displays.
+* @media (min-width: 782px) and (max-width: 1423px) {
+*
+* Small screens, everything is pretty much made full width.
+* @media screen and (max-width: 782px) {
+*
+* Force left menu to be open on desktop if it was previously collapsed in mobile.
+* @media (min-width: 783px) {
+*
+* For large displays, show
+* @media (min-width: 1423px) {
+*
+* Screens too small to display the desktop icon.
+* @media (max-width: 1192px) {
+*/
+
 @media (min-width: 782px) and (max-width: 1423px) {
 	#screen-design .left,
 	#screen-content .left {
@@ -346,5 +370,16 @@ a.disabled {
 	}
 	html {
 		overflow-y: scroll; /** Force to prevent previews from jumping around between loads. **/
+	}
+}
+
+/**
+* You need a viewport of at least 1193px wide in order for the iframe preview to be 992px wide,
+* which is wide enough for the desktop preview. If your viewport is not large enough, hide the
+* the desktop icon.
+*/
+@media (max-width: 1192px) {
+	button.preview-desktop {
+		display:none;
 	}
 }

@@ -6,7 +6,10 @@ $template = '
 		<h1>Inspirations</h1>
 
 		<div style="border: 1px solid #dfdfdf; width:100%%; max-width:600px;">
-			<div class="top" style="background:#fff; padding:30px 15px;">%s</div>
+			<div class="top" style="background:#fff; padding:30px 15px;">
+				%s
+				<pre>%s</pre>
+			</div>
 			<div id="select-install-type" class="bottom" style="background:#fafafa;padding:15px;text-align:right;border-top:1px solid #dfdfdf;">%s</div>
 		</div>
 	</div>
@@ -37,6 +40,17 @@ switch( $scenario ) {
 		break;
 
 	/*
+	 * [ ] has_blank_active_site
+	 * [T] has_active_bg_site
+	 * [ ] has_staged_site
+	 * [ ] staging_active
+	 */
+	case array( false, true, false, false ):
+		$top = "You have an existing BoldGrid Site.";
+		$bottom = '<a data-start-over="true" class="button button-primary">' . __( 'Start over', 'boldgrid-inspirations' ) . '</a>';
+		break;
+
+	/*
 	 * [T] has_blank_active_site
 	 * [ ] has_active_bg_site
 	 * [ ] has_staged_site
@@ -49,6 +63,7 @@ switch( $scenario ) {
 		break;
 }
 
-printf( $template, $top, $bottom );
+// printf( $template, $top, print_r($mode_data,1), $bottom );
+printf( $template, $top, '', $bottom );
 
 ?>

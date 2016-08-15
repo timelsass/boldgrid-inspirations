@@ -149,7 +149,7 @@ $lang = array(
 	<input type="text"   name="coin_budget"                    id="coin_budget"                    value="20" >
 	<input type="text"   name="boldgrid_theme_version_type"    id="boldgrid_theme_version_type"    value="<?php echo $theme_channel ?>" >
 	<input type="text"   name="boldgrid_page_set_version_type" id="boldgrid_page_set_version_type" value="active" >
-	<input type="text"   name="start_over"						id="start_over"                    value="true" >
+	<input type="text"   name="start_over"						id="start_over"                    value="false" >
 	<input type="text"   name="deploy-type"                                                        value="" >
 	<input type="text"   name="pages"                                                              value="" >
 	<input type="text"   name="staging"                                                            value="" >

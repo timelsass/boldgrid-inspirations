@@ -232,16 +232,19 @@ class Boldgrid_Inspirations_Built {
 	}
 
 	/**
+	 * Our active site was installed by BoldGrid.
 	 *
+	 * @since x.x.x
 	 */
 	public function has_active_bg_site( $install_options ) {
-		// If we have no installed_pages saved in install_options, return false.
-		if( empty( $install_options['active_options']['installed_pages'] ) ) {
+		$installed_pages = get_option( 'boldgrid_installed_page_ids', array() );
+
+		if( empty( $installed_pages ) ) {
 			return false;
 		}
 
 		// Generate a CSV of pages installed by BoldGrid.
-		$installed_pages = implode( ',', $install_options['active_options']['installed_pages'] );
+		$installed_pages = implode( ',', $installed_pages );
 
 		$pages = get_pages( array(
 			'include' => $installed_pages,
