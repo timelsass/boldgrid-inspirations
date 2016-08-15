@@ -438,7 +438,7 @@ class Boldgrid_Inspirations_Dashboard extends Boldgrid_Inspirations {
 	 * @since 1.2.2
 	 */
 	public function boldgrid_news_widget() {
-		$rss = fetch_feed( "https://www.boldgrid.com/feed/" );
+		$rss = fetch_feed( "https://www.boldgrid.com/tag/dashboard/feed/" );
 
 		if ( is_wp_error($rss) ) {
 			if ( is_admin() || current_user_can( 'manage_options' ) ) {
