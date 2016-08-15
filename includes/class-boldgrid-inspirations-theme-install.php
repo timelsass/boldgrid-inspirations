@@ -289,24 +289,6 @@ class Boldgrid_Inspirations_Theme_Install {
 		// Return BoldGrid themes that match a users request params.
 		add_filter( 'themes_api', array( $this, 'query_themes_single' ), 10, 3 );
 		add_filter( 'themes_api_result', array( $this, 'query_themes' ), 10, 3 );
-
-		if ( $this->is_inspiration_post_install() ) {
-			add_action( 'admin_footer', array (
-				$this,
-				'wp_footer'
-			) );
-
-			add_action( 'admin_enqueue_scripts', array (
-				$this,
-				'enqueue_scripts'
-			) );
-		}
-
-		// Hook for migrating theme mods
-		// add_action( 'after_switch_theme', array (
-		// $this,
-		// 'transfer_theme_mods'
-		// ), 10, 2 );
 	}
 
 	/**
@@ -370,31 +352,6 @@ class Boldgrid_Inspirations_Theme_Install {
 				$boldgrid_theme_configs['framework']['inline_styles'] = true;
 				return $boldgrid_theme_configs;
 			} );
-	}
-
-	/**
-	 * Print the template
-	 */
-	public function wp_footer() {
-		include BOLDGRID_BASE_DIR . '/pages/templates/template-post-theme-install.php';
-	}
-
-	/**
-	 * Enqueue The scripts
-	 */
-	public function enqueue_scripts() {
-
-		wp_register_script( 'boldgrid-inspiration-theme-install',
-			plugins_url( 'assets/js/theme-install.js',
-				BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ), array (
-				'jquery'
-			), BOLDGRID_INSPIRATIONS_VERSION, true );
-
-		wp_localize_script ( 'boldgrid-inspiration-theme-install', 'BoldgridInspirationThemeInstall', array(
-			'isInspirationPostInstall' => $this->is_inspiration_post_install()
-		));
-
-		wp_enqueue_script ( 'boldgrid-inspiration-theme-install' );
 	}
 
 	/**

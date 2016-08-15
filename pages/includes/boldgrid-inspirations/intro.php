@@ -17,7 +17,7 @@ $standard_intro = __( 'Each BoldGrid website begins its creation process here, w
 $detected_staging = __( 'We\'ve detected that you have Staging Installed. Staging allows you to maintain your "Active Site" (publically visible) while you work on a staged site behind the scenes. We recommend that you use Staging only after you have built your first BoldGrid website and are needing to make lots of changes.', 'boldgrid-inspirations' );
 
 // Generate an array of scenario data. This will be used in the switch statement immediately below.
-$secenario = array(
+$scenario = array(
 	$mode_data['has_blank_active_site'],
 	$mode_data['has_active_bg_site'],
 	$mode_data['has_staged_site'],
@@ -29,22 +29,23 @@ switch( $scenario ) {
 	 * [T] has_blank_active_site
 	 * [ ] has_active_bg_site
 	 * [ ] has_staged_site
-	 * [ ] staging_active
+	 * [T] staging_active
 	 */
-	case array( true, false, false, false ):
-		$top = $standard_intro;
-		$bottom = '<a class="button button-primary">' . __( 'Begin Inspirations', 'boldgrid-inspirations' ) . '</a>';
+	case array( true, false, false, true ):
+		$top = $standard_intro . '<hr style="margin:15px 0px;" /><h2>' . __( 'Staging your website', 'boldgrid-inspirations' ) . '</h2>' . $detected_staging;
+		$bottom = '<a class="button" data-install-type="staging">' . __( 'Install as Staged Site', 'boldgrid-inspirations' ) . '</a> <a class="button button-primary">' . __( 'Install as Active Site', 'boldgrid-inspirations' ) . '</a>';
 		break;
 
 	/*
 	 * [T] has_blank_active_site
 	 * [ ] has_active_bg_site
 	 * [ ] has_staged_site
-	 * [T] staging_active
+	 * [ ] staging_active
 	 */
-	case array( true, false, false, true ):
-		$top = $standard_intro . '<hr style="margin:15px 0px;" /><h2>' . __( 'Staging your website', 'boldgrid-inspirations' ) . '</h2>' . $detected_staging;
-		$bottom = '<a class="button" data-install-type="staging">' . __( 'Install as Staged Site', 'boldgrid-inspirations' ) . '</a> <a class="button button-primary">' . __( 'Install as Active Site', 'boldgrid-inspirations' ) . '</a>';
+	case array( true, false, false, false ):
+	default:
+		$top = $standard_intro;
+		$bottom = '<a class="button button-primary">' . __( 'Begin Inspirations', 'boldgrid-inspirations' ) . '</a>';
 		break;
 }
 

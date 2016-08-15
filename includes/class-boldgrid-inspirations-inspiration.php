@@ -508,17 +508,6 @@ public function boldgrid_style( $hook ) {
 		wp_enqueue_style( 'boldgrid_admin' );
 	}
 
-	/**
-	 * Page: Inspiration
-	 */
-	if ( 'toplevel_page_boldgrid-inspirations' == $hook || 'toplevel_page_imh-wpb' == $hook ) {
-		wp_register_style( 'boldgrid_inspiration_style',
-			plugins_url( '/assets/css/style.css', BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ),
-			array (), BOLDGRID_INSPIRATIONS_VERSION );
-
-		wp_enqueue_style( 'boldgrid_inspiration_style' );
-	}
-
 	wp_enqueue_style( 'wp-pointer' );
 	wp_enqueue_script( 'wp-pointer' );
 }
