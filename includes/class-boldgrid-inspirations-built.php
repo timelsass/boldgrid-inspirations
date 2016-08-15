@@ -505,56 +505,25 @@ class Boldgrid_Inspirations_Built {
 			wp_die( $this->inspiration->api->notify_connection_issue() );
 		}
 
-		// Determine which page to show and then show it.
-		$which = ( isset( $_POST['task'] ) && 'deploy' == $_POST['task'] ? 'deploy' : 'standard' );
+		if( isset( $_POST['task'] ) && 'deploy' == $_POST['task'] ) {
+			// Check nonce.
+			check_admin_referer( 'deploy', 'deploy' );
 
-		switch( $which ) {
-			case 'deploy':
-				$this->inspiration_page_deploy();
-				break;
-			case 'standard':
-				$this->inspiration_page_design_first();
-				break;
+			$this->inspiration->deploy_script();
+		} else {
+			$theme_channel = Boldgrid_Inspirations_Theme_Install::fetch_theme_channel();
+
+			$mode_data = $this->generate_scenarios();
+
+			// Underscores Templates.
+			include BOLDGRID_BASE_DIR . '/pages/templates/boldgrid-inspirations.php';
+
+			// Intro template.
+			include BOLDGRID_BASE_DIR . '/pages/includes/boldgrid-inspirations/intro.php';
+
+			// Page template.
+			include BOLDGRID_BASE_DIR . '/pages/boldgrid-inspirations.php';
 		}
-	}
-
-	/**
-	 *
-	 */
-	public function inspiration_page_deploy() {
-		// Check nonce.
-		check_admin_referer( 'deploy', 'deploy' );
-
-		$this->inspiration->deploy_script();
-	}
-
-	/**
-	 *
-	 */
-	public function inspiration_page_design_first() {
-		$boldgrid_configs = Boldgrid_Inspirations_Config::get_format_configs();
-
-		$api_call_results = Boldgrid_Inspirations_Api::boldgrid_api_call(
-			$boldgrid_configs['ajax_calls']['get_version']
-		);
-
-		if ( is_null( $api_call_results ) ) {
-			error_log( __METHOD__ . ': Error getting BoldGrid version.' );
-			wp_die( $this->inspiration->api->notify_connection_issue() );
-		}
-
-		$theme_channel = Boldgrid_Inspirations_Theme_Install::fetch_theme_channel();
-
-		$mode_data = $this->generate_scenarios();
-
-		// Underscores Templates.
-		include BOLDGRID_BASE_DIR . '/pages/templates/boldgrid-inspirations-design-first.php';
-
-		// Intro template.
-		include BOLDGRID_BASE_DIR . '/pages/includes/boldgrid-inspirations/intro.php';
-
-		// Page template.
-		include BOLDGRID_BASE_DIR . '/pages/boldgrid-inspirations-design-first.php';
 	}
 
 	/**
