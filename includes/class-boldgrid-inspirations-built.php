@@ -429,24 +429,24 @@ class Boldgrid_Inspirations_Built {
 
 		// Css.
 		wp_register_style(
-			'boldgrid-inspirations-design-first',
-			plugins_url( '/assets/css/boldgrid-inspirations-design-first.css', BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ),
+			'boldgrid-inspirations-css',
+			plugins_url( '/assets/css/boldgrid-inspirations.css', BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ),
 			array(),
 			BOLDGRID_INSPIRATIONS_VERSION
 		);
-		wp_enqueue_style( 'boldgrid-inspirations-design-first' );
+		wp_enqueue_style( 'boldgrid-inspirations-css' );
 
 		wp_enqueue_style( 'dashicons' );
 
 		// Js.
-		wp_enqueue_script( 'boldgrid-inspirations-design-first',
-			plugins_url( 'assets/js/boldgrid-inspirations-design-first.js', BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ),
+		wp_enqueue_script( 'boldgrid-inspirations',
+			plugins_url( 'assets/js/boldgrid-inspirations.js', BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ),
 			array(),
 			BOLDGRID_INSPIRATIONS_VERSION,
 			true
 		);
 
-		wp_localize_script( 'boldgrid-inspirations-design-first',
+		wp_localize_script( 'boldgrid-inspirations',
 			'Inspiration',
 			array (
 				'active' => 'Active',
@@ -486,7 +486,7 @@ class Boldgrid_Inspirations_Built {
 			'Install New Site',
 			'Install New Site',
 			'manage_options',
-			$slug ? $slug : 'admin.php?page=boldgrid-inspirations&boldgrid-tab=install'
+			$slug ? $slug : 'admin.php?page=boldgrid-inspirations'
 		);
 	}
 

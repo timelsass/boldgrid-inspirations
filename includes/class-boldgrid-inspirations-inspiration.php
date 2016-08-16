@@ -495,8 +495,6 @@ public function boldgrid_style( $hook ) {
 		'settings_page_boldgrid-settings',
 		'appearance_page_boldgrid-staging',
 		'boldgrid_page_boldgrid-cart',
-		// Inspirations design first
-		'inspirations_page_admin?page=boldgrid-inspirations-design-first',
 	);
 
 	if ( in_array( $hook, $hooks_to_load_grid ) ) {
