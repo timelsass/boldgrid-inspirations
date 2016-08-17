@@ -2,7 +2,7 @@
 Contributors: imh_brad, joemoto, rramo012, timph
 Tags: inspiration,customization,build,create,design
 Requires at least: 4.3
-Tested up to: 4.5.3
+Tested up to: 4.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,6 +27,7 @@ The second phase is Customization; tools to transform your website into your vis
 == Changelog ==
 
 = 1.2.3 In Progress =
+* Misc:			JIRA WPB-2256	Updated readme.txt for Tested up to: 4.6.
 * Rework:		JIRA WPB-2150	Moved API methods to a new class, formatting, and phpcs rework.
 * Bug fix:      JIRA WPB-2224	Hide the email address field when widget is loaded.
 * Bug fix:		JIRA WPB-2225	Fixed jQuery Migrate deprecated warning.
