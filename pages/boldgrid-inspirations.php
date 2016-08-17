@@ -62,7 +62,15 @@ $lang = array(
 				<div id="pageset-options"></div>
 			</div>
 			<div class="content-menu-section">
-				<div class="coin-filter"><?php echo $lang['CoinBudget']; ?> <span class="info-icon"></span></div>
+				<div class="coin-filter imgedit-group-top">
+					<?php echo $lang['CoinBudget']; ?> <span class="dashicons dashicons-editor-help" onclick="imageEdit.toggleHelp(this);return false;" aria-expanded='false' ></span>
+					<p class="imgedit-help">
+						Copyright Coins allow you to easily purchase content with paid
+						licenses. You will not be charged until you download images <b>without</b>
+						watermarks.
+					</p>
+				</div>
+
 				<div class="coin-option active">
 					<input type="radio" name="coin-budget" data-coin="20" checked >
 					<span class="pointer">0 - 20 <?php echo $lang['Coins']; ?></span>

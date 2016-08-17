@@ -260,7 +260,9 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	};
 
 	/**
-	 * Handles the Show All filter.
+	 * @summary Handles the Show All filter.
+	 *
+	 * @since 1.2.3
 	 */
 	 this.showAll = function() {
 		$( '.wrap' ).on( 'click', '[data-sort="show-all"]', function() {
@@ -285,6 +287,35 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			self.toggleShowAll( ref );
 		});
 	};
+
+	/**
+	 * @summary Shuffle an array.
+	 *
+	 * Used to shuffle our generic builds. If we didn't shuffle those, you'd see them grouped by
+	 * theme.
+	 *
+	 * @since 1.2.3
+	 * @link http://stackoverflow.com/questions/3718282/javascript-shuffling-objects-inside-an-object-randomize
+	 */
+	this.shuffle = function( myArray ) {
+		var i = myArray.length, j, tempi, tempj;
+
+		if ( i == 0 ) {
+			return false;
+		}
+
+		while ( --i ) {
+			j = Math.floor( Math.random() * ( i + 1 ) );
+
+		    tempi = myArray[i];
+		    tempj = myArray[j];
+
+		    myArray[i] = tempj;
+		    myArray[j] = tempi;
+		}
+
+		return myArray;
+	}
 
 	/**
 	 * Toggle the show all current class.
@@ -490,68 +521,26 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	};
 
 	/**
-	 * Init Themes.
+	 * @summary Init Themes.
 	 *
-	 * @since xxx
+	 * @since 1.2.3
 	 */
 	this.initThemes = function() {
-		var template = wp.template( 'theme' );
+		var template = wp.template( 'theme' ),
+			data = { 'site_hash' : self.configs.site_hash },
+			genericBuilds, getGenericSuccess;
 
-		data = {
-			'site_hash' : self.configs.site_hash,
-		};
+		getGenericSuccess = function( msg ) {
+			genericBuilds = self.shuffle( msg.result.data );
 
-		var cow = function( msg ) {
-			_.each( msg.result.data, function( build ){
+			_.each( genericBuilds, function( build ){
 				self.$themes.append( template( { configs: IMHWPB.configs, build: build } ) );
 			});
 
 			$( "img.lazy" ).lazyload({threshold : 400});
 		};
 
-		self.ajax.ajaxCall( data, 'get_generic', cow );
-
-//		return;
-
-//		var success_action = function( msg ) {
-//			var template = wp.template( 'theme' );
-//
-//			self.themes = msg.result.data;
-//
-//
-//			_.each( self.categories, function( category ) {
-//				_.each( category.subcategories, function( sub_category ) {
-//					_.each( self.themes, function( theme ) {
-//						var successBuildGeneric = function( msg ) {
-//							console.log( msg );
-//							// self.$themes.append( template( msg.result.data.profile ) );
-//							self.$themes.append( template( { configs: IMHWPB.configs, profile: msg.result.data.profile, sub_category: sub_category, theme: theme, category: category } ) );
-//						}
-//
-//						data = {
-//							'theme_id' :			theme.Id,
-//							'cat_id' :				category.id,
-//							'sub_cat_id' :			sub_category.id,
-//							'page_set_id' :			sub_category.defaultPageSetId,
-//							'pde' :					null,
-//							'wp_language' :			'en-US',
-//							'coin_budget' :			20,
-//							'theme_version_type' :	null,
-//							'page_version_type' :	null,
-//							'site_hash' :			self.configs['site_hash'],
-//							'inspirations_mode' :	'standard',
-//							'is_generic' :			'true'
-//						};
-//						self.ajax.ajaxCall( data, 'get_generic', successBuildGeneric );
-//
-//						// console.log( { sub_category: sub_category, theme: theme, category: category } );
-//						// self.$themes.append( template( { sub_category: sub_category, theme: theme, category: category } ) );
-//					});
-//				});
-//			});
-//		};
-
-		//self.ajax.ajaxCall( {'inspirations_mode' : 'standard'}, 'get_all_active_themes', success_action );
+		self.ajax.ajaxCall( data, 'get_generic', getGenericSuccess );
 	};
 
 	/**

@@ -31,6 +31,19 @@
 	cursor: pointer;
 }
 
+/* COIN BUDGET: The help text. */
+.coin-filter .imgedit-help {
+	font-weight: normal;
+	text-transform: none;
+	font-style: italic;
+}
+
+/* COIN BUDGET: The help icon. */
+.coin-filter span.dashicons {
+	cursor: pointer;
+	margin-top: -2px;
+}
+
 /* Radio Buttons */
 input[type="radio"][name="pageset"],
 input[type="radio"][name="coin-budget"],
