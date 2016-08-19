@@ -28,9 +28,20 @@ class Boldgrid_Inspirations_Api {
 	 *
 	 * @since 1.2.2
 	 * @access private
-	 * @var bool
+	 * @staticvar
+	 * @var string
 	 */
-	private $api_key_hash = false;
+	private static $api_key_hash = '';
+
+	/**
+	 * Class property for the site hash.
+	 *
+	 * @since 1.2.3
+	 * @access private
+	 * @staticvar
+	 * @var string
+	 */
+	private static $site_hash = '';
 
 	/**
 	 * Class property for asset server availability.
@@ -52,6 +63,16 @@ class Boldgrid_Inspirations_Api {
 	private $passed_key_validation = false;
 
 	/**
+	 * Last API status code.
+	 *
+	 * @since 1.2.3
+	 * @access private
+	 * @var int
+	 * @staticvar
+	 */
+	private static $last_api_status = 0;
+
+	/**
 	 * Static class property $have_enqueued_api_key_prompt.
 	 *
 	 * @since 1.2.2
@@ -71,6 +92,12 @@ class Boldgrid_Inspirations_Api {
 	public function __construct( $core ) {
 		// Save the Boldgrid_Inspirations object as a class property.
 		$this->core = $core;
+
+		// Set the API Key hash.
+		$this->set_api_key_hash();
+
+		// Set the site hash.
+		$this->set_site_hash();
 	}
 
 	/**
@@ -100,11 +127,7 @@ class Boldgrid_Inspirations_Api {
 		self::$is_asset_server_available = $is_asset_server_available;
 
 		// Save the WP Option.
-		if ( true === is_multisite() ) {
-			set_site_transient( 'boldgrid_available', $is_asset_server_available, HOUR_IN_SECONDS );
-		} else {
-			set_transient( 'boldgrid_available', $is_asset_server_available, HOUR_IN_SECONDS );
-		}
+		set_site_transient( 'boldgrid_available', $is_asset_server_available, HOUR_IN_SECONDS );
 
 		return true;
 	}
@@ -151,6 +174,28 @@ class Boldgrid_Inspirations_Api {
 	}
 
 	/**
+	 * Accessor for self::$last_api_status.
+	 *
+	 * @since 1.2.3
+	 *
+	 * @return int
+	 */
+	public function get_last_api_status() {
+		return self::$last_api_status;
+	}
+
+	/**
+	 * Accessor for self::$have_enqueued_api_key_prompt.
+	 *
+	 * @since 1.2.3
+	 *
+	 * @return bool
+	 */
+	public function get_have_enqueued_api_key_prompt() {
+		return self::$have_enqueued_api_key_prompt;
+	}
+
+	/**
 	 * API key requirement check.
 	 *
 	 * If required, verify the stored API key with the asset server.
@@ -166,7 +211,7 @@ class Boldgrid_Inspirations_Api {
 	 */
 	public function passes_api_check( $api_key_required = false, $is_boldgrid_api_data_new = false ) {
 		// If key is not required, then mark as validated and return true.
-		if ( false === $api_key_required ) {
+		if ( ! $api_key_required ) {
 			$this->set_passed_key_validation( true );
 
 			return true;
@@ -179,22 +224,29 @@ class Boldgrid_Inspirations_Api {
 		$boldgrid_api_data = get_transient( 'boldgrid_api_data' );
 
 		// If there is no transient data, then retrieve it from the asset server.
-		if ( true === empty( $boldgrid_api_data ) ) {
+		if ( empty( $boldgrid_api_data ) ) {
 			$boldgrid_api_data = self::boldgrid_api_call( $configs['ajax_calls']['get_version'] );
 
 			$is_boldgrid_api_data_new = true;
 		}
 
 		// Check if we have valid API data.
-		if ( true === isset( $boldgrid_api_data->status ) && 200 === $boldgrid_api_data->status ) {
-			// If we did not have a site hash, but got one in the return, then set the WP Option.
-			if ( true === empty( $configs['site_hash'] ) &&
-			false === empty( $boldgrid_api_data->result->data->site_hash ) ) {
+		if ( isset( $boldgrid_api_data->status ) && 200 === $boldgrid_api_data->status ) {
+			// Set the last API status code.
+			self::$last_api_status = $boldgrid_api_data->status;
+
+			// If we did not have a site hash, but got one in the return, then save it.
+			if ( empty( self::$site_hash ) &&
+			! empty( $boldgrid_api_data->result->data->site_hash ) ) {
+				// Update the WP option.
 				update_option( 'boldgrid_site_hash', $boldgrid_api_data->result->data->site_hash );
+
+				// Update the class property.
+				self::$site_hash = $boldgrid_api_data->result->data->site_hash;
 			}
 
 			// If we just retrieved new data, then update reseller option.
-			if ( true === $is_boldgrid_api_data_new || true === isset( $_REQUEST['force-check'] ) ) {
+			if ( $is_boldgrid_api_data_new || isset( $_REQUEST['force-check'] ) ) {
 				$boldgrid_reseller_array = array();
 
 				foreach ( $boldgrid_api_data->result->data as $key => $value ) {
@@ -219,6 +271,11 @@ class Boldgrid_Inspirations_Api {
 			// API key did not verify or received a bad response, so fail.
 			$this->set_passed_key_validation( false );
 
+			// Set the last API status code.
+			self::$last_api_status = (
+				isset( $boldgrid_api_data->status ) ? $boldgrid_api_data->status : 0
+			);
+
 			return false;
 		}
 	}
@@ -242,17 +299,12 @@ class Boldgrid_Inspirations_Api {
 		// return it if so, and not a force-check.
 		if ( '/api/plugin/check-version' === $api_path ) {
 			// Get api data transient.
-			if ( true === is_multisite() ) {
-				$boldgrid_api_data = get_site_transient( 'boldgrid_api_data' );
-			} else {
-				$boldgrid_api_data = get_transient( 'boldgrid_api_data' );
-			}
+			$boldgrid_api_data = get_site_transient( 'boldgrid_api_data' );
 
 			// If the API data was just retrieved (last 5 seconds) and is ok, then just return it.
-			if ( false === empty( $boldgrid_api_data ) &&
-			false === (
-				true === isset( $_GET['force-check'] ) &&
-				true === isset( $boldgrid_api_data->updated ) &&
+			if ( ! empty( $boldgrid_api_data ) &&
+			! (
+				isset( $_GET['force-check'] ) && isset( $boldgrid_api_data->updated ) &&
 				$boldgrid_api_data->updated < time() - 5
 			) ) {
 				return $boldgrid_api_data;
@@ -263,27 +315,27 @@ class Boldgrid_Inspirations_Api {
 		$configs = Boldgrid_Inspirations_Config::get_format_configs();
 
 		// Set the API key.
-		if ( true === isset( $_POST['api_key'] ) ) {
+		if ( isset( $_POST['api_key'] ) ) {
 			// On activation.
 			$api_key_hash = self::hash_api_key( $_POST['api_key'] );
-		} elseif ( true === isset( $_POST['key'] ) ) {
+		} elseif ( isset( $_POST['key'] ) ) {
 			// POST of the hash.
 			$api_key_hash = sanitize_text_field( $_POST['key'] );
-		} elseif ( true === isset( $_GET['key'] ) ) {
+		} elseif ( isset( $_GET['key'] ) ) {
 			// GET of the hash.
 			$api_key_hash = sanitize_text_field( $_GET['key'] );
 		} else {
 			// From configs.
-			$api_key_hash = ( true === isset( $configs['api_key'] ) ? $configs['api_key'] : null );
+			$api_key_hash = ( isset( $configs['api_key'] ) ? $configs['api_key'] : null );
 		}
 
 		// Build the GET parameters.
-		if ( false === empty( $api_key_hash ) ) {
+		if ( ! empty( $api_key_hash ) ) {
 			$params_array['key'] = $api_key_hash;
 		}
 
-		if ( false === empty( $configs['site_hash'] ) ) {
-			$params_array['site_hash'] = $configs['site_hash'];
+		if ( ! empty( self::$site_hash ) ) {
+			$params_array['site_hash'] = self::$site_hash;
 		}
 
 		// If getting plugin version information, include other parameters.
@@ -293,17 +345,17 @@ class Boldgrid_Inspirations_Api {
 
 			// Include update release and theme channels.
 			$params_array['channel'] = (
-				false === empty( $options['release_channel'] ) ?
+				! empty( $options['release_channel'] ) ?
 				$options['release_channel'] : 'stable'
 			);
 
 			$params_array['theme_channel'] = (
-				false === empty( $options['theme_release_channel'] ) ?
+				! empty( $options['theme_release_channel'] ) ?
 				$options['theme_release_channel'] : 'stable'
 			);
 
 			// If get_plugin_data does not exist, then load it.
-			if ( false === function_exists( 'get_plugin_data' ) ) {
+			if ( ! function_exists( 'get_plugin_data' ) ) {
 				require_once ABSPATH . 'wp-admin/includes/plugin.php';
 			}
 
@@ -322,14 +374,14 @@ class Boldgrid_Inspirations_Api {
 
 			// Include feedback opt-out setting.
 			$params_array['feedback_optout'] = (
-				true === isset( $options['boldgrid_feedback_optout'] ) ?
+				isset( $options['boldgrid_feedback_optout'] ) ?
 				$options['boldgrid_feedback_optout'] : '0'
 			);
 
 			// If allowed, then include feedback info.
-			if ( true === empty( $params_array['feedback_optout'] ) ) {
+			if ( empty( $params_array['feedback_optout'] ) ) {
 				// Include activation/update information.
-				if ( true === function_exists( 'wp_get_current_user' ) &&
+				if ( function_exists( 'wp_get_current_user' ) &&
 				false !== ( $current_user = wp_get_current_user() ) ) {
 					$params_array['first_login'] = get_user_meta( $current_user->ID, 'first_login',
 						true
@@ -342,13 +394,9 @@ class Boldgrid_Inspirations_Api {
 				}
 
 				// Mobile ratio.
-				if ( true === is_multisite() ) {
-					$mobile_ratio = get_site_option( 'boldgrid_mobile_ratio' );
-				} else {
-					$mobile_ratio = get_option( 'boldgrid_mobile_ratio' );
-				}
+				$mobile_ratio = get_site_option( 'boldgrid_mobile_ratio' );
 
-				if ( false === empty( $mobile_ratio ) ) {
+				if ( ! empty( $mobile_ratio ) ) {
 					$params_array['mobile_ratio'] = $mobile_ratio;
 				}
 			}
@@ -368,7 +416,7 @@ class Boldgrid_Inspirations_Api {
 			);
 		} else {
 			// Convert the params array into a query string.
-			if ( false === empty( $params_array ) ) {
+			if ( ! empty( $params_array ) ) {
 				$params = http_build_query( $params_array );
 			}
 
@@ -383,10 +431,22 @@ class Boldgrid_Inspirations_Api {
 		$boldgrid_api_data_object = json_decode( $boldgrid_api_data );
 
 		// Check asset server availability.
-		if ( true === isset( $boldgrid_api_data_object->status ) ) {
+		if ( isset( $boldgrid_api_data_object->status ) ) {
 			Boldgrid_Inspirations_Api::set_is_asset_server_available( true );
 		} else {
 			Boldgrid_Inspirations_Api::set_is_asset_server_available( false );
+
+			// Notify that there is a connection issue.
+			add_action( 'admin_notices',
+				function () {
+					$notice_template_file = BOLDGRID_BASE_DIR .
+					'/pages/templates/boldgrid_connection_issue.php';
+
+					if ( ! in_array( $notice_template_file, get_included_files(), true ) ) {
+						include $notice_template_file;
+					}
+				}
+			);
 
 			// Log.
 			error_log( __METHOD__ . ': Asset server is unavailable.' );
@@ -396,21 +456,20 @@ class Boldgrid_Inspirations_Api {
 		$boldgrid_api_data = json_decode( $boldgrid_api_data, $json_array );
 
 		// If this was a BoldGrid Inpirations plugin version check, then store only valid data.
-		if ( '/api/plugin/check-version' === $api_path &&
-		true === isset( $boldgrid_api_data->status ) &&
+		if ( '/api/plugin/check-version' === $api_path && isset( $boldgrid_api_data->status ) &&
 		200 === $boldgrid_api_data->status ) {
 			// Add the current timestamp (in seconds).
 			$boldgrid_api_data->updated = time();
 
 			// Set api data transient, expired in 8 hours.
-			if ( true === is_multisite() ) {
-				delete_site_transient( 'boldgrid_api_data' );
-				set_site_transient( 'boldgrid_api_data', $boldgrid_api_data, 8 * HOUR_IN_SECONDS );
-			} else {
-				delete_transient( 'boldgrid_api_data' );
-				set_transient( 'boldgrid_api_data', $boldgrid_api_data, 8 * HOUR_IN_SECONDS );
-			}
+			delete_site_transient( 'boldgrid_api_data' );
+			set_site_transient( 'boldgrid_api_data', $boldgrid_api_data, 8 * HOUR_IN_SECONDS );
 		}
+
+		// Set the last API status code.
+		self::$last_api_status = (
+			isset( $boldgrid_api_data->status ) ? $boldgrid_api_data->status : 0
+		);
 
 		// Return the object.
 		return $boldgrid_api_data;
@@ -469,9 +528,12 @@ class Boldgrid_Inspirations_Api {
 	public function add_hooks_to_prompt_for_api_key() {
 		// At this point, we've decided that we need to ask the user for an api key.
 		// Let's only ask them once! IE don't show two admin notices asking for a key.
-		if ( true !== self::$have_enqueued_api_key_prompt ) {
+		if ( ! self::$have_enqueued_api_key_prompt ) {
 			// If the asset server is available and there is no site hash, then ask for the api key, else notify.
-			if ( true === self::get_is_asset_server_available() ) {
+			if ( self::get_is_asset_server_available() ) {
+				// If we're asking for a key, then any stored key is not valid, so delete it.
+				delete_option( 'boldgrid_api_key' );
+
 				// Add a message to the dashboard that asks for the api key.
 				add_action( 'admin_notices',
 					array(
@@ -523,13 +585,13 @@ class Boldgrid_Inspirations_Api {
 		$email = $current_user->user_email;
 
 		// First name if exists from user.
-		$first_name = ( true === empty( $current_user->user_firstname ) ? '' : $current_user->user_firstname );
+		$first_name = ( empty( $current_user->user_firstname ) ? '' : $current_user->user_firstname );
 
 		// Last name if exists from user.
-		$last_name = ( true === empty( $current_user->user_lastname ) ? '' : $current_user->user_lastname );
+		$last_name = ( empty( $current_user->user_lastname ) ? '' : $current_user->user_lastname );
 
 		// Display the notice.
-		include dirname( __FILE__ ) . '/partial-page/boldgrid-inspirations-api-prompt.php';
+		include BOLDGRID_BASE_DIR . '/pages/templates/boldgrid-inspirations-api-prompt.php';
 	}
 
 	/**
@@ -538,7 +600,16 @@ class Boldgrid_Inspirations_Api {
 	 * @since 1.2.2
 	 */
 	public function notify_connection_issue() {
-		include BOLDGRID_BASE_DIR . '/pages/templates/boldgrid_connection_issue.php';
+		// Show a notice, if not already printed.
+		$notice_template_file = BOLDGRID_BASE_DIR .
+		'/pages/templates/boldgrid_connection_issue.php';
+
+		if ( ! in_array( $notice_template_file, get_included_files(), true ) ) {
+			include $notice_template_file;
+		}
+
+		// Mark "boldgrid_available" transient to FALSE (unavailable).
+		set_site_transient( 'boldgrid_available', false, HOUR_IN_SECONDS );
 	}
 
 	/**
@@ -593,7 +664,7 @@ class Boldgrid_Inspirations_Api {
 		);
 
 		// Verify nonce.
-		if ( false === isset( $_POST['set_key_auth'] ) ||
+		if ( ! isset( $_POST['set_key_auth'] ) ||
 		1 !== check_ajax_referer( 'boldgrid_set_key', 'set_key_auth', false ) ) {
 			echo $messages['nonce_failed'];
 
@@ -601,7 +672,7 @@ class Boldgrid_Inspirations_Api {
 		}
 
 		// Check input API key.
-		if ( true === empty( $_POST['api_key'] ) ) {
+		if ( empty( $_POST['api_key'] ) ) {
 			// Failure.
 			echo wp_json_encode(
 				array(
@@ -616,7 +687,7 @@ class Boldgrid_Inspirations_Api {
 
 		$api_key_hash = self::hash_api_key( $_POST['api_key'] );
 
-		if ( true === empty( $api_key_hash ) ) {
+		if ( empty( $api_key_hash ) ) {
 			// Failure.
 			echo wp_json_encode(
 				array(
@@ -630,17 +701,13 @@ class Boldgrid_Inspirations_Api {
 		}
 
 		// Delete the boldgrid_api_data transient.
-		if ( true === is_multisite() ) {
-			delete_site_transient( 'boldgrid_api_data' );
-		} else {
-			delete_transient( 'boldgrid_api_data' );
-		}
+		delete_site_transient( 'boldgrid_api_data' );
 
 		// Verify the key.
 		$boldgrid_api_data = $this->verify_api_key();
 
 		// Interpret result.
-		if ( 'OK' === $boldgrid_api_data->message ) {
+		if ( isset( $boldgrid_api_data->message ) && 'OK' === $boldgrid_api_data->message ) {
 			// Success.
 			echo wp_json_encode(
 				array(
@@ -651,7 +718,8 @@ class Boldgrid_Inspirations_Api {
 
 			// Update the API key option.
 			update_option( 'boldgrid_api_key', $api_key_hash );
-		} elseif ( 'Unauthorized' === $boldgrid_api_data->message ) {
+		} elseif ( isset( $boldgrid_api_data->message ) &&
+		'Unauthorized' === $boldgrid_api_data->message ) {
 			// Failure.
 			echo wp_json_encode(
 				array(
@@ -669,7 +737,7 @@ class Boldgrid_Inspirations_Api {
 					'message' => $messages['invalid_key'],
 				)
 			);
-		} elseif ( false === is_object( $boldgrid_api_data ) ) {
+		} elseif ( ! is_object( $boldgrid_api_data ) ) {
 			// Log.
 			error_log(
 				__METHOD__ . ': Error: $boldgrid_api_data is not an object.  $boldgrid_api_data: ' .
@@ -732,19 +800,19 @@ class Boldgrid_Inspirations_Api {
 	 * Set the BoldGrid Connect Key hash.
 	 *
 	 * @since 1.2.2
+	 * @static
 	 * @see Boldgrid_Inspirations_Config::get_format_configs().
 	 */
-	public function set_api_key_hash() {
+	public static function set_api_key_hash() {
 		// Get the BoldGrid configuration array.
 		$configs = Boldgrid_Inspirations_Config::get_format_configs();
 
-		// REQUIRED - we need authorization.
-		// Look in the config for the api_key.
-		$this->api_key_hash = ( true === isset( $configs['api_key'] ) ? $configs['api_key'] : null );
+		// Look in the config for the api_key, which includes the WP option.
+		self::$api_key_hash = ( isset( $configs['api_key'] ) ? $configs['api_key'] : null );
 		// If it's not there, check $_REQUEST['key'].
-		$this->api_key_hash = (
-			( true === empty( $this->api_key_hash ) && true === isset( $_REQUEST['key'] ) ) ?
-			sanitize_text_field( $_REQUEST['key'] ) : $this->api_key_hash
+		self::$api_key_hash = (
+			( empty( self::$api_key_hash ) && isset( $_REQUEST['key'] ) ) ?
+			sanitize_text_field( $_REQUEST['key'] ) : self::$api_key_hash
 		);
 	}
 
@@ -752,23 +820,116 @@ class Boldgrid_Inspirations_Api {
 	 * Get the BoldGrid Connect Key hash.
 	 *
 	 * @since 1.2.2
+	 * @static
 	 *
 	 * @return string|false Hash representation of the BoldGrid Connect Key, or FALSE on error.
 	 */
-	public function get_api_key_hash() {
+	public static function get_api_key_hash() {
 		// If an API key is stored, then return it.
-		if ( false === empty( $this->api_key_hash ) ) {
-			return $this->api_key_hash;
+		if ( ! empty( self::$api_key_hash ) ) {
+			return self::$api_key_hash;
 		}
 
 		// Attempt to set the hash.
-		$this->set_api_key_hash();
+		self::set_api_key_hash();
 
 		// If an API key is now stored, then return it.
-		if ( false === empty( $this->api_key_hash ) ) {
-			return $this->api_key_hash;
+		if ( ! empty( self::$api_key_hash ) ) {
+			return self::$api_key_hash;
 		} else {
 			return false;
 		}
+	}
+
+	/**
+	 * Set the BoldGrid site hash.
+	 *
+	 * @since 1.2.3
+	 * @static
+	 * @see Boldgrid_Inspirations_Config::get_format_configs().
+	 *
+	 * @return bool
+	 */
+	public static function set_site_hash() {
+		// If there is already a site hash stored, then abort.
+		if ( ! empty( self::$site_hash ) ) {
+			return true;
+		}
+
+		// Get the BoldGrid configuration array.
+		$configs = Boldgrid_Inspirations_Config::get_format_configs();
+
+		// Look in the config for the site_hash, which includes the WP option.
+		if ( ! empty( $configs['site_hash'] ) ) {
+			self::$site_hash = $configs['site_hash'];
+
+			return true;
+		}
+
+		// Could not locate a site hash, so fail.
+		return false;
+	}
+
+	/**
+	 * Get the BoldGrid site hash.
+	 *
+	 * @since 1.2.3
+	 * @static
+	 *
+	 * @return string The BoldGrid site hash.
+	 */
+	public static function get_site_hash() {
+		// If a site hash is stored, then return it.
+		if ( ! empty( self::$site_hash ) ) {
+			return self::$site_hash;
+		}
+
+		// Attempt to set the site hash.
+		self::set_site_hash();
+
+		// Return the resulting site hash string.
+		return self::$site_hash;
+	}
+
+	/**
+	 * Make a test call to the asset server.
+	 *
+	 * @since 1.2.3
+	 * @see Boldgrid_Inspirations_Api::get_is_asset_server_available().
+	 * @see Boldgrid_Inspirations_Api::set_is_asset_server_available().
+	 *
+	 * @return bool
+	 */
+	public function test_api() {
+		// Get the WP transient "boldgrid_api_test".
+		$boldgrid_api_test = get_site_transient( 'boldgrid_api_test' );
+
+		// If the BoldGrid API was tested recently, then just return the stored result.
+		if ( false !== $boldgrid_api_test ) {
+			return self::get_is_asset_server_available();
+		}
+
+		// Get the BoldGrid configuration array.
+		$configs = $this->core->get_configs();
+
+		// Make a test API call.
+		$boldgrid_api_result = Boldgrid_Inspirations_Api::boldgrid_api_call(
+			$boldgrid_configs['ajax_calls']['get_plugin_version']
+		);
+
+		// Check asset server availability.
+		$boldgrid_api_test = (
+			isset( $boldgrid_api_result->status ) &&
+			200 === $boldgrid_api_result->status
+		);
+
+		// Set the result.
+		self::set_is_asset_server_available( $boldgrid_api_test );
+
+		// Store the result in WP transient "boldgrid_api_test", expires in 1 minute.
+		set_site_transient( 'boldgrid_api_test', $boldgrid_api_test , MINUTE_IN_SECONDS );
+
+		// Return the result.
+		return $boldgrid_api_test;
 	}
 }

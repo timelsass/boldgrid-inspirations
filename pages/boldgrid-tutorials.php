@@ -1,7 +1,6 @@
 <?php
-
-// Don't let this page get loaded directly.
-defined( 'WPINC' ) ?  : die();
+// Prevent direct calls.
+require BOLDGRID_BASE_DIR . '/pages/templates/restrict-direct-access.php';
 
 $boldgrid_menu_options = get_option( 'boldgrid_settings' );
 
@@ -11,7 +10,7 @@ $boldgrid_menu_options = get_option( 'boldgrid_settings' );
  * If we're using the single menu, then don't use the BG icon, as that correlates to the icon in the
  * dashboard menu.
  */
-$anchor_text = esc_html__( ' BoldGrid Support', 'boldgrid-inspirations' );
+$anchor_text = esc_html__( 'BoldGrid Support', 'boldgrid-inspirations' );
 
 $boldgrid_support_url = esc_url( '//www.boldgrid.com/support' );
 

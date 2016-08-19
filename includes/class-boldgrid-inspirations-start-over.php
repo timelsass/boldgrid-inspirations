@@ -332,7 +332,7 @@ class Boldgrid_Inspirations_Start_Over {
 	 */
 	protected function cleanup_boldgrid_forms() {
 		// If user has selected the box to delete BoldGrid Forms, then delete them.
-		if ( true === $this->delete_forms ) {
+		if ( $this->delete_forms ) {
 			global $boldgrid_forms;
 			$boldgrid_forms['force_uninstall'] = true;
 
@@ -361,7 +361,7 @@ class Boldgrid_Inspirations_Start_Over {
 			'errors' => null
 		) );
 
-		if ( true === $this->delete_themes ) {
+		if ( $this->delete_themes ) {
 			// If the user's current theme is a BoldGrid theme, let's switch the user to
 			// twentyfifteen.
 			if ( Boldgrid_Inspirations_Utility::startsWith( get_stylesheet(), 'boldgrid' ) ) {

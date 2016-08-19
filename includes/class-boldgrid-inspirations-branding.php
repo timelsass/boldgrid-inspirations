@@ -46,7 +46,7 @@ class Boldgrid_Inspirations_Branding {
 	 *
 	 * @param array $reseller_data Reseller data array.
 	 */
-	private function set_reseller_data( $reseller_data = null ) {
+	private function set_reseller_data( $reseller_data = array() ) {
 		$this->reseller_data = $reseller_data;
 	}
 
@@ -62,34 +62,44 @@ class Boldgrid_Inspirations_Branding {
 	 */
 	public function add_hooks() {
 		// Add action to enqueue BoldGrid login CSS script.
-		add_action( 'login_enqueue_scripts', array(
-			$this,
-			'boldgrid_login_css',
-		) );
+		add_action( 'login_enqueue_scripts',
+			array(
+				$this,
+				'boldgrid_login_css',
+			)
+		);
 
 		// Add filter for login logo URL.
-		add_filter( 'login_headerurl', array(
-			$this,
-			'boldgrid_login_logo_url',
-		) );
+		add_filter( 'login_headerurl',
+			array(
+				$this,
+				'boldgrid_login_logo_url',
+			)
+		);
 
 		// Add filter for BoldGrid login logo title.
-		add_filter( 'login_headertitle', array(
-			$this,
-			'boldgrid_login_logo_title',
-		) );
+		add_filter( 'login_headertitle',
+			array(
+				$this,
+				'boldgrid_login_logo_title',
+			)
+		);
 
 		// Add action for BoldGrid admin icon.
-		add_action( 'init', array(
-			$this,
-			'boldgrid_admin_icon',
-		) );
+		add_action( 'init',
+			array(
+				$this,
+				'boldgrid_admin_icon',
+			)
+		);
 
 		// Add BoldGrid admin bar menu.
-		add_action( 'admin_bar_menu', array(
-			$this,
-			'boldgrid_admin_node',
-		), 5 );
+		add_action( 'admin_bar_menu',
+			array(
+				$this,
+				'boldgrid_admin_node',
+			), 5
+		);
 
 		// Add actions and filters for reseller admin bar menu and footer.
 		$reseller_data = $this->get_reseller_data();
@@ -140,13 +150,16 @@ class Boldgrid_Inspirations_Branding {
 		$reseller_data = $this->get_reseller_data();
 
 		$reseller_css_url = esc_url(
-			false === empty( $reseller_data['reseller_css_url'] ) ?
+			! empty( $reseller_data['reseller_css_url'] ) ?
 			$reseller_data['reseller_css_url'] : plugins_url() . '/' .
 			basename( BOLDGRID_BASE_DIR ) . '/assets/css/boldgrid-login.css'
 		);
 
 		wp_register_style(
-			'custom-login', $reseller_css_url, array(), BOLDGRID_INSPIRATIONS_VERSION
+			'custom-login',
+			$reseller_css_url,
+			array(),
+			BOLDGRID_INSPIRATIONS_VERSION
 		);
 
 		wp_enqueue_style( 'custom-login' );
@@ -188,18 +201,18 @@ class Boldgrid_Inspirations_Branding {
 		$reseller_data = $this->get_reseller_data();
 
 		$reseller_logo_url = (
-			false === empty( $reseller_data['reseller_logo_url'] ) ?
+			! empty( $reseller_data['reseller_logo_url'] ) ?
 			$reseller_data['reseller_logo_url'] :
 			plugins_url() . '/' . basename( BOLDGRID_BASE_DIR ) . '/assets/images/wordpresslogo.png'
 		);
 
 		$reseller_title = esc_html(
-			false === empty( $reseller_data['reseller_title'] ) ?
+			! empty( $reseller_data['reseller_title'] ) ?
 			$reseller_data['reseller_title'] : null
 		);
 
 		$reseller_support_url = esc_url(
-			false === empty( $reseller_data['reseller_support_url'] ) ?
+			! empty( $reseller_data['reseller_support_url'] ) ?
 			$reseller_data['reseller_support_url'] : 'http://www.boldgrid.com/documentation'
 		);
 
@@ -214,7 +227,7 @@ class Boldgrid_Inspirations_Branding {
 	Need Support?<br />
 		<?php
 
-		if ( false === empty( $reseller_title ) ) {
+		if ( ! empty( $reseller_title ) ) {
 			echo $reseller_title;
 			?> provides dedicated help for <a target='_blank'
 		href='<?php echo $reseller_support_url; ?>'>BoldGrid</a>.
@@ -241,13 +254,16 @@ class Boldgrid_Inspirations_Branding {
 	 * @see wp_enqueue_style().
 	 */
 	public function boldgrid_admin_icon() {
-		if ( true === is_admin_bar_showing() ) {
-			wp_enqueue_style( 'adminiconstyle',
+		if ( is_admin_bar_showing() ) {
+			wp_enqueue_style(
+				'adminiconstyle',
 				plugins_url() . '/' . basename( BOLDGRID_BASE_DIR ) .
-					 '/assets/css/adminiconstyle.css',
+				'/assets/css/adminiconstyle.css',
 				array(
-					'admin-bar'
-				), BOLDGRID_INSPIRATIONS_VERSION, 'all'
+					'admin-bar',
+				),
+				BOLDGRID_INSPIRATIONS_VERSION,
+				'all'
 			);
 		}
 	}
@@ -337,9 +353,9 @@ class Boldgrid_Inspirations_Branding {
 	}
 
 	/**
-	 * Custom IMH Icon in Admin Bar/
+	 * Custom IMH Icon in Admin Bar.
 	 *
-	 * Adds IMH Icon in third position directly after WordPress Icon/
+	 * Adds IMH Icon in third position directly after WordPress Icon.
 	 *
 	 * @see wp_admin_bar().
 	 * @see add_node().
@@ -352,42 +368,44 @@ class Boldgrid_Inspirations_Branding {
 		$reseller_data = $this->get_reseller_data();
 
 		$reseller_identifier = (
-			false === empty( $reseller_data['reseller_identifier'] ) ?
+			! empty( $reseller_data['reseller_identifier'] ) ?
 			$reseller_data['reseller_identifier'] : null
 		);
 
 		$reseller_title = (
 			esc_html(
-				false === empty( $reseller_data['reseller_title'] ) ?
+				! empty( $reseller_data['reseller_title'] ) ?
 				$reseller_data['reseller_title'] : 'BoldGrid.com'
 			)
 		);
 
 		$reseller_website_url = (
 			esc_url(
-				false === empty( $reseller_data['reseller_website_url'] ) ?
-			$reseller_data['reseller_website_url'] : 'http://www.boldgrid.com/' )
+				! empty( $reseller_data['reseller_website_url'] ) ?
+				$reseller_data['reseller_website_url'] : 'http://www.boldgrid.com/'
+			)
 		);
 
 		$reseller_support_url = (
 			esc_url(
-				false === empty( $reseller_data['reseller_support_url'] ) ?
-			$reseller_data['reseller_support_url'] : 'http://www.boldgrid.com/documentation' )
+				! empty( $reseller_data['reseller_support_url'] ) ?
+				$reseller_data['reseller_support_url'] : 'http://www.boldgrid.com/documentation'
+			)
 		);
 
 		$reseller_amp_url = (
-			false === empty( $reseller_data['reseller_amp_url'] ) ?
+			! empty( $reseller_data['reseller_amp_url'] ) ?
 			esc_url( $reseller_data['reseller_amp_url'] ) : null
 		);
 
 		$args = array(
 			'id' => 'reseller-adminbar-icon',
 			'title' => '<span aria-hidden="true" class="' . strtolower( $reseller_identifier ) .
-				 '-icon ab-icon"></span>',
-				'href' => $reseller_website_url,
-				'meta' => array(
-					'class' => 'reseller-node-icon',
-				),
+			'-icon ab-icon"></span>',
+			'href' => $reseller_website_url,
+			'meta' => array(
+				'class' => 'reseller-node-icon',
+			),
 		);
 
 		$wp_admin_bar->add_node( $args );
@@ -395,7 +413,7 @@ class Boldgrid_Inspirations_Branding {
 		$reseller_submenu_item = array(
 			'id' => 'reseller-site-url',
 			'parent' => 'reseller-adminbar-icon',
-			'title' => __( $reseller_title, 'boldgrid-inspirations' ),
+			'title' => esc_html__( $reseller_title, 'boldgrid-inspirations' ),
 			'href' => $reseller_website_url,
 			'meta' => array(
 				'class' => 'reseller-dropdown',
@@ -410,7 +428,7 @@ class Boldgrid_Inspirations_Branding {
 		$reseller_submenu_item = array(
 			'id' => 'reseller-support-center',
 			'parent' => 'reseller-adminbar-icon',
-			'title' => __( 'Support Center', 'boldgrid-inspirations' ),
+			'title' => esc_html__( 'Support Center', 'boldgrid-inspirations' ),
 			'href' => $reseller_support_url,
 			'meta' => array(
 				'class' => 'reseller-dropdown',
@@ -425,7 +443,7 @@ class Boldgrid_Inspirations_Branding {
 		$reseller_submenu_item = array(
 			'id' => 'reseller-amp-login',
 			'parent' => 'reseller-adminbar-icon',
-			'title' => __( 'AMP Login', 'boldgrid-inspirations' ),
+			'title' => esc_html__( 'AMP Login', 'boldgrid-inspirations' ),
 			'href' => $reseller_amp_url,
 			'meta' => array(
 				'class' => 'reseller-dropdown',
@@ -468,14 +486,16 @@ class Boldgrid_Inspirations_Branding {
 
 		$reseller_title = (
 			esc_html(
-				false === empty( $reseller_data['reseller_title'] ) ?
-			$reseller_data['reseller_title'] : 'BoldGrid.com' )
+				! empty( $reseller_data['reseller_title'] ) ?
+				$reseller_data['reseller_title'] : 'BoldGrid.com'
+			)
 		);
 
 		$reseller_support_url = (
 			esc_url(
-				false === empty( $reseller_data['reseller_support_url'] ) ?
-			$reseller_data['reseller_support_url'] : 'https://www.boldgrid.com/documentation' )
+				! empty( $reseller_data['reseller_support_url'] ) ?
+				$reseller_data['reseller_support_url'] : 'https://www.boldgrid.com/documentation'
+			)
 		);
 
 		// Display the reseller footer.

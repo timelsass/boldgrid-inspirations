@@ -176,7 +176,7 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 			var has_sizes = ( true == jQuery.isArray( sizes ) && 0 < jQuery( sizes ).length ) ? true
 			    : false;
 
-			if ( true === has_sizes ) {
+			if ( has_sizes ) {
 				/*
 				 * We successfully fetched the details of the image. Display
 				 * those attachment details for the user.
@@ -255,13 +255,13 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 		var inCustomizer = ( 'dashboard-customizer' === self.baseAdmin.GetURLParameter( 'ref' ) ),
 			action = null;
 
-		if ( typeof parent.wp.media.frame !== 'undefined' && 'replace-image' === parent.wp.media.frame._state ) {
+		if ( 'undefined' !== parent.wp.media.frame && 'replace-image' === parent.wp.media.frame._state ) {
 			action = 'replace-image';
-		} else if( typeof parent.window.send_to_editor === 'function' && false === inCustomizer ) {
+		} else if( 'function' === typeof parent.window.send_to_editor && ! inCustomizer ) {
 			action = 'editor';
 		} else if( 'dashboard-media' === self.baseAdmin.GetURLParameter( 'ref' ) ) {
 			action = 'dashboard-media';
-		} else if( true === inCustomizer ) {
+		} else if( inCustomizer ) {
 			action = 'customizer';
 		}
 

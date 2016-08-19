@@ -58,7 +58,7 @@ class Boldgrid_Inspirations_Config {
 	 */
 	public static function get_format_configs() {
 		// If configs were already read, then just return the array.
-		if ( false === empty( self::$configs)) {
+		if ( ! empty( self::$configs)) {
 			return self::$configs;
 		}
 
@@ -72,21 +72,21 @@ class Boldgrid_Inspirations_Config {
 		$local_configs = array();
 
 		// If local file exists, then read it.
-		if ( true === file_exists( $local_config_filename = $config_dir . '/config.local.php' ) ) {
+		if ( file_exists( $local_config_filename = $config_dir . '/config.local.php' ) ) {
 			$local_configs = require $local_config_filename;
 		}
 
 		// If the user has an api key stored in their database, then set it as the global api_key.
 		$api_key_from_database = get_option( 'boldgrid_api_key' );
 
-		if ( false === empty( $api_key_from_database ) ) {
+		if ( ! empty( $api_key_from_database ) ) {
 			$global_configs['api_key'] = $api_key_from_database;
 		}
 
 		// Check for site hash in WP Options, if present, add to config array.
 		$site_hash = get_option( 'boldgrid_site_hash' );
 
-		if ( false === empty( $site_hash ) ) {
+		if ( ! empty( $site_hash ) ) {
 			$global_configs['site_hash'] = $site_hash;
 		}
 
@@ -94,7 +94,7 @@ class Boldgrid_Inspirations_Config {
 		$global_configs['site_url'] = get_site_url();
 
 		// Merge global and local configs.
-		if ( false === empty( $local_configs ) ) {
+		if ( ! empty( $local_configs ) ) {
 			$formated_configs = array_merge( $global_configs, $local_configs );
 		} else {
 			$formated_configs = $global_configs;
@@ -102,7 +102,7 @@ class Boldgrid_Inspirations_Config {
 
 		// Add boldgrid_settings to our configs.
 		// @since 1.0.10
-		if ( false === isset( $formated_configs['settings'] ) ) {
+		if ( ! isset( $formated_configs['settings'] ) ) {
 			$formated_configs['settings'] = get_option( 'boldgrid_settings' );
 		}
 

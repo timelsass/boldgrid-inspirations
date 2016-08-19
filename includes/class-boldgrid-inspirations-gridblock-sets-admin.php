@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BoldGrid Source Code
  *
@@ -8,13 +7,6 @@
  * @version $Id$
  * @author BoldGrid.com <wpb@boldgrid.com>
  */
-
-// Prevent direct calls
-if ( ! defined( 'WPINC' ) ) {
-	header( 'Status: 403 Forbidden' );
-	header( 'HTTP/1.1 403 Forbidden' );
-	exit();
-}
 
 /**
  * BoldGrid Inspirations GridBlock Sets Admin.
@@ -54,8 +46,8 @@ class Boldgrid_Inspirations_GridBlock_Sets_Admin {
 	 * @since 1.0.10
 	 */
 	public function add_hooks() {
-		// If we're not in the dashboard, return.
-		if ( ! is_admin() ) {
+		// If we're not in the admin section, return.
+		if ( is_admin() ) {
 			return;
 		}
 

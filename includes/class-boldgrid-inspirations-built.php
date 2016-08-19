@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BoldGrid Source Code
  *
@@ -9,57 +8,50 @@
  * @author BoldGrid.com <wpb@boldgrid.com>
  */
 
-// Prevent direct calls
-if ( ! defined( 'WPINC' ) ) {
-	header( 'Status: 403 Forbidden' );
-	header( 'HTTP/1.1 403 Forbidden' );
-	exit();
-}
-
 /**
- * BoldGrid Inspiration Built class
+ * The BoldGrid Inspiration Built class.
  */
 class Boldgrid_Inspirations_Built {
 
 	/**
-	 * An instance of Boldgrid_Inspirations_Inspiration
+	 * An instance of Boldgrid_Inspirations_Inspiration.
 	 *
 	 * @var Inspiration
 	 */
 	protected $inspiration;
 
 	/**
-	 * The data gathered about the users scenario
+	 * The data gathered about the users scenario.
 	 *
 	 * @var array
 	 */
 	protected $mode_data;
 
 	/**
-	 * The users installation settings
+	 * The users installation settings.
 	 *
 	 * @var array
 	 */
 	protected $install_options;
 
 	/**
-	 * Bool that checks if staging plugin is active
+	 * Bool that checks if staging plugin is active.
 	 *
 	 * @var Bool
 	 */
 	protected $staging_plugin_active = false;
 
 	/**
-	 * Array of theme names
+	 * Array of theme names.
 	 *
 	 * @var array
 	 */
 	protected $current_theme_names;
 
 	/**
-	 * Tke in the main plugin as a param
+	 * Take in the main plugin as a param.
 	 *
-	 * @param Inspiration $inspiration
+	 * @param Boldgrid_Inspirations_Inspiration $inspiration
 	 */
 	public function __construct( $inspiration ) {
 		$this->inspiration = $inspiration;
@@ -72,25 +64,30 @@ class Boldgrid_Inspirations_Built {
 	 */
 	public function add_hooks() {
 
-		// Find the users individual scenario and set up the menu
-		add_action( 'admin_menu', array (
-			$this,
-			'admin_menu'
-		) );
+		// Find the users individual scenario and set up the menu.
+		add_action( 'admin_menu',
+			array(
+				$this,
+				'admin_menu',
+			)
+		);
 
-		// Add the needed styles
-		add_action( 'admin_enqueue_scripts', array (
-			$this,
-			'enqueue_scripts'
-		) );
+		// Add the needed styles.
+		add_action( 'admin_enqueue_scripts',
+			array(
+				$this,
+				'enqueue_scripts',
+			)
+		);
 
 		// Should the user be starting with inspirations? If so, give them a notice at the top of
 		// the page.
 		add_action( 'admin_notices',
-			array (
+			array(
 				$this,
-				'you_should_start_with_inspirations'
-			) );
+				'you_should_start_with_inspirations',
+			)
+		);
 	}
 
 	/**
@@ -118,7 +115,7 @@ class Boldgrid_Inspirations_Built {
 	}
 
 	/**
-	 * Checks to see if the staging plugin is active
+	 * Checks to see if the staging plugin is active.
 	 *
 	 * @return boolean
 	 */
@@ -130,7 +127,7 @@ class Boldgrid_Inspirations_Built {
 	}
 
 	/**
-	 * Returns the name of a theme if and only if the theme is a boldgrid theme
+	 * Returns the name of a theme if and only if the theme is a boldgrid theme.
 	 *
 	 * @param WP_Theme $wp_theme
 	 *
@@ -150,7 +147,7 @@ class Boldgrid_Inspirations_Built {
 	}
 
 	/**
-	 * Get all pages by status
+	 * Get all pages by status.
 	 *
 	 * @param string $post_status
 	 *
@@ -182,12 +179,12 @@ class Boldgrid_Inspirations_Built {
 	}
 
 	/**
-	 * Find the users installation data
+	 * Find the users installation data.
 	 *
 	 * @return array
 	 */
 	public static function find_all_install_options() {
-		// Get Installed Settings:
+		// Get Installed Settings.
 		( $active_install_options = get_option( 'boldgrid_install_options' ) ) ||
 			 ( $active_install_options = array () );
 
@@ -215,7 +212,7 @@ class Boldgrid_Inspirations_Built {
 	}
 
 	/**
-	 * Check to see if the user has a staged site
+	 * Check to see if the user has a staged site.
 	 *
 	 * @return boolean
 	 */
@@ -256,36 +253,37 @@ class Boldgrid_Inspirations_Built {
 	}
 
 	/**
-	 * Check to see if the user has an active site
+	 * Check to see if the user has an active site.
 	 *
 	 * @return boolean
 	 */
 	public static function has_active_site() {
-		// Get all pages:
+		// Get all pages.
 		$pages = get_pages();
 
-		// If there are no pages, then return false:
+		// If there are no pages, then return false.
 		if ( empty( $pages ) ) {
 			return false;
 		}
 
-		// Get default, attribution, and coming soon pages:
+		// Get default, attribution, and coming soon pages.
 		$default_page = get_page_by_title( 'Sample Page' );
 		$attribution_page = get_page_by_title( 'Attribution' );
 		$coming_soon_page = get_page_by_title( 'WEBSITE COMING SOON' );
 
-		// Initialize $ids_to_remove:
+		// Initialize $ids_to_remove.
 		$ids_to_filter = array ();
 
-		// Get the boldgrid_attribution option data:
+		// Get the boldgrid_attribution option data.
 		$attribution = get_option( 'boldgrid_attribution' );
 
-		// If there is attribution data, then add the page id to $ids_to_filter:
+		// If there is attribution data, then add the page id to $ids_to_filter.
 		if ( ! empty( $attribution ) && isset( $attribution['page']['id'] ) ) {
 			$ids_to_filter[] = $attribution['page']['id'];
 		}
 
-		// Add the page ids of the default, attribution, and coming soon pages from title match, to the array:
+		// Add the page ids of the default, attribution, and coming soon pages from title match,
+		// to the array.
 		foreach ( array (
 			$default_page,
 			$attribution_page,
@@ -296,16 +294,16 @@ class Boldgrid_Inspirations_Built {
 			}
 		}
 
-		// Build an array of page objects that do not match page ids in $ids_to_filter:
+		// Build an array of page objects that do not match page ids in $ids_to_filter.
 		$active_pages = array ();
 
 		foreach ( $pages as $page ) {
-			if ( false === in_array( $page->ID, $ids_to_filter ) ) {
+			if ( ! in_array( $page->ID, $ids_to_filter ) ) {
 				$active_pages[] = $page;
 			}
 		}
 
-		// Return whether or not we have any pages in the array:
+		// Return whether or not we have any pages in the array.
 		return ! empty( $active_pages );
 	}
 
@@ -377,7 +375,7 @@ class Boldgrid_Inspirations_Built {
 	}
 
 	/**
-	 * Get the staging theme name from the staging plugin
+	 * Get the staging theme name from the staging plugin.
 	 *
 	 * @return WP_Theme | null
 	 */
@@ -386,7 +384,7 @@ class Boldgrid_Inspirations_Built {
 	}
 
 	/**
-	 * Get the menu slug needed to make sure that the first item has the same slug as the primary
+	 * Get the menu slug needed to make sure that the first item has the same slug as the primary.
 	 *
 	 * @param string $top_level
 	 *
@@ -404,7 +402,7 @@ class Boldgrid_Inspirations_Built {
 	}
 
 	/**
-	 * Add the styles and the scripts
+	 * Add the styles and the scripts.
 	 */
 	public function enqueue_scripts() {
 		$current_screen = get_current_screen();
@@ -430,25 +428,34 @@ class Boldgrid_Inspirations_Built {
 		// Css.
 		wp_register_style(
 			'boldgrid-inspirations-css',
-			plugins_url( '/assets/css/boldgrid-inspirations.css', BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ),
+			plugins_url(
+				'/assets/css/boldgrid-inspirations.css',
+				BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php'
+			),
 			array(),
 			BOLDGRID_INSPIRATIONS_VERSION
 		);
+
 		wp_enqueue_style( 'boldgrid-inspirations-css' );
 
 		wp_enqueue_style( 'dashicons' );
 
 		// Js.
 		wp_enqueue_script( 'boldgrid-inspirations',
-			plugins_url( 'assets/js/boldgrid-inspirations.js', BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ),
-			array(),
+			plugins_url(
+				'assets/js/boldgrid-inspirations.js',
+				BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php'
+			),
+			array(
+				'wp-util',
+			),
 			BOLDGRID_INSPIRATIONS_VERSION,
 			true
 		);
 
 		wp_localize_script( 'boldgrid-inspirations',
 			'Inspiration',
-			array (
+			array(
 				'active' => 'Active',
 				'staging' => 'Staging',
 			)
@@ -456,7 +463,10 @@ class Boldgrid_Inspirations_Built {
 
 		// Js.
 		wp_enqueue_script( 'boldgrid-lazyload',
-			plugins_url( 'assets/js/lazyload.js', BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ),
+			plugins_url(
+				'assets/js/lazyload.js',
+				BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php'
+				),
 			array( 'jquery' ),
 			BOLDGRID_INSPIRATIONS_VERSION,
 			true
@@ -464,7 +474,7 @@ class Boldgrid_Inspirations_Built {
 	}
 
 	/**
-	 * Add the top level menui item "Inspirations"
+	 * Add the top level menui item "Inspirations".
 	 *
 	 * @param unknown $top_level
 	 */
@@ -494,8 +504,17 @@ class Boldgrid_Inspirations_Built {
 	 * Callback that will render the Boldgrid Inspiration phase.
 	 *
 	 * @see Boldgrid_Inspirations_Api::boldgrid_api_call().
+	 *
+	 * @return null
 	 */
 	public function inspiration_page() {
+		// If a key is not authorized, then just return.
+		if ( ! $this->inspiration->api->get_passed_key_validation() ||
+		$this->inspiration->api->get_have_enqueued_api_key_prompt() ||
+		200 !== $this->inspiration->api->get_last_api_status() ) {
+			return;
+		}
+
 		$boldgrid_configs = Boldgrid_Inspirations_Config::get_format_configs();
 
 		$api_call_results = Boldgrid_Inspirations_Api::boldgrid_api_call(
@@ -527,6 +546,8 @@ class Boldgrid_Inspirations_Built {
 			// Page template.
 			include BOLDGRID_BASE_DIR . '/pages/boldgrid-inspirations.php';
 		}
+
+		return;
 	}
 
 	/**
