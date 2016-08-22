@@ -511,6 +511,11 @@ class Boldgrid_Inspirations_Deploy {
 			$this->add_to_deploy_log( 'Switching to new blog...', false );
 			switch_to_blog( $new_blog_id );
 
+			// Set the blog's admin email address using the network admin email address.
+			$email_address = get_site_option( 'admin_email' );
+
+			update_option( 'admin_email' , $email_address );
+
 			// Ensure that we have the current boldgrid_asset information (should be empty).
 			$this->asset_manager->get_wp_options_asset();
 
