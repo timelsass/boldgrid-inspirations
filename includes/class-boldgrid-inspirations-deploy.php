@@ -516,6 +516,11 @@ class Boldgrid_Inspirations_Deploy {
 
 			update_option( 'admin_email' , $email_address );
 
+			// If this is a generic build, then set an option to identify it later (purges, etc.).
+			if ( $this->is_generic ) {
+				update_option( 'is_generic_build', true );
+			}
+
 			// Ensure that we have the current boldgrid_asset information (should be empty).
 			$this->asset_manager->get_wp_options_asset();
 
