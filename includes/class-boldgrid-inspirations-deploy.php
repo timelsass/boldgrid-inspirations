@@ -135,7 +135,7 @@ class Boldgrid_Inspirations_Deploy {
 	/**
 	 * Does the user want to start over before deployment?
 	 *
-	 * @since x.x.x
+	 * @since 1.2.3
 	 * @access public
 	 */
 	public $start_over = false;
@@ -1067,7 +1067,7 @@ class Boldgrid_Inspirations_Deploy {
 	/**
 	 * Start over before deployment.
 	 *
-	 * @since x.x.x
+	 * @since 1.2.3
 	 */
 	public function start_over() {
 		// If the user does not want to start over, abort.
@@ -1087,13 +1087,13 @@ class Boldgrid_Inspirations_Deploy {
 		$start_over->start_over_staging = false;
 
 		// Are we deleting forms?
-		$start_over->delete_forms = true;
+		$start_over->delete_forms = false;
 
 		// Are we deleting pages?
-		$start_over->delete_pages = true;
+		$start_over->delete_pages = false;
 
 		// Are we deleting themes?
-		$start_over->delete_themes = true;
+		$start_over->delete_themes = false;
 
 		$start_over->start_over();
 	}

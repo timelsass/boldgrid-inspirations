@@ -15,7 +15,7 @@ $lang = array(
 );
 
 ?>
-<div class="wrap main hidden">
+<div class="wrap main">
 
 	<div class="top-menu design">
 		<a class="active" data-step="design" ><?php echo $lang['Design'] ?></a>
@@ -125,20 +125,6 @@ $lang = array(
 		</div>
 	</div>
 
-</div>
-
-
-
-
-<div id='install-modal' class='hidden' >
-	<h1><?php _e('Install your new website!','boldgrid-inspirations'); ?></h1>
-	<p><?php _e('<strong>Congratulations</strong>, you\'ve completed the first three steps!','boldgrid-inspirations'); ?></p>
-	<p><?php _e('Before you can add your own personal touches to your <span id="install-modal-destination"></span> website, we\'ll first need to install your new website for you. After installation, you can add your own images, change text, etc.','boldgrid-inspirations'); ?></p>
-	<p><?php _e('Are you ready to install this website?','boldgrid-inspirations'); ?></p>
-	<p class='center' id='install-buttons'>
-		<button class="go-back button button-secondary"><?php _e('Go back','boldgrid-inspirations'); ?></button>
-		<button class='button button-primary install-this-website'><?php _e('Install this website!','boldgrid-inspirations'); ?></button>
-	</p>
 </div>
 
 

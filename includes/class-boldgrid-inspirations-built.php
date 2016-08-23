@@ -540,11 +540,11 @@ class Boldgrid_Inspirations_Built {
 			// Underscores Templates.
 			include BOLDGRID_BASE_DIR . '/pages/templates/boldgrid-inspirations.php';
 
-			// Intro template.
-			include BOLDGRID_BASE_DIR . '/pages/includes/boldgrid-inspirations/intro.php';
-
 			// Page template.
 			include BOLDGRID_BASE_DIR . '/pages/boldgrid-inspirations.php';
+
+			// Confirmation template.
+			include BOLDGRID_BASE_DIR . '/pages/includes/boldgrid-inspirations/confirmation.php';
 		}
 
 		return;

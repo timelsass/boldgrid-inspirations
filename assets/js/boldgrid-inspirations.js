@@ -3,7 +3,7 @@ var IMHWPB = IMHWPB || {};
 /**
  * Inspirstions, design first.
  *
- * @since xxx
+ * @since 1.2.3
  */
 IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	var self = this;
@@ -33,7 +33,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	/**
 	 * Enable or disable all actions on the page.
 	 *
-	 * @since xxx
+	 * @since 1.2.3
 	 */
 	this.allActions = function( effect ) {
 		if( 'disable' === effect ) {
@@ -50,7 +50,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	/**
 	 * User chooses a theme
 	 *
-	 * @since xxx
+	 * @since 1.2.3
 	 */
 	this.chooseTheme = function( $theme ) {
 		// Immediately hide the iframe to give a better transition effect.
@@ -171,11 +171,13 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 */
 	this.bindInstallModal = function() {
 		$( 'button.install' ).click( function() {
-			tb_show("Installation", '#TB_inline?inlineId=install-modal&modal=false', true);
+			$('.wrap.main').addClass('hidden');
+			$('.wrap.confirmation').removeClass('hidden');
 		});
 
 		$( 'button.go-back' ).on( 'click', function() {
-			tb_remove();
+			$('.wrap.main').removeClass('hidden');
+			$('.wrap.confirmation').addClass('hidden');
 		});
 
 		/*
@@ -187,42 +189,18 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			// Disable the "Go back" and "Install this website" buttons.
 			$( '#install-buttons button' ).prop( 'disabled', true );
 
+			// Show a spinner
 			$( '#install-buttons' ).append( '<span class="spinner inline"></span>' );
 
-			$( '#post_deploy' ).submit();
-		});
-	}
-
-	/**
-	 * @summary Bind events to the button clicks of the intro.
-	 *
-	 * @since 1.2.3
-	 */
-	this.bindIntroSelection = function() {
-		$('#select-install-type a.button').on( 'click', function() {
-			var $button = $(this);
-
-			// Hide the #select-install-type container.
-			$button.closest('.wrap').addClass('hidden');
-
-			switch( $button.attr('data-install-type') ) {
-				case 'staging':
-					$( 'input[name="staging"]' ).val( 1 );
-					$( '#install-modal-destination' ).html( Inspiration.staging );
-					break;
-				case 'active':
-					$( '#install-modal-destination' ).html( Inspiration.active );
-					break;
-			}
-
-			// If the button indicates a start over, update the deploy form.
-			if( 'true' === $button.attr('data-start-over') ) {
+			if( 'true' === $(this).attr('data-start-over') ) {
 				$( '#start_over' ).val( 'true' );
 			}
 
-			$( '.wrap.main' ).removeClass( 'hidden' );
+			if( 'staging' === $(this).attr('data-install-type') ) {
+				$( 'input[name="staging"]' ).val( 1 );
+			}
 
-			$( "img.lazy" ).lazyload({threshold : 500});
+			$( '#post_deploy' ).submit();
 		});
 	}
 
@@ -315,6 +293,39 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		}
 
 		return myArray;
+	}
+
+	/**
+	 * @summary Sort all builds based upon "All Order".
+	 *
+	 * @since 1.2.3
+	 */
+	this.sortAll = function( genericBuilds ) {
+		return $( genericBuilds ).sort( function( a, b ) {
+			if( ! a.AllOrder ) {
+				return 1;
+			}
+
+			return ( parseInt( a.AllOrder ) > parseInt( b.AllOrder ) ? 1 : -1 );
+		});
+	}
+
+	/**
+	 * @summary Sort themes.
+	 *
+	 * @since 1.2.3
+	 */
+	this.sortThemes = function( sortBy ) {
+		$( '.themes .theme:visible' ).sort( function( a, b ) {
+			var aSort = parseInt( $( a ).attr( sortBy ) ),
+				bSort = parseInt( $( b ).attr( sortBy ) );
+
+			if( ! aSort ) {
+				return 1;
+			}
+
+			return ( aSort > bSort ? 1 : -1 );
+		}).prependTo( '.themes' );
 	}
 
 	/**
@@ -483,7 +494,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	/**
 	 * Init.
 	 *
-	 * @since xxx
+	 * @since 1.2.3
 	 */
 	this.init = function() {
 		self.initCategories();
@@ -499,14 +510,13 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		self.pagesetOptions();
 		self.iframeLoad();
 		self.steps();
-		self.bindIntroSelection();
 		self.bindInstallModal();
 	};
 
 	/**
 	 * Init the list of categories.
 	 *
-	 * @since xxx
+	 * @since 1.2.3
 	 */
 	this.initCategories = function( ) {
 		var success_action = function( msg ) {
@@ -533,6 +543,8 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		getGenericSuccess = function( msg ) {
 			genericBuilds = self.shuffle( msg.result.data );
 
+			genericBuilds = self.sortAll( genericBuilds );
+
 			_.each( genericBuilds, function( build ){
 				self.$themes.append( template( { configs: IMHWPB.configs, build: build } ) );
 			});
@@ -546,7 +558,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	/**
 	 * Load a new build on the Content tab.
 	 *
-	 * @since xxx
+	 * @since 1.2.3
 	 */
 	this.loadBuild = function() {
 		// Disable all actions.
@@ -638,13 +650,19 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			$( '.theme[data-sub-category-id]').removeClass( 'hidden' );
 			// Show subcategory name if browsing all subcategories.
 			$( '.theme-name .sub-category-name' ).show();
+
+			self.sortThemes( 'data-all-order' );
 		} else {
 			// Hide subcategory name if browsing singular subcategory.
 			$( '.theme-name .sub-category-name' ).hide();
-			$( '.theme[data-sub-category-id="' + subCategoryId + '"]').removeClass( 'hidden' );
+
 			$( '.theme[data-sub-category-id!="' + subCategoryId + '"]')
 				.addClass( 'hidden' )
 				.appendTo( '.themes' );
+
+			$( '.theme[data-sub-category-id="' + subCategoryId + '"]').removeClass( 'hidden' );
+
+			self.sortThemes( 'data-category-order' );
 		}
 
 		$( 'img.lazy' ).lazyload({threshold : 400});
