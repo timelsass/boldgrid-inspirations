@@ -461,7 +461,7 @@ class Boldgrid_Inspirations_Dependency_Plugins {
 		<?php
 		printf(
 			esc_html__(
-				'You are currently on the %s release channel.  You can go to $sBoldGrid Settings%s to change the release channel.',
+				'You are currently on the %s release channel.  You can go to %sBoldGrid Settings%s to change the release channel.',
 				'boldgrid-inspirations'
 			),
 			ucfirst( $this->release_channel ),

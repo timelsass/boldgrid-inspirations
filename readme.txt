@@ -26,6 +26,9 @@ The second phase is Customization; tools to transform your website into your vis
 
 == Changelog ==
 
+= 1.2.4 In progress =
+* Bug fix:		JIRA WPB-2269	Typo fix in Boldgrid_Inspirations_Dependency_Plugins::print_uninstalled_plugins().
+
 = 1.2.3 =
 * New feature:	JIRA WPB-2172	For preview generic builds, added an option for identification for purges, etc.
 * Bug fix:		JIRA WPB-2263	For preview sites under multisite, set the admin email address using the network admin email address.
