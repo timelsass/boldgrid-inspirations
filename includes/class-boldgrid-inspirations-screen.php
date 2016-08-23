@@ -110,7 +110,7 @@ class Boldgrid_Inspirations_Screen {
 				plugins_url(
 					$file_path, BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php'
 				),
-				array(),
+				array( 'base-admin-js' ),
 				BOLDGRID_INSPIRATIONS_VERSION,
 				true
 			);

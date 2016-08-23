@@ -35,6 +35,7 @@ The second phase is Customization; tools to transform your website into your vis
 * Bug fix:      JIRA WPB-2224	Hide the email address field when widget is loaded.
 * Bug fix:		JIRA WPB-2225	Fixed jQuery Migrate deprecated warning.
 * Update:		JIRA WPB-2245	Changed feed to pull from dashboard tag on blog.
+* Bug fix:		JIRA WPB-2265	Uncaught TypeError: IMHWPB.BaseAdmin is not a constructor.
 
 = 1.2.2 =
 * Bug fix:		JIRA WPB-2058	Added wrap class to the tutorials page.
