@@ -26,7 +26,7 @@ The second phase is Customization; tools to transform your website into your vis
 
 == Changelog ==
 
-= 1.2.3 In Progress =
+= 1.2.3 =
 * New feature:	JIRA WPB-2172	For preview generic builds, added an option for identification for purges, etc.
 * Bug fix:		JIRA WPB-2263	For preview sites under multisite, set the admin email address using the network admin email address.
 * Bug fix:		JIRA WPB-2223	Reworked API key validation and connection issue notices, formatting.
