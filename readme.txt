@@ -26,7 +26,7 @@ The second phase is Customization; tools to transform your website into your vis
 
 == Changelog ==
 
-= 1.2.4 In progress =
+= 1.2.4 =
 * Bug fix:		JIRA WPB-2269	Typo fix in Boldgrid_Inspirations_Dependency_Plugins::print_uninstalled_plugins().
 * Bug fix:		JIRA WPB-2270	New From GridBlocks became unavailable.
 
