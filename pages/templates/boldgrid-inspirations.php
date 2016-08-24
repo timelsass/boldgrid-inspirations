@@ -28,7 +28,7 @@
 	<div class="theme" tabindex="0" data-category-id="{{data.build.ParentCategoryId}}" data-sub-category-id="{{data.build.CategoryId}}" data-sub-category-title="{{data.build.SubCategoryName}}" data-page-set-id="{{data.build.PageSetId}}" data-theme-id="{{data.build.ThemeId}}" data-theme-title="{{data.build.ThemeName}}" data-pde="{{data.build.pde}}" data-all-order="{{data.build.AllOrder}}" data-category-order="{{data.build.CategoryOrder}}" >
 
 		<div class="theme-screenshot">
-			<img class="lazy" data-original="{{data.configs.asset_server}}/api/asset/get?key={{data.configs.api_key}}&id={{data.build.AssetId}}" alt="" width="290" height="194">
+			<img class="lazy" data-original="{{data.configs.asset_server}}/api/asset/get?key={{data.configs.api_key}}&id={{data.build.AssetId}}&thumbnail=1" alt="" width="290" height="194">
 		</div>
 		<span class="more-details">Preview</span>
 		<h2 class="theme-name" >
