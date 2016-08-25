@@ -92,68 +92,79 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	};
 
 	/**
+	 * @summary Actions to take when a device preview button is clicked.
 	 *
+	 * @since 1.2.3
 	 */
 	this.devicePreviews = function () {
-		var previewer = $( '#theme-preview' );
+		var previewer = $( '#theme-preview' ),
+			$previewContainer = $( '#preview-container' );
 
-		// Desktop previews.
-		$( '.wrap' ).on( 'click', '.preview-desktop', function() {
-
-			// If we're waiting on something, don't allow the user to preview a different device.
-			if( $( 'body' ).hasClass( 'waiting' ) ) {
-				return;
-			}
-
-			$( '.devices .active' )
-				.attr( 'aria-pressed', 'false' )
-				.removeClass( 'active' );
-			$( this ).attr( 'aria-pressed', 'true' ).addClass( 'active' );
-			previewer.removeClass();
-		});
-
-		// Tablet previews.
-		$( '.wrap' ).on( 'click', '.preview-tablet', function() {
-
-			// If we're waiting on something, don't allow the user to preview a different device.
-			if( $( 'body' ).hasClass( 'waiting' ) ) {
-				return;
-			}
-
-			$( '.devices .active' )
-				.attr( 'aria-pressed', 'false' )
-				.removeClass( 'active' );
-			$( this ).attr( 'aria-pressed', 'true' ).addClass( 'active' );
-			previewer.removeClass().addClass( 'preview-tablet' );
-		});
-
-		// Mobile previews.
-		$( '.wrap' ).on( 'click', '.preview-mobile', function() {
-
-			// If we're waiting on something, don't allow the user to preview a different device.
-			if( $( 'body' ).hasClass( 'waiting' ) ) {
-				return;
-			}
-
-			$( '.devices .active' )
-				.attr( 'aria-pressed', 'false' )
-				.removeClass( 'active' );
-			$( this ).attr( 'aria-pressed', 'true' ).addClass( 'active' );
-			previewer.removeClass().addClass( 'preview-mobile' );
-		});
-
-		/*
-		 * Prevent clicking of device preview buttons during existing load.
-		 *
-		 * If we're loading a preview of a theme, don't allow someone click and change the device
-		 * preview option, until the preview is finished loading.
-		 */
 		$( '.wrap' ).on( 'click', '.devices button', function() {
-			var $button = $( this );
+			var $button = $( this ),
+				is_rotated = $previewContainer.hasClass( 'landscape' ),
+				rotatable, is_rotated, iframeClass;
 
-			if( $( 'body' ).hasClass( 'waiting' ) && $button.is( ':focus' ) ) {
-				$button.blur();
+			// Action to take if we're waiting on a theme to load.
+			if( $( 'body' ).hasClass( 'waiting' ) ) {
+
+				// When you click automatically, focus will be added. Remove it.
+				if( $button.is( ':focus' ) ) {
+					$button.blur();
+				}
+
+				// If we're waiting on something, don't allow the user to preview a different device.
+				return;
 			}
+
+			// Actions to take on all buttons.
+			$( '.devices button' )
+				// We're forcing dimenions, no need to show suggestive highlight.
+				.removeClass( 'highlight' )
+				// If phone was in landscape and we clicked tablet, remove landscape from phone.
+				.removeClass( 'landscape' );
+
+			// Determine which preview button we've clicked on, and if the preview is currently rotated.
+			rotatable = true;
+			if( $button.hasClass( 'preview-desktop' ) ) {
+				iframeClass = 'preview-desktop';
+				rotatable = false;
+			} else if( $button.hasClass( 'preview-tablet' ) ) {
+				iframeClass = 'preview-tablet';
+			} else {
+				iframeClass = 'preview-mobile';
+			}
+
+			/*
+			 * If the button is already active and we're clicking on it again, disable a device
+			 * preview and just show the preview full width.
+			 */
+			if( $button.hasClass( 'active' ) ) {
+
+				// If this is table or phone AND the preview is not already rotated, rotate it.
+				if( rotatable && ! is_rotated ) {
+					$previewContainer.addClass( 'landscape' );
+					$button.addClass( 'landscape' );
+					return;
+				} else {
+					$button
+						.removeClass( 'active' )
+						.removeClass( 'landscape' )
+						.blur();
+					$previewContainer.removeClass();
+					self.highlightDeviceButton();
+				}
+
+				return;
+			}
+
+			$( '.devices .active' )
+				.attr( 'aria-pressed', 'false' )
+				.removeClass( 'active' );
+
+			$( this ).attr( 'aria-pressed', 'true' ).addClass( 'active' );
+
+			$previewContainer.removeClass().addClass( iframeClass );
 		});
 	};
 
@@ -236,6 +247,28 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			self.mobileToggle();
 		});
 	};
+
+	/**
+	 * @summary Actions to take when the window is resized.
+	 *
+	 * This method is triggered from init().
+	 *
+	 * @since 1.2.5
+	 */
+	this.onResize = function() {
+
+		/*
+		 * When the window is resized, wait 0.4 seconds and readjust the highlighted device preview
+		 * button.
+		 */
+		$( window ).resize( function() {
+		    clearTimeout( $.data( this, 'resizeTimer' ) );
+
+		    $.data( this, 'resizeTimer', setTimeout( function() {
+		    	self.highlightDeviceButton();
+		    }, 400 ) );
+		});
+	}
 
 	/**
 	 * @summary Handles the Show All filter.
@@ -404,6 +437,38 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	};
 
 	/**
+	 * @summary Based upon the preview size, highlight which device preview is closest.
+	 *
+	 * For example, if your preview is only 300px wide, highlight the phone preview button.
+	 *
+	 * @since 1.2.5
+	 */
+	this.highlightDeviceButton = function() {
+		// Get the active button.
+		var $activeButton = $( '.devices button.active' ), previewWidth;
+
+		// If we have an active button, there's no need to highlight at this point, abort.
+		if( $activeButton.length > 0 ) {
+			return;
+		}
+
+		// Remove our highlight class from all buttons, we'll add it back in a moment.
+		$( '.devices button' ).removeClass( 'highlight' );
+
+		// Determine width of our preview.
+		previewWidth = $( '#preview-container' ).outerWidth();
+
+		// Highlight the appropriate device button.
+		if( previewWidth <= 320 ) {
+			$( '.devices .preview-mobile' ).addClass( 'highlight' );
+		} else if( previewWidth < 768 ) {
+			$( '.devices .preview-tablet' ).addClass( 'highlight' );
+		} else {
+			$( '.devices .preview-desktop' ).addClass( 'highlight' );
+		}
+	}
+
+	/**
 	 * Click event handler for pageset options section.
 	 */
 	this.pagesetOptions = function() {
@@ -511,6 +576,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		self.iframeLoad();
 		self.steps();
 		self.bindInstallModal();
+		self.onResize();
 	};
 
 	/**
@@ -579,6 +645,8 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			$iframe
 				.attr( 'src', url )
 				.attr( 'data-build-cost', msg.result.data.profile.coins );
+
+			self.highlightDeviceButton();
 		};
 
 		data = {

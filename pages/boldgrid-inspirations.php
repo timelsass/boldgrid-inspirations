@@ -101,7 +101,7 @@ $lang = array(
 					<span class ="summary-subheading">
 						<span id="sub-category-title"></span><span id="build-cost">...</span>
 						<span class="devices">
-							<button type="button" class="preview-desktop active" aria-pressed="true" data-device="desktop">
+							<button type="button" class="preview-desktop" aria-pressed="true" data-device="desktop">
 								<span class="screen-reader-text"><?php echo $lang['Desktop']; ?></span>
 							</button>
 							<button type="button" class="preview-tablet" aria-pressed="false" data-device="tablet">
@@ -120,7 +120,11 @@ $lang = array(
 			</div>
 
 			<div style="clear:both;"></div>
-			<iframe id="theme-preview"></iframe>
+
+			<div id="preview-container" >
+				<iframe id="theme-preview"></iframe>
+			</div>
+
 			<div class="loading-wrapper boldgrid-loading hidden"></div>
 		</div>
 	</div>
