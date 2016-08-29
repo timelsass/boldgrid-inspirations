@@ -12,6 +12,7 @@ $lang = array(
 	'Desktop' =>							__( 'Enter desktop preview mode', 'boldgrid-inspirations' ),
 	'Tablet' =>								__( 'Enter tablet preview mode', 'boldgrid-inspirations' ),
 	'Mobile' =>								__( 'Enter mobile preview mode', 'boldgrid-inspirations' ),
+	'Next' =>								__( 'Next', 'boldgrid-inspirations' ),
 );
 
 ?>
@@ -115,7 +116,7 @@ $lang = array(
 				</div>
 				<div style="float:right;">
 					<button class="inspirations button button-secondary">Back</button>
-					<button class="inspirations button button-primary install">Install</button>
+					<button class="inspirations button button-primary install"><?php echo $lang['Next']; ?></button>
 				</div>
 			</div>
 
