@@ -253,6 +253,10 @@ class Boldgrid_Inspirations {
 			define( 'AUTH_COOKIE', null );
 		}
 
+		if ( ! defined( 'SECURE_AUTH_COOKIE' ) ) {
+			define( 'SECURE_AUTH_COOKIE', null );
+		}
+
 		if ( ! defined( 'LOGGED_IN_COOKIE' ) ) {
 			define( 'LOGGED_IN_COOKIE', null );
 		}
