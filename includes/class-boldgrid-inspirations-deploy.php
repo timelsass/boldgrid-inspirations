@@ -1081,10 +1081,10 @@ class Boldgrid_Inspirations_Deploy {
 		$start_over = new BoldGrid_Inspirations_Start_over();
 
 		// Are we starting over with our active site?
-		$start_over->start_over_active = true;
+		$start_over->start_over_active = ( false === $this->is_staging_install() );
 
 		// Are we starting over with our staging site?
-		$start_over->start_over_staging = false;
+		$start_over->start_over_staging = (true === $this->is_staging_install() );
 
 		// Are we deleting forms?
 		$start_over->delete_forms = false;

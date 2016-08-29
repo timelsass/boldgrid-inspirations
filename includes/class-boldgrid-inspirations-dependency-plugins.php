@@ -85,6 +85,34 @@ class Boldgrid_Inspirations_Dependency_Plugins {
 	}
 
 	/**
+	 * Activate Staging plugin.
+	 *
+	 * This is usually called via an ajax call during Inspiriations, before the user deploys. They
+	 * may have the Staging plugin, but it's not acivated. The user would make an ajax call to
+	 * activate the plugin, and then install as staging.
+	 *
+	 * @since 1.2.5
+	 */
+	public function activate_staging() {
+		// Is the user able to install plugins?
+		if ( ! current_user_can( 'install_plugins' ) ) {
+			wp_die( '0' );
+		}
+
+		if( false === check_ajax_referer( 'nonce-install-staging', 'nonce-install-staging', false ) ) {
+			wp_die( '0' );
+		}
+
+		$activate = activate_plugin( 'boldgrid-staging/boldgrid-staging.php' );
+
+		if( null === $activate ) {
+			wp_die( '1' );
+		} else {
+			wp_die( '0' );
+		}
+	}
+
+	/**
 	 * Return the dependent plugin information
 	 * URL addresses, version numbers, and titles
 	 *
@@ -230,6 +258,10 @@ class Boldgrid_Inspirations_Dependency_Plugins {
 					'hide_plugin_list_during_installation',
 				)
 			);
+
+			add_action( 'wp_ajax_install_staging', array( $this, 'install_staging' ) );
+
+			add_action( 'wp_ajax_activate_staging', array( $this, 'activate_staging' ) );
 		}
 	}
 
@@ -427,6 +459,29 @@ class Boldgrid_Inspirations_Dependency_Plugins {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Install the staging plugin via an ajax request.
+	 *
+	 * This is done during the final stage of Inspirations, when the user decided to download staging
+	 * and install the site as a staged site.
+	 *
+	 * @since 1.2.5
+	 */
+	public function install_staging() {
+		if( false === check_ajax_referer( 'nonce-install-staging', 'nonce-install-staging', false ) ) {
+			wp_die( '0' );
+		}
+
+		$this->install_plugins();
+
+		// Before wrapping up this ajax call, confirm that staging is installed.
+		if( is_plugin_active( 'boldgrid-staging/boldgrid-staging.php' ) ) {
+			wp_die( '1' );
+		} else {
+			wp_die( '0' );
+		}
 	}
 
 	/**

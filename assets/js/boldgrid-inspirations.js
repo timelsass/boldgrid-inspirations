@@ -92,6 +92,39 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	};
 
 	/**
+	 * @summary Toggle the notes listed in the last step, the confirmation page.
+	 *
+	 * For example, if you click the radio button to overwrite your existing site, there is a note
+	 * that your pages will be trashed. This method should show that note.
+	 *
+	 * @since 1.2.5
+	 */
+	this.toggleConfirmationNotes = function() {
+		var installDecision = $( 'input[name="install-decision"]:checked' ).val();
+
+		// Begin by hiding all of the notes, which is any paragraph with a class startign with note-.
+		$( '.wrap.confirmation .top p[class^="note-"]' )
+			.addClass( 'hidden' )
+			.css( 'display', '' );
+
+		/*
+		 * If there is no install decision, there are no notes that need to be toggled. For example,
+		 * on a fresh install there will be no site and no Staging pluin installed, so the user
+		 * does not need to make a decision, just install. At this point, we can abort.
+		 */
+		if( installDecision === undefined ) {
+			return;
+		}
+
+		// Toggle the approprate note based upon the install decision.
+		if( 'download-staging' === installDecision ) {
+			$( '.note-download-staging' ).removeClass( 'hidden' );
+		} else if( installDecision.startsWith( 'overwrite-' ) ) {
+			$( '.note-overwrite' ).removeClass( 'hidden' );
+		}
+	}
+
+	/**
 	 * @summary Actions to take when a device preview button is clicked.
 	 *
 	 * @since 1.2.3
@@ -101,11 +134,12 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			$previewContainer = $( '#preview-container' );
 
 		$( '.wrap' ).on( 'click', '.devices button', function() {
-			var $button = $( this ),
-				is_rotated = $previewContainer.hasClass( 'landscape' ),
-				rotatable, is_rotated, iframeClass;
+			var $button = $( this ), iframeClass;
 
-			// Action to take if we're waiting on a theme to load.
+			/*
+			 * If we're waiting on a preview to load, don't allow the user to click different device
+			 * previews.
+			 */
 			if( $( 'body' ).hasClass( 'waiting' ) ) {
 
 				// When you click automatically, focus will be added. Remove it.
@@ -113,22 +147,18 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 					$button.blur();
 				}
 
-				// If we're waiting on something, don't allow the user to preview a different device.
 				return;
 			}
 
-			// Actions to take on all buttons.
-			$( '.devices button' )
-				// We're forcing dimenions, no need to show suggestive highlight.
-				.removeClass( 'highlight' )
-				// If phone was in landscape and we clicked tablet, remove landscape from phone.
-				.removeClass( 'landscape' );
+			/*
+			 * If we're clicking on a device preview button, we're forcing dimensions. We can remove
+			 * the default highlight (which is based upon the preview's dimensions.
+			 */
+			$( '.devices button' ).removeClass( 'highlight' );
 
-			// Determine which preview button we've clicked on, and if the preview is currently rotated.
-			rotatable = true;
+			// Determine which preview button we've clicked on.
 			if( $button.hasClass( 'preview-desktop' ) ) {
 				iframeClass = 'preview-desktop';
-				rotatable = false;
 			} else if( $button.hasClass( 'preview-tablet' ) ) {
 				iframeClass = 'preview-tablet';
 			} else {
@@ -137,34 +167,33 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 
 			/*
 			 * If the button is already active and we're clicking on it again, disable a device
-			 * preview and just show the preview full width.
+			 * preview and just show the preview full width (the default behavior / view when going
+			 * to step 2 for the first time.
 			 */
 			if( $button.hasClass( 'active' ) ) {
+				$button
+					.removeClass( 'active' )
+					.blur();
 
-				// If this is table or phone AND the preview is not already rotated, rotate it.
-				if( rotatable && ! is_rotated ) {
-					$previewContainer.addClass( 'landscape' );
-					$button.addClass( 'landscape' );
-					return;
-				} else {
-					$button
-						.removeClass( 'active' )
-						.removeClass( 'landscape' )
-						.blur();
-					$previewContainer.removeClass();
-					self.highlightDeviceButton();
-				}
+				$previewContainer.removeClass();
+				self.highlightDeviceButton();
 
 				return;
 			}
 
+			// Remove the active class from the previously active button.
 			$( '.devices .active' )
 				.attr( 'aria-pressed', 'false' )
 				.removeClass( 'active' );
 
-			$( this ).attr( 'aria-pressed', 'true' ).addClass( 'active' );
+			// Mark the current device preview button as active.
+			$( this )
+				.attr( 'aria-pressed', 'true' )
+				.addClass( 'active' );
 
-			$previewContainer.removeClass().addClass( iframeClass );
+			$previewContainer
+				.removeClass()
+				.addClass( iframeClass );
 		});
 	};
 
@@ -184,11 +213,17 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		$( 'button.install' ).click( function() {
 			$('.wrap.main').addClass('hidden');
 			$('.wrap.confirmation').removeClass('hidden');
+			self.toggleConfirmationNotes();
 		});
 
 		$( 'button.go-back' ).on( 'click', function() {
 			$('.wrap.main').removeClass('hidden');
 			$('.wrap.confirmation').addClass('hidden');
+		});
+
+		// Take action when someone clicks on a install-decision radio button.
+		$( '.wrap' ).on( 'click', 'input[type="radio"]', function() {
+			self.toggleConfirmationNotes();
 		});
 
 		/*
@@ -197,21 +232,89 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		 * This is the button that submits the #post_deploy form and actually installs a website.
 		 */
 		$( 'button.install-this-website' ).on( 'click', function() {
+			// Get our install decision.
+			var installDecision = $( 'input[name="install-decision"]:checked' ).val();
+
 			// Disable the "Go back" and "Install this website" buttons.
 			$( '#install-buttons button' ).prop( 'disabled', true );
 
 			// Show a spinner
 			$( '#install-buttons' ).append( '<span class="spinner inline"></span>' );
 
-			if( 'true' === $(this).attr('data-start-over') ) {
-				$( '#start_over' ).val( 'true' );
-			}
 
-			if( 'staging' === $(this).attr('data-install-type') ) {
-				$( 'input[name="staging"]' ).val( 1 );
-			}
+			switch( installDecision ) {
 
-			$( '#post_deploy' ).submit();
+				/*
+				 * Install as Active site.
+				 *
+				 * If installDecision is undefined, it means there is no install decision, install
+				 * to active site.
+				 */
+				case 'install-as-active':
+				case undefined:
+					$( '#post_deploy' ).submit();
+					break;
+
+				// Install as Staging site.
+				case 'install-as-staging':
+					$( 'input[name="staging"]' ).val( 1 );
+					$( '#post_deploy' ).submit();
+					break;
+
+				// Install as Active site, overwriting existing active site.
+				case 'overwrite-active':
+					$( '#start_over' ).val( 'true' );
+					$( '#post_deploy' ).submit();
+					break;
+
+				// Install as Staging site, overwriting existing staging site.
+				case 'overwrite-staging':
+					$( 'input[name="staging"]' ).val( 1 );
+					$( '#start_over' ).val( 'true' );
+					$( '#post_deploy' ).submit();
+					break;
+
+				case 'download-staging':
+					var data = {
+						'action': 'install_staging',
+						'boldgrid-plugin-install[boldgrid-staging]': 'install',
+						'nonce-install-staging': $( '#nonce-install-staging' ).val(),
+					};
+
+					$.post(ajaxurl, data, function( response ) {
+						/*
+						 * Validate success of installing staging.
+						 *
+						 * Installing staging via ajax produces a bit of output. If the last character
+						 * of the output is a 1, success, otherwise failure.
+						 */
+						if( '1' === response.substr( response.length - 1)) {
+							$( 'input[name="staging"]' ).val( 1 );
+							$( '#start_over' ).val( 'true' );
+							$( '#post_deploy' ).submit();
+						} else {
+							alert ('failed setting up staging plugin');
+						}
+					});
+					break;
+
+				case 'activate-staging':
+					var data = {
+						'action': 'activate_staging',
+						'nonce-install-staging': $( '#nonce-install-staging' ).val(),
+					};
+
+					$.post(ajaxurl, data, function( response ) {
+						if( '1' === response ) {
+							$( 'input[name="staging"]' ).val( 1 );
+							$( '#start_over' ).val( 'true' );
+							$( '#post_deploy' ).submit();
+						} else {
+							alert ('failed activating up staging plugin');
+						}
+					});
+					break;
+			}
 		});
 	}
 

@@ -131,6 +131,7 @@ $lang = array(
 
 </div>
 
+<input type='hidden' id='nonce-install-staging' value='<?php echo wp_create_nonce( "nonce-install-staging" ); ?>' />
 
 <form class="hidden" method="post" name="post_deploy" id="post_deploy" action="admin.php?page=boldgrid-inspirations" >
 	<input type="hidden" name="task"                           id="task"                           value="deploy" >

@@ -109,6 +109,8 @@ class Boldgrid_Inspirations_Built {
 	 * Generate the scenario data and add the users menu items.
 	 */
 	public function admin_menu() {
+		$this->staging_plugin_active = $this->check_staging_plugin();
+
 		$this->add_top_menu_item( 'boldgrid-inspirations' );
 
 		self::add_sub_menu_items( 'boldgrid-inspirations' );
@@ -571,6 +573,7 @@ class Boldgrid_Inspirations_Built {
 			'has_blank_active_site' =>	self::has_blank_active_site(),
 			'open-section' =>			( ! empty( $_GET['force-section'] ) ) ? sanitize_text_field( $_GET['force-section'] ) : '',
 			'staging_active' =>			$this->check_staging_plugin(),
+			'staging_installed' =>		file_exists( ABSPATH . 'wp-content/plugins/boldgrid-staging' ),
 			'url' =>					get_admin_url() . 'admin.php?page=boldgrid-inspirations',
 		);
 	}
