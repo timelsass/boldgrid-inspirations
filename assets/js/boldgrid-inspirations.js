@@ -27,6 +27,13 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	self.$pageset = '';
 	self.$budget = '';
 
+	/**
+	 * The selected sub category id in step 1.
+	 *
+	 * @since 1.2.5
+	 */
+	self.subCategoryId = '0';
+
 	// scroll position.
 	self.scrollPosition = '';
 
@@ -396,7 +403,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			// Update filter text.
 			self.updateFilterText( 'All' );
 			// Display all themes.
-			self.toggleSubCategory( $all );
+			self.toggleSubCategory( 0 );
 			// toggle the current class for show all.
 			self.toggleShowAll( ref );
 		});
@@ -494,7 +501,22 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		$( '.wrap' ).on( 'click', '.sub-category', function() {
 			var $subCategory = $( this ).find( 'input[name="sub-category"]' ),
 			    $subcategoryName = $( this ).find( '.sub-category-name' ).text(),
+			    subCategoryId = $subCategory.attr( 'data-sub-category-id' ),
 			    ref = $( this );
+
+			/*
+			 * Keep track of the sub category id the user clicked.
+			 *
+			 * If the user is clicking a sub category that's already showing (IE they click Fashion and
+			 * then click Fashion immediately again), abort. We don't want the builds to be continually
+			 * shuffled.
+			 */
+			if( subCategoryId === self.subCategoryId ) {
+				return;
+			} else {
+				self.subCategoryId = subCategoryId;
+			}
+
 			// Reset scroll position.
 			window.scrollTo( 0, 0 );
 			// Remove any active classes.
@@ -514,7 +536,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 				self.mobileToggle();
 			}
 			// Always toggle subcategory.
-			self.toggleSubCategory( $subCategory );
+			self.toggleSubCategory( subCategoryId );
 		});
 	};
 
@@ -812,11 +834,13 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	};
 
 	/**
+	 * @summary Toggle a sub category.
 	 *
+	 * Show only themes belonging to a sub category.
+	 *
+	 * @since 1.2.3
 	 */
-	this.toggleSubCategory = function( $subCategory ) {
-		var subCategoryId = $subCategory.attr( 'data-sub-category-id' );
-
+	this.toggleSubCategory = function( subCategoryId ) {
 		if( '0' === subCategoryId ) {
 			$( '.theme[data-sub-category-id]').removeClass( 'hidden' );
 			// Show subcategory name if browsing all subcategories.

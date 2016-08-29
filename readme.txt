@@ -31,6 +31,7 @@ The second phase is Customization; tools to transform your website into your vis
 * New feature:	JIRA WPB-2287	Adjust device preview buttons in step 2 to behave like those in editor.
 * New feature:	JIRA WPB-2291	Auto install staging in final step if user chooses staging.
 * Update:		JIRA WPB-2290	Changed 'Install' button to 'Next'.
+* Bug fix:		JIRA WPB-2289	Continuously clicking category in step 1 shuffles themes.
 
 = 1.2.4 =
 * Bug fix:		JIRA WPB-2269	Typo fix in Boldgrid_Inspirations_Dependency_Plugins::print_uninstalled_plugins().
