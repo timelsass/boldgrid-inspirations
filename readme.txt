@@ -27,6 +27,7 @@ The second phase is Customization; tools to transform your website into your vis
 == Changelog ==
 
 = 1.2.5 In progress =
+* Bug fix:		JIRA WPB-2313	Disabled GridBlocks in network admin pages.
 * New feature:	JIRA WPB-2268	Changed to resized preview screenshots for Inspirations Design First concept.
 * New feature:	JIRA WPB-2287	Adjust device preview buttons in step 2 to behave like those in editor.
 * New feature:	JIRA WPB-2291	Auto install staging in final step if user chooses staging.

@@ -47,7 +47,7 @@ class Boldgrid_Inspirations_GridBlock_Sets_Admin {
 	 */
 	public function add_hooks() {
 		// If we're not in the admin section, return.
-		if ( ! is_admin() ) {
+		if ( ! is_admin() || is_network_admin() ) {
 			return;
 		}
 
