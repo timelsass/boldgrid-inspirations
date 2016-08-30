@@ -34,6 +34,7 @@ The second phase is Customization; tools to transform your website into your vis
 * Update:		JIRA WPB-2290	Changed 'Install' button to 'Next'.
 * Bug fix:		JIRA WPB-2289	Continuously clicking category in step 1 shuffles themes.
 * Update:		JIRA WPB-2267	Added message to Inspirations when no generic themes are available.
+* Update:		JIRA WPB-2315	Added error handling for malformed ajax results for call to /api/build/get-generic.
 
 = 1.2.4 =
 * Bug fix:		JIRA WPB-2269	Typo fix in Boldgrid_Inspirations_Dependency_Plugins::print_uninstalled_plugins().

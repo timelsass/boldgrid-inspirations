@@ -746,17 +746,28 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	this.initThemes = function() {
 		var template = wp.template( 'theme' ),
 			data = { 'site_hash' : self.configs.site_hash },
-			genericBuilds, getGenericSuccess;
+			genericBuilds, getGenericSuccess, getGenericFail, failureMessage;
+
+		// Define a message for users when fetching themes has failed.
+		failureMessage = Inspiration.errorFetchingThemes + ' ' + Inspiration.tryFewMinutes + '<br />' +
+		'<button class="button" id="try-themes-again">' + Inspiration.tryAgain + '</button>';
 
 		// Show a loading message to the user that we're fetching themes.
 		self.$themes.html( Inspiration.fetchingThemes + ' <span class="spinner inline"></span>' );
+
+		/*
+		 * This is the error function passed to our api call to get generic themes. If there is a
+		 * failure, we'll display a 'Try again' notice to the user.
+		 */
+		getGenericFail = function() {
+			self.$themes.html( failureMessage );
+		}
 
 		getGenericSuccess = function( msg ) {
 
 			// If there were 0 themes returned, show a 'Try again' message and abort.
 			if( 0 === msg.result.data.length ) {
-				self.$themes.html( Inspiration.errorFetchingThemes + ' ' + Inspiration.tryFewMinutes + '<br />' +
-					'<button class="button" id="try-themes-again">' + Inspiration.tryAgain + '</button>' );
+				self.$themes.html( failureMessage );
 				return;
 			}
 
@@ -774,7 +785,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			$( "img.lazy" ).lazyload({threshold : 400});
 		};
 
-		self.ajax.ajaxCall( data, 'get_generic', getGenericSuccess );
+		self.ajax.ajaxCall( data, 'get_generic', getGenericSuccess, getGenericFail );
 	};
 
 	/**
