@@ -3,8 +3,13 @@
 #screen-content .left {
 	border: 0px solid #000;
 	width: 200px;
-	background: #fff;
 	box-sizing: border-box;
+}
+
+.left .category,
+.left .pageset-option,
+.left .coin-option {
+	background: #fff;
 }
 
 /* Page layout */

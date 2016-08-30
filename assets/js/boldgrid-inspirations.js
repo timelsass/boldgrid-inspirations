@@ -221,6 +221,12 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	this.bindClicks = function() {
 
 		/*
+		 * During step 1, if there is an error fetching categories, we'll give the user a button to
+		 * try again. Handle the click of that try again button.
+		 */
+		$( '.wrap' ).on( 'click', '#try-categories-again', self.initCategories );
+
+		/*
 		 * During step 1, if there is an error fetching themes, we'll give the user a button to try
 		 * again. Handle the click of that try again button.
 		 */
@@ -727,15 +733,40 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 * @since 1.2.3
 	 */
 	this.initCategories = function( ) {
-		var success_action = function( msg ) {
+		var failureMessage, failAction, success_action;
+
+		// Show a loading message to the user that we're fetching categories.
+		self.$categories.html( Inspiration.fetchingCategories + ' <span class="spinner inline"></span>' );
+
+		// Define a message for users when fetching themes has failed.
+		failureMessage = Inspiration.errorFetchingCategories + ' ' + Inspiration.tryFewMinutes + '<br />' +
+		'<button class="button" id="try-categories-again">' + Inspiration.tryAgain + '</button>';
+
+		// Display a 'Try again' message to the user if our call to get active categories fails.
+		failAction = function() {
+			self.$categories.html( failureMessage );
+		}
+
+		success_action = function( msg ) {
 			var template = wp.template('init-categories');
 
 			self.categories = msg.result.data.categories;
+
+			/*
+			 * If our categories are not valid or we have 0 categories, show a 'Try again' message
+			 * and abort.
+			 */
+			if( self.categories === undefined || $.isEmptyObject( self.categories ) ) {
+				self.$categories.html( failureMessage );
+
+				return;
+			}
+
 			self.$categories.html( ( template( self.categories ) ) );
 			self.initThemes();
 		};
 
-		self.ajax.ajaxCall( {'inspirations_mode' : 'standard'}, 'get_categories', success_action );
+		self.ajax.ajaxCall( {'inspirations_mode' : 'standard'}, 'get_categories', success_action, failAction );
 	};
 
 	/**
