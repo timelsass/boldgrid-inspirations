@@ -214,6 +214,22 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	};
 
 	/**
+	 * @summary Bind the click of various elements.
+	 *
+	 * @since 1.2.5
+	 */
+	this.bindClicks = function() {
+
+		/*
+		 * During step 1, if there is an error fetching themes, we'll give the user a button to try
+		 * again. Handle the click of that try again button.
+		 */
+		$( '.wrap' ).on( 'click', '#try-themes-again', function() {
+			self.initThemes();
+		});
+	}
+
+	/**
 	 *
 	 */
 	this.bindInstallModal = function() {
@@ -687,6 +703,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 * @since 1.2.3
 	 */
 	this.init = function() {
+		self.bindClicks();
 		self.initCategories();
 		self.toggleCheckbox();
 		self.devicePreviews();
@@ -731,7 +748,21 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			data = { 'site_hash' : self.configs.site_hash },
 			genericBuilds, getGenericSuccess;
 
+		// Show a loading message to the user that we're fetching themes.
+		self.$themes.html( Inspiration.fetchingThemes + ' <span class="spinner inline"></span>' );
+
 		getGenericSuccess = function( msg ) {
+
+			// If there were 0 themes returned, show a 'Try again' message and abort.
+			if( 0 === msg.result.data.length ) {
+				self.$themes.html( Inspiration.errorFetchingThemes + ' ' + Inspiration.tryFewMinutes + '<br />' +
+					'<button class="button" id="try-themes-again">' + Inspiration.tryAgain + '</button>' );
+				return;
+			}
+
+			// Empty the themes container. We'll fill it with themes below.
+			self.$themes.empty();
+
 			genericBuilds = self.shuffle( msg.result.data );
 
 			genericBuilds = self.sortAll( genericBuilds );
