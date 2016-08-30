@@ -464,6 +464,7 @@ class Boldgrid_Inspirations_Built {
 				'fetchingCategories' => __( 'Fetching categories...', 'boldgrid-inspirations' ),
 				'errorFetchingThemes' => __( 'There was an error fetching themes.', 'boldgrid-inspirations' ),
 				'errorFetchingCategories' => __( 'There was an error fetching categories.', 'boldgrid-inspirations' ),
+				'errorFetchingPagesets' => __( 'There was an error fetching pagesets.', 'boldgrid-inspirations' ),
 				'tryFewMinutes' => __( 'Please try again in a few minutes.', 'boldgrid-inspirations' ),
 				'tryAgain' => __( 'Try again', 'boldgrid-inspirations' ),
 			)

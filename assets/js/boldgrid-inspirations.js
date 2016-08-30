@@ -59,7 +59,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 *
 	 * @since 1.2.3
 	 */
-	this.chooseTheme = function( $theme ) {
+	this.chooseTheme = function( ) {
 		// Immediately hide the iframe to give a better transition effect.
 		$( '#screen-content iframe#theme-preview' )
 			.addClass( 'hidden' )
@@ -76,18 +76,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		// Reset the coin budget to 20.
 		$( 'input[data-coin="20"]' ).prop( 'checked', true );
 
-		// Load pagesets
-		var pagesetSuccess = function( msg ) {
-			var template = wp.template( 'pagesets' );
-
-			$( '#pageset-options' ).html( ( template( msg.result.data.pageSets ) ) );
-
-			self.$pageset = $( 'input[name="pageset"]:checked' );
-			self.$budget = $( 'input[name="coin-budget"]:checked' );
-
-			self.loadBuild();
-		};
-		self.ajax.ajaxCall( {'category_id' : $theme.closest( '.theme' ).attr( 'data-category-id' )}, 'get_category_page_sets', pagesetSuccess );
+		self.initPagesets();
 	};
 
 	/**
@@ -230,9 +219,13 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		 * During step 1, if there is an error fetching themes, we'll give the user a button to try
 		 * again. Handle the click of that try again button.
 		 */
-		$( '.wrap' ).on( 'click', '#try-themes-again', function() {
-			self.initThemes();
-		});
+		$( '.wrap' ).on( 'click', '#try-themes-again', self.initThemes );
+
+		/*
+		 * During step 2, if there is an error fetching pagesets, we'll give the user a button to
+		 * try again. Handle the click of that try again button.
+		 */
+		$( '.wrap' ).on( 'click', '#try-pagesets-again', self.initPagesets );
 	}
 
 	/**
@@ -567,9 +560,8 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 */
 	this.selectTheme = function() {
 		$( '.wrap' ).on( 'click', '.theme', function() {
-			var $theme = $( this );
-			self.$theme = $theme;
-			self.chooseTheme( $theme );
+			self.$theme = $( this );
+			self.chooseTheme();
 		});
 	};
 
@@ -768,6 +760,52 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 
 		self.ajax.ajaxCall( {'inspirations_mode' : 'standard'}, 'get_categories', success_action, failAction );
 	};
+
+	/**
+	 * @summary Init pagesets.
+	 *
+	 * After the ajax request comes back with pagesets, choose the base pageset and continue to load
+	 * that site into the iframe.
+	 *
+	 * @since 1.2.5
+	 */
+	this.initPagesets = function() {
+		// Define a message for users when fetching pagesets has failed.
+		var failureMessage = Inspiration.errorFetchingPagesets + ' ' + Inspiration.tryFewMinutes + '<br />' +
+		'<button class="button" id="try-pagesets-again">' + Inspiration.tryAgain + '</button>',
+			// If there are any issues with fetching pagesets, notices will be placed in $notices.
+			$notices = $( '#step-content-notices p' ),
+			categoryId = self.$theme.closest( '.theme' ).attr( 'data-category-id' ),
+			pagesetFail, pagesetSuccess;
+
+		// Reset any previous error messages.
+		$notices.html( '' );
+
+		// Error function: If we failed to retrieve pagesets, show a 'Try again' message to the user.
+		pagesetFail = function() {
+			$( '#step-content-notices p' ).html( failureMessage );
+		}
+
+		// Success function: We successfully fetched pagesets.
+		pagesetSuccess = function( msg ) {
+			var template = wp.template( 'pagesets' );
+
+			// If we have 0 pagesets, show a try again notice and abort.
+			if( 0 === $( msg.result.data.pageSets ).length ) {
+				$notices.html( failureMessage );
+				return;
+			}
+
+			$( '#pageset-options' ).html( ( template( msg.result.data.pageSets ) ) );
+
+			self.$pageset = $( 'input[name="pageset"]:checked' );
+			self.$budget = $( 'input[name="coin-budget"]:checked' );
+
+			self.loadBuild();
+		};
+
+		self.ajax.ajaxCall( { 'category_id' : categoryId }, 'get_category_page_sets', pagesetSuccess, pagesetFail );
+	}
 
 	/**
 	 * @summary Init Themes.

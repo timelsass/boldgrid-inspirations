@@ -36,6 +36,7 @@ The second phase is Customization; tools to transform your website into your vis
 * Update:		JIRA WPB-2267	Added message to Inspirations when no generic themes are available.
 * Update:		JIRA WPB-2315	Added error handling for malformed ajax results for call to /api/build/get-generic.
 * Update:		JIRA WPB-2316	Add error handling for failures to fetch categories.
+* Update:		JIRA WPB-2317	Add error handling for failures to fetch pagesets.
 
 = 1.2.4 =
 * Bug fix:		JIRA WPB-2269	Typo fix in Boldgrid_Inspirations_Dependency_Plugins::print_uninstalled_plugins().

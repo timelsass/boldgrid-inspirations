@@ -121,6 +121,7 @@ $lang = array(
 			<div style="clear:both;"></div>
 
 			<div id="preview-container" >
+				<div id='step-content-notices'><p></p></div>
 				<iframe id="theme-preview"></iframe>
 			</div>
 
