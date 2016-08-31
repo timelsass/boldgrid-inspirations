@@ -243,12 +243,12 @@ iframe#boldgrid_connect_search {
 		}
 
 		// If this is a page and the user cannot edit pages, abort.
-		if( 'page' == $post->post_type && ! current_user_can( 'edit_pages' ) ) {
+		if( 'page' == $post->post_type && ! current_user_can( 'edit_pages', $post_id ) ) {
 			wp_die();
 		}
 
 		// If this is a post and the user cannot edit posts, abort.
-		if( 'post' == $post->post_type && ! current_user_can( 'edit_posts' ) ) {
+		if( 'post' == $post->post_type && ! current_user_can( 'edit_posts', $post_id ) ) {
 			wp_die();
 		}
 
@@ -262,11 +262,11 @@ iframe#boldgrid_connect_search {
 			'type' => 'stock_photography_download',
 			'params' => array (
 				'key' => $boldgrid_configs['api_key'],
-				'id_from_provider' => $_POST['id_from_provider'],
-				'image_provider_id' => $_POST['image_provider_id'],
+				'id_from_provider' => (int) $_POST['id_from_provider'],
+				'image_provider_id' => (int) $_POST['image_provider_id'],
 				'image_size' => $_POST['image_size'],
-				'width' => isset( $_POST['width'] ) ? $_POST['width'] : null,
-				'height' => isset( $_POST['height'] ) ? $_POST['height'] : null
+				'width' => isset( $_POST['width'] ) ? (int) $_POST['width'] : null,
+				'height' => isset( $_POST['height'] ) ? (int) $_POST['height'] : null
 			)
 		);
 
