@@ -531,6 +531,12 @@ class Boldgrid_Inspirations_Api {
 	 * @see /assets/js/api/api.js
 	 */
 	public function add_hooks_to_prompt_for_api_key() {
+
+		// If the current cannot manage_options, do not allow them to enter an API key.
+		if( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
 		// At this point, we've decided that we need to ask the user for an api key.
 		// Let's only ask them once! IE don't show two admin notices asking for a key.
 		if ( ! self::$have_enqueued_api_key_prompt ) {
