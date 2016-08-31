@@ -528,8 +528,9 @@ public function boldgrid_activate() {
 			update_user_meta( $user_id, 'show_welcome_panel', 1 );
 		}
 
-	// Run the JavaScript one-liner.
-	Boldgrid_Inspirations_Utility::inline_js_oneliner( $oneliner );
+		// Run the JavaScript one-liner.
+		Boldgrid_Inspirations_Utility::inline_js_oneliner( $oneliner );
+	}
 }
 
 /**
