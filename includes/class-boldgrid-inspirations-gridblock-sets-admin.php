@@ -145,6 +145,11 @@ class Boldgrid_Inspirations_GridBlock_Sets_Admin {
 	public function get_gridblock_sets_callback() {
 		global $wpdb;
 
+		// If you cannot edit a post, you cannot get GridBlocks.
+		if( ! current_user_can( 'edit_posts' ) ) {
+			wp_die();
+		}
+
 		$this->gridblock_sets = $this->gridblock_sets->get();
 
 		echo json_encode( $this->gridblock_sets );
@@ -161,6 +166,11 @@ class Boldgrid_Inspirations_GridBlock_Sets_Admin {
 	 */
 	public function gridblock_set_create_page_callback() {
 		global $wpdb;
+
+		// If you cannot edit pages, you cannot create a page from a GridBlock Set.
+		if( ! current_user_can( 'edit_pages' ) ) {
+			wp_die();
+		}
 
 		include_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-asset-manager.php';
 		$assetManager = new Boldgrid_Inspirations_Asset_Manager();
@@ -308,6 +318,11 @@ class Boldgrid_Inspirations_GridBlock_Sets_Admin {
 	 */
 	public function gridblock_set_create_preview_callback() {
 		global $wpdb;
+
+		// If you cannot edit pages, you cannot create a GridBlock Set preview.
+		if( ! current_user_can( 'edit_pages' ) ) {
+			wp_die();
+		}
 
 		$key = $_POST['key'];
 		$category = $_POST['category'];

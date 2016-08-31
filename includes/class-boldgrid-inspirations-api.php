@@ -140,6 +140,11 @@ class Boldgrid_Inspirations_Api {
 	 * @see Boldgrid_Inspirations_Api::get_is_asset_server_available().
 	 */
 	public function check_asset_server_callback() {
+		// If you are not at least a Contributer, there's no need to be making api calls.
+		if( ! current_user_can( 'edit_posts' ) ) {
+			return false;
+		}
+
 		// Verify API key, which connects to the asset server and sets the status.
 		$this->verify_api_key();
 
@@ -661,7 +666,22 @@ class Boldgrid_Inspirations_Api {
 				'Security violation (invalid nonce).'
 				, 'boldgrid-inspirations'
 			),
+			'insufficient_permissions' => __( 'BoldGrid API keys can only be saved by Admins. Please contact your WordPress Admin for assistance with saving your key.', 'boldgrid-inspirations' ),
 		);
+
+		// If the current user cannot manage options, they do not have permission to set the api key.
+		if( ! current_user_can( 'manage_options' ) ) {
+			// Failure.
+			echo wp_json_encode(
+				array(
+					'success' => false,
+					'error' => 'insufficient_permissions',
+					'message' => $messages['insufficient_permissions'],
+				)
+			);
+
+			wp_die();
+		}
 
 		// Verify nonce.
 		if ( ! isset( $_POST['set_key_auth'] ) ||

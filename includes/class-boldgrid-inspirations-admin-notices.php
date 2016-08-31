@@ -60,9 +60,16 @@ class Boldgrid_Inspirations_Admin_Notices {
 	public function dismiss_boldgrid_admin_notice_callback() {
 		global $wpdb;
 
+		// If you are not at least an Editor, you may not dismiss notices.
+		if( ! current_user_can( 'edit_pages' ) ) {
+			echo 'false';
+			wp_die();
+		}
+
 		// Abort if we did not pass in an admin notice id.
 		if ( ! isset( $_POST['id'] ) ) {
 			echo 'false';
+			wp_die();
 		}
 
 		// Sanitize the data key.

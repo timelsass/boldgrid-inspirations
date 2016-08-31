@@ -444,6 +444,12 @@ class Boldgrid_Inspirations_Feedback {
 	 * @return null
 	 */
 	public function feedback_diagnostic_data_callback() {
+		// If this user is not an Administrator, do not allow this data to be populated and returned.
+		if( ! current_user_can( 'manage_options' ) ) {
+			echo __( 'To have diagnostic data sent with your feedback, please login as an Administrator', 'boldgrid-inspirations' );
+			wp_die( 'Error: WordPress security violation.' );
+		}
+
 		// Check the nonce.
 		$nonce_check = check_ajax_referer( 'feedback-notice-1-1', 'feedback_auth', false );
 
@@ -621,6 +627,11 @@ class Boldgrid_Inspirations_Feedback {
 	public function feedback_submit_callback() {
 		// Check the nonce.
 		$nonce_check = check_ajax_referer( 'feedback-notice-1-1', 'feedback_auth', false );
+
+		// If you are not at least a Contributor, you may not submit feedback.
+		if( ! current_user_can( 'edit_posts' ) ) {
+			wp_die( 'Error: WordPress security violation.' );
+		}
 
 		if ( 1 !== $nonce_check ) {
 			// Terminate this callback script, with an error message.

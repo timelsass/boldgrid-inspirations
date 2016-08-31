@@ -448,12 +448,85 @@ public function add_boldgrid_configs_to_header() {
 		$boldgrid_post_id = ( isset( $_GET['post_id'] ) ? intval( $_GET['post_id'] ) : "''" );
 	}
 
-		$oneliner = '
-			var IMHWPB = IMHWPB || {};
-			IMHWPB.configs = ' . json_encode( $this->get_configs() ) . ';
-			IMHWPB.post_id = ' . $boldgrid_post_id . ';
-			IMHWPB.page_now = "' . $pagenow . '";
-		';
+	$oneliner = '
+		var IMHWPB = IMHWPB || {};
+		IMHWPB.post_id = ' . $boldgrid_post_id . ';
+		IMHWPB.page_now = "' . $pagenow . '";
+	';
+
+	if( true === $this->allow_header_configs() ) {
+		$oneliner .= 'IMHWPB.configs = ' . json_encode( $this->get_configs() ) . ';';
+	}
+
+	Boldgrid_Inspirations_Utility::inline_js_oneliner( $oneliner );
+}
+
+	/**
+	 * Determine if configs are allowed to be printed in head.
+	 *
+	 * @since 1.2.3
+	 *
+	 * @global pagenow.
+	 *
+	 * @return bool.
+	 */
+	public function allow_header_configs() {
+		global $pagenow;
+
+		$page =	( isset( $_GET['page'] ) ? $_GET['page'] : null );
+		$tab =	( isset( $_GET['tab'] ) ? $_GET['tab'] : null );
+
+		// Inspirations, design first.
+		if( 'admin.php' === $pagenow && 'boldgrid-inspirations' === $page && current_user_can( 'edit_pages' ) ) {
+			return true;
+		}
+
+		// Transactions, receipts.
+		if( 'admin.php' === $pagenow && 'boldgrid-transactions' === $page && current_user_can( 'manage_options' ) ) {
+			return true;
+		}
+
+		// Transactions, cart.
+		if( 'admin.php' === $pagenow && 'boldgrid-cart' === $page && current_user_can( 'manage_options' ) ) {
+			return true;
+		}
+
+		// BoldGrid Connect Search.
+		if( 'media-upload.php' === $pagenow && 'image_search' === $tab && current_user_can( 'upload_files' ) ) {
+			return true;
+		}
+
+		// Pages > All Pages.
+		if( 'edit.php' === $pagenow && current_user_can( 'edit_posts' ) ) {
+			return true;
+		}
+
+		// Editing a page.
+		if( 'post.php' === $pagenow && current_user_can( 'edit_posts' ) ) {
+			return true;
+		}
+
+		return false;
+	}
+
+/**
+ * On activation of BoldGrid, check Welcome Panel exists and make it show if not.
+ *
+ * @see register_activation_hook
+ * @param
+ *        	show_welcome_panel
+ * @since .11.13
+ */
+public function boldgrid_activate() {
+	// If not on a network admin page, then reset the welcome panel and create an attribution page.
+	if ( false === is_network_admin() ) {
+		// Get the current user id.
+		$user_id = get_current_user_id();
+
+		// check to see if Welcome Panel is hidden, if it is show it.
+		if ( 1 != get_user_meta( $user_id, 'show_welcome_panel', true ) ) {
+			update_user_meta( $user_id, 'show_welcome_panel', 1 );
+		}
 
 	// Run the JavaScript one-liner.
 	Boldgrid_Inspirations_Utility::inline_js_oneliner( $oneliner );
