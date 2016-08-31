@@ -1,6 +1,12 @@
+/**
+ * JavaScript for transaction history operations.
+ *
+ * This script is passed "connectionInfo" using wp_localize_script().
+ */
+
 var IMHWPB = IMHWPB || {};
 
-IMHWPB.TransactionHistory = function(configs) {
+IMHWPB.TransactionHistory = function( configs ) {
 	var self = this;
 
 	this.configs = configs;
@@ -8,13 +14,13 @@ IMHWPB.TransactionHistory = function(configs) {
 	this.api_key = this.configs.api_key;
 
 	this.api_param = 'key';
-	this.api_key_query_str = this.api_param + "=" + this.api_key;
+	this.api_key_query_str = this.api_param + '=' + this.api_key;
 
 	// include additional submodules
 	self.ajax = new IMHWPB.Ajax(configs);
 	self.baseAdmin = new IMHWPB.BaseAdmin();
 
-	$c_wpbody = jQuery('#wpbody');
+	$c_wpbody = jQuery( '#wpbody' );
 
 	self.pagination_per_page = 10;
 
@@ -23,33 +29,47 @@ IMHWPB.TransactionHistory = function(configs) {
 	 *
 	 * Code included inside $( document ).ready() will only run once the page
 	 * Document Object Model (DOM) is ready for JavaScript code to execute.
+	 *
+	 * @return null
 	 */
-	jQuery(function() {
-		// get the user's transaction history
+	jQuery( function() {
+		// Declare a context selector for transactions.
+		var $transactions = jQuery( '#transactions', $c_wpbody );
+
+		// If the asset server is not available, then abort with an admin notice.
+		if ( ! connectionInfo.assetServerAvailable ) {
+			$transactions
+				.html( connectionInfo.connectionErrorMessage );
+
+			return;
+		}
+
+		// Get the user's transaction history.
 		self.ajax.ajaxCall({}, 'get_transaction_history',
 				self.get_transaction_history_successAction);
 
-		// A user has clicked "view" next to a transaction
-		jQuery('#transactions').on('click', '.view', function() {
-			var transaction_id = jQuery(this).data('transaction-id');
-			var transaction = null;
-			jQuery.each(transactions, function() {
-				if (this.transaction_id == transaction_id) {
-					transaction = this;
-				}
+		// A user has clicked "view" next to a transaction.
+		$transactions
+			.on( 'click', '.view', function() {
+				var transaction,
+					transaction_id = jQuery( this ).data( 'transaction-id' );
+
+				jQuery.each( transactions, function() {
+					if ( this.transaction_id === transaction_id ) {
+						transaction = this;
+					}
+				});
+
+				self.show_receipt( transaction );
+
+				return false;
 			});
 
-			self.show_receipt(transaction);
-
-			return false;
-		});
-
-		// A user clicks on "Download Image", attempting to
-		// re-download-purchased-image
-		jQuery(document).on('click', 'a.re-download-purchased-image',
-				function() {
-					self.process_click_re_download(this);
-				});
+		// A user clicks on "Download Image", attempting to re-download-purchased-image.
+		jQuery( document )
+			.on( 'click', 'a.re-download-purchased-image', function() {
+				self.process_click_re_download( this );
+			});
 
 		/**
 		 * Sort the receipts table by date.
@@ -76,27 +96,42 @@ IMHWPB.TransactionHistory = function(configs) {
 	};
 
 	/**
-	 * After getting transaction history from server, display it in a table
-	 * using handlebars.
+	 * After getting transaction history from server, display it in a table using handlebars.
+	 *
+	 * @return null
 	 */
 	this.get_transaction_history_successAction = function(msg) {
+		// Declare vars.
+		var source, transaction_count, template;
+
+		// If the asset server is not available, then abort with an admin notice.
+		if ( ! msg.status || 200 !== msg.status ) {
+			jQuery( '#transactions', $c_wpbody )
+				.html( connectionInfo.connectionErrorMessage );
+
+			return;
+		}
+
+		// Get the transaction data.
 		transactions = msg.result.data.transactions;
 
 		// Determine which template to use based on the number of transactions
-		if ( 0 === transactions.length ) {
-			var source = jQuery( "#no-transactions-template" ).html();
+		if ( ! Object.keys(transactions).length ) {
+			source = jQuery( "#no-transactions-template" ).html();
 		} else {
-			var source = jQuery("#transactions-template").html();
+			source = jQuery( "#transactions-template" ).html();
 		}
 
-		var template = Handlebars.compile(source);
-		jQuery('#transactions', $c_wpbody).html(template(msg.result.data));
+		template = Handlebars.compile(source);
+
+		jQuery('#transactions', $c_wpbody)
+			.html(template(msg.result.data));
 		jQuery('#transactions table').style_wp_table();
 
 		// Update the div above / below the table.
-		var transaction_count = Object.keys(transactions).length;
-		var source = jQuery("#tablenav-top-template").html();
-		var template = Handlebars.compile(source);
+		transaction_count = Object.keys(transactions).length;
+		source = jQuery( '#tablenav-top-template' ).html();
+		template = Handlebars.compile(source);
 		jQuery('div.tablenav.top', $c_wpbody).html(template(transaction_count));
 		jQuery('div.tablenav.bottom', $c_wpbody).html(
 				template(transaction_count));
@@ -108,6 +143,8 @@ IMHWPB.TransactionHistory = function(configs) {
 		if (transaction_count > self.pagination_per_page) {
 			self.setup_pagination();
 		}
+
+		return;
 	};
 
 	/**
