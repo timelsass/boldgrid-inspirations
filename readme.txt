@@ -40,6 +40,7 @@ The second phase is Customization; tools to transform your website into your vis
 * Update:		JIRA WPB-2319	Check user capabilities before prompting for api key.
 * Update:		JIRA WPB-2320	Ensure user has permission to edit page before allowing download_and_insert_into_page.
 * Update:		JIRA WPB-2322	Sanitize user feedback before adding to options table.
+* Update:		JIRA WPB-2323	Allow admin notices to be dismissed per user.
 
 = 1.2.4 =
 * Bug fix:		JIRA WPB-2269	Typo fix in Boldgrid_Inspirations_Dependency_Plugins::print_uninstalled_plugins().

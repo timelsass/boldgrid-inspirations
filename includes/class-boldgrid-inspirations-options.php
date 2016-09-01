@@ -546,8 +546,14 @@ name='boldgrid_settings[boldgrid_feedback_optout]' value='1'
 			// Clear all the pointers.
 			update_user_meta( get_current_user_id(), 'dismissed_wp_pointers', '' );
 
-			// Clear all admin notices.
+			/*
+			 * Clear all admin notices.
+			 *
+			 * There are 2 calls below. The first call is the original method in which we stored
+			 * notices, the second is when we began storing dismissal data per user.
+			 */
 			delete_option( 'boldgrid_dismissed_admin_notices' );
+			delete_metadata ( 'user', 0, 'boldgrid_dismissed_admin_notices', '', true );
 		}
 	}
 

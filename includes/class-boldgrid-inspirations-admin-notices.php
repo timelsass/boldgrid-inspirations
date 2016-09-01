@@ -12,25 +12,6 @@
  * The BoldGrid Inspirations Admin Notices class .
  */
 class Boldgrid_Inspirations_Admin_Notices {
-
-	/*
-	 * Current user id.
-	 *
-	 * @since 1.2.5
-	 * @access public
-	 * @var int $current_user_id
-	 */
-	public $current_user_id = 0;
-
-	/**
-	 * Constructor.
-	 *
-	 * @since 1.2.5
-	 */
-	public function __construct() {
-		$this->current_user_id = get_current_user_id();
-	}
-
 	/**
 	 * Add hooks.
 	 */
@@ -88,41 +69,32 @@ class Boldgrid_Inspirations_Admin_Notices {
 		// Sanitize the data key.
 		$id = sanitize_key( $_POST['id'] );
 
-		// If we have not dismissed this notice before, add it to the array and save the option.
-		if ( ! $this->has_been_dismissed( $id ) ) {
-			$time = time();
-
-			// Get our array of dismissed notices.
-			$boldgrid_dismissed_admin_notices = get_option( 'boldgrid_dismissed_admin_notices' );
-
-			// Add the notice to the array.
-			$boldgrid_dismissed_admin_notices[ $this->current_user_id ][$time] = $id;
-
-			// Update the WP option.
-			update_option( 'boldgrid_dismissed_admin_notices', $boldgrid_dismissed_admin_notices );
-		}
+		// Add user meta to log that this user dismissed this notice.
+		add_user_meta( get_current_user_id(), 'boldgrid_dismissed_admin_notices', $id );
 
 		wp_die( 'true' );
 	}
 
 	/**
-	 * Return wheather or not an admin notice has been dismissed.
+	 * Return whether or not an admin notice has been dismissed.
+	 *
+	 * This method checks for dismissed notices in the initial way we stored the data, in an option
+	 * named 'boldgrid_dismissed_admin_notices'. We now store dismissed notice data in user meta.
+	 *
+	 * @since 1.2.5
 	 *
 	 * @param string $id An admin notice id.
 	 * @return bool
 	 */
-	public function has_been_dismissed( $id ) {
+	public function dismissed_in_deprecated( $id ) {
 		$boldgrid_dismissed_admin_notices = get_option( 'boldgrid_dismissed_admin_notices' );
 
-		// If we have no dismissed notices, return false.
-		if( false === $boldgrid_dismissed_admin_notices ) {
+		// If nothing has ever been dismissed, then obviously the user has not dismissed this notice.
+		if( false === $boldgrid_dismissed_admin_notices || ! is_array( $boldgrid_dismissed_admin_notices ) ) {
 			return false;
 		}
 
-		// If this user has never dismissed anything, return false.
-		if( ! isset( $boldgrid_dismissed_admin_notices[ $this->current_user_id ] ) ) {
-			return false;
-		}
+		$id = sanitize_key( $id );
 
 		/*
 		 * Dismissed notices can be stored in two ways:
@@ -132,14 +104,50 @@ class Boldgrid_Inspirations_Admin_Notices {
 		 * If either of the above is set, the user has dimissed the notice, so return true. Otherwise,
 		 * return false.
 		 */
-		$format_1_dismissed = in_array( $id, $boldgrid_dismissed_admin_notices[ $this->current_user_id ], true );
-		$format_2_dismissed = array_key_exists( $id, $boldgrid_dismissed_admin_notices[ $this->current_user_id ] );
+		$format_1_dismissed = in_array( $id, $boldgrid_dismissed_admin_notices, true );
+		$format_2_dismissed = array_key_exists( $id, $boldgrid_dismissed_admin_notices );
 
 		if( $format_1_dismissed || $format_2_dismissed ) {
 			return true;
 		} else {
 			return false;
 		}
+	}
+
+	/**
+	 * Return whether or not an admin notice has been dismissed.
+	 *
+	 * The initial version of this class was setup in a way that only envisioned one user, and they
+	 * were an admin. That causes problems. If user 1 dismissed "notice #5", then user 2 and so on
+	 * would never see that notice.
+	 *
+	 * We are changing things so that each user dismisses their own notices. They are no longer
+	 * global notices, they are a per user notice.
+	 *
+	 * @param string $id An admin notice id.
+	 * @return bool
+	 */
+	public function has_been_dismissed( $id ) {
+		$id = sanitize_key( $id );
+
+		/*
+		 * Backwards compatibility.
+		 *
+		 * Currently there are only 2 notices:
+		 * # BoldGrid image search.
+		 * # Feedback x weeks after inspirations.
+		 *
+		 * If a notice is dismissed in the old version, then it stays dismissed fooooreeeeer.
+		 * @link https://www.youtube.com/watch?v=H-Q7b-vHY3Q
+		 * Only new notices will be dismissable per user.
+		 */
+		if( $this->dismissed_in_deprecated( $id ) ) {
+			return true;
+		}
+
+		$dismissed_notices = get_user_meta( get_current_user_id(), 'boldgrid_dismissed_admin_notices' );
+
+		return in_array( $id, $dismissed_notices );
 	}
 
 	/**
