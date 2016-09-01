@@ -248,13 +248,10 @@ class Boldgrid_Inspirations_Feedback {
 
 		// Insert new data.
 		$feedback_data[] = array(
-			'type' => $metaname,
+			'type' => htmlspecialchars( $metaname ),
 			'timestamp' => $timestamp,
-			'value' => $metavalue,
+			'value' => htmlspecialchars( $metavalue ),
 		);
-
-		// Sanitize the option data.
-		$feedback_data = sanitize_option( 'boldgrid_feedback', $feedback_data );
 
 		// Save data.
 		update_option( 'boldgrid_feedback', $feedback_data, false );
