@@ -248,9 +248,9 @@ class Boldgrid_Inspirations_Feedback {
 
 		// Insert new data.
 		$feedback_data[] = array(
-			'type' => htmlspecialchars( $metaname ),
+			'type' => $metaname,
 			'timestamp' => $timestamp,
-			'value' => htmlspecialchars( $metavalue ),
+			'value' => $metavalue,
 		);
 
 		// Save data.
