@@ -445,7 +445,7 @@ class Boldgrid_Inspirations_Api {
 			add_action( 'admin_notices',
 				function () {
 					$notice_template_file = BOLDGRID_BASE_DIR .
-					'/pages/templates/boldgrid_connection_issue.php';
+					'/pages/templates/boldgrid-connection-issue.php';
 
 					if ( ! in_array( $notice_template_file, get_included_files(), true ) ) {
 						include $notice_template_file;
@@ -613,7 +613,7 @@ class Boldgrid_Inspirations_Api {
 	public function notify_connection_issue() {
 		// Show a notice, if not already printed.
 		$notice_template_file = BOLDGRID_BASE_DIR .
-		'/pages/templates/boldgrid_connection_issue.php';
+		'/pages/templates/boldgrid-connection-issue.php';
 
 		if ( ! in_array( $notice_template_file, get_included_files(), true ) ) {
 			include $notice_template_file;

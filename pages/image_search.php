@@ -45,7 +45,7 @@ include BOLDGRID_BASE_DIR . '/pages/templates/attachment_details.php';
 			<?php
 			// Print a message for connection failure.
 			$notice_template_file = BOLDGRID_BASE_DIR .
-			'/pages/templates/boldgrid_connection_issue.php';
+			'/pages/templates/boldgrid-connection-issue.php';
 
 			if ( $boldgrid_connection_issue_exists &&
 			! in_array( $notice_template_file, get_included_files(), true ) ) {

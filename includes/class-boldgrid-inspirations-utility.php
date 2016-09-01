@@ -41,7 +41,7 @@ class Boldgrid_Inspirations_Utility {
 	 */
 	public static function inline_js_file( $filename ) {
 		$full_path_to_js = plugins_url( '/assets/js/inline/' . $filename,
-			BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' );
+		BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' );
 
 		echo '<script type="text/javascript" src="' . $full_path_to_js;
 
@@ -120,7 +120,7 @@ class Boldgrid_Inspirations_Utility {
 	 * @param string $file A file to parse.
 	 * @return string The markup.
 	 */
-	public static function file_to_var( $file ){
+	public static function file_to_var( $file ) {
 		ob_start();
 		include $file;
 		return ob_get_clean();
