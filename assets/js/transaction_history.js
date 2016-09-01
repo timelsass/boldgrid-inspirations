@@ -25,16 +25,27 @@ IMHWPB.TransactionHistory = function(configs) {
 	 * Document Object Model (DOM) is ready for JavaScript code to execute.
 	 */
 	jQuery(function() {
+		// Declare a context selector for transactions.
+		var $transactions = jQuery( '#transactions', $c_wpbody );
+
+		// If the asset server is not available, then abort with an admin notice.
+		if ( ! connectionInfo.assetServerAvailable ) {
+			$transactions
+				.html( connectionInfo.connectionErrorMessage );
+
+			return;
+		}
+
 		// get the user's transaction history
 		self.ajax.ajaxCall({}, 'get_transaction_history',
 				self.get_transaction_history_successAction);
 
 		// A user has clicked "view" next to a transaction
-		jQuery('#transactions').on('click', '.view', function() {
+		$transactions.on('click', '.view', function() {
 			var transaction_id = jQuery(this).data('transaction-id');
 			var transaction = null;
 			jQuery.each(transactions, function() {
-				if (this.transaction_id == transaction_id) {
+				if (this.transaction_id === transaction_id) {
 					transaction = this;
 				}
 			});
@@ -80,10 +91,18 @@ IMHWPB.TransactionHistory = function(configs) {
 	 * using handlebars.
 	 */
 	this.get_transaction_history_successAction = function(msg) {
+		// If the asset server is not available, then abort with an admin notice.
+		if ( ! msg.status || 200 !== msg.status ) {
+			jQuery( '#transactions', $c_wpbody )
+				.html( connectionInfo.connectionErrorMessage );
+
+			return;
+		}
+
 		transactions = msg.result.data.transactions;
 
 		// Determine which template to use based on the number of transactions
-		if ( 0 === transactions.length ) {
+		if ( ! Object.keys(transactions).length ) {
 			var source = jQuery( "#no-transactions-template" ).html();
 		} else {
 			var source = jQuery("#transactions-template").html();
