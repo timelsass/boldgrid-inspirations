@@ -1,3 +1,16 @@
+<?php
+/**
+ * BoldGrid Source Code
+ *
+ * Partial for the BoldGrid Connection Issue notice.
+ *
+ * @package Boldgrid_Inspirations
+ * @copyright BoldGrid.com
+ * @version $Id$
+ * @author BoldGrid.com <wpb@boldgrid.com>
+ */
+
+?>
 <div id="container_boldgrid_connection_notice" class="error">
 	<h2 class="dashicons-before dashicons-admin-network">
 		<?php esc_html_e( 'BoldGrid Connection Issue', 'boldgrid-inspirations' ); ?>
@@ -14,7 +27,7 @@
 		<?php
 		printf(
 			esc_html__( 'If the issue persists, then please feel free to check our %sBoldGrid Status%s page.',
-			'boldgrid-inspirations'
+				'boldgrid-inspirations'
 			),
 			'<a target="_blank" href="https://www.boldgrid.com/">',
 			'</a>'

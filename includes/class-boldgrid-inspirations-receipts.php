@@ -9,47 +9,39 @@
  */
 
 /**
- * BoldGrid Receipts class
+ * BoldGrid Receipts class.
  */
 class Boldgrid_Inspirations_Receipts extends Boldgrid_Inspirations {
-
 	/**
-	 * Contructor
-	 */
-	public function __construct() {
-		parent::__construct();
-	}
-
-	/**
-	 * Add hooks
+	 * Add hooks.
 	 */
 	public function add_hooks() {
 		if ( is_admin() ) {
-			// Load Javascript and CSS:
-			add_action( 'admin_menu',
-				array(
-					$this,
-					'menu_transactions',
-				),
-				1001
-			);
+				// Load Javascript and CSS.
+				add_action( 'admin_menu',
+					array(
+						$this,
+						'menu_transactions',
+					)
+					, 1001
+				);
 
-			add_action( 'admin_enqueue_scripts',
-				array(
-					$this,
-					'admin_enqueue_transaction_menus',
-				)
-			);
+				add_action( 'admin_enqueue_scripts',
+					array(
+						$this,
+						'admin_enqueue_transaction_menus',
+					)
+				);
 		}
 	}
 
 	/**
-	 * Add transaction history script for BoldGrid pages.
+	 * Add transaction history script for toplevel page.
 	 *
-	 * @global WP_Filesystem $wp_filesystem The WordPress Filesystem API global object.
+	 * @see Boldgrid_Inspirations_Api::get_is_asset_server_available()
+	 * @see Boldgrid_Inspirations_Utility::file_to_var()
 	 *
-	 * @param string $hook
-	 *
+	 * @param string $hook The hook.
 	 * @return null
 	 */
 	public function admin_enqueue_transaction_menus( $hook ) {
@@ -60,22 +52,28 @@ class Boldgrid_Inspirations_Receipts extends Boldgrid_Inspirations {
 		);
 
 		// If the hook is not for transactions, then abort.
-		if ( ! in_array( $hook, $allowed_hooks, true) )
+		if ( ! in_array( $hook, $allowed_hooks, true ) ) {
 			return;
+		}
 
-		// Register the transaction history script.
 		wp_register_script( 'transaction-history',
-			plugins_url( '/assets/js/transaction_history.js',
-				BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ), array (
+			plugins_url(
+				'/assets/js/transaction_history.js',
+				BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php'
+			),
+			array(
 				'jquery'
-			), BOLDGRID_INSPIRATIONS_VERSION, true );
+			),
+			BOLDGRID_INSPIRATIONS_VERSION,
+			true
+		);
 
 		// Check if the asset server is marked as available.
 		$asset_server_available = Boldgrid_Inspirations_Api::get_is_asset_server_available();
 
 		// Get the error message markup from the template file.
 		$connection_error_message = Boldgrid_Inspirations_Utility::file_to_var(
-			BOLDGRID_BASE_DIR . '/pages/templates/boldgrid_connection_issue.php'
+			BOLDGRID_BASE_DIR . '/pages/templates/boldgrid-connection-issue.php'
 		);
 
 		// Prepare the data array for transaction history script localization.
@@ -100,6 +98,8 @@ class Boldgrid_Inspirations_Receipts extends Boldgrid_Inspirations {
 	/**
 	 * Add transactions menu item or submenu item based on user's preference in settings.
 	 *
+	 * @see Boldgrid_Inspirations_Api::get_is_asset_server_available()
+	 *
 	 * @return null
 	 */
 	public function menu_transactions() {
@@ -110,7 +110,7 @@ class Boldgrid_Inspirations_Receipts extends Boldgrid_Inspirations {
 				'admin_notices',
 				function() {
 					$notice_template_file = BOLDGRID_BASE_DIR .
-					'/pages/templates/boldgrid_connection_issue.php';
+					'/pages/templates/boldgrid-connection-issue.php';
 
 					if ( ! in_array( $notice_template_file, get_included_files(), true ) ) {
 						include $notice_template_file;
@@ -124,6 +124,7 @@ class Boldgrid_Inspirations_Receipts extends Boldgrid_Inspirations {
 			return;
 		}
 
+		// Add menu page.
 		add_menu_page(
 			'Transactions',
 			'Transactions',
@@ -136,7 +137,7 @@ class Boldgrid_Inspirations_Receipts extends Boldgrid_Inspirations {
 			'none'
 		);
 
-		// submenu item receipts
+		// Add Submenu item receipts.
 		add_submenu_page(
 			'boldgrid-transactions',
 			'Receipts',
@@ -149,19 +150,25 @@ class Boldgrid_Inspirations_Receipts extends Boldgrid_Inspirations {
 	}
 
 	/**
-	 * Add submenu page for receipts
+	 * Add submenu page for receipts.
 	 */
 	public function submenu_receipts() {
-		// submenu receipts
-		add_submenu_page( 'boldgrid-inspirations', 'Receipts', 'Receipts', 'administrator',
-			'boldgrid-transactions', array (
+		// Add submenu receipts.
+		add_submenu_page(
+			'boldgrid-inspirations',
+			'Receipts',
+			'Receipts',
+			'administrator',
+			'boldgrid-transactions',
+			array(
 				$this,
-				'page_receipts'
-			) );
+				'page_receipts',
+			)
+		);
 	}
 
 	/**
-	 * Menu callback for submenu page for receipts
+	 * Menu callback for submenu page for receipts.
 	 */
 	public function page_receipts() {
 		include BOLDGRID_BASE_DIR . '/pages/transaction_history.php';

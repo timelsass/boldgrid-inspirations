@@ -23,7 +23,7 @@ include BOLDGRID_BASE_DIR . '/pages/templates/transaction_history.php';
 
 <?php
 $notice_template_file = BOLDGRID_BASE_DIR .
-'/pages/templates/boldgrid_connection_issue.php';
+'/pages/templates/boldgrid-connection-issue.php';
 
 if ( ! $is_asset_server_available &&
 ! in_array( $notice_template_file, get_included_files(), true ) ) {

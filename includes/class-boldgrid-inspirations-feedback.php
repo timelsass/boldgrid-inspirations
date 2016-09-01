@@ -253,9 +253,6 @@ class Boldgrid_Inspirations_Feedback {
 			'value' => $metavalue,
 		);
 
-		// Sanitize the option data.
-		$feedback_data = sanitize_option( 'boldgrid_feedback', $feedback_data );
-
 		// Save data.
 		update_option( 'boldgrid_feedback', $feedback_data, false );
 
