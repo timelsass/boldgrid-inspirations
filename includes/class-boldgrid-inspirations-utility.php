@@ -109,20 +109,4 @@ class Boldgrid_Inspirations_Utility {
 
 		return false;
 	}
-
-	/**
-	 * Read an include file and set it into a variable.
-	 *
-	 * @since 1.2.5
-	 *
-	 * @static
-	 *
-	 * @param string $file A file to parse.
-	 * @return string The markup.
-	 */
-	public static function file_to_var( $file ){
-		ob_start();
-		include $file;
-		return ob_get_clean();
-	}
 }
