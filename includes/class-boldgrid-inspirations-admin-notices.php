@@ -12,6 +12,25 @@
  * The BoldGrid Inspirations Admin Notices class .
  */
 class Boldgrid_Inspirations_Admin_Notices {
+
+	/*
+	 * Current user id.
+	 *
+	 * @since 1.2.5
+	 * @access public
+	 * @var int $current_user_id
+	 */
+	public $current_user_id = 0;
+
+	/**
+	 * Constructor.
+	 *
+	 * @since 1.2.5
+	 */
+	public function __construct() {
+		$this->current_user_id = get_current_user_id();
+	}
+
 	/**
 	 * Add hooks.
 	 */
@@ -60,12 +79,6 @@ class Boldgrid_Inspirations_Admin_Notices {
 	public function dismiss_boldgrid_admin_notice_callback() {
 		global $wpdb;
 
-		// If you are not at least an Editor, you may not dismiss notices.
-		if( ! current_user_can( 'edit_pages' ) ) {
-			echo 'false';
-			wp_die();
-		}
-
 		// Abort if we did not pass in an admin notice id.
 		if ( ! isset( $_POST['id'] ) ) {
 			echo 'false';
@@ -83,7 +96,7 @@ class Boldgrid_Inspirations_Admin_Notices {
 			$boldgrid_dismissed_admin_notices = get_option( 'boldgrid_dismissed_admin_notices' );
 
 			// Add the notice to the array.
-			$boldgrid_dismissed_admin_notices[$time] = $id;
+			$boldgrid_dismissed_admin_notices[ $this->current_user_id ][$time] = $id;
 
 			// Update the WP option.
 			update_option( 'boldgrid_dismissed_admin_notices', $boldgrid_dismissed_admin_notices );
@@ -101,14 +114,31 @@ class Boldgrid_Inspirations_Admin_Notices {
 	public function has_been_dismissed( $id ) {
 		$boldgrid_dismissed_admin_notices = get_option( 'boldgrid_dismissed_admin_notices' );
 
-		if ( ! $boldgrid_dismissed_admin_notices ||
-		(
-			! in_array( $id, $boldgrid_dismissed_admin_notices, true ) &&
-			! array_key_exists( $id, $boldgrid_dismissed_admin_notices )
-		) ) {
+		// If we have no dismissed notices, return false.
+		if( false === $boldgrid_dismissed_admin_notices ) {
 			return false;
-		} else {
+		}
+
+		// If this user has never dismissed anything, return false.
+		if( ! isset( $boldgrid_dismissed_admin_notices[ $this->current_user_id ] ) ) {
+			return false;
+		}
+
+		/*
+		 * Dismissed notices can be stored in two ways:
+		 * # $dismissed[user_id][timestamp] = notice_id;
+		 * # $dismissed[user_id][notice_id] = timestamp;
+		 *
+		 * If either of the above is set, the user has dimissed the notice, so return true. Otherwise,
+		 * return false.
+		 */
+		$format_1_dismissed = in_array( $id, $boldgrid_dismissed_admin_notices[ $this->current_user_id ], true );
+		$format_2_dismissed = array_key_exists( $id, $boldgrid_dismissed_admin_notices[ $this->current_user_id ] );
+
+		if( $format_1_dismissed || $format_2_dismissed ) {
 			return true;
+		} else {
+			return false;
 		}
 	}
 
