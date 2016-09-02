@@ -1200,8 +1200,10 @@ for purchase, and will be removed from the cart.</p>
 			// Save this metadata for future use.
 			$this->wp_options_asset[ $asset_type ][ $asset['asset_key'] ]['_wp_attachment_metadata'] = $wp_attachment_metadata;
 
-			foreach ( $wp_attachment_metadata['sizes'] as $image_size ) {
-				$array_file_names_to_query[] = $image_size['file'];
+			if ( ! empty( $wp_attachment_metadata['sizes'] ) ) {
+				foreach ( $wp_attachment_metadata['sizes'] as $image_size ) {
+					$array_file_names_to_query[] = $image_size['file'];
+				}
 			}
 		}
 

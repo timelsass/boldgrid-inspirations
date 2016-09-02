@@ -27,6 +27,7 @@ The second phase is Customization; tools to transform your website into your vis
 == Changelog ==
 
 = 1.2.5 In progress =
+* Bug fix:		JIRA WPB-2325	Added wrapper to handle mb_convert_encoding() if mbstring is not loaded.
 * Bug fix:		JIRA WPB-2313	Disabled GridBlocks in network admin pages.
 * New feature:	JIRA WPB-2268	Changed to resized preview screenshots for Inspirations Design First concept.
 * New feature:	JIRA WPB-2287	Adjust device preview buttons in step 2 to behave like those in editor.

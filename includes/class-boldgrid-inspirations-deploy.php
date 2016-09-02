@@ -1518,7 +1518,7 @@ class Boldgrid_Inspirations_Deploy {
 		foreach ( $pages_and_posts as $k => $page ) {
 			$dom = new DOMDocument();
 
-			@$dom->loadHTML( mb_convert_encoding( $page->post_content, 'HTML-ENTITIES', 'UTF-8' ) );
+			@$dom->loadHTML( Boldgrid_Inspirations_Utility::utf8_to_html( $page->post_content ) );
 
 			$images = $dom->getElementsByTagName( 'img' );
 
@@ -1777,7 +1777,7 @@ class Boldgrid_Inspirations_Deploy {
 		foreach ( $pages_and_posts as $k => $page ) {
 			// Get all of the images.
 			$dom = new DOMDocument();
-			@$dom->loadHTML( mb_convert_encoding( $page->post_content, 'HTML-ENTITIES', 'UTF-8' ) );
+			@$dom->loadHTML( Boldgrid_Inspirations_Utility::utf8_to_html( $page->post_content ) );
 			$images = $dom->getElementsByTagName( 'img' );
 
 			// Keep track of the order in which built_photo_search images appear on the page.
@@ -2202,7 +2202,7 @@ class Boldgrid_Inspirations_Deploy {
 		foreach ( $pages_and_posts as $k => $page ) {
 			$dom = new DOMDocument();
 
-			@$dom->loadHTML( mb_convert_encoding( $page->post_content, 'HTML-ENTITIES', 'UTF-8' ) );
+			@$dom->loadHTML( Boldgrid_Inspirations_Utility::utf8_to_html( $page->post_content ) );
 
 			$images = $dom->getElementsByTagName( 'img' );
 
