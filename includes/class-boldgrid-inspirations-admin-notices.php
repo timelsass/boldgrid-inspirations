@@ -98,8 +98,8 @@ class Boldgrid_Inspirations_Admin_Notices {
 
 		/*
 		 * Dismissed notices can be stored in two ways:
-		 * # $dismissed[user_id][timestamp] = notice_id;
-		 * # $dismissed[user_id][notice_id] = timestamp;
+		 * # $dismissed[timestamp] = notice_id;
+		 * # $dismissed[notice_id] = timestamp;
 		 *
 		 * If either of the above is set, the user has dimissed the notice, so return true. Otherwise,
 		 * return false.
@@ -133,9 +133,11 @@ class Boldgrid_Inspirations_Admin_Notices {
 		/*
 		 * Backwards compatibility.
 		 *
-		 * Currently there are only 2 notices:
+		 * Currently there are 4 notices:
 		 * # BoldGrid image search.
 		 * # Feedback x weeks after inspirations.
+		 * # Notice Inspirations > pages has moved.
+		 * # Dependency plugin installation.
 		 *
 		 * If a notice is dismissed in the old version, then it stays dismissed fooooreeeeer.
 		 * @link https://www.youtube.com/watch?v=H-Q7b-vHY3Q
