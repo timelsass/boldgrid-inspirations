@@ -2740,8 +2740,9 @@ class Boldgrid_Inspirations_Deploy {
 		// Build API call arguments:
 		$arguments = array (
 			'method' => 'POST',
-			'body' => array (),
-			'channel' => $release_channel
+			'body' => array(
+				'channel' => $release_channel
+			)
 		);
 
 		// Get the API key hash.
