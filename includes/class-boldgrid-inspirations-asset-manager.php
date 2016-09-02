@@ -80,6 +80,8 @@ class Boldgrid_Inspirations_Asset_Manager extends Boldgrid_Inspirations {
 		parent::__construct();
 
 		// If Imagick is used, then set the thread limit to 1 to avoid known issues.
+		putenv( 'MAGICK_THREAD_LIMIT=1' );
+
 		require_once ABSPATH . 'wp-includes/class-wp-image-editor.php';
 		require_once ABSPATH . 'wp-includes/class-wp-image-editor-imagick.php';
 

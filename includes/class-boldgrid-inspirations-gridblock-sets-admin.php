@@ -258,7 +258,7 @@ class Boldgrid_Inspirations_GridBlock_Sets_Admin {
 		$assetManager = new Boldgrid_Inspirations_Asset_Manager();
 
 		$dom = new DOMDocument();
-		@$dom->loadHTML( mb_convert_encoding( $page->post_content, 'HTML-ENTITIES', 'UTF-8' ) );
+		@$dom->loadHTML( Boldgrid_Inspirations_Utility::utf8_to_html( $page->post_content ) );
 
 		// Get all of the images in the selection.
 		$images = $dom->getElementsByTagName( 'img' );

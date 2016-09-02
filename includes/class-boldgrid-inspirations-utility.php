@@ -125,4 +125,24 @@ class Boldgrid_Inspirations_Utility {
 		include $file;
 		return ob_get_clean();
 	}
+
+	/**
+	 * Convert content encoding from "UTF-8" to "HTML-ENTITIES".
+	 *
+	 * If mbstring is not loaded in PHP then the input will be returned unconverted.
+	 *
+	 * @since 1.2.5
+	 *
+	 * @static
+	 *
+	 * @param string $input Content to be converted.
+	 * @return string Content that may have been converted.
+	 */
+	public static function utf8_to_html( $input ) {
+		if( function_exists( 'mb_convert_encoding' ) ){
+			return mb_convert_encoding( $input, 'HTML-ENTITIES', 'UTF-8' );
+		} else {
+			return $input;
+		}
+	}
 }
