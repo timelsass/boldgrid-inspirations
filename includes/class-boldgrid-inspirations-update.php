@@ -653,8 +653,7 @@ class Boldgrid_Inspirations_Update {
 	 * @since 1.0.12
 	 */
 	public function show_notices() {
-		// Get the WP option boldgrid_dismissed_admin_notices.
-		$boldgrid_dismissed_notices = get_option( 'boldgrid_dismissed_admin_notices' );
+		$admin_notices = new Boldgrid_Inspirations_Admin_Notices();
 
 		// Get boldgrid settings.
 		$boldgrid_settings = get_option( 'boldgrid_settings' );
@@ -681,11 +680,10 @@ class Boldgrid_Inspirations_Update {
 			 version_compare( $activated_version, '1.0.12', '<' ) );
 
 		// Is the notice already marked as dismissed.
-		$is_not_dismissed = ( ! $boldgrid_dismissed_notices ||
-			 ! in_array( 'update-notice-1-0-12', $boldgrid_dismissed_notices, true ) );
+		$has_been_dismissed = $admin_notices->has_been_dismissed( 'update-notice-1-0-12' );
 
 		// Check if the notice should be displayed.
-		if ( $is_live_ge_1012 && $is_activated_lt_1012 && $is_not_dismissed ) {
+		if ( $is_live_ge_1012 && $is_activated_lt_1012 && ! $has_been_dismissed ) {
 			// Display the notice.
 			?>
 <div id='update-notice-1-0-12'
