@@ -348,7 +348,7 @@ class Boldgrid_Inspirations_Feedback {
 			if ( $dismissal['timestamp'] > $seven_days_ago ) {
 				return;
 			} else {
-				$admin_notices->clear( $id );
+				$admin_notices->clear( 'feedback-notice-1-1' );
 			}
 		}
 
