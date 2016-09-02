@@ -331,6 +331,8 @@ class Boldgrid_Inspirations_Dependency_Plugins {
 		// Get the $pagenow global.
 		global $pagenow;
 
+		$boldgrid_requires = __( 'The BoldGrid Inspirations plugin requires these other plugins for best results. Please click to install and activate', 'boldgrid-inspirations' );
+
 		// Should we print the notice?
 		if ( $this->show_notice() &&
 			(
@@ -341,15 +343,8 @@ class Boldgrid_Inspirations_Dependency_Plugins {
 			)
 		) {
 		?>
-	<div class='notice notice-warning is-dismissible' id='admin_notice_dependency_plugins'>
-		<p>
-		<?php
-		esc_html_e(
-			'The BoldGrid Inspirations plugin requires these other plugins for best results. Please click to install and activate',
-			'boldgrid-inspirations'
-		);
-		?>
-		</p>
+	<div class='notice notice-warning is-dismissible boldgrid-admin-notice' data-admin-notice-id='class-dependency-plugins' >
+		<p><?php echo $boldgrid_requires; ?></p>
 		<?php $this->print_uninstalled_plugins(); ?>
 	</div>
 		<?php
@@ -580,19 +575,18 @@ class Boldgrid_Inspirations_Dependency_Plugins {
 	/**
 	 * Show notice.
 	 *
-	 * @todo Change to check using Boldgrid_Inspirations_Admin_Notices::has_been_dismissed().
-	 *
 	 * @return bool
 	 */
 	public function show_notice() {
-		/*
-		 * If we've previously dismissed, return false.
-		 */
-		$boldgrid_dismissed_admin_notices = get_option( 'boldgrid_dismissed_admin_notices' );
+		$admin_notices = new Boldgrid_Inspirations_Admin_Notices();
 
-		if ( is_array( $boldgrid_dismissed_admin_notices ) &&
-		isset( $boldgrid_dismissed_admin_notices['class-dependency-plugins'] ) &&
-		$boldgrid_dismissed_admin_notices['class-dependency-plugins'] ) {
+		// If we've previously dismissed, return false.
+		if( $admin_notices->has_been_dismissed( 'class-dependency-plugins' ) ) {
+			return false;
+		}
+
+		// If the current user cannot install plugins, there's no need to show them this message.
+		if( ! current_user_can( 'install_plugins' ) ) {
 			return false;
 		}
 

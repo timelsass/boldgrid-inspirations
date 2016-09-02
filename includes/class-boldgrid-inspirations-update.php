@@ -682,8 +682,13 @@ class Boldgrid_Inspirations_Update {
 		// Is the notice already marked as dismissed.
 		$has_been_dismissed = $admin_notices->has_been_dismissed( 'update-notice-1-0-12' );
 
-		// Check if the notice should be displayed.
-		if ( $is_live_ge_1012 && $is_activated_lt_1012 && ! $has_been_dismissed ) {
+		/*
+		 * Check if the notice should be displayed.
+		 *
+		 * As of 1.2.5, the current_user_can check was added. If the user cannot edit pages, there's
+		 * no need to tell them "Inspirations - Pages" has moved.
+		 */
+		if ( $is_live_ge_1012 && $is_activated_lt_1012 && ! $has_been_dismissed & current_user_can( 'edit_pages' ) ) {
 			// Display the notice.
 			?>
 <div id='update-notice-1-0-12'

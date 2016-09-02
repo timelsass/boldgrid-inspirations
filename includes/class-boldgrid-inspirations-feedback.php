@@ -271,6 +271,14 @@ class Boldgrid_Inspirations_Feedback {
 	 * @return null
 	 */
 	public function display_feedback_notice() {
+		/*
+		 * Inspirations deployment creates pages, and so the user must be able to 'edit_pages'. If
+		 * the current user cannot, they don't need to see this message.
+		 */
+		if( ! current_user_can( 'edit_pages' ) ) {
+			return;
+		}
+
 		// Get boldgrid_install_options from WP Options.
 		$install_options = get_option( 'boldgrid_install_options' );
 
@@ -322,35 +330,25 @@ class Boldgrid_Inspirations_Feedback {
 			}
 		}
 
-		// Get the WP option boldgrid_dismissed_admin_notices.
-		$boldgrid_dismissed_notices = get_option( 'boldgrid_dismissed_admin_notices' );
-
 		// Instantiate the Boldgrid_Inspirations_Admin_Notices class.
 		$admin_notices = new Boldgrid_Inspirations_Admin_Notices();
 
-		// Is the notice already marked as dismissed.
-		$has_been_dismissed = $admin_notices->has_been_dismissed( 'feedback-notice-1-1' );
+		$dismissal = $admin_notices->get( 'feedback-notice-1-1' );
 
-		// If the notice was dismissed more than a week ago, then clear the dismissal.
-		// Abort if a dismissal was in the last week.
+		$has_been_dismissed = ( false !== $dismissal );
+
 		if ( $has_been_dismissed ) {
-			foreach ( $boldgrid_dismissed_notices as $timestamp => $id ) {
-				if ( 'feedback-notice-1-1' === $id ) {
-					// The notice id was found.
-					// If the dismissal was in the last week, abort.
-					if ( $timestamp > $seven_days_ago ) {
-						return;
-					}
-
-					// Clear the dismissal.
-					unset( $boldgrid_dismissed_notices[$timestamp] );
-
-					// Update the WP Option boldgrid_dismissed_admin_notices.
-					update_option( 'boldgrid_dismissed_admin_notices', $boldgrid_dismissed_notices );
-
-					// Break this loop.
-					break;
-				}
+			/*
+			 * If the user dismissed this notice within the last week, abort and do not show the
+			 * notice.
+			 *
+			 * Otherwise, the user dismissed the notice more than seven days ago. Delete that
+			 * dismissal and give them another reminder for feedback.
+			 */
+			if ( $dismissal['timestamp'] > $seven_days_ago ) {
+				return;
+			} else {
+				$admin_notices->clear( $id );
 			}
 		}
 

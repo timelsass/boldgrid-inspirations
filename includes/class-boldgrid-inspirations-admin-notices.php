@@ -53,6 +53,44 @@ class Boldgrid_Inspirations_Admin_Notices {
 	}
 
 	/**
+	 * Clear a dismissal.
+	 *
+	 * @since 1.2.5
+	 *
+	 * @param string $id The notice id to dismiss.
+	 */
+	public function clear( $id ) {
+		$id = sanitize_key( $id );
+
+		$dismissal = $this->get( $id );
+
+		// If the dismissal doesn't exist, then technically it's been cleared. Return success.
+		if( false === $dismissal ) {
+			return true;
+		}
+
+		return delete_user_meta( get_current_user_id(), 'boldgrid_dismissed_admin_notices', $dismissal );
+	}
+
+	/**
+	 * Dismiss a notice.
+	 *
+	 * @since 1.2.5
+	 *
+	 * @param string $id The notice id to dismiss.
+	 */
+	public function dismiss( $id ) {
+		$id = sanitize_key( $id );
+
+		$dismissal = array(
+			'id' => $id,
+			'timestamp' => time()
+		);
+
+		return add_user_meta( get_current_user_id(), 'boldgrid_dismissed_admin_notices', $dismissal );
+	}
+
+	/**
 	 * Allow BoldGrid Admin Notices to be dismissed and remembered.
 	 *
 	 * @param int $_POST['id'] The admin notice id.
@@ -62,17 +100,18 @@ class Boldgrid_Inspirations_Admin_Notices {
 
 		// Abort if we did not pass in an admin notice id.
 		if ( ! isset( $_POST['id'] ) ) {
-			echo 'false';
-			wp_die();
+			wp_die( 'false' );
 		}
 
 		// Sanitize the data key.
 		$id = sanitize_key( $_POST['id'] );
 
-		// Add user meta to log that this user dismissed this notice.
-		add_user_meta( get_current_user_id(), 'boldgrid_dismissed_admin_notices', $id );
-
-		wp_die( 'true' );
+		// Attempt to dismiss the notice. If it fails, die 'false' otherwise die 'true'.
+		if( false === $this->dismiss( $id ) ) {
+			wp_die( 'false' );
+		} else {
+			wp_die( 'true' );
+		}
 	}
 
 	/**
@@ -115,6 +154,31 @@ class Boldgrid_Inspirations_Admin_Notices {
 	}
 
 	/**
+	 * Get a user's dismissal record for a particular id.
+	 *
+	 * @since 1.2.5
+	 *
+	 * @param string $id An admin notice id.
+	 * @return array|bool If false, the $id was never dismissed.
+	 */
+	public function get( $id ) {
+		$id = sanitize_key( $id );
+
+		// Get all of the notices this user has dismissed.
+		$dismissed_notices = get_user_meta( get_current_user_id(), 'boldgrid_dismissed_admin_notices' );
+
+		// Loop through all of the dismissed notices. If we find our $id, return it.
+		foreach( $dismissed_notices as $dismissed_notice ) {
+			if( $id === $dismissed_notice[ 'id' ] ) {
+				return $dismissed_notice;
+			}
+		}
+
+		// We did not find our notice dismissed above, so return false;
+		return false;
+	}
+
+	/**
 	 * Return whether or not an admin notice has been dismissed.
 	 *
 	 * The initial version of this class was setup in a way that only envisioned one user, and they
@@ -147,9 +211,17 @@ class Boldgrid_Inspirations_Admin_Notices {
 			return true;
 		}
 
-		$dismissed_notices = get_user_meta( get_current_user_id(), 'boldgrid_dismissed_admin_notices' );
+		$dismissal = $this->get( $id );
 
-		return in_array( $id, $dismissed_notices );
+		/*
+		 * If we failed to get the dismissal data, the user never dismissed it, so return false.
+		 * Otherwise, we found their dismissal data, meaning they've dismissed it, so return true.
+		 */
+		if( false === $dismissal ) {
+			return false;
+		} else {
+			return true;
+		}
 	}
 
 	/**
