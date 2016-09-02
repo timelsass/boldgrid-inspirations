@@ -232,4 +232,16 @@ class Boldgrid_Inspirations_Admin_Notices {
 	public function boldgrid_connection_issue_exists() {
 		return ! get_site_transient( 'boldgrid_available' );
 	}
+
+	/**
+	 * Display connection notice callback for "admin_notices" actions.
+	 */
+	public static function display_connection_notice() {
+		$notice_template_file = BOLDGRID_BASE_DIR .
+		'/pages/templates/boldgrid-connection-issue.php';
+
+		if ( ! in_array( $notice_template_file, get_included_files(), true ) ) {
+			include $notice_template_file;
+		}
+	}
 }

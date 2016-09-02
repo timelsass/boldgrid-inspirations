@@ -99,6 +99,7 @@ class Boldgrid_Inspirations_Receipts extends Boldgrid_Inspirations {
 	 * Add transactions menu item or submenu item based on user's preference in settings.
 	 *
 	 * @see Boldgrid_Inspirations_Api::get_is_asset_server_available()
+	 * @see Boldgrid_Inspirations_Admin_Notices::display_connection_notice()
 	 *
 	 * @return null
 	 */
@@ -108,18 +109,8 @@ class Boldgrid_Inspirations_Receipts extends Boldgrid_Inspirations {
 			// Notify that there is a connection issue.
 			add_action(
 				'admin_notices',
-				function() {
-					$notice_template_file = BOLDGRID_BASE_DIR .
-					'/pages/templates/boldgrid-connection-issue.php';
-
-					if ( ! in_array( $notice_template_file, get_included_files(), true ) ) {
-						include $notice_template_file;
-					}
-				}
+				Boldgrid_Inspirations_Admin_Notices::display_connection_notice()
 			);
-
-			// Log.
-			error_log( __METHOD__ . ': Asset server is unavailable.' );
 
 			return;
 		}
