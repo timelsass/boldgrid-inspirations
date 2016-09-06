@@ -19,7 +19,7 @@ class Boldgrid_Inspirations_Admin_Notices {
 		if ( is_admin() ) {
 			// Allow BoldGrid Admin Notices to be dismissed and remembered.
 			add_action( 'wp_ajax_dismiss_boldgrid_admin_notice',
-				array (
+				array(
 					$this,
 					'dismiss_boldgrid_admin_notice_callback',
 				)
@@ -58,6 +58,7 @@ class Boldgrid_Inspirations_Admin_Notices {
 	 * @since 1.2.5
 	 *
 	 * @param string $id The notice id to dismiss.
+	 * @return bool
 	 */
 	public function clear( $id ) {
 		$id = sanitize_key( $id );
@@ -65,7 +66,7 @@ class Boldgrid_Inspirations_Admin_Notices {
 		$dismissal = $this->get( $id );
 
 		// If the dismissal doesn't exist, then technically it's been cleared. Return success.
-		if( false === $dismissal ) {
+		if ( false === $dismissal ) {
 			return true;
 		}
 
@@ -78,13 +79,14 @@ class Boldgrid_Inspirations_Admin_Notices {
 	 * @since 1.2.5
 	 *
 	 * @param string $id The notice id to dismiss.
+	 * @return int|bool Meta ID on success, false on failure.
 	 */
 	public function dismiss( $id ) {
 		$id = sanitize_key( $id );
 
 		$dismissal = array(
 			'id' => $id,
-			'timestamp' => time()
+			'timestamp' => time(),
 		);
 
 		return add_user_meta( get_current_user_id(), 'boldgrid_dismissed_admin_notices', $dismissal );
@@ -92,8 +94,6 @@ class Boldgrid_Inspirations_Admin_Notices {
 
 	/**
 	 * Allow BoldGrid Admin Notices to be dismissed and remembered.
-	 *
-	 * @param int $_POST['id'] The admin notice id.
 	 */
 	public function dismiss_boldgrid_admin_notice_callback() {
 		global $wpdb;
@@ -107,7 +107,7 @@ class Boldgrid_Inspirations_Admin_Notices {
 		$id = sanitize_key( $_POST['id'] );
 
 		// Attempt to dismiss the notice. If it fails, die 'false' otherwise die 'true'.
-		if( false === $this->dismiss( $id ) ) {
+		if ( false === $this->dismiss( $id ) ) {
 			wp_die( 'false' );
 		} else {
 			wp_die( 'true' );
@@ -129,7 +129,7 @@ class Boldgrid_Inspirations_Admin_Notices {
 		$boldgrid_dismissed_admin_notices = get_option( 'boldgrid_dismissed_admin_notices' );
 
 		// If nothing has ever been dismissed, then obviously the user has not dismissed this notice.
-		if( false === $boldgrid_dismissed_admin_notices || ! is_array( $boldgrid_dismissed_admin_notices ) ) {
+		if ( false === $boldgrid_dismissed_admin_notices || ! is_array( $boldgrid_dismissed_admin_notices ) ) {
 			return false;
 		}
 
@@ -146,7 +146,7 @@ class Boldgrid_Inspirations_Admin_Notices {
 		$format_1_dismissed = in_array( $id, $boldgrid_dismissed_admin_notices, true );
 		$format_2_dismissed = array_key_exists( $id, $boldgrid_dismissed_admin_notices );
 
-		if( $format_1_dismissed || $format_2_dismissed ) {
+		if ( $format_1_dismissed || $format_2_dismissed ) {
 			return true;
 		} else {
 			return false;
@@ -168,13 +168,13 @@ class Boldgrid_Inspirations_Admin_Notices {
 		$dismissed_notices = get_user_meta( get_current_user_id(), 'boldgrid_dismissed_admin_notices' );
 
 		// Loop through all of the dismissed notices. If we find our $id, return it.
-		foreach( $dismissed_notices as $dismissed_notice ) {
-			if( $id === $dismissed_notice[ 'id' ] ) {
+		foreach ( $dismissed_notices as $dismissed_notice ) {
+			if ( $id === $dismissed_notice['id'] ) {
 				return $dismissed_notice;
 			}
 		}
 
-		// We did not find our notice dismissed above, so return false;
+		// We did not find our notice dismissed above, so return false.
 		return false;
 	}
 
@@ -207,7 +207,7 @@ class Boldgrid_Inspirations_Admin_Notices {
 		 * @link https://www.youtube.com/watch?v=H-Q7b-vHY3Q
 		 * Only new notices will be dismissable per user.
 		 */
-		if( $this->dismissed_in_deprecated( $id ) ) {
+		if ( $this->dismissed_in_deprecated( $id ) ) {
 			return true;
 		}
 
@@ -217,7 +217,7 @@ class Boldgrid_Inspirations_Admin_Notices {
 		 * If we failed to get the dismissal data, the user never dismissed it, so return false.
 		 * Otherwise, we found their dismissal data, meaning they've dismissed it, so return true.
 		 */
-		if( false === $dismissal ) {
+		if ( false === $dismissal ) {
 			return false;
 		} else {
 			return true;
