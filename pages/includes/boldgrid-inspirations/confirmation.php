@@ -10,6 +10,7 @@
  */
 
 // Language strings.
+// @todo: Possibly convert to array after receiving final messages.
 $if_overwriting               = __( 'If you choose to overwrite your existing site, your current pages will be moved to the trash', 'boldgrid-inspirations' );
 $note                         = __( 'Note', 'boldgrid-inspirations' );
 $note_install_staging         = __( 'We will install your new site next to your existing site (this is known as Staging). This also requires the BoldGrid Staging plugin, which we\'ll download and active for you', 'boldgrid-inspirations' );
@@ -33,13 +34,13 @@ $bottom = '	<button class="go-back button button-secondary">' . $go_back . '</bu
 
 $template = '
 	<div class="wrap confirmation hidden">
-		<div style="border: 1px solid #dfdfdf; width:100%%; max-width:600px;">
-			<div class="top" style="background:#fff; padding:15px;">
+		<div class="boldgrid-plugin-card">
+			<div class="top">
 				%s
-				<p class="note-overwrite" style="color: #aaa;">' . $note . ': <em>' . $if_overwriting . '</em>.</p>
-				<p class="note-download-staging" style="color: #aaa;">' . $note . ': <em>' . $note_install_staging . '</em>.</p>
+				<p class="note-overwrite">' . $note . ': <em>' . $if_overwriting . '</em>.</p>
+				<p class="note-download-staging">' . $note . ': <em>' . $note_install_staging . '</em>.</p>
 			</div>
-			<div id="select-install-type" class="bottom" style="background:#fafafa;padding:15px;text-align:right;border-top:1px solid #dfdfdf;">
+			<div id="select-install-type" class="bottom">
 				%s
 			</div>
 		</div>

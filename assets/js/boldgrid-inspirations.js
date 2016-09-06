@@ -99,9 +99,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		var installDecision = $( 'input[name="install-decision"]:checked' ).val();
 
 		// Begin by hiding all of the notes, which is any paragraph with a class startign with note-.
-		$( '.wrap.confirmation .top p[class^="note-"]' )
-			.addClass( 'hidden' )
-			.css( 'display', '' );
+		$( '.wrap.confirmation .top p[class^="note-"]' ).hide();
 
 		/*
 		 * If there is no install decision, there are no notes that need to be toggled. For example,
@@ -114,11 +112,11 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 
 		// Toggle the approprate note based upon the install decision.
 		if( 'download-staging' === installDecision ) {
-			$( '.note-download-staging' ).removeClass( 'hidden' );
+			$( '.note-download-staging' ).show();
 		} else if( installDecision.startsWith( 'overwrite-' ) ) {
-			$( '.note-overwrite' ).removeClass( 'hidden' );
+			$( '.note-overwrite' ).show();
 		}
-	}
+	};
 
 	/**
 	 * @summary Actions to take when a device preview button is clicked.
@@ -126,8 +124,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 * @since 1.2.3
 	 */
 	this.devicePreviews = function () {
-		var previewer = $( '#theme-preview' ),
-			$previewContainer = $( '#preview-container' );
+		var $previewContainer = $( '#preview-container' );
 
 		$( '.wrap' ).on( 'click', '.devices button', function() {
 			var $button = $( this ), iframeClass;
@@ -226,7 +223,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		 * try again. Handle the click of that try again button.
 		 */
 		$( '.wrap' ).on( 'click', '#try-pagesets-again', self.initPagesets );
-	}
+	};
 
 	/**
 	 *
@@ -255,7 +252,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		 */
 		$( 'button.install-this-website' ).on( 'click', function() {
 			// Get our install decision.
-			var installDecision = $( 'input[name="install-decision"]:checked' ).val();
+			var installDecision = $( 'input[name="install-decision"]:checked' ).val(), data;
 
 			// Disable the "Go back" and "Install this website" buttons.
 			$( '#install-buttons button' ).prop( 'disabled', true );
@@ -297,7 +294,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 					break;
 
 				case 'download-staging':
-					var data = {
+					data = {
 						'action': 'install_staging',
 						'boldgrid-plugin-install[boldgrid-staging]': 'install',
 						'nonce-install-staging': $( '#nonce-install-staging' ).val(),
@@ -321,7 +318,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 					break;
 
 				case 'activate-staging':
-					var data = {
+					data = {
 						'action': 'activate_staging',
 						'nonce-install-staging': $( '#nonce-install-staging' ).val(),
 					};
@@ -338,7 +335,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 					break;
 			}
 		});
-	}
+	};
 
 	/**
 	 * Checks to see if the mobile menu is actually displayed.
@@ -393,7 +390,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		    	self.highlightDeviceButton();
 		    }, 400 ) );
 		});
-	}
+	};
 
 	/**
 	 * @summary Handles the Show All filter.
@@ -436,7 +433,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	this.shuffle = function( myArray ) {
 		var i = myArray.length, j, tempi, tempj;
 
-		if ( i == 0 ) {
+		if ( i === 0 ) {
 			return false;
 		}
 
@@ -451,7 +448,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		}
 
 		return myArray;
-	}
+	};
 
 	/**
 	 * @summary Sort all builds based upon "All Order".
@@ -466,7 +463,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 
 			return ( parseInt( a.AllOrder ) > parseInt( b.AllOrder ) ? 1 : -1 );
 		});
-	}
+	};
 
 	/**
 	 * @summary Sort themes.
@@ -484,7 +481,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 
 			return ( aSort > bSort ? 1 : -1 );
 		}).prependTo( '.themes' );
-	}
+	};
 
 	/**
 	 * Toggle the show all current class.
@@ -605,7 +602,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		} else {
 			$( '.devices .preview-desktop' ).addClass( 'highlight' );
 		}
-	}
+	};
 
 	/**
 	 * Click event handler for pageset options section.
@@ -737,7 +734,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		// Display a 'Try again' message to the user if our call to get active categories fails.
 		failAction = function() {
 			self.$categories.html( failureMessage );
-		}
+		};
 
 		success_action = function( msg ) {
 			var template = wp.template('init-categories');
@@ -784,7 +781,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		// Error function: If we failed to retrieve pagesets, show a 'Try again' message to the user.
 		pagesetFail = function() {
 			$( '#step-content-notices p' ).html( failureMessage );
-		}
+		};
 
 		// Success function: We successfully fetched pagesets.
 		pagesetSuccess = function( msg ) {
@@ -805,7 +802,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		};
 
 		self.ajax.ajaxCall( { 'category_id' : categoryId }, 'get_category_page_sets', pagesetSuccess, pagesetFail );
-	}
+	};
 
 	/**
 	 * @summary Init Themes.
@@ -830,7 +827,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		 */
 		getGenericFail = function() {
 			self.$themes.html( failureMessage );
-		}
+		};
 
 		getGenericSuccess = function( msg ) {
 
@@ -979,4 +976,4 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	});
 };
 
-new IMHWPB.InspirationsDesignFirst( jQuery, IMHWPB.configs );
+IMHWPB.InspirationsDesignFirst( jQuery, IMHWPB.configs );

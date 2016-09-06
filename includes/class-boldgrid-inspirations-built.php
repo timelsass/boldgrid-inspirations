@@ -122,8 +122,7 @@ class Boldgrid_Inspirations_Built {
 	 * @return boolean
 	 */
 	public function check_staging_plugin() {
-		$staging_plugin_active = $this->inspiration->get_external_plugin_helper()
-			->plugin_is_active( 'staging' );
+		$staging_plugin_active = is_plugin_active( 'boldgrid-staging/boldgrid-staging.php' );
 
 		return ( $staging_plugin_active && class_exists( 'Boldgrid_Staging_Page_And_Post_Staging' ) );
 	}
@@ -141,7 +140,7 @@ class Boldgrid_Inspirations_Built {
 		$current_theme = $wp_theme;
 
 		if ( is_a( $current_theme, 'WP_Theme' ) &&
-			 strtolower( $current_theme->get( 'TextDomain' ) ) == 'boldgrid' ) {
+			 strpos( strtolower( $current_theme->get( 'TextDomain' ) ), 'boldgrid' ) !== false ) {
 			$current_boldgrid_theme = $current_theme->get( 'Name' );
 		}
 
@@ -580,7 +579,7 @@ class Boldgrid_Inspirations_Built {
 			'has_blank_active_site' =>	self::has_blank_active_site(),
 			'open-section' =>			( ! empty( $_GET['force-section'] ) ) ? sanitize_text_field( $_GET['force-section'] ) : '',
 			'staging_active' =>			$this->check_staging_plugin(),
-			'staging_installed' =>		file_exists( ABSPATH . 'wp-content/plugins/boldgrid-staging' ),
+			'staging_installed' =>		file_exists( WP_PLUGIN_DIR . 'boldgrid-staging' ),
 			'url' =>					get_admin_url() . 'admin.php?page=boldgrid-inspirations',
 		);
 	}

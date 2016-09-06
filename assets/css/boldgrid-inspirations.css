@@ -343,6 +343,19 @@ http://ivomynttinen.com/blog/the-ios-design-cheat-sheet-volume-2
 }
 
 /**
+* Confirmation, the last step of Inspirations.
+*/
+
+.confirmation .boldgrid-plugin-card {
+	width:100%; max-width:600px;
+}
+
+/* Any paragraph that has a class beginning with 'note-'. */
+.confirmation p[class^="note-"] {
+	color: #aaa;
+}
+
+/**
 * Media queries appear in this order:
 *
 * For average size displays.
