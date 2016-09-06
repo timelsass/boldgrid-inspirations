@@ -235,11 +235,14 @@ class Boldgrid_Inspirations_Admin_Notices {
 
 	/**
 	 * Display connection notice callback for "admin_notices" actions.
+	 *
+	 * @since 1.2.5
 	 */
 	public static function display_connection_notice() {
 		$notice_template_file = BOLDGRID_BASE_DIR .
 		'/pages/templates/boldgrid-connection-issue.php';
 
+		// Only show this notice once. If the file has already been included, don't show.
 		if ( ! in_array( $notice_template_file, get_included_files(), true ) ) {
 			include $notice_template_file;
 		}
