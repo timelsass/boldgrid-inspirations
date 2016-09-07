@@ -96,7 +96,8 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 * @since 1.2.5
 	 */
 	this.toggleConfirmationNotes = function() {
-		var installDecision = $( 'input[name="install-decision"]:checked' ).val();
+		var installDecision = $( 'input[name="install-decision"]:checked' ).val(),
+			showStagingDecisions = [ 'download-staging', 'install-as-staging', 'activate-staging' ];
 
 		// Begin by hiding all of the notes, which is any paragraph with a class startign with note-.
 		$( '.wrap.confirmation .top p[class^="note-"]' ).hide();
@@ -111,10 +112,12 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		}
 
 		// Toggle the approprate note based upon the install decision.
-		if( 'download-staging' === installDecision ) {
+		if( -1 !== showStagingDecisions.indexOf( installDecision ) ) {
 			$( '.note-download-staging' ).show();
-		} else if( installDecision.startsWith( 'overwrite-' ) ) {
+		} else if( 'overwrite-active' === installDecision ) {
 			$( '.note-overwrite' ).show();
+		} else if( 'overwrite-staging' === installDecision ) {
+			$( '.note-overwrite-staging' ).show();
 		}
 	};
 

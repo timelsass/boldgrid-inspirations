@@ -44,6 +44,7 @@ The second phase is Customization; tools to transform your website into your vis
 * Update:		JIRA WPB-2323	Allow admin notices to be dismissed per user.
 * Update:		JIRA WPB-2326	Update 'update' class to utilize Admin Notices class.
 * Update:		JIRA WPB-2327	Check user capabilities before showing admin notices.
+* Update:		JIRA WPB-2331	Update confirmation messages.
 
 = 1.2.4 =
 * Bug fix:		JIRA WPB-2269	Typo fix in Boldgrid_Inspirations_Dependency_Plugins::print_uninstalled_plugins().
