@@ -941,6 +941,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 
 			$content.removeClass( 'hidden' );
 			$design.addClass( 'hidden' );
+			$( document ).scrollTop( 0 );
 		}
 	};
 
