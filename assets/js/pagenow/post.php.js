@@ -1,3 +1,6 @@
+// JSHint
+/* globals jQuery */
+
 var IMHWPB = IMHWPB || {};
 
 /**
@@ -65,4 +68,4 @@ IMHWPB.PagenowPost = function( $ ) {
 	};
 };
 
-new IMHWPB.PagenowPost( jQuery );
+IMHWPB.PagenowPost( jQuery );
