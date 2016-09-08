@@ -28,6 +28,7 @@ The second phase is Customization; tools to transform your website into your vis
 
 = 1.2.6 In progress =
 * Bug fix:		JIRA WPB-2248	Removed 'New From GridBlocks' button on edit submission page.
+* Bug fix:		JIRA WPB-2332	Reset scroll position on step 2 of Inspirations to top.
 
 = 1.2.5 =
 * Bug fix:		JIRA WPB-2325	Added wrapper to handle mb_convert_encoding() if mbstring is not loaded.
