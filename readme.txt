@@ -26,6 +26,9 @@ The second phase is Customization; tools to transform your website into your vis
 
 == Changelog ==
 
+= 1.2.6 In progress =
+* Bug fix:		JIRA WPB-2248	Removed 'New From GridBlocks' button on edit submission page.
+
 = 1.2.5 =
 * Bug fix:		JIRA WPB-2325	Added wrapper to handle mb_convert_encoding() if mbstring is not loaded.
 * Bug fix:		JIRA WPB-2313	Disabled GridBlocks in network admin pages.
