@@ -256,18 +256,17 @@ class Boldgrid_Inspirations_Options {
 
 	/**
 	 * Display the options page setting for Update Channel.
+	 *
+	 * @see Boldgrid_Inspirations_Options::get_boldgrid_settings()
+	 *
+	 * @param string $type Release channel option type.
 	 */
 	public function boldgrid_option_select_release_channel_text( $type = '' ) {
-		// Retrieve the blog option boldgrid_settings.
-		$options = get_option( 'boldgrid_settings' );
+		// Get boldgrid_settings.
+		$boldgrid_settings = $this->get_boldgrid_settings();
 
 		// Should we show the candidate option?
 		$show_all_channels = ( isset( $_GET['channels'] ) && 'all' === $_GET['channels'] );
-
-		// Ensure there is a site option copied from the blog option boldgrid_settings.
-		if ( ! empty( $options[ $type . 'release_channel' ] ) ) {
-			update_option( 'boldgrid_settings', $options );
-		}
 
 		/*
 		 * Print the radio buttons for stage, edge, and candidate (if applicable).
@@ -277,24 +276,24 @@ class Boldgrid_Inspirations_Options {
 		 */
 
 		// STABLE.
-		$stable_checked = ( ! isset( $options[ $type . 'release_channel' ] ) ||
-			 ( isset( $options[ $type . 'release_channel'] ) && 'stable' == $options[ $type . 'release_channel'] ) ) ? 'checked' : '';
+		$stable_checked = ( ! isset( $boldgrid_settings[ $type . 'release_channel' ] ) ||
+			 ( isset( $boldgrid_settings[ $type . 'release_channel'] ) && 'stable' == $boldgrid_settings[ $type . 'release_channel'] ) ) ? 'checked' : '';
 
 		$channel_options[] = '<input type="radio" id="' . $type .
 			'release_channel_stable" name="boldgrid_settings[' . $type . 'release_channel]" value="stable" ' .
 			 $stable_checked . ' /> Stable';
 
 		// EDGE.
-		$edge_checked = ( isset( $options[ $type . 'release_channel'] ) &&
-			 $options[ $type . 'release_channel' ] == "edge" ) ? 'checked' : '';
+		$edge_checked = ( isset( $boldgrid_settings[ $type . 'release_channel'] ) &&
+			 $boldgrid_settings[ $type . 'release_channel' ] == "edge" ) ? 'checked' : '';
 
 		$channel_options[] = '<input type="radio" id="' . $type .
 			'release_channel_edge" name="boldgrid_settings[' . $type . 'release_channel]" value="edge" ' .
 			 $edge_checked . '/> Edge';
 
 		// CANDIDATE.
-		$candidate_checked = ( isset( $options[ $type . 'release_channel' ] ) &&
-			 'candidate' === $options[ $type . 'release_channel' ] ) ? 'checked' : '';
+		$candidate_checked = ( isset( $boldgrid_settings[ $type . 'release_channel' ] ) &&
+			 'candidate' === $boldgrid_settings[ $type . 'release_channel' ] ) ? 'checked' : '';
 
 		// Only display candidate if it is checked or true == $show_all_channels.
 		if ( 'checked' === $candidate_checked || $show_all_channels ) {
@@ -310,23 +309,10 @@ class Boldgrid_Inspirations_Options {
 	 * Display the options page setting for Plugin Auto-Updates.
 	 *
 	 * @since 1.1.8
-	 *
-	 * @return null
 	 */
 	public function plugin_autoupdate_text() {
-		// If a multisite and not on blog id 1, then show a message with a link to go there.
-		if ( is_multisite() && 1 !== get_current_blog_id() ) {
-			?>
-			This setting must be set in your primary blog.  Click
-			<a href='<?php echo get_admin_url( 1, '/options-general.php?page=boldgrid-settings' ); ?>'>
-			here</a> to go the BoldGrid Settings page in your primary blog.
-			<?php
-
-			return;
-		}
-
 		// Retrieve the WP option boldgrid_settings.
-		$options = get_option( 'boldgrid_settings' );
+		$options = $this->get_boldgrid_settings();
 
 		$enabled = ( ! empty( $options['plugin_autoupdate'] ) ? ' checked' : '' );
 
@@ -339,8 +325,6 @@ name="boldgrid_settings[plugin_autoupdate]" value="1"<?php echo $enabled; ?> /> 
 <input type="radio" id="plugin_autoupdate_enabled"
 name="boldgrid_settings[plugin_autoupdate]" value="0"<?php echo $disabled; ?> /> Disabled
 		<?php
-
-		return;
 	}
 
 	/**
@@ -348,22 +332,11 @@ name="boldgrid_settings[plugin_autoupdate]" value="0"<?php echo $disabled; ?> />
 	 *
 	 * @since 1.1.8
 	 *
-	 * @return null
+	 * @see Boldgrid_Inspirations_Options::get_boldgrid_settings()
 	 */
 	public function theme_autoupdate_text() {
-		// If a multisite and not on blog id 1, then show a message with a link to go there.
-		if ( is_multisite() && 1 !== get_current_blog_id() ) {
-			?>
-			This setting must be set in your primary blog.  Click
-			<a href='<?php echo get_admin_url( 1, '/options-general.php?page=boldgrid-settings' ); ?>'>
-			here</a> to go the BoldGrid Settings page in your primary blog.
-			<?php
-
-			return;
-		}
-
 		// Retrieve the WP option boldgrid_settings.
-		$options = get_option( 'boldgrid_settings' );
+		$options = $this->get_boldgrid_settings();
 
 		$enabled = ( ! empty( $options['theme_autoupdate'] ) ? ' checked' : '' );
 
@@ -376,15 +349,15 @@ name="boldgrid_settings[theme_autoupdate]" value="1"<?php echo $enabled; ?> /> E
 <input type="radio" id="theme_autoupdate_enabled"
 name="boldgrid_settings[theme_autoupdate]" value="0"<?php echo $disabled; ?> /> Disabled
 		<?php
-
-		return;
 	}
 
 	/**
 	 * Callback for menu reordering.
+	 *
+	 * @see Boldgrid_Inspirations_Options::get_boldgrid_settings()
 	 */
 	public function boldgrid_menu_callback() {
-		$options = get_option( 'boldgrid_settings' );
+		$options = $this->get_boldgrid_settings();
 
 		?>
 <input type="checkbox" id="boldgrid_menu_option"
@@ -400,9 +373,11 @@ name="boldgrid_settings[boldgrid_menu_option]" value="1"
 	 * BoldGrid feedback out-out callback.
 	 *
 	 * @since 1.0.9
+	 *
+	 * @see Boldgrid_Inspirations_Options::get_boldgrid_settings()
 	 */
 	public function boldgrid_feedback_optout_callback() {
-		$options = get_option( 'boldgrid_settings' );
+		$options = $this->get_boldgrid_settings();
 
 		?>
 <input type='checkbox' id='boldgrid-feedback-optout'
@@ -417,14 +392,22 @@ name='boldgrid_settings[boldgrid_feedback_optout]' value='1'
 	/**
 	 * Validate the submitted options.
 	 *
-	 * @param array $boldgrid_settings An array of boldgrid settings.
-	 * @return array A validated array of boldgrid settings.
+	 * @param array $boldgrid_settings An array of BoldGrid settings.
+	 * @return array A validated array of BoldGrid settings.
 	 */
 	public function boldgrid_options_validate( $boldgrid_settings ) {
 		// Menu reordering.
 		$new_boldgrid_settings['boldgrid_menu_option'] = (
 			! empty( $boldgrid_settings['boldgrid_menu_option'] ) ? 1 : 0
 		);
+
+		// If using multisite, then save the menu option as a blog setting.
+		if ( is_multisite() ) {
+			$boldgrid_settings_blog['boldgrid_menu_option'] =
+			$new_boldgrid_settings['boldgrid_menu_option'];
+
+			update_option( 'boldgrid_settings', $boldgrid_settings_blog );
+		}
 
 		// Feedback opt-out.
 		$new_boldgrid_settings['boldgrid_feedback_optout'] = (
@@ -461,6 +444,8 @@ name='boldgrid_settings[boldgrid_feedback_optout]' value='1'
 
 	/**
 	 * Redirect to Inspirations or the dashboard.
+	 *
+	 * @see Boldgrid_Inspirations_Utility::inline_js_oneliner()
 	 */
 	public function js_redirect_to_options_page() {
 		$url_to_redirect_to = get_site_url() . '/wp-admin/admin.php?page=boldgrid-inspirations';
@@ -508,7 +493,7 @@ name='boldgrid_settings[boldgrid_feedback_optout]' value='1'
 		 Reset Pointers and Admin Notices (help messages)
 	</p>
 	<p>
-		<?php submit_button( __('Reset Pointers'), 'secondary' ); ?>
+		<?php submit_button( esc_html__( 'Reset Pointers', 'boldgrid_inspirations' ), 'secondary' ); ?>
 	</p>
 </form>
 <hr />
@@ -656,5 +641,33 @@ name='boldgrid_settings[boldgrid_feedback_optout]' value='1'
 		}
 
 		return false;
+	}
+
+	/**
+	 * Get BoldGrid Settings.
+	 *
+	 * @since 1.2.6
+	 *
+	 * @return array BoldGrid Settings array.
+	 */
+	public function get_boldgrid_settings() {
+		// Get settings from WP site options.
+		$boldgrid_settings = get_site_option( 'boldgrid_settings' );
+
+		// Get settings from WP option (blog).
+		$boldgrid_settings_blog = get_option( 'boldgrid_settings' );
+
+		// If using multisite and the site option is empty, then use the blog option.
+		if ( is_multisite() && empty( $boldgrid_settings ) ) {
+			$boldgrid_settings = $boldgrid_settings_blog;
+		} else {
+			// Include menu setting.
+			$boldgrid_settings['boldgrid_menu_option'] =(
+				! empty( $boldgrid_settings_blog['boldgrid_menu_option'] ) ?
+				1 : 0
+			);
+		}
+
+		return $boldgrid_settings;
 	}
 }

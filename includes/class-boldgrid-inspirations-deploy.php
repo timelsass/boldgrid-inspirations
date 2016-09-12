@@ -1169,7 +1169,8 @@ class Boldgrid_Inspirations_Deploy {
 			 $boldgrid_configs['ajax_calls']['get_page_set'];
 
 		// Determine the release channel:
-		$options = get_option( 'boldgrid_settings' );
+		( $options = get_site_option( 'boldgrid_settings' ) ) ||
+		( $options = get_option( 'boldgrid_settings' ) );
 
 		$release_channel = isset( $options['release_channel'] ) ? $options['release_channel'] : 'stable';
 
@@ -2732,8 +2733,9 @@ class Boldgrid_Inspirations_Deploy {
 		$get_plugins_url = $boldgrid_configs['asset_server'] .
 			 $boldgrid_configs['ajax_calls']['get_plugins'];
 
-		// Determine the release channel:
-		$options = get_option( 'boldgrid_settings' );
+		// Determine the release channel.
+		( $options = get_site_option( 'boldgrid_settings' ) ) ||
+		( $options = get_option( 'boldgrid_settings' ) );
 
 		$release_channel = isset( $options['release_channel'] ) ? $options['release_channel'] : 'stable';
 

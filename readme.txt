@@ -27,6 +27,7 @@ The second phase is Customization; tools to transform your website into your vis
 == Changelog ==
 
 = 1.2.6 In progress =
+* Bug fix:		JIRA WPB-2336	Load BoldGrid settings from the correct WP option (site/blog).
 * Bug fix:		JIRA WPB-2248	Removed 'New From GridBlocks' button on edit submission page.
 * Bug fix:		JIRA WPB-2332	Reset scroll position on step 2 of Inspirations to top.
 * Bug fix:		JIRA WPB-2339	Remove notices from Inspirations page.

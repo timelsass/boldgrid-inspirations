@@ -232,11 +232,8 @@ class Boldgrid_Inspirations {
 		}
 
 		// Get BoldGrid settings.
-		if ( is_multisite() ) {
-			$boldgrid_settings = get_blog_option( 1, 'boldgrid_settings' );
-		} else {
-			$boldgrid_settings = get_option( 'boldgrid_settings' );
-		}
+		( $boldgrid_settings = get_site_option( 'boldgrid_settings' ) ) ||
+		( $boldgrid_settings = get_option( 'boldgrid_settings' ) );
 
 		// Enable plugin auto-updates, if enabled in the BoldGrid settings.
 		if ( ! empty( $boldgrid_settings['plugin_autoupdate'] ) ) {
@@ -664,10 +661,11 @@ class Boldgrid_Inspirations {
 	 * @return bool
 	 */
 	public static function is_feedback_optout() {
-		// Get BoldGrid settings:
-		$options = get_option( 'boldgrid_settings' );
+		// Get BoldGrid settings.
+		( $options = get_site_option( 'boldgrid_settings' ) ) ||
+		( $options = get_option( 'boldgrid_settings' ) );
 
-		// Get feedback option:
+		// Get feedback option.
 		$boldgrid_feedback_optout = (
 			isset( $options['boldgrid_feedback_optout'] ) ?
 			$options['boldgrid_feedback_optout'] : false

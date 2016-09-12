@@ -123,7 +123,8 @@ class Boldgrid_Inspirations_Dependency_Plugins {
 		$boldgrid_api_data = get_site_transient( 'boldgrid_api_data' );
 
 		// Get BoldGrid settings.
-		$options = get_option( 'boldgrid_settings' );
+		( $options = get_site_option( 'boldgrid_settings' ) ) ||
+		( $options = get_option( 'boldgrid_settings' ) );
 
 		// Set the release channel.
 		$release_channel = (
