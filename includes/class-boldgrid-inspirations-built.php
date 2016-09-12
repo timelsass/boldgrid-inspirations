@@ -88,6 +88,8 @@ class Boldgrid_Inspirations_Built {
 				'you_should_start_with_inspirations',
 			)
 		);
+
+		add_action( 'admin_init', array( $this, 'remove_notices' ) );
 	}
 
 	/**
@@ -556,6 +558,26 @@ class Boldgrid_Inspirations_Built {
 		}
 
 		return;
+	}
+
+	/**
+	 * Remove all admin notices from BoldGrid Inspirations page.
+	 *
+	 * If we allow admin notices to the Inspirations page, the page begins to feel a bit wonky. Don't
+	 * allow any notices on this page.
+	 *
+	 * @since 1.2.6
+	 *
+	 * @global string $pagenow
+	 */
+	public function remove_notices() {
+		global $pagenow;
+
+		$page = ( isset( $_GET['page'] ) ? $_GET['page'] : null );
+
+		if( 'admin.php' === $pagenow && 'boldgrid-inspirations' === $page ) {
+			remove_all_actions( 'admin_notices' );
+		}
 	}
 
 	/**
