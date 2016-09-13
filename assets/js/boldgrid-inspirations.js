@@ -11,10 +11,6 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	var self = this;
 
 	this.configs = configs;
-//	this.api_url = this.configs.asset_server;
-//	this.api_key = this.configs.api_key;
-//	this.api_param = 'key';
-//	this.api_key_query_str = this.api_param + "=" + this.api_key;
 
 	self.ajax = new IMHWPB.Ajax( configs );
 
@@ -28,6 +24,20 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	self.$theme = '';
 	self.$pageset = '';
 	self.$budget = '';
+
+	/**
+	 * An object of generic builds.
+	 *
+	 * @since 1.2.6
+	 */
+	self.genericBuilds = {};
+
+	/**
+	 * An array of distinct themes returned from our call to get generic builds.
+	 *
+	 * @since 1.2.6
+	 */
+	self.distinctThemes = [];
 
 	/**
 	 * The selected sub category id in step 1.
@@ -427,44 +437,37 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	};
 
 	/**
-	 * @summary Shuffle an array.
-	 *
-	 * Used to shuffle our generic builds. If we didn't shuffle those, you'd see them grouped by
-	 * theme.
-	 *
-	 * @since 1.2.3
-	 * @link http://stackoverflow.com/questions/3718282/javascript-shuffling-objects-inside-an-object-randomize
-	 */
-	this.shuffle = function( myArray ) {
-		var i = myArray.length, j, tempi, tempj;
-
-		if ( i === 0 ) {
-			return false;
-		}
-
-		while ( --i ) {
-			j = Math.floor( Math.random() * ( i + 1 ) );
-
-		    tempi = myArray[i];
-		    tempj = myArray[j];
-
-		    myArray[i] = tempj;
-		    myArray[j] = tempi;
-		}
-
-		return myArray;
-	};
-
-	/**
 	 * @summary Sort all builds based upon "All Order".
 	 *
+	 * Definitions:
+	 * # CategoryOrder: The order a theme should appear when viewing themes by category.
+	 * # AllOrder: When viewing all theme / category combinations, the order in which a particular
+	 *   theme should appear.
+	 * # SubCategoryDisplayOrder: The order in which sub categories are sorted.
+	 *
 	 * @since 1.2.3
 	 */
-	this.sortAll = function( genericBuilds ) {
-		return $( genericBuilds ).sort( function( a, b ) {
-			if( ! a.AllOrder ) {
-				return 1;
-			}
+	this.sortAll = function( ) {
+		var themeCount;
+
+		self.setDistinctThemes();
+
+		themeCount = self.distinctThemes.length;
+
+		self.genericBuilds.sort( function( a, b ) {
+			/*
+			 * If a theme does not have a CategoryOrder, set it to themeCount, which does the same
+			 * thing as setting it to be the last theme displayed in the category.
+			 */
+			a.CategoryOrder = ( a.CategoryOrder === null ? themeCount : a.CategoryOrder );
+			b.CategoryOrder = ( b.CategoryOrder === null ? themeCount : b.CategoryOrder );
+
+			/*
+			 * Based upon the theme's CategoryOrder and the SubCategoryDisplayOrder, calculate this
+			 * theme's AllOrder.
+			 */
+			a.AllOrder = ( ( parseInt( a.SubCategoryDisplayOrder ) - 1 ) * themeCount ) + a.CategoryOrder;
+			b.AllOrder = ( ( parseInt( b.SubCategoryDisplayOrder ) - 1 ) * themeCount ) + b.CategoryOrder;
 
 			return ( parseInt( a.AllOrder ) > parseInt( b.AllOrder ) ? 1 : -1 );
 		});
@@ -586,6 +589,21 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			self.chooseTheme();
 		});
 	};
+
+	/**
+	 * @summary Set distinct themes.
+	 *
+	 * @since 1.2.6
+	 */
+	this.setDistinctThemes = function() {
+		var i = 0;
+
+		for( i; i < self.genericBuilds.length; i++ ) {
+			if( ! self.distinctThemes.includes( self.genericBuilds[i].ThemeName ) ) {
+				self.distinctThemes.push( self.genericBuilds[i].ThemeName );
+			}
+		}
+	}
 
 	/**
 	 * Sets the hover colors class.
@@ -840,7 +858,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	this.initThemes = function() {
 		var template = wp.template( 'theme' ),
 			data = { 'site_hash' : self.configs.site_hash },
-			genericBuilds, getGenericSuccess, getGenericFail, failureMessage;
+			getGenericSuccess, getGenericFail, failureMessage;
 
 		// Define a message for users when fetching themes has failed.
 		failureMessage = Inspiration.errorFetchingThemes + ' ' + Inspiration.tryFewMinutes + '<br />' +
@@ -859,20 +877,24 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 
 		getGenericSuccess = function( msg ) {
 
-			// If there were 0 themes returned, show a 'Try again' message and abort.
+			/*
+			 * Review the count of themes returned.
+			 *
+			 * If 0 themes are returned, show a 'Try again' message and abort.
+			 * Else, assign themes to self.genericBuilds and sort them.
+			 */
 			if( 0 === msg.result.data.length ) {
 				self.$themes.html( failureMessage );
 				return;
+			} else {
+				self.genericBuilds = msg.result.data;
+				self.sortAll();
 			}
 
 			// Empty the themes container. We'll fill it with themes below.
 			self.$themes.empty();
 
-			genericBuilds = self.shuffle( msg.result.data );
-
-			genericBuilds = self.sortAll( genericBuilds );
-
-			_.each( genericBuilds, function( build ){
+			_.each( self.genericBuilds, function( build ){
 				self.$themes.append( template( { configs: IMHWPB.configs, build: build } ) );
 			});
 
