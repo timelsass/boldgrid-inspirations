@@ -469,6 +469,27 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	};
 
 	/**
+	 * @summary Sort Categories.
+	 *
+	 * @since 1.2.6
+	 */
+	this.sortCategories = function( sortBy ) {
+		var $categories = $( '#categories .sub-category' ),
+			$sortedCategories = $categories.sort( function( a, b ) {
+			var aSort = parseInt( $( a ).attr( sortBy ) ),
+				bSort = parseInt( $( b ).attr( sortBy ) );
+
+			return ( aSort > bSort ? 1 : -1 );
+		});
+
+		/*
+		 * In the insertAfter call below, we are inserting the sub categories after the
+		 * "Category Filter" heading, which is .category-filter.
+		 */
+		$sortedCategories.insertAfter( $categories.find( '.category-filter' ) );
+	};
+
+	/**
 	 * @summary Sort themes.
 	 *
 	 * @since 1.2.3
@@ -755,6 +776,9 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			}
 
 			self.$categories.html( ( template( self.categories ) ) );
+
+			self.sortCategories( 'data-display-order' );
+
 			self.initThemes();
 		};
 

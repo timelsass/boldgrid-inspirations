@@ -1,21 +1,17 @@
 <script type="text/html" id="tmpl-init-categories">
 	<div class="category-filter" ><?php echo __( 'Category filter', 'boldgrid-inspirations' ); ?></div>
 
-	<div class="sub-category active">
+	<div class="sub-category active" data-display-order="0" >
 		<input type="radio" name="sub-category" checked data-sub-category-id="0" >
 		<span class="sub-category-name"><?php echo __( 'All', 'boldgrid-inspirations' ); ?></span>
 	</div>
 
 	<# _.each( data, function( category ) { #>
-		<div class="category" data-category-id="{{category.id}}" data-category-name="{{category.name}}" >
-			<div class="sub-categories" data-category-id="{{category.id}}" >
-				<# _.each( category.subcategories, function( sub_category ) { #>
-					<div class="sub-category">
-						<input type="radio" name="sub-category" data-sub-category-id="{{sub_category.id}}"> <span class="sub-category-name">{{sub_category.name}}</span>
-					</div>
-				<# }); #>
+		<# _.each( category.subcategories, function( sub_category ) { #>
+			<div class="sub-category" data-display-order="{{sub_category.displayOrder}}" >
+				<input type="radio" name="sub-category" data-sub-category-id="{{sub_category.id}}"> <span class="sub-category-name">{{sub_category.name}}</span>
 			</div>
-		</div>
+		<# }); #>
 	<# }); #>
 </script>
 
