@@ -603,7 +603,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 				self.distinctThemes.push( self.genericBuilds[i].ThemeName );
 			}
 		}
-	}
+	};
 
 	/**
 	 * Sets the hover colors class.
