@@ -476,19 +476,18 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 * @since 1.2.6
 	 */
 	this.sortCategories = function( sortBy ) {
-		var $categories = $( '#categories .sub-category' ),
-			$sortedCategories = $categories.sort( function( a, b ) {
-			var aSort = parseInt( $( a ).attr( sortBy ) ),
-				bSort = parseInt( $( b ).attr( sortBy ) );
+		// The "Category Filter" heading.
+		var $categoryHeading =  $( '.category-filter', self.$categories ),
+			// Sorted categories.
+			$sortedCategories = $( '.sub-category', self.$categories ).sort( function( a, b ) {
+				var aSort = parseInt( $( a ).attr( sortBy ) ),
+					bSort = parseInt( $( b ).attr( sortBy ) );
 
-			return ( aSort > bSort ? 1 : -1 );
-		});
+				return ( aSort > bSort ? 1 : -1 );
+			});
 
-		/*
-		 * In the insertAfter call below, we are inserting the sub categories after the
-		 * "Category Filter" heading, which is .category-filter.
-		 */
-		$sortedCategories.insertAfter( $categories.find( '.category-filter' ) );
+		// Insert our sorted categories after the category heading.
+		$sortedCategories.insertAfter( $categoryHeading );
 	};
 
 	/**
