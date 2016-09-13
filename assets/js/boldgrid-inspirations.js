@@ -1,3 +1,5 @@
+/* globals ajaxurl, Inspiration, wp, _, jQuery */
+
 var IMHWPB = IMHWPB || {};
 
 /**
@@ -887,6 +889,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 * @since 1.2.3
 	 */
 	this.loadBuild = function() {
+		var data, successAction;
 		// Disable all actions.
 		self.allActions( 'disable' );
 
@@ -897,7 +900,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		} );
 
 
-		var success_action = function( msg ) {
+		successAction = function( msg ) {
 			var $screenContent = $( '#screen-content' ),
 				$iframe = $screenContent.find( 'iframe#theme-preview' ),
 				url = msg.result.data.profile.preview_url;
@@ -933,7 +936,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		$( '[name=boldgrid_pde]' ).val( data.pde );
 		$( '[name=coin_budget]' ).val( data.coin_budget );
 
-		self.ajax.ajaxCall( data, 'get_build_profile', success_action );
+		self.ajax.ajaxCall( data, 'get_build_profile', successAction );
 	};
 
 	/**
