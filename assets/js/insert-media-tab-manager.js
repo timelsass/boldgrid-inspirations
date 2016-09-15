@@ -13,6 +13,8 @@
  * @since 0.1
  */
 
+/* globals wp, _wpMediaViewsL10n, pagenow */
+
 var IMHWPB = IMHWPB || {};
 
 /**
@@ -52,7 +54,7 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 	// Customizer Site Icon "Select Image" button.
 	'#site_icon-button,' +
 	// BoldGrid Editor -> Section Background -> Add Image.
-	'[data-type="background"] .add-image-controls';
+	'[data-type="background"] .add-image-controls' +
 	// Customizer Site Logo "Select Image" button.
 	'#boldgrid_logo_setting-button';
 
@@ -117,9 +119,8 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 	 * @param object $clicked a jQuery object, the element clicked that triggered the BGCS tab to be added.
 	 */
 	this.addTab = function( $clicked ) {
-		var addTab = false,
 		// In the left menu, there is an "Image Search" tab.
-		$imageSearchTab = $( "a.media-menu-item:contains('Image Search')" ),
+		var $imageSearchTab = $( "a.media-menu-item:contains('Image Search')" ),
 		// There may be multiple menus, find the one that is visible.
 		$mediaRouter = $( '.media-router:visible' ),
 		// Define the html that makes up our tab.
@@ -318,4 +319,4 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 	};
 };
 
-new IMHWPB.InsertMediaTabManager( jQuery );
+IMHWPB.InsertMediaTabManager( jQuery );
