@@ -487,7 +487,8 @@ public function add_boldgrid_configs_to_header() {
 		}
 
 		// BoldGrid Connect Search.
-		if( 'media-upload.php' === $pagenow && 'image_search' === $tab && current_user_can( 'upload_files' ) ) {
+		$valid_tabs = array( 'insert_layout', 'image_search' );
+		if( 'media-upload.php' === $pagenow && in_array( $tab, $valid_tabs, true ) && current_user_can( 'upload_files' ) ) {
 			return true;
 		}
 
@@ -498,6 +499,11 @@ public function add_boldgrid_configs_to_header() {
 
 		// Editing a page.
 		if( 'post.php' === $pagenow && current_user_can( 'edit_posts' ) ) {
+			return true;
+		}
+
+		// New Page.
+		if( 'post-new.php' === $pagenow && current_user_can( 'edit_posts' ) ) {
 			return true;
 		}
 
