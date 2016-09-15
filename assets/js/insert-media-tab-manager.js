@@ -51,6 +51,8 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 	'.customize-control-background img.attachment-thumb,' +
 	// Customizer Site Icon "Select Image" button.
 	'#site_icon-button,' +
+	// BoldGrid Editor -> Section Background -> Add Image.
+	'[data-type="background"] .add-image-controls';
 	// Customizer Site Logo "Select Image" button.
 	'#boldgrid_logo_setting-button';
 
@@ -63,8 +65,10 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 		 * for adding tabs to the media modal.
 		 */
 		$( document.body ).on( 'click', self.addTabTriggers, function() {
+			var $clicked = $(this);
+
 			setTimeout( function() {
-				self.addTab();
+				self.addTab( $clicked );
 			}, 200 );
 		} );
 
@@ -109,8 +113,10 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 	 * Add our BGCS tab.
 	 *
 	 * @since 1.1.2
+	 *
+	 * @param object $clicked a jQuery object, the element clicked that triggered the BGCS tab to be added.
 	 */
-	this.addTab = function() {
+	this.addTab = function( $clicked ) {
 		var addTab = false,
 		// In the left menu, there is an "Image Search" tab.
 		$imageSearchTab = $( "a.media-menu-item:contains('Image Search')" ),
@@ -126,6 +132,22 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 		$uploadTab = $( '.media-menu-item:visible:contains("' + _wpMediaViewsL10n.uploadFilesTitle + '")' ),
 		// Find the number of active tabs.
 		activeTabs = $mediaRouter.find( '.media-menu-item.active' ).length;
+
+		/*
+		 * Sometimes we need to know which element caused the tab to be added.
+		 *
+		 * As an example, for quite some time BGCS was only added in the page 'n post editor for
+		 * add media. The editor however now has the ability to add section backgrounds. Instead of
+		 * knowing that we're simply in the editor, we need to know if we're adding media or adding
+		 * a section background.
+		 *
+		 * Under certain circumstances, add a data-added-by attribute to the BGCS tab so we know
+		 * what click event caused it to be added.
+		 */
+		if( $clicked.hasClass( 'add-image-controls' ) ) {
+			$tab.attr( 'data-added-by', 'section-background' );
+		}
+
 
 		/*
 		 * There are some cases when we don't need to add the tab. For example,

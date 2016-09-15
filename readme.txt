@@ -35,6 +35,7 @@ The second phase is Customization; tools to transform your website into your vis
 * Update:		JIRA WPB-2359	Order 'Category Filter' by category display order.
 * Update:		JIRA WPB-2360	Sort themes by category and then order within category.
 * Update:		JIRA WPB-2368	Read version constant from plugin file.
+* Update:		JIRA WPB-2361	Add BoldGrid Connect Search to Editor's background image tool.
 
 = 1.2.5 =
 * Bug fix:		JIRA WPB-2325	Added wrapper to handle mb_convert_encoding() if mbstring is not loaded.
