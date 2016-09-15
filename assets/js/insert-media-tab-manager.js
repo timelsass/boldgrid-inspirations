@@ -38,6 +38,8 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 	/**
 	 * A list of selectors, when clicked, that cause the BGCS tab to be added.
 	 *
+	 * Note: When updating this list, ensure each entry ends with a comma.
+	 *
 	 * @since 1.1.2
 	 */
 	self.addTabTriggers = 'div[aria-label="Change"],' +
@@ -54,7 +56,7 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 	// Customizer Site Icon "Select Image" button.
 	'#site_icon-button,' +
 	// BoldGrid Editor -> Section Background -> Add Image.
-	'[data-type="background"] .add-image-controls' +
+	'[data-type="background"] .add-image-controls,' +
 	// Customizer Site Logo "Select Image" button.
 	'#boldgrid_logo_setting-button';
 
