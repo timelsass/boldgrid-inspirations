@@ -422,6 +422,17 @@ http://ivomynttinen.com/blog/the-ios-design-cheat-sheet-volume-2
 		margin-top: -0.8em;
 		margin-bottom: 1em;
 	}
+	
+	/* Ensure the preview button is always visible. The proceding rule is needed as well.  */
+	.theme-browser .theme div.theme-actions {
+		opacity: 1;
+	}
+
+	/* These are required to override values in wp-admin/css/theme.css */
+	div.theme:not(.active):hover .theme-actions,
+	div.theme:not(.active):focus .theme-actions {
+		display: block;
+	}
 }
 
 /* Force left menu to be open on desktop if it was previously collapsed in mobile. */
