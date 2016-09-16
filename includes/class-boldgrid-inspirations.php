@@ -156,6 +156,10 @@ class Boldgrid_Inspirations {
 		// Get configs and set in a class property.
 		$this->set_configs( Boldgrid_Inspirations_Config::get_format_configs() );
 
+		// Set some class properties.
+		$this->set_is_preview_server();
+		$this->set_asset_user_id();
+
 		if ( ! self::$was_loaded ) {
 			// Apply BoldGrid theme config modifications.
 			Boldgrid_Inspirations_Theme_Install::universal_framework_configs();
@@ -171,10 +175,6 @@ class Boldgrid_Inspirations {
 				Boldgrid_Inspirations_Theme_Install::apply_theme_framework_configs();
 			}
 		}
-
-		// Set some class properties.
-		$this->set_is_preview_server();
-		$this->set_asset_user_id();
 	}
 
 	/**
