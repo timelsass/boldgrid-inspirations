@@ -39,6 +39,7 @@ The second phase is Customization; tools to transform your website into your vis
 * Update:		JIRA WPB-2361	Add BoldGrid Connect Search to Editor's background image tool.
 * Update:		JIRA WPB-2354	Preview button needs to always be visible in mobile view.
 * Update:		JIRA WPB-2355	Remove extraneous 'Preview' button.
+* Bug fix:		JIRA WPB-2364	Inspirations not respecting theme release channel.
 
 = 1.2.5 =
 * Bug fix:		JIRA WPB-2325	Added wrapper to handle mb_convert_encoding() if mbstring is not loaded.
