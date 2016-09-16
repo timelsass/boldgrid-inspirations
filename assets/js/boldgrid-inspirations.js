@@ -945,7 +945,6 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			'page_version_type' :	null,
 			'site_hash' :			self.configs.site_hash,
 			'inspirations_mode' :	'standard',
-			'is_generic' :			( '1' === self.$pageset.attr( 'data-is-default' ) ? 'true' : 'false' ),
 		};
 
 		// Set form.
