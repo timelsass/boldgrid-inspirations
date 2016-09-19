@@ -53,6 +53,13 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 */
 	self.subCategoryId = '0';
 
+	/**
+	 * Theme release channel.
+	 *
+	 * @since 1.2.5
+	 */
+	self.themeReleaseChannel = configs.settings.theme_release_channel;
+
 	// scroll position.
 	self.scrollPosition = '';
 
@@ -930,10 +937,10 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 
 		/*
 		 * By default, we will not request a generic build. The only time we will request a generic
-		 * build is IF we're looking at the default pageset and coin budget, because that is already
-		 * built.
+		 * build is IF we're looking at the default pageset and coin budget of a 'stable' build,
+		 * because that is already built.
 		 */
-		if( '1' === self.$pageset.attr( 'data-is-default' ) && '20' === coinBudget ) {
+		if( '1' === self.$pageset.attr( 'data-is-default' ) && '20' === coinBudget && 'stable' === self.themeReleaseChannel ) {
 			requestGeneric = true;
 		}
 
@@ -984,8 +991,8 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			'pde' :					self.$theme.closest( '.theme' ).attr( 'data-pde' ),
 			'wp_language' :			'en-US',
 			'coin_budget' :			coinBudget,
-			'theme_version_type' :	IMHWPB.configs.settings.theme_release_channel,
-			'page_version_type' :	IMHWPB.configs.settings.theme_release_channel,
+			'theme_version_type' :	self.themeReleaseChannel,
+			'page_version_type' :	self.themeReleaseChannel,
 			'site_hash' :			self.configs.site_hash,
 			'inspirations_mode' :	'standard',
 			'is_generic' :			requestGeneric,
