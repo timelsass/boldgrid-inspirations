@@ -41,6 +41,7 @@ The second phase is Customization; tools to transform your website into your vis
 * Update:		JIRA WPB-2355	Remove extraneous 'Preview' button.
 * Bug fix:		JIRA WPB-2364	Inspirations not respecting theme release channel.
 * Bug fix:		JIRA WPB-2370	Color in screenshot does not match preview.
+* Bug fix:		JIRA WPB-2373	Duplicate themes in Inspirations.
 
 = 1.2.5 =
 * Bug fix:		JIRA WPB-2325	Added wrapper to handle mb_convert_encoding() if mbstring is not loaded.

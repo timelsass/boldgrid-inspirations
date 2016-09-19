@@ -33,6 +33,13 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	self.genericBuilds = {};
 
 	/**
+	 * An area for notices in step 2, Content.
+	 *
+	 * @since 1.2.6
+	 */
+	self.$contentNotices = $( '#step-content-notices p' );
+
+	/**
 	 * An array of distinct themes returned from our call to get generic builds.
 	 *
 	 * @since 1.2.6
@@ -238,6 +245,12 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		 * try again. Handle the click of that try again button.
 		 */
 		$( '.wrap' ).on( 'click', '#try-pagesets-again', self.initPagesets );
+
+		/*
+		 * During step 2, if there is an error building a site preview, we'll give the user a button
+		 * to try again. Handle the click of that try again button.
+		 */
+		$( '.wrap' ).on( 'click', '#try-build-again', self.loadBuild );
 	};
 
 	/**
@@ -816,17 +829,15 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		// Define a message for users when fetching pagesets has failed.
 		var failureMessage = Inspiration.errorFetchingPagesets + ' ' + Inspiration.tryFewMinutes + '<br />' +
 		'<button class="button" id="try-pagesets-again">' + Inspiration.tryAgain + '</button>',
-			// If there are any issues with fetching pagesets, notices will be placed in $notices.
-			$notices = $( '#step-content-notices p' ),
 			categoryId = self.$theme.closest( '.theme' ).attr( 'data-category-id' ),
 			pagesetFail, pagesetSuccess;
 
 		// Reset any previous error messages.
-		$notices.html( '' );
+		self.$contentNotices.html( '' );
 
 		// Error function: If we failed to retrieve pagesets, show a 'Try again' message to the user.
 		pagesetFail = function() {
-			$( '#step-content-notices p' ).html( failureMessage );
+			self.$contentNotices.html( failureMessage );
 		};
 
 		// Success function: We successfully fetched pagesets.
@@ -835,7 +846,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 
 			// If we have 0 pagesets, show a try again notice and abort.
 			if( 0 === $( msg.result.data.pageSets ).length ) {
-				$notices.html( failureMessage );
+				self.$contentNotices.html( failureMessage );
 				return;
 			}
 
@@ -910,9 +921,27 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 * @since 1.2.3
 	 */
 	this.loadBuild = function() {
-		var data, successAction;
+		var data, successAction,
+			failureMessage = Inspiration.errorBuildingPreview + ' ' + Inspiration.tryFewMinutes,
+			tryAgainButton = '<button class="button" id="try-build-again">' + Inspiration.tryAgain + '</button>',
+			// Should our request for a build be for a generic build?
+			requestGeneric = false,
+			coinBudget = self.$budget.attr( 'data-coin' );
+
+		/*
+		 * By default, we will not request a generic build. The only time we will request a generic
+		 * build is IF we're looking at the default pageset and coin budget, because that is already
+		 * built.
+		 */
+		if( '1' === self.$pageset.attr( 'data-is-default' ) && '20' === coinBudget ) {
+			requestGeneric = true;
+		}
+
 		// Disable all actions.
 		self.allActions( 'disable' );
+
+		// Reset any previous error messages.
+		self.$contentNotices.html( '' );
 
 		// Load our loading graphic.
 		$( '#build-cost' ).animate( { opacity: 0 }, 400 );
@@ -920,17 +949,31 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			$( '#screen-content .boldgrid-loading' ).fadeIn();
 		} );
 
-
 		successAction = function( msg ) {
 			var $screenContent = $( '#screen-content' ),
 				$iframe = $screenContent.find( 'iframe#theme-preview' ),
+				url;
+
+			/*
+			 * If there was an error building the site, show the user a try again button and abort.
+			 *
+			 * Else, load the preview for them.
+			 */
+			if( 200 !== msg.status ) {
+				$( '#screen-content .boldgrid-loading' ).fadeOut( function() {
+					self.$contentNotices.html( failureMessage + '<br />' + tryAgainButton );
+					self.allActions( 'enable' );
+				});
+				return;
+			} else {
 				url = msg.result.data.profile.preview_url;
 
-			$iframe
-				.attr( 'src', url )
-				.attr( 'data-build-cost', msg.result.data.profile.coins );
+				$iframe
+					.attr( 'src', url )
+					.attr( 'data-build-cost', msg.result.data.profile.coins );
 
-			self.highlightDeviceButton();
+				self.highlightDeviceButton();
+			}
 		};
 
 		data = {
@@ -940,12 +983,12 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			'page_set_id' :			self.$pageset.attr( 'data-page-set-id' ),
 			'pde' :					self.$theme.closest( '.theme' ).attr( 'data-pde' ),
 			'wp_language' :			'en-US',
-			'coin_budget' :			self.$budget.attr( 'data-coin' ),
+			'coin_budget' :			coinBudget,
 			'theme_version_type' :	IMHWPB.configs.settings.theme_release_channel,
 			'page_version_type' :	IMHWPB.configs.settings.theme_release_channel,
 			'site_hash' :			self.configs.site_hash,
 			'inspirations_mode' :	'standard',
-			'is_generic' :			( '1' === self.$pageset.attr( 'data-is-default' ) ? 'true' : 'false' ),
+			'is_generic' :			requestGeneric,
 		};
 
 		// Set form.
