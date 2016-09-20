@@ -23,7 +23,6 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 
 	self.$theme = '';
 	self.$pageset = '';
-	self.$budget = '';
 
 	/**
 	 * An object of generic builds.
@@ -98,9 +97,6 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		self.toggleStep( 'content' );
 
 		$( '[data-step="content"]' ).removeClass( 'disabled' );
-
-		// Reset the coin budget to 20.
-		$( 'input[data-coin="20"]' ).prop( 'checked', true );
 
 		self.initPagesets();
 	};
@@ -217,6 +213,15 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 				.removeClass()
 				.addClass( iframeClass );
 		});
+	};
+
+	/**
+	 * @summary Get the selected coin budget.
+	 *
+	 * @since 1.2.6
+	 */
+	this.getSelectedBudget = function() {
+		return $( '.coin-option.active' ).attr( 'data-coin' );
 	};
 
 	/**
@@ -707,17 +712,12 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 				return;
 			}
 
-			var $coinInput = $( this ).find( 'input[name="coin-budget"]' );
+			var $currentBudget = $( '.coin-option.active' ),
+				$newBudget = $( this );
 
-			$( '.coin-option.active' ).removeClass( 'active' );
-
-			$coinInput.prop( 'checked', true );
-
-			if ( $coinInput.is( ':checked' ) ) {
-				$( this ).addClass( 'active' );
-			}
-
-			self.$budget = $( 'input[name="coin-budget"]:checked' );
+			// Toggle the active class.
+			$currentBudget.removeClass( 'active' );
+			$newBudget.addClass( 'active' );
 
 			self.loadBuild();
 		});
@@ -860,7 +860,6 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			$( '#pageset-options' ).html( ( template( msg.result.data.pageSets ) ) );
 
 			self.$pageset = $( 'input[name="pageset"]:checked' );
-			self.$budget = $( 'input[name="coin-budget"]:checked' );
 
 			self.loadBuild();
 		};
@@ -933,7 +932,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			tryAgainButton = '<button class="button" id="try-build-again">' + Inspiration.tryAgain + '</button>',
 			// Should our request for a build be for a generic build?
 			requestGeneric = false,
-			coinBudget = self.$budget.attr( 'data-coin' );
+			coinBudget = self.getSelectedBudget();
 
 		/*
 		 * By default, we will not request a generic build. The only time we will request a generic

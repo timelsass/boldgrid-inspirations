@@ -51,7 +51,6 @@
 
 /* Radio Buttons */
 input[type="radio"][name="pageset"],
-input[type="radio"][name="coin-budget"],
 input[type="radio"][name="sub-category"] {
 	visibility: hidden;
 }
@@ -64,6 +63,10 @@ input[type="radio"][name="sub-category"] {
 	-o-transition: background-color .3s linear, color .3s linear;
 	-ms-transition: background-color .3s linear, color .3s linear;
 	transition: background-color .3s linear, color .3s linear;
+}
+
+.coin-option {
+	padding-left: 24px;
 }
 
 /* Theme name */

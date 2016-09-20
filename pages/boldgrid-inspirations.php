@@ -70,26 +70,11 @@ $lang = array(
 					</p>
 				</div>
 
-				<div class="coin-option active">
-					<input type="radio" name="coin-budget" data-coin="20" checked >
-					<span class="pointer">0 - 20 <?php echo $lang['Coins']; ?></span>
-				</div>
-				<div class="coin-option">
-					<input type="radio" name="coin-budget" data-coin="40">
-					<span class="pointer">0 - 40 <?php echo $lang['Coins']; ?></span>
-				</div>
-				<div class="coin-option">
-					<input type="radio" name="coin-budget" data-coin="60">
-					<span class="pointer">0 - 60 <?php echo $lang['Coins']; ?></span>
-				</div>
-				<div class="coin-option">
-					<input type="radio" name="coin-budget" data-coin="80">
-					<span class="pointer">0 - 80 <?php echo $lang['Coins']; ?></span>
-				</div>
-				<div class="coin-option">
-					<input type="radio" name="coin-budget" data-coin="0">
-					<span class="pointer"><?php echo $lang['Free']; ?></span>
-				</div>
+				<div class="coin-option active" data-coin="20">0 - 20 <?php echo $lang['Coins']; ?></div>
+				<div class="coin-option"        data-coin="40">0 - 40 <?php echo $lang['Coins']; ?></div>
+				<div class="coin-option"        data-coin="60">0 - 60 <?php echo $lang['Coins']; ?></div>
+				<div class="coin-option"        data-coin="80">0 - 80 <?php echo $lang['Coins']; ?></div>
+				<div class="coin-option"        data-coin="0">        <?php echo $lang['Free'];  ?></div>
 			</div>
 		</div>
 
