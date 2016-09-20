@@ -511,30 +511,6 @@ public function add_boldgrid_configs_to_header() {
 	}
 
 /**
- * On activation of BoldGrid, check Welcome Panel exists and make it show if not.
- *
- * @see register_activation_hook
- * @param
- *        	show_welcome_panel
- * @since .11.13
- */
-public function boldgrid_activate() {
-	// If not on a network admin page, then reset the welcome panel and create an attribution page.
-	if ( false === is_network_admin() ) {
-		// Get the current user id.
-		$user_id = get_current_user_id();
-
-		// check to see if Welcome Panel is hidden, if it is show it.
-		if ( 1 != get_user_meta( $user_id, 'show_welcome_panel', true ) ) {
-			update_user_meta( $user_id, 'show_welcome_panel', 1 );
-		}
-
-		// Run the JavaScript one-liner.
-		Boldgrid_Inspirations_Utility::inline_js_oneliner( $oneliner );
-	}
-}
-
-/**
  * Add BoldGrid help link in the WordPress Help context tab
  */
 public function add_boldgrid_help_context_tab_link() {
