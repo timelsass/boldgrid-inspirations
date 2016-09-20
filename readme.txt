@@ -32,6 +32,7 @@ The second phase is Customization; tools to transform your website into your vis
 * Update:		JIRA WPB-2390	Update verbiage for inspirations install success.
 * Bug fix:		JIRA WPB-2391	Hide BoldGrid Welcome Panel if key isn't entered yet.
 * Bug fix:		JIRA WPB-2392	If key is less than 32 char don't make call to validate.
+* Bug fix:		JIRA WPB-2393	Error messages should be removed when resubmitting keys.
 
 = 1.2.6 =
 * Misc:			JIRA WPB-2344	Updated readme.txt for Tested up to 4.6.1.
