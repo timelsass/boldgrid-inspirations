@@ -16,17 +16,17 @@ class Boldgrid_Inspirations_Dashboard extends Boldgrid_Inspirations {
 	 * Add hooks.
 	 */
 	public function add_hooks() {
-		// See if menu option is set, so we will grab array of user's BoldGrid settings.
-		$boldgrid_settings = get_option( 'boldgrid_settings' );
+		// Get BoldGrid settings from the blog's WP option.
+		$boldgrid_settings_blog = get_option( 'boldgrid_settings' );
 
 		// If value returned is not an integer.
-		if ( ! is_int( $boldgrid_settings['boldgrid_menu_option'] ) ) {
+		if ( ! is_int( $boldgrid_settings_blog['boldgrid_menu_option'] ) ) {
 
 			// Then set key in array to our default menu arrangement value (1).
-			$boldgrid_settings['boldgrid_menu_option'] = '1';
+			$boldgrid_settings_blog['boldgrid_menu_option'] = '1';
 
-			// And update the database key in array with setting with the value.
-			update_option( 'boldgrid_settings', $boldgrid_settings );
+			// Update blog WP option.
+			update_option( 'boldgrid_settings', $boldgrid_settings_blog );
 		}
 
 		if ( is_admin() ) {

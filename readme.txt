@@ -27,6 +27,7 @@ The second phase is Customization; tools to transform your website into your vis
 == Changelog ==
 
 = 1.2.7 In progress =
+* Bug fix:		JIRA WPB-2389	Fixed saving BoldGrid Settings.
 * Bug fix:		JIRA WPB-2388	Removed duplicate boldgrid_activate().
 
 = 1.2.6 =

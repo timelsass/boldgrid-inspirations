@@ -134,94 +134,6 @@ class Boldgrid_Inspirations_Options {
 	 * Admin init function for the options page.
 	 */
 	public function boldgrid_admin_init() {
-		register_setting(
-			'boldgrid_options',
-			'boldgrid_settings',
-			array(
-				$this,
-				'boldgrid_options_validate',
-			)
-		);
-
-		add_settings_section(
-			'boldgrid_options_main',
-			'Global Settings',
-			array(
-				$this,
-				'boldgrid_options_global_text',
-			),
-			'boldgrid-settings'
-		);
-
-		// Add the setting field for plugin update release channel.
-		add_settings_field(
-			'boldgrid_select_release_channel',
-			'Plugin Update Channel<br />',
-			array(
-				$this,
-				'plugin_channel_text',
-			),
-			'boldgrid-settings',
-			'boldgrid_options_main'
-		);
-
-		// Add the setting field for plugin auto-updates.
-		add_settings_field(
-			'boldgrid_auto_plugin_updates',
-			'Plugin Auto-Updates<br />',
-			array(
-				$this,
-				'plugin_autoupdate_text'
-			),
-			'boldgrid-settings',
-			'boldgrid_options_main'
-		);
-
-		// Add the setting field for theme update release channel.
-		add_settings_field(
-			'boldgrid_select_theme_release_channel',
-			'Theme Update Channel<br />',
-			array(
-				$this,
-				'theme_channel_text',
-			),
-			'boldgrid-settings',
-			'boldgrid_options_main'
-		);
-
-		// Add the setting field for plugin auto-updates.
-		add_settings_field(
-			'boldgrid_auto_theme_updates',
-			'Theme Auto-Updates<br />',
-			array(
-				$this,
-				'theme_autoupdate_text',
-			),
-			'boldgrid-settings',
-			'boldgrid_options_main'
-		);
-
-		// Add setting field for menu reordering switching
-		add_settings_field(
-			'boldgrid_menu_option',
-			'Reorder Admin Menu',
-			array(
-				$this,
-				'boldgrid_menu_callback',
-			),
-			'boldgrid-settings',
-			'boldgrid_options_main'
-		);
-
-		/*
-		 * // Add the setting field for feedback opt-out.
-		 * add_settings_field( 'boldgrid_feedback_optout', 'Feedback Opt-out',
-		 * array (
-		 * $this,
-		 * 'boldgrid_feedback_optout_callback'
-		 * ), 'boldgrid-settings', 'boldgrid_options_main' );
-		 */
-
 		// Is the staging plugin installed?
 		$this->set_staging_installed();
 	}
@@ -231,8 +143,7 @@ class Boldgrid_Inspirations_Options {
 	 */
 	public function boldgrid_options_global_text() {
 		?>
-		Here you may change the BoldGrid plugin global settings.
-<br />
+		Here you may change the BoldGrid plugin global settings.<br />
 		<?php
 	}
 
@@ -263,7 +174,7 @@ class Boldgrid_Inspirations_Options {
 	 */
 	public function boldgrid_option_select_release_channel_text( $type = '' ) {
 		// Get boldgrid_settings.
-		$boldgrid_settings = $this->get_boldgrid_settings();
+		$boldgrid_settings = Boldgrid_Inspirations_Options::get_boldgrid_settings();
 
 		// Should we show the candidate option?
 		$show_all_channels = ( isset( $_GET['channels'] ) && 'all' === $_GET['channels'] );
@@ -312,7 +223,7 @@ class Boldgrid_Inspirations_Options {
 	 */
 	public function plugin_autoupdate_text() {
 		// Retrieve the WP option boldgrid_settings.
-		$options = $this->get_boldgrid_settings();
+		$options = Boldgrid_Inspirations_Options::get_boldgrid_settings();
 
 		$enabled = ( ! empty( $options['plugin_autoupdate'] ) ? ' checked' : '' );
 
@@ -336,7 +247,7 @@ name="boldgrid_settings[plugin_autoupdate]" value="0"<?php echo $disabled; ?> />
 	 */
 	public function theme_autoupdate_text() {
 		// Retrieve the WP option boldgrid_settings.
-		$options = $this->get_boldgrid_settings();
+		$options = Boldgrid_Inspirations_Options::get_boldgrid_settings();
 
 		$enabled = ( ! empty( $options['theme_autoupdate'] ) ? ' checked' : '' );
 
@@ -357,7 +268,7 @@ name="boldgrid_settings[theme_autoupdate]" value="0"<?php echo $disabled; ?> /> 
 	 * @see Boldgrid_Inspirations_Options::get_boldgrid_settings()
 	 */
 	public function boldgrid_menu_callback() {
-		$options = $this->get_boldgrid_settings();
+		$options = Boldgrid_Inspirations_Options::get_boldgrid_settings();
 
 		?>
 <input type="checkbox" id="boldgrid_menu_option"
@@ -377,7 +288,7 @@ name="boldgrid_settings[boldgrid_menu_option]" value="1"
 	 * @see Boldgrid_Inspirations_Options::get_boldgrid_settings()
 	 */
 	public function boldgrid_feedback_optout_callback() {
-		$options = $this->get_boldgrid_settings();
+		$options = Boldgrid_Inspirations_Options::get_boldgrid_settings();
 
 		?>
 <input type='checkbox' id='boldgrid-feedback-optout'
@@ -400,14 +311,6 @@ name='boldgrid_settings[boldgrid_feedback_optout]' value='1'
 		$new_boldgrid_settings['boldgrid_menu_option'] = (
 			! empty( $boldgrid_settings['boldgrid_menu_option'] ) ? 1 : 0
 		);
-
-		// If using multisite, then save the menu option as a blog setting.
-		if ( is_multisite() ) {
-			$boldgrid_settings_blog['boldgrid_menu_option'] =
-			$new_boldgrid_settings['boldgrid_menu_option'];
-
-			update_option( 'boldgrid_settings', $boldgrid_settings_blog );
-		}
 
 		// Feedback opt-out.
 		$new_boldgrid_settings['boldgrid_feedback_optout'] = (
@@ -460,19 +363,80 @@ name='boldgrid_settings[boldgrid_feedback_optout]' value='1'
 	 * Print BoldGrid settings.
 	 */
 	public function print_section_boldgrid_settings() {
+		// If updating, then process.
+		if ( isset( $_POST['action'] ) && 'update' === $_POST['action'] ) {
+			$this->process_boldgrid_settings();
+		}
 		?>
 <h2>BoldGrid Settings</h2>
-<form action='options.php' method='post'>
+<form method="post">
+<input type="hidden" name="action" value="update">
+	<?php
+		wp_nonce_field( 'boldgrid_options' );
+	?>
+	<h2>Global Settings</h2>
+	<?php echo $this->boldgrid_options_global_text(); ?>
+	<table class="form-table">
+		<tbody>
+			<tr>
+				<th scope="row">Plugin Update Channel</th>
+				<td><?php echo $this->plugin_channel_text(); ?></td>
+			</tr>
+			<tr>
+				<th scope="row">Plugin Auto-Updates</th>
+				<td><?php echo $this->plugin_autoupdate_text(); ?></td>
+			</tr>
+			<tr>
+				<th scope="row">Theme Update Channel</th>
+				<td><?php echo $this->theme_channel_text(); ?></td>
+			</tr>
+			<tr>
+				<th scope="row">Theme Auto-Updates</th>
+				<td><?php echo $this->theme_autoupdate_text(); ?></td>
+			</tr>
+			<tr>
+				<th scope="row">Reorder Admin Menu</th>
+				<td><?php echo $this->boldgrid_menu_callback(); ?></td>
+			</tr>
+		</tbody>
+	</table>
 		<?php
-		settings_fields( 'boldgrid_options' );
-
-		do_settings_sections( 'boldgrid-settings' );
-
-		submit_button( __( 'Save Changes' ), 'secondary' );
+		submit_button( esc_html__( 'Save Changes', 'boldgrid-inspirations' ), 'secondary' );
 		?>
 </form>
 <hr />
 		<?php
+	}
+
+	/**
+	 * Process updated BoldGrid settings.
+	 *
+	 * @since 1.2.6.1
+	 * @access private
+	 *
+	 * @return bool
+	 */
+	private function process_boldgrid_settings() {
+		// If not updating or boldgrid_settings was not passed, then fail.
+		if ( ! isset( $_POST['action'] ) || 'update' !== $_POST['action'] ||
+			! isset( $_POST['boldgrid_settings'] ) ) {
+				return false;
+		}
+
+		// Validate settings from form post.
+		$boldgrid_settings = $this->boldgrid_options_validate( $_POST['boldgrid_settings'] );
+
+		// Save updated settings.
+		update_site_option( 'boldgrid_settings', $boldgrid_settings );
+
+		// If mutlisite, then save the menu option per blog.
+		if ( is_multisite() ) {
+			$boldgrid_settings_blog['boldgrid_menu_option'] =
+			$boldgrid_settings['boldgrid_menu_option'];
+			update_option( 'boldgrid_settings', $boldgrid_settings_blog );
+		}
+
+		return true;
 	}
 
 	/**
@@ -648,9 +612,11 @@ name='boldgrid_settings[boldgrid_feedback_optout]' value='1'
 	 *
 	 * @since 1.2.6
 	 *
+	 * @static
+	 *
 	 * @return array BoldGrid Settings array.
 	 */
-	public function get_boldgrid_settings() {
+	public static function get_boldgrid_settings() {
 		// Get settings from WP site options.
 		$boldgrid_settings = get_site_option( 'boldgrid_settings' );
 
@@ -662,7 +628,7 @@ name='boldgrid_settings[boldgrid_feedback_optout]' value='1'
 			$boldgrid_settings = $boldgrid_settings_blog;
 		} else {
 			// Include menu setting.
-			$boldgrid_settings['boldgrid_menu_option'] =(
+			$boldgrid_settings['boldgrid_menu_option'] = (
 				! empty( $boldgrid_settings_blog['boldgrid_menu_option'] ) ?
 				1 : 0
 			);
