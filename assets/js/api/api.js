@@ -143,6 +143,7 @@ IMHWPB.Api = function( configs ) {
 		$( '#boldgrid-api-loading', $c_zakn ).hide();
 
 		$( '#submit_api_key', $c_zakn ).on('click', function() {
+			$( '#boldgrid_api_key_notice_message' ).empty();
 			if ( ! $( '#tos-box:checked').length  ) {
 				$( '#boldgrid_api_key_notice_message', $c_zakn )
 					.html( 'You must agree to the Terms of Service before continuing.' )
