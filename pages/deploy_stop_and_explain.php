@@ -40,20 +40,15 @@ if ( ! is_plugin_active( 'boldgrid-staging/boldgrid-staging.php' ) ) {
 	<div class='plugin-card no-float'>
 		<div class='plugin-card-top '>
 			<?php echo $this->get_plugin_activation_notices(); ?>
-			<h3>Congratulations!</h3>
+			<h3><?php _e( 'Congratulations!', 'boldgrid-inspirations' ); ?></h3>
 
 			<p><?php echo $your_new_site_is_now_installed_message; ?></p>
 
-			<p>Next, we will move on to Phase 2 - Customization. This is the
-				stage where you will make the site your own. For first time
-				webmasters or if you are limited on time, we recommend starting
-				small. BoldGrid will help you build up skills in running your site.
-				As you progress, you will know more about what you want to
-				accomplish and how to do it.</p>
+			<p><?php printf( __( 'Next, we will move on to Phase 2 - Customization. This is the stage where you will make the site your own. For first time webmasters, we recommend you open up our %s Customizer Guide%s to refer to as you work.', 'boldgrid-inspirations' ), '<a href=" https://www.boldgrid.com/support/using-the-customizer/" target="_blank">', '</a>' ); ?></p>
 		</div>
 		<div class='plugin-card-bottom'>
 			<div class='column-updated'>
-				<a href='<?php  echo $url_to_customizer; ?>' class='button button-primary'>Customize</a>
+				<a href='<?php  echo $url_to_customizer; ?>' class='button button-primary'><?php _e( 'Customize', 'boldgrid-inspirations' ); ?></a>
 			</div>
 		</div>
 	</div>
