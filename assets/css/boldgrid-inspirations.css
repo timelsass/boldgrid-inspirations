@@ -32,7 +32,8 @@
 }
 .coin-option,
 .pageset-option,
-.sub-category {
+.sub-category,
+#toggle_view_deploy_log {
 	cursor: pointer;
 }
 
@@ -425,7 +426,7 @@ http://ivomynttinen.com/blog/the-ios-design-cheat-sheet-volume-2
 		margin-top: -0.8em;
 		margin-bottom: 1em;
 	}
-	
+
 	/* Ensure the preview button is always visible. The proceding rule is needed as well.  */
 	.theme-browser .theme div.theme-actions {
 		opacity: 1;
