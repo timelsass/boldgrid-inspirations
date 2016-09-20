@@ -76,6 +76,22 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 			}, 200 );
 		} );
 
+		/*
+		 * Whenever a media button is clicked, remove the "Image Search" tab.
+		 *
+		 * Media button are for example "Add Media" and "Add GridBlock".
+		 *
+		 * Normally, when adding 'tabs' to the wp.media, they're added in the left menu. BoldGrid
+		 * Connect Search started off as a left menu item, but for easier accessability, it was added
+		 * as a main tab next to "Upload Files" and "Insert Media". We no longer need the link in the
+		 * left menu, so remove it.
+		 */
+		$( document.body ).on( 'click', '#wp-content-media-buttons button', function() {
+			setTimeout( function() {
+				$( "a.media-menu-item:contains('Image Search')" ).remove();
+			}, 200 );
+		} );
+
 		self.setIframe();
 
 		self.onTabClick();
@@ -121,10 +137,8 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 	 * @param object $clicked a jQuery object, the element clicked that triggered the BGCS tab to be added.
 	 */
 	this.addTab = function( $clicked ) {
-		// In the left menu, there is an "Image Search" tab.
-		var $imageSearchTab = $( "a.media-menu-item:contains('Image Search')" ),
 		// There may be multiple menus, find the one that is visible.
-		$mediaRouter = $( '.media-router:visible' ),
+		var $mediaRouter = $( '.media-router:visible' ),
 		// Define the html that makes up our tab.
 		$tab = $( '<a href="#" class="media-menu-item boldgrid-connect-search hidden">BoldGrid Connect Search</a>' ),
 		// Check if there is already a visible "BoldGrid Connect Search" tab.
@@ -169,15 +183,6 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 		if ( activeTabs.length === 0 ) {
 			$libraryTab[ 0 ].click();
 		}
-
-		/*
-		 * Normally, when adding 'tabs' to the wp.media, they're added in the
-		 * left menu. BoldGrid Connect Search started off as a left menu item,
-		 * but for easier accessability, it was added as a main tab next to
-		 * "Upload Files" and "Insert Media". We no longer need the link in the
-		 * left menu, so remove it.
-		 */
-		$imageSearchTab.remove();
 
 		/*
 		 * Take action if the tab already exists. For example, the user may have
