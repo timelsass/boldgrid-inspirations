@@ -20,7 +20,8 @@ class Boldgrid_Inspirations_Dashboard extends Boldgrid_Inspirations {
 		$boldgrid_settings_blog = get_option( 'boldgrid_settings' );
 
 		// If value returned is not an integer.
-		if ( ! is_int( $boldgrid_settings_blog['boldgrid_menu_option'] ) ) {
+		if ( ! isset( $boldgrid_settings_blog['boldgrid_menu_option'] ) ||
+			! is_int( $boldgrid_settings_blog['boldgrid_menu_option'] ) ) {
 
 			// Then set key in array to our default menu arrangement value (1).
 			$boldgrid_settings_blog['boldgrid_menu_option'] = '1';
