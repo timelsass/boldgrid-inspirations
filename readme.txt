@@ -34,6 +34,7 @@ The second phase is Customization; tools to transform your website into your vis
 * Bug fix:		JIRA WPB-2392	If key is less than 32 char don't make call to validate.
 * Bug fix:		JIRA WPB-2393	Error messages should be removed when resubmitting keys.
 * Bug fix:		JIRA WPB-2394	Cursor for show/hide log should be a pointer.
+* Update:		JIRA WPB-2395	Update login page styling.
 
 = 1.2.6 =
 * Misc:			JIRA WPB-2344	Updated readme.txt for Tested up to 4.6.1.
