@@ -31,6 +31,7 @@ The second phase is Customization; tools to transform your website into your vis
 * Bug fix:		JIRA WPB-2388	Removed duplicate boldgrid_activate().
 * Update:		JIRA WPB-2390	Update verbiage for inspirations install success.
 * Bug fix:		JIRA WPB-2391	Hide BoldGrid Welcome Panel if key isn't entered yet.
+* Bug fix:		JIRA WPB-2392	If key is less than 32 char don't make call to validate.
 
 = 1.2.6 =
 * Misc:			JIRA WPB-2344	Updated readme.txt for Tested up to 4.6.1.
