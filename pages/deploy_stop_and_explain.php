@@ -50,31 +50,10 @@ if ( ! is_plugin_active( 'boldgrid-staging/boldgrid-staging.php' ) ) {
 				small. BoldGrid will help you build up skills in running your site.
 				As you progress, you will know more about what you want to
 				accomplish and how to do it.</p>
-
-			<p>
-				If this is your first time creating a site, we recommend starting
-				with the <a href='admin.php?page=boldgrid-tutorials&tab=get-it-done'
-					class='dashicons dashicons-inline dashicons-welcome-learn-more'>Tutorials</a>
-				for "Customization - Get It Done". That generally takes people
-				between 1 and 2 hours to finish, but you may take more or less time.
-				You will learn about changing content in the theme like the Site
-				Title, Call to Action/Slogan, Phone Number, Address and your Color
-				Palette.
-			</p>
-
-			<p>
-				If you want to jump right in, continue by going to <a
-					class='dashicons dashicons-inline dashicons-admin-customize'
-					href='<?php echo $url_to_customizer; ?>'>Customize</a> in the left
-				menu.
-			</p>
 		</div>
 		<div class='plugin-card-bottom'>
 			<div class='column-updated'>
-				<a href='admin.php?page=boldgrid-tutorials'
-					class='button button-secondary' target='_blank'>Learn More</a> <a
-					href='<?php  echo $url_to_customizer; ?>'
-					class='button button-primary'>Customize</a>
+				<a href='<?php  echo $url_to_customizer; ?>' class='button button-primary'>Customize</a>
 			</div>
 		</div>
 	</div>

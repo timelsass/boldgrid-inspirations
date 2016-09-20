@@ -43,6 +43,7 @@ The second phase is Customization; tools to transform your website into your vis
 * Bug fix:		JIRA WPB-2370	Color in screenshot does not match preview.
 * Bug fix:		JIRA WPB-2373	Duplicate themes in Inspirations.
 * Bug fix:		JIRA WPB-2379	Wrong budget passed when going form step 2 to step 1.
+* Update:		JIRA WPB-2380	Remove references to tutorials in deployment congrats message.
 
 = 1.2.5 =
 * Bug fix:		JIRA WPB-2325	Added wrapper to handle mb_convert_encoding() if mbstring is not loaded.
