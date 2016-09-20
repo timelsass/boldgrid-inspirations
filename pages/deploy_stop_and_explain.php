@@ -8,7 +8,7 @@ require BOLDGRID_BASE_DIR . '/pages/templates/restrict-direct-access.php';
  * 2: Set any applicable cookies.
  * ****************************************************************************
  */
-$url_to_customizer = 'customize.php';
+$url_to_customizer = 'customize.php?return=' . get_dashboard_url();
 
 // If we don't have the staging plugin installed:
 if ( ! is_plugin_active( 'boldgrid-staging/boldgrid-staging.php' ) ) {
