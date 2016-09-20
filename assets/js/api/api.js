@@ -154,7 +154,7 @@ IMHWPB.Api = function( configs ) {
 				.substr( 0, 32 )
 				.replace( /(.{8})/g,"$1\-" )
 				.slice( 0, - 1 );
-			if ( ! api_key ) {
+			if ( ! api_key || api_key.length < 32 ) {
 				$( '#boldgrid_api_key_notice_message', $c_zakn )
 					.html( 'You must enter a valid BoldGrid Connect Key.' )
 					.addClass( 'error-color' );
