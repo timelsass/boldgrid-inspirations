@@ -100,7 +100,7 @@ IMHWPB.Api = function( configs ) {
 				return false;
 			}
 
-			posting = $.post( IMHWPB.configs.asset_server + IMHWPB.configs.ajax_calls.generate_api_key,
+			posting = $.post( $( '#asset-server' ).val() + $( '#generate-api-key' ).val(),
 				{
 					first: $firstName,
 					last: $lastName,
