@@ -622,7 +622,7 @@ class Boldgrid_Inspirations_Dashboard extends Boldgrid_Inspirations {
 				'boldgrid_news_widget',
 			)
 		);
-		if ( current_user_can( 'manage_options' ) ) {
+		if ( current_user_can( 'edit_dashboard' ) ) {
 			wp_add_dashboard_widget(
 				'boldgrid_feedback_widget',
 				esc_html__( 'BoldGrid Feedback', 'boldgrid-inspirations' ),
