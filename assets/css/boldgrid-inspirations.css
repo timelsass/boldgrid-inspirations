@@ -32,8 +32,7 @@
 }
 .coin-option,
 .pageset-option,
-.sub-category,
-#toggle_view_deploy_log {
+.sub-category {
 	cursor: pointer;
 }
 
