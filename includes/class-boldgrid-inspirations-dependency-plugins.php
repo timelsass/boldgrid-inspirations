@@ -584,6 +584,11 @@ class Boldgrid_Inspirations_Dependency_Plugins {
 	public function show_notice() {
 		$admin_notices = new Boldgrid_Inspirations_Admin_Notices();
 
+		// If we are recommending plugins from theme framework - don't show this notice.
+		if ( array_key_exists( 'boldgrid_theme_framework', $GLOBALS ) ) {
+			return false;
+		}
+
 		// If we've previously dismissed, return false.
 		if( $admin_notices->has_been_dismissed( 'class-dependency-plugins' ) ) {
 			return false;
