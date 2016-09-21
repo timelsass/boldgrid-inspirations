@@ -36,6 +36,7 @@ The second phase is Customization; tools to transform your website into your vis
 * Bug fix:		JIRA WPB-2394	Cursor for show/hide log should be a pointer.
 * Update:		JIRA WPB-2395	Update login page styling.
 * Bug fix:		JIRA WPB-2396	Remove staging from recommended plugin notices.
+* Bug fix:		JIRA WPB-2327	Check if framework is handling plugin recommendations before recommending.
 
 = 1.2.6 =
 * Misc:			JIRA WPB-2344	Updated readme.txt for Tested up to 4.6.1.
