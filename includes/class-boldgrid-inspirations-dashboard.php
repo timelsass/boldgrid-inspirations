@@ -622,14 +622,15 @@ class Boldgrid_Inspirations_Dashboard extends Boldgrid_Inspirations {
 				'boldgrid_news_widget',
 			)
 		);
-
-		wp_add_dashboard_widget(
-			'boldgrid_feedback_widget',
-			esc_html__( 'BoldGrid Feedback', 'boldgrid-inspirations' ),
-			array(
-				$this,
+		if ( current_user_can( 'manage_options' ) ) {
+			wp_add_dashboard_widget(
 				'boldgrid_feedback_widget',
-			)
-		);
+				esc_html__( 'BoldGrid Feedback', 'boldgrid-inspirations' ),
+				array(
+					$this,
+					'boldgrid_feedback_widget',
+				)
+			);
+		}
 	}
 }
