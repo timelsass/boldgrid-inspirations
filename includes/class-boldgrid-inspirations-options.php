@@ -423,6 +423,16 @@ name='boldgrid_settings[boldgrid_feedback_optout]' value='1'
 				return false;
 		}
 
+		// Verify nonce "boldgrid_options".
+		check_admin_referer( 'boldgrid_options' );
+
+		// Verify capabilities.
+		if ( ! current_user_can( 'manage_options' ) ) {
+			include BOLDGRID_BASE_DIR . '/pages/templates/unauthorized-request.php';
+
+			return false;
+		}
+
 		// Validate settings from form post.
 		$boldgrid_settings = $this->boldgrid_options_validate( $_POST['boldgrid_settings'] );
 
@@ -435,6 +445,8 @@ name='boldgrid_settings[boldgrid_feedback_optout]' value='1'
 			$boldgrid_settings['boldgrid_menu_option'];
 			update_option( 'boldgrid_settings', $boldgrid_settings_blog );
 		}
+
+		include BOLDGRID_BASE_DIR . '/pages/templates/settings-saved.php';
 
 		return true;
 	}
