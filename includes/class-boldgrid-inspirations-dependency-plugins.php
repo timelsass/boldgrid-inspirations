@@ -539,6 +539,9 @@ class Boldgrid_Inspirations_Dependency_Plugins {
 			// [ ] boldgrid-editor
 			// [ ] boldgrid-staging
 			foreach ( $this->dependent_plugins_not_installed as $plugin_name => $plugin_dir_file ) {
+				if ( 'boldgrid-staging' === $plugin_name ) {
+					return;
+				}
 				?><li><input type='checkbox'
 				name='boldgrid-plugin-install[<?php echo $plugin_name?>]'
 				id='boldgrid-plugin-install[<?php echo $plugin_name; ?>]'
