@@ -28,6 +28,7 @@ The second phase is Customization; tools to transform your website into your vis
 
 = 1.2.8 In progress =
 * Bug fix:		JIRA WPB-2398	Error requesting free key.
+* Bug fix:		JIRA WPB-2399	Only show feedback widget to admins.
 
 = 1.2.7 =
 * Bug fix:		JIRA WPB-2389	Fixed saving BoldGrid Settings.
