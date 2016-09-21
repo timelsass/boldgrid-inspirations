@@ -590,12 +590,12 @@ class Boldgrid_Inspirations_Dependency_Plugins {
 		}
 
 		// If we've previously dismissed, return false.
-		if( $admin_notices->has_been_dismissed( 'class-dependency-plugins' ) ) {
+		if ( $admin_notices->has_been_dismissed( 'class-dependency-plugins' ) ) {
 			return false;
 		}
 
 		// If the current user cannot install plugins, there's no need to show them this message.
-		if( ! current_user_can( 'install_plugins' ) ) {
+		if ( ! current_user_can( 'install_plugins' ) ) {
 			return false;
 		}
 
