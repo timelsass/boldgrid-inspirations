@@ -601,7 +601,7 @@ class Boldgrid_Inspirations_Dependency_Plugins {
 
 		$only_staging = ( count( $this->dependent_plugins_not_installed ) === 1 && implode( $this->dependent_plugins_not_installed ) === 'boldgrid-staging/boldgrid-staging.php' ) ? true : false;
 
-		if ( ! isset( $_POST['boldgrid-plugin-install'] ) && ! $only_staging ) {
+		if ( ! isset( $_POST['boldgrid-plugin-install'] ) && false === $only_staging ) {
 			return true;
 		}
 
