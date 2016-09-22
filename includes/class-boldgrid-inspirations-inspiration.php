@@ -45,8 +45,8 @@ class Boldgrid_Inspirations_Inspiration extends Boldgrid_Inspirations {
 	 * @see Boldgrid_Inspirations_Api::get_site_hash().
 	 */
 	public function pre_add_hooks() {
-		// Add hooks for users on the front end that are not logged in.
-		if ( ! is_user_logged_in() && ! is_admin() ) {
+		// Add hooks for users on the front end.
+		if ( ! is_admin() ) {
 			$this->add_wp_hooks();
 		}
 
@@ -267,20 +267,11 @@ class Boldgrid_Inspirations_Inspiration extends Boldgrid_Inspirations {
 /**
  * Add front end hooks.
  *
- * These hooks are triggered for users to the front end of the site that
- * are not logged in, i.e. standard website visitors.
+ * These hooks are triggered for users to the front end of the site.
  *
  * @since 1.1.2
  */
 public function add_wp_hooks() {
-	/*
-	 * At this time, there is one frontend hook configured to load. It is for Attribution, and is
-	 * intended to add 'noindex' to the attribution page so it is not picked up by search engines.
-	 * That new item is not yet ready for launch, and because it's the only hook, we'll abort
-	 * immediately for now.
-	 */
-	return;
-
 	$this->include_wp_files();
 
 	$attribution = new Boldgrid_Inspirations_Attribution();

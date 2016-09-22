@@ -26,6 +26,9 @@ The second phase is Customization; tools to transform your website into your vis
 
 == Changelog ==
 
+= 1.2.9 In progress =
+* Bug fix:		JIRA WPB-2324	Attribution should not show in 404 sitemap.
+
 = 1.2.8 =
 * Bug fix:		JIRA WPB-2398	Error requesting free key.
 * Bug fix:		JIRA WPB-2399	Only show feedback widget to admins.

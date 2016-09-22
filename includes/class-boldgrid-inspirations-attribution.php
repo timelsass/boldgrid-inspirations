@@ -68,6 +68,14 @@ class Boldgrid_Inspirations_Attribution extends Boldgrid_Inspirations {
 	public $attribution_status;
 
 	/**
+	 * Language strings.
+	 *
+	 * @since 1.2.9
+	 * @var array
+	 */
+	public $lang;
+
+	/**
 	 * Stores the $settings variable passed over to our __construct
 	 *
 	 * @var unknown
@@ -81,6 +89,11 @@ class Boldgrid_Inspirations_Attribution extends Boldgrid_Inspirations {
 	 */
 	public function __construct( $settings = array() ) {
 		$this->wp_options_attribution = get_option( 'boldgrid_attribution' );
+
+		// Define our language strings.
+		$this->lang = array(
+			'Attribution' => __( 'Attribution', 'boldgrid-inspirations' ),
+		);
 
 		/*
 		 * The calls below use to make up the entire __construct. Also, this
@@ -173,7 +186,15 @@ class Boldgrid_Inspirations_Attribution extends Boldgrid_Inspirations {
 	 * @since 1.1.2
 	 */
 	public function add_wp_hooks() {
-		// Add a noindex meta tag to the attribution page.
+		add_filter( 'get_pages', array( $this, 'filter_get_pages' ) );
+
+		/*
+		 * Add a noindex meta tag to the attribution page.
+		 *
+		 * This action is intended to add 'noindex' to the attribution page so it is not picked up
+		 * by search engines. This however is not yet ready for launch, so we'll return and abort.
+		 */
+		return;
 		add_action( 'wp_head',
 			array(
 				$this,
@@ -264,6 +285,47 @@ class Boldgrid_Inspirations_Attribution extends Boldgrid_Inspirations {
 		} else {
 			return false;
 		}
+	}
+
+	/**
+	 * Filter and remove Attribution page from get_pages() results.
+	 *
+	 * @since 1.2.9
+	 *
+	 * @param array $pages List of pages retrieved.
+	 */
+	public function filter_get_pages( $pages ) {
+
+		// If we don't have an attribution page, abort.
+		if( ! isset( $this->wp_options_attribution['page']['id'] ) ) {
+			return $pages;
+		} else {
+			$attribution_page_id = $this->wp_options_attribution['page']['id'];
+		}
+
+		/*
+		 * If this is the dasbhoard, return.
+		 *
+		 * We may be able to use this method in the dashboard too, but it has not yet been fully
+		 * tested, and we don't want any unintended consequences.
+		 */
+		if( is_admin() ) {
+			return $pages;
+		}
+
+		// If get_pages() didn't get any pages, abort.
+		if( ! is_array( $pages ) || empty( $pages ) ) {
+			return $pages;
+		}
+
+		// Loop through all the pages. If this is a / the attribution page, remove it from the array.
+		foreach( $pages as $key => $page ) {
+			if( $page->ID == $attribution_page_id || $this->lang['Attribution'] === $page->post_title ) {
+				unset( $pages[ $key ] );
+			}
+		}
+
+		return $pages;
 	}
 
 	/**
