@@ -143,8 +143,13 @@ class Boldgrid_Inspirations_Update {
 			$is_theme_upgrade = ( isset( $_REQUEST['action'] ) &&
 				 'upgrade-theme' === $_REQUEST['action'] && 'update.php' === $pagenow );
 
+			// Is this a plugin update action?
+			$is_theme_update = ( isset( $_REQUEST['action'] ) &&
+				'update-theme' === $_REQUEST['action'] && 'admin-ajax.php' === $pagenow );
+
 			// Add filters to modify theme update transient information.
-			if ( in_array( $pagenow, $theme_update_pages, true ) || $is_theme_upgrade ) {
+			if ( in_array( $pagenow, $theme_update_pages, true ) || $is_theme_upgrade ||
+				$is_theme_update ) {
 				add_filter( 'pre_set_site_transient_update_themes',
 					array (
 						$this,
@@ -446,9 +451,7 @@ class Boldgrid_Inspirations_Update {
 		// If themes are found, then iterate through them, adding update info for our themes.
 		if ( count( $installed_themes ) ) {
 			foreach ( $installed_themes as $installed_theme ) {
-				// If the current theme is a BoldGrid theme, then check for an upgrade.
-				if ( false !== strpos( $installed_theme->get( 'TextDomain' ), 'boldgrid' ) ) {
-					// Get the boldgrid-theme-id from the Tags line in the stylesheet.
+					// Look for boldgrid-theme-id in the Tags line in the stylesheet.
 					$tags = $installed_theme->get( 'Tags' );
 
 					// Iterate through the tags to find theme id (boldgrid-theme-id-##).
@@ -463,17 +466,24 @@ class Boldgrid_Inspirations_Update {
 						}
 					}
 
+					// If not a boldgrid theme, then skip.
+					if ( null === $theme_id ) {
+						continue;
+					}
+					
 					// Check if update available for a theme by comparing versions.
 					$current_version = $installed_theme->Version;
 					$incoming_version = ! empty( $theme_versions[ $theme_id ]['version'] ) ?
 						$theme_versions[ $theme_id ]['version'] : null;
 					$update_available = $incoming_version && $current_version != $incoming_version;
 
+					// Get the theme slug (folder name).
+					$slug = $installed_theme->get_template();
+					
 					// Update is available set transient.
 					if ( $update_available ) {
 
-						// Get the theme slug, name, and theme URI.
-						$slug = $installed_theme->get_template();
+						// Get the theme name, and theme URI.
 						$theme_name = $installed_theme->get( 'Name' );
 						$theme_uri = $installed_theme->get( 'ThemeURI' );
 
@@ -511,8 +521,15 @@ class Boldgrid_Inspirations_Update {
 							'homepage' => ( isset( $boldgrid_api_data->result->data->siteurl ) ? $boldgrid_api_data->result->data->siteurl : 'http://www.boldgrid.com/' )
 						);
 						unset( $theme_id );
+					} else {
+						/* 
+						 * To prevent duplicate matches in the WordPress theme repo, check and
+						 * unset references in the transient.
+						 */
+						if ( isset( $transient->response[ $slug ] ) ) {
+							unset( $transient->response[ $slug ] );
+						}
 					}
-				}
 			}
 		}
 
