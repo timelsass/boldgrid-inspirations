@@ -59,6 +59,13 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 */
 	self.themeReleaseChannel = configs.settings.theme_release_channel;
 
+	/**
+	 * Theme preview.
+	 *
+	 * @since 1.2.9
+	 */
+	self.$themePreview = $( '#screen-content iframe#theme-preview' );
+
 	// scroll position.
 	self.scrollPosition = '';
 
@@ -86,8 +93,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 */
 	this.chooseTheme = function( ) {
 		// Immediately hide the iframe to give a better transition effect.
-		$( '#screen-content iframe#theme-preview' )
-			.css( 'visibility', 'hidden' );
+		self.$themePreview.css( 'visibility', 'hidden' );
 
 		// Load the theme title and sub category title.
 		$( '#sub-category-title' ).html( '- ' + self.$theme.closest( '.theme' ).attr( 'data-sub-category-title' ) );
@@ -726,14 +732,14 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 * Loads the iframe for the theme preview.
 	 */
 	this.iframeLoad = function() {
-		$( '#screen-content iframe#theme-preview' ).on( 'load', function() {
+		self.$themePreview.on( 'load', function() {
 			var $iframe = $( this );
 			$( '#screen-content .boldgrid-loading' ).fadeOut( function() {
 				self.allActions( 'enable' );
 				$( '#build-cost' )
 					.html( $iframe.attr( 'data-build-cost' ) + ' Coins' )
 					.animate( { opacity: 1 }, 400 );
-				$( '#screen-content iframe#theme-preview' ).css( 'visibility', 'visible' );
+				self.$themePreview.css( 'visibility', 'visible' );
 			} );
 		});
 	};
@@ -950,7 +956,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 
 		// Load our loading graphic.
 		$( '#build-cost' ).animate( { opacity: 0 }, 400 );
-		$( '#screen-content iframe#theme-preview' ).css( 'visibility', 'hidden' );
+		self.$themePreview.css( 'visibility', 'hidden' );
 		$( '#screen-content .boldgrid-loading' ).fadeIn();
 
 		successAction = function( msg ) {
