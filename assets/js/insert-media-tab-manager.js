@@ -31,8 +31,10 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 	 * @since 1.1.4
 	 */
 	self.selectors = {
-		insertMedia:  '.media-menu-item:contains("' + _wpMediaViewsL10n.insertMediaTitle + '")',
-		mediaLibrary: '.media-menu-item:contains("' + _wpMediaViewsL10n.mediaLibraryTitle + '")',
+		insertMedia:   '.media-menu-item:contains("' + _wpMediaViewsL10n.insertMediaTitle + '")',
+		mediaLibrary:  '.media-menu-item:contains("' + _wpMediaViewsL10n.mediaLibraryTitle + '")',
+		createGallery: '.media-menu-item:contains("' + _wpMediaViewsL10n.createGalleryTitle + '")',
+		addToGallery:  '.media-menu-item:contains("' + _wpMediaViewsL10n.addToGalleryTitle + '")',
 	};
 
 	/**
@@ -57,6 +59,10 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 	'#site_icon-button,' +
 	// BoldGrid Editor -> Section Background -> Add Image.
 	'[data-type="background"] .add-image-controls,' +
+	// Add Media > Create Gallery.
+	self.selectors.createGallery + ',' +
+	// Add Media > Gallery > Add to Gallery.
+	self.selectors.addToGallery + ',' +
 	// Customizer Site Logo "Select Image" button.
 	'#boldgrid_logo_setting-button';
 
@@ -147,6 +153,7 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 		$libraryTab = $mediaRouter.find( '.media-menu-item:contains("' + _wpMediaViewsL10n.mediaLibraryTitle + '")' ),
 		// Get our "Upload Files" tab.
 		$uploadTab = $( '.media-menu-item:visible:contains("' + _wpMediaViewsL10n.uploadFilesTitle + '")' ),
+		clickedText = $clicked.text(),
 		// Find the number of active tabs.
 		activeTabs = $mediaRouter.find( '.media-menu-item.active' ).length;
 
@@ -163,8 +170,13 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 		 */
 		if( $clicked.hasClass( 'add-image-controls' ) ) {
 			$tab.attr( 'data-added-by', 'section-background' );
+		} else if( _wpMediaViewsL10n.addToGalleryTitle === clickedText ) {
+			// "Add to Gallery".
+			$tab.attr( 'data-added-by', 'add-to-gallery' );
+		} else if( _wpMediaViewsL10n.createGalleryTitle === clickedText ) {
+			// "Create Gallery".
+			$tab.attr( 'data-added-by', 'create-gallery' );
 		}
-
 
 		/*
 		 * There are some cases when we don't need to add the tab. For example,

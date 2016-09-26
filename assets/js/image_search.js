@@ -265,6 +265,10 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 			action = 'replace-image';
 		} else if( 'section-background' === $bgcsTab.attr( 'data-added-by' ) ) {
 			action = 'section-background';
+		} else if( 'add-to-gallery' === $bgcsTab.attr( 'data-added-by' ) ) {
+			action = 'add-to-gallery';
+		} else if( 'create-gallery' === $bgcsTab.attr( 'data-added-by' ) ) {
+			action = 'create-gallery';
 		} else if( 'function' === typeof parent.window.send_to_editor && ! inCustomizer ) {
 			action = 'editor';
 		} else if( inCustomizer ) {
@@ -490,6 +494,8 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 				break;
 			case 'customizer':
 			case 'section-background':
+			case 'add-to-gallery':
+			case 'create-gallery':
 
 				self.refresh_media_library();
 	        	self.whenInLibrary( response.attachment_id, action );
@@ -629,6 +635,8 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 
 					case 'customizer':
 					case 'section-background':
+					case 'add-to-gallery':
+					case 'create-gallery':
 
 						/*
 						 * Make sure the toolbar at the bottom is visible. After selecting the image,
@@ -638,7 +646,7 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 
 						// In the media library, click the image that was just downloaded. Then, click the select button.
 						$attachment.click();
-						$( '.media-button-select', window.parent.document ).click();
+						$( '.media-toolbar .media-button.button-primary', window.parent.document ).click();
 
 						break;
 				}
