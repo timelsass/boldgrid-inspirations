@@ -610,6 +610,8 @@ class Boldgrid_Inspirations_Built {
 	/**
 	 * Should the user be starting with inspirations? If so, give them a notice at the top of the
 	 * page.
+	 *
+	 * @global pagenow
 	 */
 	public function you_should_start_with_inspirations() {
 		$pages_to_show_this_notice = array (
@@ -627,12 +629,8 @@ class Boldgrid_Inspirations_Built {
 		// Generate our scenario data.
 		$scenarios = $this->generate_scenarios();
 
-		// Should we display the message?
-		$display_message = ( ! isset( $scenarios['has_built_with_either'] ) ||
-			 false == $scenarios['has_built_with_either'] ) ? true : false;
-
 		// Display our alert.
-		if ( true == $display_message ) {
+		if ( false === $scenarios['has_active_bg_site'] && false === $scenarios['has_staged_site'] ) {
 			?>
 <div class="error notice is-dismissible">
 	<p>
