@@ -35,6 +35,7 @@ The second phase is Customization; tools to transform your website into your vis
 * Update:		JIRA WPB-2417	Add additional text to deployment success page for staging.
 * Bug fix:		JIRA WPB-2421	Message showing when it shouldn't - We've recognized that you haven't installed...
 * Bug fix:		JIRA WPB-2422	Fixed CSS Loading graphic animation in chrome to display properly.
+* Bug fix:		JIRA WPB-2401	Gallery not displaying correctly in Chrome && FF.
 
 = 1.2.8 =
 * Bug fix:		JIRA WPB-2398	Error requesting free key.
