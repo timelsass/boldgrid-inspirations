@@ -10,6 +10,8 @@ require BOLDGRID_BASE_DIR . '/pages/templates/restrict-direct-access.php';
  */
 $url_to_customizer = 'customize.php?return=' . get_dashboard_url();
 
+$review_documentation = null;
+
 // If we don't have the staging plugin installed:
 if ( ! is_plugin_active( 'boldgrid-staging/boldgrid-staging.php' ) ) {
 	$template = 'Your new BoldGrid site is now installed and <a href="%s" target="_blank">ready to view</a>.';
@@ -22,8 +24,6 @@ if ( ! is_plugin_active( 'boldgrid-staging/boldgrid-staging.php' ) ) {
 		$site_type = 'Active';
 
 		$_SESSION['wp_staging_view_version'] = 'production';
-
-		$review_documentation = null;
 	} else {
 		// If installed to your staging site:
 		$site_type = 'Staging';
