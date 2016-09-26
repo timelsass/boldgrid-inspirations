@@ -31,15 +31,10 @@ if ( ! is_plugin_active( 'boldgrid-staging/boldgrid-staging.php' ) ) {
 		$_SESSION['wp_staging_view_version'] = 'staging';
 		$url_to_customizer = "customize.php?staging=1";
 
-		// "Staging Guide" link.
-		$staging_guide = sprintf(
-			'<a href="https://www.boldgrid.com/support/getting-to-know-boldgrid/understanding-active-vs-staging-in-boldgrid/" target="_blank">%s</a>',
-			__( 'Staging Guide', 'boldgrid-inspirations' )
-		);
-
 		$review_documentation = sprintf(
-			__( 'Since you have installed your new site into Staging you may want to review the %s to learn about Active vs. Staging and how to deploy from Staging when you are ready.', 'boldgrid-inspirations' ),
-			$staging_guide
+			__( 'Since you have installed your new site into Staging you may want to review the %sStaging Guide%s to learn about Active vs. Staging and how to deploy from Staging when you are ready.', 'boldgrid-inspirations' ),
+			'<a href="https://www.boldgrid.com/support/getting-to-know-boldgrid/understanding-active-vs-staging-in-boldgrid/" target="_blank">',
+			'</a>'
 		);
 
 		// Just avoiding html in translation.
