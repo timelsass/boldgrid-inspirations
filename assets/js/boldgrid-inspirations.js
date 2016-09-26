@@ -87,8 +87,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	this.chooseTheme = function( ) {
 		// Immediately hide the iframe to give a better transition effect.
 		$( '#screen-content iframe#theme-preview' )
-			.addClass( 'hidden' )
-			.css( 'display', '' );
+			.css( 'visibility', 'hidden' );
 
 		// Load the theme title and sub category title.
 		$( '#sub-category-title' ).html( '- ' + self.$theme.closest( '.theme' ).attr( 'data-sub-category-title' ) );
@@ -734,7 +733,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 				$( '#build-cost' )
 					.html( $iframe.attr( 'data-build-cost' ) + ' Coins' )
 					.animate( { opacity: 1 }, 400 );
-				$( '#screen-content iframe#theme-preview' ).fadeIn();
+				$( '#screen-content iframe#theme-preview' ).css( 'visibility', 'visible' );
 			} );
 		});
 	};
@@ -951,9 +950,8 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 
 		// Load our loading graphic.
 		$( '#build-cost' ).animate( { opacity: 0 }, 400 );
-		$( '#screen-content iframe#theme-preview' ).fadeOut( function() {
-			$( '#screen-content .boldgrid-loading' ).fadeIn();
-		} );
+		$( '#screen-content iframe#theme-preview' ).css( 'visibility', 'hidden' );
+		$( '#screen-content .boldgrid-loading' ).fadeIn();
 
 		successAction = function( msg ) {
 			var $screenContent = $( '#screen-content' ),
