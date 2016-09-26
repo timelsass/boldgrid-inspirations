@@ -27,6 +27,7 @@ The second phase is Customization; tools to transform your website into your vis
 == Changelog ==
 
 = 1.2.9 In progress =
+* Misc:			JIRA WPB-2420	Added EOF line breaks.
 * Bug fix:		JIRA WPB-2387	Fixed issue with AJAX theme updates and BG theme slugs duplicated in the WP repo.
 * Bug fix:		JIRA WPB-2324	Attribution should not show in 404 sitemap.
 * Bug fix:		JIRA WPB-2403	No plugins recommended still showing notice.
