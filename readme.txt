@@ -31,6 +31,7 @@ The second phase is Customization; tools to transform your website into your vis
 * Bug fix:		JIRA WPB-2324	Attribution should not show in 404 sitemap.
 * Bug fix:		JIRA WPB-2403	No plugins recommended still showing notice.
 * Update:		JIRA WPB-2416	Text changes for confirmation section of Inspirations.
+* Update:		JIRA WPB-2417	Add additional text to deployment success page for staging.
 
 = 1.2.8 =
 * Bug fix:		JIRA WPB-2398	Error requesting free key.

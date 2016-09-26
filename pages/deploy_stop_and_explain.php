@@ -22,12 +22,28 @@ if ( ! is_plugin_active( 'boldgrid-staging/boldgrid-staging.php' ) ) {
 		$site_type = 'Active';
 
 		$_SESSION['wp_staging_view_version'] = 'production';
+
+		$review_documentation = null;
 	} else {
 		// If installed to your staging site:
 		$site_type = 'Staging';
 
 		$_SESSION['wp_staging_view_version'] = 'staging';
 		$url_to_customizer = "customize.php?staging=1";
+
+		// "Staging Guide" link.
+		$staging_guide = sprintf(
+			'<a href="https://www.boldgrid.com/support/getting-to-know-boldgrid/understanding-active-vs-staging-in-boldgrid/" target="_blank">%s</a>',
+			__( 'Staging Guide', 'boldgrid-inspirations' )
+		);
+
+		$review_documentation = sprintf(
+			__( 'Since you have installed your new site into Staging you may want to review the %s to learn about Active vs. Staging and how to deploy from Staging when you are ready.', 'boldgrid-inspirations' ),
+			$staging_guide
+		);
+
+		// Just avoiding html in translation.
+		$review_documentation = '<p>' . $review_documentation . '</p>';
 	}
 
 	$template = 'Your new BoldGrid site has installed as your <strong>%s</strong> site, and is <a href="%s" target="_blank">ready to view</a>.';
@@ -45,6 +61,14 @@ if ( ! is_plugin_active( 'boldgrid-staging/boldgrid-staging.php' ) ) {
 			<p><?php echo $your_new_site_is_now_installed_message; ?></p>
 
 			<p><?php printf( __( 'Next, we will move on to Phase 2 - Customization. This is the stage where you will make the site your own. For first time webmasters, we recommend you open up our %s Customizer Guide%s to refer to as you work.', 'boldgrid-inspirations' ), '<a href=" https://www.boldgrid.com/support/using-the-customizer/" target="_blank">', '</a>' ); ?></p>
+
+			<?php
+				/*
+				 * This string is not enclosed in a p tag. Sometimes the string will be empty and
+				 * we don't want to print an empty p tag.
+				 */
+				echo $review_documentation;
+			?>
 		</div>
 		<div class='plugin-card-bottom'>
 			<div class='column-updated'>
