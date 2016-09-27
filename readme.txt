@@ -26,6 +26,9 @@ The second phase is Customization; tools to transform your website into your vis
 
 == Changelog ==
 
+= 1.2.10 In progress =
+* Bug fix:		JIRA WPB-2426	Insert Gridblock button is missing.
+
 = 1.2.9 =
 * Misc:			JIRA WPB-2420	Added EOF line breaks.
 * Bug fix:		JIRA WPB-2387	Fixed issue with AJAX theme updates and BG theme slugs duplicated in the WP repo.

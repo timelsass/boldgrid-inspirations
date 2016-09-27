@@ -111,6 +111,17 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 				self.refreshMediaLibrary();
 			}
 		} );
+
+		/*
+		 * Ensure bottom toolbar is visible.
+		 *
+		 * When you click the BGCS tab, the toolbar at the bottom is removed. We listen to the
+		 * horizontal .media-menu-item clicks and add the toolbar back as needed. Below, we'll
+		 * listen to the vertical .media-menu-item clicks and add the toolbar back.
+		 */
+		$( document.body ).on( 'click', '.media-menu .media-menu-item', function() {
+			$( '.media-frame-toolbar' ).removeClass( 'hidden' );
+		});
 	} );
 
 	/**
