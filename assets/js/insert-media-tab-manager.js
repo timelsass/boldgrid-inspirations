@@ -67,6 +67,9 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 	'#boldgrid_logo_setting-button';
 
 	$( function() {
+		var elementsAddToolbar = '.media-menu .media-menu-item, #insert-gridblocks-button,' +
+			'.action.add-gridblock, .media-modal-close';
+
 		/*
 		 * When one of our addTabTrigger elements is clicked, wait 2/10's of a
 		 * second and then add our BoldGrid Connect Search tab. The timout is
@@ -117,9 +120,16 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 		 *
 		 * When you click the BGCS tab, the toolbar at the bottom is removed. We listen to the
 		 * horizontal .media-menu-item clicks and add the toolbar back as needed. Below, we'll
-		 * listen to the vertical .media-menu-item clicks and add the toolbar back.
+		 * listen to the following and add the toolbar back:
+		 *
+		 * # The vertical .media-menu-item clicks.
+		 * # Add new item > GridBlock.
+		 * # Add GridBlock button next to Add Media
+		 * # A modal closure.
+		 *
+		 * todo: Look into another solution rather than showing / hiding toolbar.
 		 */
-		$( document.body ).on( 'click', '.media-menu .media-menu-item', function() {
+		$( document ).on( 'click', elementsAddToolbar, function() {
 			$( '.media-frame-toolbar' ).removeClass( 'hidden' );
 		});
 	} );

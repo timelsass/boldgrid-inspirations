@@ -471,6 +471,9 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 	this.downloadSuccess = function( response, $anchor ) {
 		var action = self.getAction();
 
+		// Make sure the toolbar is visible.
+		$( '.media-modal:visible', window.parent.document ).find( '.media-frame-toolbar' ).removeClass( 'hidden' );
+
 		switch( action ) {
 			case 'replace-image':
 
@@ -637,12 +640,6 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 					case 'section-background':
 					case 'add-to-gallery':
 					case 'create-gallery':
-
-						/*
-						 * Make sure the toolbar at the bottom is visible. After selecting the image,
-						 * we'll be cropping it. We'll need to see the buttons for 'crop / not now'.
-						 */
-						$( '.media-modal:visible', window.parent.document ).find( '.media-frame-toolbar' ).removeClass( 'hidden' );
 
 						// In the media library, click the image that was just downloaded. Then, click the select button.
 						$attachment.click();
