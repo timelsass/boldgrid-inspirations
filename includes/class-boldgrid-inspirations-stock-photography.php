@@ -270,7 +270,15 @@ iframe#boldgrid_connect_search {
 			)
 		);
 
-		$image = $this->asset_manager->download_and_attach_asset( $post->ID, null, $item, 'all',
+		/*
+		 * Configure our $post_id for the download_and_attach_asset call.
+		 *
+		 * If we don't have a post, then set to false. We won't have a post, for example, when we're
+		 * within Dashboard > Media > BGCS.
+		 */
+		$post_id = ( is_null( $post ) ? false : $post->ID );
+
+		$image = $this->asset_manager->download_and_attach_asset( $post_id, null, $item, 'all',
 			false );
 
 		$response['attachment_id'] = $image['attachment_id'];

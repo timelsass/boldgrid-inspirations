@@ -37,6 +37,7 @@ The second phase is Customization; tools to transform your website into your vis
 * Bug fix:		JIRA WPB-2112	BoldGrid Connect Search missing for galleries.
 * Bug fix:		JIRA WPB-2422	Fixed CSS Loading graphic animation in chrome to display properly.
 * Bug fix:		JIRA WPB-2401	Gallery not displaying correctly in Chrome && FF.
+* Bug fix:		JIRA WPB-2423	Trying to get property of non-object in ...stock-photography.php.
 
 = 1.2.8 =
 * Bug fix:		JIRA WPB-2398	Error requesting free key.
