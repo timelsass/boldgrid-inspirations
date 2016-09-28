@@ -24,6 +24,7 @@
   "homepage": "https://github.com/boldgrid/boldgrid-inspirations#readme",
   "devDependencies": {
     "gulp": "^3.9.1",
+    "gulp-inject-string": "^1.1.0",
     "gulp-readme-to-markdown": "^0.2.0"
   }
 }
