@@ -21,5 +21,9 @@
   "bugs": {
     "url": "https://github.com/boldgrid/boldgrid-inspirations/issues"
   },
-  "homepage": "https://github.com/boldgrid/boldgrid-inspirations#readme"
+  "homepage": "https://github.com/boldgrid/boldgrid-inspirations#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-readme-to-markdown": "^0.2.0"
+  }
 }
