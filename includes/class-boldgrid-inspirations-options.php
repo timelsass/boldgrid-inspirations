@@ -307,36 +307,8 @@ name='boldgrid_settings[boldgrid_feedback_optout]' value='1'
 	 * @return array A validated array of BoldGrid settings.
 	 */
 	public function boldgrid_options_validate( $boldgrid_settings ) {
-		// Menu reordering.
-		$new_boldgrid_settings['boldgrid_menu_option'] = (
-			! empty( $boldgrid_settings['boldgrid_menu_option'] ) ? 1 : 0
-		);
 
-		// Feedback opt-out.
-		$new_boldgrid_settings['boldgrid_feedback_optout'] = (
-			! empty( $boldgrid_settings['boldgrid_feedback_optout'] ) ? 1 : 0
-		);
-
-		// Release version to use.
-		$new_boldgrid_settings['release_channel'] = (
-			isset( $boldgrid_settings['release_channel'] ) ?
-			$boldgrid_settings['release_channel'] : 'stable'
-	 	);
-
-		$new_boldgrid_settings['theme_release_channel'] = (
-			isset( $boldgrid_settings['theme_release_channel'] ) ?
-			$boldgrid_settings['theme_release_channel'] : 'stable'
-		);
-
-		// Plugin auto-updates.
-		$new_boldgrid_settings['plugin_autoupdate'] = (
-			! empty( $boldgrid_settings['plugin_autoupdate'] ) ? 1 : 0
-		);
-
-		// Theme auto-updates.
-		$new_boldgrid_settings['theme_autoupdate'] = (
-			! empty( $boldgrid_settings['theme_autoupdate'] ) ? 1 : 0
-		);
+		$new_boldgrid_settings = Boldgrid_Inspirations_Config::set_default_settings( $boldgrid_settings );
 
 		// Delete the transient holding the cached version data.
 		delete_site_transient( 'boldgrid_api_data' );

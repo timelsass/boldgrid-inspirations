@@ -29,6 +29,7 @@ The second phase is Customization; tools to transform your website into your vis
 = 1.2.10 In progress =
 * Bug fix:		JIRA WPB-2426	Insert Gridblock button is missing.
 * Bug fix:		JIRA WPB-2443	When starting over, I get a blank page.
+* Bug fix:		JIRA WBP-2445	Inspirations is not fetching cached themes.
 
 = 1.2.9 =
 * Misc:			JIRA WPB-2420	Added EOF line breaks.
