@@ -987,6 +987,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		};
 
 		data = {
+			'build_profile_id' :	self.$theme.closest( '.theme' ).attr( 'data-build-id' ),
 			'theme_id' :			self.$theme.closest( '.theme' ).attr( 'data-theme-id' ),
 			'cat_id' :				self.$theme.closest( '.theme' ).attr( 'data-category-id' ),
 			'sub_cat_id' :			self.$theme.closest( '.theme' ).attr( 'data-sub-category-id' ),
@@ -1002,6 +1003,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		};
 
 		// Set form.
+		$( '[name=boldgrid_build_profile_id]' ).val( data.build_profile_id );
 		$( '[name=boldgrid_cat_id]' ).val( data.cat_id );
 		$( '[name=boldgrid_sub_cat_id]' ).val( data.sub_cat_id );
 		$( '[name=boldgrid_theme_id]' ).val( data.theme_id );
