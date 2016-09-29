@@ -519,10 +519,9 @@ class Boldgrid_Inspirations_Built {
 	 * @return null
 	 */
 	public function inspiration_page() {
-		// If a key is not authorized, then just return.
-		if ( ! $this->inspiration->api->get_passed_key_validation() ||
-		$this->inspiration->api->get_have_enqueued_api_key_prompt() ||
-		200 !== $this->inspiration->api->get_last_api_status() ) {
+
+		// If we are prompting the user for an API key, then show only that prompt.
+		if( $this->inspiration->api->get_have_enqueued_api_key_prompt() ) {
 			return;
 		}
 
@@ -576,7 +575,20 @@ class Boldgrid_Inspirations_Built {
 
 		$page = ( isset( $_GET['page'] ) ? $_GET['page'] : null );
 
-		if( 'admin.php' === $pagenow && 'boldgrid-inspirations' === $page ) {
+		// Are we on the Inspirations page?
+		$is_inspirations_page = ( 'admin.php' === $pagenow && 'boldgrid-inspirations' === $page );
+
+		// Are we prompting the user to enter their API key?
+		$prompting_for_key = $this->inspiration->api->get_have_enqueued_api_key_prompt();
+
+		/*
+		 * If we're on the Inspirations page and we're not prompting the user for a key, remove all
+		 * notices.
+		 *
+		 * If we were prompting them for a key, then we don't want to remove the notice to prompt
+		 * them for a key.
+		 */
+		if( $is_inspirations_page && ! $prompting_for_key ) {
 			remove_all_actions( 'admin_notices' );
 		}
 	}
