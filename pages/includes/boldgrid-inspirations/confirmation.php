@@ -27,9 +27,10 @@ $lang = array(
 	 *
 	 * IE, do you want to install as active or staging?
 	 */
-	'make_new_my_website'    => __( 'Make this new Inspiration my website (Recommended).', 'boldgrid-inspirations' ),
+	'make_new_my_website'    => __( 'Make this new Inspiration my website.', 'boldgrid-inspirations' ),
 	'make_new_my_staging'    => __( 'Make this new Inspiration my Staging website.', 'boldgrid-inspirations' ),
 	'make_staged'            => __( 'Keep my existing website available for visitors and make this new Inspiration a "Staged Website".', 'boldgrid-inspirations' ),
+	'recommended'            => __( 'Recommended', 'boldgrid-inspirations' ),
 
 	/*
 	 * Confirmation choice notes.
@@ -110,7 +111,7 @@ switch( $scenario ) {
 					$lang['how_to_install'] . '
 			</p>
 			<p>
-				<input type="radio" name="install-decision" value="install-as-active" checked>' . $lang['make_new_my_website'] . '<br />
+				<input type="radio" name="install-decision" value="install-as-active" checked>' . $lang['make_new_my_website'] . ' (' . $lang['recommended'] . ')<br />
 				<input type="radio" name="install-decision" value="install-as-staging">' . $lang['make_new_my_staging'] . '
 			</p>
 		';
