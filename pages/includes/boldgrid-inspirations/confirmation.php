@@ -125,6 +125,14 @@ switch( $scenario ) {
 	 * [T] Staging is installed.
 	 */
 	case array( false, true, false, true, true ):
+	/*
+	 * [ ] Has blank active site.
+	 * [ ] Has active BG site.
+	 * [ ] Has staged site.
+	 * [T] Staging is active.
+	 * [T] Staging is installed.
+	 */
+	case array( false, false, false, true, true ):
 		$top = '
 			<p>' .
 					$lang['selected_inspiration'] . ' ' .
@@ -146,6 +154,14 @@ switch( $scenario ) {
 	 * [T] Staging is installed.
 	 */
 	case array( false, true, true, true, true ):
+	/*
+	 * [ ] Has blank active site.
+	 * [ ] Has active BG site.
+	 * [T] Has staged site.
+	 * [T] Staging is active.
+	 * [T] Staging is installed.
+	 */
+	case array( false, false, true, true, true ):
 		$top = '
 			<p>' .
 					$lang['selected_inspiration'] . ' ' .
@@ -188,6 +204,14 @@ switch( $scenario ) {
 	 * [ ] Staging is installed.
 	 */
 	case array( false, true, false, false, false ):
+	/*
+	 * [ ] Has blank active site.
+	 * [ ] Has active BG site.
+	 * [ ] Has staged site.
+	 * [ ] Staging is active.
+	 * [ ] Staging is installed.
+	 */
+	case array( false, false, false, false, false ):
 		$top = '
 			<p>' .
 				$lang['selected_inspiration'] . ' ' .
@@ -209,6 +233,14 @@ switch( $scenario ) {
 	 * [T] Staging is installed.
 	 */
 	case array( false, true, false, false, true ):
+	/*
+	 * [ ] Has blank active site.
+	 * [ ] Has active BG site.
+	 * [ ] Has staged site.
+	 * [ ] Staging is active.
+	 * [T] Staging is installed.
+	 */
+	case array( false, false, false, false, true ):
 		$top = '
 			<p>' .
 				$lang['selected_inspiration'] . ' ' .
