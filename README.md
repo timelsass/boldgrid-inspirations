@@ -29,9 +29,10 @@ The second phase is Customization; tools to transform your website into your vis
 
 ## Changelog ##
 
-### 1.2.11 In progress ###
+### 1.2.11 ###
 * Bug fix:      JIRA WPB-2468   Switching between boldgrid admin menu and standard wp menu no longer works.
 * Bug fix:		JIRA WPB-2477	If you have an existing site non BG, no route for staging exists.
+
 ### 1.2.10 ###
 * Bug fix:		JIRA WPB-2446	Fixed missing build id passed on site install.
 * Bug fix:		JIRA WPB-2426	Insert Gridblock button is missing.
