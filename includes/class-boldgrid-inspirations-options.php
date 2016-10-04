@@ -405,8 +405,22 @@ name='boldgrid_settings[boldgrid_feedback_optout]' value='1'
 			return false;
 		}
 
+		// Grab our BoldGrid settings from POST.
+		$boldgrid_settings = $_POST['boldgrid_settings'];
+
+		/*
+		 * Fix checkbox settings.
+		 *
+		 * The "Reorder Admin Menu" setting is a checkbox. If left unchecked and submitted, the
+		 * 'boldgrid_menu_option' setting will be missing from POST, and the boldgrid_options_validate
+		 * method will default it to true / 1.
+		 */
+		if( ! isset( $boldgrid_settings['boldgrid_menu_option'] ) ) {
+			$boldgrid_settings['boldgrid_menu_option'] = 0;
+		}
+
 		// Validate settings from form post.
-		$boldgrid_settings = $this->boldgrid_options_validate( $_POST['boldgrid_settings'] );
+		$boldgrid_settings = $this->boldgrid_options_validate( $boldgrid_settings );
 
 		// Save updated settings.
 		update_site_option( 'boldgrid_settings', $boldgrid_settings );
