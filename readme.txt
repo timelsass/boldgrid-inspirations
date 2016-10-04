@@ -26,7 +26,7 @@ The second phase is Customization; tools to transform your website into your vis
 
 == Changelog ==
 
-= 1.2.10 In progress =
+= 1.2.10 =
 * Bug fix:		JIRA WPB-2446	Fixed missing build id passed on site install.
 * Bug fix:		JIRA WPB-2426	Insert Gridblock button is missing.
 * Bug fix:		JIRA WPB-2443	When starting over, I get a blank page.
