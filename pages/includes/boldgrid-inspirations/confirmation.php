@@ -174,7 +174,7 @@ switch( $scenario ) {
 				$lang['how_to_install'] . '
 			</p>
 			<p>
-				<input type="radio" name="install-decision" value="install-as-active" checked>' . $lang['make_new_my_website'] . ' (' . $lang['recommended'] . ')<br />
+				<input type="radio" name="install-decision" value="install-as-active" checked>' . $lang['make_new_my_website'] . '<br />
 				<input type="radio" name="install-decision" value="overwrite-staging">' . $lang['make_new_my_staging'] . '
 			</p>
 		';
