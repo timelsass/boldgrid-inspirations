@@ -44,32 +44,69 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 	 *
 	 * @since 1.1.2
 	 */
+	// The image "Change" button on WP's toolbar.
 	self.addTabTriggers = 'div[aria-label="Change"],' +
-	// "Add Media" button.
-	'#insert-media-button,' +
-	// "Insert Media" button.
-	self.selectors.insertMedia + ',' +
-	// Customizer Header "Add new image" button.
-	'#customize-control-header_image .button.new,' +
-	// Customizer Background "Select Image" button.
-	'#background_image-button,' +
-	// Customizer Background thumbnail.
-	'.customize-control-background img.attachment-thumb,' +
-	// Customizer Site Icon "Select Image" button.
-	'#site_icon-button,' +
-	// BoldGrid Editor -> Section Background -> Add Image.
-	'[data-type="background"] .add-image-controls,' +
-	// Add Media > Create Gallery.
-	self.selectors.createGallery + ',' +
-	// Add Media > Gallery > Add to Gallery.
-	self.selectors.addToGallery + ',' +
-	// Customizer Site Logo "Select Image" button.
-	'#boldgrid_logo_setting-button';
+		/*
+		 * Add Media.
+		 *
+		 * # Add Media.
+		 * # Add Media > Insert Media.
+		 * # Add Media > Create Gallery.
+		 * # Add Media > Gallery > Add to Gallery.
+		 */
+		// Add Media.
+		'#insert-media-button,' +
+		// Add Media > Insert Media.
+		self.selectors.insertMedia + ',' +
+		// Add Media > Create Gallery.
+		self.selectors.createGallery + ',' +
+		// Add Media > Gallery > Add to Gallery.
+		self.selectors.addToGallery + ',' +
+
+		/*
+		 * Customizer.
+		 *
+		 * # Header > Add new image.
+		 * # Background > Select image.
+		 * # Background > thumbnail.
+		 * # Site Icon > Select image.
+		 * # Site Logo > Select image.
+		 */
+		// Header > Add new image.
+		'#customize-control-header_image .button.new,' +
+		// Background > Select image.
+		'#background_image-button,' +
+		// Background > thumbnail.
+		'.customize-control-background img.attachment-thumb,' +
+		// Site Icon > Select image.
+		'#site_icon-button,' +
+		// Site Logo > Select image.
+		'#boldgrid_logo_setting-button,' +
+
+		/*
+		 * BoldGrid Editor - Column options.
+		 *
+		 * # Insert Media
+		 */
+		// Insert Media
+		// @todo: This isn't quite working.
+		'[data-action="add-media"],' +
+
+		/*
+		 * BoldGrid Editor - Top menu buttons.
+		 *
+		 * # Change Image.
+		 * # Add > Media.
+		 * # Section Background > Add Image.
+		 */
+		// Change Image.
+		'[data-action="menu-image-change"],' +
+		// Add Media.
+		'[data-action="menu-add"] .add-media,' +
+		// Section Background > Add Image.
+		'[data-type="background"] .add-image-controls';
 
 	$( function() {
-		var elementsAddToolbar = '.media-menu .media-menu-item, #insert-gridblocks-button,' +
-			'.action.add-gridblock, .media-modal-close';
-
 		/*
 		 * When one of our addTabTrigger elements is clicked, wait 2/10's of a
 		 * second and then add our BoldGrid Connect Search tab. The timout is
@@ -85,20 +122,9 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 			}, 200 );
 		} );
 
-		/*
-		 * Whenever a media button is clicked, remove the "Image Search" tab.
-		 *
-		 * Media button are for example "Add Media" and "Add GridBlock".
-		 *
-		 * Normally, when adding 'tabs' to the wp.media, they're added in the left menu. BoldGrid
-		 * Connect Search started off as a left menu item, but for easier accessability, it was added
-		 * as a main tab next to "Upload Files" and "Insert Media". We no longer need the link in the
-		 * left menu, so remove it.
-		 */
+		// Remove "Image Search" tab in the left menu.
 		$( document.body ).on( 'click', '#wp-content-media-buttons button', function() {
-			setTimeout( function() {
-				$( "a.media-menu-item:contains('Image Search')" ).remove();
-			}, 200 );
+			self.removeImageSearch();
 		} );
 
 		self.setIframe();
@@ -114,24 +140,6 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 				self.refreshMediaLibrary();
 			}
 		} );
-
-		/*
-		 * Ensure bottom toolbar is visible.
-		 *
-		 * When you click the BGCS tab, the toolbar at the bottom is removed. We listen to the
-		 * horizontal .media-menu-item clicks and add the toolbar back as needed. Below, we'll
-		 * listen to the following and add the toolbar back:
-		 *
-		 * # The vertical .media-menu-item clicks.
-		 * # Add new item > GridBlock.
-		 * # Add GridBlock button next to Add Media
-		 * # A modal closure.
-		 *
-		 * todo: Look into another solution rather than showing / hiding toolbar.
-		 */
-		$( document ).on( 'click', elementsAddToolbar, function() {
-			$( '.media-frame-toolbar' ).removeClass( 'hidden' );
-		});
 	} );
 
 	/**
@@ -240,6 +248,18 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 	};
 
 	/**
+	 * @summary Hide the media frame toolbar.
+	 *
+	 * For example, when loading the BoldGrid Connect Search tab.
+	 *
+	 * @since 1.2.10
+	 */
+	this.hideToolbar = function() {
+		$( '.media-frame-toolbar' ).addClass( 'hidden' );
+		$( '.media-frame-content' ).addClass( 'bottom-0' );
+	};
+
+	/**
 	 * @summary Refresh the Media Library.
 	 *
 	 * @link http://wordpress.stackexchange.com/questions/78230/trigger-refresh-for-new-media-manager-in-3-5
@@ -256,11 +276,62 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 	};
 
 	/**
+	 * @summary Whenever a media button is clicked, remove the "Image Search" tab.
+	 *
+	 * Media button are for example "Add Media" and "Add GridBlock".
+	 *
+	 * Normally, when adding 'tabs' to the wp.media, they're added in the left menu. BoldGrid
+	 * Connect Search started off as a left menu item, but for easier accessability, it was added
+	 * as a main tab next to "Upload Files" and "Insert Media". We no longer need the link in the
+	 * left menu, so remove it.
+	 *
+	 * @since 1.2.10
+	 */
+	this.removeImageSearch = function() {
+		setTimeout( function() {
+			$( "a.media-menu-item:contains('Image Search')" ).remove();
+		}, 200 );
+	};
+
+	/**
+	 * @summary Take action when a media frame is opened.
+	 *
+	 * @since 1.2.10
+	 */
+	this.onFrameOpen = function() {
+		// Make sure we're not already listening.
+		if( wp.media.frame.boldgridListening === undefined ) {
+			/*
+			 * Ensure bottom toolbar is visible.
+			 *
+			 * When you click the BGCS tab, the toolbar at the bottom is removed. It needs to be visible
+			 * at all times except when on the BGCS tab.
+			 *
+			 * Below we are taking action on both when a media modal is opened, and when different
+			 * states are activated.
+			 */
+			wp.media.frame.on( 'open', function() {
+					self.showToolbar();
+					self.removeImageSearch();
+			});
+
+			wp.media.frame.on( 'activate', function() {
+					self.showToolbar();
+			});
+
+			// Take note that we're now listening to this frame.
+			wp.media.frame.boldgridListening = true;
+		}
+	};
+
+	/**
 	 * Event handler for tab clicks.
 	 *
 	 * @since 1.1.2
 	 */
 	this.onTabClick = function() {
+
+		// Tab clicks in the top menu.
 		$( document.body )
 			.on( 'click', '.media-router .media-menu-item', function() {
 				var $content = $( '.media-frame-content:visible' ),
@@ -275,12 +346,18 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 				$libraryTab = $mediaRouter.find( self.selectors.mediaLibrary ),
 				// The tab clicked.
 				$tab = $( this ),
-				// The toolbar, which is located under the content.
-				$toolbar = $( '.media-frame-toolbar:visible' ),
 				// The content for the "Upload Files" tab.
 				$uploader = $content.find( '.uploader-inline-content' ),
 				// The "BoldGrid Connect Search" tab.
 				$bgcsTab = $mediaRouter.find( '.media-menu-item.boldgrid-connect-search', window.parent.document );
+
+			/*
+			 * The function below adds an action to the opening of wp.media.frame.
+			 *
+			 * The frame must be created before we can add an action to the on open, and at this
+			 * point we know the frame is open.
+			 */
+			self.onFrameOpen();
 
 			/*
 			 * In order for BGCS to work properly, there needs to be an
@@ -319,9 +396,7 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 				}
 				$iframe.removeClass( 'hidden' );
 
-				// Hide the bottom tollbar.
-				$toolbar.addClass( 'hidden' );
-				$content.css( 'bottom', '0px' );
+				self.hideToolbar();
 			} else {
 				// Hide the BGCS iframe.
 				$iframe.addClass( 'hidden' );
@@ -330,9 +405,7 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 				$uploader.removeClass( 'hidden' );
 				$library.removeClass( 'hidden' );
 
-				// Show the bottom toolbar.
-				$toolbar.removeClass( 'hidden' );
-				$content.css( 'bottom', '61px' );
+				self.showToolbar();
 			}
 		} );
 	};
@@ -356,6 +429,20 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 		}
 
 		self.iframe = '<iframe src="media-upload.php?chromeless=1' + post_id_param + '&tab=image_search&ref=' + ref + '" id="boldgrid_connect_search"></iframe>';
+	};
+
+	/**
+	 * @summary Show the media frame toolbar.
+	 *
+	 * We hide it at times, when loading the BoldGrid Connect Search tab. This function shows it,
+	 * because other media frame tools need it.
+	 *
+	 * @since 1.2.10
+	 */
+	this.showToolbar = function() {
+		$( '.media-frame' ).removeClass( '.hide-toolbar' );
+		$( '.media-frame-toolbar' ).removeClass( 'hidden' );
+		$( '.media-frame-content' ).removeClass( 'bottom-0' );
 	};
 };
 

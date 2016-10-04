@@ -471,16 +471,7 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 	this.downloadSuccess = function( response, $anchor ) {
 		var action = self.getAction();
 
-		// Make sure the toolbar is visible.
-		$( '.media-modal:visible', window.parent.document ).find( '.media-frame-toolbar' ).removeClass( 'hidden' );
-
 		switch( action ) {
-			case 'replace-image':
-
-				self.refresh_media_library();
-				self.whenInLibrary( response.attachment_id, action );
-
-				break;
 			case 'editor':
 
 				parent.window.send_to_editor( response.html_for_editor );
@@ -495,6 +486,7 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 		        $anchor.after( anchor_to_view_attachment_details_media_library );
 
 				break;
+			case 'replace-image':
 			case 'customizer':
 			case 'section-background':
 			case 'add-to-gallery':
@@ -629,13 +621,6 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 
 				switch( action ) {
 					case 'replace-image':
-
-						// In the media library, click the image we just downloaded, then click 'Replace'.
-				        $attachment.click();
-				        $( '.media-button-replace', window.parent.document ).click();
-
-						break;
-
 					case 'customizer':
 					case 'section-background':
 					case 'add-to-gallery':
