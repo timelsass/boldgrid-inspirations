@@ -29,6 +29,10 @@ The second phase is Customization; tools to transform your website into your vis
 
 ## Changelog ##
 
+### 1.2.12 In progress ###
+* Bug fix:		JIRA WPB-2486	Incorrect page count on All Pages.
+* Bug fix:		JIRA WPB-2467	With staging disabled, Customize goes to "Change Themes".
+
 ### 1.2.11 ###
 * Bug fix:      JIRA WPB-2468   Switching between boldgrid admin menu and standard wp menu no longer works.
 * Bug fix:		JIRA WPB-2477	If you have an existing site non BG, no route for staging exists.
