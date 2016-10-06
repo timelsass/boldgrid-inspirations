@@ -34,7 +34,7 @@ if ( true == $this->user_has_built_a_boldgrid_site() || true == $show_start_over
 			</span><br /> <br /> <input type="checkbox" id="delete_pages"
 				name="delete_pages" value="true" /> <span>Permanently delete pages
 				instead of sending to trash.</span><br /> <br />
-	
+
 	<?php
 	/**
 	 * Give the user the option to start over with either / both their active / staging
@@ -62,7 +62,7 @@ if ( true == $this->user_has_built_a_boldgrid_site() || true == $show_start_over
 
 			<hr />
 			<br /> <strong>BoldGrid Plugins and Themes:</strong><br /> <br />
-			
+
 			<?php if ( is_plugin_active( 'boldgrid-ninja-forms/ninja-forms.php' ) && ( current_user_can( 'delete_plugins' ) ||  function_exists( 'is_multisite' ) && is_multisite() && is_super_admin() ) ) { ?>
 				<input type="checkbox" id="boldgrid_delete_forms"
 				name="boldgrid_delete_forms" value="1" /> <span>Delete all BoldGrid
@@ -78,9 +78,9 @@ if ( true == $this->user_has_built_a_boldgrid_site() || true == $show_start_over
 
 <?php
 	// Print the "Start Over" button.
-	submit_button( __( 'Start Over' ), 'secondary', 'submit', false, 
+	submit_button( __( 'Start Over' ), 'secondary', 'submit', false,
 		array (
-			'id' => 'start_over_button' 
+			'id' => 'start_over_button'
 		) );
 	?>
 </form>
@@ -90,8 +90,8 @@ if ( true == $this->user_has_built_a_boldgrid_site() || true == $show_start_over
 <p>
 	You do not have a BoldGrid site to delete! You can build a new website
 	using <span class="dashicons-before dashicons-lightbulb"><?php
-	
-	printf( '<a href="%s">' . esc_html__( 'BoldGrid Inspirations' ) . '</a>.', 
+
+	printf( '<a href="%s">' . esc_html__( 'BoldGrid Inspirations' ) . '</a>.',
 		esc_url( add_query_arg( 'page', 'boldgrid-inspirations', admin_url( 'admin.php' ) ) ) );
 	?>
 	</span>
