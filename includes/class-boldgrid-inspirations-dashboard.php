@@ -118,6 +118,9 @@ class Boldgrid_Inspirations_Dashboard extends Boldgrid_Inspirations {
 					),
 					999
 				);
+
+				// The 1000 priority below is a copy of the priority BoldGrid Staging is using.
+				add_action( 'admin_menu', array( $this, 'customize_active_theme' ), 1000 );
 			} else {
 				// Create a single menu item.
 				add_action( 'admin_menu',
@@ -527,6 +530,34 @@ class Boldgrid_Inspirations_Dashboard extends Boldgrid_Inspirations {
 	 */
 	public function boldgrid_welcome_panel() {
 		include BOLDGRID_BASE_DIR . '/pages/boldgrid-dashboard-widget.php';
+	}
+
+	/**
+	 * Add "Active Theme" to Customizer menu.
+	 *
+	 * This is to ensure a consistent UI w/ and w/o the Staging plugin being installed. Either
+	 * scenario, a "Customize > Active Theme" option will be in the menu.
+	 *
+	 * @since 1.2.12
+	 */
+	public function customize_active_theme() {
+		// The BoldGrid Staging plugin is doing something similar. If Staging is active, abort.
+		if( is_plugin_active( 'boldgrid-staging/boldgrid-staging.php' ) ) {
+			return;
+		}
+
+		/*
+		 * Add the menu item.
+		 *
+		 * This code is pretty much copied from the BoldGrid Staging plugin,
+		 * class-boldgrid-staging-dashboard-menus.php.
+		 */
+		add_theme_page(
+			__( 'Active Theme', 'boldgrid-inspirations' ),
+			__( 'Active Theme', 'boldgrid-inspirations' ),
+			'edit_theme_options',
+			esc_url( add_query_arg( 'return', urlencode( wp_unslash( $_SERVER['REQUEST_URI'] ) ), 'customize.php' ) )
+		);
 	}
 
 	/**
