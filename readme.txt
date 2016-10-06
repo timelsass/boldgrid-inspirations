@@ -30,6 +30,7 @@ The second phase is Customization; tools to transform your website into your vis
 * Bug fix:		JIRA WPB-2486	Incorrect page count on All Pages.
 * Bug fix:		JIRA WPB-2467	With staging disabled, Customize goes to "Change Themes".
 * Update:		JIRA WPB-2488	Remove 'Permanently delete pages instead of sending to trash'.
+* Update:		JIRA WPB-2490	Move default option to 'install as staging'.
 
 = 1.2.11 =
 * Bug fix:      JIRA WPB-2468   Switching between boldgrid admin menu and standard wp menu no longer works.

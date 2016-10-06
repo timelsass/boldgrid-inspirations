@@ -140,8 +140,8 @@ switch( $scenario ) {
 					$lang['how_to_install'] . '
 			</p>
 			<p>
-				<input type="radio" name="install-decision" value="overwrite-active" checked>' . $lang['make_new_my_website'] . '<br />
-				<input type="radio" name="install-decision" value="install-as-staging">' . $lang['make_staged'] . '
+				<input type="radio" name="install-decision" value="overwrite-active">' . $lang['make_new_my_website'] . '<br />
+				<input type="radio" name="install-decision" value="install-as-staging" checked>' . $lang['make_staged'] . '
 			</p>
 		';
 		break;
@@ -169,8 +169,8 @@ switch( $scenario ) {
 					$lang['how_to_install'] . '
 			</p>
 			<p>
-				<input type="radio" name="install-decision" value="overwrite-active" checked>' . $lang['make_new_my_website'] . '<br />
-				<input type="radio" name="install-decision" value="overwrite-staging">' . $lang['make_new_my_staging'] . '
+				<input type="radio" name="install-decision" value="overwrite-active">' . $lang['make_new_my_website'] . '<br />
+				<input type="radio" name="install-decision" value="overwrite-staging" checked>' . $lang['make_new_my_staging'] . '
 			</p>
 		';
 		break;
@@ -219,8 +219,8 @@ switch( $scenario ) {
 				$lang['how_to_install'] . '
 			</p>
 			<p>
-				<input type="radio" name="install-decision" value="overwrite-active" checked>' . $lang['make_new_my_website'] . '<br />
-				<input type="radio" name="install-decision" value="download-staging">' . $lang['make_staged'] . '
+				<input type="radio" name="install-decision" value="overwrite-active">' . $lang['make_new_my_website'] . '<br />
+				<input type="radio" name="install-decision" value="download-staging" checked>' . $lang['make_staged'] . '
 			</p>
 		';
 		break;
@@ -248,8 +248,8 @@ switch( $scenario ) {
 				$lang['how_to_install'] . '
 			</p>
 			<p>
-				<input type="radio" name="install-decision" value="overwrite-active" checked>' . $lang['make_new_my_website'] . '<br />
-				<input type="radio" name="install-decision" value="activate-staging">' . $lang['make_staged'] . '
+				<input type="radio" name="install-decision" value="overwrite-active">' . $lang['make_new_my_website'] . '<br />
+				<input type="radio" name="install-decision" value="activate-staging" checked>' . $lang['make_staged'] . '
 			</p>
 		';
 		break;
