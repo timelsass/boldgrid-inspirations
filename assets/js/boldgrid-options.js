@@ -5,7 +5,7 @@
  *  @since .21
  */
 jQuery( document ).ready( function ($) {
-	var $el = "#boldgrid_delete_forms, #boldgrid_delete_themes, [name='start_over_active'], [name='start_over_staging']";  // Target these elements
+	var $el = "#boldgrid_delete_forms, #boldgrid_delete_themes, #delete_pages, [name='start_over_active'], [name='start_over_staging']";  // Target these elements
 
 	var $submit_button = $("#start_over_button");
 
