@@ -546,9 +546,6 @@ name='boldgrid_settings[boldgrid_feedback_optout]' value='1'
 		// Are we deleting forms?
 		$start_over->delete_forms = ( ( isset( $_POST['boldgrid_delete_forms'] ) && 1 == $_POST['boldgrid_delete_forms'] ) ? true : null );
 
-		// Are we deleting pages?
-		$start_over->delete_pages = ( isset( $_POST['delete_pages'] ) && 'true' == $_POST['delete_pages'] );
-
 		// Are we deleting themes?
 		$start_over->delete_themes = ( isset( $_POST['boldgrid_delete_themes'] ) && 1 == $_POST['boldgrid_delete_themes'] ? true : false );
 

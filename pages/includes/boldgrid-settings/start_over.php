@@ -25,15 +25,14 @@ if ( true == $this->user_has_built_a_boldgrid_site() || true == $show_start_over
 				your menus <b>WILL</b> be deleted!
 			</p>
 
-			<input type="checkbox" id="start_over" name="start_over" value="Y" />
-
-			<span>Yes, let me start fresh!</span> <span
-				id="boldgrid-alert-remove" style="display: none;"> <b> WARNING: </b>
-				Pressing the "Start Over" button below will move your pages and
-				posts to your trash!
-			</span><br /> <br /> <input type="checkbox" id="delete_pages"
-				name="delete_pages" value="true" /> <span>Permanently delete pages
-				instead of sending to trash.</span><br /> <br />
+			<p>
+				<input type="checkbox" id="start_over" name="start_over" value="Y" />
+					Yes, let me start fresh!
+					<span id="boldgrid-alert-remove" style="display: none;">
+						<b>WARNING:</b> Pressing the "Start Over" button below will move your pages and
+						posts to your trash!
+					</span>
+			</p>
 
 	<?php
 	/**
