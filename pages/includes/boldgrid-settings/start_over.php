@@ -31,11 +31,17 @@ if ( true == $this->user_has_built_a_boldgrid_site() || true == $show_start_over
 				id="boldgrid-alert-remove" style="display: none;"> <b> WARNING: </b>
 				Pressing the "Start Over" button below will move your pages and
 				posts to your trash!
-			</span><br /> <br /> <input type="checkbox" id="delete_pages"
-				name="delete_pages" value="true" /> <span>Permanently delete pages
-				instead of sending to trash.</span><br /> <br />
+			</span><br /><br />
 
 	<?php
+
+	/**
+	 * Allow an action after the "Start Over" option is printed.
+	 *
+	 * @since 1.2.12
+	 */
+	do_action( 'boldgrid_settings_after_start_fresh' );
+
 	/**
 	 * Give the user the option to start over with either / both their active / staging
 	 * site.
