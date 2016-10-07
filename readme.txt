@@ -32,6 +32,7 @@ The second phase is Customization; tools to transform your website into your vis
 * Update:		JIRA WPB-2488	Remove 'Permanently delete pages instead of sending to trash'.
 * Update:		JIRA WPB-2490	Move default option to 'install as staging'.
 * Update:		JIRA WPB-2491	Add 'Customize > Active Theme' navigation to Inspirations.
+* Update:		JIRA WPB-2229	Update error reporting when purchasing images.
 
 = 1.2.11 =
 * Bug fix:      JIRA WPB-2468   Switching between boldgrid admin menu and standard wp menu no longer works.
