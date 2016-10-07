@@ -27,6 +27,7 @@ The second phase is Customization; tools to transform your website into your vis
 == Changelog ==
 
 = 1.2.12 In progress =
+* Update:		JIRA WPB-2472	Added update notice for 1.3.
 * Bug fix:		JIRA WPB-2486	Incorrect page count on All Pages.
 * Bug fix:		JIRA WPB-2467	With staging disabled, Customize goes to "Change Themes".
 * Update:		JIRA WPB-2488	Remove 'Permanently delete pages instead of sending to trash'.
