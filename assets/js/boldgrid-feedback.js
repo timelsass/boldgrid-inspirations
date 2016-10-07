@@ -51,6 +51,15 @@ IMHWPB.BoldGridFeedback = function( $ ) {
 
 		self.wpHttpReferer = $feedbackNotice11.find( '[name="_wp_http_referer"]' ).val();
 
+		// Define a context selector for id "feedback-notice-1-1-content".
+		$feedbackContent = $feedbackNotice11.find( '#feedback-notice-1-1-content' );
+
+		// Define a context selector for id "boldgrid-feedback-form".
+		$feedbackForm = $feedbackContent.find( '#boldgrid-feedback-form' );
+
+		// Define a context selector for id "feedback-error-message".
+		$feedbackError = $feedbackContent.find( '#feedback-error-message' );
+
 		// When the id "feedback-type" selection value changes, then modify form
 		// content.
 		$feedbackNotice11Type.change( self.toggleType );
@@ -60,7 +69,12 @@ IMHWPB.BoldGridFeedback = function( $ ) {
 		$feedbackNotice11ContactCheckbox.change( self.toggleFeedbackEmail );
 
 		// Handle when the feedback form submit button is clicked.
-		$feedbackSubmit.on( 'click', self.submit_feedback_form );
+		$feedbackSubmit.on( 'click', function() {
+			if ( self.validateForm() ) {
+				self.submit_feedback_form();
+			}
+			return false;
+		});
 	} );
 
 	/**
@@ -190,6 +204,35 @@ IMHWPB.BoldGridFeedback = function( $ ) {
 		});
 	};
 
+	self.validateForm = function() {
+		var $validated = true,
+		// Comment box content.
+		$comment = $feedbackForm.find( '#feedback-comment' ).val(),
+		// Comment label.
+		$commentLabel = $feedbackForm.find( '#feedback-comment' ).parent().prev( '.feedback-form-label' );
+
+		// Reset error highlighting for element.
+		$commentLabel.removeClass( 'error-color' );
+
+		if ( ! $comment ) {
+			// Show error message.
+			markup = "<p>Please enter your feedback comment.</p>";
+			$feedbackError.find( '.feedback-form-field' ).html( markup );
+			// Unhide the error message.
+			$feedbackError.show();
+			$commentLabel.addClass( 'error-color' );
+
+			// Hide the spinner.
+			$feedbackForm.find( '.spinner' ).removeClass( 'is-active' );
+			// Enable the submit button.
+			$feedbackSubmit.prop( 'disabled', false );
+
+			$validated = false;
+		}
+
+		return $validated;
+	};
+
 	/**
 	 * Submit feedback form.
 	 *
@@ -201,15 +244,6 @@ IMHWPB.BoldGridFeedback = function( $ ) {
 
 		// Define a context selector for id "feedback-notice-1-1-intro".
 		$feedbackHeader = $feedbackNotice11.find( '#feedback-notice-1-1-intro' );
-
-		// Define a context selector for id "feedback-notice-1-1-content".
-		$feedbackContent = $feedbackNotice11.find( '#feedback-notice-1-1-content' );
-
-		// Define a context selector for id "boldgrid-feedback-form".
-		$feedbackForm = $feedbackContent.find( '#boldgrid-feedback-form' );
-
-		// Define a context selector for id "feedback-error-message".
-		$feedbackError = $feedbackContent.find( '#feedback-error-message' );
 
 		// Disable the submit button.
 		$feedbackSubmit.prop( 'disabled', 'disabled' );
