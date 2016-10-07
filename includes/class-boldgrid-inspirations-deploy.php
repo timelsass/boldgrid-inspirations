@@ -716,6 +716,11 @@ class Boldgrid_Inspirations_Deploy {
 		// Temporarily save the theme details:
 		$this->theme_details_original = $this->theme_details;
 
+		// If this is a site preview, set the site title to that of the theme.
+		if( $this->is_preview_server && isset( $this->theme_details->themeRevision->Title ) ) {
+			update_option( 'blogname', $this->theme_details->themeRevision->Title );
+		}
+
 		foreach ( array (
 			'child',
 			//'parent'
