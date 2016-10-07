@@ -212,7 +212,7 @@ IMHWPB.BoldGridFeedback = function( $ ) {
 	self.validateForm = function() {
 		var $validated = true,
 		// Comment box content.
-		$comment = $feedbackForm.find( '#feedback-comment' ).val(),
+		$comment = $feedbackForm.find( '#feedback-comment' ).val().trim(),
 		// Comment label.
 		$commentLabel = $feedbackForm.find( '#feedback-comment' ).parent().prev( '.feedback-form-label' );
 
