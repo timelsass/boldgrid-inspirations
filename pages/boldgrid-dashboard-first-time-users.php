@@ -4,7 +4,7 @@ require BOLDGRID_BASE_DIR . '/pages/templates/restrict-direct-access.php';
 
 ?>
 <div class="youtube-container">
-	<div class="youtube-player" data-id="qAz3UEJquSk"></div>
+	<div class="youtube-player" data-id="Swzm9Qw0llw"></div>
 </div>
 <p>Creating a site with BoldGrid is done in 3 steps:</p>
 <ol class="boldgrid-counter">

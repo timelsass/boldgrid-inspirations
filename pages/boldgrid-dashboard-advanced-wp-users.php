@@ -4,7 +4,7 @@ require BOLDGRID_BASE_DIR . '/pages/templates/restrict-direct-access.php';
 
 ?>
 <div class="youtube-container">
-	<div class="youtube-player" data-id="fAbVXapGx48"></div>
+	<div class="youtube-player" data-id="75TcMenE6Ss"></div>
 </div>
 <p>
 <?php
