@@ -12,6 +12,25 @@
  * The BoldGrid Dashboard class.
  */
 class Boldgrid_Inspirations_Dashboard extends Boldgrid_Inspirations {
+
+	/**
+	 * A link to the customizer.
+	 *
+	 * @since 1.2.12
+	 * @var string
+	 */
+	public $link_to_customizer;
+
+	/**
+	 * Constructor.
+	 *
+	 * @since 1.2.12
+	 */
+	public function __construct() {
+		$this->link_to_customizer =
+			esc_url( add_query_arg( 'return', urlencode( wp_unslash( $_SERVER['REQUEST_URI'] ) ), 'customize.php' ) );
+	}
+
 	/**
 	 * Add hooks.
 	 */
@@ -161,6 +180,17 @@ class Boldgrid_Inspirations_Dashboard extends Boldgrid_Inspirations {
 			'4.37'
 		);
 
+		// If the BoldGrid Staging plugin is not active, add "Customize Active" to the BoldGrid menu.
+		if( ! is_plugin_active( 'boldgrid-staging/boldgrid-staging.php' ) ) {
+			add_submenu_page(
+				$top_level_menu,
+				__( 'Customize Active' ),
+				__( 'Customize Active' ),
+				'edit_theme_options',
+				$this->link_to_customizer
+			);
+		}
+
 		// Add any bold grid
 		global $boldgrid_inspiration_menu_items;
 
@@ -186,9 +216,6 @@ class Boldgrid_Inspirations_Dashboard extends Boldgrid_Inspirations {
 
 		// WP global variable for submenus.
 		global $submenu;
-
-		// Check to see if BoldGrid Staging Plugin is installed and active for menu options.
-		$boldgrid_staging_active = is_plugin_active( 'boldgrid-staging/boldgrid-staging.php' );
 
 		// Rename Posts menu item to Blog Posts.
 		$menu[5][0] = 'Blog Posts';
@@ -556,7 +583,7 @@ class Boldgrid_Inspirations_Dashboard extends Boldgrid_Inspirations {
 			__( 'Active Site', 'boldgrid-inspirations' ),
 			__( 'Active Site', 'boldgrid-inspirations' ),
 			'edit_theme_options',
-			esc_url( add_query_arg( 'return', urlencode( wp_unslash( $_SERVER['REQUEST_URI'] ) ), 'customize.php' ) )
+			$this->link_to_customizer
 		);
 	}
 

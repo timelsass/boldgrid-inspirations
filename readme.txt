@@ -371,6 +371,8 @@ The second phase is Customization; tools to transform your website into your vis
 * Initial public release.
 
 == Upgrade Notice ==
+= 1.3 =
+Version 1.3 has been released with a redesigned Inspiration phase. For more information on this change and others, please visit our blog at https://www.boldgrid.com/boldgrid-1-3-released/ .
 
 = 1.0.2 =
 Users should upgrade to version 1.0.2 to ensure proper BoldGrid theme updates.
