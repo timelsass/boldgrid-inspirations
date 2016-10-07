@@ -39,6 +39,7 @@ The second phase is Customization; tools to transform your website into your vis
 * Update:		JIRA WPB-2229	Update error reporting when purchasing images.
 * Update:		JIRA WPB-2498	Change 'Company Name' to theme name.
 * Update:		JIRA WPB-2497	Add new dashboard videos.
+* Bug fix:		JIRA WPB-2376	'No search results' method is not cleared in BGCS.
 
 ### 1.2.11 ###
 * Bug fix:      JIRA WPB-2468   Switching between boldgrid admin menu and standard wp menu no longer works.
