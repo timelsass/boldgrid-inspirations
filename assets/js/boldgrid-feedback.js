@@ -204,6 +204,11 @@ IMHWPB.BoldGridFeedback = function( $ ) {
 		});
 	};
 
+	/**
+	 * Validate form fields before submitting ajax request.
+	 *
+	 * @since 1.2.12
+	 */
 	self.validateForm = function() {
 		var $validated = true,
 		// Comment box content.
