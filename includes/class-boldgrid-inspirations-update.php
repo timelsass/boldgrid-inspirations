@@ -715,7 +715,7 @@ class Boldgrid_Inspirations_Update {
 	 */
 	public function display_notices() {
 		// If the user can edit pages, then queue notices.
-		if( current_user_can( 'edit_pages' ) ) {
+		if ( current_user_can( 'edit_pages' ) ) {
 			// Show any pending notices.
 			add_action( 'admin_notices',
 				array(
