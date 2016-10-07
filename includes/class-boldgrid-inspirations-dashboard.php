@@ -553,8 +553,8 @@ class Boldgrid_Inspirations_Dashboard extends Boldgrid_Inspirations {
 		 * class-boldgrid-staging-dashboard-menus.php.
 		 */
 		add_theme_page(
-			__( 'Active Theme', 'boldgrid-inspirations' ),
-			__( 'Active Theme', 'boldgrid-inspirations' ),
+			__( 'Active Site', 'boldgrid-inspirations' ),
+			__( 'Active Site', 'boldgrid-inspirations' ),
 			'edit_theme_options',
 			esc_url( add_query_arg( 'return', urlencode( wp_unslash( $_SERVER['REQUEST_URI'] ) ), 'customize.php' ) )
 		);
