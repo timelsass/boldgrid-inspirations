@@ -427,6 +427,8 @@ public function add_boldgrid_configs_to_header() {
 	global $post;
 	global $pagenow;
 
+	$configs = $this->get_configs();
+
 	$boldgrid_post_id = ( isset( $post->ID ) ? intval( $post->ID ) : "''" );
 
 	// If we don't have a post id, try getting it from the URL.
@@ -434,15 +436,24 @@ public function add_boldgrid_configs_to_header() {
 		$boldgrid_post_id = ( isset( $_GET['post_id'] ) ? intval( $_GET['post_id'] ) : "''" );
 	}
 
+	/*
+	 * If we are not allowing ALL configs to be displayed in the header, create an array of configs
+	 * that are needed and safe to print on every admin page.
+	 */
+	if( false === $this->allow_header_configs() ) {
+		$configs = array(
+			'settings' => array(
+				'boldgrid_menu_option' => $configs['settings']['boldgrid_menu_option'],
+			),
+		);
+	}
+
 	$oneliner = '
 		var IMHWPB = IMHWPB || {};
 		IMHWPB.post_id = ' . $boldgrid_post_id . ';
 		IMHWPB.page_now = "' . $pagenow . '";
+		IMHWPB.configs = ' . json_encode( $configs ) . '
 	';
-
-	if( true === $this->allow_header_configs() ) {
-		$oneliner .= 'IMHWPB.configs = ' . json_encode( $this->get_configs() ) . ';';
-	}
 
 	Boldgrid_Inspirations_Utility::inline_js_oneliner( $oneliner );
 }

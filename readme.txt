@@ -26,6 +26,19 @@ The second phase is Customization; tools to transform your website into your vis
 
 == Changelog ==
 
+= 1.2.12 In progress =
+* Update:		JIRA WPB-2472	Added update notice for 1.3.
+* Bug fix:		JIRA WPB-2486	Incorrect page count on All Pages.
+* Bug fix:		JIRA WPB-2467	With staging disabled, Customize goes to "Change Themes".
+* Update:		JIRA WPB-2488	Remove 'Permanently delete pages instead of sending to trash'.
+* Update:		JIRA WPB-2490	Move default option to 'install as staging'.
+* Update:		JIRA WPB-2491	Add 'Customize > Active Theme' navigation to Inspirations.
+* Bug fix:		JIRA WPB-2496	Require comment text in feedback form.
+* Update:		JIRA WPB-2229	Update error reporting when purchasing images.
+* Update:		JIRA WPB-2498	Change 'Company Name' to theme name.
+* Update:		JIRA WPB-2497	Add new dashboard videos.
+* Bug fix:		JIRA WPB-2376	'No search results' method is not cleared in BGCS.
+
 = 1.2.11 =
 * Bug fix:      JIRA WPB-2468   Switching between boldgrid admin menu and standard wp menu no longer works.
 * Bug fix:		JIRA WPB-2477	If you have an existing site non BG, no route for staging exists.
@@ -358,6 +371,8 @@ The second phase is Customization; tools to transform your website into your vis
 * Initial public release.
 
 == Upgrade Notice ==
+= 1.3 =
+Version 1.3 has been released with a redesigned Inspiration phase. For more information on this change and others, please visit our blog at https://www.boldgrid.com/boldgrid-1-3-released/ .
 
 = 1.0.2 =
 Users should upgrade to version 1.0.2 to ensure proper BoldGrid theme updates.

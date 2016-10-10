@@ -27,6 +27,7 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 
 		// event handler: user clicks search
 		jQuery( '#image_search', $c_imhmf ).on( 'submit', function() {
+			self.reset_search();
 			self.initiate_stock_image_search();
 			return false;
 		} );

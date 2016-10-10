@@ -888,6 +888,9 @@ class Boldgrid_Inspirations_Attribution extends Boldgrid_Inspirations {
 	/**
 	 * Remove 1 from the total page count, because attribution is hidden from view.
 	 *
+	 * This method also removes the Attribution page from the "Mine" count as well, however including
+	 * a js file is required to do this.
+	 *
 	 * @param object $counts
 	 *        	(http://pastebin.com/WW9ZksMR)
 	 * @param string $type
@@ -895,6 +898,16 @@ class Boldgrid_Inspirations_Attribution extends Boldgrid_Inspirations {
 	 * @return int
 	 */
 	public function remove_attribution_from_page_count( $counts, $type ) {
+		global $pagenow;
+
+		/*
+		 * How many should we remove from the Mine count?
+		 *
+		 * Default value is 0, and it may be set as high as 2 by the foreach below (one for the
+		 * Active Attribution page, and one for the Staging Attribution page).
+		 */
+		$remove_from_mine = 0;
+
 		$this->set_attribution_page_ids();
 
 		// We're only running this on pages.
@@ -920,32 +933,36 @@ class Boldgrid_Inspirations_Attribution extends Boldgrid_Inspirations {
 			if ( isset( $counts->$post_status ) ) {
 				$counts->$post_status --;
 
-				global $pagenow;
-
 				// Post post_author is a numeric string (for compatibility reasons).
 				// The get_current_user_id function returns an int, so no strict comparison here.
 				$current_user_is_author = ( $post->post_author == get_current_user_id() );
 
+				// Trashed pages don't show in the "Mine" count. Is this page trashed?
 				$attribution_page_is_trashed = ( 'trash' === $post->post_status );
 
-				// One count type not listed in $counts is 'Mine', the number of pages authored by
-				// the current user. To update this number, we'll include the below javascript file.
-				// We'll only include this file if the attribution page is not trashed, because
-				// trashed pages don't show in the 'Mine' count. Including this js file when we
-				// shouldn't will cause the 'Mine' count to be inaccurate.
-				if ( 'edit.php' === $pagenow && $current_user_is_author &&
-				! $attribution_page_is_trashed ) {
-					wp_enqueue_script(
-						'boldgrid-all-pages',
-						plugins_url(
-							'assets/js/all-pages-mine-count.js',
-							BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php'
-						),
-						array(),
-						BOLDGRID_INSPIRATIONS_VERSION
-					);
+				if( $current_user_is_author && ! $attribution_page_is_trashed ) {
+					$remove_from_mine++;
 				}
 			}
+		}
+
+		/*
+		 * One count type not listed in $counts is 'Mine', the number of pages authored by the
+		 * current user. To update this number, we'll include the below javascript file.
+		 */
+		if( 'edit.php' === $pagenow && $remove_from_mine > 0 ) {
+			wp_register_script(
+				'boldgrid-attribution-count',
+				plugins_url( 'assets/js/all-pages-mine-count.js', BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ),
+				array(),
+				BOLDGRID_INSPIRATIONS_VERSION
+			);
+
+			wp_localize_script( 'boldgrid-attribution-count', 'boldgridAttributionCount', array(
+				'removeFromMine' => $remove_from_mine,
+			));
+
+			wp_enqueue_script( 'boldgrid-attribution-count' );
 		}
 
 		return $counts;
