@@ -29,7 +29,8 @@ The second phase is Customization; tools to transform your website into your vis
 
 ## Changelog ##
 
-### 1.2.12 In progress ###
+### 1.2.12 ###
+* Update:		JIRA WPB-2472	Added update notice for 1.3.
 * Bug fix:		JIRA WPB-2486	Incorrect page count on All Pages.
 * Bug fix:		JIRA WPB-2467	With staging disabled, Customize goes to "Change Themes".
 * Update:		JIRA WPB-2488	Remove 'Permanently delete pages instead of sending to trash'.
@@ -373,6 +374,8 @@ The second phase is Customization; tools to transform your website into your vis
 * Initial public release.
 
 ## Upgrade Notice ##
+### 1.3 ###
+Version 1.3 has been released with a redesigned Inspiration phase. For more information on this change and others, please visit our blog at https://www.boldgrid.com/boldgrid-1-3-released/ .
 
 ### 1.0.2 ###
 Users should upgrade to version 1.0.2 to ensure proper BoldGrid theme updates.
