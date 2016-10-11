@@ -1,6 +1,11 @@
 /* global boldgridAttributionCount */
 
 jQuery( function() {
+	// Abort if we don't have a count to remove.
+	if( typeof boldgridAttributionCount === 'undefined' ) {
+		return;
+	}
+
 	/**
 	 * On "All Pages", we remove the ninja forms preview page both from the list
 	 * of pages and the page count next to "All".
