@@ -29,6 +29,9 @@ The second phase is Customization; tools to transform your website into your vis
 
 ## Changelog ##
 
+### 1.2.13 In progress ###
+* Bug fix:		JIRA WPB-2527	'New from GridBlocks' preview page appearing in cart.
+
 ### 1.2.12 ###
 * Update:		JIRA WPB-2472	Added update notice for 1.3.
 * Bug fix:		JIRA WPB-2486	Incorrect page count on All Pages.
