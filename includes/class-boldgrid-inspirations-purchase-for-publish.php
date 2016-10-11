@@ -834,30 +834,19 @@ for purchase, and will be removed from the cart.</p>
 	/**
 	 * Return post_status we will look for watermarked images within.
 	 *
-	 * By default, we will look for watermarked images within published pages.
+	 * By default, we will look for watermarked images within drafts and published pages.
 	 *
 	 * @since 1.1.4
 	 *
-	 * @return string A string to be used after in IN statement, example: ( 'publish' ).
+	 * @return string A string to be used after in IN statement, example: ( 'draft', 'publish' ).
 	 */
 	public function get_post_status() {
-		/*
-		 * Originally, the default array below included both 'draft' and 'publish' pages. This
-		 * however caused the following bug:
-		 *
-		 * The preview pages created by "new from gridblocks" are draft pages, and were included in
-		 * the cart. If you previewed a "Testimonails" page and you installed a "Testimonials"
-		 * page, that page would show up twice. One for the preview page created and one for the
-		 * actual page you created.
-		 *
-		 * Not sure why draft was there anyways.
-		 */
-		$post_status = array( 'publish' );
+		$post_status = array( 'draft', 'publish' );
 
 		/**
 		 * Allow other plugins to change the post_status we look for watermarked images within.
 		 *
-		 * By default, we will look within published pages. Other plugins, such as the
+		 * By default, we will look within drafts and published pages. Other plugins, such as the
 		 * BoldGrid Staging plugin, may want to look for watermarked images within staged pages.
 		 *
 		 * @since 1.1.4
