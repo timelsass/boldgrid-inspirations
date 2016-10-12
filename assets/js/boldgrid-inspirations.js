@@ -221,6 +221,35 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	};
 
 	/**
+	 * @summary Enable or disable install buttons on the last step of Inspirations.
+	 *
+	 * After the user clicks "Install this website!", disable that button so the user cannot click
+	 * it again.
+	 *
+	 * If there is an issue with the installation, we need to be able to enable the buttons
+	 * again too (the disable parament).
+	 *
+	 * @since 1.2.14
+	 *
+	 * @param bool $disable Are we disabling the install buttons?
+	 */
+	this.disableInstallButton = function( disable ) {
+		var $selectInstallType = $( '#select-install-type' );
+
+		if( true === disable ) {
+			// Disable the "Go back" and "Install this website" buttons.
+			$selectInstallType.find( 'button' ).prop( 'disabled', true );
+
+			// Show a spinner
+			$selectInstallType.append( '<span class="spinner inline"></span>' );
+		} else {
+			$selectInstallType.find( 'button' ).prop( 'disabled', false );
+
+			$selectInstallType.find( 'span.spinner' ).remove();
+		}
+	}
+
+	/**
 	 * @summary Get the selected coin budget.
 	 *
 	 * @since 1.2.6
@@ -299,12 +328,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			// Get our install decision.
 			var installDecision = $( 'input[name="install-decision"]:checked' ).val(), data;
 
-			// Disable the "Go back" and "Install this website" buttons.
-			$( '#install-buttons button' ).prop( 'disabled', true );
-
-			// Show a spinner
-			$( '#install-buttons' ).append( '<span class="spinner inline"></span>' );
-
+			self.disableInstallButton( true );
 
 			switch( installDecision ) {
 
@@ -358,6 +382,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 							$( '#post_deploy' ).submit();
 						} else {
 							alert ('failed setting up staging plugin');
+							self.disableInstallButton( false );
 						}
 					});
 					break;
@@ -374,7 +399,8 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 							$( '#start_over' ).val( 'true' );
 							$( '#post_deploy' ).submit();
 						} else {
-							alert ('failed activating up staging plugin');
+							alert ('failed activating staging plugin');
+							self.disableInstallButton( false );
 						}
 					});
 					break;
