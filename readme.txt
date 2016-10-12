@@ -26,7 +26,7 @@ The second phase is Customization; tools to transform your website into your vis
 
 == Changelog ==
 
-= 1.3 In progress =
+= 1.3 =
 * Bug fix:		JIRA WPB-2544	Disable 'Install' button after clicking it.
 
 = 1.2.13 =
