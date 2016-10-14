@@ -172,7 +172,16 @@ class Boldgrid_Inspirations_Inspiration extends Boldgrid_Inspirations {
 
 		/* Load hooks for all pages. */
 
-		// Attribution.
+		require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-attribution-update.php';
+		$attribution_update = new Boldgrid_Inspirations_Attribution_Update();
+		$attribution_update->add_hooks();
+
+		require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-attribution-page.php';
+		$attribution_page = new Boldgrid_Inspirations_Attribution_Page();
+		$attribution_page->add_hooks();
+
+		require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-attribution-asset.php';
+
 		require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-attribution.php';
 		$attribution = new Boldgrid_Inspirations_Attribution();
 		$attribution->add_hooks();

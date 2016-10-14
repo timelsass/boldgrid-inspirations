@@ -134,13 +134,13 @@ class Boldgrid_Inspirations_Start_Over {
 			}
 		}
 
-		// Add our attribution page to the pages list as well:
-
-		$attribution = get_option( 'boldgrid_attribution' );
-
-		if ( is_array( $attribution ) && ! empty( $attribution['page']['id'] ) ) {
-			$page_ids[] = $attribution['page']['id'];
-		}
+		/*
+		 * We use to have a section of code here that added our Attribution page ids to the list of
+		 * pages that need to be cleaned up.
+		 *
+		 * We don't need to do this any longer. The Attribution page will be rebuild the first time
+		 * it is visited from the front end.
+		 */
 
 		// Allow other plugins to modify the page id's that are deleted.
 		$page_ids = apply_filters( 'boldgrid_inspirations_cleanup_page_ids', $page_ids );
