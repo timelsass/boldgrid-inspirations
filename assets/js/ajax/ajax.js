@@ -20,8 +20,8 @@ IMHWPB.Ajax = function( configs ) {
 			};
 		}
 
-		data['key'] = self.api_key;
-		data['site_hash'] = self.site_hash;
+		data.key = self.api_key;
+		data.site_hash = self.site_hash;
 
 		jQuery.ajax( {
 			type : 'POST',
@@ -52,11 +52,23 @@ IMHWPB.Ajax = function( configs ) {
 			break;
 
 		case 'error':
-			// Provide a friendly error for comm failure.
-			jQuery( '#wpbody-content' )
-				.html(
-					"<div id='container_boldgrid_connection_notice' class='error'><h2 class='dashicons-before dashicons-admin-network'>BoldGrid Connection Issue</h2><p>There was an issue reaching the BoldGrid Connect server. Some BoldGrid features may be temporarily unavailable. Please try again in a moment.</p><p>If the issue persists, then please feel free to check our <a	target='_blank' href='https://www.boldgrid.com/'>BoldGrid Status</a> page.</p></div>"
-				);
+			var $wpbody;
+
+			if ( window.parent.jQuery( '#wpbody-content' ).length ) {
+				$wpbody = window.parent.jQuery( '#wpbody-content' );
+			} else {
+				$wpbody = jQuery( '#wpbody-content' );
+			}
+
+			// Provide a friendly error for comm failure, if notice is not already displayed.
+			if ( ! window.parent.jQuery( '#container_boldgrid_connection_notice' ).length  &&
+				! jQuery( '#container_boldgrid_connection_notice' ).length ) {
+					$wpbody
+						.html(
+							'<div id="container_boldgrid_connection_notice" class="error"><h2 class="dashicons-before dashicons-admin-network">BoldGrid Connection Issue</h2><p>There was an issue reaching the BoldGrid Connect server. Some BoldGrid features may be temporarily unavailable. Please try again in a moment.</p><p>If the issue persists, then please feel free to check our <a target="_blank" href="https://www.boldgrid.com/">BoldGrid Status</a> page.</p></div>'
+						);
+			}
+
 			// Make WordPress check the asset server connection.
 			var data = {
 					'action': 'check_asset_server'
