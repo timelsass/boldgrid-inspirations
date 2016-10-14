@@ -36,13 +36,14 @@ The second phase is Customization; tools to transform your website into your vis
 
 ### 1.3.1 In progress ###
 * Misc:			JIRA WPB-2503	Added plugin requirements to readme.txt file.
-* Bug fix:		JIAR WPB-2539	Fix possible duplicate connection issue notice from ajax.js call.
+* Bug fix:		JIRA WPB-2539	Fix possible duplicate connection issue notice from ajax.js call.
+* Bug fix:		JIRA WPB-2558	Don't display feedback widget if user hasn't entered their key.
 
 ### 1.3 ###
 * Bug fix:		JIRA WPB-2544	Disable 'Install' button after clicking it.
 
 ### 1.2.13 ###
-* Bug fix:		JIRA WPB-2531	Javascript error checking needed for mine count.	
+* Bug fix:		JIRA WPB-2531	Javascript error checking needed for mine count.
 
 ### 1.2.12 ###
 * Update:		JIRA WPB-2472	Added update notice for 1.3.
