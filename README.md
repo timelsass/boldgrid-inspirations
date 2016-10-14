@@ -19,6 +19,11 @@ The first phase is Inspiration; the guided tool creates your base website.  If y
 
 The second phase is Customization; tools to transform your website into your vision.
 
+## Requirements ##
+
+* PHP 5.3 or higher.
+* PHP cURL.
+
 ## Installation ##
 
 1. Upload the entire boldgrid-inspirations folder to the /wp-content/plugins/ directory.
@@ -28,6 +33,10 @@ The second phase is Customization; tools to transform your website into your vis
 3. You will find the Inspirations menu in your WordPress Dashboard / admin panel.
 
 ## Changelog ##
+
+### 1.3.1 In progress ###
+* Misc:			JIRA WPB-2503	Added plugin requirements to readme.txt file.
+* Bug fix:		JIAR WPB-2539	Fix possible duplicate connection issue notice from ajax.js call.
 
 ### 1.3 ###
 * Bug fix:		JIRA WPB-2544	Disable 'Install' button after clicking it.
