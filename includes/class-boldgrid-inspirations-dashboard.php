@@ -27,8 +27,8 @@ class Boldgrid_Inspirations_Dashboard extends Boldgrid_Inspirations {
 	 * @since 1.2.12
 	 */
 	public function __construct() {
-		$this->link_to_customizer =
-			esc_url( add_query_arg( 'return', urlencode( wp_unslash( $_SERVER['REQUEST_URI'] ) ), 'customize.php' ) );
+		$this->link_to_customizer = esc_url( add_query_arg( 'return', urlencode( wp_unslash( $_SERVER['REQUEST_URI'] ) ), 'customize.php' ) );
+		$this->api = new Boldgrid_Inspirations_Api( $this );
 	}
 
 	/**
@@ -680,7 +680,8 @@ class Boldgrid_Inspirations_Dashboard extends Boldgrid_Inspirations {
 				'boldgrid_news_widget',
 			)
 		);
-		if ( current_user_can( 'edit_dashboard' ) ) {
+
+		if ( current_user_can( 'edit_dashboard' ) && ! $this->api->get_have_enqueued_api_key_prompt() ) {
 			wp_add_dashboard_widget(
 				'boldgrid_feedback_widget',
 				esc_html__( 'BoldGrid Feedback', 'boldgrid-inspirations' ),
