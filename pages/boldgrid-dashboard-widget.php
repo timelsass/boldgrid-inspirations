@@ -7,7 +7,7 @@ require BOLDGRID_BASE_DIR . '/pages/templates/restrict-direct-access.php';
 <div id="dashboard-widget" class="metabox-holder">
 	<div id="postbox-container-0" class="postbox-container"
 		style="width: 100%">
-		<div class="meta-box-sortables ui-sortable">
+		<div class="boldgrid-non-sortable">
 			<div id="boldgrid-postbox" class="postbox">
 				<div class="handlediv" title="Click to toggle">
 					<br>
