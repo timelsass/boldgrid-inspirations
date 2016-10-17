@@ -150,16 +150,8 @@ class Boldgrid_Inspirations_Attribution {
 	public static function get_lang() {
 		return array(
 			'Attribution' => __( 'Attribution', 'boldgrid-inspirations' ),
+			'post_type' => 'bg_attribution',
 		);
-	}
-
-	/**
-	 * Return our custom post type.
-	 *
-	 * @since 1.3.1
-	 */
-	public static function get_post_type() {
-		return 'bg_attribution';
 	}
 
 	/**

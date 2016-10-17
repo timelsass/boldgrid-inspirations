@@ -40,7 +40,6 @@ class Boldgrid_Inspirations_Attribution_Page {
 	 */
 	public function __construct() {
 		$this->lang = Boldgrid_Inspirations_Attribution::get_lang();
-		$this->post_type = Boldgrid_Inspirations_Attribution::get_post_type();
 	}
 
 	/**
@@ -75,12 +74,12 @@ class Boldgrid_Inspirations_Attribution_Page {
 	 * $return object|bool If we have an Attribution page, return its page object.
 	 */
 	public static function get() {
-		$attribution_post_type = Boldgrid_Inspirations_Attribution::get_post_type();
+		$lang = Boldgrid_Inspirations_Attribution::get_lang();
 
 		$defaults = array(
-			'post_title' => Boldgrid_Inspirations_Attribution::get_lang(),
+			'post_title' => $lang['Attribution'],
 			'post_content' => 'Coming soon.',
-			'post_type' => $attribution_post_type,
+			'post_type' => $lang['post_type'],
 			'post_name' => 'attribution',
 			'post_status' => 'publish',
 			'page_template' => 'default',
@@ -100,7 +99,7 @@ class Boldgrid_Inspirations_Attribution_Page {
 		$defaults = apply_filters( 'boldgrid_deployment_pre_insert_post', $defaults );
 
 		// Check to see if the Attribution page has already been created.
-		$attribution_page = get_page_by_path( $defaults['post_name'], OBJECT, $attribution_post_type );
+		$attribution_page = get_page_by_path( $defaults['post_name'], OBJECT, $lang['post_type'] );
 
 		// If the Attribution page has not already been created, create it.
 		if( null === $attribution_page ) {
@@ -153,7 +152,7 @@ class Boldgrid_Inspirations_Attribution_Page {
 		}
 
 		if ( ! empty( $query->query['name'] ) ) {
-			$query->set( 'post_type', array( 'post', 'bg_attribution', 'page' ) );
+			$query->set( 'post_type', array( 'post', $this->lang['post_type'], 'page' ) );
 		}
 	}
 
@@ -174,7 +173,7 @@ class Boldgrid_Inspirations_Attribution_Page {
 		 * If we're not looking at an Attribution page, or this post does not have a
 		 * publish/staging status, abort.
 		 */
-		if ( $this->post_type != $post->post_type || ! in_array( $post->post_status, $post_statuses ) ) {
+		if ( $this->lang['post_type'] != $post->post_type || ! in_array( $post->post_status, $post_statuses ) ) {
 			return $post_link;
 		}
 
@@ -264,7 +263,7 @@ class Boldgrid_Inspirations_Attribution_Page {
 			'exclude_from_search' => true,
 		);
 
-		register_post_type( 'bg_attribution', $args );
+		register_post_type( $this->lang['post_type'], $args );
 
 		/*
 		 * If this is our first time registering this custom post type, we need to flush the rewrite
