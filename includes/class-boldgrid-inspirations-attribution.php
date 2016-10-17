@@ -38,14 +38,6 @@ class Boldgrid_Inspirations_Attribution {
 	public $license_details;
 
 	/**
-	 * Custom post type.
-	 *
-	 * @since 1.3.1
-	 * @var string
-	 */
-	public $post_type = 'bg_attribution';
-
-	/**
 	 * Constructor
 	 *
 	 * @param array $settings
@@ -96,13 +88,13 @@ class Boldgrid_Inspirations_Attribution {
 	 */
 	public function build_attribution_page() {
 		// Get our attribution page. If it doesn't exist, this function will also create it.
-		$this->attribution_page = Boldgrid_Inspirations_Attribution_Page::get();
+		$attribution_page = Boldgrid_Inspirations_Attribution_Page::get();
 
 		// Loop through each asset and determine if it needs attribution.
 		$this->flag_needs_attribution();
 
 		// Create the html of the attribution page.
-		$this->update_html_of_the_attribution_page_object();
+		$this->save_attribution_html( $attribution_page );
 	}
 
 	/**
@@ -149,7 +141,10 @@ class Boldgrid_Inspirations_Attribution {
 	 */
 	public static function get_lang() {
 		return array(
+			// Used for the page title.
 			'Attribution' => __( 'Attribution', 'boldgrid-inspirations' ),
+			// Used for the page slug.
+			'attribution' => __( 'attribution', 'boldgrid-inspirations' ),
 			'post_type' => 'bg_attribution',
 		);
 	}
@@ -165,8 +160,10 @@ class Boldgrid_Inspirations_Attribution {
 	 * wp_update_post_attribution_page().
 	 *
 	 * @since 1.0
+	 *
+	 * @param object $attribution_page Our Attribution page object.
 	 */
-	public function update_html_of_the_attribution_page_object() {
+	public function save_attribution_html( $attribution_page ) {
 		include BOLDGRID_BASE_DIR . '/pages/attribution.php';
 
 		$image_attribution_html = '';
@@ -178,13 +175,12 @@ class Boldgrid_Inspirations_Attribution {
 		$column_css = 'col-xs-12 col-sm-3 col-md-3 col-lg-3 attributed';
 
 		$style = '
-				<style>
-					.attributed{height:250px;overflow:hidden;}
-					.attributed img{max-height:180px;}
-				</style>
-				<div class="row">
-			';
-
+			<style>
+				.attributed{height:250px;overflow:hidden;}
+				.attributed img{max-height:180px;}
+			</style>
+			<div class="row">
+		';
 
 		/*
 		 * Create an array of html markup that provides attribution per image.
@@ -219,9 +215,6 @@ class Boldgrid_Inspirations_Attribution {
 			}
 		}
 
-
-
-
 		// If we have HTML to attribute our images, then update $html to include it.
 		if ( ! empty( $image_attribution_html ) ) {
 			$html .= $attribution_image_heading . $image_attribution_html;
@@ -245,8 +238,8 @@ class Boldgrid_Inspirations_Attribution {
 			), 1
 		);
 
-		$this->attribution_page->post_content = $html;
-		wp_update_post( $this->attribution_page );
+		$attribution_page->post_content = $html;
+		wp_update_post( $attribution_page );
 	}
 
 	/**

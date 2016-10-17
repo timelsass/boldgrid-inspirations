@@ -25,15 +25,6 @@ class Boldgrid_Inspirations_Attribution_Page {
 	public $lang;
 
 	/**
-	 * The type of post Attribution pages are.
-	 *
-	 * When creating a customer post type, this is the type.
-	 *
-	 * @since 1.3.1
-	 */
-	public $post_type;
-
-	/**
 	 * Constructor.
 	 *
 	 * @since 1.3.1
@@ -80,7 +71,7 @@ class Boldgrid_Inspirations_Attribution_Page {
 			'post_title' => $lang['Attribution'],
 			'post_content' => 'Coming soon.',
 			'post_type' => $lang['post_type'],
-			'post_name' => 'attribution',
+			'post_name' => $lang['attribution'],
 			'post_status' => 'publish',
 			'page_template' => 'default',
 			'comment_status' => 'closed',
