@@ -138,7 +138,7 @@ class Boldgrid_Inspirations_Start_Over {
 		 * We use to have a section of code here that added our Attribution page ids to the list of
 		 * pages that need to be cleaned up.
 		 *
-		 * We don't need to do this any longer. The Attribution page will be rebuild the first time
+		 * We don't need to do this any longer. The Attribution page will be rebuilt the first time
 		 * it is visited from the front end.
 		 */
 
