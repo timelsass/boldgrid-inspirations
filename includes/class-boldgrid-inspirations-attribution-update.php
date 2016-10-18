@@ -67,16 +67,22 @@ class Boldgrid_Inspirations_Attribution_Update {
  			return;
  		}
 
+ 		$lang = Boldgrid_Inspirations_Attribution::get_lang();
+
 		// These are the pages that we will find and delete.
- 		$slugs = array( 'attribution', 'attribution-staging' );
+ 		$slugs = array( $lang['attribution'], $lang['attribution'] . '-staging' );
 
 		foreach( $slugs as $slug ) {
 			$attribution_page = get_page_by_path( $slug  );
 
 			if( is_object( $attribution_page ) && isset( $attribution_page->ID ) ) {
+				$attribution_page->post_type = $lang['post_type'];
 				wp_delete_post( $attribution_page->ID, true );
 			}
 		}
+
+		// Flag this option as true so that the next visit to Attribution triggers a rebuild.
+		update_option( 'boldgrid_attribution_rebuild', true );
 
 		// These options are no longer needed, delete them.
 		delete_option( 'boldgrid_attribution' );

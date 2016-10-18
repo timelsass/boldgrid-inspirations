@@ -189,7 +189,7 @@ class Boldgrid_Inspirations_Attribution {
 						'details' => json_decode( $asset['attribution'] ),
 					);
 
-					$image_attribution_array[] = $this->set_attribution_html_for_one_item( $attribution_details );
+					$image_attribution_array[] = $this->create_attribution_html( $attribution_details );
 				}
 			}
 
@@ -265,54 +265,54 @@ class Boldgrid_Inspirations_Attribution {
 	 *
 	 * @return string
 	 */
-	public function set_attribution_html_for_one_item( $attribution_details ) {
-		if ( isset( $attribution_details['details']->license ) &&
-		is_numeric( $attribution_details['details']->license ) ) {
+	public function create_attribution_html( $attribution_details ) {
+		if ( isset( $attribution_details['details']->license ) && is_numeric( $attribution_details['details']->license ) ) {
 			$license_id = $attribution_details['details']->license;
 		}
 
-		/*
-		 * Create the image to show.
-		 */
+		// Create the image to show.
 		if ( isset( $attribution_details['thumbnail'][0] ) ) {
 			$image_tag = "<img src='" . $attribution_details['thumbnail'][0] . "' />";
 		} else {
 			$image_tag = "<img src='http://placehold.it/300x150&text=Image%20not%20available' />";
 		}
 
-		/*
-		 * Create the link to the image's homepage.
-		 */
+		// Create the link to the image's homepage.
 		if ( isset( $attribution_details['details']->image_homepage ) ) {
-			$image_tag = "<a href='" . $attribution_details['details']->image_homepage .
-				 "' target='_blank'>" . $image_tag . "</a>";
+			$image_tag = sprintf(
+				'<a href="%s" target="_blank">%s</a>',
+				$attribution_details['details']->image_homepage,
+				$image_tag
+			);
 		}
 
-		/*
-		 * Create the link to the author.
-		 */
-		$author = "<strong>Author</strong>: ";
+		// Create the link to the author.
+		$author = '<strong>' . __( 'Author', 'boldgrid-inspirations' ) . '</strong>: ';
 		if ( isset( $attribution_details['details']->author_username ) ) {
 			if ( isset( $attribution_details['details']->author_url ) ) {
-				$author .= "<a href='" . $attribution_details['details']->author_url .
-					 "' target='_blank'>" . $attribution_details['details']->author_username . "</a>";
+				$author .= sprintf(
+					'<a href="%s" target="_blank">%s</a>',
+					$attribution_details['details']->author_url,
+					$attribution_details['details']->author_username
+				);
 			} else {
 				$author .= $attribution_details['details']->author_username;
 			}
 		} else {
-			$author .= "<em>Unknown</em>";
+			$author .= '<em>' . __( 'Unknown', 'boldgrid-inspirations' ) . '</em>';
 		}
 
-		/*
-		 * Create the link to the license.
-		 */
-		$license = "<strong>License</strong>: ";
+		// Create the link to the license.
+		$license = '<strong>' . __( 'License', 'boldgrid-inspirations' ) . '</strong>: ';
 		if ( isset( $license_id ) && isset( $this->license_details[$license_id] ) ) {
-			$license .= "<a href='" . $this->license_details[$license_id]['url'] .
-				 "' target='_blank'><img src='" . $this->license_details[$license_id]['icon'] .
-				 "' title='" . $this->license_details[$license_id]['name'] . "' /></a>";
+			$license .= sprintf(
+				'<a href="%s" target="_blank"><img src="%s" title="%s" /></a>',
+				$this->license_details[$license_id]['url'],
+				$this->license_details[$license_id]['icon'],
+				$this->license_details[$license_id]['name']
+			);
 		} else {
-			$license .= "<em>Unknown license</em>";
+			$license .= '<em>' . __( 'Unknown license', 'boldgrid-inspirations' ) . '</em>';
 		}
 
 		return $image_tag . "<br />" . $author . "<br />" . $license;
