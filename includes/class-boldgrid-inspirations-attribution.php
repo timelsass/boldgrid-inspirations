@@ -150,14 +150,7 @@ class Boldgrid_Inspirations_Attribution {
 	}
 
 	/**
-	 * Creates the html that will make up the attribution page.
-	 *
-	 * This function is called from build_attribution_page().
-	 *
-	 * This function sets the value of $this->attribution_page->post_content.
-	 *
-	 * It is then up to the build_attribution_page() method to save the page by calling
-	 * wp_update_post_attribution_page().
+	 * Generate the HTML of the Attribution page and save it into the Attribution page.
 	 *
 	 * @since 1.0
 	 *

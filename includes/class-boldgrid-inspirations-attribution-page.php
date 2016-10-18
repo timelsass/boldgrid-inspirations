@@ -34,6 +34,13 @@ class Boldgrid_Inspirations_Attribution_Page {
 	}
 
 	/**
+	 * Is the current page the Attribution page.
+	 *
+	 * @since 1.3.1
+	 */
+	public $is_current = null;
+
+	/**
 	 * Add hooks.
 	 *
 	 * @since 1.3.1
@@ -47,12 +54,27 @@ class Boldgrid_Inspirations_Attribution_Page {
 
 		add_action( 'template_redirect', array( $this, 'prevent_contamination' ) );
 
+		add_filter( 'boldgrid/display_sidebar', array( $this, 'boldgrid_display_sidebar' ) );
+
+		add_filter( 'single_template', array( $this, 'single_template' ) );
+
 		/*
 		 * At this point in the code, we are in the init hook.
 		 *
 		 * Registering a post type must be done in the init hook, so do that now.
 		 */
-		$this->register_post_type();
+		self::register_post_type();
+	}
+
+	/**
+	 * Tell the BoldGrid Theme framework to not display sidebars on the attribution page.
+	 *
+	 * @since 1.3.1
+	 *
+	 * @param bool $display False if not displaying sidebars.
+	 */
+	public function boldgrid_display_sidebar( $display ) {
+		return( true === $this->is_current() ? false : $display );
 	}
 
 	/**
@@ -113,8 +135,15 @@ class Boldgrid_Inspirations_Attribution_Page {
 	 * @since 1.3.1
 	 *
 	 * @global post.
+	 *
+	 * @return bool The current page is the Attribution page.
 	 */
 	public function is_current() {
+		// If we've already calculated this value, then return it.
+		if( ! is_null( $this->is_current ) ) {
+			return $this->is_current;
+		}
+
 		$attribution_page = $this->get();
 
 		// If we were unable to get the attribution page, then this cannot be the attribution page.
@@ -124,7 +153,9 @@ class Boldgrid_Inspirations_Attribution_Page {
 
 		global $post;
 
-		return ( isset( $post->ID ) && $post->ID === $attribution_page->ID );
+		$this->is_current = ( isset( $post->ID ) && $post->ID === $attribution_page->ID );
+
+		return( $this->is_current );
 	}
 
 	/**
@@ -174,14 +205,68 @@ class Boldgrid_Inspirations_Attribution_Page {
 	}
 
 	/**
+	 * Activation hook.
+	 *
+	 * When activating BoldGrid Inspirations, any existing Attribution pages, convert them into
+	 * bg_attribution page types.
+	 *
+	 * @since 1.3.1
+	 */
+	public static function on_activate() {
+		self::register_post_type();
+
+		$lang = Boldgrid_Inspirations_Attribution::get_lang();
+
+		$paths = array( $lang['attribution'], $lang['attribution'] . '-staging' );
+
+		foreach( $paths as $path ) {
+			$attribution_page = get_page_by_path( $path, OBJECT, 'page' );
+
+			if( null === $attribution_page ) {
+				continue;
+			} else {
+				$attribution_page->post_type = $lang['post_type'];
+				wp_update_post( $attribution_page );
+			}
+		}
+	}
+
+	/**
+	 * Deactivation hook.
+	 *
+	 * When BoldGrid Inspirations is deactivated, change the the Attribition page's post_types to
+	 * 'page', so the user can edit them if need by.
+	 *
+	 * @since 1.3.1
+	 */
+	public static function on_deactivate() {
+		$lang = Boldgrid_Inspirations_Attribution::get_lang();
+
+		$paths = array( $lang['attribution'], $lang['attribution'] . '-staging' );
+
+		foreach( $paths as $path ) {
+			$attribution_page = get_page_by_path( $path, OBJECT, $lang['post_type'] );
+
+			if( null === $attribution_page ) {
+				continue;
+			} else {
+				$attribution_page->post_type = "page";
+				wp_update_post( $attribution_page );
+			}
+		}
+	}
+
+	/**
 	 * Prevent viewing of Active Attribution page in Staging environment, and vice versa.
 	 *
 	 * @since 1.3.1
 	 *
 	 * @global $post object Post object.
 	 */
-	public function prevent_contamination() {
+	public static function prevent_contamination() {
 		global $post;
+
+		$lang = Boldgrid_Inspirations_Attribution::get_lang();
 
 		// If we don't have a post status, return.
 		if( empty ( $post->post_status ) ) {
@@ -189,7 +274,7 @@ class Boldgrid_Inspirations_Attribution_Page {
 		}
 
 		// If we're not looking at the Attribution page, abort.
-		if( $this->lang['Attribution'] !== $post->post_title ) {
+		if( $lang['Attribution'] !== $post->post_title ) {
 			return;
 		}
 
@@ -243,7 +328,9 @@ class Boldgrid_Inspirations_Attribution_Page {
 	 *
 	 * @since 1.3.1
 	 */
-	public function register_post_type() {
+	public static function register_post_type() {
+		$lang = Boldgrid_Inspirations_Attribution::get_lang();
+
 		$args = array(
 			'public' => true,
 			'publicly_queryable' => false,
@@ -254,7 +341,7 @@ class Boldgrid_Inspirations_Attribution_Page {
 			'exclude_from_search' => true,
 		);
 
-		register_post_type( $this->lang['post_type'], $args );
+		register_post_type( $lang['post_type'], $args );
 
 		/*
 		 * If this is our first time registering this custom post type, we need to flush the rewrite
@@ -264,5 +351,18 @@ class Boldgrid_Inspirations_Attribution_Page {
 			flush_rewrite_rules();
 			update_option( 'boldgrid_attribution_upgraded_to_cpt', true );
 		}
+	}
+
+	/**
+	 * Adjust the template for a single page.
+	 *
+	 * If this is the Attribution page, return null so that index.php will be used.
+	 *
+	 * @since 1.3.1
+	 *
+	 * @param string $original
+	 */
+	public function single_template( $original ) {
+		return ( true === $this->is_current() ? null : $original );
 	}
 }

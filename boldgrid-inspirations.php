@@ -48,3 +48,5 @@ if ( Boldgrid_Inspirations::is_php_compatible() ) {
 	// If PHP is not compatible, deactivate and die if activating from an admin page, or do nothing.
 	add_action( 'admin_init', 'Boldgrid_Inspirations::check_php_wp_version' );
 }
+
+register_deactivation_hook( __FILE__, array( 'Boldgrid_Inspirations_Attribution_Page', 'on_deactivate' ) );
