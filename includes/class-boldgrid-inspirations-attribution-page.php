@@ -123,6 +123,9 @@ class Boldgrid_Inspirations_Attribution_Page {
 			}
 
 			$attribution_page = get_page( $id );
+
+			// If we're having to create this page, flag that it needs rebuilding as well.
+			update_option( 'boldgrid_attribution_rebuild', true );
 		}
 
 		// If we have an attribution page return it, otherwise return false.
@@ -295,8 +298,10 @@ class Boldgrid_Inspirations_Attribution_Page {
 	 * @since 1.3.1
 	 */
 	public function rebuild() {
+		$rebuild = get_option( 'boldgrid_attribution_rebuild', array() );
+
 		// If we don't need to rebuild the Attribution page, abort.
-		if( false === get_option( 'boldgrid_attribution_rebuild' ) ) {
+		if( empty ( $rebuild ) ) {
 			return;
 		}
 
@@ -310,7 +315,7 @@ class Boldgrid_Inspirations_Attribution_Page {
 			 * We just built the Attribution page, so no need to build it again. Delete the flag
 			 * that tells us to rebuild.
 			 */
-			delete_option( 'boldgrid_attribution_rebuild' );
+			update_option( 'boldgrid_attribution_rebuild', array() );
 
 			/*
 			 * The Attribution page has been rebuilt. Because of hook order, if we continue loading
