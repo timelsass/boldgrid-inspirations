@@ -371,18 +371,6 @@ class Boldgrid_Inspirations {
 			if ( 1 !== get_user_meta( $user_id, 'show_welcome_panel', true ) ) {
 				update_user_meta( $user_id, 'show_welcome_panel', 1 );
 			}
-
-			/*
-			 * Create the Attribution page on activation.
-			 * BoldGrid themes include a link to the attribution page in the footer. If we haven't
-			 * created an attribution page, then that link will generate a 404.
-			 */
-			if ( ! class_exists( 'Boldgrid_Inspirations_Attribution' ) ) {
-				require_once BOLDGRID_BASE_DIR .
-				'/includes/class-boldgrid-inspirations-attribution.php';
-			}
-			$attribution = new Boldgrid_Inspirations_Attribution();
-			$attribution->build_attribution_page();
 		}
 
 		// Get the current plugin version.
@@ -391,6 +379,10 @@ class Boldgrid_Inspirations {
 		// Record the activated and current plugin version options.
 		update_site_option( 'boldgrid_inspirations_activated_version', $plugin_data['Version'] );
 		update_site_option( 'boldgrid_inspirations_current_version', $plugin_data['Version'] );
+
+		require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-attribution.php';
+		require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-attribution-page.php';
+		Boldgrid_Inspirations_Attribution_Page::on_activate();
 	}
 
 	/**

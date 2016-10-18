@@ -172,10 +172,14 @@ class Boldgrid_Inspirations_Inspiration extends Boldgrid_Inspirations {
 
 		/* Load hooks for all pages. */
 
-		// Attribution.
-		require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-attribution.php';
+		$attribution_update = new Boldgrid_Inspirations_Attribution_Update();
+		$attribution_update->add_hooks();
+
 		$attribution = new Boldgrid_Inspirations_Attribution();
 		$attribution->add_hooks();
+
+		$attribution_page = new Boldgrid_Inspirations_Attribution_Page();
+		$attribution_page->add_hooks();
 	}
 
 	/**
@@ -267,15 +271,21 @@ class Boldgrid_Inspirations_Inspiration extends Boldgrid_Inspirations {
 /**
  * Add front end hooks.
  *
- * These hooks are triggered for users to the front end of the site.
+ * # Include the necessary class files.
+ * # Instantiate / add applicable hooks.
+ *
+ * These hooks are triggered for users to the front end of the site. These hooks will run for all
+ * users, regardless if they're logged in or not.
  *
  * @since 1.1.2
  */
 public function add_wp_hooks() {
 	$this->include_wp_files();
 
-	$attribution = new Boldgrid_Inspirations_Attribution();
-	$attribution->add_wp_hooks();
+	Boldgrid_Inspirations_Attribution_Page::prevent_contamination();
+
+	// $attribution = new Boldgrid_Inspirations_Attribution();
+	// $attribution->add_wp_hooks();
 }
 
 /**
@@ -398,6 +408,11 @@ public function include_admin_files() {
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-pages-and-posts.php';
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-gridblock-sets-admin.php';
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-start-over.php';
+
+	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-attribution.php';
+	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-attribution-asset.php';
+	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-attribution-update.php';
+	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-attribution-page.php';
 }
 
 /**
@@ -407,6 +422,7 @@ public function include_admin_files() {
  */
 public function include_wp_files() {
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-attribution.php';
+	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-attribution-page.php';
 }
 
 /**
