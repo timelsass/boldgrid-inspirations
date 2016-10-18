@@ -83,6 +83,7 @@ class Boldgrid_Inspirations_Attribution_Update {
 
 		// Flag this option as true so that the next visit to Attribution triggers a rebuild.
 		update_option( 'boldgrid_attribution_rebuild', true );
+		update_option( 'boldgrid_staging_boldgrid_attribution_rebuild', true );
 
 		// These options are no longer needed, delete them.
 		delete_option( 'boldgrid_attribution' );
