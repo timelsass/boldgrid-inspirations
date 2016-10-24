@@ -35,7 +35,7 @@ class Boldgrid_Inspirations_Attribution_Asset {
 		// Get _wp_attachment_metadata.
 		$wp_attachment_metadata = get_post_meta( $asset['attachment_id'], '_wp_attachment_metadata', true );
 
-		if ( empty( $wp_attachment_metadata['sizes'] ) ) {
+		if ( ! empty( $wp_attachment_metadata['sizes'] ) ) {
 			foreach ( $wp_attachment_metadata['sizes'] as $image_size ) {
 				$array_file_names_to_query[] = $image_size['file'];
 			}
