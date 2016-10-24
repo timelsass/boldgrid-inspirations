@@ -46,9 +46,18 @@ class Boldgrid_Inspirations_Attribution_Page {
 	 * @since 1.3.1
 	 */
 	public function add_hooks() {
-		add_filter( 'post_type_link', array( $this, 'na_remove_slug' ), 10, 3 );
-
-		add_action( 'pre_get_posts', array($this, 'na_parse_request' ) );
+		/*
+		 * If we're on multisite, skip adjusting the urls.
+		 *
+		 * This means the urls will end in bg_attribution/attribution/
+		 * rather than simply /attribution.
+		 *
+		 * @todo: Get this working with mulsitsite correctly.
+		 */
+		if( ! is_multisite() ) {
+			add_filter( 'post_type_link', array( $this, 'na_remove_slug' ), 10, 3 );
+			add_action( 'pre_get_posts', array($this, 'na_parse_request' ) );
+		}
 
 		add_action( 'template_redirect', array( $this, 'rebuild' ) );
 
@@ -338,7 +347,7 @@ class Boldgrid_Inspirations_Attribution_Page {
 
 		$args = array(
 			'public' => true,
-			'publicly_queryable' => false,
+			'publicly_queryable' => true,
 			'query_var' => true,
 			'show_ui' => false,
 			'show_in_nav_menus' => false,
