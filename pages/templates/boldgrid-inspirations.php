@@ -33,7 +33,9 @@
 		data-build-id="{{data.build.Id}}">
 
 		<div class="theme-screenshot">
-			<img class="lazy" data-original="{{data.configs.asset_server}}/api/asset/get?key={{data.configs.api_key}}&id={{data.build.AssetId}}&thumbnail=1" alt="" width="290" height="194">
+			<a class="fancybox" rel="gallery1" href="{{data.configs.asset_server}}/api/asset/get?key={{data.configs.api_key}}&id={{data.build.AssetId}}" title="{{data.build.ThemeName}} - {{data.build.SubCategoryName}}">
+				<img class="lazy" data-original="{{data.configs.asset_server}}/api/asset/get?key={{data.configs.api_key}}&id={{data.build.AssetId}}&thumbnail=1" alt="" width="290" height="194">
+			</a>
 		</div>
 		<h2 class="theme-name" >
 			<span class="name">{{data.build.ThemeName}}</span>
@@ -41,7 +43,7 @@
 		</h2>
 
 		<div class="theme-actions">
-			<a class="button button-primary hide-if-no-customize">Preview</a>
+			<a class="button button-primary hide-if-no-customize">Select</a>
 		</div>
 	</div>
 </script>

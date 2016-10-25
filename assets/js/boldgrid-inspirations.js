@@ -66,6 +66,22 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 */
 	self.$themePreview = $( '#screen-content iframe#theme-preview' );
 
+	/**
+	 * The last theme previwed within fancybox.
+	 *
+	 * @since 1.3.1
+	 */
+	self.$themePreviewed = '';
+
+	/**
+	 * The appropriate scrolltop value to align a theme with the "Category Filter" heading.
+	 *
+	 * @since 1.3.1
+	 */
+	self.themeTop = self.themeTop = $( 'div.top-menu' ).outerHeight() +
+					parseInt( $( 'div.top-menu' ).css( 'margin-bottom' ) ) +
+					$( '#wpadminbar' ).outerHeight();
+
 	// scroll position.
 	self.scrollPosition = '';
 
@@ -247,7 +263,75 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 
 			$selectInstallType.find( 'span.spinner' ).remove();
 		}
-	}
+	};
+
+	/**
+	 * @summary Init fancybox.
+	 *
+	 * @since 1.3.1
+	 */
+	this.fancybox = function() {
+		$(".fancybox").fancybox({
+			"type": "image",
+			beforeLoad: function() {
+				$( 'body' ).addClass( 'fancyboxed' );
+			},
+			afterLoad: function() {
+				var $link = $( this.element[0] );
+
+				self.$themePreviewed = $link.closest( '.theme' );
+
+		        this.title =	'<a class="button button-primary hide-if-no-customize fancybox-select">' + Inspiration.select + '</a>' +
+		        				'<h2 class="theme-name" >' + self.$themePreviewed.find( 'h2.theme-name' ).html() + '</h2>';
+
+		        /*
+		         * When previewing a large theme screenshot, scroll the body to that theme.
+		         *
+		         * The "complex" scrollTop calculation simply ensures a nice scroll position,
+		         * positioning the theme flush with the "Category Filter" heading.
+		         */
+		        $('html, body').animate({
+		            scrollTop: ( self.$themePreviewed.offset().top - self.themeTop )
+		        }, 250 );
+		    },
+		    afterClose: function() {
+		        $( 'body' ).removeClass( 'fancyboxed' );
+		    },
+		    helpers : {
+		        title: {
+		            type: 'inside'
+		        },
+		        overlay: {
+			        locked: false
+		        }
+		    },
+		});
+	};
+
+	/**
+	 * @summary Choose a theme being previewed.
+	 *
+	 * @since 1.3.1
+	 */
+	this.fancyboxSelect = function() {
+		var $button = $( this );
+
+		/*
+		 * When we click on the Select button, we'll disable it (add the disabled class) and prevent
+		 * the user from clicking on it again.
+		 */
+		if( $button.hasClass( 'disabled' ) ) {
+			return;
+		} else {
+			$button.addClass( 'disabled' );
+		}
+
+		self.$theme = self.$themePreviewed;
+
+		$( '.fancybox-select' ).after( '<span class="spinner visible" style="margin-top:9px;"></span>' );
+
+		self.chooseTheme();
+	};
 
 	/**
 	 * @summary Get the selected coin budget.
@@ -285,6 +369,12 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		 * again. Handle the click of that try again button.
 		 */
 		$( '.wrap' ).on( 'click', '#try-themes-again', self.initThemes );
+
+		/*
+		 * During step 1, if we click to preview a theme, there is a select option. Handle the click
+		 * of that select option, which chooses the previewed theme and proceeds to the live preview.
+		 */
+		$( 'body' ).on( 'click', '.fancybox-select', self.fancyboxSelect );
 
 		/*
 		 * During step 2, if there is an error fetching pagesets, we'll give the user a button to
@@ -640,7 +730,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 * Selects theme to load to continue on to step 2 of inspirations.
 	 */
 	this.selectTheme = function() {
-		$( '.wrap' ).on( 'click', '.theme', function() {
+		$( '.wrap' ).on( 'click', '.theme .theme-actions .button-primary', function() {
 			self.$theme = $( this );
 			self.chooseTheme();
 		});
@@ -765,6 +855,10 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 				$( '#build-cost' )
 					.html( $iframe.attr( 'data-build-cost' ) + ' Coins' )
 					.animate( { opacity: 1 }, 400 );
+
+				// If a fancybox is still visible from step 1, close it.
+				$.fancybox.close();
+
 				self.$themePreview.css( 'visibility', 'visible' );
 			} );
 		});
@@ -947,6 +1041,8 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			});
 
 			$( "img.lazy" ).lazyload({threshold : 400});
+
+			self.fancybox();
 		};
 
 		self.ajax.ajaxCall( data, 'get_generic', getGenericSuccess, getGenericFail );

@@ -69,6 +69,13 @@ input[type="radio"][name="sub-category"] {
 	padding-left: 24px;
 }
 
+/* Override WordPress' default cursor when hovering over a theme. */
+.theme-browser .theme,
+.theme-browser .theme:hover,
+.theme-browser .theme:focus {
+	cursor: auto;
+}
+
 /* Theme name */
 .theme-name,
 #theme-title {
@@ -154,10 +161,14 @@ body.waiting .pointer {
 	background-color: #f1f1f1;
 }
 
+/* When hovering over a theme screenshot, show a zoom in icon. */
+.theme-screenshot a {
+	cursor: zoom-in;
+}
+
 .theme-screenshot .img {
 	width: 290px;
 	height: 217px;
-	/* 194 */
 }
 
 /* Filter Toggle Styles. */

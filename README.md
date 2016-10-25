@@ -39,6 +39,8 @@ The second phase is Customization; tools to transform your website into your vis
 * Bug fix:		JIRA WPB-2539	Fix possible duplicate connection issue notice from ajax.js call.
 * Bug fix:		JIRA WPB-2558	Don't display feedback widget if user hasn't entered their key.
 * Bug fix:		JIRA WPB-2559	Don't allow widgets to drag into welcome box area.
+* Update:		JIRA WPB-2563	Convert Attribution page to use custom post type.
+* Update:		JIRA WPB-2568	Added fancybox and large previews to Inspirations.
 
 ### 1.3 ###
 * Bug fix:		JIRA WPB-2544	Disable 'Install' button after clicking it.

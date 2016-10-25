@@ -467,9 +467,39 @@ class Boldgrid_Inspirations_Built {
 				'errorFetchingCategories' => __( 'There was an error fetching categories.', 'boldgrid-inspirations' ),
 				'errorFetchingPagesets' => __( 'There was an error fetching pagesets.', 'boldgrid-inspirations' ),
 				'errorBuildingPreview' => __( 'There was an error building your custom website preview.', 'boldgrid-inspirations' ),
+				'select' => __( 'Select', 'boldgrid-inspirations' ),
 				'tryFewMinutes' => __( 'Please try again in a few minutes.', 'boldgrid-inspirations' ),
 				'tryAgain' => __( 'Try again', 'boldgrid-inspirations' ),
 			)
+		);
+
+		/*
+		 * Add Fancybox.
+		 *
+		 * This includes both js and css.
+		 */
+		wp_register_style(
+			'boldgrid-inspirations-fancybox',
+			plugins_url(
+				'/assets/css/fancybox.css',
+				BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php'
+			),
+			array(),
+			BOLDGRID_INSPIRATIONS_VERSION
+		);
+
+		wp_enqueue_style( 'boldgrid-inspirations-fancybox' );
+
+		wp_enqueue_script( 'boldgrid-inspirations-fancybox',
+			plugins_url(
+				'assets/js/fancybox.js',
+				BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php'
+			),
+			array(
+				'jquery',
+			),
+			BOLDGRID_INSPIRATIONS_VERSION,
+			true
 		);
 
 		// Js.

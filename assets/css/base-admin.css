@@ -46,6 +46,10 @@
 	bottom: 0px;
 }
 
+.visible {
+	visibility: visible;
+}
+
 /* *****************************************************************
 Resize youtube vidoes
 @thanks http://stackoverflow.com/questions/7737557/how-can-i-make-the-youtube-player-scale-to-the-width-of-the-page-but-also-keep-t
