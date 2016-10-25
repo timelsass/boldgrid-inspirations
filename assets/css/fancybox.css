@@ -298,16 +298,19 @@ a.fancybox-next {
     box-shadow: none;
 }
 
+/* BoldGrid: Adjust transition / loading of loading graphic. */
 .fancybox-inner.loading {
 	transition: background 0.5s ease;
 	background: rgba(0, 0, 0, 0.9);
 }
 
+/* BoldGrid: Adjust transition / loading of loading graphic. */
 .fancybox-inner.loading .fancybox-image {
 	transition: opacity 0.5s ease;
 	opacity: 0.2;
 }
 
+/* BoldGrid: Adjust transition / loading of loading graphic. */
 .fancybox-inner.loading .boldgrid-loading {
 	background-color: transparent;
 	height: 85px;
