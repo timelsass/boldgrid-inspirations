@@ -297,3 +297,19 @@ a.fancybox-next {
 	webkit-box-shadow: none;
     box-shadow: none;
 }
+
+.fancybox-inner.loading {
+	transition: background 0.5s ease;
+	background: rgba(0, 0, 0, 0.9);
+}
+
+.fancybox-inner.loading .fancybox-image {
+	transition: opacity 0.5s ease;
+	opacity: 0.2;
+}
+
+.fancybox-inner.loading .boldgrid-loading {
+	background-color: transparent;
+	height: 85px;
+	top: calc(50% - 60px);
+}

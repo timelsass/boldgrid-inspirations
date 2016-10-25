@@ -273,6 +273,8 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	this.fancybox = function() {
 		$(".fancybox").fancybox({
 			"type": "image",
+			"openSpeed": 500,
+			"closeSpeed": 500,
 			beforeLoad: function() {
 				$( 'body' ).addClass( 'fancyboxed' );
 			},
@@ -328,7 +330,9 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 
 		self.$theme = self.$themePreviewed;
 
-		$( '.fancybox-select' ).after( '<span class="spinner visible" style="margin-top:9px;"></span>' );
+		$( '.fancybox-inner' )
+			.addClass( 'loading' )
+			.append( "<div class='boldgrid-loading'></div>" );
 
 		self.chooseTheme();
 	};
