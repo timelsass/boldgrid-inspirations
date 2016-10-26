@@ -1,5 +1,5 @@
 <?php
-/*
+/**
  * Plugin Name: BoldGrid Inspirations
  * Plugin URI: http://www.boldgrid.com
  * Version: 1.3
@@ -9,6 +9,7 @@
  * Text Domain: boldgrid-inspirations
  * Domain Path: /languages
  * License: GPL
+ * @package boldgrid-inspirations
  */
 
 // Define version.
