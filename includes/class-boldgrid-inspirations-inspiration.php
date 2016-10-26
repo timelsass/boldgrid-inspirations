@@ -249,9 +249,8 @@ class Boldgrid_Inspirations_Inspiration extends Boldgrid_Inspirations {
 			$gridblock_sets_admin = new Boldgrid_Inspirations_GridBlock_Sets_Admin( $this->configs );
 			$gridblock_sets_admin->add_hooks();
 
-			// Inspirations - Design First.
-			//$gridblock_sets_design_first = new Boldgrid_Inspirations_Design_First( );
-			//$gridblock_sets_design_first->add_hooks();
+			$milestones = new Boldgrid_Inspirations_Milestones();
+			$milestones->add_hooks();
 		}
 
 		/* Classes to add_hooks for, regardless of is_admin. */
@@ -413,6 +412,8 @@ public function include_admin_files() {
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-attribution-asset.php';
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-attribution-update.php';
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-attribution-page.php';
+
+	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-milestones.php';
 }
 
 /**
