@@ -127,7 +127,7 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 			self.currently_searching = 0;
 
 			// Toggle attribution:
-			self.toggle_search_results_by_requires_attribution();
+			self.toggle_search_results_by_requires_attribution( false );
 		};
 
 		self.ajax.ajaxCall( data, 'image_search', api_call_image_search_success_action );
@@ -546,11 +546,14 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 	};
 
 	/**
-	 *
+	 * @param bool fadeOut Should we fade out images or immediately hide them.
 	 */
-	this.toggle_search_results_by_requires_attribution = function() {
+	this.toggle_search_results_by_requires_attribution = function( fadeOut ) {
 		// determine whether or not "Attribution" is checked
 		need_to_show = jQuery( '#attribution', $c_imhmf ).is( ':checked' );
+
+		// If no value is passed in, fadeOut should be true.
+		fadeOut = ( fadeOut === undefined ? true : fadeOut );
 
 		// loop through each image in the search results
 		jQuery( "#search_results li", $c_imhmf ).each( function( index, li ) {
@@ -566,7 +569,11 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 					// else [the user unchecked "attribution"
 				} else {
 					// then fade this image out
-					jQuery( li ).fadeOut();
+					if( fadeOut ) {
+						jQuery( li ).fadeOut();
+					} else {
+						jQuery( li ).hide();
+					}
 				}
 			}
 		} );
