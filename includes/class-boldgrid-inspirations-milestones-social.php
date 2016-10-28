@@ -27,7 +27,6 @@ class Boldgrid_Inspirations_Milestones_Social {
 		add_action( 'edited_nav_menu',         array( $this, 'nav_menu_edited' ), 10, 2 );
 		add_action( 'pre_delete_term',         array( $this, 'nav_menu_deleted' ), 10, 2 );
 		add_action( 'updated_option',          array( $this, 'theme_mod_edited' ), 10, 3 );
-		add_filter( 'boldgrid_add_feedback',   array( $this, 'filter_feedback' ), 10, 3);
 	}
 
 	/**
