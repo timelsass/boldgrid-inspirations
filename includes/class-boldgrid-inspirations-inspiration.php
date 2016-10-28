@@ -251,6 +251,9 @@ class Boldgrid_Inspirations_Inspiration extends Boldgrid_Inspirations {
 
 			$milestones = new Boldgrid_Inspirations_Milestones();
 			$milestones->add_hooks();
+
+			$milestones_social = new Boldgrid_Inspirations_Milestones_Social();
+			$milestones_social->add_hooks();
 		}
 
 		/* Classes to add_hooks for, regardless of is_admin. */
@@ -414,6 +417,7 @@ public function include_admin_files() {
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-attribution-page.php';
 
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-milestones.php';
+	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-milestones-social.php';
 }
 
 /**

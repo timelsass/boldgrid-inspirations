@@ -49,8 +49,8 @@ class Boldgrid_Inspirations_Milestones {
 	 * @param string $metaname  A metaname key to identify the type of feedback.
 	 * @param mixed  $metavalue A metavalue, which can vary in type.
 	 */
-	public function log( $name, $value ) {
-		Boldgrid_Inspirations_Feedback::add_feedback( $name, $value );
+	public static function log( $name, $value ) {
+		Boldgrid_Inspirations_Feedback::add_feedback( 'milestone_' . $name, $value );
 	}
 
 	/**
@@ -63,13 +63,11 @@ class Boldgrid_Inspirations_Milestones {
      * @param string $option    Name of the updated option.
 	 */
 	public function option_changed( $old_value, $value, $option ) {
-		$name = 'milestone_' . $option;
-
 		// If true, log the option's new value. Else, log the value set.
 		if( true === $this->options[ $option ] ) {
-			$this->log( $name, $value );
+			$this->log( $option, $value );
 		} else {
-			$this->log( $name, $this->options[ $option ] );
+			$this->log( $option, $this->options[ $option ] );
 		}
 	}
 

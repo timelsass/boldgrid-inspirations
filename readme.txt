@@ -40,6 +40,7 @@ The second phase is Customization; tools to transform your website into your vis
 * Update:		JIRA WPB-2563	Convert Attribution page to use custom post type.
 * Update:		JIRA WPB-2568	Added fancybox and large previews to Inspirations.
 * Update:		JIRA WPB-2570	Milestone blogname change.
+* Update:		JIRA WPB-2574	Milestone Social Media Change.
 
 = 1.3 =
 * Bug fix:		JIRA WPB-2544	Disable 'Install' button after clicking it.
