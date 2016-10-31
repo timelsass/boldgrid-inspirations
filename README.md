@@ -44,6 +44,7 @@ The second phase is Customization; tools to transform your website into your vis
 * Update:		JIRA WPB-2568	Added fancybox and large previews to Inspirations.
 * Update:		JIRA WPB-2570	Milestone blogname change.
 * Update:		JIRA WPB-2574	Milestone Social Media Change.
+* Update:		JIRA WPB-2578	Milestone Contact Info Footer Change.
 
 ### 1.3 ###
 * Bug fix:		JIRA WPB-2544	Disable 'Install' button after clicking it.
