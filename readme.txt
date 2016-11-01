@@ -31,6 +31,9 @@ The second phase is Customization; tools to transform your website into your vis
 
 == Changelog ==
 
+= 1.3.2 In progress =
+* Update:		JIRA WPB-2582	Always show arrows in Inspirations gallery.
+
 = 1.3.1 =
 * Misc:			JIRA WPB-2503	Added plugin requirements to readme.txt file.
 * Bug fix:		JIRA WPB-2539	Fix possible duplicate connection issue notice from ajax.js call.

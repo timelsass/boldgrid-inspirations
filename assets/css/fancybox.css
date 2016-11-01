@@ -316,3 +316,8 @@ a.fancybox-next {
 	height: 85px;
 	top: calc(50% - 60px);
 }
+
+/* BoldGrid: Always show nav arrows. */
+.fancybox-nav span {
+	visibility: visible;
+}
