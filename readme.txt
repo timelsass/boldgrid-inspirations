@@ -31,7 +31,7 @@ The second phase is Customization; tools to transform your website into your vis
 
 == Changelog ==
 
-= 1.3.1 In progress =
+= 1.3.1 =
 * Misc:			JIRA WPB-2503	Added plugin requirements to readme.txt file.
 * Bug fix:		JIRA WPB-2539	Fix possible duplicate connection issue notice from ajax.js call.
 * Bug fix:		JIRA WPB-2558	Don't display feedback widget if user hasn't entered their key.
