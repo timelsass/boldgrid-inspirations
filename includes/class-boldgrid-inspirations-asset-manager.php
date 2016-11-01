@@ -102,8 +102,24 @@ class Boldgrid_Inspirations_Asset_Manager extends Boldgrid_Inspirations {
 			}
 		}
 
-		// Get boldgrid_asset from the database.
+		/*
+		 * Get boldgrid_asset from the database.
+		 *
+		 * Because we are setting $this->wp_options_asset in the constructor here, we need to also
+		 * add the actions that will update that class if the boldgrid_asset option is updated or
+		 * deleted.
+		 *
+		 * If those actions were added to the add_hooks method, then every time we declarded a new
+		 * instance of this class, we would also need to run add_hooks(). Forgetting just once to
+		 * add_hooks could cause major problems.
+		 *
+		 * todo: Rewrite parts of this class so that usage of boldgrid_asset is cleaner.
+		 */
 		$this->get_wp_options_asset();
+		add_action( 'delete_option_boldgrid_asset', array( $this, 'delete_boldgrid_asset' ) );
+		add_action( 'update_option_boldgrid_asset', array( $this, 'update_boldgrid_asset' ), 10, 3 );
+		add_action( 'delete_option_boldgrid_staging_boldgrid_asset', array( $this, 'delete_boldgrid_asset' ) );
+		add_action( 'update_option_boldgrid_staging_boldgrid_asset', array( $this, 'update_boldgrid_asset' ), 10, 3 );
 	}
 
 	/**
@@ -144,6 +160,7 @@ class Boldgrid_Inspirations_Asset_Manager extends Boldgrid_Inspirations {
 	 * @return bool
 	 */
 	public function add_new_asset( $type, $asset_details ) {
+
 		// Make sure the asset does not already exist
 		if ( false == $this->get_asset(
 			array (
@@ -454,6 +471,18 @@ class Boldgrid_Inspirations_Asset_Manager extends Boldgrid_Inspirations {
 		}
 
 		return $boldgrid_dynamic_images;
+	}
+
+	/**
+	 * Delete class property when option is deleted.
+	 *
+	 * When this class is instantiated, we store a copy of boldgrid_asset. If another class / method
+	 * deletes that option, we need to keep our local property up to date.
+	 *
+	 * @since 1.3.1
+	 */
+	public function delete_boldgrid_asset() {
+		$this->wp_options_asset = false;
 	}
 
 	/**
@@ -1434,5 +1463,21 @@ class Boldgrid_Inspirations_Asset_Manager extends Boldgrid_Inspirations {
 
 		// If we have reached this point, we were unable to find and update the requested asset.
 		return false;
+	}
+
+	/**
+	 * Update class property when option is updated.
+	 *
+	 * When this class is instantiated, we store a copy of boldgrid_asset. If another class / method
+	 * updates that option, we need to keep our local property up to date.
+	 *
+	 * @since 1.3.1
+	 *
+	 * @param mixed  $old_value The old option value.
+     * @param mixed  $value     The new option value.
+     * @param string $option    Option name.
+	 */
+	public function update_boldgrid_asset( $old_value, $value, $option ) {
+		$this->wp_options_asset = $value;
 	}
 }
