@@ -1,5 +1,5 @@
 /**
- * This file is inteded for js that will appear on every admin page
+ * This file is intended for js that will appear on every admin page.
  */
 
 var IMHWPB = IMHWPB || {};
@@ -203,3 +203,31 @@ IMHWPB.BaseAdmin = function() {
 };
 
 new IMHWPB.BaseAdmin();
+
+/*
+ * The BaseAdmin class was initially intended to be a utility type class for js. Because of the
+ * way it was written however, it made it difficult to easily reuse the functions containted within.
+ *
+ * Going forward, you can declare utility type functions below, within BoldGrid.Utility.
+ *
+ * They can be called, for example:
+ * BoldGrid.Utility.ucfirst( 'joe cool' );
+ */
+
+var BoldGrid = BoldGrid || {};
+
+BoldGrid.Utility = {
+	/**
+	 * Make a string's first character uppercase.
+	 *
+	 * Inspired by php's ucfirst.
+	 *
+	 * @since 1.3.2
+	 *
+	 * @param  str
+	 * @return string
+	 */
+	ucfirst: function( str ) {
+		return str.charAt(0).toUpperCase() + str.substr(1);
+	}
+}

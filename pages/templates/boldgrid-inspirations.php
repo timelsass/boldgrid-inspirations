@@ -20,6 +20,9 @@
 		data.build.ThemeName = data.build.ThemeName.replace( 'boldgrid-', '' );
 		data.key = IMHWPB.configs.api_key;
 		data.build.pde = JSON.stringify( data.build.pde );
+
+		// Make the theme name's first character uppercase.
+		data.build.ThemeName = BoldGrid.Utility.ucfirst( data.build.ThemeName );
 	#>
 	<div class="theme" tabindex="0" data-category-id="{{data.build.ParentCategoryId}}"
 		data-sub-category-id="{{data.build.CategoryId}}"

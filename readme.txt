@@ -33,6 +33,7 @@ The second phase is Customization; tools to transform your website into your vis
 
 = 1.3.2 In progress =
 * Update:		JIRA WPB-2582	Always show arrows in Inspirations gallery.
+* Update:		JIRA WPB-2583	Ensure first letter in theme's title attribute is capitalized.
 
 = 1.3.1 =
 * Misc:			JIRA WPB-2503	Added plugin requirements to readme.txt file.
