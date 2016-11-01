@@ -50,7 +50,18 @@ class Boldgrid_Inspirations_Milestones {
 	 * @param mixed  $metavalue A metavalue, which can vary in type.
 	 */
 	public static function log( $name, $value ) {
-		Boldgrid_Inspirations_Feedback::add_feedback( 'milestone_' . $name, $value );
+
+		/*
+		 * Prevent duplicate nav-menus.php entries.
+		 *
+		 * When you "Save Menu" from within dashboard/nav-menus.php, everything is submitted via
+		 * $_POST and updated, even if it hasn't acutally been updated. If we're editing the social
+		 * media menu via nav-menus.php, prevent duplicate milestone entries by ensuring it's only
+		 * in the payload once.
+		 */
+		$allow_duplicates = ( ( 'social_media' === $name && 'nav-menus.php' === $value ) ? false : true );
+
+		Boldgrid_Inspirations_Feedback::add_feedback( 'milestone_' . $name, $value, $allow_duplicates );
 	}
 
 	/**

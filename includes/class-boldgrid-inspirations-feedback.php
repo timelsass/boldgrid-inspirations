@@ -230,14 +230,20 @@ class Boldgrid_Inspirations_Feedback {
 	 *
 	 * @since 1.0.9
 	 *
-	 * @param string $metaname A metaname key to identify the type of feedback.
-	 * @param mixed $metavalue A metavalue, which can vary in type.
+	 * @param string $metaname         A metaname key to identify the type of feedback.
+	 * @param mixed  $metavalue        A metavalue, which can vary in type.
+	 * @param bool   $allow_duplicates Allow duplicate name + value entries in the same payload.
 	 * @return bool
 	 */
-	public static function add_feedback( $metaname, $metavalue = null ) {
+	public static function add_feedback( $metaname, $metavalue = null, $allow_duplicates = true ) {
 		// Validate input.
 		if ( empty( $metaname ) ) {
 			return false;
+		}
+
+		// If we are not allowing duplicates and this entry already exists, abort.
+		if( false === $allow_duplicates && true === self::exists( $metaname, $metavalue ) ) {
+			return true;
 		}
 
 		// Get the current timestamp.
@@ -423,6 +429,30 @@ class Boldgrid_Inspirations_Feedback {
 		wp_enqueue_script( 'boldgrid-feedback-js' );
 
 		return;
+	}
+
+	/**
+	 * Does specific feedback already exist in the payload?
+	 *
+	 * @since 1.3.1
+	 *
+	 * @param string $metaname  A metaname key to identify the type of feedback.
+	 * @param mixed  $metavalue A metavalue, which can vary in type.
+	 */
+	public static function exists( $metaname, $metavalue ) {
+		$feedback_data = get_option( 'boldgrid_feedback' );
+
+		if( false === $feedback_data ) {
+			return false;
+		}
+
+		foreach( $feedback_data as $feedback ) {
+			if( $metaname === $feedback['type'] && $metavalue === $feedback['value'] ) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**
