@@ -44,7 +44,9 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 
 	// this function is triggered by the click/button/search event handler
 	this.initiate_stock_image_search = function() {
-		var query = jQuery( '#media-search-input', $c_imhmf ).val();
+		var query = jQuery( '#media-search-input', $c_imhmf ).val(),
+			attribution = jQuery( '#attribution', $c_imhmf ).is( ':checked' ),
+			resultsCount = 0;
 
 		// if we're searching for a different word, reset the search
 		if ( self.last_query != '' && query != self.last_query ) {
@@ -76,15 +78,32 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 		var data = {
 			'query' : query,
 			'free' : jQuery( '#free', $c_imhmf ).val(),
-			'attribution' : jQuery( '#attribution', $c_imhmf ).is( ':checked' ),
+			'attribution' : attribution,
 			'paid' : jQuery( '#paid', $c_imhmf ).val(),
 			'palette' : jQuery( '#palette', $c_imhmf ).val(),
 			'page' : self.page,
 		};
 
 		var api_call_image_search_success_action = function( msg ) {
+
+			resultsCount = msg.result.data.length;
+
+			/*
+			 * If the user has unchecked "Attribution", remove any images needing attribution from
+			 * the total count of search results.
+			 *
+			 * todo: The logic / code in much of this file is in need of a rewrite.
+			 */
+			if( false === attribution && msg.result.data.length > 0 ) {
+				$( msg.result.data ).each( function() {
+					if( true === this.requires_attribution ) {
+						resultsCount--;
+					}
+				});
+			}
+
 			// if we have search results
-			if ( msg.result.data.length > 0 ) {
+			if ( resultsCount > 0 ) {
 				var source = jQuery( "#search-results-template" ).html();
 				var template = Handlebars.compile( source );
 				jQuery( '#search_results', $c_imhmf ).append( template( msg.result ) );
