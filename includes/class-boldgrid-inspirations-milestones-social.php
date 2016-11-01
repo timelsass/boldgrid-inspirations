@@ -16,6 +16,30 @@
 class Boldgrid_Inspirations_Milestones_Social {
 
 	/**
+	 * Are we deleting a menu.
+	 *
+	 * @since 1.3.1
+	 * @param bool
+	 */
+	public $deleting_a_menu = false;
+
+	/**
+	 * Constructor.
+	 *
+	 * @since 1.3.1
+	 *
+	 * @global string $pagenow.
+	 */
+	public function __construct() {
+		global $pagenow;
+
+		// Are we in the dashboard deleting a menu?
+		if( 'nav-menus.php' === $pagenow && isset( $_GET['action'] ) && 'delete' === $_GET['action'] ) {
+			$this->deleting_a_menu = true;
+		}
+	}
+
+	/**
 	 * Add hooks.
 	 *
 	 * @since 1.3.1
@@ -158,6 +182,12 @@ class Boldgrid_Inspirations_Milestones_Social {
 	 * @param int $postid.
 	 */
 	public function nav_menu_item_deleted( $postid ) {
+
+		// If we are deleting a menu, no need to log that we are deleting all of the menu items too.
+		if( true === $this->deleting_a_menu ) {
+			return;
+		}
+
 		$post = get_post( $postid );
 
 		// If we couldn't get a valid post, abort.
@@ -199,6 +229,12 @@ class Boldgrid_Inspirations_Milestones_Social {
      * @param mixed  $value     The new option value.
 	 */
 	public function theme_mod_edited( $option, $old_value, $value ) {
+
+		// If we are deleting a menu, no need to log that we are editing the menu's location too.
+		if( true === $this->deleting_a_menu ) {
+			return;
+		}
+
 		$updating_theme_mod = substr( $option, 0, 11 ) === 'theme_mods_';
 		$updating_staging_theme_mod = substr( $option, 0, 28 ) === 'boldgrid_staging_theme_mods_';
 
