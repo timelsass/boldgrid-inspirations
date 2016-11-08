@@ -6,6 +6,8 @@ $lang = array(
 	'Content' =>							__( 'Content', 'boldgrid-inspirations' ),
 	'CoinBudget' =>							__( 'Coin Budget', 'boldgrid-inspirations'),
 	'Coins' =>								__( 'Coins', 'boldgrid-inspirations' ),
+	'Contact' =>							__( 'Contact', 'boldgrid-inspirations' ),
+	'Install' =>							__( 'Install', 'boldgrid-inspirations' ),
 	'Pageset' =>							__( 'Pageset', 'boldgrid-inspirations' ),
 	'Free' =>								__( 'Free', 'boldgrid-inspirations' ),
 	'Desktop' =>							__( 'Enter desktop preview mode', 'boldgrid-inspirations' ),
@@ -19,7 +21,9 @@ $lang = array(
 
 	<div class="top-menu design">
 		<a class="active" data-step="design" ><?php echo $lang['Design'] ?></a>
-		<a class="disabled" data-step="content" ><?php echo $lang['Content']; ?></a>
+		<a class="disabled" data-step="content" data-disabled ><?php echo $lang['Content']; ?></a>
+		<a class="disabled" data-step="contact" data-disabled ><?php echo $lang['Contact']; ?></a>
+		<a class="disabled" data-step="install" data-disabled ><?php echo $lang['Install']; ?></a>
 	</div>
 
 	<div style="clear:both;"></div>
@@ -112,6 +116,22 @@ $lang = array(
 
 			<div class="loading-wrapper boldgrid-loading hidden"></div>
 		</div>
+	</div>
+
+	<div style="clear:both;"></div>
+
+	<div id="screen-contact" class="hidden">
+		<?php
+		// Contact template.
+		include BOLDGRID_BASE_DIR . '/pages/includes/boldgrid-inspirations/contact.php';
+		?>
+	</div>
+
+	<div id="screen-install" class="hidden">
+		<?php
+		// Confirmation template.
+		include BOLDGRID_BASE_DIR . '/pages/includes/boldgrid-inspirations/confirmation.php';
+		?>
 	</div>
 
 </div>

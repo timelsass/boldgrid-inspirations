@@ -582,9 +582,6 @@ class Boldgrid_Inspirations_Built {
 
 			// Page template.
 			include BOLDGRID_BASE_DIR . '/pages/boldgrid-inspirations.php';
-
-			// Confirmation template.
-			include BOLDGRID_BASE_DIR . '/pages/includes/boldgrid-inspirations/confirmation.php';
 		}
 
 		return;

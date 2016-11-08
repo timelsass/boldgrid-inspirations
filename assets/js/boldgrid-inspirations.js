@@ -74,12 +74,19 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	self.$themePreviewed = '';
 
 	/**
+	 * The top menu.
+	 *
+	 * @since 1.3.2
+	 */
+	self.$topMenu = $( '.top-menu' );
+
+	/**
 	 * The appropriate scrolltop value to align a theme with the "Category Filter" heading.
 	 *
 	 * @since 1.3.1
 	 */
-	self.themeTop = self.themeTop = $( 'div.top-menu' ).outerHeight() +
-					parseInt( $( 'div.top-menu' ).css( 'margin-bottom' ) ) +
+	self.themeTop = self.themeTop = self.$topMenu.outerHeight() +
+					parseInt( self.$topMenu.css( 'margin-bottom' ) ) +
 					$( '#wpadminbar' ).outerHeight();
 
 	// scroll position.
@@ -93,11 +100,11 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	this.allActions = function( effect ) {
 		if( 'disable' === effect ) {
 			$( 'body' ).addClass( 'waiting' );
-			$( '.top-menu a' ).addClass( 'disabled' );
+			self.$topMenu.find( 'a' ).addClass( 'disabled' );
 			$( '#build-summary button' ).attr( 'disabled', true );
 		} else {
 			$( 'body' ).removeClass( 'waiting' );
-			$( '.top-menu a' ).removeClass( 'disabled' );
+			self.$topMenu.find( 'a:not([data-disabled])' ).removeClass( 'disabled' );
 			$( '#build-summary button' ).attr( 'disabled', false );
 		}
 	};
@@ -116,8 +123,6 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		$( '#theme-title' ).html( self.$theme.closest( '.theme' ).attr( 'data-theme-title' ) );
 
 		self.toggleStep( 'content' );
-
-		$( '[data-step="content"]' ).removeClass( 'disabled' );
 
 		self.initPagesets();
 	};
@@ -143,7 +148,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			showStagingDecisions = [ 'download-staging', 'install-as-staging', 'activate-staging' ];
 
 		// Begin by hiding all of the notes, which is any paragraph with a class startign with note-.
-		$( '.wrap.confirmation .top p[class^="note-"]' ).hide();
+		$( '.top p[class^="note-"]' ).hide();
 
 		/*
 		 * If there is no install decision, there are no notes that need to be toggled. For example,
@@ -397,15 +402,25 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 *
 	 */
 	this.bindInstallModal = function() {
-		$( 'button.install' ).click( function() {
-			$('.wrap.main').addClass('hidden');
-			$('.wrap.confirmation').removeClass('hidden');
+		// Step 2 Next button.
+		$( '#screen-content .button-primary' ).click( function() {
+			self.toggleStep( 'contact' );
+		});
+
+		// Step 3 Go back button.
+		$( '#screen-contact .button-secondary' ).on( 'click', function() {
+			self.toggleStep( 'content' );
+		});
+
+		// Step 3 Skip button.
+		$( '#screen-contact .button-primary' ).on( 'click', function() {
+			self.toggleStep( 'install' );
 			self.toggleConfirmationNotes();
 		});
 
-		$( 'button.go-back' ).on( 'click', function() {
-			$('.wrap.main').removeClass('hidden');
-			$('.wrap.confirmation').addClass('hidden');
+		// Step 4 Go back button.
+		$( '#screen-install .button-secondary' ).on( 'click', function() {
+			self.toggleStep( 'contact' );
 		});
 
 		// Take action when someone clicks on a install-decision radio button.
@@ -1142,35 +1157,50 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	};
 
 	/**
+	 * Toggle steps.
 	 *
+	 * @since 1.3
 	 */
 	this.toggleStep = function( step ) {
-		var $content = $( '#screen-content' ),
-			$design = $( '#screen-design' ),
-			$contentLink = $( '[data-step="content"]' ),
-			$designLink = $( '[data-step="design"]' );
+		var $thisStep = $( '[data-step="' + step + '"]' );
 
-		if( 'design' === step ) {
-			$contentLink.removeClass( 'active' );
-			$designLink.addClass( 'active' );
-			$designLink.parent( '.top-menu' ).removeClass( 'content' );
-			$designLink.parent( '.top-menu' ).addClass( 'design' );
+		/*
+		 * Once you've been to a step, remove it's disabled settings.
+		 *
+		 * The disabled class means the link isn't clickable. The attribute data-disabled means the
+		 * link shouldn't be enabled.
+		 *
+		 * For example, if we're waiting on something to load, we'll disable all steps (add disabled
+		 * classs). After that item loads, we'll enable all the steps that should be enabled (those
+		 * that don't have data-disabled).
+		 */
+		$thisStep
+			.removeClass( 'disabled' )
+			.removeAttr( 'data-disabled' );
 
-			$content.addClass( 'hidden' );
-			$design.removeClass( 'hidden' );
-			// Restore scroll position when coming back to design page.
-			$( document ).scrollTop( self.scrollPosition );
-		} else {
-			// Store the scroll position of the design page.
-			self.scrollPosition = $( document ).scrollTop();
-			$contentLink.addClass( 'active' );
-			$designLink.removeClass( 'active' );
-			$contentLink.parent( '.top-menu' ).removeClass( 'design' );
-			$contentLink.parent( '.top-menu' ).addClass( 'content' );
+		// Toggle .active class for steps at the top of the page.
+		$( '[data-step]' ).removeClass( 'active' );
+		$thisStep.addClass( 'active' );
 
-			$content.removeClass( 'hidden' );
-			$design.addClass( 'hidden' );
-			$( document ).scrollTop( 0 );
+		// Toggle the step's container.
+		$( '.wrap.main' ).find( '[id^="screen-"]' ).addClass( 'hidden' );
+		$( '#screen-' + step ).removeClass( 'hidden' );
+
+		/*
+		 * Misc steps.
+		 *
+		 * Configure scroll position.
+		 * Confiure top menu class.
+		 */
+		switch( step ) {
+			case 'design':
+				$( document ).scrollTop( self.scrollPosition );
+				self.$topMenu.addClass( 'design' ).removeClass('design');
+				break;
+			default:
+				$( document ).scrollTop( 0 );
+				self.$topMenu.removeClass( 'design' ).addClass('content');
+				break;
 		}
 	};
 

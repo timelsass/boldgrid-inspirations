@@ -54,18 +54,16 @@ $lang = array(
 );
 
 $template = '
-	<div class="wrap confirmation hidden">
-		<div class="boldgrid-plugin-card">
-			<div class="top">
-				%s
-				<p class="note-overwrite">'         . $lang['note'] . ': <em>' . $lang['note_overwrite']         . '</em></p>
-				<p class="note-overwrite-staging">' . $lang['note'] . ': <em>' . $lang['note_overwrite_staging'] . '</em></p>
-				<p class="note-download-staging">'  . $lang['note'] . ': <em>' . $lang['note_download_staging']  . '</em></p>
-			</div>
-			<div id="select-install-type" class="bottom">
-				<button class="go-back button button-secondary">' . $lang['go_back'] . '</button>
-				<button class="button button-primary install-this-website" data-start-over="true" >' . $lang['install_this_website'] . '</button>
-			</div>
+	<div class="boldgrid-plugin-card">
+		<div class="top">
+			%s
+			<p class="note-overwrite">'         . $lang['note'] . ': <em>' . $lang['note_overwrite']         . '</em></p>
+			<p class="note-overwrite-staging">' . $lang['note'] . ': <em>' . $lang['note_overwrite_staging'] . '</em></p>
+			<p class="note-download-staging">'  . $lang['note'] . ': <em>' . $lang['note_download_staging']  . '</em></p>
+		</div>
+		<div id="select-install-type" class="bottom">
+			<button class="go-back button button-secondary">' . $lang['go_back'] . '</button>
+			<button class="button button-primary install-this-website" data-start-over="true" >' . $lang['install_this_website'] . '</button>
 		</div>
 	</div>
 ';
