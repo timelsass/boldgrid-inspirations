@@ -2254,6 +2254,12 @@ class Boldgrid_Inspirations_Deploy {
 
 			foreach ( $images as $image ) {
 
+				$asset_id = $image->getAttribute( 'data-imhwpb-asset-id' );
+
+				$built_photo_search = $image->getAttribute( 'data-imhwpb-built-photo-search' );
+
+				$source = $image->getAttribute( 'src' );
+
 				// Get the image that belongs in this placeholder.
 				if ( ! empty( $asset_id ) ) {
 					$placeholder = $this->get_placeholder_image( $page->ID, 'asset_image_position', $asset_image_position );
@@ -2268,17 +2274,9 @@ class Boldgrid_Inspirations_Deploy {
 					continue;
 				}
 
-				$asset_id = $image->getAttribute( 'data-imhwpb-asset-id' );
-
-				$built_photo_search = $image->getAttribute( 'data-imhwpb-built-photo-search' );
-
-				$source = $image->getAttribute( 'src' );
-
 				$attachment_url = $placeholder['attachment_url'];
 
 				$attachment_id = ( isset( $placeholder['attachment_id'] ) ? ( int ) $placeholder['attachment_id'] : null );
-
-				$asset_id = $placeholder['asset_id'];
 
 				/*
 				 * Determine our wp-image-## class.
@@ -2313,11 +2311,9 @@ class Boldgrid_Inspirations_Deploy {
 					// keep track of the src for this bps
 					$this->built_photo_search_log['sources'][] = $built_photo_search;
 
-					$attachment_width = $placeholder['bps_width'];
-
 					// Update and save the <img> tag
 					$image->setAttribute( 'src', $attachment_url );
-					$image->setAttribute( 'width', $attachment_width );
+					$image->setAttribute( 'width', $placeholder['bps_width'] );
 
 					if ( $this->is_preview_server ) {
 						$image->setAttribute( 'data-id-from-provider', $placeholder['download_params']['id_from_provider'] );
@@ -2339,7 +2335,9 @@ class Boldgrid_Inspirations_Deploy {
 					 */
 					// save our asset id for this built_photo_search image
 					$this->set_built_photo_search_placement( $remote_page_id,
-						$built_photo_search_counter, $asset_id );
+						$built_photo_search_counter,
+						$placeholder['asset_id']
+					);
 
 					// increment our counter
 					$built_photo_search_counter ++;
