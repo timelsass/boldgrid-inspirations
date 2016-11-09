@@ -473,6 +473,35 @@ class Boldgrid_Inspirations_Deploy {
 	}
 
 	/**
+	 * Get image data for an image that will replace a placeholder.
+	 *
+	 * This method helps solve a long time bug. Images used to be called in this manner:
+	 * $this->image_placeholders_needing_images['by_page_id'][$page->ID][$asset_image_position]['attachment_url'];
+	 *
+	 * The problem is that $asset_image_position in that array is simply an auto incremented key.
+	 * It's not actually the $asset_image_position or $bps_image_position like we intended.
+	 *
+	 * This method loops through all the images until it finds the correct $type and $position.
+	 *
+	 * @since 1.3.2
+	 *
+	 * @param  int        $page_id
+	 * @param  string     $type Either 'asset_image_position' or 'bps_image_position'.
+	 * @param  int        $position
+	 * @return array|null
+	 */
+	public function get_placeholder_image( $page_id, $type, $position ) {
+		foreach( $this->image_placeholders_needing_images['by_page_id'][$page_id] as $image ) {
+			if( isset( $image[$type] ) && $position === $image[$type] ) {
+				return $image;
+			}
+		}
+
+		// If no image found, return null;
+		return null;
+	}
+
+	/**
 	 * Get remote page id from local page id.
 	 *
 	 * @param integer $page_id
@@ -1544,7 +1573,7 @@ class Boldgrid_Inspirations_Deploy {
 				$source = $image->getAttribute( 'src' );
 
 				// If we're downloading an asset_id...
-				if ( $asset_id && ! $built_photo_search ) {
+				if ( ! empty( $asset_id ) ) {
 					$this->add_to_deploy_log( 'Beginning to download asset' );
 
 					$this->add_to_deploy_log( 'Beginning download_and_attach call.' );
@@ -1573,7 +1602,7 @@ class Boldgrid_Inspirations_Deploy {
 				/**
 				 * If we're downloading an image from "built_photo_search"...
 				 */
-				if ( $built_photo_search && false == $this->is_author ) {
+				if ( ! empty( $built_photo_search ) && false == $this->is_author ) {
 					// keep track of the number of bps we've requested
 					$this->built_photo_search_log['count'] ++;
 
@@ -1814,7 +1843,7 @@ class Boldgrid_Inspirations_Deploy {
 				 * If we're downloading an asset_id...
 				 * ************************************************************
 				 */
-				if ( $asset_id && ! $built_photo_search ) {
+				if ( ! empty( $asset_id ) ) {
 					$image_placeholder = array (
 						'page_id' => $page->ID,
 						'asset_id' => $asset_id,
@@ -1829,7 +1858,7 @@ class Boldgrid_Inspirations_Deploy {
 				 * If we're downloading an image from "built_photo_search"...
 				 * ************************************************************
 				 */
-				if ( $built_photo_search && false == $this->is_author ) {
+				if ( ! empty( $built_photo_search ) && false == $this->is_author ) {
 					// keep track of the number of bps we've requested
 					$this->built_photo_search_log['count'] ++;
 
@@ -2224,11 +2253,18 @@ class Boldgrid_Inspirations_Deploy {
 			$asset_image_position = 0;
 
 			foreach ( $images as $image ) {
+
+				// Get the image that belongs in this placeholder.
+				if ( ! empty( $asset_id ) ) {
+					$placeholder = $this->get_placeholder_image( $page->ID, 'asset_image_position', $asset_image_position );
+				} elseif ( ! empty( $built_photo_search ) && false == $this->is_author ) {
+					$placeholder = $this->get_placeholder_image( $page->ID, 'bps_image_position', $bps_image_position );
+				} else {
+					$placeholder = array();
+				}
+
 				// Check if we have the information we need, or skip this iteration:
-				if ( empty(
-					$this->image_placeholders_needing_images['by_page_id'][$page->ID][$bps_image_position]['attachment_url'] ) ||
-					 empty(
-						$this->image_placeholders_needing_images['by_page_id'][$page->ID][$bps_image_position]['asset_id'] ) ) {
+				if ( empty( $placeholder['attachment_url'] ) || empty( $placeholder['asset_id'] ) ) {
 					continue;
 				}
 
@@ -2238,20 +2274,27 @@ class Boldgrid_Inspirations_Deploy {
 
 				$source = $image->getAttribute( 'src' );
 
+				$attachment_url = $placeholder['attachment_url'];
+
+				$attachment_id = ( isset( $placeholder['attachment_id'] ) ? ( int ) $placeholder['attachment_id'] : null );
+
+				$asset_id = $placeholder['asset_id'];
+
+				/*
+				 * Determine our wp-image-## class.
+				 *
+				 * This class is required if WordPress is to later add the srcset attribute.
+				 */
+				$new_image_class = null;
+				if ( ! empty( $attachment_id ) ) {
+					$new_image_class = $this->dom_element_append_attribute( $image, 'class', 'wp-image-' . $attachment_id );
+				}
+
 				// If we're downloading an asset_id...
-				if ( $asset_id && ! $built_photo_search ) {
-					$attachment_url = $this->image_placeholders_needing_images['by_page_id'][$page->ID][$asset_image_position]['attachment_url'];
-
-					$attachment_id = ( isset(
-						$this->image_placeholders_needing_images['by_page_id'][$page->ID][$asset_image_position]['attachment_id'] ) ? ( int ) $this->image_placeholders_needing_images['by_page_id'][$page->ID][$asset_image_position]['attachment_id'] : null );
-
+				if ( ! empty( $asset_id ) ) {
 					$image->setAttribute( 'src', $attachment_url );
 
-					// Add wp-image-## to the image's class.
-					// This class is required if WordPress is to later add the srcset attribute.
-					if ( ! empty( $attachment_id ) ) {
-						$new_image_class = $this->dom_element_append_attribute( $image, 'class',
-							'wp-image-' . $attachment_id );
+					if( ! is_null( $new_image_class ) ) {
 						$image->setAttribute( 'class', $new_image_class );
 					}
 
@@ -2263,36 +2306,25 @@ class Boldgrid_Inspirations_Deploy {
 				}
 
 				// If we're downloading an image from "built_photo_search"...
-				if ( $built_photo_search && false == $this->is_author ) {
+				if ( ! empty( $built_photo_search ) && false == $this->is_author ) {
 					// keep track of the number of bps we've requested
 					$this->built_photo_search_log['count'] ++;
 
 					// keep track of the src for this bps
 					$this->built_photo_search_log['sources'][] = $built_photo_search;
 
-					$attachment_url = $this->image_placeholders_needing_images['by_page_id'][$page->ID][$bps_image_position]['attachment_url'];
-					$attachment_width = $this->image_placeholders_needing_images['by_page_id'][$page->ID][$bps_image_position]['bps_width'];
-					$asset_id = $this->image_placeholders_needing_images['by_page_id'][$page->ID][$bps_image_position]['asset_id'];
-
-					$attachment_id = ( isset(
-						$this->image_placeholders_needing_images['by_page_id'][$page->ID][$bps_image_position]['attachment_id'] ) ? ( int ) $this->image_placeholders_needing_images['by_page_id'][$page->ID][$bps_image_position]['attachment_id'] : null );
+					$attachment_width = $placeholder['bps_width'];
 
 					// Update and save the <img> tag
 					$image->setAttribute( 'src', $attachment_url );
 					$image->setAttribute( 'width', $attachment_width );
 
 					if ( $this->is_preview_server ) {
-						$image->setAttribute( 'data-id-from-provider',
-							$this->image_placeholders_needing_images['by_page_id'][$page->ID][$bps_image_position]['download_params']['id_from_provider'] );
-						$image->setAttribute( 'data-image-provider-id',
-							$this->image_placeholders_needing_images['by_page_id'][$page->ID][$bps_image_position]['download_params']['image_provider_id'] );
+						$image->setAttribute( 'data-id-from-provider', $placeholder['download_params']['id_from_provider'] );
+						$image->setAttribute( 'data-image-provider-id', $placeholder['download_params']['image_provider_id'] );
 					}
 
-					// Add wp-image-## to the image's class.
-					// This class is required if WordPress is to later add the srcset attribute.
-					if ( ! empty( $attachment_id ) ) {
-						$new_image_class = $this->dom_element_append_attribute( $image, 'class',
-							'wp-image-' . $attachment_id );
+					if( ! is_null( $new_image_class ) ) {
 						$image->setAttribute( 'class', $new_image_class );
 					}
 
