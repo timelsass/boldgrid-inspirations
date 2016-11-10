@@ -659,7 +659,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		}
 
 		$( '#social-media' ).append( template( data ) );
-	}
+	};
 
 	/**
 	 * @summary Show the default social media entries in step 3.
@@ -692,7 +692,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		$container.remove();
 
 		$( '#social-media-index' ).find( '[data-icon="' + provider + '"]' ).removeClass( 'disabled' );
-	}
+	};
 
 	/**
 	 * @summary Sort all builds based upon "All Order".
@@ -851,7 +851,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		var $container = $checkbox.closest( '.survey-field' );
 
 		$container.find( 'input[type="text"]' ).toggleClass( 'disabled' );
-	}
+	};
 
 	/**
 	 * Selects theme to load to continue on to step 2 of inspirations.
