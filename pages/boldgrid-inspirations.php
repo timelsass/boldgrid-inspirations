@@ -19,6 +19,8 @@ $lang = array(
 ?>
 <div class="wrap main">
 
+	<form method="post" name="post_deploy" id="post_deploy" action="admin.php?page=boldgrid-inspirations" >
+
 	<div class="top-menu design">
 		<a class="active" data-step="design" ><?php echo $lang['Design'] ?></a>
 		<a class="disabled" data-step="content" data-disabled ><?php echo $lang['Content']; ?></a>
@@ -102,8 +104,8 @@ $lang = array(
 					</span>
 				</div>
 				<div style="float:right;">
-					<button class="inspirations button button-secondary">Back</button>
-					<button class="inspirations button button-primary install"><?php echo $lang['Next']; ?></button>
+					<a class="button inspirations button-secondary">Back</a>
+					<a class="inspirations button button-primary install"><?php echo $lang['Next']; ?></a>
 				</div>
 			</div>
 
@@ -134,30 +136,34 @@ $lang = array(
 		?>
 	</div>
 
+	<input type="hidden" id="nonce-install-staging" value="<?php echo wp_create_nonce( "nonce-install-staging" ); ?>" />
+
+	<div class="hidden">
+		<input type="hidden" name="task"                           id="task"                           value="deploy" >
+		<?php wp_nonce_field( 'deploy', 'deploy' ); ?>
+		<input type="text"   name="boldgrid_cat_id"                id="boldgrid_cat_id"                value="-1" >
+		<input type="text"   name="boldgrid_sub_cat_id"            id="boldgrid_sub_cat_id"            value="-1" >
+		<input type="text"   name="boldgrid_theme_id"              id="boldgrid_theme_id"              value="-1" >
+		<input type="text"   name="boldgrid_page_set_id"           id="boldgrid_page_set_id"           value="-1" >
+		<input type="text"   name="boldgrid_api_key_hash"          id="boldgrid_api_key_hash"          value="<?php echo (isset($boldgrid_configs['api_key']) ? $boldgrid_configs['api_key'] : null); ?>" >
+		<input type="text"   name="boldgrid_new_path"              id="boldgrid_new_path"              value="<?php echo str_replace('.','',str_replace(' ','',microtime())); ?>" >
+		<input type="text"   name="boldgrid_pde"                   id="boldgrid_pde"                   value="" >
+		<input type="text"   name="boldgrid_language_id"           id="boldgrid_language_id"           value="" >
+		<input type="text"   name="boldgrid_build_profile_id"      id="boldgrid_build_profile_id"      value="" >
+		<input type="text"   name="coin_budget"                    id="coin_budget"                    value="20" >
+		<input type="text"   name="boldgrid_theme_version_type"    id="boldgrid_theme_version_type"    value="<?php echo $theme_channel ?>" >
+		<input type="text"   name="boldgrid_page_set_version_type" id="boldgrid_page_set_version_type" value="<?php echo $theme_channel ?>" >
+		<input type="text"   name="start_over"						id="start_over"                    value="false" >
+		<input type="text"   name="deploy-type"                                                        value="" >
+		<input type="text"   name="pages"                                                              value="" >
+		<input type="text"   name="staging"                                                            value="" >
+		<input type="hidden" name="_wp_http_referer"                                                   value="/single-site/wp-admin/admin.php?page=boldgrid-inspirations&amp;boldgrid-tab=install" >
+		<input type="hidden"                                       id="wp_language"                    value="<?php echo bloginfo( 'language' ); ?>" >
+		<input type="submit"                                                                           value="Deploy" >
+	</div>
+
+	</form>
+
 </div>
 
-<input type="hidden" id="nonce-install-staging" value="<?php echo wp_create_nonce( "nonce-install-staging" ); ?>" />
 
-<form class="hidden" method="post" name="post_deploy" id="post_deploy" action="admin.php?page=boldgrid-inspirations" >
-	<input type="hidden" name="task"                           id="task"                           value="deploy" >
-	<?php wp_nonce_field( 'deploy', 'deploy' ); ?>
-	<input type="text"   name="boldgrid_cat_id"                id="boldgrid_cat_id"                value="-1" >
-	<input type="text"   name="boldgrid_sub_cat_id"            id="boldgrid_sub_cat_id"            value="-1" >
-	<input type="text"   name="boldgrid_theme_id"              id="boldgrid_theme_id"              value="-1" >
-	<input type="text"   name="boldgrid_page_set_id"           id="boldgrid_page_set_id"           value="-1" >
-	<input type="text"   name="boldgrid_api_key_hash"          id="boldgrid_api_key_hash"          value="<?php echo (isset($boldgrid_configs['api_key']) ? $boldgrid_configs['api_key'] : null); ?>" >
-	<input type="text"   name="boldgrid_new_path"              id="boldgrid_new_path"              value="<?php echo str_replace('.','',str_replace(' ','',microtime())); ?>" >
-	<input type="text"   name="boldgrid_pde"                   id="boldgrid_pde"                   value="" >
-	<input type="text"   name="boldgrid_language_id"           id="boldgrid_language_id"           value="" >
-	<input type="text"   name="boldgrid_build_profile_id"      id="boldgrid_build_profile_id"      value="" >
-	<input type="text"   name="coin_budget"                    id="coin_budget"                    value="20" >
-	<input type="text"   name="boldgrid_theme_version_type"    id="boldgrid_theme_version_type"    value="<?php echo $theme_channel ?>" >
-	<input type="text"   name="boldgrid_page_set_version_type" id="boldgrid_page_set_version_type" value="<?php echo $theme_channel ?>" >
-	<input type="text"   name="start_over"						id="start_over"                    value="false" >
-	<input type="text"   name="deploy-type"                                                        value="" >
-	<input type="text"   name="pages"                                                              value="" >
-	<input type="text"   name="staging"                                                            value="" >
-	<input type="hidden" name="_wp_http_referer"                                                   value="/single-site/wp-admin/admin.php?page=boldgrid-inspirations&amp;boldgrid-tab=install" >
-	<input type="hidden"                                       id="wp_language"                    value="<?php echo bloginfo( 'language' ); ?>" >
-	<input type="submit"                                                                           value="Deploy" >
-</form>

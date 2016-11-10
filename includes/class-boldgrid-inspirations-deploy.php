@@ -404,6 +404,11 @@ class Boldgrid_Inspirations_Deploy {
 		);
 
 		update_option( 'boldgrid_install_options', $boldgrid_install_options );
+
+		// If survey data exists, save it.
+		if( isset( $_REQUEST['survey'] ) ) {
+			update_option( 'boldgrid_survey', $_REQUEST['survey'] );
+		}
 	}
 
 	/**

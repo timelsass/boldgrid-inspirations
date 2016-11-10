@@ -396,6 +396,33 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		 * to try again. Handle the click of that try again button.
 		 */
 		$( '.wrap' ).on( 'click', '#try-build-again', self.loadBuild );
+
+		/*
+		 * During step 3, we give the user the option to click on a social media icon and configure
+		 * that social media site. Handle the click of those social media buttons.
+		 */
+		$( '.wrap' ).on( 'click', '#social-media-index span', function() {
+			var $icon = $( this );
+			self.socialMediaAdd( $icon );
+		});
+
+		/*
+		 * During step 3, we give the user the ability to click x / delete a social media site from
+		 * their configuration. Handle the click of that x.
+		 */
+		$( '.wrap' ).on( 'click', '.social-media .fa-times', function() {
+			var $deleteIcon = $( this );
+			self.socialMediaRemove( $deleteIcon );
+		});
+
+		/*
+		 * During step 3, we give the user the ability to toggle the "Do not display" checkbox for
+		 * various items in the form. Handle the click of those checkboxes.
+		 */
+		$( '.wrap' ).on( 'change', '.survey-field .option :checkbox', function() {
+			var $checkbox = $( this );
+			self.surveyToggleDisplay( $checkbox );
+		});
 	};
 
 	/**
@@ -602,6 +629,72 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	};
 
 	/**
+	 * @summary Add a social media site to a user's info in step 3.
+	 *
+	 * @since 1.3.2
+	 *
+	 * @param jQuery object $icon The social media icon the user clicked on.
+	 */
+	this.socialMediaAdd = function( $icon ) {
+		var dataIcon = $icon.attr( 'data-icon' ),
+			data = {
+				icon: dataIcon,
+				url: $icon.attr( 'data-sample-url' )
+			},
+			template = wp.template( 'social-media' );
+
+		if( 'plus' === dataIcon ) {
+			data.icon = 'share-alt';
+			data.array = '[]';
+		} else {
+			data.array = '';
+		}
+
+		if( $icon.hasClass( 'disabled' ) ) {
+			return;
+		}
+
+		if( 'plus' !== dataIcon ) {
+			$icon.addClass( 'disabled' );
+		}
+
+		$( '#social-media' ).append( template( data ) );
+	}
+
+	/**
+	 * @summary Show the default social media entries in step 3.
+	 *
+	 * For example, by default only Facebook and Twitter may show.
+	 *
+	 * @since 1.3.2
+	 */
+	this.socialMediaDefaults = function() {
+		var defaults = [ 'facebook', 'twitter' ];
+
+		defaults.forEach( function( n ) {
+			var $icon = $( '[data-icon="' + n + '"]' );
+
+			self.socialMediaAdd( $icon );
+		});
+	};
+
+	/**
+	 * @summary Remove a social media site from a user's info in step 3.
+	 *
+	 * @since 1.3.2
+	 *
+	 * @param jQuery object $icon The x icon the user clicked to delete the social media entry.
+	 */
+	this.socialMediaRemove = function( $deleteIcon ) {
+		var $container = $deleteIcon.closest( '.social-media' ),
+			provider = $container.attr( 'data-provider' );
+
+		$container.remove();
+
+		$( '#social-media-index' ).find( '[data-icon="' + provider + '"]' ).removeClass( 'disabled' );
+	}
+
+	/**
 	 * @summary Sort all builds based upon "All Order".
 	 *
 	 * Definitions:
@@ -744,6 +837,21 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			self.toggleSubCategory( subCategoryId );
 		});
 	};
+
+	/**
+	 * @summary Toggle inputs on the survey.
+	 *
+	 * When a user clicks "Do not display", toggle the "disabled" class of the inputs.
+	 *
+	 * @since 1.3.2
+	 *
+	 * @param jQuery object $checkbox The checkbox the user clicked.
+	 */
+	this.surveyToggleDisplay = function( $checkbox ) {
+		var $container = $checkbox.closest( '.survey-field' );
+
+		$container.find( 'input[type="text"]' ).toggleClass( 'disabled' );
+	}
 
 	/**
 	 * Selects theme to load to continue on to step 2 of inspirations.
@@ -921,6 +1029,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		self.steps();
 		self.bindInstallModal();
 		self.onResize();
+		self.socialMediaDefaults();
 	};
 
 	/**

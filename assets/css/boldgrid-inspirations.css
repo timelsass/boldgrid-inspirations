@@ -357,12 +357,116 @@ http://ivomynttinen.com/blog/the-ios-design-cheat-sheet-volume-2
 	display: none;
 }
 
+/* Set a width for the plugin cards in Inpsirations, and center them. */
+.boldgrid-plugin-card {
+	max-width: 570px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
 /**
-* Confirmation, the last step of Inspirations.
+* Begin code for the Contact section.
 */
 
-.confirmation .boldgrid-plugin-card {
-	width:100%; max-width:650px;
+.survey-field {
+	margin-bottom: 20px;
+}
+
+.survey-field .title {
+	font-weight: bold;
+}
+
+.add-a-map,
+.survey-field .option {
+	color: #b3b3b3;
+	font-style: italic;
+}
+
+.survey-field .option {
+	float: right;
+}
+
+.survey-field .option input {
+	margin-right: 0px;
+	margin-left: 8px;
+	border: 1px solid #ddd;
+}
+
+.survey-field .main-input {
+	width: 100%;
+	margin-top: 6px;
+}
+
+.survey-field input.disabled {
+	color: #ddd;
+}
+
+/* Make the border of "Add a map" checkbox match border of textarea above. */
+.survey-field .add-a-map input {
+	border: 1px solid #ddd;
+}
+
+.survey-field .social-media {
+	margin: 5px 0px;
+}
+
+.survey-field .social-media span {
+    width: 20px;
+    display: inline-block;
+}
+
+.survey-field .social-media input {
+	width: calc(100% - 50px);
+	margin-right: 10px;
+}
+
+#social-media-index span {
+    font-size: 14px;
+    background: #f6f6f6;
+    width: 25px;
+    height: 25px;
+    display: inline-block;
+    text-align: center;
+    padding: 5px;
+    margin-right: 10px;
+    line-height: 23px;
+    cursor: pointer;
+}
+
+#social-media-index span[data-icon="plus"] {
+	background: none;
+	margin-left: -5px;
+	color: #666;
+}
+
+#social-media-index span.disabled {
+	color: #ddd;
+	cursor: auto;
+}
+
+.survey-field .fa-times {
+	color: red;
+	cursor: pointer;
+}
+
+/* Chrome/Opera/Safari */
+::-webkit-input-placeholder {
+  color: #ddd;
+}
+
+/* Firefox 19+ */
+::-moz-placeholder {
+  color: #ddd;
+}
+
+/* IE 10+ */
+:-ms-input-placeholder {
+  color: #ddd;
+}
+
+/* Firefox 18- */
+:-moz-placeholder {
+  color: #ddd;
 }
 
 /**
@@ -472,7 +576,9 @@ http://ivomynttinen.com/blog/the-ios-design-cheat-sheet-volume-2
 		z-index: 999;
 		position: fixed;
 	}
-	#screen-content {
+	#screen-content,
+	#screen-contact,
+	#screen-install {
 		padding-top: 5em;
 	}
 	#screen-content .left {
