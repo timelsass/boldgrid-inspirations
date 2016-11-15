@@ -40,6 +40,7 @@ The second phase is Customization; tools to transform your website into your vis
 * Update:		JIRA WPB-2599	Add placeholder for 4th step to Inspirations.
 * Update:		JIRA WPB-2551	Duplicate images.
 * New feature:	JIRA WPB-2603	Add initial version of survey.
+* Bug fix:		JIRA WPB-2622	Inspirations - Step 4 - Go back button installs site.
 
 ### 1.3.1 ###
 * Misc:			JIRA WPB-2503	Added plugin requirements to readme.txt file.

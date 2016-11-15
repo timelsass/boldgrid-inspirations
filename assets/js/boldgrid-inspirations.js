@@ -460,7 +460,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		 *
 		 * This is the button that submits the #post_deploy form and actually installs a website.
 		 */
-		$( 'button.install-this-website' ).on( 'click', function() {
+		$( '#install-this-website' ).on( 'click', function() {
 			// Get our install decision.
 			var installDecision = $( 'input[name="install-decision"]:checked' ).val(), data;
 

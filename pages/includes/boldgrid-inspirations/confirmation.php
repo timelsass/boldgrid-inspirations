@@ -62,8 +62,8 @@ $template = '
 			<p class="note-download-staging">'  . $lang['note'] . ': <em>' . $lang['note_download_staging']  . '</em></p>
 		</div>
 		<div id="select-install-type" class="bottom">
-			<button class="go-back button button-secondary">' . $lang['go_back'] . '</button>
-			<button class="button button-primary install-this-website" data-start-over="true" >' . $lang['install_this_website'] . '</button>
+			<a class="go-back button button-secondary">' . $lang['go_back'] . '</a>
+			<a class="button button-primary" id="install-this-website" data-start-over="true" >' . $lang['install_this_website'] . '</a>
 		</div>
 	</div>
 ';
