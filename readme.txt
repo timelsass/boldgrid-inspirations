@@ -31,7 +31,7 @@ The second phase is Customization; tools to transform your website into your vis
 
 == Changelog ==
 
-= 1.3.2 In progress =
+= 1.3.2 =
 * Update:		JIRA WPB-2582	Always show arrows in Inspirations gallery.
 * Update:		JIRA WPB-2583	Ensure first letter in theme's title attribute is capitalized.
 * Update:		JIRA WPB-2599	Add placeholder for 4th step to Inspirations.
