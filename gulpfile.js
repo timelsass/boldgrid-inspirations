@@ -1,6 +1,9 @@
 var gulp   = require( 'gulp' ),
 	inject = require( 'gulp-inject-string' ),
-	readme = require( 'gulp-readme-to-markdown' );
+	readme = require( 'gulp-readme-to-markdown' ),
+	config = {
+		bower: './bower_components',
+	};
 
 gulp.task( 'readme', function() {
 	var badges = [
@@ -13,4 +16,9 @@ gulp.task( 'readme', function() {
 		.pipe( gulp.dest( '.' ) );
 });
 
-gulp.task( 'default', ['readme'] );
+gulp.task( 'fontAwesome', function() {
+	gulp.src( config.bower + '/font-awesome/**/*' )
+		.pipe( gulp.dest( 'assets/css/font-awesome' ));
+});
+
+gulp.task( 'default', ['readme', 'fontAwesome'] );
