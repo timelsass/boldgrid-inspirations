@@ -93,6 +93,13 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	self.scrollPosition = '';
 
 	/**
+	 * Cache the $('.wrap') jQuery object.
+	 *
+	 * @since 1.3.3
+	 */
+	self.$wrap = $( '.wrap' );
+
+	/**
 	 * Enable or disable all actions on the page.
 	 *
 	 * @since 1.2.3
@@ -177,7 +184,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	this.devicePreviews = function () {
 		var $previewContainer = $( '#preview-container' );
 
-		$( '.wrap' ).on( 'click', '.devices button', function() {
+		self.$wrap.on( 'click', '.devices button', function() {
 			var $button = $( this ), iframeClass;
 
 			/*
@@ -371,13 +378,13 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		 * During step 1, if there is an error fetching categories, we'll give the user a button to
 		 * try again. Handle the click of that try again button.
 		 */
-		$( '.wrap' ).on( 'click', '#try-categories-again', self.initCategories );
+		self.$wrap.on( 'click', '#try-categories-again', self.initCategories );
 
 		/*
 		 * During step 1, if there is an error fetching themes, we'll give the user a button to try
 		 * again. Handle the click of that try again button.
 		 */
-		$( '.wrap' ).on( 'click', '#try-themes-again', self.initThemes );
+		self.$wrap.on( 'click', '#try-themes-again', self.initThemes );
 
 		/*
 		 * During step 1, if we click to preview a theme, there is a select option. Handle the click
@@ -389,19 +396,19 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		 * During step 2, if there is an error fetching pagesets, we'll give the user a button to
 		 * try again. Handle the click of that try again button.
 		 */
-		$( '.wrap' ).on( 'click', '#try-pagesets-again', self.initPagesets );
+		self.$wrap.on( 'click', '#try-pagesets-again', self.initPagesets );
 
 		/*
 		 * During step 2, if there is an error building a site preview, we'll give the user a button
 		 * to try again. Handle the click of that try again button.
 		 */
-		$( '.wrap' ).on( 'click', '#try-build-again', self.loadBuild );
+		self.$wrap.on( 'click', '#try-build-again', self.loadBuild );
 
 		/*
 		 * During step 3, we give the user the option to click on a social media icon and configure
 		 * that social media site. Handle the click of those social media buttons.
 		 */
-		$( '.wrap' ).on( 'click', '#social-media-index span', function() {
+		self.$wrap.on( 'click', '#social-media-index span', function() {
 			var $icon = $( this );
 			self.socialMediaAdd( $icon );
 		});
@@ -410,7 +417,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		 * During step 3, we give the user the ability to click x / delete a social media site from
 		 * their configuration. Handle the click of that x.
 		 */
-		$( '.wrap' ).on( 'click', '.social-media .fa-times', function() {
+		self.$wrap.on( 'click', '.social-media .fa-times', function() {
 			var $deleteIcon = $( this );
 			self.socialMediaRemove( $deleteIcon );
 		});
@@ -419,7 +426,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		 * During step 3, we give the user the ability to toggle the "Do not display" checkbox for
 		 * various items in the form. Handle the click of those checkboxes.
 		 */
-		$( '.wrap' ).on( 'change', '.survey-field .option :checkbox', function() {
+		self.$wrap.on( 'change', '.survey-field .option :checkbox', function() {
 			var $checkbox = $( this );
 			self.surveyToggleDisplay( $checkbox );
 		});
@@ -451,7 +458,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		});
 
 		// Take action when someone clicks on a install-decision radio button.
-		$( '.wrap' ).on( 'click', 'input[type="radio"]', function() {
+		self.$wrap.on( 'click', 'input[type="radio"]', function() {
 			self.toggleConfirmationNotes();
 		});
 
@@ -605,7 +612,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 * @since 1.2.3
 	 */
 	 this.showAll = function() {
-		$( '.wrap' ).on( 'click', '[data-sort="show-all"]', function() {
+		 self.$wrap.on( 'click', '[data-sort="show-all"]', function() {
 			var $all = $( '[data-sub-category-id="0"]' ),
 			    ref = $all.parent( '.sub-category' );
 
@@ -796,7 +803,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 */
 	this.subcategories = function() {
 		// Subcategories.
-		$( '.wrap' ).on( 'click', '.sub-category', function() {
+		self.$wrap.on( 'click', '.sub-category', function() {
 			var $subCategory = $( this ).find( 'input[name="sub-category"]' ),
 			    $subcategoryName = $( this ).find( '.sub-category-name' ).text(),
 			    subCategoryId = $subCategory.attr( 'data-sub-category-id' ),
@@ -857,7 +864,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 * Selects theme to load to continue on to step 2 of inspirations.
 	 */
 	this.selectTheme = function() {
-		$( '.wrap' ).on( 'click', '.theme .theme-actions .button-primary', function() {
+		self.$wrap.on( 'click', '.theme .theme-actions .button-primary', function() {
 			self.$theme = $( this );
 			self.chooseTheme();
 		});
@@ -883,7 +890,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 */
 	this.hoverColors = function() {
 		// Hovers.
-		$( '.wrap' ).on( 'mouseenter mouseleave', '.sub-category, .pageset-option, .coin-option', function() {
+		self.$wrap.on( 'mouseenter mouseleave', '.sub-category, .pageset-option, .coin-option', function() {
 			$( this ).toggleClass( 'blue' );
 		});
 	};
@@ -925,7 +932,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 */
 	this.pagesetOptions = function() {
 		// Pageset Options.
-		$( '.wrap' ).on( 'click', '.pageset-option', function() {
+		self.$wrap.on( 'click', '.pageset-option', function() {
 
 			// If we're waiting on something, don't allow the user to select a different pageset.
 			if( $( 'body' ).hasClass( 'waiting' ) ) {
@@ -953,7 +960,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 */
 	this.coinOptions = function() {
 		// Coin Budgets.
-		$( '.wrap' ).on( 'click', '.coin-option', function() {
+		self.$wrap.on( 'click', '.coin-option', function() {
 
 			// If we're waiting on something, don't allow the user to select a different budget.
 			if( $( 'body' ).hasClass( 'waiting' ) ) {
@@ -995,7 +1002,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 * Manages the steps (tabs) of inspirations.
 	 */
 	this.steps = function() {
-		$( '.wrap' ).on( 'click', '.top-menu [data-step]', function() {
+		self.$wrap.on( 'click', '.top-menu [data-step]', function() {
 			var $link = $( this ),
 				step = $link.attr( 'data-step' );
 
@@ -1292,7 +1299,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		$thisStep.addClass( 'active' );
 
 		// Toggle the step's container.
-		$( '.wrap.main' ).find( '[id^="screen-"]' ).addClass( 'hidden' );
+		self.$wrap.find( '[id^="screen-"]' ).addClass( 'hidden' );
 		$( '#screen-' + step ).removeClass( 'hidden' );
 
 		/*
