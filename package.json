@@ -7,7 +7,7 @@
     "test": "tests"
   },
   "scripts": {
-    "postinstall": "gulp;bower install;"
+    "postinstall" : "gulp"
   },
   "repository": {
     "type": "git",
@@ -23,7 +23,6 @@
   },
   "homepage": "https://github.com/boldgrid/boldgrid-inspirations#readme",
   "devDependencies": {
-    "bower": "^1.8.0",
     "gulp": "^3.9.1",
     "gulp-inject-string": "^1.1.0",
     "gulp-readme-to-markdown": "^0.2.0"
