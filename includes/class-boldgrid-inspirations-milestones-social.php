@@ -253,6 +253,11 @@ class Boldgrid_Inspirations_Milestones_Social {
 		$old_locations = $old_value[ 'nav_menu_locations' ];
 		$new_locations = $value[ 'nav_menu_locations' ];
 
+		// If we don't have the data we're expecting, abort.
+		if( ! is_array( $old_locations ) || ! is_array( $new_locations ) ) {
+			return;
+		}
+
 		/*
 		 * Loop through each of the old menu locations. If one of the values has changed, and it is
 		 * the menu location of the social menu, then we can say that the social media menu location
