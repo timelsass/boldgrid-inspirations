@@ -108,11 +108,11 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		if( 'disable' === effect ) {
 			$( 'body' ).addClass( 'waiting' );
 			self.$topMenu.find( 'a' ).addClass( 'disabled' );
-			$( '#build-summary button' ).attr( 'disabled', true );
+			$( '#build-summary .button' ).attr( 'disabled', true );
 		} else {
 			$( 'body' ).removeClass( 'waiting' );
 			self.$topMenu.find( 'a:not([data-disabled])' ).removeClass( 'disabled' );
-			$( '#build-summary button' ).attr( 'disabled', false );
+			$( '#build-summary .button' ).attr( 'disabled', false );
 		}
 	};
 
@@ -255,7 +255,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 * it again.
 	 *
 	 * If there is an issue with the installation, we need to be able to enable the buttons
-	 * again too (the disable parament).
+	 * again too (the disable parameter).
 	 *
 	 * @since 1.2.14
 	 *
@@ -266,12 +266,12 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 
 		if( true === disable ) {
 			// Disable the "Go back" and "Install this website" buttons.
-			$selectInstallType.find( 'button' ).prop( 'disabled', true );
+			$selectInstallType.find( '.button' ).attr( 'disabled', true );
 
 			// Show a spinner
 			$selectInstallType.append( '<span class="spinner inline"></span>' );
 		} else {
-			$selectInstallType.find( 'button' ).prop( 'disabled', false );
+			$selectInstallType.find( '.button' ).attr( 'disabled', false );
 
 			$selectInstallType.find( 'span.spinner' ).remove();
 		}

@@ -34,6 +34,9 @@ The second phase is Customization; tools to transform your website into your vis
 
 ## Changelog ##
 
+### 1.3.3 In progrss ###
+* Bug fix:		JIRA WPB-2627	Back / next buttons should not be clickable.
+
 ### 1.3.2 ###
 * Update:		JIRA WPB-2582	Always show arrows in Inspirations gallery.
 * Update:		JIRA WPB-2583	Ensure first letter in theme's title attribute is capitalized.

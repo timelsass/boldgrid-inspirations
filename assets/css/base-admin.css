@@ -248,6 +248,11 @@ Misc
 	content: '\f540';
 }
 
+/* If a link is disabled, prevent any clicks. */
+a[disabled="disabled"] {
+	pointer-events: none;
+}
+
 /* *****************************************************************
 Coins
 ***************************************************************** */
