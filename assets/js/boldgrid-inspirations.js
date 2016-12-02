@@ -1328,8 +1328,14 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 * @since 1.2.3
 	 */
 	this.toggleSubCategory = function( subCategoryId ) {
+		var fancyboxAnchor = '.theme-screenshot a';
+
 		if( '0' === subCategoryId ) {
-			$( '.theme[data-sub-category-id]').removeClass( 'hidden' );
+			$( '.theme[data-sub-category-id]')
+				.removeClass( 'hidden' )
+				// Add fancybox class, which adds theme back to the gallery.
+				.find( fancyboxAnchor ).addClass( 'fancybox' );
+
 			// Show subcategory name if browsing all subcategories.
 			$( '.theme-name .sub-category-name' ).show();
 
@@ -1340,7 +1346,9 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 
 			$( '.theme[data-sub-category-id!="' + subCategoryId + '"]')
 				.addClass( 'hidden' )
-				.appendTo( '.themes' );
+				.appendTo( '.themes' )
+				// Remove fancybox class, which removes theme from the gallery.
+				.find( fancyboxAnchor ).removeClass( 'fancybox' );
 
 			$( '.theme[data-sub-category-id="' + subCategoryId + '"]').removeClass( 'hidden' );
 

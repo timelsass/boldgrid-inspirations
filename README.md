@@ -36,6 +36,7 @@ The second phase is Customization; tools to transform your website into your vis
 
 ### 1.3.3 In progrss ###
 * Bug fix:		JIRA WPB-2627	Back / next buttons should not be clickable.
+* Bug fix:		JIRA WPB-2625	Behavior of last image's next button in Inspirations.
 
 ### 1.3.2 ###
 * Update:		JIRA WPB-2582	Always show arrows in Inspirations gallery.
