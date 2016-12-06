@@ -1,0 +1,23 @@
+{
+  "name": "boldgrid-inspirations",
+  "description": "BoldGrid Inspirations WordPress Plugin",
+  "main": "index.js",
+  "authors": [
+    "The BoldGrid Team"
+  ],
+  "license": "GPL-2.0",
+  "keywords": [
+    "boldgrid"
+  ],
+  "homepage": "https://github.com/boldgrid/boldgrid-inspirations",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "font-awesome": "fontawesome#^4.6.0"
+  }
+}
