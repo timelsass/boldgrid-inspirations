@@ -553,11 +553,13 @@ class Boldgrid_Inspirations_Built {
 	/**
 	 * Callback that will render the Boldgrid Inspiration phase.
 	 *
-	 * @see Boldgrid_Inspirations_Api::boldgrid_api_call().
+	 * @see           Boldgrid_Inspirations_Api::boldgrid_api_call().
+	 * @global string $user_email.
 	 *
 	 * @return null
 	 */
 	public function inspiration_page() {
+		global $user_email;
 
 		// If we are prompting the user for an API key, then show only that prompt.
 		if ( $this->inspiration->api->get_have_enqueued_api_key_prompt() ) {

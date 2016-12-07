@@ -43,26 +43,25 @@ $blogname = get_option( 'blogname' );
 
 		<div class='survey-field'>
 			<span class='title'><?php echo $lang['Company_name']; ?></span>
-			<div class='option'><?php echo $lang['Do_not_display']; ?> <input type="checkbox" name="survey[blogname][do-not-display]" /></div>
 			<input class='main-input' type='text' name="survey[blogname][value]" value="<?php echo esc_attr( $blogname ); ?>" />
 		</div>
 
 		<div class='survey-field'>
 			<span class='title'><?php echo $lang['Email']; ?></span>
 			<div class='option'><?php echo $lang['Do_not_display']; ?> <input type="checkbox" name="survey[email][do-not-display]" /></div>
-			<input class='main-input' type='text' placeholder="email@example.com" name="survey[email][value]" />
+			<input class='main-input' type='text' name="survey[email][value]" value="<?php echo esc_attr( $user_email ); ?>" />
 		</div>
 
 		<div class='survey-field'>
 			<span class='title'><?php echo $lang['Phone']; ?></span>
 			<div class='option'><?php echo $lang['Do_not_display']; ?> <input type="checkbox" name="survey[phone][do-not-display]" /></div>
-			<input class='main-input' type='text' placeholder="(777) 765-4321" name="survey[phone][value]" />
+			<input class='main-input' type='text' name="survey[phone][value]" value="777-765-4321" />
 		</div>
 
 		<div class='survey-field'>
 			<span class='title'><?php echo $lang['Address']; ?></span>
 			<div class='option'><?php echo $lang['Do_not_display']; ?> <input type="checkbox" name="survey[address][do-not-display]" /></div>
-			<input class='main-input' type='text' placeholder="1234 Your Address St, City, STATE, 12345" name="survey[address][value]" />
+			<input class='main-input' type='text' name="survey[address][value]" value="1234 Your St, City, STATE, 12345" />
 			<div class='add-a-map'><input type="checkbox" name="survey[map]" /><?php echo $lang['Add_a_map']; ?></div>
 		</div>
 
