@@ -449,26 +449,6 @@ http://ivomynttinen.com/blog/the-ios-design-cheat-sheet-volume-2
 	cursor: pointer;
 }
 
-/* Chrome/Opera/Safari */
-::-webkit-input-placeholder {
-  color: #ddd;
-}
-
-/* Firefox 19+ */
-::-moz-placeholder {
-  color: #ddd;
-}
-
-/* IE 10+ */
-:-ms-input-placeholder {
-  color: #ddd;
-}
-
-/* Firefox 18- */
-:-moz-placeholder {
-  color: #ddd;
-}
-
 /**
 * Media queries appear in this order:
 *

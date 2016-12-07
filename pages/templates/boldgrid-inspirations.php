@@ -68,7 +68,7 @@
 <script type="text/html" id="tmpl-social-media">
 	<div class="social-media" data-provider="{{data.icon}}">
 		<span><i class="fa fa-{{data.icon}}" aria-hidden="true"></i></span>
-		<input type="text" placeholder="{{data.url}}" name="survey[social][{{data.icon}}]{{data.array}}">
+		<input type="text" value="{{data.url}}" name="survey[social][{{data.icon}}]{{data.array}}">
 		<i class="fa fa-times" aria-hidden="true"></i>
 	</div>
 </script>
