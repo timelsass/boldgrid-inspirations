@@ -38,11 +38,19 @@ class Boldgrid_Inspirations_Survey {
 		$dom->loadHTML( $widget['text'] );
 		$finder = new DomXPath( $dom );
 
-		// Update phone numbers.
-		$phone_numbers = $finder->query("//*[contains(@class,'phone-number')]");
-		foreach( $phone_numbers as $phone_number ) {
-			// This phone number is hard coded, this will be fixed in a later commit.
-			$phone_number->nodeValue = '888-321-4678';
+		$survey = $this->get();
+
+		$phone = ( ! empty( $survey['phone']['value'] ) ? $survey['phone']['value'] : null );
+		$display_phone = ! isset( $survey['phone']['do-not-display'] );
+
+		// If we have a phone number and the user wants to display it, update the phone number.
+		if( ! empty( $phone ) && $display_phone ) {
+			$phone_numbers = $finder->query("//*[contains(@class,'phone-number')]");
+
+			foreach( $phone_numbers as $phone_number ) {
+				// This phone number is hard coded, this will be fixed in a later commit.
+				$phone_number->nodeValue = $phone;
+			}
 		}
 
 		/*
@@ -68,6 +76,17 @@ class Boldgrid_Inspirations_Survey {
 		);
 
 		return $widget;
+	}
+
+	/**
+	 * Get survey data.
+	 *
+	 * @since 1.3.4
+	 *
+	 * @return array
+	 */
+	public function get() {
+		return get_option( 'boldgrid_survey', array() );
 	}
 }
 ?>

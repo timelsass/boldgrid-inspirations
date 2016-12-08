@@ -36,7 +36,8 @@ The second phase is Customization; tools to transform your website into your vis
 
 ### 1.3.4 In progress ###
 * Bug fix:		JIRA WPB-2696	Remove placeholders from survey.
-* Bug fix:		JIRA WPB-2697	Update phone numbers in widgets.
+* New feature:	JIRA WPB-2697	Update phone numbers in widgets.
+* New feature:	JIRA WPB-2699	Use phone number entered during survey.
 
 ### 1.3.3 ###
 * Bug fix:		JIRA WPB-2627	Back / next buttons should not be clickable.
