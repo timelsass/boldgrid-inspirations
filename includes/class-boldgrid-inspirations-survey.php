@@ -46,8 +46,12 @@ class Boldgrid_Inspirations_Survey {
 				// Update the widget.
 				$updated_widget = $this->update_widget( $widget );
 
-				// Save the updated widget.
-				$configs['widget']['widget_instances'][$widget_area][$widget_key] = $updated_widget;
+				// If the 'delete' key is set, delete the widget. Otherwise, update it.
+				if( isset( $updated_widget['delete'] ) ) {
+					unset( $configs['widget']['widget_instances'][$widget_area][$widget_key] );
+				} else {
+					$configs['widget']['widget_instances'][$widget_area][$widget_key] = $updated_widget;
+				}
 			}
 		}
 
@@ -91,8 +95,18 @@ class Boldgrid_Inspirations_Survey {
 				if( $display_phone ) {
 					$phone_number->nodeValue = $phone;
 				} else {
-					error_log( print_r( $widget,1));
-					$phone_number->parentNode->removeChild( $phone_number );
+					// Get the parent.
+					$parent = $phone_number->parentNode;
+
+					// Remove the phone number.
+					$parent->removeChild( $phone_number );
+
+					$if_removed = $phone_number->getAttribute( 'data-if-removed' );
+					switch( $if_removed ) {
+						case 'widget':
+							$widget['delete'] = true;
+							break;
+					}
 				}
 			}
 		}
