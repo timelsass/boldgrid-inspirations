@@ -289,6 +289,9 @@ public function add_wp_hooks() {
 
 	Boldgrid_Inspirations_Attribution_Page::prevent_contamination();
 
+	$survey = new BoldGrid_Inspirations_Survey();
+	$survey->add_hooks();
+
 	// $attribution = new Boldgrid_Inspirations_Attribution();
 	// $attribution->add_wp_hooks();
 }
@@ -432,6 +435,7 @@ public function include_admin_files() {
 public function include_wp_files() {
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-attribution.php';
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-attribution-page.php';
+	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-survey.php';
 }
 
 /**
