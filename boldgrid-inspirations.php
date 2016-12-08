@@ -45,6 +45,11 @@ if ( Boldgrid_Inspirations::is_php_compatible() ) {
 			'pre_add_hooks',
 		)
 	);
+
+	// Inspirations survey. Needs to load ASAP in order to filter bgtfw configs.
+	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-survey.php';
+	$survey = new BoldGrid_Inspirations_Survey();
+	$survey->add_hooks();
 } else {
 	// If PHP is not compatible, deactivate and die if activating from an admin page, or do nothing.
 	add_action( 'admin_init', 'Boldgrid_Inspirations::check_php_wp_version' );

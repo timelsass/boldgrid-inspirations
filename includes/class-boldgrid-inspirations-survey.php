@@ -20,20 +20,60 @@ class Boldgrid_Inspirations_Survey {
 	 * @since 1.3.4
 	 */
 	public function add_hooks() {
-		add_filter( 'bgtfw_widget_data', array( $this, 'bgtfw_widget_data' ) );
+		add_filter( 'boldgrid_theme_framework_config', array( $this, 'bgtfw_config' ), 15 );
 	}
 
 	/**
-	 * Filter widget data.
+	 * Filter bgtfw configs.
 	 *
 	 * This allows Inspirations to change widgets before the bgtfw can create them.
 	 *
 	 * @since 1.3.4
 	 *
-	 * @param  array $widget Widget data.
-	 * @return array $widget
+	 * @param  array $configs Bgtfw configs.
+	 * @return array $configs.
 	 */
-	public function bgtfw_widget_data( $widget ) {
+	public function bgtfw_config( $configs ) {
+		// If we don't have any widget instances, abort.
+		if( empty( $configs['widget']['widget_instances'] ) ) {
+			return $configs;
+		}
+
+		$widget_instances = $configs['widget']['widget_instances'];
+
+		foreach( $widget_instances as $widget_area => $widgets ) {
+			foreach( $widgets as $widget_key => $widget ) {
+				// Update the widget.
+				$updated_widget = $this->update_widget( $widget );
+
+				// Save the updated widget.
+				$configs['widget']['widget_instances'][$widget_area][$widget_key] = $updated_widget;
+			}
+		}
+
+		return $configs;
+	}
+
+	/**
+	 * Get survey data.
+	 *
+	 * @since 1.3.4
+	 *
+	 * @return array
+	 */
+	public function get() {
+		return get_option( 'boldgrid_survey', array() );
+	}
+
+	/**
+	 * Update a widget based upon our survey data.
+	 *
+	 * @since 1.3.4
+	 *
+	 * @param  array $widget An array of widget data.
+	 * @return array $widget.
+	 */
+	public function update_widget( $widget ) {
 		$dom = new DOMDocument;
 		$dom->loadHTML( $widget['text'] );
 		$finder = new DomXPath( $dom );
@@ -44,12 +84,16 @@ class Boldgrid_Inspirations_Survey {
 		$display_phone = ! isset( $survey['phone']['do-not-display'] );
 
 		// If we have a phone number and the user wants to display it, update the phone number.
-		if( ! empty( $phone ) && $display_phone ) {
+		if( ! empty( $phone ) ) {
 			$phone_numbers = $finder->query("//*[contains(@class,'phone-number')]");
 
 			foreach( $phone_numbers as $phone_number ) {
-				// This phone number is hard coded, this will be fixed in a later commit.
-				$phone_number->nodeValue = $phone;
+				if( $display_phone ) {
+					$phone_number->nodeValue = $phone;
+				} else {
+					error_log( print_r( $widget,1));
+					$phone_number->parentNode->removeChild( $phone_number );
+				}
 			}
 		}
 
@@ -76,17 +120,6 @@ class Boldgrid_Inspirations_Survey {
 		);
 
 		return $widget;
-	}
-
-	/**
-	 * Get survey data.
-	 *
-	 * @since 1.3.4
-	 *
-	 * @return array
-	 */
-	public function get() {
-		return get_option( 'boldgrid_survey', array() );
 	}
 }
 ?>
