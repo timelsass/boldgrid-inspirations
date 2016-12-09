@@ -644,23 +644,23 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 */
 	this.socialMediaAdd = function( $icon ) {
 		var dataIcon = $icon.attr( 'data-icon' ),
+			defaultIcon = 'share-alt',
 			data = {
-				icon: dataIcon,
+				icon: ( 'plus' === dataIcon ? defaultIcon : dataIcon ),
 				url: $icon.attr( 'data-sample-url' )
 			},
 			template = wp.template( 'social-media' );
 
-		if( 'plus' === dataIcon ) {
-			data.icon = 'share-alt';
-			data.array = '[]';
-		} else {
-			data.array = '';
-		}
-
+		// If this icon is .disabled, the user cannot add another, abort.
 		if( $icon.hasClass( 'disabled' ) ) {
 			return;
 		}
 
+		/*
+		 * We're only allowing one social media network of each type to be added. Once we've added
+		 * a social network, disable the button so it cannot be clicked again. The plus icon is
+		 * always active though, as you're adding a new generic social network.
+		 */
 		if( 'plus' !== dataIcon ) {
 			$icon.addClass( 'disabled' );
 		}
