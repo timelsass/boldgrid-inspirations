@@ -39,6 +39,7 @@ The second phase is Customization; tools to transform your website into your vis
 * New feature:	JIRA WPB-2697	Update phone numbers in widgets.
 * New feature:	JIRA WPB-2699	Use phone number entered during survey.
 * Update:		JIRA WPB-2704	Adjust format of how social media icons are saved.
+* New feature:	JIRA WPB-2705	Use survey social media items when creating menu.
 
 ### 1.3.3 ###
 * Bug fix:		JIRA WPB-2627	Back / next buttons should not be clickable.

@@ -407,7 +407,7 @@ class Boldgrid_Inspirations_Deploy {
 
 		// If survey data exists, save it.
 		if( isset( $_REQUEST['survey'] ) ) {
-			update_option( 'boldgrid_survey', $_REQUEST['survey'] );
+			Boldgrid_Inspirations_Survey::save( $_REQUEST['survey'] );
 		}
 	}
 

@@ -55,6 +55,8 @@ class Boldgrid_Inspirations_Survey {
 			}
 		}
 
+		$configs = $this->update_social( $configs );
+
 		return $configs;
 	}
 
@@ -70,6 +72,124 @@ class Boldgrid_Inspirations_Survey {
 	}
 
 	/**
+	 * Return an array of social networks.
+	 *
+	 * The array will be empty, unless we can retrieve it from the
+	 * Boldgrid_Framework_Social_Media_Icons class.
+	 *
+	 * @since 1.3.4
+	 *
+	 * @return array.
+	 */
+	public function get_networks() {
+		$networks = array();
+
+		if( class_exists( 'Boldgrid_Framework_Social_Media_Icons' ) ) {
+
+			// The Boldgrid_Framework_Social_Media_Icons requies configs to be passed in.
+			$config = array(
+				'social-icons' => array(
+					'size' => null,
+					'type' => null,
+					'hide-text' => null,
+				),
+			);
+
+			$icons = new Boldgrid_Framework_Social_Media_Icons( $config );
+
+			$networks = $icons->networks;
+		}
+
+		return $networks;
+	}
+
+	/**
+	 * Save survey data to the 'boldgrid_survey' option.
+	 *
+	 * @since 1.3.4
+	 *
+	 * @param array $survey An array of survey data.
+	 */
+	public static function save( $survey ) {
+		// Ensure social is an array.
+		if( empty( $survey['social'] ) || ! is_array( $survey['social'] ) ) {
+			$survey['social'] = array();
+		}
+
+		// Fix URLs for the survey. Ensure they start with http://.
+		foreach( $survey['social'] as $icon => &$url ) {
+			$starts_with_http = ( 'http' === substr( $url, 0, 4 ) );
+
+			if( 'do-not-display' !== $icon && ! $starts_with_http ) {
+				$url = 'http://' . $url;
+			}
+		}
+
+		// @todo Validation is still needed.
+
+		update_option( 'boldgrid_survey', $survey );
+	}
+
+	/**
+	 * Filter items in the bgtfw's "social" default menu.
+	 *
+	 * We're actually either removing this menu or replacing everything in it.
+	 *
+	 * If we have social media networks saved from the survey, use those.
+	 *
+	 * @since 1.3.4
+	 *
+	 * @param  array $configs Bgtfw configs.
+	 * @return array
+	 */
+	public function update_social( $configs ) {
+		$networks = $this->get_networks();
+
+		$survey = $this->get();
+
+		// Grab the value of 'do-not-display' and then unset it.
+		$display_social = ! isset( $survey['social']['do-not-display'] );
+		unset( $survey['social']['do-not-display'] );
+
+		/*
+		 * If the user doesn't want to display a social menu, or they don't have any social networks
+		 * added, unset the social default menu and return.
+		 */
+		if( ! $display_social || empty( $survey['social'] ) ) {
+			unset( $configs['menu']['default-menus']['social'] );
+			return $configs;
+		}
+
+		foreach( $survey['social'] as $icon => $url ) {
+			// Get the host from the url.
+			$host = parse_url( $url, PHP_URL_HOST );
+
+			$item = array(
+				'menu-item-url' => $url,
+				'menu-item-status' => 'publish',
+				'menu-item-target' => '_blank',
+				// These titles will be replaced by the bgtfw if found in $networks.
+				'menu-item-title' => $host,
+				'menu-item-attr-title' => $host,
+			);
+
+			foreach ( $networks as $nework_url => $network ) {
+				if ( false !== strpos( $url, $nework_url ) ) {
+					$item['menu-item-classes'] = $network['class'];
+					$item['menu-item-attr-title'] = $network['name'];
+					$item['menu-item-title'] = $network['name'];
+				}
+			}
+
+			$items[] = $item;
+		}
+
+		$configs['menu']['default-menus']['social']['items'] = $items;
+
+		return $configs;
+	}
+
+	/**
 	 * Update a widget based upon our survey data.
 	 *
 	 * @since 1.3.4
@@ -78,6 +198,12 @@ class Boldgrid_Inspirations_Survey {
 	 * @return array $widget.
 	 */
 	public function update_widget( $widget ) {
+
+		// If our widget is not an array or the text is empty, abort.
+		if( ! is_array( $widget ) || empty( $widget['text'] ) ) {
+			return $widget;
+		}
+
 		$dom = new DOMDocument;
 		$dom->loadHTML( $widget['text'] );
 		$finder = new DomXPath( $dom );
