@@ -46,6 +46,13 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	self.distinctThemes = [];
 
 	/**
+	 * The container of social media icons in the Inspirations survey.
+	 *
+	 * @since 1.3.4
+	 */
+	self.$socialIndex = $( '#social-media-index' );
+
+	/**
 	 * The selected sub category id in step 1.
 	 *
 	 * @since 1.2.5
@@ -644,11 +651,12 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 */
 	this.socialMediaAdd = function( $icon ) {
 		var dataIcon = $icon.attr( 'data-icon' ),
-			defaultIcon = 'share-alt',
 			data = {
-				icon: ( 'plus' === dataIcon ? defaultIcon : dataIcon ),
+				icon: dataIcon,
 				url: $icon.attr( 'data-sample-url' )
 			},
+			// Our $icon is a span, $faIcon is the actual icon.
+			$faIcon = $icon.find( 'i.fa' ),
 			template = wp.template( 'social-media' );
 
 		// If this icon is .disabled, the user cannot add another, abort.
@@ -656,14 +664,39 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			return;
 		}
 
+		// If this is the plus icon, show all other icons and abort.
+		if( $faIcon.hasClass( 'fa-plus' ) ) {
+			// Show all other icons.
+			self.$socialIndex.find( '[data-icon]' ).removeClass( 'hidden' );
+
+			// Toggle the plus / minus sign.
+			$faIcon.removeClass( 'fa-plus' ).addClass( 'fa-minus' );
+
+			// Update the title tag to say "Show fewer".
+			self.switchAttributes( $icon, 'title', 'data-alt-title' );
+
+			return;
+		}
+
+		// If this is the minus icon, hide the non default icons.
+		if( $faIcon.hasClass( 'fa-minus' ) ) {
+			// Hide non default icons.
+			self.$socialIndex.find( '[data-hidden]' ).addClass( 'hidden' );
+
+			// Toggle the plus / minus sign.
+			$faIcon.addClass( 'fa-plus' ).removeClass( 'fa-minus' );
+
+			// Update the title tag to say "Show more".
+			self.switchAttributes( $icon, 'title', 'data-alt-title' );
+
+			return;
+		}
+
 		/*
 		 * We're only allowing one social media network of each type to be added. Once we've added
-		 * a social network, disable the button so it cannot be clicked again. The plus icon is
-		 * always active though, as you're adding a new generic social network.
+		 * a social network, disable the button so it cannot be clicked again.
 		 */
-		if( 'plus' !== dataIcon ) {
-			$icon.addClass( 'disabled' );
-		}
+		$icon.addClass( 'disabled' );
 
 		$( '#social-media' ).append( template( data ) );
 	};
@@ -676,12 +709,10 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 * @since 1.3.2
 	 */
 	this.socialMediaDefaults = function() {
-		var defaults = [ 'facebook', 'twitter' ];
+		var defaults = self.$socialIndex.find( '[data-added]' );
 
-		defaults.forEach( function( n ) {
-			var $icon = $( '[data-icon="' + n + '"]' );
-
-			self.socialMediaAdd( $icon );
+		defaults.each( function( index ) {
+			self.socialMediaAdd( $( this ) );
 		});
 	};
 
@@ -698,7 +729,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 
 		$container.remove();
 
-		$( '#social-media-index' ).find( '[data-icon="' + provider + '"]' ).removeClass( 'disabled' );
+		self.$socialIndex.find( '[data-icon="' + provider + '"]' ).removeClass( 'disabled' );
 	};
 
 	/**
@@ -858,6 +889,22 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		var $container = $checkbox.closest( '.survey-field' );
 
 		$container.find( 'input[type="text"]' ).toggleClass( 'disabled' );
+	};
+
+	/**
+	 * @summary Switch attributes of a jQuery object.
+	 *
+	 * @since 1.3.4
+	 *
+	 * @param jQuery object $object
+	 * @param string        a       The first attribution name.
+	 * @param string        b       The second attribution name.
+	 */
+	this.switchAttributes = function( $object, a, b ) {
+		var originalA = $object.attr( a ),
+			originalB = $object.attr( b );
+
+		$object.attr( a, originalB ).attr( b, originalA );
 	};
 
 	/**

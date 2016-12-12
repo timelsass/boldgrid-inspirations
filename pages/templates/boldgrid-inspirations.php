@@ -66,12 +66,9 @@
 </script>
 
 <script type="text/html" id="tmpl-social-media">
-	<#
-		var key = ( 'share-alt' === data.icon ? '' : data.icon );
-	#>
 	<div class="social-media" data-provider="{{data.icon}}">
 		<span><i class="fa fa-{{data.icon}}" aria-hidden="true"></i></span>
-		<input type="text" value="{{data.url}}" name="survey[social][{{key}}]">
+		<input type="text" value="{{data.url}}" name="survey[social][{{data.icon}}]">
 		<i class="fa fa-times" aria-hidden="true"></i>
 	</div>
 </script>

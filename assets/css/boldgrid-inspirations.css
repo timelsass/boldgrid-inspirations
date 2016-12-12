@@ -428,9 +428,13 @@ http://ivomynttinen.com/blog/the-ios-design-cheat-sheet-volume-2
     display: inline-block;
     text-align: center;
     padding: 5px;
-    margin-right: 10px;
+    margin: 0px 10px 10px 0px;
     line-height: 23px;
     cursor: pointer;
+}
+
+#social-media-index .hidden {
+	display: none;
 }
 
 #social-media-index span[data-icon="plus"] {

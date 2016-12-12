@@ -10,28 +10,51 @@ $lang = array(
 	'Intro' => __( '%sOPTIONAL:%s The information you provide below will be used to populate contact information and social media icons throughout your BoldGrid website.', 'boldgrid-inspirations' ),
 	'Next' => __( 'Next', 'boldgrid-inspirations' ),
 	'Phone' => __( 'Phone', 'boldgrid-inspirations' ),
+	'Show_fewer' => __( 'Show fewer', 'boldgrid-inspirations' ),
+	'Show_more' => __( 'Show more', 'boldgrid-inspirations' ),
 	'Social_media' => __( 'Social Media', 'boldgrid-inspirations' ),
 );
 
-$social_media = array(
-	'facebook' => 'facebook.com/username',
-	'twitter' => 'twitter.com/username',
-	'google-plus' => 'plus.google.com/username',
-	'linkedin-square' => 'linkedin.com/username',
-	'youtube' => 'youtube.com/username',
-	'instagram' => 'instagram.com/username',
-	'plus' => 'Custom url',
-);
+$networks = require BOLDGRID_BASE_DIR . '/includes/config/networks.config.php';
 
-$social_media_index = '<div id="social-media-index">';
-foreach( $social_media as $key => $url ) {
-	$social_media_index .= sprintf(
-		'<span data-icon="%1$s" data-sample-url="%2$s"><i class="fa fa-%1$s" aria-hidden="true"></i></span>',
-		$key,
-		$url
+$icons = '';
+
+foreach( $networks as $url => $network ) {
+	// If this is a default network, show it. Otherwise, hide it.
+	if( ! empty( $network['default-shown'] ) && true === $network['default-shown'] ) {
+		$class = '';
+		$data_hidden = '';
+	} else {
+		$class = 'hidden';
+		$data_hidden = 'data-hidden';
+	}
+
+	// If this is a network that should be added by default, label it as so.
+	$data_added = ( ! empty( $network['default-added'] ) && true === $network['default-added'] ) ? 'data-added' : '';
+
+	$icons .= sprintf(
+		'<span data-icon="%1$s" data-sample-url="%2$s" title="%4$s" class="%5$s" %6$s %7$s>
+			<i class="%3$s" aria-hidden="true"></i>
+		</span>',
+		$network['class'],
+		$url . '/username',
+		$network['icon'],
+		$network['name'],
+		$class,
+		$data_hidden,
+		$data_added
 	);
 }
-$social_media_index .= '</div>';
+
+$social_media_index = sprintf(
+	'<div id="social-media-index">
+		%1$s
+		<span title="%2$s" data-alt-title="%3$s"><i class="fa fa-plus" aria-hidden="true"></i></span>
+	</div>',
+	$icons,
+	$lang['Show_more'],
+	$lang['Show_fewer']
+);
 
 $blogname = get_option( 'blogname' );
 ?>

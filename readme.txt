@@ -38,6 +38,7 @@ The second phase is Customization; tools to transform your website into your vis
 * Update:		JIRA WPB-2704	Adjust format of how social media icons are saved.
 * New feature:	JIRA WPB-2705	Use survey social media items when creating menu.
 * Update:		JIRA WPB-2711	Show optional message in survey.
+* Update:		JIRA WPB-2712	Have plus sign toggle more social icons.
 
 = 1.3.3 =
 * Bug fix:		JIRA WPB-2627	Back / next buttons should not be clickable.

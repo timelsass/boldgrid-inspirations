@@ -227,10 +227,18 @@ class Boldgrid_Inspirations_Survey {
 					// Remove the phone number.
 					$parent->removeChild( $phone_number );
 
+					// Ge the html of the widget.
+					$html = $dom->saveHTML();
+
 					$if_removed = $phone_number->getAttribute( 'data-if-removed' );
 					switch( $if_removed ) {
 						case 'widget':
 							$widget['delete'] = true;
+							break;
+						case 'pipe':
+							// Replace empty pipes.
+							$html = preg_replace( "/\|\s+\|/", '|', $html );
+							$dom->loadHTMl( $html );
 							break;
 					}
 				}
