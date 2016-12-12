@@ -1,4 +1,9 @@
 <?php
+/**
+ * An array of social media networks and their font awesome settings
+ *
+ * @since 1.3.4
+ */
 return array(
 	'bitbucket.org' => array(
 		'name' => 'Bitbucket',
