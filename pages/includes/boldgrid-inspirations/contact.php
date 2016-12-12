@@ -3,10 +3,11 @@ $lang = array(
 	'Add_a_map' => __( 'Add a map', 'boldgrid-inspirations' ),
 	'Address' => __( 'Address', 'boldgrid-inspirations' ),
 	'Back' => __( 'Back', 'boldgrid-inspirations' ),
+	'Change' => __( 'This information can be edited later.', 'boldgrid-inspirations' ),
 	'Company_name' => __( 'Company name / site title', 'boldgrid-inspirations' ),
 	'Do_not_display' => __( 'Do not display', 'boldgrid-inspirations' ),
 	'Email' => __( 'Email', 'boldgrid-inspirations' ),
-	'Intro' => __( 'The information you provide below will be used to populate contact information and social media icons throughout your BoldGrid website.', 'boldgrid-inspirations' ),
+	'Intro' => __( '%sOPTIONAL:%s The information you provide below will be used to populate contact information and social media icons throughout your BoldGrid website.', 'boldgrid-inspirations' ),
 	'Next' => __( 'Next', 'boldgrid-inspirations' ),
 	'Phone' => __( 'Phone', 'boldgrid-inspirations' ),
 	'Social_media' => __( 'Social Media', 'boldgrid-inspirations' ),
@@ -39,7 +40,10 @@ $blogname = get_option( 'blogname' );
 <div class="boldgrid-plugin-card">
 	<div class="top">
 
-		<p><?php echo $lang['Intro']; ?></p>
+		<p>
+			<?php printf( $lang['Intro'], '<strong>', '</strong>' ); ?>
+			<?php echo $lang['Change']; ?>
+		</p>
 
 		<div class='survey-field'>
 			<span class='title'><?php echo $lang['Company_name']; ?></span>
