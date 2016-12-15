@@ -15,12 +15,28 @@
  */
 class Boldgrid_Inspirations_Survey {
 	/**
+	 * The 'data-if-removed' attribute of an element.
+	 *
+	 * @since 1.3.4
+	 */
+	public $data_if_removed = 'data-if-removed';
+
+	/**
+	 * The 'data-removal-key' attribute of an element.
+	 *
+	 * @since 1.3.4
+	 */
+	public $data_removal_key = 'data-removal-key';
+
+	/**
 	 * Add hooks.
 	 *
 	 * @since 1.3.4
 	 */
 	public function add_hooks() {
 		add_filter( 'boldgrid_theme_framework_config', array( $this, 'bgtfw_config' ), 15 );
+
+		add_filter( 'boldgrid_deployment_pre_insert_post', array( $this, 'update_post' ) );
 	}
 
 	/**
@@ -58,6 +74,120 @@ class Boldgrid_Inspirations_Survey {
 		$configs = $this->update_social( $configs );
 
 		return $configs;
+	}
+
+	/**
+	 * Remove an element from the dom if its attribute is a certain value.
+	 *
+	 * For example, if the user does not want their phone number listed on the contact us page,
+	 * we need to remove several elements on the page that have data-removal-key=phone-number.
+	 *
+	 * @since 1.3.4
+	 *
+	 * @param  object $dom A DOMDocument object.
+	 * @param  string $attribute
+	 * @param  string $value
+	 * @return A DOMDocument object
+	 */
+	public function delete_by_attribute( $dom, $attribute, $value ) {
+		$finder = new DomXPath( $dom );
+
+		$elements = $finder->query('//*[contains(@' . $attribute . ',"' . $value . '")]');
+
+		foreach( $elements as $element ) {
+			$element->parentNode->removeChild( $element );
+		}
+
+		return $dom;
+	}
+
+	/**
+	 * Cleanup code.
+	 *
+	 * @since 1.3.4
+	 *
+	 * @param  object $dom A DOMDocument object.
+	 * @return string
+	 */
+	public function dom_clean_save( $dom ) {
+		// An array of attributes that need to be removed.
+		$attributes = array(
+			$this->data_if_removed,
+			$this->data_removal_key,
+		);
+
+		/*
+		 * Removed unneedd attributes.
+		 *
+		 * There are certain attributes we use to store data temporarily, such as data-if-removed.
+		 * Remove all these attributes from all elements.
+		 */
+		foreach( $dom->getElementsByTagName('*') as $element ) {
+			foreach( $attributes as $attribute ) {
+				$element->removeAttribute( $attribute );
+			}
+		}
+
+		/*
+		 * Remove doctype, html, and body tags.
+		 *
+		 * When using $dom->loadHTML, doctype/html/body tags are automatically added.
+		 * @see http://fr.php.net/manual/en/domdocument.savehtml.php#85165
+		 *
+		 * As of PHP 5.4 and Libxml 2.6, there are optional parameters to pass to $dom->loadHTML
+		 * which will not add the doctype/html/body tags.
+		 * @see http://stackoverflow.com/questions/4879946/how-to-savehtml-of-domdocument-without-html-wrapper
+		 *
+		 * @todo Update this section of code when PHP standards are changed.
+		*/
+		return preg_replace(
+			'/^<!DOCTYPE.+?>/',
+			'',
+			str_replace(
+				array('<html>', '</html>', '<body>', '</body>'),
+				array('', '', '', ''),
+				$dom->saveHTML()
+			)
+		);
+	}
+
+	/**
+	 * Filter posts based on survey data.
+	 *
+	 * @since 1.3.4
+	 *
+	 * @param  array $post Post data before it's passed to wp_insert_post.
+	 * @return array
+	 */
+	public function update_post( $post ) {
+		$dom = new DOMDocument;
+		$dom->loadHTML( $post['post_content'] );
+		$finder = new DomXPath( $dom );
+		$survey = $this->get();
+
+		$phone = $survey['phone']['value'];
+		$display_phone = ! isset( $survey['phone']['do-not-display'] );
+
+		$phone_numbers = $finder->query( '//*[@' . $this->data_if_removed . ' and contains(@' . $this->data_removal_key . ', "phone-number")]' );
+
+		foreach( $phone_numbers as $phone_number ) {
+			/*
+			 * If the user did not check "do not display" AND entered a phone number, replace the
+			 * phone number.
+			 *
+			 * Otherwise, process the data-if-removed value.
+			 */
+			if( $display_phone && ! is_null( $phone ) ) {
+				$phone_number->nodeValue = $phone;
+			} elseif( 'key' === $phone_number->getAttribute( $this->data_if_removed ) ) {
+				$removal_key = $phone_number->getAttribute( $this->data_removal_key );
+				$dom = $this->delete_by_attribute( $dom, $this->data_removal_key, $removal_key );
+			}
+		}
+
+		$post['post_content'] = $this->dom_clean_save( $dom );
+
+		return $post;
 	}
 
 	/**
@@ -114,6 +244,13 @@ class Boldgrid_Inspirations_Survey {
 		// Ensure social is an array.
 		if( empty( $survey['social'] ) || ! is_array( $survey['social'] ) ) {
 			$survey['social'] = array();
+		}
+
+		// If no phone number has been submitted, set it to null.
+		if( empty( $survey['phone']['value'] ) ) {
+			$survey['phone']['value'] = null;
+		} else {
+			$survey['phone']['value'] = trim( $survey['phone']['value'] );
 		}
 
 		// Fix URLs for the survey. Ensure they start with http://.
@@ -210,7 +347,7 @@ class Boldgrid_Inspirations_Survey {
 
 		$survey = $this->get();
 
-		$phone = ( ! empty( $survey['phone']['value'] ) ? $survey['phone']['value'] : null );
+		$phone = $survey['phone']['value'];
 		$display_phone = ! isset( $survey['phone']['do-not-display'] );
 
 		// If we have a phone number and the user wants to display it, update the phone number.
@@ -230,7 +367,7 @@ class Boldgrid_Inspirations_Survey {
 					// Ge the html of the widget.
 					$html = $dom->saveHTML();
 
-					$if_removed = $phone_number->getAttribute( 'data-if-removed' );
+					$if_removed = $phone_number->getAttribute( $this->data_if_removed );
 					switch( $if_removed ) {
 						case 'widget':
 							$widget['delete'] = true;
@@ -245,27 +382,7 @@ class Boldgrid_Inspirations_Survey {
 			}
 		}
 
-		/*
-		 * Remove doctype, html, and body tags.
-		 *
-		 * When using $dom->loadHTML, doctype/html/body tags are automatically added.
-		 * @see http://fr.php.net/manual/en/domdocument.savehtml.php#85165
-		 *
-		 * As of PHP 5.4 and Libxml 2.6, there are option parameters to pass to $dom->loadHTML
-		 * which will not add the doctype/html/body tags.
-		 * @see http://stackoverflow.com/questions/4879946/how-to-savehtml-of-domdocument-without-html-wrapper
-		 *
-		 * @todo Update this section of code when PHP standards are changed.
-		 */
-		$widget['text'] = preg_replace(
-			'/^<!DOCTYPE.+?>/',
-			'',
-			str_replace(
-				array('<html>', '</html>', '<body>', '</body>'),
-				array('', '', '', ''),
-				$dom->saveHTML()
-			)
-		);
+		$widget['text'] = $this->dom_clean_save( $dom );
 
 		return $widget;
 	}
