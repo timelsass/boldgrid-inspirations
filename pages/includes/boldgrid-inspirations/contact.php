@@ -37,7 +37,8 @@ foreach( $networks as $url => $network ) {
 			<i class="%3$s" aria-hidden="true"></i>
 		</span>',
 		$network['class'],
-		$url . '/username',
+		// If we have a sample-url use that, else use url/username.
+		( empty( $network['sample-url'] ) ? $url . '/username' : $network['sample-url'] ),
 		$network['icon'],
 		$network['name'],
 		$class,

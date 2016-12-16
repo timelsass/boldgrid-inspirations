@@ -426,6 +426,7 @@ return array(
 		'icon-circle-open' => 'fa fa-steam fa-stack-1x',
 		'icon-circle' => 'fa fa-steam fa-stack-1x',
 		'content' => 'f1b6',
+		'sample-url' => 'steamcommunity.com/id/username',
 	),
 
 	'vimeo.com' => array(
