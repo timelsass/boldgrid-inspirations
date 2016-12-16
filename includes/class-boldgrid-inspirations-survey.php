@@ -256,10 +256,9 @@ class Boldgrid_Inspirations_Survey {
 		// Fix URLs for the survey. Ensure they start with http://.
 		foreach( $survey['social'] as $icon => &$url ) {
 			$starts_with_http = ( 'http' === substr( $url, 0, 4 ) );
-			$is_email = ( ! filter_var( $url, FILTER_VALIDATE_EMAIL) === false );
 
 			if( 'do-not-display' !== $icon ) {
-				if( $is_email ) {
+				if( is_email( $url ) ) {
 					$url = 'mailto:' . $url;
 				} elseif( ! $starts_with_http ) {
 					$url = 'http://' . $url;
