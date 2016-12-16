@@ -305,7 +305,7 @@ return array(
 
 	'wordpress.com' => array(
 		'name' => 'WordPress.com',
-		'class' => 'wpcom',
+		'class' => 'wordpress',
 		'icon' => 'fa fa-wordpress',
 		'icon-sign' => 'fa fa-wordpress',
 		'icon-square-open' => 'fa fa-wordpress fa-stack-1x',
