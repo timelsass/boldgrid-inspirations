@@ -34,9 +34,18 @@ class Boldgrid_Inspirations_Survey {
 	 * @since 1.3.4
 	 */
 	public function add_hooks() {
-		add_filter( 'boldgrid_theme_framework_config', array( $this, 'bgtfw_config' ), 15 );
+		$survey = $this->get();
 
-		add_filter( 'boldgrid_deployment_pre_insert_post', array( $this, 'update_post' ) );
+		/*
+		 * Hooks that rely on the survey have been taken.
+		 *
+		 * We're only making the below changes because we've assumed the user has gone through
+		 * Inspirations and taken the survey.
+		 */
+		if( ! empty( $survey ) ) {
+			add_filter( 'boldgrid_theme_framework_config', array( $this, 'bgtfw_config' ), 15 );
+			add_filter( 'boldgrid_deployment_pre_insert_post', array( $this, 'update_post' ) );
+		}
 	}
 
 	/**
