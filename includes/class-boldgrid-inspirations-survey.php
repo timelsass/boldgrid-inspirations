@@ -256,9 +256,14 @@ class Boldgrid_Inspirations_Survey {
 		// Fix URLs for the survey. Ensure they start with http://.
 		foreach( $survey['social'] as $icon => &$url ) {
 			$starts_with_http = ( 'http' === substr( $url, 0, 4 ) );
+			$is_email = ( ! filter_var( $url, FILTER_VALIDATE_EMAIL) === false );
 
-			if( 'do-not-display' !== $icon && ! $starts_with_http ) {
-				$url = 'http://' . $url;
+			if( 'do-not-display' !== $icon ) {
+				if( $is_email ) {
+					$url = 'mailto://' . $url;
+				} elseif( ! $starts_with_http ) {
+					$url = 'http://' . $url;
+				}
 			}
 		}
 
@@ -301,14 +306,21 @@ class Boldgrid_Inspirations_Survey {
 			// Get the host from the url.
 			$host = parse_url( $url, PHP_URL_HOST );
 
+			// Whether or not this is a mailto:// link.
+			$is_mailto = ( 'mailto://' === substr( $url, 0, 9 ) );
+
 			$item = array(
 				'menu-item-url' => $url,
 				'menu-item-status' => 'publish',
-				'menu-item-target' => '_blank',
 				// These titles will be replaced by the bgtfw if found in $networks.
 				'menu-item-title' => $host,
 				'menu-item-attr-title' => $host,
 			);
+
+			// Open links in a new tab.
+			if( ! $is_mailto ) {
+				$item['menu-item-target'] = '_blank';
+			}
 
 			foreach ( $networks as $nework_url => $network ) {
 				if ( false !== strpos( $url, $nework_url ) ) {

@@ -176,6 +176,7 @@ return array(
 		'icon-circle-open' => 'fa fa-envelope fa-stack-1x',
 		'icon-circle' => 'fa fa-envelope fa-stack-1x',
 		'content' => 'f0e0',
+		'sample-url' => 'user@domain.com',
 	),
 
 	'pinterest.com' => array(
