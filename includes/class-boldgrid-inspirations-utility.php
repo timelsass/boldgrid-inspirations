@@ -145,4 +145,25 @@ class Boldgrid_Inspirations_Utility {
 			return $input;
 		}
 	}
+
+	/**
+	 * Check if data attribute exists.
+	 *
+	 * @since 1.3.5
+	 *
+	 * @access public
+	 *
+	 * @param $dom
+	 * @param $attribute
+	 * @param $value
+	 *
+	 * @return Boolean Whether the data attribute exists or not.
+	 */
+	public function attribute_exists( $dom, $attribute, $value ) {
+		$finder = new DomXPath( $dom );
+		$selector = "//*[contains(@{$attribute}, '{$value}')]";
+		$query = $finder->query( $selector );
+
+		return $query['length'] !== 0 ? true : false;
+	}
 }

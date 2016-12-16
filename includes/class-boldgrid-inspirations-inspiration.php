@@ -257,6 +257,9 @@ class Boldgrid_Inspirations_Inspiration extends Boldgrid_Inspirations {
 
 			$milestones_widget = new Boldgrid_Inspirations_Milestones_Widget();
 			$milestones_widget->add_hooks();
+
+			$deploy_cta = new Boldgrid_Inspirations_Deploy_Cta();
+			$deploy_cta->add_hooks();
 		}
 
 		/* Classes to add_hooks for, regardless of is_admin. */
@@ -422,6 +425,8 @@ public function include_admin_files() {
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-milestones.php';
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-milestones-social.php';
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-milestones-widget.php';
+
+	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-deploy-cta.php';
 }
 
 /**
