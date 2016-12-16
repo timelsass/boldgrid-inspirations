@@ -260,7 +260,7 @@ class Boldgrid_Inspirations_Survey {
 
 			if( 'do-not-display' !== $icon ) {
 				if( $is_email ) {
-					$url = 'mailto://' . $url;
+					$url = 'mailto:' . $url;
 				} elseif( ! $starts_with_http ) {
 					$url = 'http://' . $url;
 				}
@@ -307,7 +307,7 @@ class Boldgrid_Inspirations_Survey {
 			$host = parse_url( $url, PHP_URL_HOST );
 
 			// Whether or not this is a mailto:// link.
-			$is_mailto = ( 'mailto://' === substr( $url, 0, 9 ) );
+			$is_mailto = ( 'mailto:' === substr( $url, 0, 7 ) );
 
 			$item = array(
 				'menu-item-url' => $url,
