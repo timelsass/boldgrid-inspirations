@@ -397,10 +397,6 @@ http://ivomynttinen.com/blog/the-ios-design-cheat-sheet-volume-2
 	margin-top: 6px;
 }
 
-.survey-field input.disabled {
-	color: #ddd;
-}
-
 /* Make the border of "Add a map" checkbox match border of textarea above. */
 .survey-field .add-a-map input {
 	border: 1px solid #ddd;
