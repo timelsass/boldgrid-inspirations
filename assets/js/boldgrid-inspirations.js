@@ -660,7 +660,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			template = wp.template( 'social-media' );
 
 		// If this icon is .disabled, the user cannot add another, abort.
-		if( $icon.hasClass( 'disabled' ) ) {
+		if( $icon.hasClass( 'disabled' ) || $icon.hasClass( 'disabled-via-toggle' ) ) {
 			return;
 		}
 
@@ -889,6 +889,11 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		var $container = $checkbox.closest( '.survey-field' );
 
 		$container.find( 'input[type="text"]' ).toggleClass( 'disabled' );
+
+		// If we are disabling social media, prevent the user from adding more networks.
+		if( 'social-media' === $container.attr( 'id' ) ) {
+			self.$socialIndex.find( 'span' ).toggleClass( 'disabled-via-toggle' );
+		}
 	};
 
 	/**
