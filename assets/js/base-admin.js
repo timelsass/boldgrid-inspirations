@@ -4,7 +4,7 @@
 
 var IMHWPB = IMHWPB || {};
 
-IMHWPB.BaseAdmin = function() {
+IMHWPB.BaseAdmin = function( $ ) {
 	var self = this;
 
 	// References to use as selectors.
@@ -135,6 +135,19 @@ IMHWPB.BaseAdmin = function() {
 	};
 
 	/**
+	 * @summary Toggle the disabled attribute.
+	 *
+	 * @since 1.3.4
+	 *
+	 * @link http://stackoverflow.com/questions/11903293/toggle-disabled-attribute-in-jquery
+	 */
+	$.fn.toggleDisabled = function() {
+        return this.each( function() {
+            this.disabled = !this.disabled;
+        });
+    };
+
+	/**
 	 * Init any methods needed pertaining to "Add GridBlock Set".
 	 *
 	 * @since 1.0.10
@@ -202,7 +215,7 @@ IMHWPB.BaseAdmin = function() {
 	};
 };
 
-new IMHWPB.BaseAdmin();
+new IMHWPB.BaseAdmin( jQuery );
 
 /*
  * The BaseAdmin class was initially intended to be a utility type class for js. Because of the

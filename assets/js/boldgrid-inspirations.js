@@ -888,7 +888,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	this.surveyToggleDisplay = function( $checkbox ) {
 		var $container = $checkbox.closest( '.survey-field' );
 
-		$container.find( 'input[type="text"]' ).toggleClass( 'disabled' );
+		$container.find( 'input[type="text"]' ).toggleClass( 'disabled' ).toggleDisabled();
 
 		// If we are disabling social media, prevent the user from adding more networks.
 		if( 'social-media' === $container.attr( 'id' ) ) {
