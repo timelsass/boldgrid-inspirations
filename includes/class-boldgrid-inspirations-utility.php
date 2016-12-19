@@ -164,6 +164,6 @@ class Boldgrid_Inspirations_Utility {
 		$selector = "//*[contains(@{$attribute}, '{$value}')]";
 		$query = $finder->query( $selector );
 
-		return $query['length'] !== 0 ? true : false;
+		return $query->length !== 0 ? true : false;
 	}
 }
