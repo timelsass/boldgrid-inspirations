@@ -135,19 +135,6 @@ IMHWPB.BaseAdmin = function( $ ) {
 	};
 
 	/**
-	 * @summary Toggle the disabled attribute.
-	 *
-	 * @since 1.3.4
-	 *
-	 * @link http://stackoverflow.com/questions/11903293/toggle-disabled-attribute-in-jquery
-	 */
-	$.fn.toggleDisabled = function() {
-        return this.each( function() {
-            this.disabled = !this.disabled;
-        });
-    };
-
-	/**
 	 * Init any methods needed pertaining to "Add GridBlock Set".
 	 *
 	 * @since 1.0.10
@@ -244,3 +231,24 @@ BoldGrid.Utility = {
 		return str.charAt(0).toUpperCase() + str.substr(1);
 	}
 }
+
+/*
+ * Register any jQuery extensions.
+ *
+ * @todo: These cannot be set within the BaseAdmin object, as other scripts register additional
+ * instances of BaseAdmin, and that causes problems. Currently, there's only one jQuery extension.
+ * Look into separating into another file if more extensions are created.
+ */
+
+/**
+ * @summary Toggle the disabled attribute.
+ *
+ * @since 1.3.4
+ *
+ * @link http://stackoverflow.com/questions/11903293/toggle-disabled-attribute-in-jquery
+ */
+jQuery.fn.toggleDisabled = function() {
+    return this.each( function() {
+        this.disabled = !this.disabled;
+    });
+};
