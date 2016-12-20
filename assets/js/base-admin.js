@@ -230,7 +230,7 @@ BoldGrid.Utility = {
 	ucfirst: function( str ) {
 		return str.charAt(0).toUpperCase() + str.substr(1);
 	}
-}
+};
 
 /*
  * Register any jQuery extensions.
