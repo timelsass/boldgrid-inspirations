@@ -79,7 +79,7 @@ class Boldgrid_Inspirations_Deploy_Cta {
 	 */
 	public function set_theme_mod( $theme_folder_name ) {
 		$mods = get_option( 'theme_mods_' . $theme_folder_name, array() );
-		$bstw_enabled = array( 'bstw_enabled' => $this->has_cta );
+		$bstw_enabled = array( 'bstw_enabled' => ! $this->has_cta );
 		$mods = array_merge( $mods, $bstw_enabled );
 
 		update_option( 'theme_mods_' . $theme_folder_name, $mods );
