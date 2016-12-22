@@ -29,6 +29,13 @@ class Boldgrid_Inspirations_Survey {
 	public $data_removal_key = 'data-removal-key';
 
 	/**
+	 * The option name survey data is stored.
+	 *
+	 * @since 1.3.5
+	 */
+	public $option = 'boldgrid_survey';
+
+	/**
 	 * Add hooks.
 	 *
 	 * @since 1.3.4
@@ -50,6 +57,11 @@ class Boldgrid_Inspirations_Survey {
 	 * @return array $configs.
 	 */
 	public function bgtfw_config( $configs ) {
+
+		$configs = $this->update_contact_blocks( $configs );
+
+		$configs = $this->update_social( $configs );
+
 		// If we don't have any widget instances, abort.
 		if( empty( $configs['widget']['widget_instances'] ) ) {
 			return $configs;
@@ -70,8 +82,6 @@ class Boldgrid_Inspirations_Survey {
 				}
 			}
 		}
-
-		$configs = $this->update_social( $configs );
 
 		return $configs;
 	}
@@ -152,6 +162,39 @@ class Boldgrid_Inspirations_Survey {
 	}
 
 	/**
+	 * Update the contact blocks within the bgtfw.
+	 *
+	 * @since 1.3.5
+	 *
+	 * @param  array $configs Bgtfw configs.
+	 * @return array
+	 */
+	public function update_contact_blocks( $configs ) {
+		// If the user has never taken the survey, use the default contact blocks.
+		if( ! $this->has_taken() ) {
+			return $configs;
+		}
+
+		$survey = $this->get();
+
+		$blocks = array( 'address', 'phone', 'email' );
+
+		// Configure our copyright block.
+		$defaults[]['contact_block'] = '© ' . date( 'Y' ) . ' ' . get_bloginfo( 'name' );
+
+		// Configure our other blocks.
+		foreach( $blocks as $block ) {
+			if( $this->should_display( $block ) ) {
+				$defaults[]['contact_block'] = esc_attr( $this->get_value( $block ) );
+			}
+		}
+
+		$configs['customizer-options']['contact-blocks']['defaults'] = $defaults;
+
+		return $configs;
+	}
+
+	/**
 	 * Filter posts based on survey data.
 	 *
 	 * @since 1.3.4
@@ -163,10 +206,9 @@ class Boldgrid_Inspirations_Survey {
 		$dom = new DOMDocument;
 		$dom->loadHTML( $post['post_content'] );
 		$finder = new DomXPath( $dom );
-		$survey = $this->get();
 
-		$phone = $survey['phone']['value'];
-		$display_phone = ! isset( $survey['phone']['do-not-display'] );
+		$phone = $this->get_value( 'phone' );
+		$display_phone = $this->should_display( 'phone' );
 
 		$phone_numbers = $finder->query( '//*[@' . $this->data_if_removed . ' and contains(@' . $this->data_removal_key . ', "phone-number")]' );
 
@@ -198,16 +240,23 @@ class Boldgrid_Inspirations_Survey {
 	 * @return array
 	 */
 	public function get() {
-		// If we don't have any survey data, this will be returned instead.
-		$default_survey = array(
-			'phone' => array(
-				'value' => null,
-			)
-		);
+		return get_option( $this->option, array() );
+	}
 
-		$survey = get_option( 'boldgrid_survey', $default_survey );
+	/**
+	 * Get the value of a specific survey entry.
+	 *
+	 * For example, pass in 'phone', and we'll return $survey['phone']['value'].
+	 *
+	 * @since 1.3.5
+	 *
+	 * @param  string $key
+	 * @return string|null
+	 */
+	public function get_value( $key ) {
+		$survey = $this->get();
 
-		return $survey;
+		return ( ! empty( $survey[$key]['value'] ) ? $survey[$key]['value'] : null );
 	}
 
 	/**
@@ -243,41 +292,122 @@ class Boldgrid_Inspirations_Survey {
 	}
 
 	/**
+	 * Whether or not the user has taken the survey.
+	 *
+	 * @since 1.3.5
+	 *
+	 * @return bool True if the user has taken the survey.
+	 */
+	public function has_taken() {
+		return ( false !== get_option( $this->option ) );
+	}
+
+	/**
+	 * Prepend a $url with a protocol.
+	 *
+	 * For example, if you pass in facebook.com, we'll return http://facebook.com.
+	 *
+	 * @since 1.3.5
+	 *
+	 * @param  string $url
+	 * @return string
+	 */
+	public function prepend_protocol( $url ) {
+		$starts_with_http = ( 'http' === substr( $url, 0, 4 ) );
+
+		if( is_email( $url ) ) {
+			$url = 'mailto:' . $url;
+		} elseif( ! $starts_with_http ) {
+			$url = 'http://' . $url;
+		}
+
+		return $url;
+	}
+
+	/**
 	 * Save survey data to the 'boldgrid_survey' option.
 	 *
 	 * @since 1.3.4
 	 *
 	 * @param array $survey An array of survey data.
 	 */
-	public static function save( $survey ) {
+	public function save( $survey ) {
+		// We will review the $survey and build $sanitized_survey;
+		$sanitized_survey = array();
+
+		// These standard keys have the same format, and can be sanitized the same way.
+		$standard_keys = array( 'blogname', 'email', 'phone', 'address' );
+
+		// Sanitize our data.
+		foreach( $standard_keys as $key ) {
+			// If we passed in an empty value, skip this key. It won't be in our survey.
+			if( empty( $survey[$key]['value'] ) ) {
+				continue;
+			}
+
+			$is_blogname = ( 'blogname' === $key );
+			$is_email = ( 'email' === $key );
+			$raw_value = $survey[$key]['value'];
+
+			$sanitized_value = ( $is_email ? sanitize_email( $raw_value ) : sanitize_text_field( $raw_value ) );
+
+			// If after sanitizing this value its empty, skip this key. It won't be in our survey.
+			if( empty( $sanitized_value ) ) {
+				continue;
+			}
+
+			$sanitized_survey[$key]['value'] = $sanitized_value;
+
+			if( $is_blogname ) {
+				update_option( 'blogname', $sanitized_value );
+			}
+
+			if( isset( $survey[$key]['do-not-display'] ) & ! $is_blogname ) {
+				$sanitized_survey[$key]['do-not-display'] = true;
+			}
+		}
+
 		// Ensure social is an array.
 		if( empty( $survey['social'] ) || ! is_array( $survey['social'] ) ) {
 			$survey['social'] = array();
 		}
 
-		// If no phone number has been submitted, set it to null.
-		if( empty( $survey['phone']['value'] ) ) {
-			$survey['phone']['value'] = null;
-		} else {
-			$survey['phone']['value'] = trim( $survey['phone']['value'] );
-		}
-
 		// Fix URLs for the survey. Ensure they start with http://.
-		foreach( $survey['social'] as $icon => &$url ) {
-			$starts_with_http = ( 'http' === substr( $url, 0, 4 ) );
-
-			if( 'do-not-display' !== $icon ) {
-				if( is_email( $url ) ) {
-					$url = 'mailto:' . $url;
-				} elseif( ! $starts_with_http ) {
-					$url = 'http://' . $url;
-				}
+		foreach( $survey['social'] as $icon => $url ) {
+			if( 'do-not-display' === $icon ) {
+				$sanitized_survey['social'][$icon] = true;
+			} else {
+				$sanitized_survey['social'][$icon] = $this->prepend_protocol( $url );
 			}
 		}
 
-		// @todo Validation is still needed.
+		update_option( $this->option, $sanitized_survey );
+	}
 
-		update_option( 'boldgrid_survey', $survey );
+	/**
+	 * Determine if we should display a survey key.
+	 *
+	 * @since 1.3.5
+	 *
+	 * @param  string $key
+	 * @return bool        True if we have a value and the user did not check 'do not display'.
+	 */
+	public function should_display( $key ) {
+		$survey = $this->get();
+
+		$value = $this->get_value( $key );
+
+		// If there is no value for the key, we can't display it, return false.
+		if( empty( $value ) ) {
+			return false;
+		}
+
+		// If the do_not_display flag is set, we won't display it, return false.
+		if( ! empty( $survey[$key]['do-not-display'] ) ) {
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
@@ -293,6 +423,11 @@ class Boldgrid_Inspirations_Survey {
 	 * @return array
 	 */
 	public function update_social( $configs ) {
+		// If the user has never taken the survey, use the default contact blocks.
+		if( ! $this->has_taken() ) {
+			return $configs;
+		}
+
 		$networks = $this->get_networks();
 
 		$survey = $this->get();
@@ -367,8 +502,8 @@ class Boldgrid_Inspirations_Survey {
 
 		$survey = $this->get();
 
-		$phone = $survey['phone']['value'];
-		$display_phone = ! isset( $survey['phone']['do-not-display'] );
+		$phone = $this->get_value( 'phone' );
+		$display_phone = $this->should_display( 'phone' );
 
 		// If we have a phone number and the user wants to display it, update the phone number.
 		if( ! empty( $phone ) ) {
