@@ -110,7 +110,7 @@ class Boldgrid_Inspirations_Deploy_Cta {
 	public function sidebars_widgets( $mods ) {
 		$widgets = isset( $mods['sidebars_widgets'] ) ? $mods['sidebars_widgets'] : false;
 		$bstw = false;
-		if ( $widgets ) {
+		if ( $widgets && isset( $widgets['data'] ) && ! empty( $widgets['data'] ) ) {
 			foreach ( $widgets['data'] as $data ) {
 				if ( 'wp_inactive_widgets' === $data ) {
 					continue;
