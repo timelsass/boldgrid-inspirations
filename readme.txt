@@ -33,6 +33,7 @@ The second phase is Customization; tools to transform your website into your vis
 
 = 1.3.5 In progress =
 * Update:		JIRA WPB-2376	Filter the bgtfw contact blocks.
+* Update:		JIRA WPB-2476	Update case of Company name.
 
 = 1.3.4 =
 * Bug fix:		JIRA WPB-2696	Remove placeholders from survey.
