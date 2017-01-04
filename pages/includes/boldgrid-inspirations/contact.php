@@ -1,6 +1,6 @@
 <?php
 $lang = array(
-	'Add_a_map' => __( 'Add a map', 'boldgrid-inspirations' ),
+	'Add_a_map' => __( 'Add a map to my Contact page.', 'boldgrid-inspirations' ),
 	'Address' => __( 'Address', 'boldgrid-inspirations' ),
 	'Back' => __( 'Back', 'boldgrid-inspirations' ),
 	'Change' => __( 'This information can be edited later.', 'boldgrid-inspirations' ),

@@ -376,7 +376,6 @@ http://ivomynttinen.com/blog/the-ios-design-cheat-sheet-volume-2
 	font-weight: bold;
 }
 
-.add-a-map,
 .survey-field .option {
 	color: #b3b3b3;
 	font-style: italic;
@@ -400,6 +399,7 @@ http://ivomynttinen.com/blog/the-ios-design-cheat-sheet-volume-2
 /* Make the border of "Add a map" checkbox match border of textarea above. */
 .survey-field .add-a-map input {
 	border: 1px solid #ddd;
+	margin-left: 1px;
 }
 
 .survey-field .social-media {
