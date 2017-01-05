@@ -371,7 +371,7 @@ http://ivomynttinen.com/blog/the-ios-design-cheat-sheet-volume-2
 */
 
 .survey-field {
-	margin-bottom: 20px;
+	margin-bottom: 14px;
 }
 
 .survey-field .title {
@@ -395,7 +395,7 @@ http://ivomynttinen.com/blog/the-ios-design-cheat-sheet-volume-2
 
 .survey-field .main-input {
 	width: 100%;
-	margin-top: 6px;
+	margin: 6px 0px;
 }
 
 /* Make the border of "Add a map" checkbox match border of textarea above. */
