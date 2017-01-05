@@ -37,6 +37,7 @@ The second phase is Customization; tools to transform your website into your vis
 * Update:		JIRA WPB-2747	Update Add a map verbiage.
 * Update:		JIRA WPB-2749	Add a map to my Contact page.
 * Bug fix:		JIRA WPB-2658	Fix spacing issues atop Inspirations.
+* Bug fix:		JIRA WPB-2751	Show all in the smaller view of inspirations doesn't work anymore.
 
 = 1.3.4 =
 * Bug fix:		JIRA WPB-2696	Remove placeholders from survey.

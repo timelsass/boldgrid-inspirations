@@ -636,7 +636,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			// Update filter text.
 			self.updateFilterText( 'All' );
 			// Display all themes.
-			self.toggleSubCategory( 0 );
+			self.toggleSubCategory( '0' );
 			// toggle the current class for show all.
 			self.toggleShowAll( ref );
 		});
