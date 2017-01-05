@@ -1368,7 +1368,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		switch( step ) {
 			case 'design':
 				$( document ).scrollTop( self.scrollPosition );
-				self.$topMenu.addClass( 'design' ).removeClass('design');
+				self.$topMenu.addClass( 'design' ).removeClass('content');
 				break;
 			default:
 				$( document ).scrollTop( 0 );
