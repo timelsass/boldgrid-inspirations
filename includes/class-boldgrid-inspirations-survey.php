@@ -58,30 +58,16 @@ class Boldgrid_Inspirations_Survey {
 	 */
 	public function bgtfw_config( $configs ) {
 
+		// If the user has never taken the survey, use the default configs.
+		if( ! $this->has_taken() ) {
+			return $configs;
+		}
+
 		$configs = $this->update_contact_blocks( $configs );
 
 		$configs = $this->update_social( $configs );
 
-		// If we don't have any widget instances, abort.
-		if( empty( $configs['widget']['widget_instances'] ) ) {
-			return $configs;
-		}
-
-		$widget_instances = $configs['widget']['widget_instances'];
-
-		foreach( $widget_instances as $widget_area => $widgets ) {
-			foreach( $widgets as $widget_key => $widget ) {
-				// Update the widget.
-				$updated_widget = $this->update_widget( $widget );
-
-				// If the 'delete' key is set, delete the widget. Otherwise, update it.
-				if( isset( $updated_widget['delete'] ) ) {
-					unset( $configs['widget']['widget_instances'][$widget_area][$widget_key] );
-				} else {
-					$configs['widget']['widget_instances'][$widget_area][$widget_key] = $updated_widget;
-				}
-			}
-		}
+		$configs = $this->update_widgets( $configs );
 
 		return $configs;
 	}
@@ -423,11 +409,6 @@ class Boldgrid_Inspirations_Survey {
 	 * @return array
 	 */
 	public function update_social( $configs ) {
-		// If the user has never taken the survey, use the default contact blocks.
-		if( ! $this->has_taken() ) {
-			return $configs;
-		}
-
 		$networks = $this->get_networks();
 
 		$survey = $this->get();
@@ -484,13 +465,18 @@ class Boldgrid_Inspirations_Survey {
 	/**
 	 * Update a widget based upon our survey data.
 	 *
+	 * Currently, this method is specific to Pavilion and its phone number widget. If other themes
+	 * add a phone number widget, they simply need to ensure the phone number is within a span with
+	 * the phone-number class (see Pavilion). Remember, if the user decides to not show the phone
+	 * number, then entire widget will be deleted, thus the reference to a widget specific to a
+	 * phone number only.
+	 *
 	 * @since 1.3.4
 	 *
 	 * @param  array $widget An array of widget data.
 	 * @return array $widget.
 	 */
 	public function update_widget( $widget ) {
-
 		// If our widget is not an array or the text is empty, abort.
 		if( ! is_array( $widget ) || empty( $widget['text'] ) ) {
 			return $widget;
@@ -500,46 +486,64 @@ class Boldgrid_Inspirations_Survey {
 		$dom->loadHTML( $widget['text'] );
 		$finder = new DomXPath( $dom );
 
-		$survey = $this->get();
-
 		$phone = $this->get_value( 'phone' );
 		$display_phone = $this->should_display( 'phone' );
 
-		// If we have a phone number and the user wants to display it, update the phone number.
-		if( ! empty( $phone ) ) {
-			$phone_numbers = $finder->query("//*[contains(@class,'phone-number')]");
+		$phone_numbers = $finder->query("//*[contains(@class,'phone-number')]");
 
-			foreach( $phone_numbers as $phone_number ) {
-				if( $display_phone ) {
-					$phone_number->nodeValue = $phone;
-				} else {
-					// Get the parent.
-					$parent = $phone_number->parentNode;
-
-					// Remove the phone number.
-					$parent->removeChild( $phone_number );
-
-					// Ge the html of the widget.
-					$html = $dom->saveHTML();
-
-					$if_removed = $phone_number->getAttribute( $this->data_if_removed );
-					switch( $if_removed ) {
-						case 'widget':
-							$widget['delete'] = true;
-							break;
-						case 'pipe':
-							// Replace empty pipes.
-							$html = preg_replace( "/\|\s+\|/", '|', $html );
-							$dom->loadHTMl( $html );
-							break;
-					}
-				}
+		foreach( $phone_numbers as $phone_number ) {
+			/*
+			 * If the user did not check "do not display" AND entered a phone number, replace the
+			 * phone number. Otherwise, flag the widget to be deleted.
+			 */
+			if( $display_phone && ! is_null( $phone ) ) {
+				$phone_number->nodeValue = $phone;
+			} else {
+				$widget['delete'] = true;
 			}
 		}
 
 		$widget['text'] = $this->dom_clean_save( $dom );
 
 		return $widget;
+	}
+
+	/**
+	 * Update Widgets.
+	 *
+	 * This method essentially loops through each widget_instance and calls update_widget(). So,
+	 * update_widgets() calls update_widget().
+	 *
+	 * @since 1.3.5
+	 *
+	 * @param  array $configs Bgtfw configs.
+	 * @return array
+	 */
+	public function update_widgets( $configs ) {
+		// If we don't have any widget instances, abort.
+		if( empty( $configs['widget']['widget_instances'] ) ) {
+			return $configs;
+		}
+
+		$widget_instances = $configs['widget']['widget_instances'];
+
+		/*
+		 * Loop through all of the widgets and call the update method. If we set a 'delete' flag,
+		 * delete the widget entirely, otherwise update its contents.
+		 */
+		foreach( $widget_instances as $widget_area => $widgets ) {
+			foreach( $widgets as $widget_key => $widget ) {
+				$updated_widget = $this->update_widget( $widget );
+
+				if( isset( $updated_widget['delete'] ) ) {
+					unset( $configs['widget']['widget_instances'][$widget_area][$widget_key] );
+				} else {
+					$configs['widget']['widget_instances'][$widget_area][$widget_key] = $updated_widget;
+				}
+			}
+		}
+
+		return $configs;
 	}
 }
 ?>
