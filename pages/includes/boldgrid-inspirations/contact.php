@@ -90,7 +90,7 @@ $blogname = get_option( 'blogname' );
 			<span class='title'><?php echo $lang['Address']; ?></span>
 			<div class='option'><?php echo $lang['Do_not_display']; ?> <input type="checkbox" name="survey[address][do-not-display]" /></div>
 			<input class='main-input' type='text' name="survey[address][value]" value="1234 Your St, City, STATE, 12345" />
-			<div class='add-a-map'><input type="checkbox" name="survey[map]" /><?php echo $lang['Add_a_map']; ?></div>
+			<div class='add-a-map'><input type="checkbox" name="survey[address][map]" /><?php echo $lang['Add_a_map']; ?></div>
 		</div>
 
 		<div class='survey-field' id='social-media'>

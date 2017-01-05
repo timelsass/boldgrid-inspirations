@@ -196,6 +196,11 @@ class Boldgrid_Inspirations_Survey {
 		$phone = $this->get_value( 'phone' );
 		$display_phone = $this->should_display( 'phone' );
 
+		$address = $this->get_value( 'address' );
+		$display_address = $this->should_display( 'address' );
+
+		$display_map = true === $this->get_value( 'address', 'map' );
+
 		$phone_numbers = $finder->query( '//*[@' . $this->data_if_removed . ' and contains(@' . $this->data_removal_key . ', "phone-number")]' );
 
 		foreach( $phone_numbers as $phone_number ) {
@@ -209,6 +214,26 @@ class Boldgrid_Inspirations_Survey {
 				$phone_number->nodeValue = $phone;
 			} elseif( 'key' === $phone_number->getAttribute( $this->data_if_removed ) ) {
 				$removal_key = $phone_number->getAttribute( $this->data_removal_key );
+				$dom = $this->delete_by_attribute( $dom, $this->data_removal_key, $removal_key );
+			}
+		}
+
+		$maps = $finder->query( '//*[@' . $this->data_if_removed . ' and contains(@' . $this->data_removal_key . ', "map")]' );
+
+		foreach( $maps as $map ) {
+			if( $display_map && $display_address && ! is_null( $address ) ) {
+
+				$iframe = sprintf(
+					'<iframe style="width:100%%;height:100%%;" src="https://maps.google.com/maps?q=%1$s&amp;t=m&amp;z=16&amp;output=embed" frameborder="0"></iframe>',
+					urlencode( $address )
+				);
+
+				$fragment = $dom->createDocumentFragment();
+				$fragment->appendXML( $iframe );
+				$map->appendChild( $fragment );
+
+			} elseif( 'key' === $map->getAttribute( $this->data_if_removed ) ) {
+				$removal_key = $map->getAttribute( $this->data_removal_key );
 				$dom = $this->delete_by_attribute( $dom, $this->data_removal_key, $removal_key );
 			}
 		}
@@ -237,12 +262,13 @@ class Boldgrid_Inspirations_Survey {
 	 * @since 1.3.5
 	 *
 	 * @param  string $key
+	 * @param  string $value
 	 * @return string|null
 	 */
-	public function get_value( $key ) {
+	public function get_value( $key, $value = 'value' ) {
 		$survey = $this->get();
 
-		return ( ! empty( $survey[$key]['value'] ) ? $survey[$key]['value'] : null );
+		return ( ! empty( $survey[$key][$value] ) ? $survey[$key][$value] : null );
 	}
 
 	/**
@@ -351,6 +377,11 @@ class Boldgrid_Inspirations_Survey {
 			if( isset( $survey[$key]['do-not-display'] ) & ! $is_blogname ) {
 				$sanitized_survey[$key]['do-not-display'] = true;
 			}
+		}
+
+		// Are we adding a map?
+		if( isset( $survey['address']['map'] ) ) {
+			$sanitized_survey['address']['map'] = true;
 		}
 
 		// Ensure social is an array.
