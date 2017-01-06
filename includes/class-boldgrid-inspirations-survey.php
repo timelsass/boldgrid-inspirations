@@ -148,6 +148,21 @@ class Boldgrid_Inspirations_Survey {
 	}
 
 	/**
+	 * Update blogname.
+	 *
+	 * Get our blogname from the survey. If it's not empty, update the blogname option.
+	 *
+	 * @since 1.3.5
+	 */
+	public function update_blogname() {
+		$blogname = $this->get_value( 'blogname' );
+
+		if( ! empty( $blogname ) ) {
+			update_option( 'blogname', $blogname );
+		}
+	}
+
+	/**
 	 * Update the contact blocks within the bgtfw.
 	 *
 	 * @since 1.3.5
@@ -251,7 +266,11 @@ class Boldgrid_Inspirations_Survey {
 	 * @return array
 	 */
 	public function get() {
-		return get_option( $this->option, array() );
+		$survey = get_option( $this->option );
+
+		$survey = ( is_array( $survey ) ? $survey : array() );
+
+		return $survey;
 	}
 
 	/**
@@ -317,7 +336,7 @@ class Boldgrid_Inspirations_Survey {
 	/**
 	 * Prepend a $url with a protocol.
 	 *
-	 * For example, if you pass in facebook.com, we'll return http://facebook.com.
+	 * For example, if you pass in facebook.com, we'll return https://facebook.com.
 	 *
 	 * @since 1.3.5
 	 *
@@ -330,51 +349,69 @@ class Boldgrid_Inspirations_Survey {
 		if( is_email( $url ) ) {
 			$url = 'mailto:' . $url;
 		} elseif( ! $starts_with_http ) {
-			$url = 'http://' . $url;
+			$url = 'https://' . $url;
 		}
 
 		return $url;
 	}
 
 	/**
-	 * Save survey data to the 'boldgrid_survey' option.
+	 * Sanitize our survey.
 	 *
-	 * @since 1.3.4
+	 * @since 1.3.5
 	 *
-	 * @param array $survey An array of survey data.
+	 * @param  array $survey An array of survey data.
+	 * @return array $survey
 	 */
-	public function save( $survey ) {
-		// We will review the $survey and build $sanitized_survey;
+	public function sanitize( $survey ) {
+		// We will review the raw $survey and build $sanitized_survey;
 		$sanitized_survey = array();
 
-		// These standard keys have the same format, and can be sanitized the same way.
-		$standard_keys = array( 'blogname', 'email', 'phone', 'address' );
+		// Configure what and how to sanitize.
+		$standard_keys = array(
+			'blogname' => array(
+				'sanitize' => 'text_field',
+				'displayToggleable' => false,
+			),
+			'email' => array(
+				'sanitize' => 'email',
+				'displayToggleable' => true,
+			),
+			'phone' => array(
+				'sanitize' => 'text_field',
+				'displayToggleable' => true,
+			),
+			'address' => array(
+				'sanitize' => 'text_field',
+				'displayToggleable' => true,
+			),
+		);
 
-		// Sanitize our data.
-		foreach( $standard_keys as $key ) {
-			// If we passed in an empty value, skip this key. It won't be in our survey.
+		foreach( $standard_keys as $key => $data ) {
+			// If we have nothing to sanitize, continue.
 			if( empty( $survey[$key]['value'] ) ) {
 				continue;
 			}
 
-			$is_blogname = ( 'blogname' === $key );
-			$is_email = ( 'email' === $key );
 			$raw_value = $survey[$key]['value'];
 
-			$sanitized_value = ( $is_email ? sanitize_email( $raw_value ) : sanitize_text_field( $raw_value ) );
+			// Sanitize.
+			switch( $data['sanitize'] ) {
+				case 'email':
+					$sanitized_value = sanitize_email( $raw_value );
+				case 'text_field':
+					$sanitized_value = sanitize_text_field( $raw_value );
+			}
 
-			// If after sanitizing this value its empty, skip this key. It won't be in our survey.
+			// If empty after sanitizing, continue.
 			if( empty( $sanitized_value ) ) {
 				continue;
 			}
 
 			$sanitized_survey[$key]['value'] = $sanitized_value;
 
-			if( $is_blogname ) {
-				update_option( 'blogname', $sanitized_value );
-			}
-
-			if( isset( $survey[$key]['do-not-display'] ) & ! $is_blogname ) {
+			// Set do-not-display.
+			if( $data['displayToggleable'] && isset( $survey[$key]['do-not-display'] ) ) {
 				$sanitized_survey[$key]['do-not-display'] = true;
 			}
 		}
@@ -389,16 +426,29 @@ class Boldgrid_Inspirations_Survey {
 			$survey['social'] = array();
 		}
 
-		// Fix URLs for the survey. Ensure they start with http://.
+		// Sanitize social urls.
 		foreach( $survey['social'] as $icon => $url ) {
-			if( 'do-not-display' === $icon ) {
-				$sanitized_survey['social'][$icon] = true;
-			} else {
-				$sanitized_survey['social'][$icon] = $this->prepend_protocol( $url );
-			}
+			$url = $this->prepend_protocol( $url );
+			$sanitized_survey['social'][$icon] = esc_url_raw( $url );
 		}
 
-		update_option( $this->option, $sanitized_survey );
+		// Set do not display for social.
+		if( isset( $survey['social']['do-not-display'] ) ) {
+			$sanitized_survey['social']['do-not-display'] = true;
+		}
+
+		return $sanitized_survey;
+	}
+
+	/**
+	 * Save survey data to the 'boldgrid_survey' option.
+	 *
+	 * @since 1.3.4
+	 *
+	 * @param array $survey An array of survey data.
+	 */
+	public function save( $survey ) {
+		update_option( $this->option, $survey );
 	}
 
 	/**

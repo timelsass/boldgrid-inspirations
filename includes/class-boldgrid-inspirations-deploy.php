@@ -417,7 +417,9 @@ class Boldgrid_Inspirations_Deploy {
 
 		// If survey data exists, save it.
 		if( isset( $_REQUEST['survey'] ) ) {
-			$this->survey->save( $_REQUEST['survey'] );
+			$survey = $this->survey->sanitize( $_REQUEST['survey'] );
+			$this->survey->save( $survey );
+			$this->survey->update_blogname();
 		}
 	}
 
