@@ -31,7 +31,7 @@ The second phase is Customization; tools to transform your website into your vis
 
 == Changelog ==
 
-= 1.3.5 In progress =
+= 1.3.5 =
 * Testing:		JIRA WPB-2744	Tested on WordPress 4.7.
 * Update:		JIRA WPB-2376	Filter the bgtfw contact blocks.
 * Update:		JIRA WPB-2476	Update case of Company name.
