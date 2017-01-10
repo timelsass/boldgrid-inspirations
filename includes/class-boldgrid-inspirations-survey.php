@@ -205,7 +205,7 @@ class Boldgrid_Inspirations_Survey {
 	 */
 	public function update_post( $post ) {
 		$dom = new DOMDocument;
-		$dom->loadHTML( Boldgrid_Inspirations_Utility::utf8_to_html( $post['post_content'] ) );
+		@$dom->loadHTML( Boldgrid_Inspirations_Utility::utf8_to_html( $post['post_content'] ) );
 		$finder = new DomXPath( $dom );
 
 		$phone = $this->get_value( 'phone' );
@@ -564,7 +564,7 @@ class Boldgrid_Inspirations_Survey {
 		}
 
 		$dom = new DOMDocument;
-		$dom->loadHTML( Boldgrid_Inspirations_Utility::utf8_to_html( $widget['text'] ) );
+		@$dom->loadHTML( Boldgrid_Inspirations_Utility::utf8_to_html( $widget['text'] ) );
 		$finder = new DomXPath( $dom );
 
 		$phone = $this->get_value( 'phone' );

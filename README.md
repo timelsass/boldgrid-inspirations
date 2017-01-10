@@ -43,6 +43,7 @@ The second phase is Customization; tools to transform your website into your vis
 * Bug fix:		JIRA WPB-2658	Fix spacing issues atop Inspirations.
 * Bug fix:		JIRA WPB-2751	Show all in the smaller view of inspirations doesn't work anymore.
 * Bug fix:		JIRA WPB-2757	Apostrophe and other strange characters installed via Inspirations.
+* Bug fix:		JIRA WPB-2759	DOMDocument::loadHTML(): htmlParseEntityRef: expecting ';'.
 
 ### 1.3.4 ###
 * Bug fix:		JIRA WPB-2696	Remove placeholders from survey.
