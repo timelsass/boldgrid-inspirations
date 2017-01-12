@@ -2659,6 +2659,31 @@ class Boldgrid_Inspirations_Deploy {
 	}
 
 	/**
+	 * Add to list of allowed attributes.
+	 *
+	 * @since 1.3.6
+	 *
+	 * @param  array $allowed
+	 * @param  array $context
+	 * @return array
+	 */
+	public function filter_allowed_html( $allowed, $context ) {
+		if ( is_array( $context ) ) {
+			return $allowed;
+		}
+
+		if ( 'post' === $context || 'page' === $context ) {
+			$allowed['iframe'] = array(
+				'frameborder' => true,
+				'src' => true,
+				'style' => true,
+			);
+		}
+
+		return $allowed;
+	}
+
+	/**
 	 * This function handles things to do after the deployment is done.
 	 */
 	public function finish_deployment() {
@@ -3570,6 +3595,12 @@ class Boldgrid_Inspirations_Deploy {
 
 		// Start over.
 		$this->start_over();
+
+		/*
+		 * During deployment only, allow iframes (Google map iframe). This seems to be required
+		 * on multisite / preview servers.
+		 */
+		add_filter( 'wp_kses_allowed_html', array( $this, 'filter_allowed_html', ), 10, 2 );
 
 		// Run the specified deployment:
 		switch ( $this->deploy_type ) {
