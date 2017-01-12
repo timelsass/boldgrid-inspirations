@@ -408,9 +408,9 @@ class Boldgrid_Inspirations_Survey {
 			}
 		}
 
-		// Are we adding a map?
-		if( isset( $survey['address']['map'] ) ) {
-			$sanitized_survey['address']['map'] = true;
+		// Are we hiding maps?
+		if( isset( $survey['map']['do-not-display'] ) ) {
+			$sanitized_survey['map']['do-not-display'] = true;
 		}
 
 		// Ensure social is an array.
