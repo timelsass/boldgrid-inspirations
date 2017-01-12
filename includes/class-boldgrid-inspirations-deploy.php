@@ -141,14 +141,6 @@ class Boldgrid_Inspirations_Deploy {
 	public $start_over = false;
 
 	/**
-	 * An instance of Boldgrid_Inspirations_Survey.
-	 *
-	 * @since  1.3.5
-	 * @access public
-	 */
-	public $survey;
-
-	/**
 	 * The Boldgrid Inspirations Asset Manager class object.
 	 *
 	 * @var Boldgrid_Inspirations_Asset_Manager
@@ -178,7 +170,12 @@ class Boldgrid_Inspirations_Deploy {
 		require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-asset-manager.php';
 		$this->asset_manager = new Boldgrid_Inspirations_Asset_Manager();
 
-		$this->survey = new Boldgrid_Inspirations_Survey();
+		$survey = new Boldgrid_Inspirations_Survey();
+		if( isset( $_REQUEST['survey'] ) ) {
+			$survey_data = $survey->sanitize( $_REQUEST['survey'] );
+			$survey->save( $survey_data );
+			$survey->update_blogname();
+		}
 
 		// Get the asset cache object from the asset manager.
 		$this->asset_cache = $this->asset_manager->get_asset_cache();
@@ -414,13 +411,6 @@ class Boldgrid_Inspirations_Deploy {
 		);
 
 		update_option( 'boldgrid_install_options', $boldgrid_install_options );
-
-		// If survey data exists, save it.
-		if( isset( $_REQUEST['survey'] ) ) {
-			$survey = $this->survey->sanitize( $_REQUEST['survey'] );
-			$this->survey->save( $survey );
-			$this->survey->update_blogname();
-		}
 	}
 
 	/**

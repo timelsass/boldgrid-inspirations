@@ -33,7 +33,7 @@ class Boldgrid_Inspirations_Survey {
 	 *
 	 * @since 1.3.5
 	 */
-	public $option = 'boldgrid_survey';
+	public static $option = 'boldgrid_survey';
 
 	/**
 	 * Add hooks.
@@ -208,48 +208,40 @@ class Boldgrid_Inspirations_Survey {
 		@$dom->loadHTML( Boldgrid_Inspirations_Utility::utf8_to_html( $post['post_content'] ) );
 		$finder = new DomXPath( $dom );
 
-		$phone = $this->get_value( 'phone' );
-		$display_phone = $this->should_display( 'phone' );
+		$configs = $this->get_configs();
+		$find_and_replace = $configs['find_and_replace'];
 
-		$address = $this->get_value( 'address' );
-		$display_address = $this->should_display( 'address' );
+		foreach( $find_and_replace as $data ) {
+			$nodes = $finder->query( sprintf(
+				'//*[@%1$s and contains(@%2$s, "%3$s")]',
+				$this->data_if_removed,
+				$this->data_removal_key,
+				$data['removal_key']
+			) );
 
-		$display_map = true === $this->get_value( 'address', 'map' );
+			foreach( $nodes as $node ) {
+				if( $data['display'] && ! is_null( $data['value'] ) ) {
 
-		$phone_numbers = $finder->query( '//*[@' . $this->data_if_removed . ' and contains(@' . $this->data_removal_key . ', "phone-number")]' );
+					switch( $data['on_success'] ) {
+						case 'node_value':
+							$node->nodeValue = $data['value'];
+							break;
+						case 'append_child':
+							$fragment = $dom->createDocumentFragment();
+							$fragment->appendXML( $data['value'] );
+							$node->appendChild( $fragment );
+							break;
+					}
 
-		foreach( $phone_numbers as $phone_number ) {
-			/*
-			 * If the user did not check "do not display" AND entered a phone number, replace the
-			 * phone number.
-			 *
-			 * Otherwise, process the data-if-removed value.
-			 */
-			if( $display_phone && ! is_null( $phone ) ) {
-				$phone_number->nodeValue = $phone;
-			} elseif( 'key' === $phone_number->getAttribute( $this->data_if_removed ) ) {
-				$removal_key = $phone_number->getAttribute( $this->data_removal_key );
-				$dom = $this->delete_by_attribute( $dom, $this->data_removal_key, $removal_key );
-			}
-		}
 
-		$maps = $finder->query( '//*[@' . $this->data_if_removed . ' and contains(@' . $this->data_removal_key . ', "map")]' );
-
-		foreach( $maps as $map ) {
-			if( $display_map && $display_address && ! is_null( $address ) ) {
-
-				$iframe = sprintf(
-					'<iframe style="width:100%%;height:100%%;" src="https://maps.google.com/maps?q=%1$s&amp;t=m&amp;z=16&amp;output=embed" frameborder="0"></iframe>',
-					urlencode( $address )
-				);
-
-				$fragment = $dom->createDocumentFragment();
-				$fragment->appendXML( $iframe );
-				$map->appendChild( $fragment );
-
-			} elseif( 'key' === $map->getAttribute( $this->data_if_removed ) ) {
-				$removal_key = $map->getAttribute( $this->data_removal_key );
-				$dom = $this->delete_by_attribute( $dom, $this->data_removal_key, $removal_key );
+					if( ! empty( $data['parent_attributes'] ) ) {
+						foreach( $data['parent_attributes'] as $attribute => $value ) {
+							$node->setAttribute( $attribute, $value );
+						}
+					}
+				} elseif( 'key' === $node->getAttribute( $this->data_if_removed ) ) {
+					$dom = $this->delete_by_attribute( $dom, $this->data_removal_key, $data['removal_key'] );
+				}
 			}
 		}
 
@@ -265,8 +257,8 @@ class Boldgrid_Inspirations_Survey {
 	 *
 	 * @return array
 	 */
-	public function get() {
-		$survey = get_option( $this->option );
+	public static function get() {
+		$survey = get_option( self::$option );
 
 		$survey = ( is_array( $survey ) ? $survey : array() );
 
@@ -284,8 +276,8 @@ class Boldgrid_Inspirations_Survey {
 	 * @param  string $value
 	 * @return string|null
 	 */
-	public function get_value( $key, $value = 'value' ) {
-		$survey = $this->get();
+	public static function get_value( $key, $value = 'value' ) {
+		$survey = self::get();
 
 		return ( ! empty( $survey[$key][$value] ) ? $survey[$key][$value] : null );
 	}
@@ -330,7 +322,7 @@ class Boldgrid_Inspirations_Survey {
 	 * @return bool True if the user has taken the survey.
 	 */
 	public function has_taken() {
-		return ( false !== get_option( $this->option ) );
+		return ( false !== get_option( self::$option ) );
 	}
 
 	/**
@@ -448,7 +440,16 @@ class Boldgrid_Inspirations_Survey {
 	 * @param array $survey An array of survey data.
 	 */
 	public function save( $survey ) {
-		update_option( $this->option, $survey );
+		update_option( self::$option, $survey );
+	}
+
+	/**
+	 * Get our configs.
+	 *
+	 * @since 1.3.6
+	 */
+	public function get_configs() {
+		return require BOLDGRID_BASE_DIR . '/includes/config/survey.config.php';
 	}
 
 	/**
@@ -459,10 +460,10 @@ class Boldgrid_Inspirations_Survey {
 	 * @param  string $key
 	 * @return bool        True if we have a value and the user did not check 'do not display'.
 	 */
-	public function should_display( $key ) {
-		$survey = $this->get();
+	public static function should_display( $key ) {
+		$survey = self::get();
 
-		$value = $this->get_value( $key );
+		$value = self::get_value( $key );
 
 		// If there is no value for the key, we can't display it, return false.
 		if( empty( $value ) ) {

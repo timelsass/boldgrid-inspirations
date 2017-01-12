@@ -465,7 +465,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		});
 
 		// Take action when someone clicks on a install-decision radio button.
-		self.$wrap.on( 'click', 'input[type="radio"]', function() {
+		self.$wrap.on( 'click', 'input[type="radio"][name="install-decision"]', function() {
 			self.toggleConfirmationNotes();
 		});
 
