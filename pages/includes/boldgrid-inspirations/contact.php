@@ -1,12 +1,12 @@
 <?php
 $lang = array(
+	'Add_a_map' => __( 'Add a map to my "Contact" page.', 'boldgrid-inspirations' ),
 	'Address' => __( 'Address', 'boldgrid-inspirations' ),
 	'Back' => __( 'Back', 'boldgrid-inspirations' ),
 	'Change' => __( 'This information can be edited later.', 'boldgrid-inspirations' ),
 	'Company_name' => __( 'Company Name / Site Title', 'boldgrid-inspirations' ),
 	'Do_not_display' => __( 'Do not display', 'boldgrid-inspirations' ),
 	'Email' => __( 'Email', 'boldgrid-inspirations' ),
-	'Hide_maps' => __( 'Do not display maps.', 'boldgrid-inspirations' ),
 	'Intro' => __( '%sOPTIONAL:%s The information you provide below will be used to populate contact information and social media icons throughout your BoldGrid website.', 'boldgrid-inspirations' ),
 	'Next' => __( 'Next', 'boldgrid-inspirations' ),
 	'Phone' => __( 'Phone', 'boldgrid-inspirations' ),
@@ -90,7 +90,7 @@ $blogname = get_option( 'blogname' );
 			<span class='title'><?php echo $lang['Address']; ?></span>
 			<div class='option'><?php echo $lang['Do_not_display']; ?> <input type="checkbox" name="survey[address][do-not-display]" /></div>
 			<input class='main-input' type='text' name="survey[address][value]" value="1234 Your St, City, STATE, 12345" />
-			<div class='add-a-map'><input type="checkbox" name="survey[][map][do-not-display]" /><?php echo $lang['Hide_maps']; ?></div>
+			<div class='add-a-map'><input type="checkbox" name="survey[address][map]" /><?php echo $lang['Add_a_map']; ?></div>
 		</div>
 
 		<div class='survey-field' id='social-media'>
