@@ -208,6 +208,15 @@ class Boldgrid_Inspirations_Survey {
 		@$dom->loadHTML( Boldgrid_Inspirations_Utility::utf8_to_html( $post['post_content'] ) );
 		$finder = new DomXPath( $dom );
 
+		/*
+		 * If the user has never taken the survey, don't update the post. We also need to
+		 * dom_clean_save() in order to remove unnecessary data attributes.
+		 */
+		if( ! $this->has_taken() ) {
+			$post['post_content'] = $this->dom_clean_save( $dom );
+			return $post;
+		}
+
 		$configs = $this->get_configs();
 		$find_and_replace = $configs['find_and_replace'];
 
@@ -226,7 +235,11 @@ class Boldgrid_Inspirations_Survey {
 						case 'node_value':
 							$node->nodeValue = $data['value'];
 							break;
-						case 'append_child':
+						case 'remove_children':
+							while( $node->hasChildNodes() ) {
+								$node->removeChild( $node->firstChild );
+							}
+
 							$fragment = $dom->createDocumentFragment();
 							$fragment->appendXML( $data['value'] );
 							$node->appendChild( $fragment );
@@ -406,11 +419,6 @@ class Boldgrid_Inspirations_Survey {
 			if( $data['displayToggleable'] && isset( $survey[$key]['do-not-display'] ) ) {
 				$sanitized_survey[$key]['do-not-display'] = true;
 			}
-		}
-
-		// Are we adding a map?
-		if( isset( $survey['address']['map'] ) ) {
-			$sanitized_survey['address']['map'] = true;
 		}
 
 		// Ensure social is an array.

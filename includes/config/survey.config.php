@@ -7,6 +7,7 @@
 
 $email = Boldgrid_Inspirations_Survey::get_value( 'email' );
 $address = Boldgrid_Inspirations_Survey::get_value( 'address' );
+$display_address = Boldgrid_Inspirations_Survey::should_display( 'address' );
 $map_iframe = sprintf(
 	'<iframe style="width:100%%;height:100%%;" src="https://maps.google.com/maps?q=%1$s&amp;t=m&amp;z=16&amp;output=embed" frameborder="0"></iframe>',
 	urlencode( $address )
@@ -23,7 +24,7 @@ return array(
 		array(
 			'removal_key' =>		'address',
 			'value' =>				Boldgrid_Inspirations_Survey::get_value( 'address' ),
-			'display' =>			Boldgrid_Inspirations_Survey::should_display( 'address' ),
+			'display' =>			$display_address,
 			'on_success' =>			'node_value',
 		),
 		array(
@@ -36,8 +37,8 @@ return array(
 		array(
 			'removal_key' =>		'map',
 			'value' =>				$map_iframe,
-			'display' =>			Boldgrid_Inspirations_Survey::get_value( 'address', 'map' ) && Boldgrid_Inspirations_Survey::should_display( 'address' ),
-			'on_success' =>			'append_child',
+			'display' =>			$display_address,
+			'on_success' =>			'remove_children',
 		),
 	)
 );

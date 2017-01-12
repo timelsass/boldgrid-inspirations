@@ -398,12 +398,6 @@ http://ivomynttinen.com/blog/the-ios-design-cheat-sheet-volume-2
 	margin: 6px 0px;
 }
 
-/* Make the border of "Add a map" checkbox match border of textarea above. */
-.survey-field .add-a-map input {
-	border: 1px solid #ddd;
-	margin-left: 1px;
-}
-
 .survey-field .social-media {
 	margin: 5px 0px;
 }

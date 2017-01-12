@@ -886,14 +886,9 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 * @param jQuery object $checkbox The checkbox the user clicked.
 	 */
 	this.surveyToggleDisplay = function( $checkbox ) {
-		var $container = $checkbox.closest( '.survey-field' ),
-			/*
-			 * All checkboxes that are not the "Do not display" checkbox. This allows us to disable
-			 * checkboxes within the survey, such as the "Add a map" checkbox.
-			 */
-			checkbox = 'input[type="checkbox"]:not([name*="do-not-display"])';
+		var $container = $checkbox.closest( '.survey-field' );
 
-		$container.find( 'input[type="text"],' + checkbox ).toggleDisabled();
+		$container.find( 'input[type="text"]' ).toggleDisabled();
 
 		// If we are disabling social media, prevent the user from adding more networks.
 		if( 'social-media' === $container.attr( 'id' ) ) {
