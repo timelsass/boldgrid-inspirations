@@ -95,8 +95,11 @@ class Boldgrid_Inspirations_Update {
 			self::set_configs();
 		}
 
+		$is_wpcli = ( defined( 'WP_CLI' ) && WP_CLI );
+
 		// Only for wp-admin.
-		if ( is_admin() ) {
+		if ( is_admin() || $is_wpcli ) {
+
 			// Get the current WordPress page filename.
 			global $pagenow;
 
@@ -117,29 +120,28 @@ class Boldgrid_Inspirations_Update {
 
 			// Add filters to modify plugin update transient information.
 			if ( in_array( $pagenow, $plugin_update_pages, true ) || $is_plugin_information ||
-				 $is_plugin_update ) {
-				// Add filters.
-				add_filter( 'pre_set_site_transient_update_plugins',
-					array(
-						$this,
-						'custom_plugins_transient_update',
-					)
-				);
+				$is_plugin_update || $is_wpcli ) {
+					add_filter( 'pre_set_site_transient_update_plugins',
+						array(
+							$this,
+							'custom_plugins_transient_update',
+						)
+					);
 
-				add_filter( 'plugins_api',
-					array(
-						$this,
-						'custom_plugins_transient_update',
-					)
-				);
+					add_filter( 'plugins_api',
+						array(
+							$this,
+							'custom_plugins_transient_update',
+						)
+					);
 
-				// Force WP to check for updates, don't rely on cache / transients.
-				add_filter( 'site_transient_update_plugins',
-					array(
-						$this,
-						'site_transient_update_plugins',
-					)
-				);
+					// Force WP to check for updates, don't rely on cache / transients.
+					add_filter( 'site_transient_update_plugins',
+						array(
+							$this,
+							'site_transient_update_plugins',
+						)
+					);
 			}
 
 			// Make an array of theme update pages.
@@ -455,8 +457,8 @@ class Boldgrid_Inspirations_Update {
 			);
 
 			if ( $plugin_data['Version'] !== $boldgrid_api_data->result->data->version ) {
+				$obj->tested = $boldgrid_api_data->result->data->tested_wp_version;
 				$transient->response[ $obj->plugin ] = $obj;
-				$transient->tested = $boldgrid_api_data->result->data->tested_wp_version;
 			} else {
 				$transient->no_update[ $obj->plugin ] = $obj;
 			}

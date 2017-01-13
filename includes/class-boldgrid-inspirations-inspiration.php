@@ -193,18 +193,22 @@ class Boldgrid_Inspirations_Inspiration extends Boldgrid_Inspirations {
 		$boldgrid_theme_install = new Boldgrid_Inspirations_Theme_Install( $this->configs );
 		$boldgrid_theme_install->add_hooks();
 
+		$is_wpcli = ( defined( 'WP_CLI' ) && WP_CLI );
+
+		if ( is_admin() || $is_wpcli ) {
+			require_once BOLDGRID_BASE_DIR .
+			'/includes/class-boldgrid-inspirations-update.php';
+
+			$plugin_update = new Boldgrid_Inspirations_Update( $this );
+		}
+
+		// If is a network admin update page, then return.
+		if ( $this->is_network_update_page() ) {
+			return;
+		}
+
 		// Add hooks for admin section, or non-admin pages.
 		if ( is_admin() ) {
-			// If is a network admin update page, then load the update class and return.
-			if ( $this->is_network_update_page() ) {
-				require_once BOLDGRID_BASE_DIR .
-				'/includes/class-boldgrid-inspirations-update.php';
-
-				$plugin_update = new Boldgrid_Inspirations_Update( $this );
-
-				return;
-			}
-
 			// Allow users to search through stock photos.
 			$stock_photography = new Boldgrid_Inspirations_Stock_Photography();
 			$stock_photography->add_hooks();
@@ -216,9 +220,6 @@ class Boldgrid_Inspirations_Inspiration extends Boldgrid_Inspirations {
 			// Purchase for publish.
 			$purchase_for_publish = new Boldgrid_Inspirations_Purchase_For_Publish();
 			$purchase_for_publish->add_hooks();
-
-			// Plugin updates.
-			$plugin_update = new Boldgrid_Inspirations_Update( $this );
 
 			// Dependency plugins.
 			$dependency_plugins = new Boldgrid_Inspirations_Dependency_Plugins();
