@@ -196,6 +196,23 @@ class Boldgrid_Inspirations_Survey {
 	}
 
 	/**
+	 * Update the footer-company-details widget.
+	 *
+	 * @since 1.3.6
+	 *
+	 * @param  array $widget An array of widget data.
+	 * @return array $widget.
+	 */
+	public function update_footer_details( $widget ) {
+		$configs = $this->get_configs();
+		$footer_details = array_filter( $configs['footer_company_details'] );
+
+		$widget['text'] = implode( ' | ', $footer_details );
+
+		return $widget;
+	}
+
+	/**
 	 * Filter posts based on survey data.
 	 *
 	 * @since 1.3.4
@@ -622,8 +639,23 @@ class Boldgrid_Inspirations_Survey {
 		 * delete the widget entirely, otherwise update its contents.
 		 */
 		foreach( $widget_instances as $widget_area => $widgets ) {
+
+			/*
+			 * Sometimes $widget_instances may not come in configured in the same format each time.
+			 * This is one of those obscure checks.
+			 */
+			if( 'footer-company-details' === $widget_area ) {
+				$configs['widget']['widget_instances'][$widget_area] = $this->update_footer_details( $widgets );
+				continue;
+			}
+
 			foreach( $widgets as $widget_key => $widget ) {
-				$updated_widget = $this->update_widget( $widget );
+				if( 'footer-company-details' === $widget_key ) {
+					$updated_widget = $this->update_footer_details( $widget );
+				} else {
+					$updated_widget = $this->update_widget( $widget );
+				}
+
 
 				if( isset( $updated_widget['delete'] ) ) {
 					unset( $configs['widget']['widget_instances'][$widget_area][$widget_key] );
