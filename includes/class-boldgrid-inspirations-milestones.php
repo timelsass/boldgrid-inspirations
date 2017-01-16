@@ -73,7 +73,7 @@ class Boldgrid_Inspirations_Milestones {
      * @param mixed  $value     The new option value.
      * @param string $option    Name of the updated option.
 	 */
-	public function option_changed( $old_value, $value, $option ) {
+	public function option_changed( $old_value, $value, $option = null ) {
 		// If true, log the option's new value. Else, log the value set.
 		if( true === $this->options[ $option ] ) {
 			$this->log( $option, $value );

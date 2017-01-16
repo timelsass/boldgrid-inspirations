@@ -57,7 +57,7 @@ class Boldgrid_Inspirations_Milestones_Widget {
      * @param mixed  $value     The new option value.
      * @param string $option    Option name.
 	 */
-	public function update_sidebars_widgets( $old_value, $value, $option ) {
+	public function update_sidebars_widgets( $old_value, $value, $option = null ) {
 		$widgets = get_option( 'boldgrid_widgets_created', array() );
 
 		// If we don't have any created widgets, abort.
@@ -103,7 +103,7 @@ class Boldgrid_Inspirations_Milestones_Widget {
      * @param mixed  $value     The new option value.
      * @param string $option    Option name.
 	 */
-	public function updated_option( $old_value, $value, $option ) {
+	public function updated_option( $old_value, $value, $option = null ) {
 
 		$ids_to_check = $this->get_ids();
 

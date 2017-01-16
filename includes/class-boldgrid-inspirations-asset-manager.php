@@ -1477,7 +1477,7 @@ class Boldgrid_Inspirations_Asset_Manager extends Boldgrid_Inspirations {
 	 * @param mixed  $value     The new option value.
 	 * @param string $option    Option name.
 	 */
-	public function update_boldgrid_asset( $old_value, $value, $option ) {
+	public function update_boldgrid_asset( $old_value, $value, $option = null ) {
 		$this->wp_options_asset = $value;
 	}
 }
