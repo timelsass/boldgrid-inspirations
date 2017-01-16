@@ -38,6 +38,7 @@ The second phase is Customization; tools to transform your website into your vis
 * Update:		JIRA WPB-2764	Remove option to add a map.
 * Update:		JIRA WPB-2765	Allow iframes for preview builds.
 * New feature:	JIRA WPB-2771	Update footer-company-details widget with survey data.
+* New feature:	JIRA WPB-2777	Add an Install sample blog checkbox.
 
 = 1.3.5 =
 * Testing:		JIRA WPB-2744	Tested on WordPress 4.7.

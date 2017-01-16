@@ -2,12 +2,14 @@
 
 // Configure variables.
 $lang = array(
+	'Blog' =>								__( 'Blog', 'boldgrid-inspirations' ),
 	'Design' =>								__( 'Design', 'boldgrid-inspirations' ),
 	'Content' =>							__( 'Content', 'boldgrid-inspirations' ),
 	'CoinBudget' =>							__( 'Coin Budget', 'boldgrid-inspirations'),
 	'Coins' =>								__( 'Coins', 'boldgrid-inspirations' ),
 	'Contact' =>							__( 'Contact', 'boldgrid-inspirations' ),
 	'Install' =>							__( 'Install', 'boldgrid-inspirations' ),
+	'InstallBlog' =>						__( 'Install a sample blog.', 'boldgrid-inspirations' ),
 	'Pageset' =>							__( 'Pageset', 'boldgrid-inspirations' ),
 	'Free' =>								__( 'Free', 'boldgrid-inspirations' ),
 	'Desktop' =>							__( 'Enter desktop preview mode', 'boldgrid-inspirations' ),
@@ -65,6 +67,12 @@ $lang = array(
 			<div class="content-menu-section">
 				<div class="page-set-filter"><?php echo $lang['Pageset']; ?></div>
 				<div id="pageset-options"></div>
+			</div>
+			<div class="content-menu-section">
+				<div class="page-set-filter"><?php echo $lang['Blog']; ?></div>
+				<div>
+					<input type="checkbox" id="install-blog" value=true /> <?php echo $lang['InstallBlog']; ?>
+				</div>
 			</div>
 			<div class="content-menu-section">
 				<div class="coin-filter imgedit-group-top">
