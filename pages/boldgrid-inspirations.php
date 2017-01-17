@@ -71,7 +71,7 @@ $lang = array(
 			<div class="content-menu-section">
 				<div class="page-set-filter"><?php echo $lang['Blog']; ?></div>
 				<div>
-					<input type="checkbox" id="install-blog" value=true /> <?php echo $lang['InstallBlog']; ?>
+					<input type="checkbox" name="install-blog" value=true /> <?php echo $lang['InstallBlog']; ?>
 				</div>
 			</div>
 			<div class="content-menu-section">
