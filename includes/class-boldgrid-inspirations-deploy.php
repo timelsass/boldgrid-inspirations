@@ -155,6 +155,15 @@ class Boldgrid_Inspirations_Deploy {
 	private $built_photo_search;
 
 	/**
+	 * Install a sample blog.
+	 *
+	 * @since  1.3.6
+	 * @access public
+	 * @var    bool True to install a sample blog.
+	 */
+	public $install_blog = false;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param array $configs BoldGrid configuration array.
@@ -169,6 +178,8 @@ class Boldgrid_Inspirations_Deploy {
 		// Instantiate the asset manager class.
 		require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-asset-manager.php';
 		$this->asset_manager = new Boldgrid_Inspirations_Asset_Manager();
+
+		$this->install_blog = isset( $_REQUEST['install-blog'] ) && 'true' === $_REQUEST['install-blog'];
 
 		$survey = new Boldgrid_Inspirations_Survey();
 		if( isset( $_REQUEST['survey'] ) ) {
@@ -1195,6 +1206,8 @@ class Boldgrid_Inspirations_Deploy {
 
 			$this->assign_menu_id_to_all_locations( $menu_id );
 		}
+
+
 		/**
 		 * ********************************************************************
 		 * Begin downloading all of the pages in the pageset.
@@ -1316,6 +1329,14 @@ class Boldgrid_Inspirations_Deploy {
 				continue;
 			}
 
+			// This is the page_for_posts.
+			$is_posts = '1' === $page_v->is_posts;
+
+			// If this is our posts page, but we're not installing a blog, skip this page.
+			if( $is_posts && ! $this->install_blog ) {
+				continue;
+			}
+
 			/**
 			 * *Prevent the user from installing the same page twice**
 			 */
@@ -1354,6 +1375,12 @@ class Boldgrid_Inspirations_Deploy {
 				'post_type' => $post['post_type'],
 				'post_status' => $post['post_status']
 			);
+
+			// This is our posts page, configure our blog.
+			if( $is_posts ) {
+				update_option( 'page_for_posts', $post_id );
+				$this->set_permalink_structure( '/' . $page_v->page_slug . '/%postname%/' );
+			}
 
 			// add page to menu
 			if ( '1' == $page_v->in_menu && $this->add_pages_to_menu ) {
@@ -3256,6 +3283,31 @@ class Boldgrid_Inspirations_Deploy {
 	}
 
 	/**
+	 * Change the permalink structure.
+	 *
+	 * @since 1.3.6
+	 *
+	 * @global object $wp_rewrite.
+	 *
+	 * @param string $structure
+	 */
+	public function set_permalink_structure( $structure ) {
+		global $wp_rewrite;
+
+		$wp_rewrite->set_permalink_structure( $structure );
+
+		/*
+		 * We need to make sure that a .htaccess file is being created. If it is not, 404 pages may
+		 * be handled by .htaccess rules set in higher directories.
+		 *
+		 * The parameter we're passing, $hard, is defined by WordPress as so:
+		 * Whether to update .htaccess (hard flush) or just update rewrite_rules
+		 * transient (soft flush).
+		 */
+		flush_rewrite_rules( true );
+	}
+
+	/**
 	 * Assign a menu_id to all locations
 	 */
 	public function assign_menu_id_to_all_locations( $menu_id ) {
@@ -3557,18 +3609,7 @@ class Boldgrid_Inspirations_Deploy {
 
 		if ( '/%postname%/' != $permalink_structure &&
 			 ! Boldgrid_Inspirations_Built::has_active_site() ) {
-			global $wp_rewrite;
-
-			$wp_rewrite->set_permalink_structure( '/%postname%/' );
-
-			// We need to make sure that a .htaccess file is being created.
-			// If it is not, 404 pages may be handled by .htaccess rules set in higher directories.
-			//
-			// The parameter we're passing, $hard, is defined by WordPress as so:
-			//
-			// Whether to update .htaccess (hard flush) or just update rewrite_rules transient (soft
-			// flush).
-			flush_rewrite_rules( true );
+			 $this->set_permalink_structure( '/%postname%/' );
 		}
 	}
 
