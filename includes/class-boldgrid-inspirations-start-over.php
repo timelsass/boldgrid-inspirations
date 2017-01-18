@@ -142,8 +142,23 @@ class Boldgrid_Inspirations_Start_Over {
 		 * it is visited from the front end.
 		 */
 
-		// Allow other plugins to modify the page id's that are deleted.
-		$page_ids = apply_filters( 'boldgrid_inspirations_cleanup_page_ids', $page_ids );
+		/*
+		 * The BoldGrid Staging plugin hooks into the boldgrid_inspirations_cleanup_page_ids filter.
+		 * It adds private posts created during a staged site's deployment to the array.
+		 *
+		 * We only want to apply this filter if we're starting over staging. Otherwise, when
+		 * starting over active, our staged posts (private posts) would be trashed.
+		 */
+		if( $this->start_over_staging ) {
+			/**
+			 * Allow other plugins to modify the page id's that are deleted.
+			 *
+			 * @since 0.36
+			 *
+			 * @param array $page_ids The array of page ids we will delete.
+			 */
+			$page_ids = apply_filters( 'boldgrid_inspirations_cleanup_page_ids', $page_ids );
+		}
 
 		/**
 		 * ************************************************************
