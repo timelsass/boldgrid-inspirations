@@ -99,35 +99,6 @@ class Boldgrid_Inspirations_Deploy_Cta {
 	}
 
 	/**
-	 * Check to see if theme has any BSTW  widgets stored in sidebars.
-	 *
-	 * @since 1.3.6
-	 *
-	 * @access public
-	 *
-	 * @return bool Does theme have bstw stored in theme mod.
-	 */
-	public function sidebars_widgets( $mods ) {
-		$widgets = isset( $mods['sidebars_widgets'] ) ? $mods['sidebars_widgets'] : false;
-		$bstw = false;
-		if ( $widgets && isset( $widgets['data'] ) && ! empty( $widgets['data'] ) ) {
-			foreach ( $widgets['data'] as $data ) {
-				if ( 'wp_inactive_widgets' === $data || empty( $data ) ) {
-					continue;
-				}
-				foreach ( $data as $key => $value ) {
-					if ( strpos( $value, 'black-studio-tinymce' ) !== false ) {
-						$bstw = true;
-						break 2;
-					}
-				}
-			}
-		}
-
-		return $bstw;
-	}
-
-	/**
 	 * Set the bstw_enabled option for the theme being installed.
 	 *
 	 * @since 1.3.5
@@ -139,10 +110,6 @@ class Boldgrid_Inspirations_Deploy_Cta {
 
 		// Set the value of bstw_enabled theme mod.
 		$mods['bstw_enabled'] = $this->bstw_enabled;
-
-		if ( ! $this->sidebars_widgets( $mods ) ) {
-			$mods['bstw_enabled'] = ! $this->has_cta;
-		}
 
 		update_option( 'theme_mods_' . $theme_folder_name, $mods );
 	}
