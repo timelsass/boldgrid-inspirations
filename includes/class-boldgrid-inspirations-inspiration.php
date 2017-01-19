@@ -250,15 +250,6 @@ class Boldgrid_Inspirations_Inspiration extends Boldgrid_Inspirations {
 			$gridblock_sets_admin = new Boldgrid_Inspirations_GridBlock_Sets_Admin( $this->configs );
 			$gridblock_sets_admin->add_hooks();
 
-			$milestones = new Boldgrid_Inspirations_Milestones();
-			$milestones->add_hooks();
-
-			$milestones_social = new Boldgrid_Inspirations_Milestones_Social();
-			$milestones_social->add_hooks();
-
-			$milestones_widget = new Boldgrid_Inspirations_Milestones_Widget();
-			$milestones_widget->add_hooks();
-
 			$deploy_cta = new Boldgrid_Inspirations_Deploy_Cta();
 			$deploy_cta->add_hooks();
 		}
@@ -422,10 +413,6 @@ public function include_admin_files() {
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-attribution-asset.php';
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-attribution-update.php';
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-attribution-page.php';
-
-	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-milestones.php';
-	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-milestones-social.php';
-	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-milestones-widget.php';
 
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-deploy-cta.php';
 }
