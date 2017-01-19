@@ -1379,7 +1379,7 @@ class Boldgrid_Inspirations_Deploy {
 			// This is our posts page, configure our blog.
 			if( $is_posts ) {
 				update_option( 'page_for_posts', $post_id );
-				$this->set_permalink_structure( '/' . $page_v->page_slug . '/%postname%/' );
+				$this->set_permalink_structure( '/' . $post['post_name'] . '/%postname%/' );
 			}
 
 			// add page to menu
@@ -3293,6 +3293,24 @@ class Boldgrid_Inspirations_Deploy {
 	 */
 	public function set_permalink_structure( $structure ) {
 		global $wp_rewrite;
+
+		$set_permalinks = true;
+
+		/**
+		 * Continue with setting permalink structure.
+		 *
+		 * Filter to allow a plugin to determine whether or not to proceed with this request to
+		 * set new permalinks.
+		 *
+		 * @since 1.3.6
+		 *
+		 * @param bool $set_permalinks On true, continue on to setting permalinks.
+		 */
+		$set_permalinks = apply_filters( 'pre_set_permalinks', $set_permalinks );
+
+		if( ! $set_permalinks ) {
+			return;
+		}
 
 		$wp_rewrite->set_permalink_structure( $structure );
 
