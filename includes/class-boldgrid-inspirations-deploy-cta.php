@@ -128,21 +128,6 @@ class Boldgrid_Inspirations_Deploy_Cta {
 	}
 
 	/**
-	 * Check if theme has already set bstw_enabled.
-	 *
-	 * This would indicate that a user has had the Theme
-	 * previously, and might already have bstw widgets in tact
-	 * or expect that the bstw widgets would be present.
-	 *
-	 * @since 1.3.6
-	 *
-	 * @return bool Theme mod is already set or not.
-	 */
-	public function bstw_enabled_before( $mods ) {
-		return array_key_exists( 'bstw', $mods );
-	}
-
-	/**
 	 * Set the bstw_enabled option for the theme being installed.
 	 *
 	 * @since 1.3.5
@@ -151,11 +136,6 @@ class Boldgrid_Inspirations_Deploy_Cta {
 	 */
 	public function set_theme_mod( $theme_folder_name ) {
 		$mods = $this->get_theme_mods( $theme_folder_name );
-
-		// Abort if the theme mod is already set in theme.
-		if ( $this->bstw_enabled_before( $mods ) ) {
-			return;
-		}
 
 		// Set the value of bstw_enabled theme mod.
 		$mods['bstw_enabled'] = $this->bstw_enabled;
