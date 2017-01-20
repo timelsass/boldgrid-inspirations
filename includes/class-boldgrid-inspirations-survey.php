@@ -98,6 +98,19 @@ class Boldgrid_Inspirations_Survey {
 	}
 
 	/**
+	 * Steps to take during a site deployment.
+	 *
+	 * @since 1.3.6
+	 */
+	public function deploy() {
+		if( isset( $_REQUEST['survey'] ) ) {
+			$survey_data = $this->sanitize( $_REQUEST['survey'] );
+			$this->save( $survey_data );
+			$this->update_blogname();
+		}
+	}
+
+	/**
 	 * Cleanup code.
 	 *
 	 * @since 1.3.4

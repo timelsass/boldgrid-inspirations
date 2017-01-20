@@ -43,6 +43,7 @@ The second phase is Customization; tools to transform your website into your vis
 * Bug fix:		JIRA WPB-2792	Staged posts (private posts) are trashed when starting over active site.
 * Update:		JIRA WPB-2800	Ensure 'Install a blog' works with Staging.
 * Update:		JIRA WPB-2801	Remove milestones classes.
+* Bug fix:		JIRA WPB-2779	Survey not working with Staging.
 
 = 1.3.5 =
 * Testing:		JIRA WPB-2744	Tested on WordPress 4.7.

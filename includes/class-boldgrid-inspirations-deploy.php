@@ -141,6 +141,15 @@ class Boldgrid_Inspirations_Deploy {
 	public $start_over = false;
 
 	/**
+	 * Instance of the Survey class.
+	 *
+	 * @since  1.3.6
+	 * @access public
+	 * @var    Boldgrid_Inspirations_Survey
+	 */
+	public $survey;
+
+	/**
 	 * The Boldgrid Inspirations Asset Manager class object.
 	 *
 	 * @var Boldgrid_Inspirations_Asset_Manager
@@ -181,12 +190,7 @@ class Boldgrid_Inspirations_Deploy {
 
 		$this->install_blog = isset( $_REQUEST['install-blog'] ) && 'true' === $_REQUEST['install-blog'];
 
-		$survey = new Boldgrid_Inspirations_Survey();
-		if( isset( $_REQUEST['survey'] ) ) {
-			$survey_data = $survey->sanitize( $_REQUEST['survey'] );
-			$survey->save( $survey_data );
-			$survey->update_blogname();
-		}
+		$this->survey = new Boldgrid_Inspirations_Survey();
 
 		// Get the asset cache object from the asset manager.
 		$this->asset_cache = $this->asset_manager->get_asset_cache();
@@ -3654,6 +3658,9 @@ class Boldgrid_Inspirations_Deploy {
 
 		// Start over.
 		$this->start_over();
+
+		// Process the survey.
+		$this->survey->deploy();
 
 		/*
 		 * During deployment only, allow iframes (Google map iframe). This seems to be required
