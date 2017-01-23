@@ -70,12 +70,6 @@ $lang = array(
 				<div id="pageset-options"></div>
 			</div>
 			<div class="content-menu-section">
-				<div class="feature-filter"><?php echo $lang['Features']; ?></div>
-				<div class="feature-option">
-					<input type="checkbox" name="install-blog" value=true /> <?php echo $lang['Blog']; ?>
-				</div>
-			</div>
-			<div class="content-menu-section">
 				<div class="coin-filter imgedit-group-top">
 					<?php echo $lang['CoinBudget']; ?> <span class="dashicons dashicons-editor-help" onclick="imageEdit.toggleHelp(this);return false;" aria-expanded='false' ></span>
 					<p class="imgedit-help">
@@ -90,6 +84,12 @@ $lang = array(
 				<div class="coin-option"        data-coin="60">0 - 60 <?php echo $lang['Coins']; ?></div>
 				<div class="coin-option"        data-coin="80">0 - 80 <?php echo $lang['Coins']; ?></div>
 				<div class="coin-option"        data-coin="0">        <?php echo $lang['Free'];  ?></div>
+			</div>
+			<div class="content-menu-section">
+				<div class="feature-filter"><?php echo $lang['Features']; ?></div>
+				<div class="feature-option">
+					<input type="checkbox" name="install-blog" value=true /> <?php echo $lang['Blog']; ?>
+				</div>
 			</div>
 		</div>
 
