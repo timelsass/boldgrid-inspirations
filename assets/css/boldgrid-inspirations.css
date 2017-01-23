@@ -8,6 +8,7 @@
 
 .left .sub-category,
 .left .pageset-option,
+.left .feature-option,
 .left .coin-option {
 	background: #fff;
 }
@@ -24,6 +25,7 @@
 /* The heading, "Category filter" */
 .category-filter,
 .coin-filter,
+.feature-filter,
 .page-set-filter {
 	background: #e6e6e6;
 	padding: 3px 0px 3px 10px;
@@ -32,6 +34,7 @@
 }
 .coin-option,
 .pageset-option,
+.feature-option,
 .sub-category {
 	cursor: pointer;
 }
@@ -51,11 +54,13 @@
 
 /* Radio Buttons */
 input[type="radio"][name="pageset"],
+.feature-option input[type="checkbox"],
 input[type="radio"][name="sub-category"] {
 	visibility: hidden;
 }
 .coin-option,
 .pageset-option,
+.feature-option,
 .sub-category {
 	padding: .5em 0;
 	-webkit-transition: background-color .3s linear, color .3s linear;
@@ -148,6 +153,7 @@ a.disabled {
 
 body.waiting .devices button,
 body.waiting .pageset-option,
+body.waiting .feature-option,
 body.waiting .coin-option,
 body.waiting .pointer {
 	cursor: wait;
@@ -192,6 +198,7 @@ body.waiting .pointer {
 .pageset-option.active,
 .coin-option.active,
 .sub-category.active,
+.feature-option.active,
 .pageset-option.blue,
 .coin-option.blue,
 .blue {

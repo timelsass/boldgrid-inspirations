@@ -8,6 +8,7 @@ $lang = array(
 	'CoinBudget' =>							__( 'Coin Budget', 'boldgrid-inspirations'),
 	'Coins' =>								__( 'Coins', 'boldgrid-inspirations' ),
 	'Contact' =>							__( 'Contact', 'boldgrid-inspirations' ),
+	'Features' =>							__( 'Features', 'boldgrid-inspirations' ),
 	'Install' =>							__( 'Install', 'boldgrid-inspirations' ),
 	'InstallBlog' =>						__( 'Install a sample blog.', 'boldgrid-inspirations' ),
 	'Pageset' =>							__( 'Pageset', 'boldgrid-inspirations' ),
@@ -69,9 +70,9 @@ $lang = array(
 				<div id="pageset-options"></div>
 			</div>
 			<div class="content-menu-section">
-				<div class="page-set-filter"><?php echo $lang['Blog']; ?></div>
-				<div>
-					<input type="checkbox" name="install-blog" value=true /> <?php echo $lang['InstallBlog']; ?>
+				<div class="feature-filter"><?php echo $lang['Features']; ?></div>
+				<div class="feature-option">
+					<input type="checkbox" name="install-blog" value=true /> <?php echo $lang['Blog']; ?>
 				</div>
 			</div>
 			<div class="content-menu-section">

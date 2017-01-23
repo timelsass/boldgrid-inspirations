@@ -102,7 +102,7 @@ class Boldgrid_Inspirations_Built {
 		$this->admin_colors = $_wp_admin_css_colors;
 		$user = get_user_option( 'admin_color' );
 		echo '<style>
-			.pageset-option.active,.coin-option.active,.sub-category.active,.pageset-option.blue,.coin-option.blue,.blue { background-color:' . $this->admin_colors[ $user ]->colors[3] . ' !important; }
+			.pageset-option.active,.coin-option.active,.feature-option.active,.sub-category.active,.pageset-option.blue,.coin-option.blue,.blue { background-color:' . $this->admin_colors[ $user ]->colors[3] . ' !important; }
 			.devices button:focus { border-bottom-color: ' . $this->admin_colors[ $user ]->colors[3] . '; }
 			</style>';
 	}

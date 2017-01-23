@@ -184,6 +184,29 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	};
 
 	/**
+	 * Toggle build features in Step 2.
+	 *
+	 * @since 1.3.6
+	 *
+	 * @param jQuery object $feature The feature clicked.
+	 */
+	this.toggleFeature = function( $feature ) {
+		var $featureInput = $feature.find( 'input[type="checkbox"]' ),
+			newCheckedProp = ! $featureInput.is( ':checked' );
+
+		// If we're waiting on something, don't allow the user to toggle features.
+		if( $( 'body' ).hasClass( 'waiting' ) ) {
+			return;
+		}
+
+		$featureInput.prop( 'checked', newCheckedProp );
+
+		$feature.toggleClass( 'active' );
+
+		return;
+	};
+
+	/**
 	 * @summary Actions to take when a device preview button is clicked.
 	 *
 	 * @since 1.2.3
@@ -410,6 +433,12 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		 * to try again. Handle the click of that try again button.
 		 */
 		self.$wrap.on( 'click', '#try-build-again', self.loadBuild );
+
+		// During step 2, you can toggle build features (like a blog). Handle click of those features.
+		self.$wrap.on( 'click', '.feature-option', function() {
+			var $feature = $( this );
+			self.toggleFeature( $feature );
+		});
 
 		/*
 		 * During step 3, we give the user the option to click on a social media icon and configure
@@ -942,7 +971,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 */
 	this.hoverColors = function() {
 		// Hovers.
-		self.$wrap.on( 'mouseenter mouseleave', '.sub-category, .pageset-option, .coin-option', function() {
+		self.$wrap.on( 'mouseenter mouseleave', '.sub-category, .pageset-option, .coin-option, .feature-option', function() {
 			$( this ).toggleClass( 'blue' );
 		});
 	};
