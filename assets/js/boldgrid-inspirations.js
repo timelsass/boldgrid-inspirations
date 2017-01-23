@@ -203,7 +203,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 
 		$feature.toggleClass( 'active' );
 
-		return;
+		self.loadBuild();
 	};
 
 	/**
@@ -1338,6 +1338,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			'site_hash' :			self.configs.site_hash,
 			'inspirations_mode' :	'standard',
 			'is_generic' :			requestGeneric,
+			'has_blog' :			$( '[name="install-blog"]' ).is( ':checked' ) ? '1' : '0',
 		};
 
 		// Set form.

@@ -1336,8 +1336,10 @@ class Boldgrid_Inspirations_Deploy {
 			// This is the page_for_posts.
 			$is_posts = ( isset( $page_v->is_posts ) && '1' === $page_v->is_posts );
 
+			$is_blog_post = ( isset( $page_v->is_blog_post ) && '1' === $page_v->is_blog_post );
+
 			// If this is our posts page, but we're not installing a blog, skip this page.
-			if( $is_posts && ! $this->install_blog ) {
+			if( $is_posts && ! $this->install_blog || $is_blog_post && ! $this->install_blog ) {
 				continue;
 			}
 
