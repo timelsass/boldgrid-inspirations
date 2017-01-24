@@ -1275,14 +1275,21 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			tryAgainButton = '<button class="button" id="try-build-again">' + Inspiration.tryAgain + '</button>',
 			// Should our request for a build be for a generic build?
 			requestGeneric = false,
+			hasBlog = $( '[name="install-blog"]' ).is( ':checked' ),
 			coinBudget = self.getSelectedBudget();
 
 		/*
 		 * By default, we will not request a generic build. The only time we will request a generic
-		 * build is IF we're looking at the default pageset and coin budget of a 'stable' build,
-		 * because that is already built.
+		 * build is if we're looking at all the default values:
+		 * # Pageset:		Default
+		 * # Coin budget:	20
+		 * # Channel:		Stable
+		 * # Blog:			False
 		 */
-		if( '1' === self.$pageset.attr( 'data-is-default' ) && '20' === coinBudget && 'stable' === self.themeReleaseChannel ) {
+		if( '1' === self.$pageset.attr( 'data-is-default' ) &&
+			'20' === coinBudget &&
+			'stable' === self.themeReleaseChannel &&
+			! hasBlog ) {
 			requestGeneric = true;
 		}
 
@@ -1338,7 +1345,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			'site_hash' :			self.configs.site_hash,
 			'inspirations_mode' :	'standard',
 			'is_generic' :			requestGeneric,
-			'has_blog' :			$( '[name="install-blog"]' ).is( ':checked' ),
+			'has_blog' :			hasBlog,
 		};
 
 		// Set form.

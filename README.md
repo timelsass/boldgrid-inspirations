@@ -49,6 +49,7 @@ The second phase is Customization; tools to transform your website into your vis
 * Bug fix:		JIRA WPB-2779	Survey not working with Staging.
 * Update:		JIRA WPB-2805	Preview builds w & w/o blogs.
 * New feature:	JIRA WPB-2806	Add filter for Inspirations configs.
+* Bug fix:		JIRA WPB-2808	Do not request generic builds when requesting blog as well.
 
 ### 1.3.5 ###
 * Testing:		JIRA WPB-2744	Tested on WordPress 4.7.
