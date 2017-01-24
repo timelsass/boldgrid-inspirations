@@ -34,7 +34,7 @@ The second phase is Customization; tools to transform your website into your vis
 
 ## Changelog ##
 
-### 1.3.6 In progress ###
+### 1.3.6 ###
 * Bug fix:		JIRA WPB-2772	PHP warnings on deploy in WordPress 4.3.7.
 * Bug fix:		JIRA WPB-2766	Plesk and WP-CLI were not getting private repo updates.
 * Update:		JIRA WPB-2763	Update email and address on Contact Us page.

@@ -2,7 +2,7 @@
 /**
  * Plugin Name: BoldGrid Inspirations
  * Plugin URI: http://www.boldgrid.com
- * Version: 1.3.5
+ * Version: 1.3.6
  * Author: BoldGrid.com <wpb@boldgrid.com>
  * Author URI: http://www.boldgrid.com
  * Description: Be inspired, be custom, be bold!
