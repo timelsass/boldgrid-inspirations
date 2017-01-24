@@ -111,6 +111,15 @@ class Boldgrid_Inspirations_Config {
 
 		$formated_configs['settings'] = self::set_default_settings( $formated_configs['settings'] );
 
+		/**
+		 * Allow filtering of configs.
+		 *
+		 * @since 1.3.6
+		 *
+		 * @param array $formated_configs
+		 */
+		$formated_configs = apply_filters( 'boldgrid_inspirations_configs', $formated_configs );
+
 		// Save the config array.
 		self::$configs = $formated_configs;
 

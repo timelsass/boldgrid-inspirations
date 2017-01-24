@@ -45,6 +45,7 @@ The second phase is Customization; tools to transform your website into your vis
 * Update:		JIRA WPB-2801	Remove milestones classes.
 * Bug fix:		JIRA WPB-2779	Survey not working with Staging.
 * Update:		JIRA WPB-2805	Preview builds w & w/o blogs.
+* New feature:	JIRA WPB-2806	Add filter for Inspirations configs.
 
 = 1.3.5 =
 * Testing:		JIRA WPB-2744	Tested on WordPress 4.7.
