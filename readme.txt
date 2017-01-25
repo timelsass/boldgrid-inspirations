@@ -33,6 +33,7 @@ The second phase is Customization; tools to transform your website into your vis
 
 = 1.3.7 In progress =
 * Update:		JIRA WPB-2819	Use switch instead of checkbox for Demo.
+* Bug fix:		JIRA WPB-2780	Theme screenshots opening directly, rather than within gallery.
 
 = 1.3.6 =
 * Bug fix:		JIRA WPB-2772	PHP warnings on deploy in WordPress 4.3.7.

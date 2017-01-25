@@ -1464,7 +1464,13 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 				// Remove fancybox class, which removes theme from the gallery.
 				.find( fancyboxAnchor ).removeClass( 'fancybox' );
 
-			$( '.theme[data-sub-category-id="' + subCategoryId + '"]').removeClass( 'hidden' );
+			$( '.theme[data-sub-category-id="' + subCategoryId + '"]')
+				.removeClass( 'hidden' )
+				/*
+				 * Add the fancybox class back, otherwise thumbnail will link directly to thumbnail,
+				 * rather than open thumbnail in fancybox gallery.
+				 */
+				.find( fancyboxAnchor ).addClass( 'fancybox' );
 
 			self.sortThemes( 'data-category-order' );
 		}
