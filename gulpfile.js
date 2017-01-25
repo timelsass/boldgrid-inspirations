@@ -23,4 +23,11 @@ gulp.task( 'fontAwesome', function() {
 		.pipe( gulp.dest( 'assets/css/font-awesome/fonts' ));
 });
 
-gulp.task( 'default', ['readme', 'fontAwesome'] );
+gulp.task( 'jqueryToggles', function() {
+	gulp.src( config.bower + '/jquery-toggles/css/**/*' )
+		.pipe( gulp.dest( 'assets/css/jquery-toggles' ));
+	gulp.src( config.bower + '/jquery-toggles/toggles.js' )
+		.pipe( gulp.dest( 'assets/js/jquery-toggles' ));
+});
+
+gulp.task( 'default', ['readme', 'fontAwesome', 'jqueryToggles'] );

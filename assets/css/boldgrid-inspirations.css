@@ -154,6 +154,7 @@ a.disabled {
 body.waiting .devices button,
 body.waiting .pageset-option,
 body.waiting .feature-option,
+body.waiting .toggle-inner,
 body.waiting .coin-option,
 body.waiting .pointer {
 	cursor: wait;
@@ -198,7 +199,6 @@ body.waiting .pointer {
 .pageset-option.active,
 .coin-option.active,
 .sub-category.active,
-.feature-option.active,
 .pageset-option.blue,
 .coin-option.blue,
 .blue {
@@ -301,6 +301,15 @@ body.waiting .pointer {
 	width: 100%;
 	height: 100%;
 	transition: width .3s;
+}
+
+/**
+* Toggles, like the toggle for Blog.
+*/
+
+.feature-option .toggle {
+	float: right;
+	margin: 2px 10px 0px 0px;
 }
 
 /* ****************************************************************************

@@ -18,6 +18,7 @@
     "tests"
   ],
   "devDependencies": {
-    "font-awesome": "fontawesome#^4.6.0"
+    "font-awesome": "fontawesome#^4.6.0",
+    "jquery-toggles": "jquery-toggles#^4.0.0"
   }
 }

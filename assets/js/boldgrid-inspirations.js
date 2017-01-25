@@ -192,6 +192,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 */
 	this.toggleFeature = function( $feature ) {
 		var $featureInput = $feature.find( 'input[type="checkbox"]' ),
+			$toggle = $feature.find( '.toggle' ).data( 'toggles' ),
 			newCheckedProp = ! $featureInput.is( ':checked' );
 
 		// If we're waiting on something, don't allow the user to toggle features.
@@ -201,7 +202,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 
 		$featureInput.prop( 'checked', newCheckedProp );
 
-		$feature.toggleClass( 'active' );
+		$toggle.toggle( newCheckedProp );
 
 		self.loadBuild();
 	};
@@ -971,7 +972,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 */
 	this.hoverColors = function() {
 		// Hovers.
-		self.$wrap.on( 'mouseenter mouseleave', '.sub-category, .pageset-option, .coin-option, .feature-option', function() {
+		self.$wrap.on( 'mouseenter mouseleave', '.sub-category, .pageset-option, .coin-option', function() {
 			$( this ).toggleClass( 'blue' );
 		});
 	};
@@ -1118,6 +1119,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		self.bindInstallModal();
 		self.onResize();
 		self.socialMediaDefaults();
+		self.initFeatureToggles();
 	};
 
 	/**
@@ -1164,6 +1166,29 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 
 		self.ajax.ajaxCall( {'inspirations_mode' : 'standard'}, 'get_categories', success_action, failAction );
 	};
+
+	/**
+	 * Init Feature Toggles.
+	 *
+	 * For example, the toggle for Blog in step 2.
+	 *
+	 * @since 1.3.7
+	 */
+	this.initFeatureToggles = function() {
+		$( '#blog-toggle' )
+			.toggles({
+				checkbox: $( '[name="install-blog"]' ),
+				click: false,
+				drag: false,
+				text: {
+					on: '',
+					off: ''
+				},
+				height: 15,
+				width: 40
+			})
+			.find('.toggle-on').addClass('blue');
+	}
 
 	/**
 	 * @summary Init pagesets.

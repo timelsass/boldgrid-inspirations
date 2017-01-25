@@ -102,7 +102,7 @@ class Boldgrid_Inspirations_Built {
 		$this->admin_colors = $_wp_admin_css_colors;
 		$user = get_user_option( 'admin_color' );
 		echo '<style>
-			.pageset-option.active,.coin-option.active,.feature-option.active,.sub-category.active,.pageset-option.blue,.coin-option.blue,.blue { background-color:' . $this->admin_colors[ $user ]->colors[3] . ' !important; }
+			.pageset-option.active,.coin-option.active,.sub-category.active,.pageset-option.blue,.coin-option.blue,.blue { background-color:' . $this->admin_colors[ $user ]->colors[3] . ' !important; }
 			.devices button:focus { border-bottom-color: ' . $this->admin_colors[ $user ]->colors[3] . '; }
 			</style>';
 	}
@@ -511,6 +511,8 @@ class Boldgrid_Inspirations_Built {
 			true
 		);
 
+		$this->enqueue_jquery_toggles();
+
 		// Js.
 		wp_enqueue_script( 'boldgrid-lazyload',
 			plugins_url(
@@ -518,6 +520,37 @@ class Boldgrid_Inspirations_Built {
 				BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php'
 			),
 			array( 'jquery' ),
+			BOLDGRID_INSPIRATIONS_VERSION,
+			true
+		);
+	}
+
+	/**
+	 * Enqueue jQuery Toggles.
+	 *
+	 * This is used to add the toggles under Features within step 2 of Inspirations.
+	 *
+	 * @since 1.3.7
+	 */
+	public function enqueue_jquery_toggles() {
+		wp_register_style(
+			'boldgrid-inspirations-toggles',
+			plugins_url(
+				'/assets/css/jquery-toggles/toggles-full.css',
+				BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php'
+			),
+			array(),
+			BOLDGRID_INSPIRATIONS_VERSION
+		);
+
+		wp_enqueue_style( 'boldgrid-inspirations-toggles' );
+
+		wp_enqueue_script( 'boldgrid-inspirations-toggles',
+			plugins_url(
+				'assets/js/jquery-toggles/toggles.js',
+				BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php'
+			),
+			array( 'jquery', ),
 			BOLDGRID_INSPIRATIONS_VERSION,
 			true
 		);
