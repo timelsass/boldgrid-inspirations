@@ -49,7 +49,7 @@ class Boldgrid_Inspirations_Pages_And_Posts {
 					'post_submitbox_misc_actions_auto_add_to_menu'
 				) );
 
-			add_action( 'save_post', array (
+			add_action( 'wp_insert_post', array (
 				$this,
 				'save_post_auto_add_to_menu'
 			), 10, 3 );
