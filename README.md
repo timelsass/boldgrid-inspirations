@@ -39,6 +39,7 @@ The second phase is Customization; tools to transform your website into your vis
 * Bug fix:		JIRA WPB-2780	Theme screenshots opening directly, rather than within gallery.
 * Update:		JIRA WPB-2825	Adjust do not display formatting.
 * Update:       JIRA WPB-2829   Updating hook to resolve BoldGrid SEO plugin conflicts.
+* Update:		JIRA WPB-2837	Remove loading image after selecting theme in Gallery.
 
 ### 1.3.6 ###
 * Bug fix:		JIRA WPB-2772	PHP warnings on deploy in WordPress 4.3.7.

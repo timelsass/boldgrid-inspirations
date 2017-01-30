@@ -317,7 +317,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		$(".fancybox").fancybox({
 			"type": "image",
 			"openSpeed": 500,
-			"closeSpeed": 500,
+			"closeSpeed": 250,
 			beforeLoad: function() {
 				$( 'body' ).addClass( 'fancyboxed' );
 			},
@@ -359,23 +359,9 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 * @since 1.3.1
 	 */
 	this.fancyboxSelect = function() {
-		var $button = $( this );
-
-		/*
-		 * When we click on the Select button, we'll disable it (add the disabled class) and prevent
-		 * the user from clicking on it again.
-		 */
-		if( $button.hasClass( 'disabled' ) ) {
-			return;
-		} else {
-			$button.addClass( 'disabled' );
-		}
-
 		self.$theme = self.$themePreviewed;
 
-		$( '.fancybox-inner' )
-			.addClass( 'loading' )
-			.append( "<div class='boldgrid-loading'></div>" );
+		$.fancybox.close();
 
 		self.chooseTheme();
 	};
@@ -1071,9 +1057,6 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 				$( '#build-cost' )
 					.html( $iframe.attr( 'data-build-cost' ) + ' Coins' )
 					.animate( { opacity: 1 }, 400 );
-
-				// If a fancybox is still visible from step 1, close it.
-				$.fancybox.close();
 
 				self.$themePreview.css( 'visibility', 'visible' );
 			} );
