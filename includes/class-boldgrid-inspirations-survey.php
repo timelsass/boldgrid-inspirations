@@ -434,8 +434,12 @@ class Boldgrid_Inspirations_Survey {
 			switch( $data['sanitize'] ) {
 				case 'email':
 					$sanitized_value = sanitize_email( $raw_value );
+					break;
 				case 'text_field':
 					$sanitized_value = sanitize_text_field( $raw_value );
+					// We're not worried about adding slashes, not sanitizing for DB purposes.
+					$sanitized_value = stripslashes( $sanitized_value );
+					break;
 			}
 
 			// If empty after sanitizing, continue.
