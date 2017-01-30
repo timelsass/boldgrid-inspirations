@@ -37,6 +37,7 @@ The second phase is Customization; tools to transform your website into your vis
 * Update:		JIRA WPB-2825	Adjust do not display formatting.
 * Update:       JIRA WPB-2829   Updating hook to resolve BoldGrid SEO plugin conflicts.
 * Update:		JIRA WPB-2837	Remove loading image after selecting theme in Gallery.
+* Update:		JIRA WPB-2839	Minor verbiage change for Add a blog.
 
 = 1.3.6 =
 * Bug fix:		JIRA WPB-2772	PHP warnings on deploy in WordPress 4.3.7.

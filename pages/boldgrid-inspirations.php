@@ -2,13 +2,13 @@
 
 // Configure variables.
 $lang = array(
+	'AddFunctionality' =>					__( 'Add Functionality', 'boldgrid-inspirations' ),
 	'Blog' =>								__( 'Blog', 'boldgrid-inspirations' ),
 	'Design' =>								__( 'Design', 'boldgrid-inspirations' ),
 	'Content' =>							__( 'Content', 'boldgrid-inspirations' ),
 	'CoinBudget' =>							__( 'Coin Budget', 'boldgrid-inspirations'),
 	'Coins' =>								__( 'Coins', 'boldgrid-inspirations' ),
 	'Contact' =>							__( 'Contact', 'boldgrid-inspirations' ),
-	'Features' =>							__( 'Features', 'boldgrid-inspirations' ),
 	'Install' =>							__( 'Install', 'boldgrid-inspirations' ),
 	'InstallBlog' =>						__( 'Install a sample blog.', 'boldgrid-inspirations' ),
 	'Pageset' =>							__( 'Pageset', 'boldgrid-inspirations' ),
@@ -70,7 +70,7 @@ $lang = array(
 				<div id="pageset-options"></div>
 			</div>
 			<div class="content-menu-section">
-				<div class="feature-filter"><?php echo $lang['Features']; ?></div>
+				<div class="feature-filter"><?php echo $lang['AddFunctionality']; ?></div>
 				<div class="feature-option">
 					<input type="checkbox" name="install-blog" value=true /> <?php echo $lang['Blog']; ?>
 					<div id="blog-toggle" class="toggle toggle-light"></div>
