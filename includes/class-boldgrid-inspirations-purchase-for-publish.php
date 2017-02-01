@@ -1269,20 +1269,39 @@ for purchase, and will be removed from the cart.</p>
 
 		// Then, loop through each filename and check if it is in a page / post.
 
+		/**
+		 * Add the ability to exclude looking for images in certain pages.
+		 *
+		 * For example, our "Gridblocks Sets Preview Page" may contain copyrighted images. We don't
+		 * want to include this page however in our cart.
+		 *
+		 * @since 1.3.7
+		 *
+		 * @param  array $not_in_page An array of pages not to include in the BoldGrid Cart.
+		 */
+		$not_in_page = apply_filters( 'boldgrid_cart_exclude_page', array() );
+
 		if ( 'image' == $asset_type && ! empty( $array_file_names_to_query ) ) {
 			foreach ( $array_file_names_to_query as $file_name_to_query ) {
+
 				// SELECT post_title where post_content like
 				// '%2015/02/google-maps-int-1410976385-pi.jpg%'
-				/* @formatter:off */
-				$asset_in_page = $wpdb->get_results(
-					$wpdb->prepare(
-						"	SELECT `ID`
-			FROM $wpdb->posts
-			WHERE `post_content` LIKE %s AND
-			`post_status` IN $post_status AND
-			`post_type` IN ('page','post')
-			", '%' . $wpdb->esc_like( $file_name_to_query ) . '%' ) );
-				/* @formatter:on */
+				$query = $wpdb->prepare("
+					SELECT	`ID`
+					FROM	$wpdb->posts
+					WHERE	`post_content` LIKE %s AND
+							`post_status` IN $post_status AND
+							`post_type` IN ('page','post')
+					",
+					'%' . $wpdb->esc_like( $file_name_to_query ) . '%'
+				);
+
+				// If we want to exclude any page IDs, exclude them now.
+				foreach( $not_in_page as $id ) {
+					$query .= ' AND `ID` != ' . (int) $id;
+				}
+
+				$asset_in_page = $wpdb->get_results( $query );
 
 				// If we found results, then the image is being used in a page/post.
 				// Example $asset_in_page: http://pastebin.com/DSiGZFN7.

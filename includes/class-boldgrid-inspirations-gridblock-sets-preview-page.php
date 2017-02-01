@@ -52,6 +52,26 @@ class Boldgrid_Inspirations_GridBlock_Sets_Preview_Page {
 				$this,
 				'boldgrid_staging_pre_force_staged_pages_only'
 			) );
+
+		add_filter( 'boldgrid_cart_exclude_page', array( $this, 'boldgrid_cart_exclude_page' ) );
+	}
+
+	/**
+	 * Remove preview page from cart.
+	 *
+	 * @since 1.3.7
+	 *
+	 * @param  array $not_in_page An array of pages not to include in the BoldGrid Cart.
+	 * @return array
+	 */
+	public function boldgrid_cart_exclude_page( $not_in_page ) {
+		$preview_page = $this->get();
+
+		if( ! in_array( $preview_page->ID, $not_in_page ) ) {
+			$not_in_page[] = $preview_page->ID;
+		}
+
+		return $not_in_page;
 	}
 
 	/**
