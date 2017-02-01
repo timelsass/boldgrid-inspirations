@@ -163,7 +163,8 @@ IMHWPB.BaseAdmin = function( $ ) {
 	this.update_customizer_link = function() {
 		var useAdminMenu = 0,
 			currentUrl = encodeURIComponent( window.location.pathname + window.location.search ),
-			returnUrl = ( 'toplevel_page_boldgrid-inspirations' === pagenow ? BoldGridAdmin.dashboardUrl : currentUrl );
+			pageNow = typeof pagenow === 'undefined' ? null : pagenow,
+			returnUrl = ( 'toplevel_page_boldgrid-inspirations' === pageNow ? BoldGridAdmin.dashboardUrl : currentUrl );
 
 		// Set useAdminMenu.
 		if ( IMHWPB.configs !== undefined && IMHWPB.configs.settings !== undefined &&
