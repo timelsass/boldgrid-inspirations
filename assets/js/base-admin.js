@@ -161,7 +161,9 @@ IMHWPB.BaseAdmin = function( $ ) {
 	 * customize.php
 	 */
 	this.update_customizer_link = function() {
-		var useAdminMenu = 0;
+		var useAdminMenu = 0,
+			currentUrl = encodeURIComponent( window.location.pathname + window.location.search ),
+			returnUrl = ( 'toplevel_page_boldgrid-inspirations' === pagenow ? BoldGridAdmin.dashboardUrl : currentUrl );
 
 		// Set useAdminMenu.
 		if ( IMHWPB.configs !== undefined && IMHWPB.configs.settings !== undefined &&
@@ -171,8 +173,7 @@ IMHWPB.BaseAdmin = function( $ ) {
 
 		if ( 1 == useAdminMenu && 'undefined' != typeof pagenow && 'dashboard-network' != pagenow ) {
 			// Configure the correct link.
-			var correct_link = 'customize.php?return=' +
-				encodeURIComponent( window.location.pathname + window.location.search );
+			var correct_link = 'customize.php?return=' + returnUrl;
 
 			// Apply this link to "Customize".
 			jQuery( '#menu-appearance a.menu-top' ).attr( 'href', correct_link );

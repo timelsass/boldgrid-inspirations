@@ -306,7 +306,7 @@ public function boldgrid_register_buttons( $buttons ) {
  */
 public function boldgrid_style( $hook ) {
 	// base-admin.js
-	wp_enqueue_script( 'base-admin-js',
+	wp_register_script( 'base-admin-js',
 		plugins_url(
 			'/assets/js/base-admin.js', BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php'
 		),
@@ -314,6 +314,12 @@ public function boldgrid_style( $hook ) {
 		BOLDGRID_INSPIRATIONS_VERSION,
 		true
 	);
+
+	wp_localize_script( 'base-admin-js', 'BoldGridAdmin', array(
+		'dashboardUrl' => get_admin_url(),
+	));
+
+	wp_enqueue_script( 'base-admin-js' );
 
 	// base-admin.css
 	wp_register_style( 'base-admin-css',

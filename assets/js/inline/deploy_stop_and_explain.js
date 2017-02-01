@@ -30,4 +30,24 @@ jQuery( function() {
 		var BaseAdmin = new IMHWPB.BaseAdmin();
 		BaseAdmin.update_header_cart( boldgrid_deploy_cost );
 	}
+
+	/*
+	 * Prevent Customizer from returning to Inspirations.
+	 *
+	 * In you visit the Customizer directly after installing an Inspiration, the Customizer's
+	 * return= value will be that of Inspirations. We need to change this value so that after the
+	 * user exits the Customizer, they visit their dashboard.
+	 *
+	 * @since 1.3.7
+	 *
+	 * @link  http://stackoverflow.com/questions/5413899/search-and-replace-specific-query-string-parameter-value-in-javascript
+	 */
+	jQuery( 'a[href*="customize.php"]' ).each( function() {
+		var $link = jQuery( this ),
+			currentUrl = $link.attr( 'href' ),
+			newReturn = BoldGridAdmin.dashboardUrl,
+			newUrl = currentUrl.replace( /(return=)[^\&]+/, '$1' + newReturn );
+
+		$link.attr( 'href', newUrl );
+	});
 });
