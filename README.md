@@ -45,6 +45,7 @@ The second phase is Customization; tools to transform your website into your vis
 * Bug fix:		JIRA WPB-2601	Inspirations Internet Explorer/ Stuck on loading themes.
 * Bug fix:		JIRA WPB-2848	Customize link takes users back to Inspirations.
 * Bug fix:		JIRA WPB-2527	'New from GridBlocks' preview page appearing in cart.
+* Bug fix:		JIRA WPB-2862	Survey, invalid argument supplied for foreach.
 
 ### 1.3.6 ###
 * Bug fix:		JIRA WPB-2772	PHP warnings on deploy in WordPress 4.3.7.

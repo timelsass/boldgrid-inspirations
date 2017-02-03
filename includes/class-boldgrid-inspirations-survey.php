@@ -666,6 +666,10 @@ class Boldgrid_Inspirations_Survey {
 				continue;
 			}
 
+			if( ! is_array( $widgets ) ) {
+				continue;
+			}
+
 			foreach( $widgets as $widget_key => $widget ) {
 				if( 'footer-company-details' === $widget_key ) {
 					$updated_widget = $this->update_footer_details( $widget );
