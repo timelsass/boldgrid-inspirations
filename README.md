@@ -42,7 +42,6 @@ The second phase is Customization; tools to transform your website into your vis
 * Update:		JIRA WPB-2837	Remove loading image after selecting theme in Gallery.
 * Update:		JIRA WPB-2839	Minor verbiage change for Add a blog.
 * Update:		JIRA WPB-2785	Entering words with apostrophe in it for Site title displays with a Backslash.
-* Bug fix:		JIRA WPB-2601	Inspirations Internet Explorer/ Stuck on loading themes.
 * Bug fix:		JIRA WPB-2848	Customize link takes users back to Inspirations.
 * Bug fix:		JIRA WPB-2527	'New from GridBlocks' preview page appearing in cart.
 * Bug fix:		JIRA WPB-2862	Survey, invalid argument supplied for foreach.
