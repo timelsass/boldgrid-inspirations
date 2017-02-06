@@ -513,8 +513,6 @@ class Boldgrid_Inspirations_Built {
 
 		$this->enqueue_jquery_toggles();
 
-		$this->enqueue_polyfill();
-
 		// Js.
 		wp_enqueue_script( 'boldgrid-lazyload',
 			plugins_url(
@@ -555,21 +553,6 @@ class Boldgrid_Inspirations_Built {
 			array( 'jquery', ),
 			BOLDGRID_INSPIRATIONS_VERSION,
 			true
-		);
-	}
-
-	/**
-	 * Enqueue Polyfill.
-	 *
-	 * @since 1.3.7
-	 */
-	public function enqueue_polyfill() {
-		wp_enqueue_script( 'boldgrid-inspirations-polyfill',
-			plugins_url(
-				'assets/js/polyfill.js',
-				BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php'
-			),
-			BOLDGRID_INSPIRATIONS_VERSION
 		);
 	}
 
