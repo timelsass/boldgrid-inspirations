@@ -947,7 +947,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		var i = 0;
 
 		for( i; i < self.genericBuilds.length; i++ ) {
-			if( ! self.distinctThemes.includes( self.genericBuilds[i].ThemeName ) ) {
+			if( -1 === _.indexOf( self.distinctThemes, self.genericBuilds[i].ThemeName ) ) {
 				self.distinctThemes.push( self.genericBuilds[i].ThemeName );
 			}
 		}
