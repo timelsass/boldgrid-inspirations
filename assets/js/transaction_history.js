@@ -1,6 +1,6 @@
 var IMHWPB = IMHWPB || {};
 
-IMHWPB.TransactionHistory = function( configs ) {
+IMHWPB.TransactionHistory = function( configs, $ ) {
 	var self = this;
 
 	this.configs = configs;
@@ -172,6 +172,7 @@ IMHWPB.TransactionHistory = function( configs ) {
 		// Declare vars.
 		var spinner, id_from_provider, image_provider_id, user_transaction_item_id, deferred,
 			fail,
+			$td = $( link.closest( 'td' ) ),
 			$this = jQuery( link );
 
 		// Add a spinner to show this image is being redownloaded.
@@ -197,7 +198,7 @@ IMHWPB.TransactionHistory = function( configs ) {
 
 		// If the image download fails.
 		fail = function() {
-			$redownload_td.html( 'Image not available' );
+			$td.html( 'Image not available' );
 		};
 
 		// If the image download is successful.
@@ -212,7 +213,7 @@ IMHWPB.TransactionHistory = function( configs ) {
 					response.attachment_id +
 					"&action=edit'>View Image</a>";
 
-				$redownload_td.html( view_image_link );
+				$td.html( view_image_link );
 			} else {
 				fail();
 			}
@@ -421,4 +422,4 @@ IMHWPB.TransactionHistory = function( configs ) {
 	};
 };
 
-new IMHWPB.TransactionHistory(IMHWPB.configs);
+new IMHWPB.TransactionHistory( IMHWPB.configs, jQuery );
