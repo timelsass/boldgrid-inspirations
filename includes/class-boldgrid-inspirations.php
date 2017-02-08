@@ -227,7 +227,7 @@ class Boldgrid_Inspirations {
 	 * @return null
 	 */
 	private function check_auto_update() {
-		if ( ! defined( 'DOING_CRON' ) || ! DOING_CRON ){
+		if ( ! defined( 'DOING_CRON' ) || ! DOING_CRON ) {
 			return;
 		}
 

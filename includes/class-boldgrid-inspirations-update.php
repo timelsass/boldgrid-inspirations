@@ -81,9 +81,7 @@ class Boldgrid_Inspirations_Update {
 	/**
 	 * Constructor.
 	 *
-	 * @global $pagenow The current WordPress page filename.
-	 *
-	 * @param object $boldgrid_inspirations The BoldGrid Inspirations object (optional).
+	 * @param object $boldgrid_inspirations The BoldGrid_Inspirations object (optional).
 	 */
 	public function __construct( $boldgrid_inspirations ) {
 		// Set the BoldGrid configuration array.
@@ -95,104 +93,94 @@ class Boldgrid_Inspirations_Update {
 			self::set_configs();
 		}
 
+		$this->add_hooks();
+	}
+
+	/**
+	 * Adds filters for plugin update hooks.
+	 *
+	 * @since 1.3.8
+	 */
+	public function add_hooks() {
+		$is_cron = ( defined( 'DOING_CRON' ) && DOING_CRON );
 		$is_wpcli = ( defined( 'WP_CLI' ) && WP_CLI );
 
-		// Only for wp-admin.
-		if ( is_admin() || $is_wpcli ) {
-
-			// Get the current WordPress page filename.
-			global $pagenow;
-
-			// Make an array of plugin update pages.
-			$plugin_update_pages = array(
-				'plugins.php',
-				'update-core.php',
-			);
-
-			// Is page for plugin information?
-			$is_plugin_information = ( 'plugin-install.php' === $pagenow && isset( $_GET['plugin'] ) &&
-				 'boldgrid-inspirations' === $_GET['plugin'] && isset( $_GET['tab'] ) &&
-				 'plugin-information' === $_GET['tab'] );
-
-			// Is this a plugin update action?
-			$is_plugin_update = ( isset( $_REQUEST['action'] ) &&
-				 'update-plugin' === $_REQUEST['action'] && 'admin-ajax.php' === $pagenow );
-
+		if ( $is_cron || $is_wpcli || is_admin() ) {
 			// Add filters to modify plugin update transient information.
-			if ( in_array( $pagenow, $plugin_update_pages, true ) || $is_plugin_information ||
-				$is_plugin_update || $is_wpcli ) {
-					add_filter( 'pre_set_site_transient_update_plugins',
-						array(
-							$this,
-							'custom_plugins_transient_update',
-						)
-					);
-
-					add_filter( 'plugins_api',
-						array(
-							$this,
-							'custom_plugins_transient_update',
-						)
-					);
-
-					// Force WP to check for updates, don't rely on cache / transients.
-					add_filter( 'site_transient_update_plugins',
-						array(
-							$this,
-							'site_transient_update_plugins',
-						)
-					);
-			}
-
-			// Make an array of theme update pages.
-			$theme_update_pages = array(
-				'themes.php',
-				'update-core.php',
-				'update.php',
+			add_filter( 'plugins_api',
+				array(
+					$this,
+					'custom_plugins_transient_update',
+				), 11
 			);
 
-			// Is this a theme upgrade action?
-			$is_theme_upgrade = ( isset( $_REQUEST['action'] ) &&
-				 'upgrade-theme' === $_REQUEST['action'] && 'update.php' === $pagenow );
+			add_filter( 'site_transient_update_plugins',
+				array(
+					$this,
+					'site_transient_update_plugins',
+				), 11
+			);
 
-			// Is this a plugin update action?
-			$is_theme_update = ( isset( $_REQUEST['action'] ) &&
-				'update-theme' === $_REQUEST['action'] && 'admin-ajax.php' === $pagenow );
+			add_filter( 'pre_set_site_transient_update_plugins',
+				array(
+					$this,
+					'custom_plugins_transient_update',
+				), 11
+			);
 
-			// Add filters to modify theme update transient information.
-			if ( in_array( $pagenow, $theme_update_pages, true ) || $is_theme_upgrade ||
-				$is_theme_update ) {
-				add_filter( 'pre_set_site_transient_update_themes',
-					array(
-						$this,
-						'custom_themes_transient_update',
-					)
-				);
-
-				add_filter( 'site_transient_update_themes',
-					array(
-						$this,
-						'custom_themes_transient_update',
-					)
-				);
+			if ( $is_cron ){
+				$this->wpcron();
 			}
+
+			add_filter( 'pre_set_site_transient_update_themes',
+				array(
+					$this,
+					'custom_themes_transient_update',
+				), 11
+			);
+
+			add_filter( 'site_transient_update_themes',
+				array(
+					$this,
+					'custom_themes_transient_update',
+				), 11
+			);
+
+			// If on the dashboard, then check if there is an admin notice to display.
+			add_action( 'admin_head-index.php',
+				array(
+					$this,
+					'display_notices',
+				)
+			);
+
+			// Check and update the current and previous version options.
+			add_action( 'admin_init',
+				array(
+					$this,
+					'update_version_options',
+				)
+			);
+		}
+	}
+
+	/**
+	 * WP-CRON init.
+	 *
+	 * @since 1.3.8
+	 */
+	public function wpcron() {
+		// Ensure required definitions for pluggable.
+		if ( ! defined( 'AUTH_COOKIE' ) ) {
+			define( 'AUTH_COOKIE', null );
 		}
 
-		// If on the dashboard, then check if there is an admin notice to display.
-		add_action( 'admin_head-index.php',
-			array(
-				$this,
-				'display_notices',
-			)
-		);
+		if ( ! defined( 'LOGGED_IN_COOKIE' ) ) {
+			define( 'LOGGED_IN_COOKIE', null );
+		}
 
-		// Check and update the current and previous version options.
-		add_action( 'admin_init',
-			array(
-				$this,
-				'update_version_options',
-			)
-		);
+		// Load the pluggable class, if needed.
+		require_once ABSPATH . 'wp-includes/pluggable.php';
 	}
 
 	/**
@@ -326,6 +314,7 @@ class Boldgrid_Inspirations_Update {
 	 * Update the plugin update transient.
 	 *
 	 * @global $pagenow The current WordPress page filename.
+	 * @global $wp_version The WordPress version.
 	 *
 	 * @param object $transient WordPress plugin update transient object.
 	 * @return object $transient
@@ -353,8 +342,14 @@ class Boldgrid_Inspirations_Update {
 			return $transient;
 		}
 
-		// Get the current WordPress page filename.
+		// Get the current WordPress page filename and WP version.
 		global $pagenow;
+		global $wp_version;
+
+		$plugin_data = get_plugin_data(
+			BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php',
+			false
+		);
 
 		// Create a new object to be injected into transient.
 		if ( 'plugin-install.php' === $pagenow && isset( $_GET['plugin'] ) &&
@@ -398,8 +393,10 @@ class Boldgrid_Inspirations_Update {
 			// $transient->downloaded = $boldgrid_api_data->result->data->downloads;
 			$transient->last_updated = $boldgrid_api_data->result->data->release_date;
 			$transient->download_link = $boldgrid_configs['asset_server'] .
-				 $boldgrid_configs['ajax_calls']['get_asset'] . '?key=' .
-				 $boldgrid_configs['api_key'] . '&id=' . $boldgrid_api_data->result->data->asset_id;
+				$boldgrid_configs['ajax_calls']['get_asset'] . '?key=' .
+				$boldgrid_configs['api_key'] . '&id=' . $boldgrid_api_data->result->data->asset_id .
+				'&installed_plugin_version=' . $plugin_data['Version'] . '&installed_wp_version=' .
+				$wp_version;
 
 			if ( ! empty( $boldgrid_api_data->result->data->compatibility ) &&
 				null !== ( $compatibility = json_decode( $boldgrid_api_data->result->data->compatibility, true ) ) ) {
@@ -437,7 +434,7 @@ class Boldgrid_Inspirations_Update {
 			$transient->new_version = $boldgrid_api_data->result->data->version;
 			// $transient->active_installs = false;
 		} else {
-			// For plugins.php and update-core.php pages, and DOING_CRON.
+			// For all other calls.
 			$obj = new stdClass();
 			$obj->slug = 'boldgrid-inspirations';
 			$obj->plugin = 'boldgrid-inspirations/boldgrid-inspirations.php';
@@ -448,17 +445,14 @@ class Boldgrid_Inspirations_Update {
 			}
 
 			$obj->package = $boldgrid_configs['asset_server'] .
-				 $boldgrid_configs['ajax_calls']['get_asset'] . '?key=' .
-				 $boldgrid_configs['api_key'] . '&id=' . $boldgrid_api_data->result->data->asset_id;
-
-			$plugin_data = get_plugin_data(
-				BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php',
-				false
-			);
+				$boldgrid_configs['ajax_calls']['get_asset'] . '?key=' .
+				$boldgrid_configs['api_key'] . '&id=' . $boldgrid_api_data->result->data->asset_id .
+				'&installed_plugin_version=' . $plugin_data['Version'] . '&installed_wp_version=' .
+				$wp_version;
 
 			if ( $plugin_data['Version'] !== $boldgrid_api_data->result->data->version ) {
-				$obj->tested = $boldgrid_api_data->result->data->tested_wp_version;
 				$transient->response[ $obj->plugin ] = $obj;
+				$transient->tested = $boldgrid_api_data->result->data->tested_wp_version;
 			} else {
 				$transient->no_update[ $obj->plugin ] = $obj;
 			}

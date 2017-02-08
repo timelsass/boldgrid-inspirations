@@ -2,7 +2,7 @@
 Contributors: imh_brad, joemoto, rramo012, timph
 Tags: inspiration,customization,build,create,design
 Requires at least: 4.3
-Tested up to: 4.7.1
+Tested up to: 4.7.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -30,6 +30,9 @@ The second phase is Customization; tools to transform your website into your vis
 3. You will find the Inspirations menu in your WordPress Dashboard / admin panel.
 
 == Changelog ==
+
+= 1.3.8 In progress =
+* Bug fix:		JIRA WPB-2892	Fixed plugin update checks for some scenarios (WP-CLI, Plesk, etc).
 
 = 1.3.7 =
 * Update:		JIRA WPB-2819	Use switch instead of checkbox for Demo.

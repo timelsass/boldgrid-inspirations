@@ -193,11 +193,12 @@ class Boldgrid_Inspirations_Inspiration extends Boldgrid_Inspirations {
 		$boldgrid_theme_install = new Boldgrid_Inspirations_Theme_Install( $this->configs );
 		$boldgrid_theme_install->add_hooks();
 
+		$is_cron = ( defined( 'DOING_CRON' ) && DOING_CRON );
 		$is_wpcli = ( defined( 'WP_CLI' ) && WP_CLI );
 
-		if ( is_admin() || $is_wpcli ) {
+		if ( $is_cron || $is_wpcli || is_admin() ) {
 			require_once BOLDGRID_BASE_DIR .
-			'/includes/class-boldgrid-inspirations-update.php';
+				'/includes/class-boldgrid-inspirations-update.php';
 
 			$plugin_update = new Boldgrid_Inspirations_Update( $this );
 		}
