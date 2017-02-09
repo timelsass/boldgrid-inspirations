@@ -31,7 +31,7 @@ The second phase is Customization; tools to transform your website into your vis
 
 == Changelog ==
 
-= 1.3.8 In progress =
+= 1.3.8 =
 * Bug fix:		JIRA WPB-2892	Fixed plugin update checks for some scenarios (WP-CLI, Plesk, etc).
 * Update:		JIRA WPB-2900	Update verbiage of build coin cost.
 * Bug fix:		JIRA WPB-2901	Scroll bars not visible on preview iframe in Chrome.
