@@ -1051,11 +1051,13 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 */
 	this.iframeLoad = function() {
 		self.$themePreview.on( 'load', function() {
-			var $iframe = $( this );
+			var buildCost = $( this ).attr( 'data-build-cost' ),
+				cost = ( '0' === buildCost ? '0 ' : '0 - ' + buildCost + ' ' ) + Inspiration.coins;
+
 			$( '#screen-content .boldgrid-loading' ).fadeOut( function() {
 				self.allActions( 'enable' );
 				$( '#build-cost' )
-					.html( $iframe.attr( 'data-build-cost' ) + ' Coins' )
+					.html( cost )
 					.animate( { opacity: 1 }, 400 );
 
 				self.$themePreview.css( 'visibility', 'visible' );

@@ -470,6 +470,7 @@ class Boldgrid_Inspirations_Built {
 			array(
 				'active' => 'Active',
 				'staging' => 'Staging',
+				'coins' => __( 'Coins', 'boldgrid-inspirations' ),
 				'fetchingThemes' => __( 'Fetching themes...', 'boldgrid-inspirations' ),
 				'fetchingCategories' => __( 'Fetching categories...', 'boldgrid-inspirations' ),
 				'errorFetchingThemes' => __( 'There was an error fetching themes.', 'boldgrid-inspirations' ),
