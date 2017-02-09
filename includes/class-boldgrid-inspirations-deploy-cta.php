@@ -59,8 +59,8 @@ class Boldgrid_Inspirations_Deploy_Cta {
 	 * @access public
 	 */
 	public function add_hooks() {
-		add_filter( 'boldgrid_deployment_pre_insert_post', array( $this, 'has_cta' ) );
-		add_action( 'boldgrid_deployment_deploy_theme_pre_return', array( $this, 'set_theme_mod' ) );
+		// add_filter( 'boldgrid_deployment_pre_insert_post', array( $this, 'has_cta' ) );
+		// add_action( 'boldgrid_deployment_deploy_theme_pre_return', array( $this, 'set_theme_mod' ) );
 	}
 
 	/**

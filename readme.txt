@@ -35,6 +35,7 @@ The second phase is Customization; tools to transform your website into your vis
 * Bug fix:		JIRA WPB-2892	Fixed plugin update checks for some scenarios (WP-CLI, Plesk, etc).
 * Update:		JIRA WPB-2900	Update verbiage of build coin cost.
 * Bug fix:		JIRA WPB-2901	Scroll bars not visible on preview iframe in Chrome.
+* Bug fix:                      Removing CTA hooks.
 
 = 1.3.7 =
 * Update:		JIRA WPB-2819	Use switch instead of checkbox for Demo.
