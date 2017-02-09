@@ -1377,7 +1377,8 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 * @since 1.3
 	 */
 	this.toggleStep = function( step ) {
-		var $thisStep = $( '[data-step="' + step + '"]' );
+		var $thisStep = $( '[data-step="' + step + '"]' ),
+			previewHeight = 'content' === step ? '100%' : '99%';
 
 		/*
 		 * Once you've been to a step, remove it's disabled settings.
@@ -1417,6 +1418,16 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 				self.$topMenu.removeClass( 'design' ).addClass('content');
 				break;
 		}
+
+		/*
+		 * Ensure preview iframe has scrollbars.
+		 *
+		 * Issue appears to be due to this Chrome bug:
+		 * https://bugs.chromium.org/p/chromium/issues/detail?id=641881
+		 *
+		 * Essentially we're changing the height from 99% to 100%, which gets them showing again.
+		 */
+		self.$themePreview.css( 'height', previewHeight );
 	};
 
 	/**
