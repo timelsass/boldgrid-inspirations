@@ -34,6 +34,9 @@ The second phase is Customization; tools to transform your website into your vis
 
 ## Changelog ##
 
+### 1.3.9 In progress ###
+* Bug fix:		JIRA WPB-2905	If installing via Author, do not update pages with survey data.
+
 ### 1.3.8 ###
 * Bug fix:		JIRA WPB-2892	Fixed plugin update checks for some scenarios (WP-CLI, Plesk, etc).
 * Update:		JIRA WPB-2900	Update verbiage of build coin cost.

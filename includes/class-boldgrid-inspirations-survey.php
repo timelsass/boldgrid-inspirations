@@ -29,6 +29,13 @@ class Boldgrid_Inspirations_Survey {
 	public $data_removal_key = 'data-removal-key';
 
 	/**
+	 * Whether or not we are deploying as an author.
+	 *
+	 * @since 1.3.9
+	 */
+	public $is_author = false;
+
+	/**
 	 * The option name survey data is stored.
 	 *
 	 * @since 1.3.5
@@ -36,11 +43,29 @@ class Boldgrid_Inspirations_Survey {
 	public static $option = 'boldgrid_survey';
 
 	/**
+	 * Constructor.
+	 *
+	 * @since 1.3.9
+	 */
+	public function __construct() {
+		// Defined in the same manner as Boldgrid_Inspirations_Deploy.
+		$this->is_author = isset( $_POST['author_type'] ) ? true : false;
+	}
+
+	/**
 	 * Add hooks.
 	 *
 	 * @since 1.3.4
 	 */
 	public function add_hooks() {
+		/*
+		 * An author should get the raw site as delivered by the asset server. We won't be changing
+		 * anything in the framework or modifying any of the page content.
+		 */
+		if( $this->is_author ) {
+			return;
+		}
+
 		add_filter( 'boldgrid_theme_framework_config', array( $this, 'bgtfw_config' ), 15 );
 
 		add_filter( 'boldgrid_deployment_pre_insert_post', array( $this, 'update_post' ) );
