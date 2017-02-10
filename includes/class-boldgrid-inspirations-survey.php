@@ -288,7 +288,7 @@ class Boldgrid_Inspirations_Survey {
 
 					switch( $data['on_success'] ) {
 						case 'node_value':
-							$node->nodeValue = $data['value'];
+							@$node->nodeValue = $data['value'];
 							break;
 						case 'remove_children':
 							while( $node->hasChildNodes() ) {
@@ -466,6 +466,9 @@ class Boldgrid_Inspirations_Survey {
 					$sanitized_value = stripslashes( $sanitized_value );
 					break;
 			}
+
+			// Avoid DOMDocument warnings triggered by invalid HTML.
+			$sanitized_value = htmlspecialchars( $sanitized_value );
 
 			// If empty after sanitizing, continue.
 			if( empty( $sanitized_value ) ) {
@@ -646,7 +649,7 @@ class Boldgrid_Inspirations_Survey {
 			 * phone number. Otherwise, flag the widget to be deleted.
 			 */
 			if( $display_phone && ! is_null( $phone ) ) {
-				$phone_number->nodeValue = $phone;
+				@$phone_number->nodeValue = $phone;
 			} else {
 				$widget['delete'] = true;
 			}
