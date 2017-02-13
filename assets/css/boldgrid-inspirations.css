@@ -450,8 +450,6 @@ http://ivomynttinen.com/blog/the-ios-design-cheat-sheet-volume-2
 	color: #666;
 }
 
-/* 
-
 /**
 * There are different reasons why icons in the social media index are disabled. The
 * disabled-via-toggle class signifies that the user checked "Do not display".
@@ -465,6 +463,10 @@ http://ivomynttinen.com/blog/the-ios-design-cheat-sheet-volume-2
 .survey-field .fa-times {
 	color: red;
 	cursor: pointer;
+}
+
+.invalid {
+	color: red;
 }
 
 /**

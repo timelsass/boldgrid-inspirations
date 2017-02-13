@@ -471,6 +471,10 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 
 		// Step 3 Skip button.
 		$( '#screen-contact .button-primary' ).on( 'click', function() {
+			if( ! self.validateContact() ) {
+				return;
+			}
+
 			self.toggleStep( 'install' );
 			self.toggleConfirmationNotes();
 		});
@@ -1473,6 +1477,38 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 
 		$( 'img.lazy' ).lazyload({threshold : 400});
 	};
+
+	/**
+	 * @summary Validate the survey.
+	 *
+	 * Currently only validates the email address.
+	 *
+	 * @since 1.3.9
+	 */
+	this.validateContact = function() {
+		var $email = $( '[name*=survey\\[email\\]\\[value\\]]' ),
+			displayEmail = false === $( '[name*=survey\\[email\\]\\[do-not-display\\]]' ).is( ':checked' ),
+			$invalidMessage = $email.closest( '.survey-field' ).find( '.invalid' ),
+			validEmail;
+
+		// Trim all text inputs.
+		$( '.survey-field' ).findAndTrim();
+
+		isValidEmail = BoldGrid.Utility.validateEmail( $email.val() );
+
+		// The user does not want to display their email address, don't worry about validating it.
+		if( ! displayEmail ) {
+			return true;
+		}
+
+		if( isValidEmail ) {
+			$invalidMessage.hide();
+		} else {
+			$invalidMessage.show();
+		}
+
+		return isValidEmail;
+	}
 
 	$( function() {
 		self.init();

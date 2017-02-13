@@ -231,6 +231,21 @@ BoldGrid.Utility = {
 	 */
 	ucfirst: function( str ) {
 		return str.charAt(0).toUpperCase() + str.substr(1);
+	},
+
+	/**
+	 * Validate an email address.
+	 *
+	 * @since 1.3.9
+	 *
+	 * @link http://stackoverflow.com/questions/46155/validate-email-address-in-javascript
+	 *
+	 * @param  string $email
+	 * @return bool
+	 */
+	validateEmail: function( email ) {
+	    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+	    return re.test( email );
 	}
 };
 
@@ -253,4 +268,26 @@ jQuery.fn.toggleDisabled = function() {
     return this.each( function() {
         this.disabled = !this.disabled;
     });
+};
+
+/**
+ * @summary Trim a value.
+ *
+ * @since 1.3.9
+ */
+jQuery.fn.trimVal = function() {
+	this.val( this.val().trim() );
+};
+
+/**
+ * @summary Find all values and trim them.
+ *
+ * @since 1.3.9
+ */
+jQuery.fn.findAndTrim = function() {
+	this.each( function() {
+		jQuery(this).find( 'input[type=text]' ).each( function() {
+			jQuery(this).trimVal();
+		})
+	});
 };

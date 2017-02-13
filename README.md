@@ -37,6 +37,7 @@ The second phase is Customization; tools to transform your website into your vis
 ### 1.3.9 In progress ###
 * Bug fix:		JIRA WPB-2905	If installing via Author, do not update pages with survey data.
 * Bug fix:		JIRA WPB-2910	Unterminated entity reference bug.
+* Update:		JIRA WPB-2913	Validate email address in survey.
 
 ### 1.3.8 ###
 * Bug fix:		JIRA WPB-2892	Fixed plugin update checks for some scenarios (WP-CLI, Plesk, etc).

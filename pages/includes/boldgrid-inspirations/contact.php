@@ -12,6 +12,7 @@ $lang = array(
 	'Show_fewer' => __( 'Show fewer', 'boldgrid-inspirations' ),
 	'Show_more' => __( 'Show more', 'boldgrid-inspirations' ),
 	'Social_media' => __( 'Social Media', 'boldgrid-inspirations' ),
+	'Valid_email' => __( 'Please enter a valid email address.', 'boldgrid-inspirations' ),
 );
 
 $networks = require BOLDGRID_BASE_DIR . '/includes/config/networks.config.php';
@@ -77,6 +78,7 @@ $blogname = get_option( 'blogname' );
 			<span class='title'><?php echo $lang['Email']; ?></span>
 			<div class='option'><?php echo $lang['Do_not_display']; ?> <input type="checkbox" name="survey[email][do-not-display]" /></div>
 			<input class='main-input' type='text' name="survey[email][value]" value="<?php echo esc_attr( $user_email ); ?>" />
+			<div class='invalid hidden'><?php echo $lang['Valid_email']; ?></div>
 		</div>
 
 		<div class='survey-field'>
