@@ -477,8 +477,10 @@ class Boldgrid_Inspirations_Built {
 				'errorFetchingCategories' => __( 'There was an error fetching categories.', 'boldgrid-inspirations' ),
 				'errorFetchingPagesets' => __( 'There was an error fetching pagesets.', 'boldgrid-inspirations' ),
 				'errorBuildingPreview' => __( 'There was an error building your custom website preview.', 'boldgrid-inspirations' ),
+				'previewTimeout' => __( 'Connection timed out when attempting to load custom website preview.', 'boldgrid-inspirations' ),
 				'select' => __( 'Select', 'boldgrid-inspirations' ),
 				'tryFewMinutes' => __( 'Please try again in a few minutes.', 'boldgrid-inspirations' ),
+				'tryFewSeconds' => __( 'Please try again in a few seconds.', 'boldgrid-inspirations' ),
 				'tryAgain' => __( 'Try again', 'boldgrid-inspirations' ),
 			)
 		);

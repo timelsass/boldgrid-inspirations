@@ -1284,8 +1284,9 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 * @since 1.2.3
 	 */
 	this.loadBuild = function() {
-		var data, successAction,
+		var data, successAction, failAction,
 			failureMessage = Inspiration.errorBuildingPreview + ' ' + Inspiration.tryFewMinutes,
+			timeoutMessage = Inspiration.previewTimeout + ' ' + Inspiration.tryFewSeconds,
 			tryAgainButton = '<button class="button" id="try-build-again">' + Inspiration.tryAgain + '</button>',
 			// Should our request for a build be for a generic build?
 			requestGeneric = false,
@@ -1318,6 +1319,12 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		self.$themePreview.css( 'visibility', 'hidden' );
 		$( '#screen-content .boldgrid-loading' ).fadeIn();
 
+		failAction = function( msg ) {
+			if( 'timeout' === msg.statusText ) {
+				self.loadBuildFail( timeoutMessage + '<br />' + tryAgainButton );
+			}
+		}
+
 		successAction = function( msg ) {
 			var $screenContent = $( '#screen-content' ),
 				$iframe = $screenContent.find( 'iframe#theme-preview' ),
@@ -1329,10 +1336,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			 * Else, load the preview for them.
 			 */
 			if( 200 !== msg.status ) {
-				$( '#screen-content .boldgrid-loading' ).fadeOut( function() {
-					self.$contentNotices.html( failureMessage + '<br />' + tryAgainButton );
-					self.allActions( 'enable' );
-				});
+				self.loadBuildFail( failureMessage + '<br />' + tryAgainButton );
 				return;
 			} else {
 				url = msg.result.data.profile.preview_url;
@@ -1372,8 +1376,22 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		$( '[name=boldgrid_pde]' ).val( data.pde );
 		$( '[name=coin_budget]' ).val( data.coin_budget );
 
-		self.ajax.ajaxCall( data, 'get_build_profile', successAction );
+		self.ajax.ajaxCall( data, 'get_build_profile', successAction, failAction );
 	};
+
+	/**
+	 * @summary Build preview failed to load.
+	 *
+	 * @since 1.3.9
+	 *
+	 * @param string Notice to display to user.
+	 */
+	this.loadBuildFail = function( notice ) {
+		$( '#screen-content .boldgrid-loading' ).fadeOut( function() {
+			self.$contentNotices.html( notice );
+			self.allActions( 'enable' );
+		});
+	}
 
 	/**
 	 * Toggle steps.
