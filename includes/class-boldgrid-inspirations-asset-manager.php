@@ -148,6 +148,8 @@ class Boldgrid_Inspirations_Asset_Manager extends Boldgrid_Inspirations {
 					$this,
 					'boldgrid_gridblock_insert_dynamic_images'
 				) );
+
+			add_filter( 'delete_attachment', array( $this, 'delete_attachment' ) );
 		}
 	}
 
@@ -471,6 +473,32 @@ class Boldgrid_Inspirations_Asset_Manager extends Boldgrid_Inspirations {
 		}
 
 		return $boldgrid_dynamic_images;
+	}
+
+	/**
+	 * Action taken when an attachment is deleted.
+	 *
+	 * When an attachment is deleted, remove the attachment from the asset array option.
+	 *
+	 * @since 1.3.9
+	 *
+	 * @param int $post_id An attachment id.
+	 */
+	public function delete_attachment( $post_id ) {
+		$asset = $this->get_asset(
+			array (
+				'by' => 'attachment_id',
+				'attachment_id' => $post_id
+			) );
+
+		if( $asset ) {
+			$this->update_asset( array(
+				'task' => 'delete_attachment',
+				'asset_type' => 'image',
+				'attachment_id' => $post_id,
+				'asset_id' => $asset[ 'asset_id' ],
+			));
+		}
 	}
 
 	/**
@@ -1454,6 +1482,18 @@ class Boldgrid_Inspirations_Asset_Manager extends Boldgrid_Inspirations {
 							// Save our updated assets.
 							update_option( $option_name, $assets );
 
+							return true;
+						}
+					}
+				}
+				break;
+
+			case 'delete_attachment':
+				foreach ( $assets as $asset_type => $array_of_assets ) {
+					foreach ( $array_of_assets as $asset_key => $asset ) {
+						if ( $asset['attachment_id'] == $params['attachment_id'] ) {
+							unset( $assets[ $asset_type ][$asset_key]);
+							update_option( $option_name, $assets );
 							return true;
 						}
 					}
