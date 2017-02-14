@@ -325,8 +325,11 @@ class Boldgrid_Inspirations_Start_Over {
 		if( $this->start_over_active ) {
 			do_action( 'boldgrid_framework_reset', true );
 		}
+
 		if( $this->start_over_staging ) {
+			update_option( 'boldgrid_force_staging', '1' );
 			do_action( 'boldgrid_framework_reset', false );
+			delete_option( 'boldgrid_force_staging' );
 		}
 
 		// Make sure option is reset if theme not active
