@@ -35,6 +35,7 @@ The second phase is Customization; tools to transform your website into your vis
 ## Changelog ##
 
 ### 1.3.9 In progress ###
+* Bug fix:		JIRA WPB-2916	Inspirations deploy fatal error if an old forked plugin had the original installed.
 * Bug fix:		JIRA WPB-2905	If installing via Author, do not update pages with survey data.
 * Bug fix:		JIRA WPB-2910	Unterminated entity reference bug.
 * Update:		JIRA WPB-2913	Validate email address in survey.
