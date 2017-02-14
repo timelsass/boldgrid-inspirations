@@ -433,8 +433,7 @@ class Boldgrid_Inspirations_Update {
 			$transient->version = $boldgrid_api_data->result->data->version;
 			$transient->new_version = $boldgrid_api_data->result->data->version;
 			// $transient->active_installs = false;
-		} else {
-			// For all other calls.
+		} elseif ( ! in_array( $pagenow, array( 'plugin-install.php', 'admin-ajax.php' ), true ) ) {
 			$obj = new stdClass();
 			$obj->slug = 'boldgrid-inspirations';
 			$obj->plugin = 'boldgrid-inspirations/boldgrid-inspirations.php';

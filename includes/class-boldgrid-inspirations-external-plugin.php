@@ -5,7 +5,7 @@
  * @package Boldgrid_Inspirations_External_Plugin
  * @copyright BoldGrid.com
  * @version $Id$
- * @author BoldGrid.com <wpb@boldgrid.com>
+ * @author BoldGrid <support@boldgrid.com>
  */
 
 /**
@@ -76,7 +76,7 @@ class Boldgrid_Inspirations_External_Plugin {
 	 */
 	public function is_active( $plugin_name ) {
 		$all_active_plugins = $this->get_all_active_plugins();
-		return false !== array_search( $plugin_name, $all_active_plugins );
+		return ( false !== array_search( $plugin_name, $all_active_plugins, true ) );
 	}
 
 	/**

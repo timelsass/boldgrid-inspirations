@@ -5,7 +5,7 @@
  * @package Boldgrid_Inspirations_Deploy
  * @copyright BoldGrid.com
  * @version $Id$
- * @author BoldGrid.com <wpb@boldgrid.com>
+ * @author BoldGrid <support@boldgrid.com>
  */
 
 /**
@@ -2954,13 +2954,13 @@ class Boldgrid_Inspirations_Deploy {
 		$absolute_activation_path = $plugin_path . $activate_path;
 
 		if ( file_exists( $absolute_activation_path ) ) {
-			// Get the installed plugin data:
+			$plugin_version_already_exists = true;
+
 			$plugin_data = get_plugin_data( $absolute_activation_path );
 
-			// Compare versions:
 			$comparison = version_compare( $plugin_data['Version'], $version );
 
-			// Set flag and add to deploy log:
+			// Set flag and add to deploy log.
 			switch ( $comparison ) {
 				case - 1 :
 					// Older version installed.
@@ -2973,8 +2973,6 @@ class Boldgrid_Inspirations_Deploy {
 
 				case 0 :
 					// Current version installed.
-					$plugin_version_already_exists = true;
-
 					$this->add_to_deploy_log(
 						'Plugin version ' . $plugin_data['Version'] . ' is already installed.' );
 
@@ -2982,8 +2980,6 @@ class Boldgrid_Inspirations_Deploy {
 
 				case 1 :
 					// Newer version installed.
-					$plugin_version_already_exists = true;
-
 					$this->add_to_deploy_log(
 						'A newer version (' . $plugin_data['Version'] .
 							 ') of the plugin is already installed.' );
@@ -3003,38 +2999,38 @@ class Boldgrid_Inspirations_Deploy {
 		// Do not install plugins if the forked plugin exists:
 		$original_active_path = $activate_path; // <-- overwriting if activating forked plugin
 
-		// If the plugin needs to be installed, first check for a forked version:
-		if ( ! $plugin_version_already_exists &&
-			 ! empty( $full_plugin_data->forked_plugin_path ) ) {
-			if ( file_exists( $plugin_path . $full_plugin_data->forked_plugin_path ) ) {
-				// Check if forked plugin active:
+		$forked_plugin_active = false;
+
+		// Check for a forked version.
+		if ( ! empty( $full_plugin_data->forked_plugin_path ) &&
+			file_exists( $plugin_path . $full_plugin_data->forked_plugin_path ) ) {
 				$forked_plugin_active = $this->external_plugin->is_active(
 					$full_plugin_data->forked_plugin_path );
 
-				// Update settings:
 				$this->plugin_installation_data[$activate_path] = array (
 					'forked_plugin_active' => $forked_plugin_active,
 					'forked_plugin_exists' => true
 				);
 
-				$activate_path = $full_plugin_data->forked_plugin_path;
-				$plugin_version_already_exists = true;
-
-				// Add to deploy log:
 				$this->add_to_deploy_log(
-					'A fork of this plugin was found; skipping installation.' );
-			}
+					sprintf(
+						__( 'A fork (%s) was found ', 'boldgrid-inspirations' ),
+						$full_plugin_data->forked_plugin_path
+					) .
+					( $forked_plugin_active ?
+					__( 'active; skipping installation', 'boldgrid-inspirations' ) :
+					__( 'inactive', 'boldgrid-inspirations' )
+					) . '.'
+				);
 		}
 
-		// If the plugin still needs to be installed, then do it:
+		// If the plugin still needs to be installed, then do it.
 		if ( ! $plugin_version_already_exists ) {
-			// Install the plugin:
 			$upgrader = new Plugin_Upgrader(
 				new Plugin_Installer_Skin( compact( 'title', 'url', 'nonce', 'plugin', 'api' ) ) );
 
 			$upgrader->install( $url );
 
-			// Check result:
 			if ( is_object( $upgrader->skin->result ) &&
 				 ( is_wp_error( $upgrader->skin->result ) || false == $upgrader->skin->result ) ) {
 				$error_message = $upgrader->skin->result->get_error_message();
@@ -3047,29 +3043,33 @@ class Boldgrid_Inspirations_Deploy {
 			}
 		}
 
-		// Activate the plugin:
-		$this->add_to_deploy_log( 'Activating plugin...' );
+		$boldgrid_plugin_active = $this->external_plugin->is_active( $activate_path );
 
-		$result = activate_plugin( $activate_path );
+		// Activate the plugin, if the BoldGrid or forked plugins are not already active.
+		if ( ! $boldgrid_plugin_active && ! $forked_plugin_active ) {
+			$this->add_to_deploy_log( 'Activating plugin...' );
 
-		// Check for activation error:
-		if ( is_wp_error( $result ) ) {
-			// LOG:
-			error_log(
-				__METHOD__ . ': Error: Plugin activation failed! ' . print_r(
-					array (
-						'$activate_path' => $activate_path,
-						'$result' => $result
-					), true ) );
-		} elseif ( $this->plugin_installation_data[$original_active_path]['forked_plugin_exists'] &&
-			 false == $forked_plugin_active ) {
-			/*
-			 * In the case that the activation of this plugin was a success and the plugin was a
-			 * fork, set "forked_plugin_activated" so that we can display a message to the user
-			 */
-			$this->plugin_installation_data[$original_active_path]['forked_plugin_activated'] = true;
-		} else {
-			$this->add_to_deploy_log( 'Plugin activation complete.' );
+			$result = activate_plugin( $activate_path );
+
+			// Check for activation error:
+			if ( is_wp_error( $result ) ) {
+				// LOG:
+				error_log(
+					__METHOD__ . ': Error: Plugin activation failed! ' . print_r(
+						array (
+							'$activate_path' => $activate_path,
+							'$result' => $result
+						), true ) );
+			} elseif ( $this->plugin_installation_data[$original_active_path]['forked_plugin_exists'] &&
+				 false == $forked_plugin_active ) {
+				/*
+				 * In the case that the activation of this plugin was a success and the plugin was a
+				 * fork, set "forked_plugin_activated" so that we can display a message to the user
+				 */
+				$this->plugin_installation_data[$original_active_path]['forked_plugin_activated'] = true;
+			} else {
+				$this->add_to_deploy_log( 'Plugin activation complete.' );
+			}
 		}
 	}
 
