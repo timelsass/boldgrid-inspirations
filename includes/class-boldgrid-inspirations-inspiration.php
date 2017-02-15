@@ -422,6 +422,7 @@ public function include_admin_files() {
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-attribution-page.php';
 
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-deploy-cta.php';
+	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-deploy-metadata.php';
 }
 
 /**

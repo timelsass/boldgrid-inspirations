@@ -40,6 +40,7 @@ The second phase is Customization; tools to transform your website into your vis
 * Bug fix:		JIRA WPB-2404	iframe timeout in step 2 of Inspirations.
 * Bug fix:		JIRA WPB-2173	Error deleting image and redownloading.
 * Bug fix:		JIRA WPB-2635	Start over staging affecting active site.
+* Bug fix:		JIRA WPB-2493	Publish private posts during staging deployment.
 
 = 1.3.8 =
 * Bug fix:		JIRA WPB-2892	Fixed plugin update checks for some scenarios (WP-CLI, Plesk, etc).
