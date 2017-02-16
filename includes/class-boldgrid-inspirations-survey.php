@@ -491,6 +491,10 @@ class Boldgrid_Inspirations_Survey {
 		// Sanitize social urls.
 		foreach( $survey['social'] as $icon => $url ) {
 			$url = $this->prepend_protocol( $url );
+
+			// If the user did not update URLs, avoid this error https://twitter.com/username
+			$url = preg_replace( '/\/username$/', '', $url );
+
 			$sanitized_survey['social'][$icon] = esc_url_raw( $url );
 		}
 

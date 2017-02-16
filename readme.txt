@@ -41,6 +41,7 @@ The second phase is Customization; tools to transform your website into your vis
 * Bug fix:		JIRA WPB-2173	Error deleting image and redownloading.
 * Bug fix:		JIRA WPB-2635	Start over staging affecting active site.
 * Bug fix:		JIRA WPB-2493	Publish private posts during staging deployment.
+* Bug fix:		JIRA WPB-2796	Social media urls end in /username, go to 404s.
 
 = 1.3.8 =
 * Bug fix:		JIRA WPB-2892	Fixed plugin update checks for some scenarios (WP-CLI, Plesk, etc).
