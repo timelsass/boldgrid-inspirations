@@ -275,7 +275,7 @@ jQuery.fn.toggleDisabled = function() {
  *
  * @since 1.3.9
  */
-jQuery.fn.trimVal = function() {
+jQuery.fn.boldgridTrimVal = function() {
 	this.val( this.val().trim() );
 };
 
@@ -284,10 +284,10 @@ jQuery.fn.trimVal = function() {
  *
  * @since 1.3.9
  */
-jQuery.fn.findAndTrim = function() {
+jQuery.fn.boldgridFindAndTrim = function() {
 	this.each( function() {
 		jQuery(this).find( 'input[type=text]' ).each( function() {
-			jQuery(this).trimVal();
-		})
+			jQuery(this).boldgridTrimVal();
+		});
 	});
 };

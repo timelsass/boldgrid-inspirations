@@ -1507,10 +1507,10 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		var $email = $( '[name*=survey\\[email\\]\\[value\\]]' ),
 			displayEmail = false === $( '[name*=survey\\[email\\]\\[do-not-display\\]]' ).is( ':checked' ),
 			$invalidMessage = $email.closest( '.survey-field' ).find( '.invalid' ),
-			validEmail;
+			isValidEmail;
 
 		// Trim all text inputs.
-		$( '.survey-field' ).findAndTrim();
+		$( '.survey-field' ).boldgridFindAndTrim();
 
 		isValidEmail = BoldGrid.Utility.validateEmail( $email.val() );
 
