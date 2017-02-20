@@ -66,6 +66,8 @@ class Boldgrid_Inspirations_Survey {
 			return;
 		}
 
+		add_filter( 'boldgrid_theme_framework_config', array( $this, 'bgtfw_config' ), 15 );
+
 		add_filter( 'boldgrid_deployment_pre_insert_post', array( $this, 'update_post' ) );
 	}
 

@@ -360,16 +360,6 @@ class Boldgrid_Inspirations_Theme_Install {
 				return $boldgrid_theme_configs;
 			}
 		);
-
-		add_filter(
-			'boldgrid_theme_framework_config',
-			function( $boldgrid_theme_configs ) {
-				$survey = new Boldgrid_Inspirations_Survey();
-				$boldgrid_theme_configs = $survey->bgtfw_config( $boldgrid_theme_configs );
-
-				return $boldgrid_theme_configs;
-			}
-		);
 	}
 
 	/**
