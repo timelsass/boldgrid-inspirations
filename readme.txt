@@ -31,6 +31,9 @@ The second phase is Customization; tools to transform your website into your vis
 
 == Changelog ==
 
+= 1.4 In Progress =
+* Update:		JIRA WPB-2936	Updating YouTube videos for BoldGrid Dashboard's new release.
+
 = 1.3.9 =
 * Bug fix:		JIRA WPB-2912	Fixed issue when installing plugins from the Tools Import page.
 * Bug fix:		JIRA WPB-2916	Inspirations deploy fatal error if an old forked plugin had the original installed.
