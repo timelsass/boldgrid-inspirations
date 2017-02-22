@@ -1211,6 +1211,9 @@ class Boldgrid_Inspirations_Deploy {
 			$this->assign_menu_id_to_all_locations( $menu_id );
 
 			if( $this->install_blog ) {
+				$this->blog = new Boldgrid_Inspirations_Blog();
+				$this->blog->create_category();
+				$this->set_permalink_structure( '/%category%/%postname%/' );
 				$this->blog->create_menu_item( $this->primary_menu_id, 150 );
 			}
 		}
@@ -3664,12 +3667,6 @@ class Boldgrid_Inspirations_Deploy {
 
 		// Process the survey.
 		$this->survey->deploy();
-
-		if( $this->install_blog ) {
-			$this->blog = new Boldgrid_Inspirations_Blog();
-			$this->blog->create_category();
-			$this->set_permalink_structure( '/%category%/%postname%/' );
-		}
 
 		/*
 		 * During deployment only, allow iframes (Google map iframe). This seems to be required
