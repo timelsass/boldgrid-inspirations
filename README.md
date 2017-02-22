@@ -37,6 +37,7 @@ The second phase is Customization; tools to transform your website into your vis
 ### 1.4 In Progress ###
 * Update:		JIRA WPB-2936	Updating YouTube videos for BoldGrid Dashboard's new release.
 * Bug fix:		JIRA WPB-2927	Social media menu disappears.
+* Update:		JIRA WPB-2949	Configure blog using categories.
 
 ### 1.3.9 ###
 * Bug fix:		JIRA WPB-2912	Fixed issue when installing plugins from the Tools Import page.

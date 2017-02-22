@@ -1209,8 +1209,11 @@ class Boldgrid_Inspirations_Deploy {
 			$this->primary_menu_id = $menu_id;
 
 			$this->assign_menu_id_to_all_locations( $menu_id );
-		}
 
+			if( $this->install_blog ) {
+				$this->blog->create_menu_item( $this->primary_menu_id, 150 );
+			}
+		}
 
 		/**
 		 * ********************************************************************
@@ -1333,13 +1336,10 @@ class Boldgrid_Inspirations_Deploy {
 				continue;
 			}
 
-			// This is the page_for_posts.
-			$is_posts = ( isset( $page_v->is_posts ) && '1' === $page_v->is_posts );
-
 			$is_blog_post = ( isset( $page_v->is_blog_post ) && '1' === $page_v->is_blog_post );
 
-			// If this is our posts page, but we're not installing a blog, skip this page.
-			if( $is_posts && ! $this->install_blog || $is_blog_post && ! $this->install_blog ) {
+			// If this is a blog post, but we're not installing a blog, skip this page.
+			if( $is_blog_post && ! $this->install_blog ) {
 				continue;
 			}
 
@@ -1382,10 +1382,9 @@ class Boldgrid_Inspirations_Deploy {
 				'post_status' => $post['post_status']
 			);
 
-			// This is our posts page, configure our blog.
-			if( $is_posts ) {
-				update_option( 'page_for_posts', $post_id );
-				$this->set_permalink_structure( '/' . $post['post_name'] . '/%postname%/' );
+			// Assign this blog post to our blog category.
+			if( $is_blog_post && $this->install_blog ) {
+				wp_set_post_categories( $post_id, array( $this->blog->category_id ) );
 			}
 
 			// add page to menu
@@ -3320,6 +3319,8 @@ class Boldgrid_Inspirations_Deploy {
 
 		$wp_rewrite->set_permalink_structure( $structure );
 
+		update_option( 'category_base', '.' );
+
 		/*
 		 * We need to make sure that a .htaccess file is being created. If it is not, 404 pages may
 		 * be handled by .htaccess rules set in higher directories.
@@ -3663,6 +3664,12 @@ class Boldgrid_Inspirations_Deploy {
 
 		// Process the survey.
 		$this->survey->deploy();
+
+		if( $this->install_blog ) {
+			$this->blog = new Boldgrid_Inspirations_Blog();
+			$this->blog->create_category();
+			$this->set_permalink_structure( '/%category%/%postname%/' );
+		}
 
 		/*
 		 * During deployment only, allow iframes (Google map iframe). This seems to be required
