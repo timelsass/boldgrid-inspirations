@@ -102,4 +102,30 @@ return array(
 		*/
 	),
 	'xhprof' => false,
+	/*
+	 * Default blog widgets.
+	 *
+	 * When you install a blog via an inspirations deployment, new widgets are created and added to
+	 * the sidebar. This array contains those new widgets that will be created.
+	 *
+	 * @since 1.4
+	 */
+	'new_blog_widgets' => array(
+		array(
+			'type' => 'search',
+			'value' => array(),
+		),
+		array(
+			'type' => 'recent-posts',
+			'value' => array(),
+		),
+		array(
+			'type' => 'archives',
+			'value' => array(),
+		),
+		array(
+			'type' => 'categories',
+			'value' => array(),
+		),
+	),
 );

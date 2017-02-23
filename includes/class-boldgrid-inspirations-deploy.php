@@ -1211,7 +1211,6 @@ class Boldgrid_Inspirations_Deploy {
 			$this->assign_menu_id_to_all_locations( $menu_id );
 
 			if( $this->install_blog ) {
-				$this->blog = new Boldgrid_Inspirations_Blog();
 				$this->blog->create_category();
 				$this->set_permalink_structure( '/%category%/%postname%/' );
 				$this->blog->create_menu_item( $this->primary_menu_id, 150 );
@@ -3449,6 +3448,11 @@ class Boldgrid_Inspirations_Deploy {
 			Boldgrid_Inspirations_Utility::inline_js_oneliner( $js );
 
 			return false;
+		}
+
+		if( $this->install_blog ) {
+			$this->blog = new Boldgrid_Inspirations_Blog( $this->configs );
+			$this->blog->create_sidebar_widgets();
 		}
 
 		// import the selected page set.
