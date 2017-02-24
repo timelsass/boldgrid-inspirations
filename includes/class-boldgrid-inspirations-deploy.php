@@ -1174,6 +1174,48 @@ class Boldgrid_Inspirations_Deploy {
 	}
 
 	/**
+	 * Get media pages.
+	 *
+	 * Media pages are posts and pages that we just installed and we need to loop through and
+	 * replace the images within.
+	 *
+	 * The code within this method was duplicated in this class several times. As of 1.4, it has
+	 * been consolidated into this method.
+	 *
+	 * @since 1.4
+	 *
+	 * @return array An array of WP_Post objects.
+	 */
+	public function get_media_pages() {
+		$post_params = array (
+			'posts_per_page' => -1,
+			'post__in' => $this->installed_page_ids,
+			'post_type' => array (
+				'page',
+				'post',
+			)
+		);
+
+		if ( 'publish' != $this->post_status ) {
+			$post_params['post_status'] = $this->post_status;
+		}
+
+		$posts = get_posts( $post_params );
+
+		/**
+		 * Filter posts in which we download images for.
+		 *
+		 * @since 1.4
+		 *
+		 * @param array $posts                    An array of post objects.
+		 * @param array $this->installed_page_ids An array of pages we've installed.
+		*/
+		$posts = apply_filters( 'boldgrid_deploy_media_pages', $posts, $this->installed_page_ids );
+
+		return $posts;
+	}
+
+	/**
 	 * Download and import the page set the user selected
 	 *
 	 * @see Boldgrid_Inspirations_Api::get_api_key_hash().
@@ -1568,28 +1610,7 @@ class Boldgrid_Inspirations_Deploy {
 
 		$pattern = get_shortcode_regex();
 
-		/**
-		 * // 2015.05.11 BradM // We no longer need to get ALL pages and posts.
-		 * Instead, grab only the pages this deployment script as created.
-		 */
-		// configure posts args
-		// http://codex.wordpress.org/Template_Tags/get_posts
-		// http://stackoverflow.com/questions/12010497/get-posts-not-returning-all-posts
-
-		$post_params = array (
-			'posts_per_page' => - 1,
-			'post__in' => $this->installed_page_ids,
-			'post_type' => array (
-				'page',
-				'post'
-			)
-		);
-
-		if ( 'publish' != $this->post_status ) {
-			$post_params['post_status'] = $this->post_status;
-		}
-
-		$pages_and_posts = get_posts( $post_params );
+		$pages_and_posts = $this->get_media_pages();
 
 		foreach ( $pages_and_posts as $k => $page ) {
 			$dom = new DOMDocument();
@@ -1810,25 +1831,7 @@ class Boldgrid_Inspirations_Deploy {
 		// Get configs:
 		$boldgrid_configs = $this->get_configs();
 
-		/**
-		 * ********************************************************************
-		 * Get all pages that we've installed.
-		 * ********************************************************************
-		 */
-		$post_params = array (
-			'posts_per_page' => - 1,
-			'post__in' => $this->installed_page_ids,
-			'post_type' => array (
-				'page',
-				'post'
-			)
-		);
-
-		if ( 'publish' != $this->post_status ) {
-			$post_params['post_status'] = $this->post_status;
-		}
-
-		$pages_and_posts = get_posts( $post_params );
+		$pages_and_posts = $this->get_media_pages();
 
 		// Get the API key hash.
 		$api_key_hash = $this->asset_manager->api->get_api_key_hash();
@@ -2260,20 +2263,7 @@ class Boldgrid_Inspirations_Deploy {
 
 		$images_downloaded = 0;
 
-		$post_params = array (
-			'posts_per_page' => - 1,
-			'post__in' => $this->installed_page_ids,
-			'post_type' => array (
-				'page',
-				'post'
-			)
-		);
-
-		if ( 'publish' != $this->post_status ) {
-			$post_params['post_status'] = $this->post_status;
-		}
-
-		$pages_and_posts = get_posts( $post_params );
+		$pages_and_posts = $this->get_media_pages();
 
 		foreach ( $pages_and_posts as $k => $page ) {
 			$dom = new DOMDocument();

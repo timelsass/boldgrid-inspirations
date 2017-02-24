@@ -37,6 +37,7 @@ The second phase is Customization; tools to transform your website into your vis
 * Update:		JIRA WPB-2949	Configure blog using categories.
 * Bug fix:		JIRA WPB-2950	Added max height for reseller logos on login page.
 * Bug fix:		JIRA WPB-2925	Sidebar widgets don't match between preview and installed site.
+* Bug fix:		JIRA WPB-2951	Images in staging posts not being downloaded.
 
 = 1.3.9 =
 * Bug fix:		JIRA WPB-2912	Fixed issue when installing plugins from the Tools Import page.
