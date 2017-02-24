@@ -50,6 +50,7 @@ return array(
 			'value' =>				$map_iframe,
 			'display' =>			$display_address,
 			'on_success' =>			'remove_children',
+			'parent_style' =>		true,
 		),
 	),
 	'footer_company_details' => array(

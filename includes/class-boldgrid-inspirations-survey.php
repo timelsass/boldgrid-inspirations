@@ -29,6 +29,13 @@ class Boldgrid_Inspirations_Survey {
 	public $data_removal_key = 'data-removal-key';
 
 	/**
+	 * The 'data-style' attribute of an element.
+	 *
+	 * @since 1.4
+	 */
+	public $data_style = 'data-style';
+
+	/**
 	 * Whether or not we are deploying as an author.
 	 *
 	 * @since 1.3.9
@@ -148,6 +155,7 @@ class Boldgrid_Inspirations_Survey {
 		$attributes = array(
 			$this->data_if_removed,
 			$this->data_removal_key,
+			$this->data_style,
 		);
 
 		/*
@@ -306,6 +314,10 @@ class Boldgrid_Inspirations_Survey {
 						foreach( $data['parent_attributes'] as $attribute => $value ) {
 							$node->setAttribute( $attribute, $value );
 						}
+					}
+
+					if( ! empty( $data['parent_style'] ) ) {
+						$node->setAttribute( 'style', $node->getAttribute( $this->data_style ) );
 					}
 				} elseif( 'key' === $node->getAttribute( $this->data_if_removed ) ) {
 					$dom = $this->delete_by_attribute( $dom, $this->data_removal_key, $data['removal_key'] );
