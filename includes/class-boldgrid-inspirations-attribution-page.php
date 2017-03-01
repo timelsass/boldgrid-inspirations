@@ -356,6 +356,8 @@ class Boldgrid_Inspirations_Attribution_Page {
 	 * Add custom rewrite rules.
 	 *
 	 * @since 1.3.10
+	 *
+	 * @global object $wp_rewrite
 	 */
 	public function rewrite() {
 		add_rewrite_rule(
@@ -369,6 +371,13 @@ class Boldgrid_Inspirations_Attribution_Page {
 			'index.php?' . $this->lang['post_type'] . '=' . $this->lang['attribution'] . '-staging',
 			'top'
 		);
+
+		// Ensure rewrites are flushed.
+		if( ! get_option( 'boldgrid_attribution_rewrites' ) ) {
+			global $wp_rewrite;
+			$wp_rewrite->flush_rules( false );
+			update_option( 'boldgrid_attribution_rewrites', true );
+		}
 	}
 
 	/**
