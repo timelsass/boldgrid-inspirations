@@ -360,23 +360,54 @@ class Boldgrid_Inspirations_Attribution_Page {
 	 * @global object $wp_rewrite
 	 */
 	public function rewrite() {
-		add_rewrite_rule(
-			'^' . $this->lang['attribution'] . '$',
-			'index.php?' . $this->lang['post_type'] . '=' . $this->lang['attribution'],
-			'top'
+		$do_flush = false;
+
+		$rules = array(
+			array(
+				'regex' => '^' . $this->lang['attribution'] . '$',
+				'redirect' => 'index.php?' . $this->lang['post_type'] . '=' . $this->lang['attribution'],
+				'after' => 'top',
+			),
+			array(
+				'regex' => '^' . $this->lang['attribution'] . '-staging$',
+				'redirect' => 'index.php?' . $this->lang['post_type'] . '=' . $this->lang['attribution'] . '-staging',
+				'after' => 'top',
+			),
 		);
 
-		add_rewrite_rule(
-			'^' . $this->lang['attribution'] . '-staging$',
-			'index.php?' . $this->lang['post_type'] . '=' . $this->lang['attribution'] . '-staging',
-			'top'
-		);
+		foreach( $rules as $rule ) {
+			if( ! $this->rewrite_exists( $rule['regex'], $rule['redirect'] ) ) {
+				add_rewrite_rule( $rule['regex'], $rule['redirect'], $rule['after'] );
+				$do_flush = true;
+			}
+		}
 
-		// Ensure rewrites are flushed.
-		if( ! get_option( 'boldgrid_attribution_rewrites' ) ) {
+		if( $do_flush ) {
 			global $wp_rewrite;
 			$wp_rewrite->flush_rules( false );
-			update_option( 'boldgrid_attribution_rewrites', true );
+		}
+	}
+
+	/**
+	 * Check if a given rewrite rule exists.
+	 *
+	 * @since 1.3.10
+	 *
+	 * @param  string $regex
+	 * @param  string $redirect
+	 * @return bool
+	 */
+	public function rewrite_exists( $regex, $redirect ) {
+		$rewrites = get_option( 'rewrite_rules' );
+
+		if( empty( $rewrites ) ) {
+			return false;
+		}
+
+		if( ! empty( $rewrites[ $regex ] ) && $redirect === $rewrites[ $regex ] ) {
+			return true;
+		} else {
+			return false;
 		}
 	}
 
