@@ -400,11 +400,7 @@ class Boldgrid_Inspirations_Attribution_Page {
 	public function rewrite_exists( $regex, $redirect ) {
 		$rewrites = get_option( 'rewrite_rules' );
 
-		if( ! empty( $rewrites[ $regex ] ) && $redirect === $rewrites[ $regex ] ) {
-			return true;
-		} else {
-			return false;
-		}
+		return ! empty( $rewrites[ $regex ] ) && $redirect === $rewrites[ $regex ];
 	}
 
 	/**
