@@ -39,6 +39,7 @@ The second phase is Customization; tools to transform your website into your vis
 * Bug fix:		JIRA WPB-2925	Sidebar widgets don't match between preview and installed site.
 * Bug fix:		JIRA WPB-2951	Images in staging posts not being downloaded.
 * Bug fix:		JIRA WPB-2955	Backwards compatibility - maps taking up 200px empty space.
+* Bug fix:		JIRA WPB-2984	Attribution page 404.
 
 = 1.3.9 =
 * Bug fix:		JIRA WPB-2912	Fixed issue when installing plugins from the Tools Import page.

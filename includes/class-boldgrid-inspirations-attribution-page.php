@@ -56,7 +56,6 @@ class Boldgrid_Inspirations_Attribution_Page {
 		 */
 		if( ! is_multisite() ) {
 			add_filter( 'post_type_link', array( $this, 'na_remove_slug' ), 10, 3 );
-			add_action( 'pre_get_posts', array($this, 'na_parse_request' ) );
 		}
 
 		add_action( 'template_redirect', array( $this, 'rebuild' ) );
@@ -73,6 +72,8 @@ class Boldgrid_Inspirations_Attribution_Page {
 		 * Registering a post type must be done in the init hook, so do that now.
 		 */
 		self::register_post_type();
+
+		$this->rewrite();
 	}
 
 	/**
@@ -180,26 +181,6 @@ class Boldgrid_Inspirations_Attribution_Page {
 	 *
 	 * @see http://wordpress.stackexchange.com/questions/203951/remove-slug-from-custom-post-type-post-urls
 	 */
-	public function na_parse_request( $query ) {
-		if ( ! $query->is_main_query() || 2 != count( $query->query ) || ! isset( $query->query['page'] ) ) {
-			return;
-		}
-
-		if ( ! empty( $query->query['name'] ) ) {
-			$query->set( 'post_type', array( 'post', $this->lang['post_type'], 'page' ) );
-		}
-	}
-
-	/**
-	 * Remove custom post type from url.
-	 *
-	 * This is a helper method that helps to make the url /bg_attribution/attribution
-	 * simply /attribution.
-	 *
-	 * @since 1.3.1
-	 *
-	 * @see http://wordpress.stackexchange.com/questions/203951/remove-slug-from-custom-post-type-post-urls
-	 */
 	public function na_remove_slug( $post_link, $post, $leavename ) {
 		$post_statuses = array( 'publish', 'staging' );
 
@@ -212,6 +193,9 @@ class Boldgrid_Inspirations_Attribution_Page {
 		}
 
 		$post_link = str_replace( '/' . $post->post_type . '/', '/', $post_link );
+
+		// For use with Numeric permalink structure, /archives/%post_id%.
+		$post_link = str_replace( '/archives/', '/', $post_link );
 
 		return $post_link;
 	}
@@ -317,6 +301,7 @@ class Boldgrid_Inspirations_Attribution_Page {
 		$attribution_page = Boldgrid_Inspirations_Attribution_Page::get();
 
 		if( true === $this->is_current() ) {
+
 			$attribution = new Boldgrid_Inspirations_Attribution();
 			$attribution->build_attribution_page();
 
@@ -365,6 +350,25 @@ class Boldgrid_Inspirations_Attribution_Page {
 			flush_rewrite_rules();
 			update_option( 'boldgrid_attribution_upgraded_to_cpt', true );
 		}
+	}
+
+	/**
+	 * Add custom rewrite rules.
+	 *
+	 * @since 1.3.10
+	 */
+	public function rewrite() {
+		add_rewrite_rule(
+			'^' . $this->lang['attribution'] . '$',
+			'index.php?' . $this->lang['post_type'] . '=' . $this->lang['attribution'],
+			'top'
+		);
+
+		add_rewrite_rule(
+			'^' . $this->lang['attribution'] . '-staging$',
+			'index.php?' . $this->lang['post_type'] . '=' . $this->lang['attribution'] . '-staging',
+			'top'
+		);
 	}
 
 	/**
