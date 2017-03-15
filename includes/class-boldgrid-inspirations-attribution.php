@@ -302,6 +302,11 @@ class Boldgrid_Inspirations_Attribution {
 			$author .= '<em>' . __( 'Unknown', 'boldgrid-inspirations' ) . '</em>';
 		}
 
+		// Additonal attribution to image provider.
+		if( isset( $license_id ) && ! empty( $this->license_details[$license_id]['source'] ) ) {
+			$author .= $this->license_details[$license_id]['source'];
+		}
+
 		// Create the link to the license.
 		$license = '<strong>' . __( 'License', 'boldgrid-inspirations' ) . '</strong>: ';
 		if ( isset( $license_id ) && isset( $this->license_details[$license_id] ) ) {
@@ -341,7 +346,19 @@ class Boldgrid_Inspirations_Attribution {
 				'name' => 'Attribution-NoDerivs License',
 				'icon' => 'https://licensebuttons.net/l/by-nd/2.0/80x15.png',
 				'url' => 'http://creativecommons.org/licenses/by-nd/2.0/',
-			)
+			),
+
+			/*
+			 * Id's 0 - 8 (above) are for flickr images. Custom id's are defined below:
+			 *
+			 * 10 - Unsplash.
+			 */
+			'10' => array(
+				'name' => 'Public Domain Dedication',
+				'icon' => 'https://licensebuttons.net/l/zero/1.0/80x15.png',
+				'url' => 'https://creativecommons.org/publicdomain/zero/1.0/',
+				'source' => ' / <a href="https://unsplash.com/" target="_blank">Unsplash</a>',
+			),
 		);
 	}
 }
