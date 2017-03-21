@@ -31,7 +31,7 @@ The second phase is Customization; tools to transform your website into your vis
 
 == Changelog ==
 
-= 1.4.1 In progress =
+= 1.4.1 =
 * New feature:	JIRA WPB-3044	Automatically get Unsplash attribution.
 * Update:		JIRA WPB-3043	Updating plugin description.
 
