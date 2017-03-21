@@ -5,7 +5,7 @@
  * Version: 1.4
  * Author: BoldGrid.com <wpb@boldgrid.com>
  * Author URI: http://www.boldgrid.com
- * Description: Be inspired, be custom, be bold!
+ * Description: Find inspiration, customize, and launch! BoldGrid Inspirations includes FREE WordPress themes and is the easiest way to launch a new WordPress site complete with custom content.
  * Text Domain: boldgrid-inspirations
  * Domain Path: /languages
  * License: GPL

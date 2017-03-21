@@ -33,6 +33,7 @@ The second phase is Customization; tools to transform your website into your vis
 
 = 1.4.1 In progress =
 * New feature:	JIRA WPB-3044	Automatically get Unsplash attribution.
+* Update:		JIRA WPB-3043	Updating plugin description.
 
 = 1.4 =
 * Update:		JIRA WPB-2936	Updating YouTube videos for BoldGrid Dashboard's new release.
