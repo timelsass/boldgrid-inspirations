@@ -18,7 +18,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 
 	self.categories = '';
 
-	self.$themes = $( '.theme-browser .themes');
+	self.$themes = $( '.theme-browser .themes' );
 	self.themes = '';
 
 	self.$theme = '';
@@ -96,7 +96,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 					parseInt( self.$topMenu.css( 'margin-bottom' ) ) +
 					$( '#wpadminbar' ).outerHeight();
 
-	// scroll position.
+	// Scroll position.
 	self.scrollPosition = '';
 
 	/**
@@ -112,7 +112,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 * @since 1.2.3
 	 */
 	this.allActions = function( effect ) {
-		if( 'disable' === effect ) {
+		if ( 'disable' === effect ) {
 			$( 'body' ).addClass( 'waiting' );
 			self.$topMenu.find( 'a' ).addClass( 'disabled' );
 			$( '#build-summary .button' ).attr( 'disabled', true );
@@ -144,7 +144,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	/**
 	 *
 	 */
-	this.toggleCheckbox = function () {
+	this.toggleCheckbox = function() {
 		var $subCategory = $( 'input[name="sub-category"]:checked' );
 		$subCategory.parent().css( 'background', 'blue' );
 	};
@@ -169,16 +169,16 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		 * on a fresh install there will be no site and no Staging pluin installed, so the user
 		 * does not need to make a decision, just install. At this point, we can abort.
 		 */
-		if( installDecision === undefined ) {
+		if ( installDecision === undefined ) {
 			return;
 		}
 
 		// Toggle the approprate note based upon the install decision.
-		if( -1 !== showStagingDecisions.indexOf( installDecision ) ) {
+		if ( -1 !== showStagingDecisions.indexOf( installDecision ) ) {
 			$( '.note-download-staging' ).show();
-		} else if( 'overwrite-active' === installDecision ) {
+		} else if ( 'overwrite-active' === installDecision ) {
 			$( '.note-overwrite' ).show();
-		} else if( 'overwrite-staging' === installDecision ) {
+		} else if ( 'overwrite-staging' === installDecision ) {
 			$( '.note-overwrite-staging' ).show();
 		}
 	};
@@ -196,7 +196,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			newCheckedProp = ! $featureInput.is( ':checked' );
 
 		// If we're waiting on something, don't allow the user to toggle features.
-		if( $( 'body' ).hasClass( 'waiting' ) ) {
+		if ( $( 'body' ).hasClass( 'waiting' ) ) {
 			return;
 		}
 
@@ -212,7 +212,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 *
 	 * @since 1.2.3
 	 */
-	this.devicePreviews = function () {
+	this.devicePreviews = function() {
 		var $previewContainer = $( '#preview-container' );
 
 		self.$wrap.on( 'click', '.devices button', function() {
@@ -222,10 +222,10 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			 * If we're waiting on a preview to load, don't allow the user to click different device
 			 * previews.
 			 */
-			if( $( 'body' ).hasClass( 'waiting' ) ) {
+			if ( $( 'body' ).hasClass( 'waiting' ) ) {
 
 				// When you click automatically, focus will be added. Remove it.
-				if( $button.is( ':focus' ) ) {
+				if ( $button.is( ':focus' ) ) {
 					$button.blur();
 				}
 
@@ -239,9 +239,9 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			$( '.devices button' ).removeClass( 'highlight' );
 
 			// Determine which preview button we've clicked on.
-			if( $button.hasClass( 'preview-desktop' ) ) {
+			if ( $button.hasClass( 'preview-desktop' ) ) {
 				iframeClass = 'preview-desktop';
-			} else if( $button.hasClass( 'preview-tablet' ) ) {
+			} else if ( $button.hasClass( 'preview-tablet' ) ) {
 				iframeClass = 'preview-tablet';
 			} else {
 				iframeClass = 'preview-mobile';
@@ -252,7 +252,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			 * preview and just show the preview full width (the default behavior / view when going
 			 * to step 2 for the first time.
 			 */
-			if( $button.hasClass( 'active' ) ) {
+			if ( $button.hasClass( 'active' ) ) {
 				$button
 					.removeClass( 'active' )
 					.blur();
@@ -295,7 +295,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	this.disableInstallButton = function( disable ) {
 		var $selectInstallType = $( '#select-install-type' );
 
-		if( true === disable ) {
+		if ( true === disable ) {
 			// Disable the "Go back" and "Install this website" buttons.
 			$selectInstallType.find( '.button' ).attr( 'disabled', true );
 
@@ -314,10 +314,10 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 * @since 1.3.1
 	 */
 	this.fancybox = function() {
-		$(".fancybox").fancybox({
-			"type": "image",
-			"openSpeed": 500,
-			"closeSpeed": 250,
+		$( '.fancybox' ).fancybox({
+			'type': 'image',
+			'openSpeed': 500,
+			'closeSpeed': 250,
 			beforeLoad: function() {
 				$( 'body' ).addClass( 'fancyboxed' );
 			},
@@ -335,21 +335,21 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		         * The "complex" scrollTop calculation simply ensures a nice scroll position,
 		         * positioning the theme flush with the "Category Filter" heading.
 		         */
-		        $('html, body').animate({
+		        $( 'html, body' ).animate({
 		            scrollTop: ( self.$themePreviewed.offset().top - self.themeTop )
 		        }, 250 );
 		    },
 		    afterClose: function() {
 		        $( 'body' ).removeClass( 'fancyboxed' );
 		    },
-		    helpers : {
+		    helpers: {
 		        title: {
 		            type: 'inside'
 		        },
 		        overlay: {
 			        locked: false
 		        }
-		    },
+		    }
 		});
 	};
 
@@ -471,7 +471,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 
 		// Step 3 Skip button.
 		$( '#screen-contact .button-primary' ).on( 'click', function() {
-			if( ! self.validateContact() ) {
+			if ( ! self.validateContact() ) {
 				return;
 			}
 
@@ -500,7 +500,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 
 			self.disableInstallButton( true );
 
-			switch( installDecision ) {
+			switch ( installDecision ) {
 
 				/*
 				 * Install as Active site.
@@ -536,22 +536,22 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 					data = {
 						'action': 'install_staging',
 						'boldgrid-plugin-install[boldgrid-staging]': 'install',
-						'nonce-install-staging': $( '#nonce-install-staging' ).val(),
+						'nonce-install-staging': $( '#nonce-install-staging' ).val()
 					};
 
-					$.post(ajaxurl, data, function( response ) {
+					$.post( ajaxurl, data, function( response ) {
 						/*
 						 * Validate success of installing staging.
 						 *
 						 * Installing staging via ajax produces a bit of output. If the last character
 						 * of the output is a 1, success, otherwise failure.
 						 */
-						if( '1' === response.substr( response.length - 1)) {
+						if ( '1' === response.substr( response.length - 1 ) ) {
 							$( 'input[name="staging"]' ).val( 1 );
 							$( '#start_over' ).val( 'true' );
 							$( '#post_deploy' ).submit();
 						} else {
-							alert ('failed setting up staging plugin');
+							alert( 'failed setting up staging plugin' );
 							self.disableInstallButton( false );
 						}
 					});
@@ -560,16 +560,16 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 				case 'activate-staging':
 					data = {
 						'action': 'activate_staging',
-						'nonce-install-staging': $( '#nonce-install-staging' ).val(),
+						'nonce-install-staging': $( '#nonce-install-staging' ).val()
 					};
 
-					$.post(ajaxurl, data, function( response ) {
-						if( '1' === response ) {
+					$.post( ajaxurl, data, function( response ) {
+						if ( '1' === response ) {
 							$( 'input[name="staging"]' ).val( 1 );
 							$( '#start_over' ).val( 'true' );
 							$( '#post_deploy' ).submit();
 						} else {
-							alert ('failed activating staging plugin');
+							alert( 'failed activating staging plugin');
 							self.disableInstallButton( false );
 						}
 					});
