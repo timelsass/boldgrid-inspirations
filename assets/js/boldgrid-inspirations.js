@@ -569,7 +569,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 							$( '#start_over' ).val( 'true' );
 							$( '#post_deploy' ).submit();
 						} else {
-							alert( 'failed activating staging plugin');
+							alert( 'failed activating staging plugin' );
 							self.disableInstallButton( false );
 						}
 					});
@@ -584,7 +584,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 * @return boolean
 	 */
 	this.isMobile = function() {
-		return ( $( '.wp-filter:visible').length === 0 ? false : true );
+		return ( $( '.wp-filter:visible' ).length === 0 ? false : true );
 	};
 
 	/**
@@ -651,13 +651,13 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			if ( $all.is( ':checked' ) ) {
 				ref.addClass( 'active' );
 			}
-			// collapse mobile.
+			// Collapse mobile.
 			self.mobileCollapse();
 			// Update filter text.
 			self.updateFilterText( 'All' );
 			// Display all themes.
 			self.toggleSubCategory( '0' );
-			// toggle the current class for show all.
+			// Toggle the current class for show all.
 			self.toggleShowAll( ref );
 		});
 	};
@@ -680,12 +680,12 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			template = wp.template( 'social-media' );
 
 		// If this icon is .disabled, the user cannot add another, abort.
-		if( $icon.hasClass( 'disabled' ) || $icon.hasClass( 'disabled-via-toggle' ) ) {
+		if ( $icon.hasClass( 'disabled' ) || $icon.hasClass( 'disabled-via-toggle' ) ) {
 			return;
 		}
 
 		// If this is the plus icon, show all other icons and abort.
-		if( $faIcon.hasClass( 'fa-plus' ) ) {
+		if ( $faIcon.hasClass( 'fa-plus' ) ) {
 			// Show all other icons.
 			self.$socialIndex.find( '[data-icon]' ).removeClass( 'hidden' );
 
@@ -699,7 +699,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		}
 
 		// If this is the minus icon, hide the non default icons.
-		if( $faIcon.hasClass( 'fa-minus' ) ) {
+		if ( $faIcon.hasClass( 'fa-minus' ) ) {
 			// Hide non default icons.
 			self.$socialIndex.find( '[data-hidden]' ).addClass( 'hidden' );
 
@@ -819,7 +819,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			var aSort = parseInt( $( a ).attr( sortBy ) ),
 				bSort = parseInt( $( b ).attr( sortBy ) );
 
-			if( ! aSort ) {
+			if ( ! aSort ) {
 				return 1;
 			}
 
@@ -832,7 +832,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 */
 	this.toggleShowAll = function( o ) {
 		var $showAll = $( '[data-sort="show-all"]' ),
-		    $subcatId = o.find( '[data-sub-category-id]' ).data( 'sub-category-id');
+		    $subcatId = o.find( '[data-sub-category-id]' ).data( 'sub-category-id' );
 
 		// Add current class to show all filter if previewing all themes.
 		$showAll.addClass( 'current' );
@@ -867,7 +867,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			 * then click Fashion immediately again), abort. We don't want the builds to be continually
 			 * shuffled.
 			 */
-			if( subCategoryId === self.subCategoryId ) {
+			if ( subCategoryId === self.subCategoryId ) {
 				return;
 			} else {
 				self.subCategoryId = subCategoryId;
@@ -911,7 +911,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		$container.find( 'input[type="text"]' ).toggleDisabled();
 
 		// If we are disabling social media, prevent the user from adding more networks.
-		if( 'social-media' === $container.attr( 'id' ) ) {
+		if ( 'social-media' === $container.attr( 'id' ) ) {
 			self.$socialIndex.find( 'span' ).toggleClass( 'disabled-via-toggle' );
 		}
 	};
@@ -950,8 +950,8 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	this.setDistinctThemes = function() {
 		var i = 0;
 
-		for( i; i < self.genericBuilds.length; i++ ) {
-			if( -1 === _.indexOf( self.distinctThemes, self.genericBuilds[i].ThemeName ) ) {
+		for ( i; i < self.genericBuilds.length; i++ ) {
+			if ( -1 === _.indexOf( self.distinctThemes, self.genericBuilds[i].ThemeName ) ) {
 				self.distinctThemes.push( self.genericBuilds[i].ThemeName );
 			}
 		}
@@ -979,7 +979,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		var $activeButton = $( '.devices button.active' ), previewWidth;
 
 		// If we have an active button, there's no need to highlight at this point, abort.
-		if( $activeButton.length > 0 ) {
+		if ( $activeButton.length > 0 ) {
 			return;
 		}
 
@@ -990,9 +990,9 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		previewWidth = $( '#preview-container' ).outerWidth();
 
 		// Highlight the appropriate device button.
-		if( previewWidth <= 320 ) {
+		if ( previewWidth <= 320 ) {
 			$( '.devices .preview-mobile' ).addClass( 'highlight' );
-		} else if( previewWidth < 768 ) {
+		} else if ( previewWidth < 768 ) {
 			$( '.devices .preview-tablet' ).addClass( 'highlight' );
 		} else {
 			$( '.devices .preview-desktop' ).addClass( 'highlight' );
@@ -1007,7 +1007,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		self.$wrap.on( 'click', '.pageset-option', function() {
 
 			// If we're waiting on something, don't allow the user to select a different pageset.
-			if( $( 'body' ).hasClass( 'waiting' ) ) {
+			if ( $( 'body' ).hasClass( 'waiting' ) ) {
 				return;
 			}
 
@@ -1344,6 +1344,8 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 				$iframe
 					.attr( 'src', url )
 					.attr( 'data-build-cost', msg.result.data.profile.coins );
+
+				$( '[name=boldgrid_build_profile_id]' ).val( msg.result.data.profile.id );
 
 				self.highlightDeviceButton();
 			}
