@@ -55,6 +55,7 @@ class Boldgrid_Inspirations_Attribution {
 	 * Add hooks.
 	 */
 	public function add_hooks() {
+		add_filter( 'bgtfw_attribution_links', array( $this, 'add_attribution_link' ) );
 		if ( is_admin() ) {
 			add_action( 'save_post', array( $this, 'save_post' ) );
 		}
@@ -79,6 +80,31 @@ class Boldgrid_Inspirations_Attribution {
 				'noindex',
 			)
 		);
+	}
+
+	/**
+	 * Create the attribution link and keep link filterable for BoldGrid Staging
+	 *
+	 * @since 1.4.2
+	 *
+	 * @param string $link Attribution markup to add to footer links.
+	 *
+	 * @return string
+	 */
+	public function add_attribution_link( $link ) {
+		$attribution_data = get_option( 'boldgrid_attribution' );
+		$attribution_page = get_page_by_title( 'Attribution' );
+		$special_thanks = __( 'Special Thanks', 'bgtfw' );
+		// If option is available use that or try to find the page by slug name.
+		if ( ! empty( $attribution_data['page']['id'] ) ) {
+			$link = '<a href="' . get_permalink( $attribution_data['page']['id'] ) . '">' . $special_thanks . '</a>';
+		} elseif ( $attribution_page ) {
+			$link = '<a href="' . get_site_url( null, 'attribution' ) . '">' . $special_thanks . '</a>';
+		} else {
+			$link = '';
+		}
+
+		return $link;
 	}
 
 	/**
