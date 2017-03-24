@@ -104,7 +104,7 @@ class Boldgrid_Inspirations_Attribution {
 			$link = '';
 		}
 
-		return $link;
+		return '<span class="link special-thanks-link">' . $link . '</span>';
 	}
 
 	/**
