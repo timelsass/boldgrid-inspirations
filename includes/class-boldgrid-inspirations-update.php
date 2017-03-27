@@ -730,9 +730,6 @@ class Boldgrid_Inspirations_Update {
 		// Set parameters for displaying version-specific notices.
 		$this->set_notice_params();
 
-		// Notice update-notice-1-0-12.
-		$this->update_notice_1012();
-
 		// Notice update-notice-1-3.
 		$this->update_notice_13();
 	}
@@ -746,58 +743,29 @@ class Boldgrid_Inspirations_Update {
 	 * @param string $id A notice identifier.
 	 * @param string $version Version number for the notice.
 	 * @param string $message A message/markup to display in the notice.
+	 * @return null
 	 */
 	private function show_notice( $id, $version, $message ) {
-		// Is the live version greater than or equal to $version?
+		if ( empty( $this->notice_params['activated_version'] ) ) {
+			update_site_option(
+				'boldgrid_inspirations_activated_version',
+				$this->notice_params['plugin_version']
+			);
+
+			return;
+		}
+
 		$is_live_ge = version_compare( $this->notice_params['plugin_version'], $version, '>=' );
 
-		// Is the original activated version less than $version.
-		$is_activated_lt = ( empty( $this->notice_params['activated_version'] ) ||
-			version_compare( $this->notice_params['activated_version'], $version, '<' ) );
+		$is_activated_lt = version_compare( $this->notice_params['activated_version'], $version, '<' );
 
-		// Is the notice already marked as dismissed.
 		$has_been_dismissed = $this->notice_params['admin_notices']->has_been_dismissed( $id );
 
-		// Check if the notice should be displayed.
 		if ( $is_live_ge && $is_activated_lt && ! $has_been_dismissed ) {
-			// Display the notice.
 			echo $message;
 		}
-	}
 
-	/**
-	 * Update notice for >=1.0.12.
-	 *
-	 * If current version is 1.0.12 or higher, the version originally activated was earlier than
-	 * 1.0.12, and the update notice was not previously dismissed, then show the notice.
-	 *
-	 * @since 1.2.11
-	 * @access private
-	 */
-	private function update_notice_1012() {
-		// Build the notice.
-		$markup = sprintf(
-			'<div id="update-notice-1-0-12"
-			class="updated notice is-dismissible fade boldgrid-admin-notice"
-			data-admin-notice-id="update-notice-1-0-12">
-			<h2>%1$s</h2>
-			<p>BoldGrid Inspirations %2$s ' . $this->notice_params['plugin_version'] . '.</p>
-			<p>%3$s <strong><i>%4$s - Add Pages</i></strong> %5$s
-			<strong><i>Pages -
-			<a href="edit.php?post_type=page&page=boldgrid-add-gridblock-sets">%6$s</a>
-			</i></strong>.</p>
-			</div>
-			',
-			esc_html__( 'Update notice', 'boldgrid-inpirations' ),
-			esc_html__( 'has been updated to version', 'boldgrid-inpirations' ),
-			esc_html__( 'Please note that as of version 1.0.12, the', 'boldgrid-inpirations' ),
-			( $this->notice_params['boldgrid_menu_option'] ? 'Inspirations' : 'BoldGrid' ),
-			esc_html__( 'feature has been removed and replaced with', 'boldgrid-inpirations' ),
-			( $this->notice_params['boldgrid_menu_option'] ? 'Add New' : 'New from GridBlocks' )
-		);
-
-		// Display the notice.
-		$this->show_notice( 'update-notice-1-0-12', '1.0.12', $markup );
+		return;
 	}
 
 	/**

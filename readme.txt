@@ -32,6 +32,7 @@ The second phase is Customization; tools to transform your website into your vis
 == Changelog ==
 
 = 1.4.2 in progress =
+* Bug fix:		JIRA WPB-2745	Fixed upgrade notices displaying when activation version was not recorded.
 * Update:		JIRA WPB-3019	Updating attribution link creation.
 
 = 1.4.1 =
