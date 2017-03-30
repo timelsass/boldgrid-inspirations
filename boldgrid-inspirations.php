@@ -1,16 +1,15 @@
 <?php
 /**
  * Plugin Name: BoldGrid Inspirations
- * Plugin URI:  https://www.boldgrid.com
- * Version:     1.4.1
- * Author:      BoldGrid <support@boldgrid.com>
- * Author URI:  https://www.boldgrid.com
+ * Plugin URI: http://www.boldgrid.com
+ * Version: 1.4.1
+ * Author: BoldGrid.com <wpb@boldgrid.com>
+ * Author URI: http://www.boldgrid.com
  * Description: Find inspiration, customize, and launch! BoldGrid Inspirations includes FREE WordPress themes and is the easiest way to launch a new WordPress site complete with custom content.
  * Text Domain: boldgrid-inspirations
  * Domain Path: /languages
- * License:     GPL-2.0+
- * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
- * @package     boldgrid-inspirations
+ * License: GPL
+ * @package boldgrid-inspirations
  */
 
 // Define version.
