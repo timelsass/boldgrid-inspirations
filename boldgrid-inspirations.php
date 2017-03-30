@@ -9,7 +9,6 @@
  * Text Domain: boldgrid-inspirations
  * Domain Path: /languages
  * License: GPL
- * @package boldgrid-inspirations
  */
 
 // Define version.
