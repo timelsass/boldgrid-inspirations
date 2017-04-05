@@ -173,6 +173,18 @@ class Boldgrid_Inspirations_Deploy {
 	public $install_blog = false;
 
 	/**
+	 * Tags containing background images.
+	 *
+	 * When importing pages, certain tags will have background images set within their style that
+	 * we'll need to download.
+	 *
+	 * @since  1.4.3
+	 * @access public
+	 * @var    array
+	 */
+	public $tags_having_background = array( 'div' );
+
+	/**
 	 * Constructor.
 	 *
 	 * @param array $configs BoldGrid configuration array.
@@ -1808,6 +1820,51 @@ class Boldgrid_Inspirations_Deploy {
 				}
 			}
 
+			/*
+			 * Download background images.
+			 *
+			 * @since 1.4.3
+			 */
+			foreach( $this->tags_having_background as $tag ) {
+
+				$elements  = $dom->getElementsByTagName( $tag );
+
+				foreach ( $elements as $element ) {
+
+					$asset_id = $element->getAttribute( 'data-imhwpb-asset-id' );
+
+					if( empty( $asset_id ) ) {
+						continue;
+					}
+
+					$this->add_to_deploy_log( 'Downloading background image...' );
+
+					$image_url = $this->asset_manager->download_and_attach_asset( $page->ID, false, $asset_id );
+
+					if ( empty( $image_url ) ) {
+						$this->add_to_deploy_log( 'Error downloading background image.' );
+						continue;
+					}
+
+					$this->add_to_deploy_log( 'Finished downloading background image.' );
+
+					$style = $element->getAttribute( 'style' );
+
+					preg_match( '/(background:|background-image:)\s*(url\()[\'"][\'"]\)/', $style, $matches );
+
+					if( empty( $matches ) ) {
+						continue;
+					}
+
+					// Update our style attribute, save the dom, and update the post.
+					$new_style = str_replace( $matches[0], $matches[1] . 'url("' . $image_url . '")', $style );
+					$element->setAttribute( 'style', $new_style );
+					$dom->saveHTML();
+					$page->post_content = $this->format_html_fragment( $dom );
+					$changes_made = true;
+				}
+			}
+
 			if ( $changes_made ) {
 				$this->add_to_deploy_log( 'Beginning to update post in db with new html code.' );
 
@@ -1970,6 +2027,35 @@ class Boldgrid_Inspirations_Deploy {
 					}
 				}
 			}
+
+			/*
+			 * Find any background images within style tags that need to be downloaded.
+			 *
+			 * @since 1.4.3
+			 */
+			foreach( $this->tags_having_background as $tag ) {
+
+				$tag_position = 0;
+
+				$elements = $dom->getElementsByTagName( $tag );
+
+				foreach ( $elements as $element ) {
+					$asset_id = $element->getAttribute( 'data-imhwpb-asset-id' );
+
+					if( empty ( $asset_id ) ) {
+						continue;
+					}
+
+					$this->image_placeholders_needing_images['by_page_id'][$page->ID][] = array (
+						'page_id' => $page->ID,
+						'asset_id' => $asset_id,
+						$tag . '_tag_position' => $tag_position,
+					);
+
+					$tag_position++;
+				}
+			}
+
 		}
 
 		/**
@@ -2413,6 +2499,47 @@ class Boldgrid_Inspirations_Deploy {
 						$page->post_content );
 
 					$changes_made = true;
+				}
+			}
+
+			/*
+			 * Set background images within the style tag.
+			 *
+			 * @since 1.4.3
+			 */
+			foreach( $this->tags_having_background as $tag ) {
+
+				$tag_position = 0;
+
+				$elements  = $dom->getElementsByTagName( $tag );
+
+				foreach ( $elements as $element ) {
+
+					$asset_id = $element->getAttribute( 'data-imhwpb-asset-id' );
+
+					if( empty ( $asset_id ) ) {
+						continue;
+					}
+
+					$placeholder = $this->get_placeholder_image( $page->ID, $tag . '_tag_position', $tag_position );
+
+					$style = $element->getAttribute( 'style' );
+
+					preg_match( '/(background:|background-image:)\s*(url\()[\'"][\'"]\)/', $style, $matches );
+
+					if( empty( $matches ) ) {
+						continue;
+					}
+
+					// Create our new style tag, update it within the dom, and save post_content.
+					$new_style = str_replace( $matches[0], $matches[1] . 'url("' . $placeholder['attachment_url'] . '")', $style );
+					$element->setAttribute( 'style', $new_style );
+					$dom->saveHTML();
+					$page->post_content = $this->format_html_fragment( $dom );
+
+					$changes_made = true;
+
+					$tag_position++;
 				}
 			}
 
