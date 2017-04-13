@@ -1850,7 +1850,7 @@ class Boldgrid_Inspirations_Deploy {
 
 					$style = $element->getAttribute( 'style' );
 
-					preg_match( '/(background:|background-image:)\s*(url\()[\'"][\'"]\)/', $style, $matches );
+					preg_match( '/(background:|background-image:)\s*(url\()[\'"](.*)[\'"]\)/', $style, $matches );
 
 					if( empty( $matches ) ) {
 						continue;
@@ -2525,7 +2525,7 @@ class Boldgrid_Inspirations_Deploy {
 
 					$style = $element->getAttribute( 'style' );
 
-					preg_match( '/(background:|background-image:)\s*(url\()[\'"][\'"]\)/', $style, $matches );
+					preg_match( '/(background:|background-image:)\s*(url\()[\'"](.*)[\'"]\)/', $style, $matches );
 
 					if( empty( $matches ) ) {
 						continue;
