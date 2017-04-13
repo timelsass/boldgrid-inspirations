@@ -1229,7 +1229,10 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 */
 	this.initThemes = function() {
 		var template = wp.template( 'theme' ),
-			data = { 'site_hash' : self.configs.site_hash },
+			data = {
+				'site_hash' : self.configs.site_hash,
+				'theme_release_channel' : self.themeReleaseChannel,
+			},
 			getGenericSuccess, getGenericFail, failureMessage;
 
 		// Define a message for users when fetching themes has failed.
@@ -1298,12 +1301,10 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		 * build is if we're looking at all the default values:
 		 * # Pageset:		Default
 		 * # Coin budget:	20
-		 * # Channel:		Stable
 		 * # Blog:			False
 		 */
 		if( '1' === self.$pageset.attr( 'data-is-default' ) &&
 			'20' === coinBudget &&
-			'stable' === self.themeReleaseChannel &&
 			! hasBlog ) {
 			requestGeneric = true;
 		}
