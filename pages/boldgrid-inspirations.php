@@ -164,7 +164,6 @@ $lang = array(
 		<input type="text"   name="boldgrid_theme_version_type"    id="boldgrid_theme_version_type"    value="<?php echo $theme_channel ?>" >
 		<input type="text"   name="boldgrid_page_set_version_type" id="boldgrid_page_set_version_type" value="<?php echo $theme_channel ?>" >
 		<input type="text"   name="start_over"						id="start_over"                    value="false" >
-		<input type="text"   name="deploy-type"                                                        value="" >
 		<input type="text"   name="pages"                                                              value="" >
 		<input type="text"   name="staging"                                                            value="" >
 		<input type="hidden" name="_wp_http_referer"                                                   value="/single-site/wp-admin/admin.php?page=boldgrid-inspirations&amp;boldgrid-tab=install" >

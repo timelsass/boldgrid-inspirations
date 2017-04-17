@@ -31,42 +31,6 @@ class Boldgrid_Inspirations_Deploy {
 	protected $post_status = 'publish';
 
 	/**
-	 * Active theme.
-	 *
-	 * @access protected
-	 *
-	 * @var bool
-	 */
-	protected $activate_theme = true;
-
-	/**
-	 * The homepage_only option.
-	 *
-	 * @access protected
-	 *
-	 * @var bool
-	 */
-	protected $homepage_only = false;
-
-	/**
-	 * Whether or not to add pages to menu.
-	 *
-	 * @access protected
-	 *
-	 * @var boolean
-	 */
-	protected $add_pages_to_menu = true;
-
-	/**
-	 * Whether to set the homepgae if we have it.
-	 *
-	 * @access protected
-	 *
-	 * @var boolean
-	 */
-	protected $set_homepage = true;
-
-	/**
 	 * A list of all the installed pages.
 	 *
 	 * @access protected
@@ -371,10 +335,6 @@ class Boldgrid_Inspirations_Deploy {
 
 		// OPTIONAL: Passing this array of page id's will install only these pages.
 		$this->custom_pages = $this->get_pages_param();
-
-		// OPTIONAL: Passing this array of page id's will install only these pages.
-		$this->deploy_type = ( isset( $_POST['deploy-type'] ) ? sanitize_text_field(
-			$_POST['deploy-type'] ) : null );
 
 		/*
 		 * REQUIRED VARIABLES to be calculated at runtime
@@ -1081,20 +1041,18 @@ class Boldgrid_Inspirations_Deploy {
 				// Save the theme id as a theme mod.
 				$this->set_theme_mod_id( $theme_folder_name, $this->theme_details->theme->Id );
 
-				if ( $this->activate_theme ) {
-					$activation_theme = $theme_folder_name;
+				$activation_theme = $theme_folder_name;
 
-					// For authors, activate the git repo instead of the theme.
-					if ( $this->is_author && ! empty( $this->theme_details->theme->GitRepoUrl ) ) {
-						$repo_name = basename( $this->theme_details->theme->GitRepoUrl );
-						if ( file_exists( get_theme_root() . '/' . $repo_name ) ) {
-							$activation_theme = $repo_name;
-						}
+				// For authors, activate the git repo instead of the theme.
+				if ( $this->is_author && ! empty( $this->theme_details->theme->GitRepoUrl ) ) {
+					$repo_name = basename( $this->theme_details->theme->GitRepoUrl );
+					if ( file_exists( get_theme_root() . '/' . $repo_name ) ) {
+						$activation_theme = $repo_name;
 					}
-
-					// Activate the theme.
-					switch_theme( $activation_theme );
 				}
+
+				// Activate the theme.
+				switch_theme( $activation_theme );
 			}
 
 			// Enable theme options:
@@ -1244,31 +1202,29 @@ class Boldgrid_Inspirations_Deploy {
 		 * Create a menu
 		 * ********************************************************************
 		 */
-		if ( $this->add_pages_to_menu ) {
-			// Set the menu name
-			$menu_name = 'primary';
+		// Set the menu name
+		$menu_name = 'primary';
 
-			// Allow plugins, like BoldGrid Staging, to create 'primary-staging' instead of
-			// 'primary'.
-			$menu_name = apply_filters( 'boldgrid_deployment_primary_menu_name', $menu_name );
+		// Allow plugins, like BoldGrid Staging, to create 'primary-staging' instead of
+		// 'primary'.
+		$menu_name = apply_filters( 'boldgrid_deployment_primary_menu_name', $menu_name );
 
-			// We want to start fresh, so if the menu exists, delete it.
-			$menu_exists = wp_get_nav_menu_object( $menu_name );
-			if ( true == $menu_exists ) {
-				wp_delete_nav_menu( $menu_name );
-			}
+		// We want to start fresh, so if the menu exists, delete it.
+		$menu_exists = wp_get_nav_menu_object( $menu_name );
+		if ( true == $menu_exists ) {
+			wp_delete_nav_menu( $menu_name );
+		}
 
-			// Create the menu
-			$menu_id = wp_create_nav_menu( $menu_name );
-			$this->primary_menu_id = $menu_id;
+		// Create the menu
+		$menu_id = wp_create_nav_menu( $menu_name );
+		$this->primary_menu_id = $menu_id;
 
-			$this->assign_menu_id_to_all_locations( $menu_id );
+		$this->assign_menu_id_to_all_locations( $menu_id );
 
-			if( $this->install_blog ) {
-				$this->blog->create_category();
-				$this->set_permalink_structure( '/%category%/%postname%/' );
-				$this->blog->create_menu_item( $this->primary_menu_id, 150 );
-			}
+		if( $this->install_blog ) {
+			$this->blog->create_category();
+			$this->set_permalink_structure( '/%category%/%postname%/' );
+			$this->blog->create_menu_item( $this->primary_menu_id, 150 );
 		}
 
 		/**
@@ -1303,7 +1259,7 @@ class Boldgrid_Inspirations_Deploy {
 				'subcategory_id' => $this->subcategory_id,
 				'page_set_version_type' => $this->page_set_version_type,
 				'custom_pages' => $this->custom_pages,
-				'homepage_only' => $this->homepage_only,
+				'homepage_only' => false,
 				'channel' => $release_channel
 			)
 		);
@@ -1444,7 +1400,7 @@ class Boldgrid_Inspirations_Deploy {
 			}
 
 			// add page to menu
-			if ( '1' == $page_v->in_menu && $this->add_pages_to_menu ) {
+			if ( '1' == $page_v->in_menu ) {
 				// configure the url to this page
 				$menu_item_url = home_url( '/' );
 
@@ -1471,7 +1427,7 @@ class Boldgrid_Inspirations_Deploy {
 			}
 
 			// set homepage
-			if ( $page_v->homepage_theme_id && $this->set_homepage ) {
+			if ( $page_v->homepage_theme_id ) {
 				update_option( 'show_on_front', 'page' );
 				update_option( 'page_on_front', $post_id );
 			}
@@ -1597,282 +1553,6 @@ class Boldgrid_Inspirations_Deploy {
 			), $dom->saveHTML() ) );
 
 		return $html;
-	}
-
-	/**
-	 * Each page/post includes media.
-	 * Loop through each post/page and download / setup the required media (typically imgs).
-	 *
-	 * @see Boldgrid_Inspirations_Api::get_api_key_hash().
-	 */
-	public function deploy_page_sets_media() {
-		$this->change_deploy_status( 'Downloading page/post media...' );
-		$this->add_to_deploy_log( 'Checking for required media...' );
-
-		$images_downloaded = 0;
-
-		$allowable_atts = array (
-			'alt',
-			'class',
-			'width',
-			'height',
-			'style',
-			'title'
-		);
-
-		$pattern = get_shortcode_regex();
-
-		$pages_and_posts = $this->get_media_pages();
-
-		foreach ( $pages_and_posts as $k => $page ) {
-			$dom = new DOMDocument();
-
-			@$dom->loadHTML( Boldgrid_Inspirations_Utility::utf8_to_html( $page->post_content ) );
-
-			$images = $dom->getElementsByTagName( 'img' );
-
-			$changes_made = false;
-
-			// Keep track of the order in which built_photo_search images appear on the page.
-			// For further info, see docBlock for set_built_photo_search_placement()
-			$remote_page_id = $this->get_remote_page_id_from_local_page_id( $page->ID );
-
-			$built_photo_search_counter = 0;
-
-			foreach ( $images as $image ) {
-				$asset_id = $image->getAttribute( 'data-imhwpb-asset-id' );
-
-				$built_photo_search = $image->getAttribute( 'data-imhwpb-built-photo-search' );
-
-				$source = $image->getAttribute( 'src' );
-
-				// If we're downloading an asset_id...
-				if ( ! empty( $asset_id ) ) {
-					$this->add_to_deploy_log( 'Beginning to download asset' );
-
-					$this->add_to_deploy_log( 'Beginning download_and_attach call.' );
-
-					$url_to_downloaded_image = $this->asset_manager->download_and_attach_asset(
-						$page->ID, false, $asset_id );
-
-					// Validate return:
-					if ( empty( $url_to_downloaded_image ) ) {
-						// Bad return, so notify and skip this image:
-						$this->add_to_deploy_log(
-							'Error: Image download failed; skipping this image.' );
-
-						continue;
-					}
-
-					$this->add_to_deploy_log( 'Finished download_and_attach call.' );
-
-					$image->setAttribute( 'src', $url_to_downloaded_image );
-
-					$dom->saveHTML();
-
-					$changes_made = true;
-				}
-
-				/**
-				 * If we're downloading an image from "built_photo_search"...
-				 */
-				if ( ! empty( $built_photo_search ) && false == $this->is_author ) {
-					// keep track of the number of bps we've requested
-					$this->built_photo_search_log['count'] ++;
-
-					// keep track of the src for this bps
-					$this->built_photo_search_log['sources'][] = $built_photo_search;
-
-					// get built_photo_search details (query_id | orientation)
-					$exploded_built_photo_search = explode( '|', $built_photo_search );
-
-					$bps_query_id = $exploded_built_photo_search[0];
-
-					$bps_orientation = $exploded_built_photo_search[1];
-
-					// get width details
-					$exploded_source = explode( '/', $source );
-
-					$exploded_results = explode( 'x', $exploded_source[3] );
-
-					$width = $exploded_results[0];
-
-					// Get the API key hash.
-					$api_key_hash = $this->asset_manager->api->get_api_key_hash();
-
-					/*
-					 * Download and attach the image
-					 */
-					$post_params_for_get_photo_api_call = array (
-						'query_id' => $bps_query_id,
-						'orientation' => $bps_orientation,
-						'subcategory_id' => $this->subcategory_id,
-						'page_set_id' => $this->page_set_id,
-						'theme_id' => $this->theme_id,
-						'language_id' => $this->language_id,
-						'page_id' => $remote_page_id,
-						'position' => $built_photo_search_counter,
-						'asset_user_id' => $this->asset_user_id,
-						'key' => $api_key_hash,
-						'current_build_cost' => $this->current_build_cost,
-						'coin_budget' => $this->coin_budget,
-						'site_hash' => $this->site_hash
-					);
-
-					$this->add_to_deploy_log( 'Beginning get_photo_data.' );
-
-					$built_photo_search_get_photo_data = $this->built_photo_search->get_photo_data(
-						$post_params_for_get_photo_api_call
-					);
-
-					$this->add_to_deploy_log( 'Finished get_photo_data.' );
-
-					if ( false == $built_photo_search_get_photo_data ) {
-						error_log(
-							__METHOD__ . ': Error: $built_photo_search_get_photo_data is FALSE.  ' . print_r(
-								array (
-									'$built_photo_search_get_photo_data' => $built_photo_search_get_photo_data,
-									'$post_params_for_get_photo_api_call' => $post_params_for_get_photo_api_call
-								), true ) );
-
-						$this->add_to_deploy_log( 'Error downloading dynamic image...' );
-					} else {
-						$item = array (
-							'type' => 'built_photo_search',
-							'params' => array (
-								'image_provider_id' => $built_photo_search_get_photo_data['image_provider_id'],
-								'id_from_provider' => $built_photo_search_get_photo_data['id_from_provider'],
-								'imgr_image_id' => $built_photo_search_get_photo_data['imgr_image_id'],
-								'width' => $width,
-								'orientation' => $bps_orientation
-							)
-						);
-
-						$this->add_to_deploy_log( 'Beginning download_and_attach call.' );
-
-						$new_image_data = $this->asset_manager->download_and_attach_asset(
-							$page->ID, false, $item, 'all' );
-
-						$this->add_to_deploy_log( 'Finished download_and_attach call.' );
-
-						if ( false == $new_image_data ) {
-							error_log( __METHOD__ . ': $new_image_data is FALSE' );
-
-							$this->add_to_deploy_log( 'Error downloading dynamic image...' );
-						} else {
-							// update the current price of this build thus far
-							$this->current_build_cost += $new_image_data['coin_cost'];
-
-							// Update and save the <img> tag
-							$image->setAttribute( 'src', $new_image_data['uploaded_url'] );
-
-							$image->setAttribute( 'width', $width );
-
-							$dom->saveHTML();
-
-							$changes_made = true;
-
-							/*
-							 * Update $this->built_photo_search_placement
-							 */
-							// save our asset id for this built_photo_search image
-							$this->set_built_photo_search_placement( $remote_page_id,
-								$built_photo_search_counter, $new_image_data['asset_id'] );
-
-							// increment our counter
-							$built_photo_search_counter ++;
-						}
-					}
-				}
-			}
-
-			if ( $changes_made ) {
-				$page->post_content = $this->format_html_fragment( $dom );
-			}
-
-			if ( preg_match_all( '/\[gallery .+?\]/i', $page->post_content, $matches ) ) {
-				foreach ( $matches[0] as $index => $match ) {
-					preg_match( '/data-imhwpb-assets=\'.*\'/', $match, $data_assets );
-
-					$images = array ();
-					if ( preg_match( '/data-imhwpb-assets=\'(.+)\'/i', $data_assets[0],
-						$asset_images_ids ) ) {
-						$images = ( explode( ',', $asset_images_ids[1] ) );
-					}
-
-					$attachment_ids = array ();
-
-					foreach ( $images as $image_asset_id ) {
-						$attachment_id = $this->asset_manager->download_and_attach_asset( $page->ID,
-							false, $image_asset_id, 'attachment_id', true );
-
-						$attachment_ids[] = $attachment_id;
-					}
-
-					$attribute_value = ' ids="' . implode( ',', $attachment_ids ) . '" ';
-
-					$updated_match = str_ireplace( 'ids=""', $attribute_value, $match );
-
-					$page->post_content = str_ireplace( $match, $updated_match,
-						$page->post_content );
-
-					$changes_made = true;
-				}
-			}
-
-			/*
-			 * Download background images.
-			 *
-			 * @since 1.4.3
-			 */
-			foreach( $this->tags_having_background as $tag ) {
-
-				$elements  = $dom->getElementsByTagName( $tag );
-
-				foreach ( $elements as $element ) {
-
-					$asset_id = $element->getAttribute( 'data-imhwpb-asset-id' );
-
-					if( empty( $asset_id ) ) {
-						continue;
-					}
-
-					$this->add_to_deploy_log( 'Downloading background image...' );
-
-					$image_url = $this->asset_manager->download_and_attach_asset( $page->ID, false, $asset_id );
-
-					if ( empty( $image_url ) ) {
-						$this->add_to_deploy_log( 'Error downloading background image.' );
-						continue;
-					}
-
-					$this->add_to_deploy_log( 'Finished downloading background image.' );
-
-					$style = $element->getAttribute( 'style' );
-
-					preg_match( '/(background:|background-image:)\s*(url\()[\'"](.*)[\'"]\)/', $style, $matches );
-
-					if( empty( $matches ) ) {
-						continue;
-					}
-
-					// Update our style attribute, save the dom, and update the post.
-					$new_style = str_replace( $matches[0], $matches[1] . 'url("' . $image_url . '")', $style );
-					$element->setAttribute( 'style', $new_style );
-					$dom->saveHTML();
-					$page->post_content = $this->format_html_fragment( $dom );
-					$changes_made = true;
-				}
-			}
-
-			if ( $changes_made ) {
-				$this->add_to_deploy_log( 'Beginning to update post in db with new html code.' );
-
-				wp_update_post( $page );
-
-				$this->add_to_deploy_log( 'Finished updating post in db with new html code.' );
-			}
-		}
 	}
 
 	/**
@@ -2800,16 +2480,6 @@ class Boldgrid_Inspirations_Deploy {
 	}
 
 	/**
-	 * Send to home
-	 */
-	public function redirect_to_admin( $action = '' ) {
-		$url = get_admin_url() . $action;
-
-		$oneliner = 'window.location.href = "' . $url . '";';
-		Boldgrid_Inspirations_Utility::inline_js_oneliner( $oneliner );
-	}
-
-	/**
 	 * Add to list of allowed attributes.
 	 *
 	 * @since 1.3.6
@@ -3585,15 +3255,8 @@ class Boldgrid_Inspirations_Deploy {
 			$this->full_page_list, $this->installed_page_ids );
 
 		// Download / setup the images required for each page/post.
-		//
-		// Option 1: Serial.
-		// $this->deploy_page_sets_media();
-		//
-		// Option 2: Parallel.
 		$this->deploy_page_sets_media_find_placeholders();
-
 		$this->deploy_page_sets_media_process_image_queue();
-
 		$this->deploy_page_sets_media_replace_placeholders();
 
 		// Remove Temp pages that were created in order to force image creation.
@@ -3629,125 +3292,6 @@ class Boldgrid_Inspirations_Deploy {
 		$options_merged = array_merge( $existing_options, $options );
 
 		update_option( 'boldgrid_install_options', $options_merged );
-	}
-
-	/**
-	 * Deploy only pages
-	 */
-	public function deploy_pages_only() {
-		$this->post_status = 'draft';
-
-		$this->add_pages_to_menu = false;
-
-		$this->set_homepage = false;
-
-		$this->deploy_page_sets();
-
-		// download / setup the images required for each page/post
-		$this->deploy_page_sets_media();
-
-		// create the attribution page
-		$this->build_attribution_page();
-
-		// Send to admin screen
-		$this->redirect_to_admin( 'edit.php?post_type=page' );
-	}
-
-	/**
-	 * Copy theme_mods from old theme to new theme.
-	 *
-	 * If you install a new theme, you lose all of your theme_mods. This method will copy your
-	 * nav_menu_location settings from your old theme to your new theme. This is the only theme_mod
-	 * that is copied at this time.
-	 *
-	 * @param $new_stylesheet folder name of theme just installed.
-	 * @param $initial_theme_mods theme_mods of theme prior to deployment.
-	 */
-	public function deploy_theme_copy_theme_mods( $new_stylesheet, $initial_theme_mods ) {
-		$staging_prefix = $this->is_staging_install() ? 'boldgrid_staging_' : '';
-
-		$new_theme_mod_option_name = $staging_prefix . 'theme_mods_' . $new_stylesheet;
-
-		// Get theme_mods, if any, for the new theme.
-		$new_theme_mods = get_option( $new_theme_mod_option_name );
-
-		// Copy the nav_menu_locations
-		if ( isset( $initial_theme_mods['nav_menu_locations'] ) ) {
-			$new_theme_mods['nav_menu_locations'] = $initial_theme_mods['nav_menu_locations'];
-
-			update_option( $new_theme_mod_option_name, $new_theme_mods );
-		}
-	}
-
-	/**
-	 * Only install a BG theme
-	 */
-	public function deploy_theme_only() {
-		$this->activate_theme = false;
-
-		$this->homepage_only = true;
-
-		$this->add_pages_to_menu = false;
-
-		$this->set_homepage = false;
-
-		$this->post_status = 'draft';
-
-		// Get the current theme's theme_mods. This will be used just a few lines below, in
-		// $this->deploy_theme_copy_theme_mod().
-		$initial_theme_mods = get_theme_mods();
-
-		// install the selected theme
-		$stylesheet = $this->deploy_theme();
-
-		// Check if theme deployment failed:
-		if ( empty( $stylesheet ) ) {
-			// Add info to the deployment log:
-			$this->add_to_deploy_log( 'Theme deployment failed.  Please choose another theme.' );
-
-			// Change the deployment status:
-			$this->change_deploy_status(
-				'Theme installation failed!  Please choose another theme.' );
-
-			// Remove the loading graphic:
-			?>
-<script type="text/javascript">
-	jQuery( '#deploy_status .boldgrid-loading' ).slideUp();
-	jQuery( '#deploy_status .spinner' ).hide();
-</script>
-<?php
-			return false;
-		}
-
-		// Apply the old theme's theme_mods to the new theme's theme_mods. We do this to copy over
-		// the nav_menu_locations settings, so we see menus instead of "Add a menu".
-		$this->deploy_theme_copy_theme_mods( $stylesheet, $initial_theme_mods );
-
-		// download / setup the primary design elements
-		$deploy_pde_params = array (
-			'stylesheet' => $stylesheet,
-			'update_current_themes_mods' => false
-		);
-		$this->deploy_pde( $deploy_pde_params );
-
-		// Update Existing theme in install options
-		$this->update_existing_install_options( array (
-			'theme_id' => $this->theme_id
-		) );
-
-		$this->deploy_page_sets();
-
-		// download / setup the images required for each page/post
-		$this->deploy_page_sets_media();
-
-		// create the attribution page
-		$this->build_attribution_page();
-
-		// Send to admin screen
-		$this->redirect_to_admin(
-			sprintf(
-				'themes.php?page=boldgrid-inspirations&staging=%s&inspiration-install=1&task=theme-install-success&stylesheet=' .
-					 $stylesheet, true == $this->is_staging_install() ? '1' : '0' ) );
 	}
 
 	/**
@@ -3795,20 +3339,7 @@ class Boldgrid_Inspirations_Deploy {
 		 */
 		add_filter( 'wp_kses_allowed_html', array( $this, 'filter_allowed_html', ), 10, 2 );
 
-		// Run the specified deployment:
-		switch ( $this->deploy_type ) {
-			case 'pages' :
-				$this->deploy_pages_only();
-				break;
-
-			case 'theme' :
-				$this->deploy_theme_only();
-				break;
-
-			default :
-				$this->full_deploy();
-				break;
-		}
+		$this->full_deploy();
 
 		// Save report to the log.
 		if ( ! empty( $boldgrid_configs['xhprof'] ) && extension_loaded( 'xhprof' ) ) {
