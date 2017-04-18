@@ -31,7 +31,7 @@ The second phase is Customization; tools to transform your website into your vis
 
 == Changelog ==
 
-= 1.4.3 In progress =
+= 1.4.3 =
 * New feature:	JIRA WPB-3106	As an Author, I can set background images for elements.
 * New feature:	JIRA WPB-3095	Update generic builds to display per theme channel.
 
