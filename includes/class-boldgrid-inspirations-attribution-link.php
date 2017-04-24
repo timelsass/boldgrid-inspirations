@@ -105,7 +105,7 @@ class Boldgrid_Inspirations_Attribution_Link {
 	 */
 	public function partner_attribution_configs( $configs ) {
 
-		$configs['customizer-options']['required']['boldgrid_enable_footer'] = array_values( array_diff( $configs['customizer-options']['required']['boldgrid_enable_footer'], ['hide_partner_attribution'] ) );
+		$configs['customizer-options']['required']['boldgrid_enable_footer'] = array_values( array_diff( $configs['customizer-options']['required']['boldgrid_enable_footer'], array( 'hide_partner_attribution' ) ) );
 		$reseller = get_option( 'boldgrid_reseller', false );
 
 		if ( $reseller && ! empty( $reseller_data['reseller_title'] ) ) {
