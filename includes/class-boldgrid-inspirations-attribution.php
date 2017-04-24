@@ -55,56 +55,9 @@ class Boldgrid_Inspirations_Attribution {
 	 * Add hooks.
 	 */
 	public function add_hooks() {
-		add_filter( 'bgtfw_attribution_links', array( $this, 'add_attribution_link' ) );
 		if ( is_admin() ) {
 			add_action( 'save_post', array( $this, 'save_post' ) );
 		}
-	}
-
-	/**
-	 * Add frontend hooks.
-	 *
-	 * @since 1.1.2
-	 */
-	public function add_wp_hooks() {
-		/*
-		 * Add a noindex meta tag to the attribution page.
-		 *
-		 * This action is intended to add 'noindex' to the attribution page so it is not picked up
-		 * by search engines. This however is not yet ready for launch, so we'll return and abort.
-		 */
-		return;
-		add_action( 'wp_head',
-			array(
-				$this,
-				'noindex',
-			)
-		);
-	}
-
-	/**
-	 * Create the attribution link and keep link filterable for BoldGrid Staging
-	 *
-	 * @since 1.4.2
-	 *
-	 * @param string $link Attribution markup to add to footer links.
-	 *
-	 * @return string
-	 */
-	public function add_attribution_link( $link ) {
-		$attribution_data = get_option( 'boldgrid_attribution' );
-		$attribution_page = get_page_by_title( 'Attribution' );
-		$special_thanks = __( 'Special Thanks', 'bgtfw' );
-		// If option is available use that or try to find the page by slug name.
-		if ( ! empty( $attribution_data['page']['id'] ) ) {
-			$link = '<a href="' . get_permalink( $attribution_data['page']['id'] ) . '">' . $special_thanks . '</a>';
-		} elseif ( $attribution_page ) {
-			$link = '<a href="' . get_site_url( null, 'attribution' ) . '">' . $special_thanks . '</a>';
-		} else {
-			$link = '';
-		}
-
-		return '<span class="link special-thanks-link">' . $link . '</span>';
 	}
 
 	/**
@@ -121,23 +74,6 @@ class Boldgrid_Inspirations_Attribution {
 
 		// Create the html of the attribution page.
 		$this->save_attribution_html( $attribution_page );
-	}
-
-	/**
-	 * Add 'noindex' to attribution page.
-	 *
-	 * @since 1.1.2
-	 * @see Boldgrid_Inspirations_Attribution::current_page_is_attribution_page().
-	 * @link https://support.google.com/webmasters/answer/93710?hl=en
-	 */
-	public function noindex() {
-		/*
-		 * todo: When this feature is enabled again, it needs to use
-		 * Boldgrid_Inspirations_Attribution_Page::is_current()
-		 */
-		if ( $this->current_page_is_attribution_page() ) {
-			echo "\n<meta name='robots' content='noindex'>\n";
-		}
 	}
 
 	/**

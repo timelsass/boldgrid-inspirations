@@ -282,11 +282,7 @@ class Boldgrid_Inspirations_Inspiration extends Boldgrid_Inspirations {
  */
 public function add_wp_hooks() {
 	$this->include_wp_files();
-
 	Boldgrid_Inspirations_Attribution_Page::prevent_contamination();
-
-	// $attribution = new Boldgrid_Inspirations_Attribution();
-	// $attribution->add_wp_hooks();
 }
 
 /**
