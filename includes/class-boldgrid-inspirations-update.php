@@ -504,7 +504,7 @@ class Boldgrid_Inspirations_Update {
 				// Iterate through the tags to find theme id (boldgrid-theme-id-##).
 				$theme_id = null;
 				foreach ( $tags as $tag ) {
-					if ( preg_match( '/^boldgrid-theme-([0-9]+)$/', $tag, $matches ) ) {
+					if ( preg_match( '/^boldgrid-theme-([0-9]+|parent)$/', $tag, $matches ) ) {
 						$boldgrid_tag = $matches[0];
 						$theme_id = $matches[1];
 						unset( $matches );
