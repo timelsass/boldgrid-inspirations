@@ -108,7 +108,7 @@ class Boldgrid_Inspirations_Attribution_Link {
 		$configs['customizer-options']['required']['boldgrid_enable_footer'] = array_values( array_diff( $configs['customizer-options']['required']['boldgrid_enable_footer'], array( 'hide_partner_attribution' ) ) );
 		$reseller = get_option( 'boldgrid_reseller', false );
 
-		if ( $reseller && ! empty( $reseller_data['reseller_title'] ) ) {
+		if ( $reseller && ! empty( $reseller['reseller_title'] ) ) {
 			$configs['customizer-options']['required']['boldgrid_enable_footer'][] = 'hide_partner_attribution';
 		}
 
