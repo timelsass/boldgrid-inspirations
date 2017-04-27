@@ -198,6 +198,10 @@ class Boldgrid_Inspirations_Update {
 		// Get the boldgrid menu option from settings.
 		$this->notice_params['boldgrid_menu_option'] = $boldgrid_settings['boldgrid_menu_option'];
 
+		if ( ! class_exists( 'get_plugin_data' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/plugin.php';
+		}
+
 		// Get the current plugin version.
 		$plugin_data = get_plugin_data( BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php', false );
 
@@ -345,6 +349,10 @@ class Boldgrid_Inspirations_Update {
 		// Get the current WordPress page filename and WP version.
 		global $pagenow;
 		global $wp_version;
+
+		if ( ! class_exists( 'get_plugin_data' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/plugin.php';
+		}
 
 		$plugin_data = get_plugin_data(
 			BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php',
@@ -684,6 +692,10 @@ class Boldgrid_Inspirations_Update {
 	 * @return null
 	 */
 	public function update_version_options() {
+		if ( ! class_exists( 'get_plugin_data' ) ) {
+			require_once ABSPATH . 'wp-admin/includes/plugin.php';
+		}
+
 		// Get the current plugin version.
 		$plugin_data = get_plugin_data( BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php', false );
 

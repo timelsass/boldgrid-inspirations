@@ -32,6 +32,7 @@ The second phase is Customization; tools to transform your website into your vis
 == Changelog ==
 
 = 1.4.3 In progress =
+* Bug fix:		JIRA WPB-3151	Added check and load before using get_plugin_data() for updates.
 * Bug fix:		JIRA WPB-3141	Fixed invalid updates for BoldGrid Prime theme.
 
 = 1.4.3 =
