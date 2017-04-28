@@ -34,6 +34,7 @@ The second phase is Customization; tools to transform your website into your vis
 = 1.4.3 In progress =
 * Bug fix:		JIRA WPB-3151	Added check and load before using get_plugin_data() for updates.
 * Bug fix:		JIRA WPB-3141	Fixed invalid updates for BoldGrid Prime theme.
+* Bug fix:		JIRA WPB-3158	Deployment's gallery updates are not saved.
 
 = 1.4.3 =
 * New feature:	JIRA WPB-3106	As an Author, I can set background images for elements.

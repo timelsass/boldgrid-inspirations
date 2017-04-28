@@ -1323,6 +1323,8 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		failAction = function( msg ) {
 			if( 'timeout' === msg.statusText ) {
 				self.loadBuildFail( timeoutMessage + '<br />' + tryAgainButton );
+			} else {
+				self.loadBuildFail( failureMessage + '<br />' + tryAgainButton );
 			}
 		}
 

@@ -2148,6 +2148,8 @@ class Boldgrid_Inspirations_Deploy {
 			// Get asset ids for gallery images and swap data with the attachment ids in the
 			  // shortcode:
 			if ( preg_match_all( '/\[gallery .+?\]/i', $page->post_content, $matches ) ) {
+				$gallery_changes_made = false;
+
 				foreach ( $matches[0] as $index => $match ) {
 					preg_match( '/data-imhwpb-assets=\'.*\'/', $match, $data_assets );
 
@@ -2179,6 +2181,12 @@ class Boldgrid_Inspirations_Deploy {
 						$page->post_content );
 
 					$changes_made = true;
+					$gallery_changes_made = true;
+				}
+
+				// If the gallery has made changes to the post content, reload those changes into the $dom.
+				if( $gallery_changes_made ) {
+					@$dom->loadHTML( Boldgrid_Inspirations_Utility::utf8_to_html( $page->post_content ) );
 				}
 			}
 
