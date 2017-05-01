@@ -32,7 +32,7 @@ class Boldgrid_Inspirations_Attribution_Link {
 	 * @since 1.4.3
 	 */
 	public function __construct() {
-		$this->licensed = $this->setLicensed( true );
+		$this->licensed = $this->setLicensed( false );
 		$this->controls = $this->setControls(
 			array(
 				'reseller_control' => array(
