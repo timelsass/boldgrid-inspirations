@@ -1321,12 +1321,12 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		$( '#screen-content .boldgrid-loading' ).fadeIn();
 
 		failAction = function( msg ) {
-			if( 'timeout' === msg.statusText ) {
-				self.loadBuildFail( timeoutMessage + '<br />' + tryAgainButton );
-			} else {
-				self.loadBuildFail( failureMessage + '<br />' + tryAgainButton );
+			var message = failureMessage;
+			if ( 'timeout' === msg.statusText ) {
+				message = timeoutMessage;
 			}
-		}
+			self.loadBuildFail( message + '<br />' + tryAgainButton );	
+		};
 
 		successAction = function( msg ) {
 			var $screenContent = $( '#screen-content' ),
