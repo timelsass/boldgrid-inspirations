@@ -384,7 +384,7 @@ class Boldgrid_Inspirations_Attribution_Page {
 
 		if( $do_flush ) {
 			global $wp_rewrite;
-			$wp_rewrite->flush_rules( false );
+			$wp_rewrite->flush_rules();
 		}
 	}
 
