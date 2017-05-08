@@ -1713,7 +1713,6 @@ class Boldgrid_Inspirations_Deploy {
 			 *
 			 * @since 1.4.3
 			 */
-
 			foreach( $this->tags_having_background as $tag ) {
 
 				$tag_position = 0;
