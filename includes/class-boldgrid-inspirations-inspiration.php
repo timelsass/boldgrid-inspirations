@@ -496,6 +496,7 @@ public function add_boldgrid_configs_to_header() {
 
 		$page =	( isset( $_GET['page'] ) ? $_GET['page'] : null );
 		$tab =	( isset( $_GET['tab'] ) ? $_GET['tab'] : null );
+		$configs = $this->get_configs();
 
 		// Inspirations, design first.
 		if( 'admin.php' === $pagenow && 'boldgrid-inspirations' === $page && current_user_can( 'edit_pages' ) ) {
@@ -530,6 +531,11 @@ public function add_boldgrid_configs_to_header() {
 
 		// New Page.
 		if( 'post-new.php' === $pagenow && current_user_can( 'edit_posts' ) ) {
+			return true;
+		}
+
+		// Author plugin.
+		if( ! empty( $configs['plugins']['author']['path'] ) && is_plugin_active( $configs['plugins']['author']['path'] ) ) {
 			return true;
 		}
 
