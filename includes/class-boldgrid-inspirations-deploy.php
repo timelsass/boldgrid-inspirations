@@ -369,6 +369,11 @@ class Boldgrid_Inspirations_Deploy {
 		if( isset( $_POST['start_over'] ) && 'true' === $_POST['start_over'] ) {
 			$this->start_over = true;
 		}
+
+		// If author, do not process any background images.
+		if ( $this->is_author ) {
+			$tags_having_background = array();
+		}
 	}
 
 	/**
