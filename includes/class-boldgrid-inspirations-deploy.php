@@ -372,7 +372,7 @@ class Boldgrid_Inspirations_Deploy {
 
 		// If author, do not process any background images.
 		if ( $this->is_author ) {
-			$tags_having_background = array();
+			$this->tags_having_background = array();
 		}
 	}
 
