@@ -1713,6 +1713,7 @@ class Boldgrid_Inspirations_Deploy {
 			 *
 			 * @since 1.4.3
 			 */
+
 			foreach( $this->tags_having_background as $tag ) {
 
 				$tag_position = 0;
@@ -2020,60 +2021,60 @@ class Boldgrid_Inspirations_Deploy {
 	}
 
 	/**
-	 * Deploy page sets: Media: Replace placeholders
+	 * Deploy page sets: Media: Replace placeholders.
+	 *
+	 * This method updates a post's content in 2 ways:
+	 * # Updating the $dom, then saving the $dom to post_content.
+	 * # Updating post_content directly.
+	 *
+	 * The reason this is done in 2 ways is because the $dom can parse tags, but it cannot parse
+	 * WordPress shortcodes.
+	 *
+	 * # Standard images    $dom
+	 * # Built photo images $dom
+	 * # Background images  $dom
+	 * # Gallery images     post_content
 	 */
 	public function deploy_page_sets_media_replace_placeholders() {
-		// Update deploy status and log:
 		$this->change_deploy_status( 'Replacing media in pages...' );
 		$this->add_to_deploy_log( 'Replacing media in pages...' );
-
-		$images_downloaded = 0;
 
 		$pages_and_posts = $this->get_media_pages();
 
 		foreach ( $pages_and_posts as $k => $page ) {
 			$dom = new DOMDocument();
-
 			@$dom->loadHTML( Boldgrid_Inspirations_Utility::utf8_to_html( $page->post_content ) );
 
 			$images = $dom->getElementsByTagName( 'img' );
-
-			$changes_made = false;
-
-			// Keep track of the order in which built_photo_search images appear on the page.
-			// For further info, see docBlock for set_built_photo_search_placement()
 			$remote_page_id = $this->get_remote_page_id_from_local_page_id( $page->ID );
 
+			$dom_changed = false;
+			$content_changed = false;
 			$built_photo_search_counter = 0;
-
 			$bps_image_position = 0;
 			$asset_image_position = 0;
 
 			foreach ( $images as $image ) {
-
 				$asset_id = $image->getAttribute( 'data-imhwpb-asset-id' );
-
 				$built_photo_search = $image->getAttribute( 'data-imhwpb-built-photo-search' );
-
 				$source = $image->getAttribute( 'src' );
 
 				// Get the image that belongs in this placeholder.
 				if ( ! empty( $asset_id ) ) {
 					$placeholder = $this->get_placeholder_image( $page->ID, 'asset_image_position', $asset_image_position );
-				} elseif ( ! empty( $built_photo_search ) && false == $this->is_author ) {
+				} elseif ( ! empty( $built_photo_search ) && false === $this->is_author ) {
 					$placeholder = $this->get_placeholder_image( $page->ID, 'bps_image_position', $bps_image_position );
 				} else {
 					$placeholder = array();
 				}
 
-				// Check if we have the information we need, or skip this iteration:
+				// Check if we have the information we need, or skip this iteration.
 				if ( empty( $placeholder['attachment_url'] ) || empty( $placeholder['asset_id'] ) ) {
 					continue;
 				}
 
 				$attachment_url = $placeholder['attachment_url'];
-
-				$attachment_id = ( isset( $placeholder['attachment_id'] ) ? ( int ) $placeholder['attachment_id'] : null );
+				$attachment_id = ( isset( $placeholder['attachment_id'] ) ? (int) $placeholder['attachment_id'] : null );
 
 				/*
 				 * Determine our wp-image-## class.
@@ -2089,26 +2090,20 @@ class Boldgrid_Inspirations_Deploy {
 				if ( ! empty( $asset_id ) ) {
 					$image->setAttribute( 'src', $attachment_url );
 
-					if( ! is_null( $new_image_class ) ) {
+					if ( ! is_null( $new_image_class ) ) {
 						$image->setAttribute( 'class', $new_image_class );
 					}
 
-					$dom->saveHTML();
-
-					$changes_made = true;
-
+					$dom_changed = true;
 					$asset_image_position ++;
 				}
 
-				// If we're downloading an image from "built_photo_search"...
-				if ( ! empty( $built_photo_search ) && false == $this->is_author ) {
-					// keep track of the number of bps we've requested
+				// Build photo search.
+				if ( ! empty( $built_photo_search ) && false === $this->is_author ) {
 					$this->built_photo_search_log['count'] ++;
-
-					// keep track of the src for this bps
 					$this->built_photo_search_log['sources'][] = $built_photo_search;
 
-					// Update and save the <img> tag
+					// Update and save the <img> tag.
 					$image->setAttribute( 'src', $attachment_url );
 					$image->setAttribute( 'width', $placeholder['bps_width'] );
 
@@ -2117,85 +2112,28 @@ class Boldgrid_Inspirations_Deploy {
 						$image->setAttribute( 'data-image-provider-id', $placeholder['download_params']['image_provider_id'] );
 					}
 
-					if( ! is_null( $new_image_class ) ) {
+					if ( ! is_null( $new_image_class ) ) {
 						$image->setAttribute( 'class', $new_image_class );
 					}
 
-					$dom->saveHTML();
-
-					$changes_made = true;
-
-					$bps_image_position ++;
-
-					/*
-					 * Update $this->built_photo_search_placement
-					 */
-					// save our asset id for this built_photo_search image
 					$this->set_built_photo_search_placement( $remote_page_id,
 						$built_photo_search_counter,
 						$placeholder['asset_id']
 					);
 
-					// increment our counter
+					// Increment our counters.
+					$bps_image_position ++;
 					$built_photo_search_counter ++;
+					$dom_changed = true;
 				}
-
-				if ( $changes_made ) {
-					$page->post_content = $this->format_html_fragment( $dom );
-				}
-			} // End of foreach images
-
-			// Get asset ids for gallery images and swap data with the attachment ids in the
-			  // shortcode:
-			if ( preg_match_all( '/\[gallery .+?\]/i', $page->post_content, $matches ) ) {
-				$gallery_changes_made = false;
-
-				foreach ( $matches[0] as $index => $match ) {
-					preg_match( '/data-imhwpb-assets=\'.*\'/', $match, $data_assets );
-
-					$images = array ();
-
-					if ( preg_match( '/data-imhwpb-assets=\'(.+)\'/i', $data_assets[0],
-						$asset_images_ids ) ) {
-						$images = ( explode( ',', $asset_images_ids[1] ) );
-					}
-
-					$attachment_ids = array ();
-
-					foreach ( $images as $image_asset_id ) {
-						foreach ( $this->image_placeholders_needing_images['by_page_id'][$page->ID] as $asset_index => $asset_info ) {
-							if ( $asset_info['asset_id'] == $image_asset_id ) {
-								$attachment_id = $asset_info['attachment_id'];
-								break;
-							}
-						}
-
-						$attachment_ids[$image_asset_id] = $attachment_id;
-					}
-
-					$attribute_value = ' ids="' . implode( ',', $attachment_ids ) . '" ';
-
-					$updated_match = str_ireplace( 'ids=""', $attribute_value, $match );
-
-					$page->post_content = str_ireplace( $match, $updated_match,
-						$page->post_content );
-
-					$changes_made = true;
-					$gallery_changes_made = true;
-				}
-
-				// If the gallery has made changes to the post content, reload those changes into the $dom.
-				if( $gallery_changes_made ) {
-					@$dom->loadHTML( Boldgrid_Inspirations_Utility::utf8_to_html( $page->post_content ) );
-				}
-			}
+			} // End of foreach images.
 
 			/*
 			 * Set background images within the style tag.
 			 *
 			 * @since 1.4.3
 			 */
-			foreach( $this->tags_having_background as $tag ) {
+			foreach ( $this->tags_having_background as $tag ) {
 
 				$tag_position = 0;
 
@@ -2205,7 +2143,7 @@ class Boldgrid_Inspirations_Deploy {
 
 					$asset_id = $element->getAttribute( 'data-imhwpb-asset-id' );
 
-					if( empty ( $asset_id ) ) {
+					if ( empty( $asset_id ) ) {
 						continue;
 					}
 
@@ -2215,32 +2153,65 @@ class Boldgrid_Inspirations_Deploy {
 
 					preg_match( '/(background:|background-image:)\s*(url\()[\'"](.*)[\'"]\)/', $style, $matches );
 
-					if( empty( $matches ) ) {
+					if ( empty( $matches ) ) {
 						continue;
 					}
 
 					// Create our new style tag, update it within the dom, and save post_content.
 					$new_style = str_replace( $matches[0], $matches[1] . 'url("' . $placeholder['attachment_url'] . '")', $style );
 					$element->setAttribute( 'style', $new_style );
-					$dom->saveHTML();
-					$page->post_content = $this->format_html_fragment( $dom );
 
-					$changes_made = true;
-
+					$dom_changed = true;
 					$tag_position++;
 				}
 			}
 
-			if ( $changes_made ) {
+			if ( $dom_changed ) {
+				$dom->saveHTML();
+				$page->post_content = $this->format_html_fragment( $dom );
+				$content_changed = true;
+			}
+
+			// Get asset ids for gallery images and swap data with the attachment ids in the shortcode.
+			if ( preg_match_all( '/\[gallery .+?\]/i', $page->post_content, $matches ) ) {
+				foreach ( $matches[0] as $index => $match ) {
+					preg_match( '/data-imhwpb-assets=\'.*\'/', $match, $data_assets );
+
+					$images = array();
+
+					if ( preg_match( '/data-imhwpb-assets=\'(.+)\'/i', $data_assets[0], $asset_images_ids ) ) {
+						$images = ( explode( ',', $asset_images_ids[1] ) );
+					}
+
+					$attachment_ids = array();
+
+					foreach ( $images as $image_asset_id ) {
+						foreach ( $this->image_placeholders_needing_images['by_page_id'][ $page->ID ] as $asset_index => $asset_info ) {
+							if ( $asset_info['asset_id'] === $image_asset_id ) {
+								$attachment_id = $asset_info['attachment_id'];
+								break;
+							}
+						}
+
+						$attachment_ids[ $image_asset_id ] = $attachment_id;
+					}
+
+					$attribute_value = ' ids="' . implode( ',', $attachment_ids ) . '" ';
+
+					$updated_match = str_ireplace( 'ids=""', $attribute_value, $match );
+
+					$page->post_content = str_ireplace( $match, $updated_match, $page->post_content );
+					$content_changed = true;
+				}
+			}
+
+			if ( $content_changed ) {
 				$this->add_to_deploy_log( 'Beginning to update post in db with new html code.' );
-
 				wp_update_post( $page );
-
 				$this->add_to_deploy_log( 'Finished updating post in db with new html code.' );
 			}
-		} // End of foreach pages_and_posts
+		} // End of foreach pages_and_posts.
 
-		// Update the deploy log:
 		$this->add_to_deploy_log( 'Finished replacing media in pages.' );
 	}
 
