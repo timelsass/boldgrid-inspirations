@@ -46,7 +46,8 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 	this.initiate_stock_image_search = function() {
 		var query = jQuery( '#media-search-input', $c_imhmf ).val(),
 			attribution = jQuery( '#attribution', $c_imhmf ).is( ':checked' ),
-			resultsCount = 0;
+			resultsCount = 0,
+			$imageProviderId = $( '[name="image_provider_id"]');
 
 		// if we're searching for a different word, reset the search
 		if ( self.last_query != '' && query != self.last_query ) {
@@ -82,6 +83,7 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 			'paid' : jQuery( '#paid', $c_imhmf ).val(),
 			'palette' : jQuery( '#palette', $c_imhmf ).val(),
 			'page' : self.page,
+			'image_provider_id' : ! $imageProviderId.length ? null : $imageProviderId.val(),
 		};
 
 		var api_call_image_search_success_action = function( msg ) {

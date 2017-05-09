@@ -25,13 +25,12 @@ include BOLDGRID_BASE_DIR . '/pages/templates/attachment_details.php';
 			</div>
 			<div class="media-toolbar-primary search-form">
 				<form id='image_search'>
-					<label class="screen-reader-text" for="media-search-input">Search
-						Media</label> <input class="search" id="media-search-input"
-						placeholder="Search" type="search" autofocus="autofocus"> <input
-						type='submit' class='button button-primary' value='Search'  disabled /> <input
-						type='hidden' name='free' id='free' value="true" /> <input
-						type='hidden' name='paid' id='paid' value='true' /> <input
-						type='hidden' name='palette' id='palette' value='all' />
+					<label class="screen-reader-text" for="media-search-input">Search Media</label>
+					<input class="search" id="media-search-input" placeholder="Search" type="search" autofocus="autofocus">
+					<input type='submit' class='button button-primary' value='Search'  disabled />
+					<input type='hidden' name='free' id='free' value="true" />
+					<input type='hidden' name='paid' id='paid' value='true' />
+					<input type='hidden' name='palette' id='palette' value='all' />
 				</form>
 			</div>
 		</div>

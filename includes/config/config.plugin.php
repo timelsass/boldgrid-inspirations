@@ -59,19 +59,21 @@ return array(
 		'image_get_details' =>							'/api/image/get-details',
 		'image_download' =>								'/api/image/download',
 		// Built photo search.
+		'bps-get-image-queries' =>						'/api/built-photo-search/get-image-queries',
 		'bps-get-photo' =>								'/api/built-photo-search/get-photo',
 		'bps-get-photos' =>								'/api/built-photo-search/get-photos',
 		'bps-get-queries' =>							'/api/built-photo-search/get-queries',
 		'bps-get-results' =>							'/api/built-photo-search/get-results',
 		'bps-save-new-query' =>							'/api/built-photo-search/save-new-query',
 		'bps-save-new-phrase-and-results' =>			'/api/built-photo-search/save-new-phrase-and-results',
+		'bps-update-search-result' =>					'/api/built-photo-search/update-search-result',
 
 		// Preview Server.
 		'get-site-content' => 							'/wpb-maintenance/get-site-content.php',
 	),
-	'asset_server' =>									'https://wp-assets.boldgrid.com',
-	'preview_server' =>									'https://wp-preview.boldgrid.com',
-	'author_preview_server' =>							'https://wp-staging.boldgrid.com',
+	'asset_server' =>									'https://wp-assets-dev-bradm.boldgrid.com',
+	'preview_server' =>									'https://wp-preview-dev-bradm.boldgrid.com',
+	'author_preview_server' =>							'https://wp-staging-dev-bradm.boldgrid.com',
 	'installation' => array(
 		'max_num_install_attempts' => 5,
 	),

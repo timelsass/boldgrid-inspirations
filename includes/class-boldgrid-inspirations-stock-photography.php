@@ -328,6 +328,8 @@ iframe#boldgrid_connect_search {
 	 */
 	public function include_image_search_php() {
 		include BOLDGRID_BASE_DIR . '/pages/image_search.php';
+
+		do_action( 'boldgrid_image_search_post_form' );
 	}
 
 	/**
@@ -521,6 +523,11 @@ iframe#boldgrid_connect_search {
 				plugins_url( '/assets/js/image_search.js',
 					BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ), array (),
 				BOLDGRID_INSPIRATIONS_VERSION, true );
+
+			/**
+			 *
+			 */
+			do_action( 'boldgrid_image_search_scripts' );
 		}
 
 		global $wp_customize;

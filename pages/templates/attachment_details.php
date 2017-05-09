@@ -122,6 +122,13 @@ $download_button_text = ( true == $ref_is_dashboard_media || true == $ref_is_cus
 		<input type='hidden' name='image_provider_id' id='image_provider_id' value={{image_provider_id}} />
 		<input type='hidden' id='currently_downloading_image' value='0' />
 	</p>
+
+	<?php
+	/**
+	 *
+	 */
+	do_action( 'boldgrid_image_search_attachment_details_post' );
+	?>
 </script>
 
 <script id="attachment-details-error-template"
