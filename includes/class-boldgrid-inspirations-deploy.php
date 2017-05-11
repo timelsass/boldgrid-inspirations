@@ -1658,12 +1658,16 @@ class Boldgrid_Inspirations_Deploy {
 
 					$bps_orientation = $exploded_built_photo_search[1];
 
-					// get width details
-					$exploded_source = explode( '/', $source );
-
-					$exploded_results = explode( 'x', $exploded_source[3] );
-
-					$width = $exploded_results[0];
+					/*
+					 * Get width and height from src url.
+					 *
+					 * Example $source: https://placehold.it/200x200&text=200x200+(dynamic+image)
+					 *
+					 * Regular expression match looks for: /###x###
+					 */
+					preg_match( '/\/([0-9]*)x([0-9]*)/', $source, $matches );
+					$width = ! empty( $matches[1] ) ? $matches[1] : null;
+					$height = ! empty( $matches[2] ) ? $matches[2] : null;
 
 					$image_placeholder = array (
 						'page_id' => $page->ID,
@@ -1672,6 +1676,7 @@ class Boldgrid_Inspirations_Deploy {
 						'bps_query_id' => $bps_query_id,
 						'bps_orienation' => $bps_orientation,
 						'bps_width' => $width,
+						'bps_height' => $height,
 						'remote_page_id' => $remote_page_id
 					);
 
@@ -1818,6 +1823,7 @@ class Boldgrid_Inspirations_Deploy {
 						'image_provider_id' =>			isset( $image_data['getPhotoAction']['image_provider_id'] ) 		? $image_data['getPhotoAction']['image_provider_id'] : null,
 						'imgr_image_id' =>				isset( $image_data['getPhotoAction']['imgr_image_id'] ) 			? $image_data['getPhotoAction']['imgr_image_id']	 : null,
 						'width' =>						isset( $image_data['bps_width'] ) 									? $image_data['bps_width']							 : null,
+						'height' =>						isset( $image_data['bps_height'] ) 									? $image_data['bps_height']							 : null,
 						'orientation' =>				isset( $image_data['bps_orientation'] ) 							? $image_data['bps_orientation']					 : null,
 						'image_size' =>					isset( $item['params']['image_size'] ) 								? $image_data['params']['image_size']				 : null,
 						'is_redownload' =>				isset( $item['params']['is_redownload'] ) 							? $image_data['params']['is_redownload']			 : false,
