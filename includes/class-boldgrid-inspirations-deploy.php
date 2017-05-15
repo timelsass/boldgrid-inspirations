@@ -2202,7 +2202,7 @@ class Boldgrid_Inspirations_Deploy {
 					$attachment_ids = array();
 
 					foreach ( $images as $asset_id ) {
-						if( ! empty( $assets[ $asset_id ] ) ) {
+						if ( ! empty( $assets[ $asset_id ] ) ) {
 							$attachment_ids[ $asset_id ] = $assets[ $asset_id ];
 						}
 					}
