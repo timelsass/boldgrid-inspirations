@@ -2185,6 +2185,11 @@ class Boldgrid_Inspirations_Deploy {
 
 			// Get asset ids for gallery images and swap data with the attachment ids in the shortcode.
 			if ( preg_match_all( '/\[gallery .+?\]/i', $page->post_content, $matches ) ) {
+				// Create an array of asset_id's to local attachment_id's.
+				foreach ( $this->image_placeholders_needing_images['by_page_id'][ $page->ID ] as $image ) {
+					$assets[ $image['asset_id'] ] = $image['attachment_id'];
+				}
+
 				foreach ( $matches[0] as $index => $match ) {
 					preg_match( '/data-imhwpb-assets=\'.*\'/', $match, $data_assets );
 
@@ -2196,15 +2201,10 @@ class Boldgrid_Inspirations_Deploy {
 
 					$attachment_ids = array();
 
-					foreach ( $images as $image_asset_id ) {
-						foreach ( $this->image_placeholders_needing_images['by_page_id'][ $page->ID ] as $asset_index => $asset_info ) {
-							if ( $asset_info['asset_id'] === $image_asset_id ) {
-								$attachment_id = $asset_info['attachment_id'];
-								break;
-							}
+					foreach ( $images as $asset_id ) {
+						if( ! empty( $assets[ $asset_id ] ) ) {
+							$attachment_ids[ $asset_id ] = $assets[ $asset_id ];
 						}
-
-						$attachment_ids[ $image_asset_id ] = $attachment_id;
 					}
 
 					$attribute_value = ' ids="' . implode( ',', $attachment_ids ) . '" ';
