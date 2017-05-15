@@ -370,10 +370,17 @@ class Boldgrid_Inspirations_Deploy {
 			$this->start_over = true;
 		}
 
-		// If author, do not process any background images.
-		if ( $this->is_author ) {
-			$this->tags_having_background = array();
-		}
+		/**
+		 * Filter $this->tags_having_background.
+		 *
+		 * For example, authors should not process background images.
+		 *
+		 * @since 1.4.5
+		 *
+		 * @param array $this->tags_having_background
+		 * @param bool  $this->is_author
+		 */
+		$this->tags_having_background = apply_filters( 'boldgrid_deploy_background_tags', $this->tags_having_background, $this->is_author );
 	}
 
 	/**
