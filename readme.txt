@@ -35,6 +35,7 @@ The second phase is Customization; tools to transform your website into your vis
 * Bug fix:		JIRA WPB-3161	Fixed auto plugin update.
 * Bug fix:		JIRA WPB-3162	Fixed issue creating .htaccess file in deployment.
 * Bug fix:		JIRA WPB-3171	As an author, when installing a site I do not want background images to be processed.
+* Bug fix:		JIRA WPB-3176	Background gradient / url bug during deplyment.
 
 = 1.4.4 =
 * Bug fix:		JIRA WPB-3151	Added check and load before using get_plugin_data() for updates.
