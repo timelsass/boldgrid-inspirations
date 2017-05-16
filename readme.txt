@@ -31,6 +31,9 @@ The second phase is Customization; tools to transform your website into your vis
 
 == Changelog ==
 
+= 1.4.6 In progress =
+* Bug fix:		JIRA WPB-3179	Gradient style being lost during normal deployment.
+
 = 1.4.5 =
 * Bug fix:		JIRA WPB-3161	Fixed auto plugin update.
 * Bug fix:		JIRA WPB-3162	Fixed issue creating .htaccess file in deployment.

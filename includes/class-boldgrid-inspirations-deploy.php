@@ -2169,7 +2169,8 @@ class Boldgrid_Inspirations_Deploy {
 					}
 
 					// Create our new style tag, update it within the dom, and save post_content.
-					$new_style = str_replace( $matches[0], $matches[1] . 'url("' . $placeholder['attachment_url'] . '")', $style );
+					$updated_matches_0 = str_replace( $matches[3], $placeholder['attachment_url'], $matches[0] );
+					$new_style = str_replace( $matches[0], $updated_matches_0, $style );
 					$element->setAttribute( 'style', $new_style );
 
 					$dom_changed = true;
