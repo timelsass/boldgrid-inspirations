@@ -458,6 +458,9 @@ class Boldgrid_Inspirations_Update {
 				$wp_version;
 
 			if ( $plugin_data['Version'] !== $boldgrid_api_data->result->data->version ) {
+				if ( ! empty( $boldgrid_api_data->result->data->autoupdate ) ) {
+					$obj->autoupdate = true;
+				}
 				$transient->response[ $obj->plugin ] = $obj;
 				$transient->tested = $boldgrid_api_data->result->data->tested_wp_version;
 			} else {
