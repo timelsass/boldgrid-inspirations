@@ -83,7 +83,7 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 			'paid' : jQuery( '#paid', $c_imhmf ).val(),
 			'palette' : jQuery( '#palette', $c_imhmf ).val(),
 			'page' : self.page,
-			'image_provider_id' : ! $imageProviderId.length ? null : $imageProviderId.val(),
+			'image_provider_id' : ! $imageProviderId.length || "-1" === $imageProviderId.val() ? null : $imageProviderId.val(),
 		};
 
 		var api_call_image_search_success_action = function( msg ) {

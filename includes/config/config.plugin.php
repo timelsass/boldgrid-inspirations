@@ -58,6 +58,7 @@ return array(
 		'image_search' =>								'/api/image/search',
 		'image_get_details' =>							'/api/image/get-details',
 		'image_download' =>								'/api/image/download',
+		'image_providers' =>							'/api/image/get-providers',
 		// Built photo search.
 		'bps-get-image-queries' =>						'/api/built-photo-search/get-image-queries',
 		'bps-get-photo' =>								'/api/built-photo-search/get-photo',
