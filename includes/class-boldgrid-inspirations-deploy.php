@@ -1985,28 +1985,11 @@ class Boldgrid_Inspirations_Deploy {
 
 			// If we did not receive a filename in the headers, then log and skip.
 			if ( empty( $arrayify['headers']['z-filename'] ) ) {
-				// If body is binary, then remove it.
-				if ( ! empty( $arrayify['body'] ) &&
-					 Boldgrid_Inspirations_Utility::is_binary( $arrayify['body'] ) ) {
-					$arrayify['body'] = '(removed)';
-				}
-
-				// Log:
-				error_log(
-					__METHOD__ . ': Image download response header is missing z-filename. ' . print_r(
-						array (
-							'$image_key' => $image_key,
-							'$image_data' => $image_data,
-							'$arrayify' => $arrayify
-						), true ) );
-
-				// Skip this iteration in the loop:
+				error_log( 'Failed to download image during deployment, ["headers"]["z-filename"] was empty.' );
 				continue;
 			} else {
-				// If image caching is enabled, a cache id exists, and was not retrieved from cache,
-				// then save to cache.
-				if ( null !== $this->asset_cache && ! empty( $image_data['cache_id'] ) &&
-					 ! $image_data['cached'] ) {
+				// If appplicable, save to cache.
+				if ( null !== $this->asset_cache && ! empty( $image_data['cache_id'] ) && ! $image_data['cached'] ) {
 					$this->asset_cache->save_cache_files( $image_data['cache_id'], $arrayify );
 				}
 			}
