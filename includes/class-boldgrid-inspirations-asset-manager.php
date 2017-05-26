@@ -626,40 +626,52 @@ class Boldgrid_Inspirations_Asset_Manager extends Boldgrid_Inspirations {
 		}
 
 		/*
-		 * Fail if:
-		 * We don't have the following headers.
-		 * - z-filename header.
-		 * - z-asset-id
-		 * - z-asset-type
-		 * We have an instance of WP_Error.
-		 * We downloaded 0 bytes.
+		 * Validate our downloaded image.
+		 *
+		 * Validation use to be contained in one if statement. To help with troubleshooting, each
+		 * check has been separated.
 		 */
-		if ( $response instanceof WP_Error || ! isset( $response['headers']['z-filename'] ) ||
-			 ! isset( $response['headers']['z-asset-id'] ) ||
-			 ! isset( $response['headers']['z-asset-type'] ) || ! strlen( $response['body'] ) ) {
-			error_log(
-				__METHOD__ . ': Error: Error validating image.  ' . print_r(
-					array (
-						'$asset_id' => $asset_id,
-						'$info' => $info,
-						'$response' => $response
-					), true ) );
 
-			/*
-			 * Determine our response for this failed download.
-			 *
-			 * Historically, we always returned false. This causes a problem when purchasing images
-			 * because false does not tell us why the purchase failed.
-			 *
-			 * Because of this problem, we've added a check of $is_purchase. If we are purchasing an
-			 * image, return additional information.
-			 */
+		$valid_image = true;
+
+		if ( $response instanceof WP_Error ) {
+			error_log( print_r( array(
+				'Message' => __METHOD__ . ': Error validating downloaded image, we have a WP_Error.',
+				'WP_Error' => $response,
+			)));
+			$valid_image = false;
+		}
+
+		// Check necessary headers are there.
+		$check_headers = array( 'z-filename', 'z-asset-id', 'z-asset-type' );
+		foreach( $check_headers as $header ) {
+			if( ! isset( $response['headers'][$header] ) ) {
+				error_log( 'Error validating downloaded image, missing header: ' . $header );
+				$valid_image = false;
+			}
+		}
+
+		if( ! strlen( $response['body'] ) ) {
+			error_log( 'Error validating downloaded image, empty $response body.');
+			$valid_image = false;
+		}
+
+		/*
+		 * Determine our response for this failed download.
+		 *
+		 * Historically, we always returned false. This causes a problem when purchasing images
+		 * because false does not tell us why the purchase failed.
+		 *
+		 * Because of this problem, we've added a check of $is_purchase. If we are purchasing an
+		 * image, return additional information.
+		 */
+		if( ! $valid_image ) {
 			if( $is_purchase ) {
 				$server_response = json_decode( $response['body'], true );
 
 				$message = ( is_array( $server_response ) && isset( $server_response['message'] ) )
-							? $server_response['message']
-							: __( 'Unknown Error.', 'boldgrid-inspirations' );
+				? $server_response['message']
+				: __( 'Unknown Error.', 'boldgrid-inspirations' );
 
 				return array(
 					'success' => false,
@@ -671,9 +683,7 @@ class Boldgrid_Inspirations_Asset_Manager extends Boldgrid_Inspirations {
 		}
 
 		// Save cache files, if enabled.
-		if ( null !== $this->asset_cache && ! $image_from_cache &&
-			 ! empty( $info['cache_id'] ) ) {
-			// Save cache files.
+		if ( null !== $this->asset_cache && ! $image_from_cache && ! empty( $info['cache_id'] ) ) {
 			$this->asset_cache->save_cache_files( $info['cache_id'], $response );
 		}
 
@@ -1054,8 +1064,8 @@ class Boldgrid_Inspirations_Asset_Manager extends Boldgrid_Inspirations {
 	 *
 	 * @see Boldgrid_Inspirations_Api::get_api_key_hash().
 	 *
-	 * @param int|array $item An asset id or an array of parameters.
-	 * @param int $transaction_id An optional transaction id.
+	 * @param  int|array $item           An asset id or an array of parameters.
+	 * @param  int       $transaction_id An optional transaction id.
 	 * @return array
 	 */
 	public function get_asset_server_item_download_info( $item, $transaction_id = null ) {
