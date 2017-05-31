@@ -44,6 +44,22 @@ if ( Boldgrid_Inspirations::is_php_compatible() ) {
 			'pre_add_hooks',
 		)
 	);
+	// Include the autoloader to set plugin options and create instance.
+	$loader = require plugin_dir_path( __FILE__ ) . 'vendor/autoload.php';
+
+	// Load Library.
+	$load = new Boldgrid\Library\Util\Load(
+		array(
+			'type' => 'plugin',
+			'file' => plugin_basename( __FILE__ ),
+			'loader' => $loader,
+			'keyValidate' => false,
+			'licenseActivate', false,
+		)
+	);
+
+	// Add attribution controls.
+	new Boldgrid\Inspirations\Premium\Attribution;
 
 	// Inspirations survey. Needs to load ASAP in order to filter bgtfw configs.
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-survey.php';

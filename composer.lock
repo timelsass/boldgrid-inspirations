@@ -1,0 +1,122 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "a685621b27230eefcbdc08fdfb17f66d",
+    "packages": [
+        {
+            "name": "boldgrid/boldgrid-inspirations-premium",
+            "version": "dev-dev",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:BoldGrid/boldgrid-inspirations-premium.git",
+                "reference": "1596860fe7f17fdc84a1ee7a7d95c1582bd000fc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/BoldGrid/boldgrid-inspirations-premium/zipball/1596860fe7f17fdc84a1ee7a7d95c1582bd000fc",
+                "reference": "1596860fe7f17fdc84a1ee7a7d95c1582bd000fc",
+                "shasum": ""
+            },
+            "require": {
+                "boldgrid/library": "dev-dev"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Boldgrid\\Inspirations\\Premium\\": "src/Premium"
+                }
+            },
+            "license": [
+                "GPL2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Tim Elsass",
+                    "email": "dev@tim.ph",
+                    "homepage": "http://tim.ph",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Rafael Ramos",
+                    "homepage": "http://rafael-ramos.com",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Joe",
+                    "role": "Developer"
+                },
+                {
+                    "name": "bwmarkle",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Premium BoldGrid Inspirations Features.",
+            "support": {
+                "source": "https://github.com/BoldGrid/boldgrid-inspirations-premium/tree/dev",
+                "issues": "https://github.com/BoldGrid/boldgrid-inspirations-premium/issues"
+            },
+            "time": "2017-05-31 19:29:58"
+        },
+        {
+            "name": "boldgrid/library",
+            "version": "dev-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/BoldGrid/library.git",
+                "reference": "ed3a37aea1689a95c0602bb358642fe0565ab5f9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/BoldGrid/library/zipball/ed3a37aea1689a95c0602bb358642fe0565ab5f9",
+                "reference": "ed3a37aea1689a95c0602bb358642fe0565ab5f9",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Boldgrid\\Library\\Util\\": "src/Util"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Tim Elsass",
+                    "email": "dev@tim.ph",
+                    "homepage": "http://tim.ph",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Rafael Ramos",
+                    "homepage": "http://rafael-ramos.com",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Joe",
+                    "role": "Developer"
+                },
+                {
+                    "name": "bwmarkle",
+                    "role": "Developer"
+                }
+            ],
+            "description": "The BoldGrid Library for shared code used in official BoldGrid plugins and themes.",
+            "time": "2017-05-31 21:09:32"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "dev",
+    "stability-flags": {
+        "boldgrid/boldgrid-inspirations-premium": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": [],
+    "platform-dev": []
+}
