@@ -6,15 +6,15 @@
         "source": {
             "type": "git",
             "url": "https://github.com/BoldGrid/library.git",
-            "reference": "ed3a37aea1689a95c0602bb358642fe0565ab5f9"
+            "reference": "34750383dc7334dca65692bbeba2c2bac8e6319e"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/BoldGrid/library/zipball/ed3a37aea1689a95c0602bb358642fe0565ab5f9",
-            "reference": "ed3a37aea1689a95c0602bb358642fe0565ab5f9",
+            "url": "https://api.github.com/repos/BoldGrid/library/zipball/34750383dc7334dca65692bbeba2c2bac8e6319e",
+            "reference": "34750383dc7334dca65692bbeba2c2bac8e6319e",
             "shasum": ""
         },
-        "time": "2017-05-31T21:09:32+00:00",
+        "time": "2017-06-01T19:31:07+00:00",
         "type": "library",
         "installation-source": "source",
         "autoload": {
@@ -56,18 +56,18 @@
         "source": {
             "type": "git",
             "url": "git@github.com:BoldGrid/boldgrid-inspirations-premium.git",
-            "reference": "1596860fe7f17fdc84a1ee7a7d95c1582bd000fc"
+            "reference": "a4c84994d85c02fd20d38310c0a3910c58a35d8e"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/BoldGrid/boldgrid-inspirations-premium/zipball/1596860fe7f17fdc84a1ee7a7d95c1582bd000fc",
-            "reference": "1596860fe7f17fdc84a1ee7a7d95c1582bd000fc",
+            "url": "https://api.github.com/repos/BoldGrid/boldgrid-inspirations-premium/zipball/a4c84994d85c02fd20d38310c0a3910c58a35d8e",
+            "reference": "a4c84994d85c02fd20d38310c0a3910c58a35d8e",
             "shasum": ""
         },
         "require": {
             "boldgrid/library": "dev-dev"
         },
-        "time": "2017-05-31T19:29:58+00:00",
+        "time": "2017-06-01T19:58:32+00:00",
         "type": "library",
         "installation-source": "source",
         "autoload": {
