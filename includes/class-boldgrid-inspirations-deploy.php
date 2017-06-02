@@ -1659,11 +1659,11 @@ class Boldgrid_Inspirations_Deploy {
 					$this->built_photo_search_log['sources'][] = $built_photo_search;
 
 					// get built_photo_search details (query_id | orientation)
-					$exploded_built_photo_search = explode( '|', $built_photo_search );
+					$exploded_bps = explode( '|', $built_photo_search );
 
-					$bps_query_id = $exploded_built_photo_search[0];
+					$bps_query_id = $exploded_bps[0];
 
-					$bps_orientation = $exploded_built_photo_search[1];
+					$bps_orientation = ! empty( $exploded_bps[1] ) ? $exploded_bps[1] : 'any';
 
 					/*
 					 * Get width and height from src url.
