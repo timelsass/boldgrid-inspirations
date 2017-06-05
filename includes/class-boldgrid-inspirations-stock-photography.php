@@ -465,7 +465,10 @@ iframe#boldgrid_connect_search {
 	 * Register styles/scripts
 	 */
 	public function enqueue_header_content( $hook ) {
-		wp_enqueue_media();
+		$post_id = get_the_ID();
+
+		$args = $post_id ? array( 'post' => $post_id ) : array();
+		wp_enqueue_media( $args );
 
 		// Get 'tab' from the url.
 		// Example url: https://domain.com/wp-admin/media-upload.php?&tab=image_search
