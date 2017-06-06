@@ -44,13 +44,13 @@ class Boldgrid_Inspirations_Admin_Menu {
 	public static function remove_submenu_page( $parent, $title ) {
 		global $submenu;
 
-		if( empty( $submenu[$parent] ) ) {
+		if ( empty( $submenu[ $parent ] ) ) {
 			return false;
 		}
 
-		foreach( $submenu[$parent] as $key => $item ) {
-			if( $title === $item[0] ) {
-				unset( $submenu[$parent][$key] );
+		foreach ( $submenu[ $parent ] as $key => $item ) {
+			if ( $title === $item[0] ) {
+				unset( $submenu[ $parent ][ $key ] );
 				return true;
 			}
 		}
