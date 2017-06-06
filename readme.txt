@@ -33,6 +33,7 @@ The second phase is Customization; tools to transform your website into your vis
 
 = 1.4 In progrses =
 * Bug fix:		JIRA WPB-3230	Images are not assigned to posts.
+* Bug fix:		JIRA WPB-3232	Deploy Staging menu item missing.
 
 = 1.4 =
 * Update:		JIRA WPB-2936	Updating YouTube videos for BoldGrid Dashboard's new release.
