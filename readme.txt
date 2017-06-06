@@ -32,7 +32,6 @@ The second phase is Customization; tools to transform your website into your vis
 == Changelog ==
 
 = 1.4.0.1 In progress =
-* Bug fix:		JIRA WPB-3230	Images are not assigned to posts.
 * Bug fix:		JIRA WPB-3232	Deploy Staging menu item missing.
 * Bug fix:		JIRA WPB-3233	BoldGrid Connect Search missing from new image widget.
 
