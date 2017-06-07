@@ -2,11 +2,7 @@
 Contributors: imh_brad, joemoto, rramo012, timph
 Tags: inspiration,customization,build,create,design
 Requires at least: 4.3
-<<<<<<< HEAD
-Tested up to: 4.7.4
-=======
 Tested up to: 4.8
->>>>>>> a5bbb70d98783089e263c7364b05aa17ea3c52ce
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
