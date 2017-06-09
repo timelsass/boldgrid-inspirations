@@ -57,9 +57,12 @@ if ( Boldgrid_Inspirations::is_php_compatible() ) {
 			'licenseActivate', false,
 		)
 	);
+	$boldgrid_inspirations_settings = get_option( 'boldgrid_settings' );
 
-	// Add attribution controls.
-	new Boldgrid\Inspirations\Premium\Attribution;
+	if ( ! empty( $boldgrid_inspirations_settings['library'] ) ) {
+		// Load attribution module.
+		new Boldgrid\Inspirations\Premium\Attribution;
+	}
 
 	// Inspirations survey. Needs to load ASAP in order to filter bgtfw configs.
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-survey.php';
