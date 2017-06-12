@@ -232,10 +232,10 @@ class Boldgrid_Inspirations_Dashboard extends Boldgrid_Inspirations {
 		}
 
 		// Remove Background from Admin Menu.
-		unset( $submenu['themes.php'][20] );
+		Boldgrid_Inspirations_Admin_Menu::remove_submenu_page( 'themes.php', __( 'Background' ) );
 
 		// Remove Header submenu item from Appearances.
-		unset( $submenu['themes.php'][15] );
+		Boldgrid_Inspirations_Admin_Menu::remove_submenu_page( 'themes.php', __( 'Header' ) );
 
 		// Capability check.
 		if ( current_user_can( 'manage_options' ) ) {

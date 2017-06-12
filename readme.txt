@@ -2,7 +2,7 @@
 Contributors: imh_brad, joemoto, rramo012, timph
 Tags: inspiration,customization,build,create,design
 Requires at least: 4.3
-Tested up to: 4.7.4
+Tested up to: 4.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -31,6 +31,9 @@ The second phase is Customization; tools to transform your website into your vis
 
 == Changelog ==
 
+= 1.4.7 In progress =
+* Update:		JIRA WPB-3243	Change feedback admin notice display frequency.
+
 = 1.4.6 =
 * Bug fix:		JIRA WPB-3179	Gradient style being lost during normal deployment.
 * Bug fix:      JIRA WPB-3180   Open WordPress/BoldGrid links in attribution page in new tab.
@@ -57,6 +60,10 @@ The second phase is Customization; tools to transform your website into your vis
 = 1.4.1 =
 * New feature:	JIRA WPB-3044	Automatically get Unsplash attribution.
 * Update:		JIRA WPB-3043	Updating plugin description.
+
+= 1.4.0.1 =
+* Bug fix:		JIRA WPB-3232	Deploy Staging menu item missing.
+* Bug fix:		JIRA WPB-3233	BoldGrid Connect Search missing from new image widget.
 
 = 1.4 =
 * Update:		JIRA WPB-2936	Updating YouTube videos for BoldGrid Dashboard's new release.
