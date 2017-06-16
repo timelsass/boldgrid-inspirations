@@ -7,3 +7,4 @@ logs*
 .settings
 node_modules
 bower_components
+/vendor
