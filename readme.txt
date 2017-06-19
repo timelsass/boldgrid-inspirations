@@ -31,6 +31,9 @@ The second phase is Customization; tools to transform your website into your vis
 
 == Changelog ==
 
+= 1.4.7 In progress =
+* Update:                       Misc image related changes.
+
 = 1.4.6 =
 * Bug fix:		JIRA WPB-3179	Gradient style being lost during normal deployment.
 * Bug fix:      JIRA WPB-3180   Open WordPress/BoldGrid links in attribution page in new tab.

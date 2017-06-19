@@ -125,7 +125,9 @@ $download_button_text = ( true == $ref_is_dashboard_media || true == $ref_is_cus
 
 	<?php
 	/**
+	 * Take action at the end of the Attachment details template.
 	 *
+	 * @since 1.47
 	 */
 	do_action( 'boldgrid_image_search_attachment_details_post' );
 	?>

@@ -47,7 +47,7 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 		var query = jQuery( '#media-search-input', $c_imhmf ).val(),
 			attribution = jQuery( '#attribution', $c_imhmf ).is( ':checked' ),
 			resultsCount = 0,
-			$imageProviderId = $( '[name="image_provider_id"]');
+			$imageProviderId = $( '[name="image_provider_id"]' );
 
 		// if we're searching for a different word, reset the search
 		if ( self.last_query != '' && query != self.last_query ) {

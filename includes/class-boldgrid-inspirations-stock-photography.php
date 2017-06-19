@@ -524,7 +524,9 @@ iframe#boldgrid_connect_search {
 				BOLDGRID_INSPIRATIONS_VERSION, true );
 
 			/**
+			 * Actions to take when we're in the BoldGrid Connect Search iframe.
 			 *
+			 * @since 1.47
 			 */
 			do_action( 'boldgrid_image_search_scripts' );
 		}
