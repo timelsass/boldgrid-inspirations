@@ -82,6 +82,8 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 		'#site_icon-button,' +
 		// Site Logo > Select image.
 		'#boldgrid_logo_setting-button,' +
+		// Widget > Image.
+		'[id^=customize-control-widget_media_image] .select-media,' +
 
 		/*
 		 * BoldGrid Editor - Column options.

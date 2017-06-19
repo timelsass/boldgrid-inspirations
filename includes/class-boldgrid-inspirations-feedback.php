@@ -268,9 +268,9 @@ class Boldgrid_Inspirations_Feedback {
 	/**
 	 * Display feedback notice.
 	 *
-	 * Feedback notice is triggered 7 and 60 days after a site is installed with Inspirations
-	 * version 1.1 or higher. If the notice was dismissed in the last week, or feedback was already
-	 * sent within the last week, then do not show the feedback notice.
+	 * Feedback notice is triggered 2 weeks (interval #1) and 3 months (interval #2) after a site
+	 * is installed with Inspirations version 1.1 or higher. If the notice was dismissed or feedback
+	 * was already sent within interval #1, then do not show the feedback notice.
 	 *
 	 * @since 1.1
 	 *
@@ -293,21 +293,17 @@ class Boldgrid_Inspirations_Feedback {
 			return;
 		}
 
-		// Create a variable for the unix time (in seconds) 7 days ago.
-		$seven_days_ago = strtotime( 'NOW - 7 DAYS' );
+		$interval1 = strtotime( 'NOW - 2 WEEKS' );
 
-		// Create a variable for the unix time (in seconds) 60 days ago.
-		$sixty_days_ago = strtotime( 'NOW - 60 DAYS' );
+		$interval2 = strtotime( 'NOW - 3 MONTHS' );
 
-		// Get the install timestamp.
 		$install_timestamp = $install_options['install_timestamp'];
 
-		// If is has been less than 7 days since a site was installed, then abort.
-		if ( $install_timestamp > $seven_days_ago ) {
+		// If is has been within interval #1 that a site was installed, then abort.
+		if ( $install_timestamp > $interval1 ) {
 			return;
 		}
 
-		// Get the current user id.
 		$user_id = get_current_user_id();
 
 		// Get boldgrid_feedback_sent (array of timestamps) from user metadata.
@@ -324,19 +320,18 @@ class Boldgrid_Inspirations_Feedback {
 				}
 			}
 
-			// If feedback sent is recent (in the last week), then abort.
-			if ( $latest_feedback_sent >= $seven_days_ago ) {
+			// If feedback sent is recent (within interval #1), then abort.
+			if ( $latest_feedback_sent >= $interval1 ) {
 				return;
 			}
 
-			// Feedback was sent over a week ago.
-			// If the last site install was less than 60 days ago, then abort.
-			if ( $install_timestamp < $sixty_days_ago ) {
+			// Feedback was sent past the interval #1.
+			// If the last site install was less intercal #2, then abort.
+			if ( $install_timestamp < $interval2 ) {
 				return;
 			}
 		}
 
-		// Instantiate the Boldgrid_Inspirations_Admin_Notices class.
 		$admin_notices = new Boldgrid_Inspirations_Admin_Notices();
 
 		$dismissal = $admin_notices->get( 'feedback-notice-1-1' );
@@ -345,13 +340,13 @@ class Boldgrid_Inspirations_Feedback {
 
 		if ( $has_been_dismissed ) {
 			/*
-			 * If the user dismissed this notice within the last week, abort and do not show the
+			 * If the user dismissed this notice within interval #1, abort and do not show the
 			 * notice.
 			 *
 			 * Otherwise, the user dismissed the notice more than seven days ago. Delete that
 			 * dismissal and give them another reminder for feedback.
 			 */
-			if ( $dismissal['timestamp'] > $seven_days_ago ) {
+			if ( $dismissal['timestamp'] > $interval1 ) {
 				return;
 			} else {
 				$admin_notices->clear( 'feedback-notice-1-1' );
