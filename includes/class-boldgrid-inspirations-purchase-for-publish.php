@@ -66,6 +66,8 @@ class Boldgrid_Inspirations_Purchase_For_Publish extends Boldgrid_Inspirations {
 					$this,
 					'image_in_shopping_cart_checked_callback'
 			) );
+
+			add_action( 'post_unwatermarked_saved', array( $this, 'force_aspect_ratio' ), 10, 2 );
 		}
 	}
 
@@ -107,6 +109,27 @@ class Boldgrid_Inspirations_Purchase_For_Publish extends Boldgrid_Inspirations {
 			plugins_url( '/assets/js/ajax/ajax.js',
 				BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ), array(), BOLDGRID_INSPIRATIONS_VERSION,
 			true );
+	}
+
+	/**
+	 * Match aspect ratio of watermarked image and unwatermarked image.
+	 *
+	 * Page designers specify best fit width and heights when adding dynamic
+	 * images to a page. BoldGrid <= 1.4 only guaranteed to match the designer's
+	 * specified width, not height. As of BoldGrid 1.5, a deployment will
+	 * receive images with the same dimensions as specified by the author.
+	 *
+	 * The original dimensions your deployment received are stored in
+	 * $asset['width'] and $asset['height'].
+	 *
+	 * @since 1.4.7
+	 *
+	 * @param  array $call_to_download_and_attach
+	 * @param  array $asset
+	 * @return null
+	 */
+	public function force_aspect_ratio( $call_to_download_and_attach, $asset ) {
+		Boldgrid_Inspirations_Image_Utility::cropToAspectRatio( $call_to_download_and_attach['file'], $asset['width'], $asset['height'] );
 	}
 
 	/**
@@ -425,6 +448,16 @@ class Boldgrid_Inspirations_Purchase_For_Publish extends Boldgrid_Inspirations {
 			// Download and update the attachment:
 			$call_to_download_and_attach = $assetManager->download_and_attach_asset( null, null,
 				$download_data, 'all', true );
+
+			/**
+			 * Action to take after an unwatermarked image has been saved.
+			 *
+			 * @since 1.4.7
+			 *
+			 * @param array $call_to_download_and_attach
+			 * @param array $asset
+			 */
+			do_action( 'post_unwatermarked_saved', $call_to_download_and_attach, $asset );
 
 			// Were we able to download the image successfully?
 			if ( false === $this->is_successful_purchase( $call_to_download_and_attach ) ) {

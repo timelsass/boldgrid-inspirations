@@ -27,6 +27,10 @@ class Boldgrid_Inspirations_Enable_Media_Replace {
 	/**
 	 * Replace image.
 	 *
+	 * After purchasing an unwatermarked image, we call this method and pass:
+	 * # $attachment_id The local attachment id of the watermarked image.
+	 * # $new_file_path The filepath to the unwatermarked image just downloaded.
+	 *
 	 * @param unknown $attachment_id
 	 * @param unknown $new_file_path
 	 * @return boolean
