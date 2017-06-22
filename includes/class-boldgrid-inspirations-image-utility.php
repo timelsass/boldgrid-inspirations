@@ -1,5 +1,4 @@
 <?php
-
 /**
  * BoldGrid Source Code
  *
@@ -25,24 +24,24 @@ class Boldgrid_Inspirations_Image_Utility {
 	 *
 	 * @since 1.4.7
 	 *
-	 * @param  string $filepath
-	 * @param  int    $width
-	 * @param  int    $height
+	 * @param  string $filepath Path to the image.
+	 * @param  int    $width    Width.
+	 * @param  int    $height   Height.
 	 * @return bool   True on success.
 	 */
-	public static function cropToAspectRatio( $filepath, $width, $height ) {
+	public static function crop_to_aspect_ratio( $filepath, $width, $height ) {
 		$width = (int) $width;
 		$height = (int) $height;
 
 		$image = wp_get_image_editor( $filepath );
-		if( is_wp_error( $image ) ) {
+		if ( is_wp_error( $image ) ) {
 			return false;
 		}
 
 		$image_size = $image->get_size();
 
 		// Abort if aspect ratios alrady match.
-		if( $width / $height === $image_size['width'] / $image_size['height'] ) {
+		if ( $width / $height === $image_size['width'] / $image_size['height'] ) {
 			return true;
 		}
 
@@ -56,7 +55,7 @@ class Boldgrid_Inspirations_Image_Utility {
 		 */
 		$new_width = $image_size['width'];
 		$new_height = round( ( $height * $new_width ) / $width );
-		if( $new_height > $image_size['height'] ) {
+		if ( $new_height > $image_size['height'] ) {
 			$new_height = $image_size['height'];
 			$new_width = round( ( $width * $new_height ) / $height );
 		}
@@ -66,15 +65,15 @@ class Boldgrid_Inspirations_Image_Utility {
 		$y0 = round( ( $image_size['height'] / 2 ) - ( $new_height / 2 ) );
 
 		$is_cropped = $image->crop( $x0, $y0, $new_width, $new_height );
-		if( is_wp_error( $is_cropped ) ) {
+		if ( is_wp_error( $is_cropped ) ) {
 			return false;
 		}
 
 		$is_saved = $image->save( $filepath );
-		if( is_wp_error( $is_saved ) ) {
+		if ( is_wp_error( $is_saved ) ) {
 			return false;
 		}
 	}
 }
 
-?>
+

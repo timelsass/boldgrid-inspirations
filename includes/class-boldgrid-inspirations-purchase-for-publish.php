@@ -129,7 +129,7 @@ class Boldgrid_Inspirations_Purchase_For_Publish extends Boldgrid_Inspirations {
 	 * @return null
 	 */
 	public function force_aspect_ratio( $call_to_download_and_attach, $asset ) {
-		Boldgrid_Inspirations_Image_Utility::cropToAspectRatio( $call_to_download_and_attach['file'], $asset['width'], $asset['height'] );
+		Boldgrid_Inspirations_Image_Utility::crop_to_aspect_ratio( $call_to_download_and_attach['file'], $asset['width'], $asset['height'] );
 	}
 
 	/**
