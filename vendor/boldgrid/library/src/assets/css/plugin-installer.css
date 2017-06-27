@@ -1,3 +1,8 @@
+/* Hiding search on new tab for now. */
+.plugin-install-tab-boldgrid .search-form.search-plugins {
+	display: none;
+}
+
 /* Add margin for WordPress filter bar. */
 .plugin-install-php .plugin-install-tab-boldgrid .wp-filter {
 	margin: 12px 0 25px;
