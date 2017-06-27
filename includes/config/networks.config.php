@@ -286,7 +286,6 @@ return array(
 		'icon-circle-open' => 'fa fa-twitch fa-stack-1x',
 		'icon-circle' => 'fa fa-twitch fa-stack-1x',
 		'content' => 'f1e8',
-		'default-shown' => true,
 	),
 
 	'twitter.com' => array(
