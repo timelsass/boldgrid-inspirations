@@ -104,7 +104,7 @@ class Installer {
 	 * @return object $transient The transient class property.
 	 */
 	protected function setTransient() {
-		return $this->transient = get_site_transient( 'boldgrid_plugins', null ) ? get_site_transient( 'boldgrid_site_transient' ) : $this->getPluginInformation( $this->configs['plugins'] );
+		return $this->transient = get_site_transient( 'boldgrid_plugins', null ) ? get_site_transient( 'boldgrid_plugins' ) : $this->getPluginInformation( $this->configs['plugins'] );
 	}
 
 	/**
@@ -190,6 +190,58 @@ class Installer {
 		}
 
 		return $results;
+	}
+
+	/**
+	 * Filter the Plugin API results.
+	 *
+	 * We use this filter to add our plugins to the plugins_api results.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param mixed  $result Plugins API result.
+	 * @param array  $args   WordPress Plugins API arguments.
+	 * @param string $action The type of information being requested from the Plugin Install API.
+	 *
+	 * @hook: plugins_api_result
+	 *
+	 * @return array $result WordPress Plugins API result.
+	 */
+	public function result( $result, $action, $args ) {
+		$boldgrid_plugins = get_site_transient( 'boldgrid_plugins' );
+
+		// Add data for plugin info tabs in results.
+		if ( $action === 'plugin_information' ) {
+			if ( ! empty( $boldgrid_plugins->{$args->slug} ) ) {
+				$result = $boldgrid_plugins->{$args->slug};
+			}
+
+		// Allow BoldGrid ( + variations of ) as a search option to show all plugins.
+		} else if ( $action === 'query_plugins' ) {
+			if ( strpos( strtolower( $args->search ), 'boldgrid' ) !== false ) {
+
+				// Add all boldgrid plugins.
+				$result->plugins = ( object ) array_merge( ( array ) $boldgrid_plugins, ( array ) $result->plugins );
+
+				// Count results found.
+				$result->info = array( 'results' => count( $result->plugins ) );
+			} else if ( ! empty( $args->search ) ) {
+				$found = array();
+				foreach ( $boldgrid_plugins as $plugin ) {
+					if ( strpos( strtolower( implode( ' ', $plugin->tags ) ), trim( strtolower( $args->search ) ) ) !== false ) {
+						$found[] = $plugin;
+					}
+				}
+
+				// Merge found results.
+				$result->plugins = ( object ) array_merge( ( array ) $found, ( array ) $result->plugins );
+
+				// Recount the results found.
+				$result->info = array( 'results' => count( $result->plugins ) );
+			}
+		}
+
+		return $result;
 	}
 
 	/**
@@ -415,6 +467,33 @@ class Installer {
 				Library\Configs::get( 'libraryUrl' ) .  'src/assets/css/plugin-installer.css'
 			);
 		}
+	}
+
+	/**
+	 * Hides inaccurate info on plugin search results loaded from
+	 * external sources.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @hook: admin_head-plugin-install.php
+	 */
+	public function hideInfo() {
+		$boldgrid_plugins = get_site_transient( 'boldgrid_plugins' );
+
+		$css = '<style>';
+
+		foreach ( $boldgrid_plugins as $plugin => $details ) {
+
+			// Feedback/rating details.
+			$css .= ".plugin-card-{$plugin} .vers.column-rating{display:none;}";
+
+			// Active install counts.
+			$css .= ".plugin-card-{$plugin} .column-downloaded{display:none;}";
+		}
+
+		$css .= '</style>';
+
+		echo $css;
 	}
 
 	/**
