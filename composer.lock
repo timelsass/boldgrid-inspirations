@@ -55,7 +55,7 @@
             ],
             "description": "Premium BoldGrid Inspirations Features.",
             "support": {
-                "source": "https://github.com/BoldGrid/boldgrid-inspirations-premium/tree/dev",
+                "source": "https://github.com/BoldGrid/boldgrid-inspirations-premium/tree/0.1.0",
                 "issues": "https://github.com/BoldGrid/boldgrid-inspirations-premium/issues"
             },
             "time": "2017-06-01 19:58:32"
@@ -66,12 +66,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/BoldGrid/library.git",
-                "reference": "469b67909b34a84971511c1e56d194b894adf1b8"
+                "reference": "6560c1c9a15bb92e5672fe444e75bd9f6f739e60"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BoldGrid/library/zipball/469b67909b34a84971511c1e56d194b894adf1b8",
-                "reference": "469b67909b34a84971511c1e56d194b894adf1b8",
+                "url": "https://api.github.com/repos/BoldGrid/library/zipball/6560c1c9a15bb92e5672fe444e75bd9f6f739e60",
+                "reference": "6560c1c9a15bb92e5672fe444e75bd9f6f739e60",
                 "shasum": ""
             },
             "type": "library",
@@ -106,7 +106,7 @@
                 }
             ],
             "description": "The BoldGrid Library for shared code used in official BoldGrid plugins and themes.",
-            "time": "2017-06-28 10:49:30"
+            "time": "2017-06-28 13:08:56"
         }
     ],
     "packages-dev": [],
