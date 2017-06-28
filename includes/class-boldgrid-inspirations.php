@@ -91,10 +91,6 @@ class Boldgrid_Inspirations {
 			$branding = new Boldgrid_Inspirations_Branding();
 			$branding->add_hooks();
 
-			// BGTFW Config hook.
-			$link = new Boldgrid_Inspirations_Attribution_Link();
-			$link->add_hooks();
-
 			// If DOING_CRON, then check for auto-updates.
 			$this->check_auto_update();
 
@@ -133,9 +129,6 @@ class Boldgrid_Inspirations {
 
 		// The Boldgrid_Inspirations_Theme_Install class is instantiated in later hook.
 		require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-theme-install.php';
-
-		// Allows filter to run for bgtfw configs in Boldgrid_Inspirations_Attribution_Link
-		require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-attribution-link.php';
 
 		// If not on a network admin page.
 		if ( ! is_network_admin() ) {

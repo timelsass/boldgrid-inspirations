@@ -34,10 +34,10 @@ The second phase is Customization; tools to transform your website into your vis
 
 ## Changelog ##
 
-### 1.4.7 In progress ###
-* Update:                       Misc image related changes.
-* Update:		JIRA WPB-3243	Change feedback admin notice display frequency.
-* Update:		JIRA WPB-3260	Force same aspect ratio after purchase.
+### 1.4.7 ###
+* Update:      JIRA WPB-3243	Change feedback admin notice display frequency.
+* Update:      JIRA WPB-3264 Adding twitch social media option.
+* New Feature: Added BoldGrid Library to plugin.
 
 ### 1.4.6 ###
 * Bug fix:		JIRA WPB-3179	Gradient style being lost during normal deployment.
