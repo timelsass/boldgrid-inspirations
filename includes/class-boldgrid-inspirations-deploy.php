@@ -2005,8 +2005,21 @@ class Boldgrid_Inspirations_Deploy {
 						$this->image_placeholders_needing_images['by_page_id'][$image_data['post_id']][$image_data['images_array_key']]['gallery_image_position'] ) )
 				) );
 
+			$attachment_url = $attachment_data['uploaded_url'];
+
+			/**
+			 * Filter the url to replace placeholder url with.
+			 *
+			 * @since 1.4.8
+			 *
+			 * @param int $attachment_data['attachment_id']
+			 * @param int $image_data['download_params']['width']
+			 * @param int $image_data['download_params']['height']
+			 */
+			$attachment_url = apply_filters( 'boldgrid_deploy_post_process_image', $attachment_data['attachment_id'], $image_data['download_params']['width'], $image_data['download_params']['height'] );
+
 			// Update our data...
-			$this->image_placeholders_needing_images['by_page_id'][$image_data['post_id']][$image_data['images_array_key']]['attachment_url'] = $attachment_data['uploaded_url'];
+			$this->image_placeholders_needing_images['by_page_id'][$image_data['post_id']][$image_data['images_array_key']]['attachment_url'] = $attachment_url;
 			$this->image_placeholders_needing_images['by_page_id'][$image_data['post_id']][$image_data['images_array_key']]['attachment_id'] = $attachment_data['attachment_id'];
 			$this->image_placeholders_needing_images['by_page_id'][$image_data['post_id']][$image_data['images_array_key']]['asset_id'] = $attachment_data['asset_id'];
 

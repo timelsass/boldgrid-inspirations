@@ -281,7 +281,7 @@ class Boldgrid_Inspirations_Feedback {
 		 * Inspirations deployment creates pages, and so the user must be able to 'edit_pages'. If
 		 * the current user cannot, they don't need to see this message.
 		 */
-		if( ! current_user_can( 'edit_pages' ) ) {
+		if ( ! current_user_can( 'edit_pages' ) ) {
 			return;
 		}
 
@@ -299,7 +299,7 @@ class Boldgrid_Inspirations_Feedback {
 
 		$install_timestamp = $install_options['install_timestamp'];
 
-		// If is has been within interval #1 that a site was installed, then abort.
+		// If site install has been within interval #1 that a site was installed, then abort.
 		if ( $install_timestamp > $interval1 ) {
 			return;
 		}
@@ -309,9 +309,8 @@ class Boldgrid_Inspirations_Feedback {
 		// Get boldgrid_feedback_sent (array of timestamps) from user metadata.
 		$feedback_sent = get_user_meta( $user_id, 'boldgrid_feedback_sent' );
 
-		// Examine the feedback sent timestamps array, check if the latest is newer than 7 days.
+		// Examine the feedback sent timestamps, check if the latest is newer then interval #2.
 		if ( ! empty( $feedback_sent ) ) {
-			// Initialize $latest_feedback_sent.
 			$latest_feedback_sent = null;
 
 			foreach ( $feedback_sent as $timestamp ) {
@@ -320,14 +319,8 @@ class Boldgrid_Inspirations_Feedback {
 				}
 			}
 
-			// If feedback sent is recent (within interval #1), then abort.
-			if ( $latest_feedback_sent >= $interval1 ) {
-				return;
-			}
-
-			// Feedback was sent past the interval #1.
-			// If the last site install was less intercal #2, then abort.
-			if ( $install_timestamp < $interval2 ) {
+			// If feedback sent is recent (within interval #2), then abort.
+			if ( $latest_feedback_sent >= $interval2 ) {
 				return;
 			}
 		}
@@ -340,13 +333,13 @@ class Boldgrid_Inspirations_Feedback {
 
 		if ( $has_been_dismissed ) {
 			/*
-			 * If the user dismissed this notice within interval #1, abort and do not show the
+			 * If the user dismissed this notice within interval #2, abort and do not show the
 			 * notice.
 			 *
 			 * Otherwise, the user dismissed the notice more than seven days ago. Delete that
 			 * dismissal and give them another reminder for feedback.
 			 */
-			if ( $dismissal['timestamp'] > $interval1 ) {
+			if ( $dismissal['timestamp'] > $interval2 ) {
 				return;
 			} else {
 				$admin_notices->clear( 'feedback-notice-1-1' );

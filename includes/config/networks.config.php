@@ -275,6 +275,19 @@ return array(
 
 	),
 
+	'twitch.tv' => array(
+		'name' => 'Twitch',
+		'class' => 'twitch',
+		'icon' => 'fa fa-twitch',
+		'icon-sign' => 'fa fa-twitch',
+		'icon-square-open' => 'fa fa-twitch fa-stack-1x',
+		'icon-square' => 'fa fa-twitch fa-stack-1x',
+		'icon-circle-open-thin' => 'fa fa-twitch fa-stack-1x',
+		'icon-circle-open' => 'fa fa-twitch fa-stack-1x',
+		'icon-circle' => 'fa fa-twitch fa-stack-1x',
+		'content' => 'f1e8',
+	),
+
 	'twitter.com' => array(
 		'name' => 'Twitter',
 		'class' => 'twitter',

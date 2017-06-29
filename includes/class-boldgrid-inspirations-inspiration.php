@@ -253,6 +253,9 @@ class Boldgrid_Inspirations_Inspiration extends Boldgrid_Inspirations {
 
 			$deploy_cta = new Boldgrid_Inspirations_Deploy_Cta();
 			$deploy_cta->add_hooks();
+
+			$deploy_image = new BoldGrid_Inspirations_Deploy_Image();
+			$deploy_image->add_hooks();
 		}
 
 		/* Classes to add_hooks for, regardless of is_admin. */
@@ -419,10 +422,12 @@ public function include_admin_files() {
 
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-admin-menu.php';
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-deploy-cta.php';
+	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-deploy-image.php';
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-deploy-metadata.php';
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-blog.php';
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-widget.php';
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-image-utility.php';
+	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-attachment.php';
 }
 
 /**

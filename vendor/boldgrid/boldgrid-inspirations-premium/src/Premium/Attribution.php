@@ -8,6 +8,10 @@
  * @author BoldGrid.com <wpb@boldgrid.com>
  */
 
+namespace Boldgrid\Inspirations\Premium;
+
+use Boldgrid\Library\Library;
+
 /**
  * The BoldGrid Attribution Asset class.
  *
@@ -16,7 +20,7 @@
  *
  * @since 1.3.1
  */
-class Boldgrid_Inspirations_Attribution_Link {
+class Attribution {
 
 	/**
 	 * @var bool $licensed Licensed plugin?
@@ -32,7 +36,8 @@ class Boldgrid_Inspirations_Attribution_Link {
 	 * @since 1.4.3
 	 */
 	public function __construct() {
-		$this->licensed = $this->setLicensed( false );
+		$license = new Library\License;
+		$this->licensed = $this->setLicensed( $license->getValid() );
 		$this->controls = $this->setControls(
 			array(
 				'reseller_control' => array(
@@ -55,6 +60,8 @@ class Boldgrid_Inspirations_Attribution_Link {
 				)
 			)
 		);
+
+		Library\Filter::add( $this );
 	}
 
 	/**
@@ -64,7 +71,7 @@ class Boldgrid_Inspirations_Attribution_Link {
 	 *
 	 * @param bool $licensed Licensed plugin?
 	 */
-	public function setLicensed( $licensed ) {
+	private function setLicensed( $licensed ) {
 		return $this->licensed = $licensed;
 	}
 
@@ -75,35 +82,22 @@ class Boldgrid_Inspirations_Attribution_Link {
 	 *
 	 * @param array $controls Controls array.
 	 */
-	public function setControls( $controls ) {
+	private function setControls( $controls ) {
 		return $this->controls = $controls;
-	}
-
-	/**
-	 * Add hooks.
-	 *
-	 * Adds the necessary hooks for this class to implement
-	 * it's functionality in WordPress.
-	 *
-	 * @since 1.4.3
-	 */
-	public function add_hooks() {
-		add_filter( 'bgtfw_attribution_links', array( $this, 'add_reseller_link' ) );
-		add_filter( 'bgtfw_attribution_links', array( $this, 'add_attribution_link' ) );
-		add_filter( 'boldgrid_theme_framework_config', array( $this, 'partner_attribution_configs' ), 5 );
-		add_filter( 'kirki/fields', array( $this, 'add_controls' ) );
-		if ( $this->getLicensed() ) {
-			add_filter( 'boldgrid_theme_framework_config', array( $this, 'special_thanks_configs' ), 5 );
-		}
 	}
 
 	/**
 	 * Adds required customizer footer configurations.
 	 *
+	 * @hook boldgrid_theme_framework_config
+	 *
+	 * @priority 5
+	 *
 	 * @param  array $configs BGTFW Configurations.
+	 *
 	 * @return array $configs BGTFW Configurations.
 	 */
-	public function partner_attribution_configs( $configs ) {
+	public function partnerControl( $configs ) {
 
 		$configs['customizer-options']['required']['boldgrid_enable_footer'] = array_values( array_diff( $configs['customizer-options']['required']['boldgrid_enable_footer'], array( 'hide_partner_attribution' ) ) );
 		$reseller = get_option( 'boldgrid_reseller', false );
@@ -118,21 +112,29 @@ class Boldgrid_Inspirations_Attribution_Link {
 	/**
 	 * Adds required customizer footer configurations.
 	 *
+	 * @hook boldgrid_theme_framework_config
+	 *
+	 * @priority 5
+	 *
 	 * @param  array $configs BGTFW Configurations.
 	 *
 	 * @return array $configs BGTFW Configurations.
 	 */
-	public function special_thanks_configs( $configs ) {
-		$configs['customizer-options']['required']['boldgrid_enable_footer'][] = 'hide_special_thanks_attribution';
+	public function specialThanksControl( $configs ) {
+		if ( $this->getLicensed() ) {
+			$configs['customizer-options']['required']['boldgrid_enable_footer'][] = 'hide_special_thanks_attribution';
+		}
 		return $configs;
 	}
 
 	/**
 	 * Adds attribution link controls to theme customizer.
 	 *
+	 * @hook kirki/fields
+	 *
 	 * @param array $controls [description]
 	 */
-	public function add_controls( $controls ) {
+	public function addControls( $controls ) {
 		$controls = array_merge( $controls, $this->getControls() );
 
 		if ( ! get_option( 'boldgrid_reseller', false ) ) {
@@ -150,11 +152,13 @@ class Boldgrid_Inspirations_Attribution_Link {
 	 *
 	 * @since 1.4.3
 	 *
+	 * @hook bgtfw_attribution_links
+	 *
 	 * @param string $link Attribution markup to add to footer links.
 	 *
 	 * @return string $link Markup to add.
 	 */
-	public function add_reseller_link( $link ) {
+	public function addReseller( $link ) {
 		// If the user hasn't disabled the footer, add the links.
 		if ( get_theme_mod( 'boldgrid_enable_footer', true ) ) {
 			$reseller_data = get_option( 'boldgrid_reseller', false );
@@ -162,7 +166,7 @@ class Boldgrid_Inspirations_Attribution_Link {
 			if ( ! get_theme_mod( 'hide_partner_attribution' ) || is_customize_preview() ) {
 				if ( ! empty( $reseller_data['reseller_title'] ) ) {
 					$link = sprintf(
-						'<span class="link reseller-attribution-link">%s <a href="%s" rel="nofollow" target="_blank">%s</a></span>',
+						'<span class="link partner-attribution-link">%s <a href="%s" rel="nofollow" target="_blank">%s</a></span>',
 						__( 'Support from', 'bgtfw' ),
 						$reseller_data['reseller_website_url'],
 						$reseller_data['reseller_title']
@@ -179,38 +183,44 @@ class Boldgrid_Inspirations_Attribution_Link {
 	 *
 	 * @since 1.4.3
 	 *
+	 * @hook bgtfw_attribution_links
+	 *
 	 * @param string $link Attribution markup to add to footer links.
 	 *
 	 * @return string $link Markup to add.
 	 */
-	public function add_attribution_link( $link ) {
+	public function addAttribution( $link ) {
 		$attribution_data = get_option( 'boldgrid_attribution' );
 		$attribution_page = get_page_by_title( 'Attribution' );
 		$special_thanks = __( 'Special Thanks', 'bgtfw' );
 
 		// If option is available use that or try to find the page by slug name.
 		if ( ! empty( $attribution_data['page']['id'] ) ) {
-			$link = '<a href="' . get_permalink( $attribution_data['page']['id'] ) . '">' . $special_thanks . '</a>';
+			$attribution = '<a href="' . get_permalink( $attribution_data['page']['id'] ) . '">' . $special_thanks . '</a>';
 		} elseif ( $attribution_page ) {
-			$link = '<a href="' . get_site_url( null, 'attribution' ) . '">' . $special_thanks . '</a>';
+			$attribution .= '<a href="' . get_site_url( null, 'attribution' ) . '">' . $special_thanks . '</a>';
 		} else {
-			$link = '';
+			$attribution .= '';
 		}
 
 		$this->getLicensed() ? : set_theme_mod( 'hide_special_thanks_attribution', false );
 		$value = get_theme_mod( 'hide_special_thanks_attribution', false );
 
-		$value = $value ? '<span class="link special-thanks-attribution-link hidden">' . $link . '</span>' :
-			'<span class="link special-thanks-attribution-link">' . $link . '</span>';
-
-		$link = $value;
-		if ( ! get_theme_mod( 'boldgrid_enable_footer', true ) && $this->getLicensed() ) {
-			$link = '';
+		$shown = '<span class="link special-thanks-attribution-link">' . $attribution . '</span>';
+		if ( is_customize_preview() ) {
+			$value = $value ? '<span class="link special-thanks-attribution-link hidden">' . $attribution . '</span>' : $shown;
 		} else {
-			$link = $value;
+			$value = $value ? '' : $shown;
 		}
 
-		return $link;
+		$attribution = $value;
+		if ( ! get_theme_mod( 'boldgrid_enable_footer', true ) && $this->getLicensed() ) {
+			$attribution = '';
+		} else {
+			$attribution = $value;
+		}
+
+		return $link . $attribution;
 	}
 
 	/**
@@ -218,7 +228,7 @@ class Boldgrid_Inspirations_Attribution_Link {
 	 *
 	 * @return bool $licensed Licensed Plugin?
 	 */
-	public function getLicensed() {
+	protected function getLicensed() {
 		return $this->licensed;
 	}
 
@@ -227,7 +237,7 @@ class Boldgrid_Inspirations_Attribution_Link {
 	 *
 	 * @return array $controls Controls array.
 	 */
-	public function getControls() {
+	protected function getControls() {
 		return $this->controls;
 	}
 }
