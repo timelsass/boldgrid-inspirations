@@ -295,19 +295,19 @@ if ( $have_assets_needing_purchase ) {
 						href='https://www.boldgrid.com/support/where-to-get-a-boldgrid-connect-key/'
 						target='_blank'>Lost your BoldGrid Connect Key?</a>
 				</div>
-			</div>
-		</div>
-	</div>
-
-	<div class="container-fluid cart-summary text-right">
-		<div class="row">
-			<div class="col-md-6 col-md-offset-6">
-				<input type="checkbox" name="agree_to_tos" id="agree_to_tos"
-					value="yes"> <em>I agree to</em> <a
-					href='https://www.boldgrid.com/tos' target='_blank'>BoldGrid's</a>
-				<em>and</em> <a
-					href='https://www.fotolia.com/Info/Agreements/TermsAndConditions'
-					target='_blank'>Fotolia's Terms and Conditions</a>.
+				<br />
+				<input type="checkbox" name="agree_to_tos" id="agree_to_tos" value="yes">
+				<?php
+					printf(
+						wp_kses(
+							__( 'I agree to the <a href="%1$s" target="_blank">BoldGrid</a>, <a href="%2$s" target="_blank">Fotolia</a>, and <a href="%3$s" target="_blank">123RF</a> Terms and Conditions.', 'boldgrid-inspirations' ),
+							array( 'a' => array( 'href' => array(), 'target' => 'blank' ) )
+						),
+						'https://www.boldgrid.com/tos',
+						'https://www.fotolia.com/Info/Agreements/TermsAndConditions',
+						'https://www.123rf.com/terms.php'
+					);
+				?>
 			</div>
 		</div>
 	</div>
