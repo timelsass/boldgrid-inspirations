@@ -16,6 +16,33 @@
 class Boldgrid_Inspirations_Attachment {
 
 	/**
+	 * Add a new size an attachment's metadata.
+	 *
+	 * @since 1.4.8
+	 *
+	 * @param int    $id       Attachment id.
+	 * @param string $size     The label for the new size.
+	 * @param string $filepath Filepath of the new image.
+	 */
+	public static function add_metadata_size( $id, $size, $filepath ) {
+		$metadata = wp_get_attachment_metadata( $id );
+
+		$mime_type = get_post_mime_type( $id );
+
+		$image = wp_get_image_editor( $filepath );
+		$dimensions = $image->get_size();
+
+		$metadata['sizes'][$size] = array(
+				'file' => basename( $filepath ),
+				'width' => $dimensions['width'],
+				'height' => $dimensions['height'],
+				'mime-type' => $mime_type,
+		);
+
+		wp_update_attachment_metadata( $id, $metadata );
+	}
+
+	/**
 	 * Check if a size exists for an attachment.
 	 *
 	 * @since 1.4.8
@@ -72,19 +99,7 @@ class Boldgrid_Inspirations_Attachment {
 			return false;
 		}
 
-		// Get and update the attachment's metadata with this new size.
-		$metadata = wp_get_attachment_metadata( $id );
-
-		if( empty( $metadata['sizes'][$suffix] ) ) {
-			$metadata['sizes'][$suffix] = array(
-				'file' => basename( $new_filepath ),
-				'width' => $width,
-				'height' => $height,
-				'mime-type' => 'image/jpeg',
-			);
-
-			wp_update_attachment_metadata( $id, $metadata );
-		}
+		self::add_metadata_size( $id, 'boldgrid_deployment_resize', $new_filepath );
 
 		return true;
 	}

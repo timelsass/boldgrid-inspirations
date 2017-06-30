@@ -67,7 +67,7 @@ class Boldgrid_Inspirations_Purchase_For_Publish extends Boldgrid_Inspirations {
 					'image_in_shopping_cart_checked_callback'
 			) );
 
-			add_action( 'post_unwatermarked_saved', array( $this, 'force_aspect_ratio' ), 10, 2 );
+			add_action( 'boldgrid_post_image_purchased', array( $this, 'post_image_purchased' ), 10, 2 );
 		}
 	}
 
@@ -109,26 +109,6 @@ class Boldgrid_Inspirations_Purchase_For_Publish extends Boldgrid_Inspirations {
 			plugins_url( '/assets/js/ajax/ajax.js',
 				BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ), array(), BOLDGRID_INSPIRATIONS_VERSION,
 			true );
-	}
-
-	/**
-	 * Match aspect ratio of watermarked image and unwatermarked image.
-	 *
-	 * Page designers specify best fit width and heights when adding dynamic
-	 * images to a page. BoldGrid <= 1.4 only guaranteed to match the designer's
-	 * specified width, not height. As of BoldGrid 1.5, a deployment will
-	 * receive images with the same dimensions as specified by the author.
-	 *
-	 * The original dimensions your deployment received are stored in
-	 * $asset['width'] and $asset['height'].
-	 *
-	 * @since 1.4.7
-	 *
-	 * @param  array $call_to_download_and_attach
-	 * @param  array $asset
-	 */
-	public function force_aspect_ratio( $call_to_download_and_attach, $asset ) {
-		Boldgrid_Inspirations_Image_Utility::crop_to_aspect_ratio( $call_to_download_and_attach['file'], $asset['width'], $asset['height'] );
 	}
 
 	/**
@@ -306,6 +286,31 @@ class Boldgrid_Inspirations_Purchase_For_Publish extends Boldgrid_Inspirations {
 	}
 
 	/**
+	 * Method used for 'boldgrid_post_image_purchased' action.
+	 *
+	 * @since 1.4.8
+	 *
+	 * @param int   $attachment_id
+	 * @param array $original_metadata
+	 */
+	public function post_image_purchased( $attachment_id, $original_metadata ) {
+
+		/*
+		 * During deployment, we may have center cropped this image. If we did,
+		 * it would have been saved as a new size, 'boldgrid_deployment_resize'.
+		 *
+		 * If that size exists in the original metadata, then now we need to
+		 * resize the unwatermarked image.
+		 */
+		if( ! empty( $original_metadata['sizes']['boldgrid_deployment_resize'] ) ) {
+			$width = $original_metadata['sizes']['boldgrid_deployment_resize']['width'];
+			$height = $original_metadata['sizes']['boldgrid_deployment_resize']['height'];
+
+			Boldgrid_Inspirations_Attachment::resize( $attachment_id, $width, $height );
+		}
+	}
+
+	/**
 	 * Display watermarked image count
 	 *
 	 * In the right sidebar of the editor, show the user how many watermarked images they have.
@@ -435,6 +440,8 @@ class Boldgrid_Inspirations_Purchase_For_Publish extends Boldgrid_Inspirations {
 				)
 			);
 
+			$original_metadata = wp_get_attachment_metadata( $asset['attachment_id'] );
+
 			$unique_image_key = $asset['image_provider_id'] . '-' . $asset['id_from_provider'] . '-' .
 				 $asset['image_size'];
 
@@ -447,16 +454,6 @@ class Boldgrid_Inspirations_Purchase_For_Publish extends Boldgrid_Inspirations {
 			// Download and update the attachment:
 			$call_to_download_and_attach = $assetManager->download_and_attach_asset( null, null,
 				$download_data, 'all', true );
-
-			/**
-			 * Action to take after an unwatermarked image has been saved.
-			 *
-			 * @since 1.4.7
-			 *
-			 * @param array $call_to_download_and_attach
-			 * @param array $asset
-			 */
-			do_action( 'post_unwatermarked_saved', $call_to_download_and_attach, $asset );
 
 			// Were we able to download the image successfully?
 			if ( false === $this->is_successful_purchase( $call_to_download_and_attach ) ) {
@@ -503,6 +500,16 @@ class Boldgrid_Inspirations_Purchase_For_Publish extends Boldgrid_Inspirations {
 				// Replace the watermakred image with the new image
 				$mediaReplacer->replace_image( $asset['attachment_id'],
 					$call_to_download_and_attach['file'] );
+
+				/**
+				 * Action to take after an image has been successfully purchased.
+				 *
+				 * @since 1.4.8
+				 *
+				 * @param int   $asset['attachment_id']
+				 * @param array $original_metadata
+				 */
+				do_action( 'boldgrid_post_image_purchased', $asset['attachment_id'], $original_metadata );
 			}
 		}
 
