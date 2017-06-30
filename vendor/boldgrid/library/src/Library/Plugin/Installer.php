@@ -332,14 +332,21 @@ class Installer {
 
 					$premiumSlug = $api->slug . '-premium';
 					$pluginClasses = $api->slug;
+
+					$premiumLink = '';
+					$premiumUrl = $this->getPremiumUrl();
+
 					if ( isset( $this->license->{$premiumSlug} ) || isset( $this->license->{$api->slug} ) ) {
 						$pluginClasses = "plugin-card-{$api->slug} premium";
+					} else {
+						$premiumLink = '<li><a href="' . $premiumUrl . '" class="button get-premium" target="_blank" aria-label="' . sprintf( __( 'Upgrade %s to premium', 'boldgrid-library' ), $api->name ) . '">' . sprintf( __( 'Get Premium!' ), 'boldgrid-library' ) . '</a></li>';
 					}
+
 					$messageClasses = 'installer-messages';
 					$message = '';
 
-					if ( isset( $this->updates[ $file ] ) && version_compare( $this->updates[ $file ]->Version, $this->updates[ $file ]->update->new_version, '<' ) ) {
-						$messageClasses = "{$messageClasses} update-now update-message notice inline notice-warning notice-alt";
+					if ( isset( $this->updates[ $file ] ) && ( $this->updates[ $file ]->Version !== $this->updates[ $file ]->update->new_version ) ) {
+						$messageClasses = "{$messageClasses} update-message notice inline notice-warning notice-alt";
 						$updateUrl = add_query_arg(
 							array(
 								'action' => 'upgrade-plugin',
@@ -354,7 +361,7 @@ class Installer {
 					}
 
 					// Send plugin data to template.
-					$this->renderTemplate( $plugin, $pluginClasses, $message, $messageClasses, $api, $name, $button, $modal );
+					$this->renderTemplate( $plugin, $pluginClasses, $message, $messageClasses, $api, $name, $button, $modal, $premiumLink );
 				}
 			}
 			?>
@@ -371,8 +378,6 @@ class Installer {
 	protected function ajax() {
 		$activate = new Installer\Activate( $this->configs );
 		$activate->init();
-		$upgrade = new Installer\Upgrade( $this->configs );
-		$upgrade->init();
 		$install = new Installer\Install( $this->configs );
 		$install->init();
 	}
@@ -404,6 +409,27 @@ class Installer {
 	}
 
 	/**
+	 * Get the premium URL for a users to login and upgrade with.
+	 *
+	 * This checks the 'boldgrid_reseller' option to see if an
+	 * Account Management Panel link has been saved for a user's
+	 * key, so they can upgrade that way.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string $url The url for a user to login to upgrade through.
+	 */
+	private function getPremiumUrl() {
+		$option = get_site_option( 'boldgrid_reseller' );
+		$url = 'https://www.boldgrid.com/connect-keys/';
+		if ( $option && ! empty( $option['reseller_amp_url'] ) ) {
+			$url = $option['reseller_amp_url'];
+		}
+
+		return $url;
+	}
+
+	/**
 	 * Renders template for each plugin card.
 	 *
 	 * @since 1.0.0
@@ -417,7 +443,7 @@ class Installer {
 	 * @param array  $button         Contains button link, text and classes.
 	 * @param string $modal          Modal link for thickbox plugin-information tabs.
 	 */
-	public function renderTemplate( $plugin, $pluginClasses, $message, $messageClasses, $api, $name, $button, $modal ) {
+	public function renderTemplate( $plugin, $pluginClasses, $message, $messageClasses, $api, $name, $button, $modal, $premiumLink ) {
 		include Library\Configs::get( 'libraryDir' ) . 'src/Library/Views/PluginInstaller.php';
 	}
 
@@ -429,12 +455,40 @@ class Installer {
 	 * @hook: admin_enqueue_scripts
 	 */
 	public function enqueue( $filter ) {
+		$this->css( $filter );
+		$this->js( $filter );
+	}
 
-		// Check that we are on the plugin install page and in the BoldGrid tab before loading scripts.
-		if ( $filter === 'plugin-install.php' && ( ! isset( $_GET['tab'] ) || isset( $_GET['tab'] ) && $_GET['tab'] === 'boldgrid' ) ) {
+	/**
+	 * CSS to load for functionality.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param  string $filter pagenow.
+	 */
+	public function css( $filter ) {
+		if ( $filter === 'plugin-install.php' && ( ! isset( $_GET['tab'] ) || isset( $_GET['tab'] ) && ( $_GET['tab'] === 'boldgrid' || $_GET['tab'] === 'plugin-information' ) ) ) {
+			wp_register_style(
+				'bglib-plugin-installer',
+				Library\Configs::get( 'libraryUrl' ) .  'src/assets/css/plugin-installer.css',
+				array( 'common' )
+			);
 
+			wp_enqueue_style( 'bglib-plugin-installer' );
+		}
+	}
+
+	/**
+	 * JS to load for functionality.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param  string $filter pagenow.
+	 */
+	public function js( $filter ) {
+		if ( $filter === 'plugin-install.php' && ( ! isset( $_GET['tab'] ) || ( isset( $_GET['tab'] ) && $_GET['tab'] === 'boldgrid' ) ) ) {
 			// Enqueue Javascript.
-			wp_enqueue_script(
+			wp_register_script(
 				'bglib-plugin-installer',
 				Library\Configs::get( 'libraryUrl' ) . 'src/assets/js/plugin-installer.js',
 				array(
@@ -456,15 +510,19 @@ class Installer {
 					'installed' => __( 'Activated', 'boldgrid-library' ),
 					'activate' => __( 'Activate', 'boldgrid-library' ),
 					'activating' => __( 'Activating', 'boldgrid-library' ),
-					'updating' => __( 'Updating', 'boldgrid-library' ),
 				)
 			);
 
-			// Enqueue CSS.
-			wp_enqueue_style(
-				'bglib-plugin-installer',
-				Library\Configs::get( 'libraryUrl' ) .  'src/assets/css/plugin-installer.css'
+			// Send over update data.
+			wp_localize_script(
+				'updates',
+				'_wpUpdatesItemCounts',
+				array(
+					'totals' => wp_get_update_data(),
+				)
 			);
+
+			wp_enqueue_script( 'bglib-plugin-installer' );
 		}
 	}
 
@@ -567,15 +625,15 @@ class Installer {
 						trim( $responses->{$plugin}->sections )
 					);
 
-					// This part is json encoded on the asset server.  It might be better to just json_encode the
-					// entire response, because it's hard to work with parts of this response.
 					$responses->{$plugin}->sections = json_decode( $responses->{$plugin}->sections, true );
+
+					// Decode tags for searches.
+					$responses->{$plugin}->tags = json_decode( $responses->{$plugin}->tags, true );
 
 					// Loop through the decoded sections and then add to sections array.
 					foreach ( $responses->{$plugin}->sections as $section => $section_data ) {
-						$responses->{$plugin}->sections[ $section ] = html_entity_decode(
-							$section_data,
-							ENT_QUOTES
+						$responses->{$plugin}->sections[ $section ] = preg_replace( '/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/', "\n",
+							html_entity_decode( $section_data, ENT_QUOTES )
 						);
 					}
 
@@ -604,11 +662,7 @@ class Installer {
 					$responses->{$plugin}->last_updated = $responses->{$plugin}->release_date;
 
 					// Create the author URL based on the siteurl and author name of plugin library is being ran in.
-					// @todo: This should be handled by the API call as well.
-					$responses->{$plugin}->author = '<a href="' . $responses->{$plugin}->siteurl . '">' . $data['Author'] . '</a>';
-
-					// The filtering on the plugins add new expects download count to be present and errors out without it.
-					$responses->{$plugin}->active_installs = $responses->{$plugin}->downloads;
+					$responses->{$plugin}->author = '<a href="' . $responses->{$plugin}->siteurl . '" target="_blank">' . $data['Author'] . '</a>';
 
 					// This has to be json decoded since this array is json encoded for whatever reason.
 					$responses->{$plugin}->banners = json_decode( $responses->{$plugin}->banners, true );
@@ -648,6 +702,55 @@ class Installer {
 				set_site_transient( 'boldgrid_plugins', $responses, 7 * DAY_IN_SECONDS );
 			}
 		}
+	}
+
+
+	/**
+	 * Filters the WordPress Updates Available.
+	 *
+	 * This is set to priority 12 to override the individual plugin
+	 * update classes that set priority at 11 in this filter.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @hook: pre_set_site_transient_update_plugins
+	 *
+	 * @hook: site_transient_update_plugins
+	 *
+	 * @priority: 12
+	 *
+	 * @return object $updates Updates available.
+	 */
+	public function filterUpdates( $updates ) {
+		$plugins = $this->getTransient();
+
+		if ( ! empty( $plugins ) ) {
+			foreach( $plugins as $plugin => $details ) {
+				$file = $this->getPluginFile( $plugin );
+				$data = trailingslashit( WP_PLUGIN_DIR ) . $file;
+				if ( file_exists( $data ) && is_readable( $data ) ) {
+					$data = get_plugin_data( $data, false );
+				}
+				if ( is_array( $data ) ) {
+					$update = new \stdClass();
+					$update->plugin = $file;
+					$update->slug = $details->slug;
+					$update->new_version = $details->new_version;
+					$update->url = $details->url;
+					$update->package = $details->download_link;
+
+					if ( $data['Version'] !== $details->new_version ) {
+						$update->tested = $details->tested_wp_version;
+						$update->compatibility = $details->compatibility;
+						$updates->response[ $file ] = $update;
+					} else {
+						$updates->no_update[ $file ] = $update;
+					}
+				}
+			}
+		}
+
+		return $updates;
 	}
 
 	/**
