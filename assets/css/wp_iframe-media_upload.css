@@ -67,7 +67,8 @@ select#image_size option.recommended_image_size {
 
 /* creative commons icon */
 .cc-sm {
-	width: 20px;
+	max-width: 20px;
+	filter: brightness(0.25);
 }
 
 #boldgrid_connect_search_clone body#image-upload {
