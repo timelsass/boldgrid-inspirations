@@ -199,6 +199,9 @@ class Boldgrid_Inspirations_Deploy {
 				$this,
 				'allow_downloads_over_the_backlan'
 			), 10, 3 );
+
+		$deploy_image = new BoldGrid_Inspirations_Deploy_Image();
+		$deploy_image->add_hooks();
 	}
 
 	/**

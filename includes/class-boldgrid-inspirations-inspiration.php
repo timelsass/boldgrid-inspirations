@@ -253,9 +253,6 @@ class Boldgrid_Inspirations_Inspiration extends Boldgrid_Inspirations {
 
 			$deploy_cta = new Boldgrid_Inspirations_Deploy_Cta();
 			$deploy_cta->add_hooks();
-
-			$deploy_image = new BoldGrid_Inspirations_Deploy_Image();
-			$deploy_image->add_hooks();
 		}
 
 		/* Classes to add_hooks for, regardless of is_admin. */

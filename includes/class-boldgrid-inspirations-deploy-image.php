@@ -37,6 +37,13 @@ class Boldgrid_Inspirations_Deploy_Image {
 	 * @return string Url to attachment.
 	 */
 	public function post_process_image( $id, $width, $height ) {
+		$width = (int) $width;
+		$height = (int) $height;
+
+		if( 0 === $width || 0 === $height ) {
+			return wp_get_attachment_url( $id );
+		}
+
 		Boldgrid_Inspirations_Attachment::resize( $id, $width, $height );
 
 		$image_src = wp_get_attachment_image_src( $id, array( $width, $height ) );
