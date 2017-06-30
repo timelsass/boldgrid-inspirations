@@ -21,9 +21,7 @@ class Boldgrid_Inspirations_Deploy_Image {
 	 * @since 1.4.8
 	 */
 	public function add_hooks() {
-		if( is_admin() ) {
-			add_filter( 'boldgrid_deploy_post_process_image',  array( $this, 'post_process_image' ), 10, 3 );
-		}
+		add_filter( 'boldgrid_deploy_post_process_image',  array( $this, 'post_process_image' ), 10, 3 );
 	}
 
 	/**
