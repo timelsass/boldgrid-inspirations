@@ -34,6 +34,9 @@ The second phase is Customization; tools to transform your website into your vis
 
 ## Changelog ##
 
+### 1.4.8 In progress ###
+* Update:      JIRA WPB-3292	Updated plugin URI.
+
 ### 1.4.7 ###
 * Update:      JIRA WPB-3243	Change feedback admin notice display frequency.
 * Update:      JIRA WPB-3264 Adding twitch social media option.
