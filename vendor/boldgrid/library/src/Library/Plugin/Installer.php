@@ -714,10 +714,7 @@ class Installer {
 	 * @since 1.0.0
 	 *
 	 * @hook: pre_set_site_transient_update_plugins
-	 *
 	 * @hook: site_transient_update_plugins
-	 *
-	 * @priority: 12
 	 *
 	 * @return object $updates Updates available.
 	 */
@@ -751,6 +748,32 @@ class Installer {
 		}
 
 		return $updates;
+	}
+
+	/**
+	 * Modify Update Class Hooks.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @hook: admin_init
+	 */
+	public function modifyUpdate() {
+		$plugins = $this->getTransient();
+
+		if ( ! empty( $plugins ) ) {
+			foreach( $plugins as $plugin => $details ) {
+				$p = explode( '-', $plugin );
+				$p = array_map( 'ucfirst', $p );
+				$p = implode( '_', $p );
+				$class = $p . '_Update';
+				if ( class_exists( $class ) ) {
+					Library\Filter::removeHook( 'plugins_api', $class, 'custom_plugins_transient_update', 11 );
+					Library\Filter::removeHook( 'custom_plugins_transient_update', $class, 'custom_plugins_transient_update', 11 );
+					Library\Filter::removeHook( 'pre_set_site_transient_update_plugins', $class, 'custom_plugins_transient_update', 11 );
+					Library\Filter::removeHook( 'site_transient_update_plugins', $class, 'site_transient_update_plugins', 11 );
+				}
+			}
+		}
 	}
 
 	/**

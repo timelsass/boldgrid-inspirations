@@ -6,15 +6,15 @@
         "source": {
             "type": "git",
             "url": "https://github.com/BoldGrid/library.git",
-            "reference": "8a635a3286f85b00298f04bf434123fa5368a0a8"
+            "reference": "7fb991b553b2986471be2e748ae1718b8e59d128"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/BoldGrid/library/zipball/8a635a3286f85b00298f04bf434123fa5368a0a8",
-            "reference": "8a635a3286f85b00298f04bf434123fa5368a0a8",
+            "url": "https://api.github.com/repos/BoldGrid/library/zipball/7fb991b553b2986471be2e748ae1718b8e59d128",
+            "reference": "7fb991b553b2986471be2e748ae1718b8e59d128",
             "shasum": ""
         },
-        "time": "2017-06-30T06:36:17+00:00",
+        "time": "2017-06-30T22:01:51+00:00",
         "type": "library",
         "installation-source": "source",
         "autoload": {
