@@ -149,6 +149,15 @@ class Boldgrid_Inspirations_Deploy {
 	public $tags_having_background = array( 'div' );
 
 	/**
+	 * The BoldGrid Forms class object.
+	 *
+	 * @since 1.4.8
+	 *
+	 * @var \Boldgrid\Library\Form\Forms
+	 */
+	public $bgforms;
+
+	/**
 	 * Constructor.
 	 *
 	 * @param array $configs BoldGrid configuration array.
@@ -199,6 +208,9 @@ class Boldgrid_Inspirations_Deploy {
 				$this,
 				'allow_downloads_over_the_backlan'
 			), 10, 3 );
+
+		// Instantiate the BoldGrid Forms class, which may add a filter for WPForms shortcodes.
+		$this->bgforms = new Boldgrid\Library\Form\Forms();
 	}
 
 	/**
@@ -2702,6 +2714,38 @@ class Boldgrid_Inspirations_Deploy {
 	 * @param object $full_plugin_data Plugin details.
 	 */
 	public function download_and_install_plugin( $url, $activate_path, $version, $full_plugin_data ) {
+		// If trying to install boldgrid-ninja-forms, then try WPForms instead.
+		if ( preg_match( '/^(boldgrid-ninja-forms|wpforms)/', $activate_path ) ) {
+			// Prevent PHP notice before trying to run a config script.
+			$this->plugin_installation_data[ $activate_path ] = null;
+
+			if ( $this->bgforms->has_form_plugin() ) {
+				$this->add_to_deploy_log(
+					__( 'A BoldGrid form plugin is already installed.', 'boldgrid-inspirations' )
+				);
+
+				return;
+			}
+
+			$this->add_to_deploy_log(
+				__( 'Installing plugin: WPForms.', 'boldgrid-inspirations' )
+			);
+
+			$result = $$this->bgforms->install();
+
+			if ( $result ) {
+				$this->add_to_deploy_log(
+					__( 'Installed plugin: WPForms.', 'boldgrid-inspirations' )
+				);
+			} else {
+				$this->add_to_deploy_log(
+					__( 'Error: Plugin installation failed!', 'boldgrid-inspirations' )
+				);
+			}
+
+			return;
+		}
+
 		$boldgrid_configs = $this->get_configs();
 
 		// If ASSET_SERVER in plugin url name, then replace it from configs.
