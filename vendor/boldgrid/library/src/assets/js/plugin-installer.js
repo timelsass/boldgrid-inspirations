@@ -40,9 +40,22 @@ BOLDGRID.LIBRARY = BOLDGRID.LIBRARY || {};
 		 * @since 0.1.0
 		 */
 		onReady : function() {
+			self.status();
 			self._buttons();
 			self._updates();
 			self._search();
+		},
+
+		/**
+		 * Check that data has been updated when user immediately updates
+		 * release channels.
+		 *
+		 * @since 0.2.0
+		 */
+		status : function() {
+			if ( ! _bglibPluginInstaller.status && ~ document.referrer.indexOf( 'boldgrid-settings' ) ) {
+				window.location.reload( true );
+			}
 		},
 
 		/**
@@ -173,7 +186,7 @@ BOLDGRID.LIBRARY = BOLDGRID.LIBRARY || {};
 					// Add processing message.
 					el.addClass( 'updating-message' )
 						.find( 'p' )
-						.text( wp.updates.l10n.updating );
+						.text( wp.updates.l10n.updatingMsg );
 				}
 			} );
 		},
@@ -240,7 +253,7 @@ BOLDGRID.LIBRARY = BOLDGRID.LIBRARY || {};
 				// Remove any current messages displayed.
 				el.addClass( 'updating-message' )
 					.find( 'p' )
-					.html( self.i18n.updating + ' &hellip;' );
+					.html( wp.updates.l10n.updatingMsg );
 
 				// Send ajax request to upgrade plugin.
 				wp.updates.updatePlugin( {
