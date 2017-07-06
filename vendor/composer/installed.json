@@ -104,5 +104,64 @@
             }
         ],
         "description": "The BoldGrid Library for shared code used in official BoldGrid plugins and themes."
+    },
+    {
+        "name": "boldgrid/bgforms",
+        "version": "dev-dev",
+        "version_normalized": "dev-dev",
+        "source": {
+            "type": "git",
+            "url": "git@github.com:BoldGrid/bgforms.git",
+            "reference": "4227283c5f2b102be5ff2deb7aeed510b600e183"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/BoldGrid/bgforms/zipball/4227283c5f2b102be5ff2deb7aeed510b600e183",
+            "reference": "4227283c5f2b102be5ff2deb7aeed510b600e183",
+            "shasum": ""
+        },
+        "require": {
+            "boldgrid/library": "dev-dev"
+        },
+        "time": "2017-07-06T18:43:15+00:00",
+        "type": "library",
+        "installation-source": "source",
+        "autoload": {
+            "psr-4": {
+                "Boldgrid\\Library\\Form\\": "src/Form"
+            }
+        },
+        "license": [
+            "GPL2.0"
+        ],
+        "authors": [
+            {
+                "name": "Joe C",
+                "email": "joec@boldgrid.com",
+                "role": "Developer"
+            },
+            {
+                "name": "Tim Elsass",
+                "email": "dev@tim.ph",
+                "homepage": "http://tim.ph",
+                "role": "Developer"
+            },
+            {
+                "name": "Rafael Ramos",
+                "email": "rafaelh@boldgrid.com",
+                "homepage": "http://rafael-ramos.com",
+                "role": "Developer"
+            },
+            {
+                "name": "bwmarkle",
+                "email": "bradm@boldgrid.com",
+                "role": "Developer"
+            }
+        ],
+        "description": "A composer package for BoldGrid Forms.",
+        "support": {
+            "source": "https://github.com/BoldGrid/bgforms/tree/dev",
+            "issues": "https://github.com/BoldGrid/bgforms/issues"
+        }
     }
 ]

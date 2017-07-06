@@ -10,6 +10,7 @@ class ComposerStaticIniteadaa83417eaa55d0d577b5ac10221bb
         'B' => 
         array (
             'Boldgrid\\Library\\Util\\' => 22,
+            'Boldgrid\\Library\\Form\\' => 22,
             'Boldgrid\\Inspirations\\Premium\\' => 30,
         ),
     );
@@ -19,6 +20,10 @@ class ComposerStaticIniteadaa83417eaa55d0d577b5ac10221bb
         array (
             0 => __DIR__ . '/..' . '/boldgrid/library/src/Util',
         ),
+        'Boldgrid\\Library\\Form\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/boldgrid/bgforms/src/Form',
+        ),
         'Boldgrid\\Inspirations\\Premium\\' => 
         array (
             0 => __DIR__ . '/..' . '/boldgrid/boldgrid-inspirations-premium/src/Premium',
@@ -27,6 +32,8 @@ class ComposerStaticIniteadaa83417eaa55d0d577b5ac10221bb
 
     public static $classMap = array (
         'Boldgrid\\Inspirations\\Premium\\Attribution' => __DIR__ . '/..' . '/boldgrid/boldgrid-inspirations-premium/src/Premium/Attribution.php',
+        'Boldgrid\\Library\\Form\\Forms' => __DIR__ . '/..' . '/boldgrid/bgforms/src/Form/Forms.php',
+        'Boldgrid\\Library\\Form\\Wpforms' => __DIR__ . '/..' . '/boldgrid/bgforms/src/Form/Wpforms.php',
         'Boldgrid\\Library\\Util\\Load' => __DIR__ . '/..' . '/boldgrid/library/src/Util/Load.php',
         'Boldgrid\\Library\\Util\\Option' => __DIR__ . '/..' . '/boldgrid/library/src/Util/Option.php',
         'Boldgrid\\Library\\Util\\Registration' => __DIR__ . '/..' . '/boldgrid/library/src/Util/Registration.php',

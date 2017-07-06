@@ -7,6 +7,8 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Boldgrid\\Inspirations\\Premium\\Attribution' => $vendorDir . '/boldgrid/boldgrid-inspirations-premium/src/Premium/Attribution.php',
+    'Boldgrid\\Library\\Form\\Forms' => $vendorDir . '/boldgrid/bgforms/src/Form/Forms.php',
+    'Boldgrid\\Library\\Form\\Wpforms' => $vendorDir . '/boldgrid/bgforms/src/Form/Wpforms.php',
     'Boldgrid\\Library\\Util\\Load' => $vendorDir . '/boldgrid/library/src/Util/Load.php',
     'Boldgrid\\Library\\Util\\Option' => $vendorDir . '/boldgrid/library/src/Util/Option.php',
     'Boldgrid\\Library\\Util\\Registration' => $vendorDir . '/boldgrid/library/src/Util/Registration.php',
