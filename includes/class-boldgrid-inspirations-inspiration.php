@@ -422,9 +422,6 @@ public function include_admin_files() {
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-deploy-metadata.php';
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-blog.php';
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-widget.php';
-
-	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-forms.php';
-	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-wpforms.php';
 }
 
 /**

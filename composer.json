@@ -4,9 +4,19 @@
       {
         "type": "vcs",
         "url": "git@github.com:BoldGrid/boldgrid-inspirations-premium.git"
+      },
+      {
+        "type": "vcs",
+        "url": "git@github.com:BoldGrid/bgforms.git",
+        "autoload": {
+            "psr-4" : {
+                "Boldgrid\\Library\\Form\\": "src/Form"
+            }
+        }
       }
     ],
     "require": {
-        "boldgrid/boldgrid-inspirations-premium": "dev-dev"
+        "boldgrid/boldgrid-inspirations-premium": "dev-dev",
+        "boldgrid/bgforms": "dev-dev"
     }
 }
