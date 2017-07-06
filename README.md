@@ -35,6 +35,7 @@ The second phase is Customization; tools to transform your website into your vis
 ## Changelog ##
 
 ### 1.4.8 In progress ###
+* New feature:	JIRA WPB-3200	Added WPForms support.
 * Update:		JIRA WPB-3292	Updated plugin URI.
 * Update:   JIRA WPB-3296 Add Inspirations as first menu item child.
 * Bug Fix:  JIRA WPB-3274 Plugins > Add New Updates fail in modals.

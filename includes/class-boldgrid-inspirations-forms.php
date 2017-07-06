@@ -207,4 +207,20 @@ class Forms {
 
 		return $post;
 	}
+
+	/**
+	 * Check to ensure that all WPForms are imported.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @see \Boldgrid\Library\Form\Forms::get_wpforms_slug()
+	 * @see \Boldgrid\Library\Form\Wpforms::import_forms()
+	 */
+	public function check_wpforms() {
+		if ( $this->get_wpforms_slug() ) {
+			$wpforms = new Wpforms();
+
+			$wpforms->import_forms();
+		}
+	}
 }

@@ -160,6 +160,8 @@ class Boldgrid_Inspirations_Deploy {
 	/**
 	 * Constructor.
 	 *
+	 * @see \Boldgrid\Library\Form\Forms()
+	 *
 	 * @param array $configs BoldGrid configuration array.
 	 */
 	public function __construct( $configs ) {
@@ -2706,7 +2708,10 @@ class Boldgrid_Inspirations_Deploy {
 	/**
 	 * Download and activate a plugin.
 	 *
-	 * @see Boldgrid_Inspirations_Api::get_api_key_hash().
+	 * @see Boldgrid_Inspirations_Api::get_api_key_hash()
+	 * @see \Boldgrid\Library\Form\Forms::has_form_plugin()
+	 * @see \Boldgrid\Library\Form\Forms::check_wpforms()
+	 * @see \Boldgrid\Library\Form\Forms::install()
 	 *
 	 * @param string $url A URL such as "https://downloads.wordpress.org/plugin/quick-cache.140829.zip".
 	 * @param string $activate_path A plugin path such as "quick-cache/quick-cache.php".
@@ -2720,6 +2725,8 @@ class Boldgrid_Inspirations_Deploy {
 			$this->plugin_installation_data[ $activate_path ] = null;
 
 			if ( $this->bgforms->has_form_plugin() ) {
+				$this->bgforms->check_wpforms();
+
 				$this->add_to_deploy_log(
 					__( 'A BoldGrid form plugin is already installed.', 'boldgrid-inspirations' )
 				);

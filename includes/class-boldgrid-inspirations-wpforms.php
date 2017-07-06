@@ -67,40 +67,29 @@ class Wpforms {
 	}
 
 	/**
-	 * Get configs.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @see Boldgrid_Inspirations_Config::get_format_configs()
-	 *
-	 * @return array
-	 */
-	public function get_configs() {
-		return \Boldgrid_Inspirations_Config::get_format_configs();
-	}
-
-	/**
 	 * Retrieve WPF forms from our asset/api server.
 	 *
 	 * @since 1.0.0
 	 *
-	 * @see Boldgrid_Inspirations_Config::get_format_configs()
+	 * @see \Boldgrid\Library\Library\Configs::get()
 	 * @see \Boldgrid\Library\Library\Api\Call()
 	 * @see \Boldgrid\Library\Library\Api\Call::getResponse()
 	 *
 	 * @access private
 	 */
 	private function retrieve_forms() {
-		$api_path = '/api/open/get-wpf-forms';
+		if ( ( $this->forms = get_site_transient( 'boldgrid_wpforms' ) ) ) {
+			return $this->forms;
+		}
 
-		$configs = $this->get_configs();
-
-		$url = $configs['asset_server'] . $api_path;
+		$url = \Boldgrid\Library\Library\Configs::get( 'api' ) . '/api/open/get-wpf-forms';
 
 		$api = new \Boldgrid\Library\Library\Api\Call( $url );
 
 		if ( ( $response = $api->getResponse() ) ) {
 			$this->forms = json_decode( json_encode( $response->result->data ), true );
+
+			set_site_transient( 'boldgrid_wpforms' , $this->forms, 43200 );
 		}
 	}
 
