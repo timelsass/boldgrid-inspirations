@@ -37,7 +37,7 @@ class Configs {
 	 * @param array $configs Plugin configuration array.
 	 */
 	public function __construct( $configs = null ) {
-		$defaults = include_once dirname( __DIR__ ) . '/library.config.php';
+		$defaults = include_once dirname( __DIR__ ) . '/library.global.php';
 		self::set( $configs, $defaults );
 	}
 
@@ -53,6 +53,22 @@ class Configs {
 	 */
 	public static function set( $configs, $defaults = null ) {
 		$defaults = $defaults ? $defaults : self::get();
+
+		// Check if local library file is added.
+		$localPath = dirname( __DIR__ ) . '/library.local.php';
+		if ( file_exists( $localPath ) && is_readable( $localPath ) ) {
+			$local = include_once $localPath;
+			$defaults = wp_parse_args( $local, $defaults );
+		}
+
+		// Check if constant is added.
+		if ( defined( 'BGLIB_CONFIGS' ) ) {
+			$localPath = ABSPATH . BGLIB_CONFIGS;
+			if ( file_exists( $localPath ) && is_readable( $localPath ) ) {
+				$local = include_once $localPath;
+				$defaults = wp_parse_args( $local, $defaults );
+			}
+		}
 
 		return self::$configs = wp_parse_args( $configs, $defaults );
 	}
