@@ -7,5 +7,6 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Boldgrid\\Library\\Util\\' => array($vendorDir . '/boldgrid/library/src/Util'),
+    'Boldgrid\\Library\\Form\\' => array($vendorDir . '/boldgrid/bgforms/src/Form'),
     'Boldgrid\\Inspirations\\Premium\\' => array($vendorDir . '/boldgrid/boldgrid-inspirations-premium/src/Premium'),
 );

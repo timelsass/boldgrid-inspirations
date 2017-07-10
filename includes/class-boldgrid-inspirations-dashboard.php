@@ -180,6 +180,15 @@ class Boldgrid_Inspirations_Dashboard extends Boldgrid_Inspirations {
 			'4.37'
 		);
 
+		// Add Inspirations as first child.
+		add_submenu_page(
+			$top_level_menu,
+			__( 'Inspirations', 'boldgrid-inspirations' ),
+			__( 'Inspirations', 'boldgrid-inspirations' ),
+			'manage_options',
+			$top_level_menu
+		);
+
 		// If the BoldGrid Staging plugin is not active, add "Customize Active" to the BoldGrid menu.
 		if( ! is_plugin_active( 'boldgrid-staging/boldgrid-staging.php' ) ) {
 			add_submenu_page(

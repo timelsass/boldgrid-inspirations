@@ -22,14 +22,15 @@ class Start {
 
 	/**
 	 * @var object $configs         Library Configuration Object.
+	 * @var object $releaseChannel  Library ReleaseChannel Object.
 	 * @var object $pluginInstaller Library Plugin Installer Object.
 	 * @var object $key             Library Key Object.
 	 */
 	private
 		$configs,
+		$releaseChannel,
 		$pluginInstaller,
 		$key;
-
 
 	/**
 	 * Initialize class and set class properties.
@@ -43,6 +44,18 @@ class Start {
 		if ( Configs::get( 'keyValidate' ) ) {
 			$this->key = new Key();
 		}
-		$this->pluginInstaller = new Plugin\Installer( Configs::get( 'pluginInstaller' ) );
+		$this->releaseChannel = new ReleaseChannel;
+		$this->pluginInstaller = new Plugin\Installer( Configs::get( 'pluginInstaller' ), $this->getReleaseChannel() );
+	}
+
+	/**
+	 * Get releaseChannel class property.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return object $releaseChannel Library\ReleaseChannel object.
+	 */
+	public function getReleaseChannel() {
+		return $this->releaseChannel;
 	}
 }

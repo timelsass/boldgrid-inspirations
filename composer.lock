@@ -4,8 +4,65 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "a685621b27230eefcbdc08fdfb17f66d",
+    "content-hash": "17b4f451f7b4f5ea3b714d0466bad756",
     "packages": [
+        {
+            "name": "boldgrid/bgforms",
+            "version": "dev-dev",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:BoldGrid/bgforms.git",
+                "reference": "4227283c5f2b102be5ff2deb7aeed510b600e183"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/BoldGrid/bgforms/zipball/4227283c5f2b102be5ff2deb7aeed510b600e183",
+                "reference": "4227283c5f2b102be5ff2deb7aeed510b600e183",
+                "shasum": ""
+            },
+            "require": {
+                "boldgrid/library": "dev-dev"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Boldgrid\\Library\\Form\\": "src/Form"
+                }
+            },
+            "license": [
+                "GPL2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Joe C",
+                    "email": "joec@boldgrid.com",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Tim Elsass",
+                    "email": "dev@tim.ph",
+                    "homepage": "http://tim.ph",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Rafael Ramos",
+                    "email": "rafaelh@boldgrid.com",
+                    "homepage": "http://rafael-ramos.com",
+                    "role": "Developer"
+                },
+                {
+                    "name": "bwmarkle",
+                    "email": "bradm@boldgrid.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A composer package for BoldGrid Forms.",
+            "support": {
+                "source": "https://github.com/BoldGrid/bgforms/tree/dev",
+                "issues": "https://github.com/BoldGrid/bgforms/issues"
+            },
+            "time": "2017-07-06 18:43:15"
+        },
         {
             "name": "boldgrid/boldgrid-inspirations-premium",
             "version": "dev-dev",
@@ -58,7 +115,7 @@
                 "source": "https://github.com/BoldGrid/boldgrid-inspirations-premium/tree/0.1.0",
                 "issues": "https://github.com/BoldGrid/boldgrid-inspirations-premium/issues"
             },
-            "time": "2017-06-01 19:58:32"
+            "time": "2017-06-01T19:58:32+00:00"
         },
         {
             "name": "boldgrid/library",
@@ -66,12 +123,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/BoldGrid/library.git",
-                "reference": "6560c1c9a15bb92e5672fe444e75bd9f6f739e60"
+                "reference": "118ed480f6d133357527b90db8cddb1a1956d0dc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BoldGrid/library/zipball/6560c1c9a15bb92e5672fe444e75bd9f6f739e60",
-                "reference": "6560c1c9a15bb92e5672fe444e75bd9f6f739e60",
+                "url": "https://api.github.com/repos/BoldGrid/library/zipball/118ed480f6d133357527b90db8cddb1a1956d0dc",
+                "reference": "118ed480f6d133357527b90db8cddb1a1956d0dc",
                 "shasum": ""
             },
             "type": "library",
@@ -106,14 +163,15 @@
                 }
             ],
             "description": "The BoldGrid Library for shared code used in official BoldGrid plugins and themes.",
-            "time": "2017-06-28 13:08:56"
+            "time": "2017-07-05T23:00:17+00:00"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "boldgrid/boldgrid-inspirations-premium": 20
+        "boldgrid/boldgrid-inspirations-premium": 20,
+        "boldgrid/bgforms": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
