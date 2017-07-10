@@ -126,9 +126,16 @@ class Boldgrid_Inspirations_Purchase_For_Publish extends Boldgrid_Inspirations {
 	 *
 	 * @param  array $call_to_download_and_attach
 	 * @param  array $asset
+	 * @return bool  True on success.
 	 */
 	public function force_aspect_ratio( $call_to_download_and_attach, $asset ) {
-		Boldgrid_Inspirations_Image_Utility::crop_to_aspect_ratio( $call_to_download_and_attach['file'], $asset['width'], $asset['height'] );
+		if( empty( $call_to_download_and_attach['file'] ) ) {
+			return false;
+		}
+
+		$cropped = Boldgrid_Inspirations_Image_Utility::crop_to_aspect_ratio( $call_to_download_and_attach['file'], $asset['width'], $asset['height'] );
+
+		return $cropped;
 	}
 
 	/**

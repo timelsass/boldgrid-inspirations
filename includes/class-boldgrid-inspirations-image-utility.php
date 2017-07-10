@@ -73,6 +73,8 @@ class Boldgrid_Inspirations_Image_Utility {
 		if ( is_wp_error( $is_saved ) ) {
 			return false;
 		}
+
+		return true;
 	}
 }
 
