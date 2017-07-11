@@ -2749,7 +2749,7 @@ class Boldgrid_Inspirations_Deploy {
 				__( 'Installing plugin: WPForms.', 'boldgrid-inspirations' )
 			);
 
-			$result = $$this->bgforms->install();
+			$result = $this->bgforms->install();
 
 			if ( $result ) {
 				$this->add_to_deploy_log(
