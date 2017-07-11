@@ -1342,6 +1342,35 @@ class Boldgrid_Inspirations_Deploy {
 					), true ) );
 		}
 
+		// Download Plugins needed for pages.
+		if ( isset( $json_response->result->data->plugins ) ) {
+			foreach ( $json_response->result->data->plugins as $plugin ) {
+				$this->download_and_install_plugin(
+					$plugin->plugin_zip_url,
+					$plugin->plugin_activate_path,
+					$plugin->version,
+					$plugin
+				);
+
+				// If the we have defined configurations for this plugin, configure it.
+				if ( ! empty( $plugin->config_script ) ) {
+					// Passing page_id to config script.
+					$plugin_install_details =
+						$this->plugin_installation_data[ $plugin->plugin_activate_path ];
+
+					$post_id = ! empty( $page_id_to_post[ $plugin->page_id ] ) ?
+						$page_id_to_post[ $plugin->page_id ] : null;
+
+					// Configure Plugin.
+					if ( file_exists( BOLDGRID_BASE_DIR . '/includes/configure_plugin/' .
+						$plugin->config_script ) ) {
+							require_once BOLDGRID_BASE_DIR . '/includes/configure_plugin/' .
+								$plugin->config_script;
+					}
+				}
+			}
+		}
+
 		// Save the parent category name, if available:
 		if ( ! empty( $json_response->result->data->parent_category_name ) ) {
 			$this->update_existing_install_options(
@@ -1490,29 +1519,6 @@ class Boldgrid_Inspirations_Deploy {
 
 			// Add the page id so that we can recognize it
 			add_post_meta( $post_id, 'boldgrid_page_id', $page_v->id );
-		}
-
-		// Download Plugins needed for pages:
-		if ( isset( $json_response->result->data->plugins ) ) {
-			foreach ( $json_response->result->data->plugins as $plugin ) {
-				$this->download_and_install_plugin( $plugin->plugin_zip_url,
-					$plugin->plugin_activate_path, $plugin->version, $plugin );
-
-				// If the we have defined configurations for this plugin, configure it
-				if ( ! empty( $plugin->config_script ) ) {
-					// Passing page_id to config script
-					$plugin_install_details = $this->plugin_installation_data[$plugin->plugin_activate_path];
-
-					$post_id = ! empty( $page_id_to_post[$plugin->page_id] ) ? $page_id_to_post[$plugin->page_id] : null;
-
-					// Configure Plugin
-					if ( file_exists(
-						BOLDGRID_BASE_DIR . '/includes/configure_plugin/' . $plugin->config_script ) ) {
-						require_once BOLDGRID_BASE_DIR . '/includes/configure_plugin/' .
-							 $plugin->config_script;
-					}
-				}
-			}
 		}
 
 		// Do we have a blogdescription?
