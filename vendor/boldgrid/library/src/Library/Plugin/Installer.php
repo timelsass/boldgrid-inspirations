@@ -172,7 +172,7 @@ class Installer {
 	 * @return array $args WordPress Plugins API arguments.
 	 */
 	public function pluginsApi( $results, $action, $args ) {
-		$boldgrid_plugins = $this->getTransient();
+		$boldgrid_plugins = $this->getTransient() ? : array();
 
 		// Check if we are hooked to query_plugins and browsing 'boldgrid' sorted plugins.
 		if ( isset( $args->browse ) && $args->browse === 'boldgrid' ) {
@@ -212,7 +212,7 @@ class Installer {
 	 * @return array $result WordPress Plugins API result.
 	 */
 	public function result( $result, $action, $args ) {
-		$boldgrid_plugins = $this->getTransient();
+		$boldgrid_plugins = $this->getTransient() ? : array();
 
 		// Add data for plugin info tabs in results.
 		if ( $action === 'plugin_information' ) {
@@ -226,10 +226,10 @@ class Installer {
 			if ( ! empty( $args->search ) && strpos( strtolower( $args->search ), 'boldgrid' ) !== false ) {
 
 				// Add all boldgrid plugins.
-				$result->plugins = ( object ) array_merge( ( array ) $boldgrid_plugins, ( array ) $result->plugins );
+				$result->plugins = array_merge( ( array ) $boldgrid_plugins, ( array ) $result->plugins );
 
 				// Count results found.
-				$result->info = array( 'results' => count( $result->plugins ) );
+				$result->info['results'] = count( ( array ) $result->plugins );
 			} else if ( ! empty( $args->search ) ) {
 				$found = array();
 				foreach ( $boldgrid_plugins as $plugin ) {
@@ -239,10 +239,10 @@ class Installer {
 				}
 
 				// Merge found results.
-				$result->plugins = ( object ) array_merge( ( array ) $found, ( array ) $result->plugins );
+				$result->plugins = array_merge( $found, ( array ) $result->plugins );
 
 				// Recount the results found.
-				$result->info = array( 'results' => count( $result->plugins ) );
+				$result->info['results'] = ( $result->info['results'] + count( $found ) );
 			}
 		}
 
@@ -673,24 +673,22 @@ class Installer {
 	 * @return object $updates Updates available.
 	 */
 	public function filterUpdates( $updates ) {
-		$plugins = $this->getTransient();
+		$plugins = $this->getTransient() ? : array();
 
-		if ( ! empty( $plugins ) ) {
-			foreach( $plugins as $plugin => $details ) {
-				$update = new \stdClass();
-				$update->plugin = $this->configs['plugins'][ $plugin ]['file'];
-				$update->slug = $details->slug;
-				$update->new_version = $details->new_version;
-				$update->url = $details->url;
-				$update->package = $details->download_link;
+		foreach( $plugins as $plugin => $details ) {
+			$update = new \stdClass();
+			$update->plugin = $this->configs['plugins'][ $plugin ]['file'];
+			$update->slug = $details->slug;
+			$update->new_version = $details->new_version;
+			$update->url = $details->url;
+			$update->package = $details->download_link;
 
-				if ( ( $this->configs['plugins'][ $plugin ]['Version'] !== $details->new_version ) && $this->getPluginFile( $details->slug ) ) {
-					$update->tested = $details->tested_wp_version;
-					$update->compatibility = new \stdClass();
-					$updates->response[ $update->plugin ] = $update;
-				} else {
-					$updates->no_update[ $update->plugin ] = $update;
-				}
+			if ( ( $this->configs['plugins'][ $plugin ]['Version'] !== $details->new_version ) && $this->getPluginFile( $details->slug ) ) {
+				$update->tested = $details->tested_wp_version;
+				$update->compatibility = new \stdClass();
+				$updates->response[ $update->plugin ] = $update;
+			} else {
+				$updates->no_update[ $update->plugin ] = $update;
 			}
 		}
 
@@ -705,21 +703,19 @@ class Installer {
 	 * @hook: admin_init
 	 */
 	public function modifyUpdate() {
-		$plugins = $this->getTransient();
+		$plugins = $this->getTransient() ? : array();
 
-		if ( ! empty( $plugins ) ) {
-			foreach( $plugins as $plugin => $details ) {
-				$p = explode( '-', $plugin );
-				$p = array_map( 'ucfirst', $p );
-				$p = implode( '_', $p );
-				$class = $p . '_Update';
-				if ( class_exists( $class ) ) {
-					Library\Filter::removeHook( 'plugins_api', $class, 'custom_plugins_transient_update', 11 );
-					Library\Filter::removeHook( 'custom_plugins_transient_update', $class, 'custom_plugins_transient_update', 11 );
-					Library\Filter::removeHook( 'pre_set_site_transient_update_plugins', $class, 'custom_plugins_transient_update', 11 );
-					Library\Filter::removeHook( 'site_transient_update_plugins', $class, 'site_transient_update_plugins', 11 );
-					delete_site_transient( "{$p}_version_data" );
-				}
+		foreach( $plugins as $plugin => $details ) {
+			$p = explode( '-', $plugin );
+			$p = array_map( 'ucfirst', $p );
+			$p = implode( '_', $p );
+			$class = $p . '_Update';
+			if ( class_exists( $class ) ) {
+				Library\Filter::removeHook( 'plugins_api', $class, 'custom_plugins_transient_update', 11 );
+				Library\Filter::removeHook( 'custom_plugins_transient_update', $class, 'custom_plugins_transient_update', 11 );
+				Library\Filter::removeHook( 'pre_set_site_transient_update_plugins', $class, 'custom_plugins_transient_update', 11 );
+				Library\Filter::removeHook( 'site_transient_update_plugins', $class, 'site_transient_update_plugins', 11 );
+				delete_site_transient( "{$p}_version_data" );
 			}
 		}
 	}

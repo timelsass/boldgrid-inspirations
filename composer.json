@@ -17,6 +17,6 @@
     ],
     "require": {
         "boldgrid/boldgrid-inspirations-premium": "dev-dev",
-        "boldgrid/bgforms": "dev-dev"
+        "boldgrid/bgforms": "^1.0.0"
     }
 }

@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticIniteadaa83417eaa55d0d577b5ac10221bb
+class ComposerStaticInit629e2b06ec02082b4f98b2f7b1d46305
 {
     public static $prefixLengthsPsr4 = array (
         'B' => 
@@ -30,25 +30,11 @@ class ComposerStaticIniteadaa83417eaa55d0d577b5ac10221bb
         ),
     );
 
-    public static $classMap = array (
-        'Boldgrid\\Inspirations\\Premium\\Attribution' => __DIR__ . '/..' . '/boldgrid/boldgrid-inspirations-premium/src/Premium/Attribution.php',
-        'Boldgrid\\Library\\Form\\Forms' => __DIR__ . '/..' . '/boldgrid/bgforms/src/Form/Forms.php',
-        'Boldgrid\\Library\\Form\\Wpforms' => __DIR__ . '/..' . '/boldgrid/bgforms/src/Form/Wpforms.php',
-        'Boldgrid\\Library\\Util\\Load' => __DIR__ . '/..' . '/boldgrid/library/src/Util/Load.php',
-        'Boldgrid\\Library\\Util\\Option' => __DIR__ . '/..' . '/boldgrid/library/src/Util/Option.php',
-        'Boldgrid\\Library\\Util\\Registration' => __DIR__ . '/..' . '/boldgrid/library/src/Util/Registration.php',
-        'Boldgrid\\Library\\Util\\Registration\\Plugin' => __DIR__ . '/..' . '/boldgrid/library/src/Util/Registration/Plugin.php',
-        'Boldgrid\\Library\\Util\\Registration\\RegistrationInterface' => __DIR__ . '/..' . '/boldgrid/library/src/Util/Registration/RegistrationInterface.php',
-        'Boldgrid\\Library\\Util\\Registration\\Theme' => __DIR__ . '/..' . '/boldgrid/library/src/Util/Registration/Theme.php',
-        'Boldgrid\\Library\\Util\\Version' => __DIR__ . '/..' . '/boldgrid/library/src/Util/Version.php',
-    );
-
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticIniteadaa83417eaa55d0d577b5ac10221bb::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticIniteadaa83417eaa55d0d577b5ac10221bb::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticIniteadaa83417eaa55d0d577b5ac10221bb::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit629e2b06ec02082b4f98b2f7b1d46305::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit629e2b06ec02082b4f98b2f7b1d46305::$prefixDirsPsr4;
 
         }, null, ClassLoader::class);
     }

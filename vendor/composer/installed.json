@@ -1,5 +1,55 @@
 [
     {
+        "name": "boldgrid/library",
+        "version": "dev-dev",
+        "version_normalized": "dev-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/BoldGrid/library.git",
+            "reference": "23175cd0a12f35866ab6c6f48bbac410af9ddddf"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/BoldGrid/library/zipball/23175cd0a12f35866ab6c6f48bbac410af9ddddf",
+            "reference": "23175cd0a12f35866ab6c6f48bbac410af9ddddf",
+            "shasum": ""
+        },
+        "time": "2017-07-12T16:34:02+00:00",
+        "type": "library",
+        "installation-source": "source",
+        "autoload": {
+            "psr-4": {
+                "Boldgrid\\Library\\Util\\": "src/Util"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL2.0"
+        ],
+        "authors": [
+            {
+                "name": "Tim Elsass",
+                "email": "dev@tim.ph",
+                "homepage": "http://tim.ph",
+                "role": "Developer"
+            },
+            {
+                "name": "Rafael Ramos",
+                "homepage": "http://rafael-ramos.com",
+                "role": "Developer"
+            },
+            {
+                "name": "Joe",
+                "role": "Developer"
+            },
+            {
+                "name": "bwmarkle",
+                "role": "Developer"
+            }
+        ],
+        "description": "The BoldGrid Library for shared code used in official BoldGrid plugins and themes."
+    },
+    {
         "name": "boldgrid/boldgrid-inspirations-premium",
         "version": "dev-dev",
         "version_normalized": "dev-dev",
@@ -56,76 +106,26 @@
         }
     },
     {
-        "name": "boldgrid/library",
-        "version": "dev-dev",
-        "version_normalized": "dev-dev",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/BoldGrid/library.git",
-            "reference": "118ed480f6d133357527b90db8cddb1a1956d0dc"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/BoldGrid/library/zipball/118ed480f6d133357527b90db8cddb1a1956d0dc",
-            "reference": "118ed480f6d133357527b90db8cddb1a1956d0dc",
-            "shasum": ""
-        },
-        "time": "2017-07-05T23:00:17+00:00",
-        "type": "library",
-        "installation-source": "source",
-        "autoload": {
-            "psr-4": {
-                "Boldgrid\\Library\\Util\\": "src/Util"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "GPL2.0"
-        ],
-        "authors": [
-            {
-                "name": "Tim Elsass",
-                "email": "dev@tim.ph",
-                "homepage": "http://tim.ph",
-                "role": "Developer"
-            },
-            {
-                "name": "Rafael Ramos",
-                "homepage": "http://rafael-ramos.com",
-                "role": "Developer"
-            },
-            {
-                "name": "Joe",
-                "role": "Developer"
-            },
-            {
-                "name": "bwmarkle",
-                "role": "Developer"
-            }
-        ],
-        "description": "The BoldGrid Library for shared code used in official BoldGrid plugins and themes."
-    },
-    {
         "name": "boldgrid/bgforms",
-        "version": "dev-dev",
-        "version_normalized": "dev-dev",
+        "version": "1.0.0",
+        "version_normalized": "1.0.0.0",
         "source": {
             "type": "git",
             "url": "git@github.com:BoldGrid/bgforms.git",
-            "reference": "4227283c5f2b102be5ff2deb7aeed510b600e183"
+            "reference": "26f4cde6d4b9ab3a48eb6c477558e8d0edd1536c"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/BoldGrid/bgforms/zipball/4227283c5f2b102be5ff2deb7aeed510b600e183",
-            "reference": "4227283c5f2b102be5ff2deb7aeed510b600e183",
+            "url": "https://api.github.com/repos/BoldGrid/bgforms/zipball/26f4cde6d4b9ab3a48eb6c477558e8d0edd1536c",
+            "reference": "26f4cde6d4b9ab3a48eb6c477558e8d0edd1536c",
             "shasum": ""
         },
         "require": {
             "boldgrid/library": "dev-dev"
         },
-        "time": "2017-07-06T18:43:15+00:00",
+        "time": "2017-07-11T18:45:48+00:00",
         "type": "library",
-        "installation-source": "source",
+        "installation-source": "dist",
         "autoload": {
             "psr-4": {
                 "Boldgrid\\Library\\Form\\": "src/Form"
