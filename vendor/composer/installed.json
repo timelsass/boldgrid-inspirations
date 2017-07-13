@@ -1,22 +1,22 @@
 [
     {
         "name": "boldgrid/library",
-        "version": "dev-dev",
-        "version_normalized": "dev-dev",
+        "version": "1.0.0",
+        "version_normalized": "1.0.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/BoldGrid/library.git",
-            "reference": "23175cd0a12f35866ab6c6f48bbac410af9ddddf"
+            "reference": "bd892b7babc6dc79c74777cadf33cbf356b268f8"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/BoldGrid/library/zipball/23175cd0a12f35866ab6c6f48bbac410af9ddddf",
-            "reference": "23175cd0a12f35866ab6c6f48bbac410af9ddddf",
+            "url": "https://api.github.com/repos/BoldGrid/library/zipball/bd892b7babc6dc79c74777cadf33cbf356b268f8",
+            "reference": "bd892b7babc6dc79c74777cadf33cbf356b268f8",
             "shasum": ""
         },
-        "time": "2017-07-12T16:34:02+00:00",
+        "time": "2017-07-12T20:30:45+00:00",
         "type": "library",
-        "installation-source": "source",
+        "installation-source": "dist",
         "autoload": {
             "psr-4": {
                 "Boldgrid\\Library\\Util\\": "src/Util"
@@ -51,25 +51,25 @@
     },
     {
         "name": "boldgrid/boldgrid-inspirations-premium",
-        "version": "dev-dev",
-        "version_normalized": "dev-dev",
+        "version": "1.0.0",
+        "version_normalized": "1.0.0.0",
         "source": {
             "type": "git",
             "url": "git@github.com:BoldGrid/boldgrid-inspirations-premium.git",
-            "reference": "a4c84994d85c02fd20d38310c0a3910c58a35d8e"
+            "reference": "621e869a934497328aafdfe4974c2e7a5ae59d73"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/BoldGrid/boldgrid-inspirations-premium/zipball/a4c84994d85c02fd20d38310c0a3910c58a35d8e",
-            "reference": "a4c84994d85c02fd20d38310c0a3910c58a35d8e",
+            "url": "https://api.github.com/repos/BoldGrid/boldgrid-inspirations-premium/zipball/621e869a934497328aafdfe4974c2e7a5ae59d73",
+            "reference": "621e869a934497328aafdfe4974c2e7a5ae59d73",
             "shasum": ""
         },
         "require": {
-            "boldgrid/library": "dev-dev"
+            "boldgrid/library": "^1.0.0"
         },
-        "time": "2017-06-01T19:58:32+00:00",
+        "time": "2017-07-13T00:18:35+00:00",
         "type": "library",
-        "installation-source": "source",
+        "installation-source": "dist",
         "autoload": {
             "psr-4": {
                 "Boldgrid\\Inspirations\\Premium\\": "src/Premium"
@@ -101,7 +101,7 @@
         ],
         "description": "Premium BoldGrid Inspirations Features.",
         "support": {
-            "source": "https://github.com/BoldGrid/boldgrid-inspirations-premium/tree/0.1.0",
+            "source": "https://github.com/BoldGrid/boldgrid-inspirations-premium/tree/1.0.0",
             "issues": "https://github.com/BoldGrid/boldgrid-inspirations-premium/issues"
         }
     },
@@ -111,19 +111,19 @@
         "version_normalized": "1.0.0.0",
         "source": {
             "type": "git",
-            "url": "git@github.com:BoldGrid/bgforms.git",
-            "reference": "26f4cde6d4b9ab3a48eb6c477558e8d0edd1536c"
+            "url": "https://github.com/BoldGrid/bgforms.git",
+            "reference": "6b9c3716e1d26c68f999b6059fde69acb35e5a8f"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/BoldGrid/bgforms/zipball/26f4cde6d4b9ab3a48eb6c477558e8d0edd1536c",
-            "reference": "26f4cde6d4b9ab3a48eb6c477558e8d0edd1536c",
+            "url": "https://api.github.com/repos/BoldGrid/bgforms/zipball/6b9c3716e1d26c68f999b6059fde69acb35e5a8f",
+            "reference": "6b9c3716e1d26c68f999b6059fde69acb35e5a8f",
             "shasum": ""
         },
         "require": {
-            "boldgrid/library": "dev-dev"
+            "boldgrid/library": "^1.0.0"
         },
-        "time": "2017-07-11T18:45:48+00:00",
+        "time": "2017-07-13T00:09:47+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {
@@ -131,19 +131,20 @@
                 "Boldgrid\\Library\\Form\\": "src/Form"
             }
         },
+        "notification-url": "https://packagist.org/downloads/",
         "license": [
             "GPL2.0"
         ],
         "authors": [
             {
-                "name": "Joe C",
-                "email": "joec@boldgrid.com",
-                "role": "Developer"
-            },
-            {
                 "name": "Tim Elsass",
                 "email": "dev@tim.ph",
                 "homepage": "http://tim.ph",
+                "role": "Developer"
+            },
+            {
+                "name": "Joe C",
+                "email": "joec@boldgrid.com",
                 "role": "Developer"
             },
             {
@@ -158,10 +159,6 @@
                 "role": "Developer"
             }
         ],
-        "description": "A composer package for BoldGrid Forms.",
-        "support": {
-            "source": "https://github.com/BoldGrid/bgforms/tree/dev",
-            "issues": "https://github.com/BoldGrid/bgforms/issues"
-        }
+        "description": "A composer package for BoldGrid Forms."
     }
 ]
