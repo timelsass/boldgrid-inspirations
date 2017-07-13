@@ -2736,9 +2736,9 @@ class Boldgrid_Inspirations_Deploy {
 			$this->plugin_installation_data[ $activate_path ] = null;
 
 			if ( $this->bgforms->get_preferred_slug() ) {
-				$this->bgforms->check_wpforms();
-
 				$result = $this->bgforms->install();
+
+				$this->bgforms->check_wpforms();
 
 				if ( $result ) {
 					$this->add_to_deploy_log(
