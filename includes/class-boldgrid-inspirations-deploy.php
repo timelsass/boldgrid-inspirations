@@ -2742,6 +2742,17 @@ class Boldgrid_Inspirations_Deploy {
 					__( 'A BoldGrid form plugin is already installed.', 'boldgrid-inspirations' )
 				);
 
+				if ( $this->bgforms->activate_preferred_plugin() ) {
+					$this->add_to_deploy_log(
+						__( 'Form plugin is active.', 'boldgrid-inspirations' )
+					);
+				} else {
+					$this->add_to_deploy_log(
+						__( 'Error: Form plugin activation failed!', 'boldgrid-inspirations' )
+					);
+				}
+
+
 				return;
 			}
 

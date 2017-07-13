@@ -31,6 +31,9 @@ The second phase is Customization; tools to transform your website into your vis
 
 == Changelog ==
 
+= 1.4.9 In progress =
+* Bug fix:		JIRA WPB-3312	Ensure activation of preferred form plugin.  Added filter for preferred slug.
+
 = 1.4.8 =
 * New feature:	JIRA WPB-3200	Added WPForms support.
 * Update:		JIRA WPB-3292	Updated plugin URI.
