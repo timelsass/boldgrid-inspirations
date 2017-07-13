@@ -2720,7 +2720,7 @@ class Boldgrid_Inspirations_Deploy {
 	 * Download and activate a plugin.
 	 *
 	 * @see Boldgrid_Inspirations_Api::get_api_key_hash()
-	 * @see \Boldgrid\Library\Form\Forms::has_form_plugin()
+	 * @see \Boldgrid\Library\Form\Forms::get_preferred_slug()
 	 * @see \Boldgrid\Library\Form\Forms::check_wpforms()
 	 * @see \Boldgrid\Library\Form\Forms::install()
 	 *
@@ -2735,12 +2735,20 @@ class Boldgrid_Inspirations_Deploy {
 			// Prevent PHP notice before trying to run a config script.
 			$this->plugin_installation_data[ $activate_path ] = null;
 
-			if ( $this->bgforms->has_form_plugin() ) {
+			if ( $this->bgforms->get_preferred_slug() ) {
 				$this->bgforms->check_wpforms();
 
-				$this->add_to_deploy_log(
-					__( 'A BoldGrid form plugin is already installed.', 'boldgrid-inspirations' )
-				);
+				$result = $this->bgforms->install();
+
+				if ( $result ) {
+					$this->add_to_deploy_log(
+						__( 'WPForms is installed and activated.', 'boldgrid-inspirations' )
+					);
+				} else {
+					$this->add_to_deploy_log(
+						__( 'A BoldGrid form plugin is already installed.', 'boldgrid-inspirations' )
+					);
+				}
 
 				if ( $this->bgforms->activate_preferred_plugin() ) {
 					$this->add_to_deploy_log(
