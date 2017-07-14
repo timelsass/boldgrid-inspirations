@@ -39,7 +39,6 @@ class Forms {
 		$this->preferred_slug = $this->get_preferred_slug();
 
 		// If WPForms is forced, or boldgrid-ninja-forms is not installed, then convert the shortcodes.
-
 		if ( 'wpforms-lite/wpforms.php' === $this->preferred_slug || ! $this->get_ninjaforms_slug() ) {
 			$wpforms = new Wpforms();
 
@@ -113,12 +112,9 @@ class Forms {
 	 * @return string
 	 */
 	public function get_preferred_slug() {
-		( $slug = $this->get_wpforms_slug() ) ||
-			( $slug = $this->get_ninjaforms_slug() );
+		$slug = $this->get_wpforms_slug() ?: $this->get_ninjaforms_slug();
 
-		$slug = apply_filters( 'boldgrid_form_preferred_slug', $slug );
-
-		return $slug;
+		return apply_filters( 'boldgrid_form_preferred_slug', $slug );
 	}
 
 	/**
@@ -136,17 +132,7 @@ class Forms {
 			return false;
 		}
 
-		if ( is_plugin_active( $this->preferred_slug ) ) {
-			return true;
-		}
-
-		$result = activate_plugin( $this->preferred_slug );
-
-		if ( is_wp_error( $result ) ) {
-			return false;
-		}
-
-		return true;
+		return ! is_wp_error( activate_plugin( $this->preferred_slug ) );
 	}
 
 	/**
@@ -163,7 +149,9 @@ class Forms {
 	 * @return bool
 	 */
 	public function install() {
-		if ( $this->preferred_slug && is_plugin_active( $this->preferred_slug ) ) {
+		if ( $this->preferred_slug ) {
+			$this->activate_preferred_plugin();
+
 			return false;
 		}
 
@@ -172,7 +160,10 @@ class Forms {
 		$result = $wpforms->install_plugin();
 
 		if ( $result ) {
+			$this->preferred_slug = $this->get_wpforms_slug();
+
 			$result = $this->activate_preferred_plugin();
+
 			$wpforms->import_forms();
 		}
 
