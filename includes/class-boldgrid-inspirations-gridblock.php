@@ -185,7 +185,11 @@ class Boldgrid_Inspirations_Gridblock {
 	 * @return string Result of the API call
 	 */
 	public function fetch_html( $site_url ) {
-		$url = $this->configs['preview_server'] . $this->configs['ajax_calls']['get-site-content'];
+		$release_channel = new Boldgrid\Library\Library\ReleaseChannel();
+		$theme_release_channel = $release_channel->getThemeChannel();
+
+		$url = 'candidate' === $theme_release_channel ? $this->configs['author_preview_server'] : $this->configs['preview_server'];
+		$url .= $this->configs['ajax_calls']['get-site-content'];
 
 		$request_params = array (
 			'url' => $site_url
@@ -228,7 +232,8 @@ class Boldgrid_Inspirations_Gridblock {
 			'theme_id' => $theme_id,
 			'sub_cat_id' => $sub_cat_id,
 			'key' => $this->configs['api_key'],
-			'site_hash' => $this->configs['site_hash']
+			'site_hash' => $this->configs['site_hash'],
+			'theme_version_type' => ! empty( $boldgrid_install_options['theme_version_type'] ) ? $boldgrid_install_options['theme_version_type'] : 'active',
 		);
 
 		$response = wp_remote_post( $url,
