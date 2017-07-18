@@ -1026,6 +1026,23 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			self.loadBuild();
 		});
 	};
+	
+	/**
+	 * @summary Remove a category.
+	 * 
+	 * @since 1.4.9
+	 * 
+	 * @param string id Category id.
+	 */
+	this.removeCategory = function( id ) {
+		delete self.categories[id];
+		
+		$( '.sub-category [data-sub-category-id="' + id + '"]' )
+			.closest( '.sub-category' )
+			.slideUp( 1000, function() {
+				$(this).remove();
+			});
+	}
 
 	/**
 	 * Click event handler for coin budget options section.
@@ -1262,6 +1279,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		};
 
 		getGenericSuccess = function( msg ) {
+			var defaultBuilds = 0;
 
 			/*
 			 * Review the count of themes returned.
@@ -1287,12 +1305,17 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 				 * and the Real Estate category.
 				 */
 				if( build.isDefault ) {
+					defaultBuilds++;
 					self.$themes.append( template( { configs: IMHWPB.configs, build: build } ) );
 					build.isDefault = false;
 				}
 				
 				self.$themes.append( template( { configs: IMHWPB.configs, build: build } ) );
 			});
+			
+			if( 0 === defaultBuilds ) {
+				self.removeCategory( 'default' );
+			}
 			
 			self.sortThemes( 'data-all-order' );
 
