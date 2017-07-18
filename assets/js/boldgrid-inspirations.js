@@ -1145,6 +1145,17 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 
 				return;
 			}
+			
+			// Add the pseudo "Default" category, which is our theme showcase.
+			self.categories['default'] = {
+				subcategories : [
+					{
+						displayOrder: 1,
+						name: 'Default',
+						id : 'default',
+					},
+				],
+			};
 
 			self.$categories.html( ( template( self.categories ) ) );
 
@@ -1270,8 +1281,20 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			self.$themes.empty();
 
 			_.each( self.genericBuilds, function( build ){
+				/*
+				 * Default themes are printed twice. This allows for
+				 * "Pavilion / Real Estate" to show in both the Default category
+				 * and the Real Estate category.
+				 */
+				if( build.isDefault ) {
+					self.$themes.append( template( { configs: IMHWPB.configs, build: build } ) );
+					build.isDefault = false;
+				}
+				
 				self.$themes.append( template( { configs: IMHWPB.configs, build: build } ) );
 			});
+			
+			self.sortThemes( 'data-all-order' );
 
 			$( "img.lazy" ).lazyload({threshold : 400});
 
@@ -1465,7 +1488,19 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 * @since 1.2.3
 	 */
 	this.toggleSubCategory = function( subCategoryId ) {
-		var fancyboxAnchor = '.theme-screenshot a';
+		var fancyboxAnchor = '.theme-screenshot a',
+			isDefault = 'default' === subCategoryId, 
+			showAll = '0' === subCategoryId,
+			hideSelector = '.theme[data-is-default!="true"]',
+			showSelector = '.theme[data-is-default="true"]',
+			$categoryName = $( '.theme-name .sub-category-name' );
+
+		if( ! isDefault ) {
+			hideSelector = showSelector + ',.theme[data-sub-category-id!="' + subCategoryId + '"]';
+			showSelector = '.theme[data-sub-category-id="' + subCategoryId + '"]';
+		}
+		
+		$categoryName.toggle( isDefault || showAll );
 
 		if( '0' === subCategoryId ) {
 			$( '.theme[data-sub-category-id]')
@@ -1473,27 +1508,21 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 				// Add fancybox class, which adds theme back to the gallery.
 				.find( fancyboxAnchor ).addClass( 'fancybox' );
 
-			// Show subcategory name if browsing all subcategories.
-			$( '.theme-name .sub-category-name' ).show();
-
 			self.sortThemes( 'data-all-order' );
 		} else {
-			// Hide subcategory name if browsing singular subcategory.
-			$( '.theme-name .sub-category-name' ).hide();
-
-			$( '.theme[data-sub-category-id!="' + subCategoryId + '"]')
-				.addClass( 'hidden' )
-				.appendTo( '.themes' )
-				// Remove fancybox class, which removes theme from the gallery.
-				.find( fancyboxAnchor ).removeClass( 'fancybox' );
-
-			$( '.theme[data-sub-category-id="' + subCategoryId + '"]')
+			$( showSelector )
 				.removeClass( 'hidden' )
 				/*
 				 * Add the fancybox class back, otherwise thumbnail will link directly to thumbnail,
 				 * rather than open thumbnail in fancybox gallery.
 				 */
 				.find( fancyboxAnchor ).addClass( 'fancybox' );
+			
+			$( hideSelector )
+				.addClass( 'hidden' )
+				.appendTo( '.themes' )
+				// Remove fancybox class, which removes theme from the gallery.
+				.find( fancyboxAnchor ).removeClass( 'fancybox' );
 
 			self.sortThemes( 'data-category-order' );
 		}
