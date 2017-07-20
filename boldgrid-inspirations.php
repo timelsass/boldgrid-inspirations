@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: BoldGrid Inspirations
- * Plugin URI: https://www.boldgrid.com/wordpress-page-templates-inspirations/
+ * Plugin URI: https://www.boldgrid.com/boldgrid-inspirations/
  * Version: 1.4.9
  * Author: BoldGrid.com <wpb@boldgrid.com>
  * Author URI: https://www.boldgrid.com
