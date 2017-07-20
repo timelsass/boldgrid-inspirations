@@ -20,7 +20,7 @@ IMHWPB.PagenowEdit = function( $ ) {
 	 * @since 1.0.10
 	 */
 	this.gridblock_sets_append_button = function() {
-		self.baseAdmin.$wrap.find( 'h1 a' ).after( '<a href="' +
+		self.baseAdmin.$wrap.find( '.page-title-action' ).after( '<a href="' +
 			IMHWPB.gridblock_sets_admin + '" class="page-title-action">' +
 			self.baseAdmin.strings.add_gridblock_set + '</a>' );
 	};
@@ -49,7 +49,7 @@ IMHWPB.PagenowEdit = function( $ ) {
 		if ( 0 === IMHWPB.configs.settings.boldgrid_menu_option ) {
 			self.gridblock_sets_append_button();
 		} else {
-			self.baseAdmin.$wrap_header.find( 'a' )
+			self.baseAdmin.$wrap.find( '.page-title-action' )
 				.attr( 'href', IMHWPB.gridblock_sets_admin );
 		}
 	};

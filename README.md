@@ -39,6 +39,7 @@ The second phase is Customization; tools to transform your website into your vis
 * Bug fix:		JIRA WPB-3312	Ensure activation of preferred form plugin.  Added filter for preferred slug.
 * Bug fix:		JIRA WPB-3317	New page from GridBlocks not working.
 * Update:		JIRA WPB-3252	Disable 'default' category and configure 'showcase'.
+* Bug fix:		JIRA WPB-3332	New from gridblocks button not showing.
 
 ### 1.4.8 ###
 * New feature:	JIRA WPB-3200	Added WPForms support.
