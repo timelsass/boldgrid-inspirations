@@ -31,6 +31,9 @@ The second phase is Customization; tools to transform your website into your vis
 
 == Changelog ==
 
+= 1.4.10 In progress =
+* Bug fix:		JIRA WPB-3336	All and Default categories do not align.
+
 = 1.4.9 =
 * Bug fix:		JIRA WPB-3318	When forcing a preferred form plugin install, first check if plugin is installed before trying to activate.
 * Bug fix:		JIRA WPB-3312	Ensure activation of preferred form plugin.  Added filter for preferred slug.

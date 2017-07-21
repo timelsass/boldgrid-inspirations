@@ -16,9 +16,12 @@
 </script>
 
 <script type="text/html" id="tmpl-theme">
-	<# // Format our theme title.
-		var allOrder = true === data.build.isDefault ? data.build.defaultOrder : data.build.AllOrder;
+	<#
+		// Configure all / category order.
+		var allOrder = data.build.isDefault ? data.build.defaultOrder : data.build.AllOrder,
+			categoryOrder = data.build.isDefault ? data.build.defaultOrder : data.build.CategoryOrder;
 
+		// Format our theme title.
 		data.build.ThemeName = data.build.ThemeName.replace( 'boldgrid-', '' );
 		data.key = IMHWPB.configs.api_key;
 		data.build.pde = JSON.stringify( data.build.pde );
@@ -34,7 +37,7 @@
 		data-theme-title="{{data.build.ThemeName}}"
 		data-pde="{{data.build.pde}}"
 		data-all-order="{{allOrder}}"
-		data-category-order="{{data.build.CategoryOrder}}"
+		data-category-order="{{categoryOrder}}"
 		data-is-default="{{data.build.isDefault}}"
 		data-build-id="{{data.build.Id}}">
 
