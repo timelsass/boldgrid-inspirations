@@ -37,6 +37,7 @@ The second phase is Customization; tools to transform your website into your vis
 ### 1.4.10 In progress ###
 * Bug fix:		JIRA WPB-3336	All and Default categories do not align.
 * Bug fix:		JIRA WPB-3337	On a fresh install, Pages - New From GridBlocks fails.
+* Bug fix:		JIRA WPB-3333	Image search only searching one provider instead of all.
 
 ### 1.4.9 ###
 * Bug fix:		JIRA WPB-3318	When forcing a preferred form plugin install, first check if plugin is installed before trying to activate.
