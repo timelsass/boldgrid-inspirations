@@ -46,6 +46,25 @@ class Boldgrid_Inspirations_GridBlock_Sets_Kitchen_Sink {
 	}
 
 	/**
+	 * Add hooks.
+	 *
+	 * @since 1.4.10
+	 */
+	public function add_hooks() {
+		add_action( 'Boldgrid\Library\Library\ReleaseChannel\theme_channel_updated', array( $this , 'clear' ) );
+	}
+
+	/**
+	 * Clear kitchen sink data.
+	 *
+	 * @since 1.4.10
+	 */
+	public function clear() {
+		delete_option( $this->option_name_fetching );
+		delete_transient( $this->option_name_kitchen_sink );
+	}
+
+	/**
 	 * Only allow post_type of pages at this time.
 	 *
 	 * @since 1.0.10
@@ -103,6 +122,7 @@ class Boldgrid_Inspirations_GridBlock_Sets_Kitchen_Sink {
 
 			// Validate the kitchen sink.
 			if ( ! $this->is_valid() ) {
+				$this->clear();
 				return array (
 					'valid' => false,
 					'status' => 'fetched_but_invalid'

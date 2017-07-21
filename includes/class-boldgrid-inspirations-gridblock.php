@@ -84,8 +84,8 @@ class Boldgrid_Inspirations_Gridblock {
 		// Below, we'll be making some calls to the asset server. If by chance any of the data we
 		// get back is invalid, we'll set below "failsafe" data to return.
 		$failsafe_return_data = array (
-			// Universal > Default
-			'sub_cat_id' => 33,
+			// General.
+			'sub_cat_id' => 32,
 			// boldgrid-gridone
 			'theme_id' => 40
 		);
@@ -219,12 +219,16 @@ class Boldgrid_Inspirations_Gridblock {
 
 		// Set our "sub_cat_id" and "theme_id".
 		if ( false === $boldgrid_install_options ) {
+			$settings = get_option( 'boldgrid_settings' );
 			$universal_data = $this->get_universal_data();
+
 			$theme_id = $universal_data['theme_id'];
 			$sub_cat_id = $universal_data['sub_cat_id'];
+			$theme_version_type = ! empty( $settings['theme_release_channel'] ) ? $settings['theme_release_channel'] : 'active';
 		} else {
 			$theme_id = $boldgrid_install_options['theme_id'];
 			$sub_cat_id = $boldgrid_install_options['subcategory_id'];
+			$theme_version_type = ! empty( $boldgrid_install_options['theme_version_type'] ) ? $boldgrid_install_options['theme_version_type'] : 'active';
 		}
 
 		$request_params = array (
@@ -233,7 +237,7 @@ class Boldgrid_Inspirations_Gridblock {
 			'sub_cat_id' => $sub_cat_id,
 			'key' => $this->configs['api_key'],
 			'site_hash' => $this->configs['site_hash'],
-			'theme_version_type' => ! empty( $boldgrid_install_options['theme_version_type'] ) ? $boldgrid_install_options['theme_version_type'] : 'active',
+			'theme_version_type' => $theme_version_type,
 		);
 
 		$response = wp_remote_post( $url,

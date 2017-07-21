@@ -26,9 +26,6 @@ class Boldgrid_Inspirations_GridBlock_Sets {
 	public function __construct( $configs ) {
 		$this->configs = $configs;
 
-		// Include our Kitchen Sink Class.
-		include_once BOLDGRID_BASE_DIR .
-			 '/includes/class-boldgrid-inspirations-gridblock-sets-kitchen-sink.php';
 		$this->kitchen_sink_helper = new Boldgrid_Inspirations_GridBlock_Sets_Kitchen_Sink(
 			$this->configs );
 	}

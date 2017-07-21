@@ -253,6 +253,9 @@ class Boldgrid_Inspirations_Inspiration extends Boldgrid_Inspirations {
 
 			$deploy_cta = new Boldgrid_Inspirations_Deploy_Cta();
 			$deploy_cta->add_hooks();
+
+			$kitchen_sink = new Boldgrid_Inspirations_GridBlock_Sets_Kitchen_Sink( $this->configs );
+			$kitchen_sink->add_hooks();
 		}
 
 		/* Classes to add_hooks for, regardless of is_admin. */
@@ -410,6 +413,7 @@ public function include_admin_files() {
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-asset-manager.php';
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-pages-and-posts.php';
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-gridblock-sets-admin.php';
+	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-gridblock-sets-kitchen-sink.php';
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-start-over.php';
 
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-attribution.php';
