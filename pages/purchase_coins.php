@@ -27,15 +27,23 @@ if ( isset( $boldgrid_reseller['reseller_amp_url'] ) ) {
 	$reseller_url = $boldgrid_reseller['reseller_website_url'];
 }
 
+// Configure the "purchase coins" link.
+$reseller_link = sprintf(
+	wp_kses(
+		__( 'You can purchase additional coins through <a href="%1$s" target="_blank">BoldGrid Central</a>.', 'boldgrid-inspirations' ),
+		array( 'a' => array( 'href' => array(), 'target' => array() ) )
+	),
+	esc_url( 'https://www.boldgrid.com/central' )
+);
 if ( isset( $boldgrid_reseller['reseller_title'] ) && isset( $reseller_url ) ) {
-	$reseller_link_template = ', <a href="%s" target="_blank">%s</a>';
-	$reseller_link = sprintf( $reseller_link_template,
-		// URL to reseller website.
-		esc_url( $reseller_url ),
-		// Title of reseller.
-		$boldgrid_reseller['reseller_title'] );
-} else {
-	$reseller_link = '';
+	$reseller_link = sprintf(
+		wp_kses(
+			__( 'You can purchase additional coins through your official BoldGrid reseller, <a href="%s" target="_blank">%s</a>.', 'boldgrid-inspirations' ),
+			array( 'a' => array( 'href' => array(), 'target' => array() ) )
+		),
+		$reseller_url,
+		$boldgrid_reseller['reseller_title']
+	);
 }
 
 ?>
@@ -50,9 +58,10 @@ if ( isset( $boldgrid_reseller['reseller_title'] ) && isset( $reseller_url ) ) {
 	<div class='plugin-card'>
 
 		<div class='plugin-card-top'>
-			<p>You can purchase additional coins through your official BoldGrid
-				reseller<?php echo $reseller_link; ?>. After you have purchased additional coins, your new coin
-				balance will update on the transaction pages.</p>
+			<p><?php
+				echo $reseller_link . ' ' .
+				esc_html__( 'After you have purchased additional coins, your new coin balance will update on the transaction pages.', 'boldgrid-inspirations' );
+			?></p>
 		</div>
 
 	</div>
