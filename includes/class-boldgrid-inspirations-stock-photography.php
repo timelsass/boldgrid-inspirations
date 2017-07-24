@@ -450,7 +450,8 @@ iframe#boldgrid_connect_search {
 			array (
 				'task' => 'update_entire_asset',
 				'asset_id' => $asset['asset_id'],
-				'asset' => $asset
+				'asset' => $asset,
+				'asset_type' => 'image',
 			) );
 
 		$asset = $this->asset_manager->get_asset(
@@ -464,64 +465,45 @@ iframe#boldgrid_connect_search {
 
 	/**
 	 * Register styles/scripts
+	 *
+	 * @global string $post_type
+	 * @global object $wp_customize
 	 */
 	public function enqueue_header_content( $hook ) {
-		wp_enqueue_media();
+ 		global $post_type;
+ 		global $wp_customize;
 
-		// Get 'tab' from the url.
-		// Example url: https://domain.com/wp-admin/media-upload.php?&tab=image_search
-		$tab = ( isset( $_GET['tab'] ) ? $_GET['tab'] : null );
+ 		$in_customizer = isset( $wp_customize );
 
-		// Are we within the iframe that does image searches?
-		$in_image_search_iframe = ( 'media-upload-popup' == $hook && 'image_search' == $tab );
+ 		$tab = ( isset( $_GET['tab'] ) ? $_GET['tab'] : null );
+ 		$in_image_search = ( 'media-upload-popup' === $hook && 'image_search' == $tab );
 
-		// Are we on a page with the 'Add Media' button?
-		// post.php: Editing an existing page.
-		// post-new.php: Creating a new page.
-		$in_page_editor = ( in_array( $hook, array (
-			'post.php',
-			'post-new.php'
-		) ) );
+		$post_hooks = array( 'post.php', 'post-new.php' );
+		$skip_post_types = array( 'attachment' );
+ 		$in_page_editor = in_array( $hook, $post_hooks ) && ! in_array( $post_type, $skip_post_types );
 
-		// Are we in the Customizer?
-		$in_customizer = ( 'widgets.php' == $hook );
-
-		if ( $in_customizer || $in_image_search_iframe || $in_page_editor ) {
-			wp_register_style( 'wp_iframe-media_upload',
-				plugins_url(
-					'/' . basename( BOLDGRID_BASE_DIR ) . '/assets/css/wp_iframe-media_upload.css' ),
-				array (), BOLDGRID_INSPIRATIONS_VERSION );
-
-			wp_enqueue_style( 'wp_iframe-media_upload' );
-		}
-
-		// only load these if we're looking at the image_search.php page via "add media"
-		if ( $in_image_search_iframe ) {
-			// used for window.send_to_editor
-			wp_enqueue_script( 'media-upload' );
-			wp_enqueue_style( 'admin-bar' );
-			wp_enqueue_style( 'wp-auth-check' );
-
-			// handlebars
-			wp_enqueue_script( 'inspiration-handle-bars',
-				plugins_url( 'assets/js/handlebars/handlebars-v2.0.0.js',
-					BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ), array (),
-				BOLDGRID_INSPIRATIONS_VERSION, true );
-
-			wp_enqueue_script( 'inspiration-handle-helper',
-				plugins_url( 'assets/js/handlebars/handle-bar-helpers.js',
-					BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ), array (),
-				BOLDGRID_INSPIRATIONS_VERSION, true );
-
-			wp_enqueue_script( 'inspiration-ajax',
-				plugins_url( '/assets/js/ajax/ajax.js',
-					BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ), array (),
-				BOLDGRID_INSPIRATIONS_VERSION, true );
+		/*
+		 * Load the necessary js/css for the BoldGrid Connect Search.
+		 *
+		 * These scripts are loaded within the media upload popup, which is
+		 * usually loaded within an iframe.
+		 */
+		if ( $in_image_search ) {
+ 			wp_enqueue_media();
 
 			wp_enqueue_script( 'image_search',
-				plugins_url( '/assets/js/image_search.js',
-					BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ), array (),
-				BOLDGRID_INSPIRATIONS_VERSION, true );
+				plugins_url( '/assets/js/image_search.js', BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ),
+				array (),
+				BOLDGRID_INSPIRATIONS_VERSION,
+				true
+			);
+
+			wp_register_style( 'wp_iframe-media_upload',
+				plugins_url( '/' . basename( BOLDGRID_BASE_DIR ) . '/assets/css/wp_iframe-media_upload.css' ),
+				array (),
+				BOLDGRID_INSPIRATIONS_VERSION
+			);
+			wp_enqueue_style( 'wp_iframe-media_upload' );
 
 			/**
 			 * Actions to take when we're in the BoldGrid Connect Search iframe.
@@ -531,13 +513,19 @@ iframe#boldgrid_connect_search {
 			do_action( 'boldgrid_image_search_scripts' );
 		}
 
-		global $wp_customize;
-
-		if ( ( 'post.php' == $hook || 'post-new.php' == $hook ) || ( isset( $wp_customize ) ) ) {
+		/*
+		 * Enqueue insert-media-tab-manager.js
+		 *
+		 * This js file listens to clicks of "Add media" and handles the
+		 * display of the BoldGrid Connect Search tab.
+		 */
+		if ( $in_page_editor || $in_customizer ) {
 			wp_enqueue_script( 'insert-media-tab-manager',
-				plugins_url( '/assets/js/insert-media-tab-manager.js',
-					BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ), array (),
-				BOLDGRID_INSPIRATIONS_VERSION, true );
+				plugins_url( '/assets/js/insert-media-tab-manager.js', BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ),
+				array(),
+				BOLDGRID_INSPIRATIONS_VERSION,
+				true
+			);
 		}
 	}
 }
