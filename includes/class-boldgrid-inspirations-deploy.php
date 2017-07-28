@@ -2198,6 +2198,8 @@ class Boldgrid_Inspirations_Deploy {
 					$new_style = str_replace( $matches[0], $updated_matches_0, $style );
 					$element->setAttribute( 'style', $new_style );
 
+					$element->setAttribute( 'data-image-url', $placeholder['attachment_url'] );
+
 					$dom_changed = true;
 					$tag_position++;
 				}
