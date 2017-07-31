@@ -8,8 +8,10 @@ if ( ! $_tests_dir ) {
 require_once $_tests_dir . '/includes/functions.php';
 
 function _manually_load_plugin() {
-	// todo Do we need to manually require this file?
+	// todo Do we need to manually require these files?
 	require_once dirname( dirname( __FILE__ ) ) . '/vendor/boldgrid/library/src/Library/License.php';
+	require_once dirname( dirname( __FILE__ ) ) . '/vendor/boldgrid/library/src/Library/Api/Call.php';
+	require_once dirname( dirname( __FILE__ ) ) . '/vendor/boldgrid/library/src/Library/Api/Availability.php';
 
 	require dirname( dirname( __FILE__ ) ) . '/boldgrid-inspirations.php';
 }
