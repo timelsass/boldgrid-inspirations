@@ -12,6 +12,7 @@ function _manually_load_plugin() {
 	require_once dirname( dirname( __FILE__ ) ) . '/vendor/boldgrid/library/src/Library/License.php';
 	require_once dirname( dirname( __FILE__ ) ) . '/vendor/boldgrid/library/src/Library/Api/Call.php';
 	require_once dirname( dirname( __FILE__ ) ) . '/vendor/boldgrid/library/src/Library/Api/Availability.php';
+	require_once dirname( dirname( __FILE__ ) ) . '/vendor/boldgrid/library/src/Library/Configs.php';
 
 	require dirname( dirname( __FILE__ ) ) . '/boldgrid-inspirations.php';
 }
