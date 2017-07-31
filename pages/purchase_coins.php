@@ -14,18 +14,8 @@ if ( ! $is_asset_server_available &&
 	include $notice_template_file;
 }
 
-/**
- * Configure a link to our reseller.
- *
- * If we don't have a reseller, the link will be an empty string.
- */
-$boldgrid_reseller = get_option( 'boldgrid_reseller', array () );
-
-if ( isset( $boldgrid_reseller['reseller_amp_url'] ) ) {
-	$reseller_url = $boldgrid_reseller['reseller_amp_url'];
-} else if ( isset( $boldgrid_reseller['reseller_website_url'] ) ) {
-	$reseller_url = $boldgrid_reseller['reseller_website_url'];
-}
+$reseller = new Boldgrid\Library\Library\Reseller();
+$coinUrl = $reseller->data['reseller_coin_url'];
 
 // Configure the "purchase coins" link.
 $reseller_link = sprintf(
@@ -33,16 +23,16 @@ $reseller_link = sprintf(
 		__( 'You can purchase additional coins through <a href="%1$s" target="_blank">BoldGrid Central</a>.', 'boldgrid-inspirations' ),
 		array( 'a' => array( 'href' => array(), 'target' => array() ) )
 	),
-	esc_url( 'https://www.boldgrid.com/central' )
+	esc_url( $reseller->centralUrl )
 );
-if ( isset( $boldgrid_reseller['reseller_title'] ) && isset( $reseller_url ) ) {
+if ( $reseller->centralUrl !== $coinUrl && isset( $reseller->data['reseller_title'] ) ) {
 	$reseller_link = sprintf(
 		wp_kses(
 			__( 'You can purchase additional coins through your official BoldGrid reseller, <a href="%s" target="_blank">%s</a>.', 'boldgrid-inspirations' ),
 			array( 'a' => array( 'href' => array(), 'target' => array() ) )
 		),
-		$reseller_url,
-		$boldgrid_reseller['reseller_title']
+		$coinUrl,
+		$reseller->data['reseller_title']
 	);
 }
 
