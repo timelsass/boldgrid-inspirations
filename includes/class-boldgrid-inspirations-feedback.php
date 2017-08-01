@@ -63,7 +63,7 @@ class Boldgrid_Inspirations_Feedback {
 			'theme_activation',
 		) );
 
-		// Add an action to run when a theme is activated.
+		// Add feedback.
 		add_action( 'boldgrid_feedback_add', array(
 			'Boldgrid_Inspirations_Feedback',
 			'add_feedback',
