@@ -63,6 +63,12 @@ class Boldgrid_Inspirations_Feedback {
 			'theme_activation',
 		) );
 
+		// Add an action to run when a theme is activated.
+		add_action( 'boldgrid_feedback_add', array(
+			'Boldgrid_Inspirations_Feedback',
+			'add_feedback',
+		), 10, 3 );
+
 		// Add an action to record when a page is created using a GridBlock.
 		add_action( 'boldgrid_inspirations_post_gridblock_set_create_page_callback',
 			array(
