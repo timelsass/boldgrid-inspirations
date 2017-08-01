@@ -363,6 +363,13 @@ public function boldgrid_style( $hook ) {
 		true
 	);
 
+	wp_register_style(
+		'boldgrid-inspirations-font-awesome',
+		plugins_url( '/assets/css/font-awesome/css/font-awesome.min.css', BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ),
+		array(),
+		BOLDGRID_INSPIRATIONS_VERSION
+	);
+
 	/**
 	 * Determine when to load our grid, grid.css.
 	 */

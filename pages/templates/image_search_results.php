@@ -13,10 +13,10 @@
 			<a class="check" href="#" title="Deselect" tabindex="-1"><div class="media-modal-icon"></div></a>
 	<div class='image-details'>
 		{{#if_eq license_type 'creative_commons'}}
-			<img src='<?php echo plugins_url() . '/' . basename( BOLDGRID_BASE_DIR ) . '/assets/images/cc/cc.png'; ?>' class='cc-sm' title='<?php echo __( 'Creative Commons', 'boldgrid-inspirations' ); ?>' />
+			<i class='fa fa-globe' aria-hidden='true' title='<?php echo __( 'From Web', 'boldgrid-inspirations' ); ?>'></i>
 		{{/if_eq}}
 		{{#if_eq license_type 'paid'}}
-			<img src='<?php echo plugins_url() . '/' . basename( BOLDGRID_BASE_DIR ) . '/assets/images/bg-coin-toolbar-graphic.png'; ?>' class='cc-sm' title='<?php echo __( 'Coins', 'boldgrid-inspirations' ); ?>' />
+			<img src='<?php echo plugins_url() . '/' . basename( BOLDGRID_BASE_DIR ) . '/assets/images/bg-coin-toolbar-graphic.png'; ?>' class='cc-sm' title='<?php echo __( 'Paid License', 'boldgrid-inspirations' ); ?>' />
 		{{/if_eq}}
 	</div>
 	</li>

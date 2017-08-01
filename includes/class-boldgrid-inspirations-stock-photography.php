@@ -505,6 +505,8 @@ iframe#boldgrid_connect_search {
 			);
 			wp_enqueue_style( 'wp_iframe-media_upload' );
 
+			wp_enqueue_style( 'boldgrid-inspirations-font-awesome' );
+
 			/**
 			 * Actions to take when we're in the BoldGrid Connect Search iframe.
 			 *

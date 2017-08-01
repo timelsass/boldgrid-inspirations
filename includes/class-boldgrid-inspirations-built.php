@@ -441,13 +441,6 @@ class Boldgrid_Inspirations_Built {
 
 		wp_enqueue_style( 'boldgrid-inspirations-css' );
 
-		wp_register_style(
-			'boldgrid-inspirations-font-awesome',
-			plugins_url( '/assets/css/font-awesome/css/font-awesome.min.css', BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ),
-			array(),
-			BOLDGRID_INSPIRATIONS_VERSION
-		);
-
 		wp_enqueue_style( 'boldgrid-inspirations-font-awesome' );
 
 		wp_enqueue_style( 'dashicons' );
