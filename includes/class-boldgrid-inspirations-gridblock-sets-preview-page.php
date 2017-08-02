@@ -54,6 +54,8 @@ class Boldgrid_Inspirations_GridBlock_Sets_Preview_Page {
 			) );
 
 		add_filter( 'boldgrid_cart_exclude_page', array( $this, 'boldgrid_cart_exclude_page' ) );
+
+		add_filter( 'Boldgrid\Editor\Media\Layout\exludedPosts', array( $this, 'boldgrid_cart_exclude_page' ) );
 	}
 
 	/**
