@@ -36,6 +36,7 @@ The second phase is Customization; tools to transform your website into your vis
 * Bug fix:		JIRA WPB-3337	On a fresh install, Pages - New From GridBlocks fails.
 * Bug fix:		JIRA WPB-3333	Image search only searching one provider instead of all.
 * Bug fix:		JIRA WPB-3346	Edit Image button not working for attachment.
+* Bug fix:		JIRA WPB-3387	Loading GridBlocks just spins.
 * Update:		JIRA WPB-3352	Purchase coins through BoldGrid Central.
 * Update:		JIRA WPB-3355	Add data-image-url attribute.
 * Update:		JIRA WPB-3382	More descriptive creative commons icon.

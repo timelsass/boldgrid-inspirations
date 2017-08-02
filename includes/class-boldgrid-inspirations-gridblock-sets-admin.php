@@ -114,6 +114,13 @@ class Boldgrid_Inspirations_GridBlock_Sets_Admin {
 	 */
 	public function admin_enqueue_scripts( $hook ) {
 		if ( $this->hook == $hook ) {
+
+			/*
+			 * The New From GridBlocks page utilizes wp.media to create a modal
+			 * for previewing gridblocks. Ensure we have wp.media enqueued.
+			 */
+			wp_enqueue_media();
+
 			wp_enqueue_script( 'boldgrid-inspirations-add-gridblock-set',
 				plugins_url( 'assets/js/boldgrid-inspirations-add-gridblock-set.js',
 					BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ), array (),
