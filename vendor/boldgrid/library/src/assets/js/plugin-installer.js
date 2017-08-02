@@ -79,7 +79,7 @@ BOLDGRID.LIBRARY = BOLDGRID.LIBRARY || {};
 			$( document).on ( 'wp-plugin-install-success', function( event, response ) {
 				var button, notice, card = $( '.plugin-card-' + response.slug );
 					notice = card.find( '.installer-messages' );
-					button = card.find( '.button' );
+					button = card.find( '.installing.button' );
 
 				notice.removeClass( 'installing' );
 
@@ -108,6 +108,9 @@ BOLDGRID.LIBRARY = BOLDGRID.LIBRARY || {};
 				card.find( '.installer-messages')
 					.replaceWith( card.find( '.notice.update-message.notice-error.notice-alt.is-dismissible' ) );
 				card.find( '.notice' ).addClass( 'installer-messages' ).show();
+
+				// Clear loading process indicator.
+				self.loading = false;
 			} );
 		},
 
@@ -173,7 +176,7 @@ BOLDGRID.LIBRARY = BOLDGRID.LIBRARY || {};
 						el = $( '.bglib-plugin-installer .plugin-card-' + message.data.slug + ' .installer-messages' );
 
 						// Add processing message.
-						el.addClass( 'updating-message notice inline notice-warning notice-alt' )
+						el.addClass( 'installer-messages updating-message notice inline notice-warning notice-alt' )
 							.find( 'p' )
 							.text( wp.updates.l10n.installingMsg );
 					}
@@ -214,6 +217,9 @@ BOLDGRID.LIBRARY = BOLDGRID.LIBRARY || {};
 				card.find( '.installer-messages')
 					.replaceWith( card.find( '.notice.update-message.notice-error.notice-alt.is-dismissible' ) );
 				card.find( '.notice' ).addClass( 'installer-messages' ).show();
+
+				// Clear loading process indicator.
+				self.loading = false;
 			} );
 		},
 
@@ -277,18 +283,22 @@ BOLDGRID.LIBRARY = BOLDGRID.LIBRARY || {};
 					el.removeClass( 'installing' );
 					el.closest( '.plugin' )
 						.find( '.installer-messages' )
-						.addClass( 'notice updated-message notice-success notice-alt' )
+						.addClass( 'installer-messages notice updated-message notice-success notice-alt' )
 						.find( 'p' )
-						.text( response.data.message );
+						.html( response.data.message );
+
+					// Clear loading process indicator.
 					self.loading = false;
 				},
 				error: function( xhr, status, error ) {
 					el.removeClass( 'installing' );
 					el.closest( '.plugin' )
 						.find( '.installer-messages' )
-						.addClass( 'notice update-message notice-error notice-alt is-dismissible' )
+						.addClass( 'installer-messages notice update-message notice-error notice-alt is-dismissible' )
 						.find( 'p' )
 						.text( error );
+
+					// Clear loading process indicator.
 					self.loading = false;
 				}
 			} );
@@ -300,7 +310,7 @@ BOLDGRID.LIBRARY = BOLDGRID.LIBRARY || {};
 		 *  @since 0.1.0
 		 */
 		_buttons : function() {
-			$( '.bglib-plugin-installer' ).on( 'click', 'a.button', function( e ) {
+			$( '.bglib-plugin-installer' ).on( 'click', 'a.button:not(.get-premium)', function( e ) {
 				var el, slug;
 
 				el = $( this );
@@ -315,7 +325,7 @@ BOLDGRID.LIBRARY = BOLDGRID.LIBRARY || {};
 
 				// Remove any current messages displayed.
 				el.closest( '.plugin' )
-					.find( '.installer-messages' )
+					.find( '.notice' )
 					.attr( 'class', 'installer-messages' )
 					.find( 'p' )
 					.text( '' );

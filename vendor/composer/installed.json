@@ -107,23 +107,23 @@
     },
     {
         "name": "boldgrid/bgforms",
-        "version": "1.0.0",
-        "version_normalized": "1.0.0.0",
+        "version": "1.0.1",
+        "version_normalized": "1.0.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/BoldGrid/bgforms.git",
-            "reference": "6b9c3716e1d26c68f999b6059fde69acb35e5a8f"
+            "reference": "5cc5cd0e00b9bf825dc7db9526a288b708b91a7b"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/BoldGrid/bgforms/zipball/6b9c3716e1d26c68f999b6059fde69acb35e5a8f",
-            "reference": "6b9c3716e1d26c68f999b6059fde69acb35e5a8f",
+            "url": "https://api.github.com/repos/BoldGrid/bgforms/zipball/5cc5cd0e00b9bf825dc7db9526a288b708b91a7b",
+            "reference": "5cc5cd0e00b9bf825dc7db9526a288b708b91a7b",
             "shasum": ""
         },
         "require": {
             "boldgrid/library": "^1.0.0"
         },
-        "time": "2017-07-13T00:09:47+00:00",
+        "time": "2017-07-20T16:05:17+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {

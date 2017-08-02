@@ -13,6 +13,7 @@ namespace Boldgrid\Library\Library\Plugin;
 
 use Boldgrid\Library\Library;
 use Boldgrid\Library\Util;
+use Boldgrid\Library\Form\Wpforms;
 
 /**
  * BoldGrid Library Plugin Installer Class.
@@ -33,7 +34,9 @@ class Installer {
 	protected
 		$configs,
 		$releaseChannel,
-		$transient;
+		$forms,
+		$transient,
+		$updates;
 
 	/**
 	 * Initialize class and set class properties.
@@ -45,9 +48,11 @@ class Installer {
 	public function __construct( $configs, Library\ReleaseChannel $releaseChannel ) {
 		$this->setConfigs( $configs );
 		$this->releaseChannel = $releaseChannel;
+		$this->forms = new Wpforms\AddNew();
 		if ( $this->configs['enabled'] && ! empty( $this->configs['plugins'] ) ) {
 			$this->setPluginData( $this->configs['plugins'] );
 			$this->setTransient();
+			$this->setUpdates();
 			$license = new Library\License;
 			$this->license = Library\Configs::get( 'licenseData' );
 			$this->ajax();
@@ -108,6 +113,23 @@ class Installer {
 
 			$this->configs['plugins'][ $plugin ] = wp_parse_args( $data, $details );
 		}
+	}
+
+	/**
+	 * Set the updates class property.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param array $updates Array of configuration options for plugin installer.
+	 *
+	 * @return object $updatess The configs class property.
+	 */
+	protected function setUpdates() {
+		if ( ! function_exists( 'get_plugin_updates' ) ) {
+            require_once ABSPATH . 'wp-admin/includes/update.php';
+            require_once ABSPATH . 'wp-admin/includes/plugin.php';
+		}
+		return $this->updates = \get_plugin_updates();
 	}
 
 	/**
@@ -266,13 +288,12 @@ class Installer {
 		?>
 		<div class="bglib-plugin-installer">
 		<?php
+			$plugins = apply_filters( 'Boldgrid\Library\Plugin\Installer\init', $plugins );
 			foreach ( $plugins as $api ) {
 				$button_classes = 'install button';
 				$button_text = __( 'Install Now', 'boldgrid-library' );
 
-					// Main plugin file.
-					$file = $this->configs['plugins'][ $api->slug ]['file'];
-					if ( $this->getPluginFile( $api->slug ) ) {
+					if ( $file = Util\Plugin::getPluginFile( $api->slug ) ) {
 
 						// Has activation already occured? Disable button if so.
 						if ( is_plugin_active( $file ) ) {
@@ -314,10 +335,10 @@ class Installer {
 					$name = "$api->name $api->version";
 
 					$premiumSlug = $api->slug . '-premium';
-					$pluginClasses = $api->slug;
+					$pluginClasses = "plugin-card-{$api->slug}";
 
-					$premiumLink = '';
-					$premiumUrl = $this->getPremiumUrl();
+					$premiumLink = null;
+					$premiumUrl = $this->premiumUrl( $api->slug, $premiumLink );
 
 					if ( isset( $this->license->{$premiumSlug} ) || isset( $this->license->{$api->slug} ) ) {
 						$pluginClasses = "plugin-card-{$api->slug} premium";
@@ -327,19 +348,22 @@ class Installer {
 
 					$messageClasses = 'installer-messages';
 					$message = '';
-					if ( ( $this->configs['plugins'][ $api->slug ]['Version'] !== $api->new_version ) && $this->getPluginFile( $api->slug ) ) {
-						$messageClasses = "{$messageClasses} update-message notice inline notice-warning notice-alt";
-						$updateUrl = add_query_arg(
-							array(
-								'action' => 'upgrade-plugin',
-								'plugin' => urlencode( $file ),
-								'slug' => $api->slug,
-								'_wpnonce' => wp_create_nonce( "upgrade-plugin_{$api->slug}" ),
-							),
-							self_admin_url( 'update.php' )
-						);
-						$updateLink = '<a href="' . $updateUrl . '" class="update-link" aria-label="' . sprintf( __( 'Update %s now', 'boldgrid-library' ), $api->name ) . '" data-plugin="' . $file . '" data-slug="' . $api->slug . '"> ' . __( 'Update now' ) . '</a>';
-						$message = sprintf( __( 'New version available. %s' ), $updateLink );
+
+					if ( ( ! empty( $this->configs['plugins'][ $api->slug ] ) &&
+						( $this->configs['plugins'][ $api->slug ]['Version'] !== $api->new_version ) ) ||
+							! empty( $this->updates[$file] ) ) {
+								$messageClasses = "{$messageClasses} update-message notice inline notice-warning notice-alt";
+								$updateUrl = add_query_arg(
+									array(
+										'action' => 'upgrade-plugin',
+										'plugin' => urlencode( $file ),
+										'slug' => $api->slug,
+										'_wpnonce' => wp_create_nonce( "upgrade-plugin_{$api->slug}" ),
+									),
+									self_admin_url( 'update.php' )
+								);
+								$updateLink = '<a href="' . $updateUrl . '" class="update-link" aria-label="' . sprintf( __( 'Update %s now', 'boldgrid-library' ), $api->name ) . '" data-plugin="' . $file . '" data-slug="' . $api->slug . '"> ' . __( 'Update now' ) . '</a>';
+								$message = sprintf( __( 'New version available. %s' ), $updateLink );
 					}
 
 					// Send plugin data to template.
@@ -362,32 +386,6 @@ class Installer {
 	}
 
 	/**
-	 * Helper to get and verify the plugin file.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param  string $slug Slug of the plugin to get main file for.
-	 *
-	 * @return mixed  $file Main plugin file of slug or null if not found.
-	 */
-	public function getPluginFile( $slug ) {
-
-		// Load plugin.php if not already included by core.
-		require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
-		$plugins = get_plugins();
-		foreach ( $plugins as $file => $info ) {
-
-			// Get the basename of the plugin.
-			$basename = dirname( plugin_basename( $file ) );
-			if ( $basename === $slug ) {
-				return $file;
-			}
-		}
-
-		return null;
-	}
-
-	/**
 	 * Get the premium URL for a users to login and upgrade with.
 	 *
 	 * This checks the 'boldgrid_reseller' option to see if an
@@ -396,16 +394,24 @@ class Installer {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @nohook
+	 *
 	 * @return string $url The url for a user to login to upgrade through.
 	 */
-	private function getPremiumUrl() {
-		$option = get_site_option( 'boldgrid_reseller' );
-		$url = 'https://www.boldgrid.com/connect-keys/';
-		if ( $option && ! empty( $option['reseller_amp_url'] ) ) {
-			$url = $option['reseller_amp_url'];
+	public function premiumUrl( $plugin, $url = null ) {
+		if ( ! $url ) {
+
+			// Set default URL.
+			$url = $url ? $url : $this->configs['defaultLink'];
+
+			// Check for reseller overrides.
+			$option = get_site_option( 'boldgrid_reseller' );
+			if ( $option && ! empty( $option['reseller_amp_url'] ) ) {
+				$url = $option['reseller_amp_url'];
+			}
 		}
 
-		return $url;
+		return apply_filters( 'Boldgrid\Library\Plugin\Installer\premiumUrl', $url, $plugin );
 	}
 
 	/**
@@ -674,7 +680,6 @@ class Installer {
 	 */
 	public function filterUpdates( $updates ) {
 		$plugins = $this->getTransient() ? : array();
-
 		foreach( $plugins as $plugin => $details ) {
 			$update = new \stdClass();
 			$update->plugin = $this->configs['plugins'][ $plugin ]['file'];
@@ -683,12 +688,51 @@ class Installer {
 			$update->url = $details->url;
 			$update->package = $details->download_link;
 
-			if ( ( $this->configs['plugins'][ $plugin ]['Version'] !== $details->new_version ) && $this->getPluginFile( $details->slug ) ) {
+			if ( ( $this->configs['plugins'][ $plugin ]['Version'] !== $details->new_version ) && Util\Plugin::getPluginFile( $details->slug ) ) {
 				$update->tested = $details->tested_wp_version;
 				$update->compatibility = new \stdClass();
 				$updates->response[ $update->plugin ] = $update;
 			} else {
 				$updates->no_update[ $update->plugin ] = $update;
+			}
+		}
+
+		return apply_filters( 'Boldgrid\Library\Plugin\Installer\filterUpdates', $updates );
+	}
+
+	/**
+	 * Filters the WordPress Updates Available.
+	 *
+	 * This is set to priority 12 to override the individual plugin
+	 * update classes that set priority at 11 in this filter.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @hook: set_site_transient_update_plugins
+	 *
+	 * @return object $updates Updates available.
+	 */
+	public function externalUpdates( $updates ) {
+		if ( ! empty( $this->configs['wporgPlugins'] ) && ! get_site_transient( 'boldgrid_wporg_plugins', false ) ) {
+			$plugins = $this->configs['wporgPlugins'];
+			require_once ABSPATH . 'wp-admin/includes/plugin-install.php';
+			$responses = new \stdClass();
+			foreach( $plugins as $plugin ) {
+				$api = plugins_api( 'plugin_information',
+					array(
+						'slug' => $plugin['slug'],
+						'fields' => array(
+							'short_description' => true,
+							'icons' => true,
+						),
+					)
+				);
+				if ( ! is_wp_error( $api ) ) {
+					$responses->{$plugin['slug']} = $api;
+				}
+			}
+			if ( ! empty( $responses ) ) {
+				set_site_transient( 'boldgrid_wporg_plugins', $responses, 7 * DAY_IN_SECONDS );
 			}
 		}
 

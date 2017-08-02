@@ -21,27 +21,30 @@ return array(
 		// Enabled the plugin installer feature in library.
 		'enabled' => true,
 
+		// Default Premium Link.
+		'defaultLink' => 'https://www.boldgrid.com/connect-keys/',
+
 		// Installable plugins.
 		'plugins' => array(
+			'boldgrid-editor' => array(
+				'key' => 'editor',
+				'file' => 'boldgrid-editor/boldgrid-editor.php',
+			),
 			'boldgrid-inspirations' => array(
 				'key' => 'core',
 				'file' => 'boldgrid-inspirations/boldgrid-inspirations.php',
-			),
-			'boldgrid-staging' => array(
-				'key' => 'staging',
-				'file' => 'boldgrid-staging/boldgrid-staging.php',
 			),
 			'boldgrid-seo' => array(
 				'key' => 'seo',
 				'file' => 'boldgrid-seo/boldgrid-seo.php',
 			),
-			'boldgrid-editor' => array(
-				'key' => 'editor',
-				'file' => 'boldgrid-editor/boldgrid-editor.php',
-			),
 			'boldgrid-backup' => array(
 				'key' => 'backup',
 				'file' => 'boldgrid-backup/boldgrid-backup.php',
+			),
+			'boldgrid-staging' => array(
+				'key' => 'staging',
+				'file' => 'boldgrid-staging/boldgrid-staging.php',
 			),
 			'boldgrid-gallery' => array(
 				'key' => 'gallery-wc-canvas',
@@ -50,6 +53,14 @@ return array(
 			'boldgrid-ninja-forms' => array(
 				'key' => 'ninja-forms',
 				'file' => 'boldgrid-ninja-forms/ninja-forms.php',
+			),
+		),
+
+		// WordPress.org Recommended Plugins.
+		'wporgPlugins' => array(
+			array(
+				'slug' => 'wpforms-lite',
+				'link' => '//wpforms.com/lite-upgrade/',
 			),
 		),
 	),

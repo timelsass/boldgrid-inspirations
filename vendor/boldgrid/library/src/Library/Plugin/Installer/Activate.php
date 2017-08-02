@@ -12,6 +12,7 @@
 namespace Boldgrid\Library\Library\Plugin\Installer;
 
 use Boldgrid\Library\Library;
+use Boldgrid\Library\Util;
 
 /**
  * BoldGrid Library Plugin Installer Class.
@@ -99,7 +100,7 @@ class Activate {
 		);
 
 		if ( $api->name ) {
-			$file = $this->configs['plugins'][ $plugin ]['file'];
+			$file = ! empty( $this->configs['plugins'][ $plugin ]['file'] ) ? $this->configs['plugins'][ $plugin ]['file'] : Util\Plugin::getPluginFile( $api->slug );
 			$status = 'success';
 			if ( $file ) {
 				$activate = activate_plugin( $file );
