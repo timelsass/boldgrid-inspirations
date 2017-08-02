@@ -70,9 +70,11 @@ select#image_size option.recommended_image_size {
 	filter: brightness(0.45);
 }
 
-.image-details .fa {
+#search_results .fa-boldgrid {
+	margin-top: -1px;
+}
+#search_results .fa {
 	font-size: 22px;
-	margin-top: -2px;
 }
 
 #boldgrid_connect_search_clone body#image-upload {

@@ -114,7 +114,23 @@ $download_button_text = ( true == $ref_is_dashboard_media || true == $ref_is_cus
 				{{/each}}
 			</select>
 		</label>
+
+		{{#if_eq creative_commons false}}
+		<label class="setting">
+			<span>License:</span><br />
+			<a href="{{license.url}}" target="_blank">{{license.name}}</a>
+		</label>
+		{{/if_eq}}
+
 	</div>
+
+	{{#if_eq creative_commons true}}
+		<div class="notice notice-warning" style="clear:both; margin-left:0px; margin-right:0px;">
+			<p>
+				<?php _e( 'This {{provider_title}} image has been marked by its publisher with the following <em>Creative Commons</em> license: <a href="{{license.url}}" target="_blank">{{license.name}}</a>. This is not a guarantee it is legally Creative Commons. This image may be subject to other copyrights. You, as the website owner, are responsible for content on your site.', 'boldgrid-inspirations' ); ?>
+			</p>
+		</div>
+	{{/if_eq}}
 
 	<p>
 		<a id='download_and_insert_into_page' class="button media-button button-primary button-large media-button-insert"><?php echo $download_button_text; ?></a>

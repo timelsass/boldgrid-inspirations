@@ -40,6 +40,7 @@ The second phase is Customization; tools to transform your website into your vis
 * Update:		JIRA WPB-3352	Purchase coins through BoldGrid Central.
 * Update:		JIRA WPB-3355	Add data-image-url attribute.
 * Update:		JIRA WPB-3382	More descriptive creative commons icon.
+* Update:		JIRA WPB-3384	Add License details to attachment details.
 
 = 1.4.9 =
 * Bug fix:		JIRA WPB-3318	When forcing a preferred form plugin install, first check if plugin is installed before trying to activate.

@@ -253,6 +253,16 @@ a[disabled="disabled"] {
 	pointer-events: none;
 }
 
+/* Mimic fa icon using BoldGrid icon. */
+.fa-boldgrid {
+	height: 19px;
+	width: 19px;
+	background: url(../images/bg-coin-toolbar-graphic.png) center 3px no-repeat;
+	filter: brightness(0.4);
+	min-height: 22px;
+}
+
+
 /* *****************************************************************
 Coins
 ***************************************************************** */

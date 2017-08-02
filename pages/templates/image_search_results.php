@@ -16,7 +16,7 @@
 			<i class='fa fa-globe' aria-hidden='true' title='<?php echo __( 'From Web', 'boldgrid-inspirations' ); ?>'></i>
 		{{/if_eq}}
 		{{#if_eq license_type 'paid'}}
-			<img src='<?php echo plugins_url() . '/' . basename( BOLDGRID_BASE_DIR ) . '/assets/images/bg-coin-toolbar-graphic.png'; ?>' class='cc-sm' title='<?php echo __( 'Paid License', 'boldgrid-inspirations' ); ?>' />
+			<i class='fa fa-boldgrid' aria-hidden='true' title='<?php echo __( 'Paid License', 'boldgrid-inspirations' ); ?>'></i>
 		{{/if_eq}}
 	</div>
 	</li>
