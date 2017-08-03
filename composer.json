@@ -1,10 +1,4 @@
 {
-    "repositories": [
-      {
-        "type": "vcs",
-        "url": "git@github.com:BoldGrid/boldgrid-inspirations-premium.git"
-      }
-    ],
     "require": {
         "boldgrid/boldgrid-inspirations-premium": "^1.0.0",
         "boldgrid/bgforms": "^1.0.0"
