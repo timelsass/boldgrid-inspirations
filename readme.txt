@@ -31,6 +31,9 @@ The second phase is Customization; tools to transform your website into your vis
 
 == Changelog ==
 
+= 1.4.11 =
+* Update:                       Bump version.
+
 = 1.4.10 =
 * Bug fix:		JIRA WPB-3336	All and Default categories do not align.
 * Bug fix:		JIRA WPB-3337	On a fresh install, Pages - New From GridBlocks fails.
