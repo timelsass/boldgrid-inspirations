@@ -31,6 +31,9 @@ The second phase is Customization; tools to transform your website into your vis
 
 == Changelog ==
 
+= 1.5.1 =
+* Update:                       Updates to library.
+
 = 1.5 =
 * Update:                       Bump version.
 
