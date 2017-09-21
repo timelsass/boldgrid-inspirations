@@ -21,6 +21,10 @@ The second phase is Customization; tools to transform your website into your vis
 * PHP 5.3 or higher.
 * PHP cURL.
 
+Temporary fix until a near-future update:
+* PHP setting "opcache.save_comments = 1"
+* PHP setting "opcache.load_comments = 1"
+
 == Installation ==
 
 1. Upload the entire boldgrid-inspirations folder to the /wp-content/plugins/ directory.
