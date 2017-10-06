@@ -40,6 +40,10 @@
 	margin-bottom: 10px;
 }
 
+#boldgrid_feedback_widget #feedback-notice-1-1-intro p {
+	margin: 0;
+}
+
 #feedback-notice-1-1-intro p {
 	margin-top: -5px;
 	margin-bottom: -5px;
