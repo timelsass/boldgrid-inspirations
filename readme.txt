@@ -37,6 +37,7 @@ Temporary fix until a near-future update:
 
 = 1.5.1 =
 * Update:                       Updates to library.
+* Bug fix:      JIRA WPB-3587   Menu assignment after deployment broken in WP 4.9.
 
 = 1.5 =
 * Update:                       Bump version.

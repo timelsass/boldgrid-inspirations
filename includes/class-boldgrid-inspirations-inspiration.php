@@ -270,6 +270,9 @@ class Boldgrid_Inspirations_Inspiration extends Boldgrid_Inspirations {
 		'/includes/class-boldgrid-inspirations-gridblock-sets-preview-page.php';
 		$gridblock_sets_preview_page = new Boldgrid_Inspirations_GridBlock_Sets_Preview_Page();
 		$gridblock_sets_preview_page->add_hooks();
+
+		$deploy_theme = new Boldgrid_Inspirations_Deploy_Theme();
+		$deploy_theme->add_hooks();
 	}
 
 /**
@@ -432,6 +435,7 @@ public function include_admin_files() {
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-deploy-cta.php';
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-deploy-image.php';
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-deploy-metadata.php';
+	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-deploy-theme.php';
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-blog.php';
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-widget.php';
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-attachment.php';

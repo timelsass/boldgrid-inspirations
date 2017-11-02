@@ -1082,6 +1082,7 @@ class Boldgrid_Inspirations_Deploy {
 
 				// Activate the theme.
 				switch_theme( $activation_theme );
+				update_option( Boldgrid_Inspirations_Deploy_Theme::$theme_deployed, $activation_theme );
 			}
 
 			// Enable theme options:
