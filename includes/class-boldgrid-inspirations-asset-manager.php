@@ -965,23 +965,18 @@ class Boldgrid_Inspirations_Asset_Manager extends Boldgrid_Inspirations {
 	 * @return array.
 	 */
 	public function get_active_assets() {
-		$is_staging_active = is_plugin_active( 'boldgrid-staging/boldgrid-staging.php' );
 
 		/*
-		 * If the BoldGrid Staging plugin is active, remove all filters for
-		 * 'pre_option_boldgrid_asset'.
+		 * Force getting the unfiltered assets.
 		 *
-		 * If we did not remove this filter, get_option( 'boldgrid_asset' ) would instead return
-		 * the 'boldgrid_staging_boldgrid_asset' option.
+		 * We don't ever want to get boldgrid_staging_boldgrid_asset in this
+		 * method, hence the method's get "active" assets name.
 		 */
-		remove_all_filters( 'pre_option_boldgrid_asset' );
+		update_option( 'boldgrid_staging_get_unfiltered_boldgrid_asset', '1' );
 
 		$assets = get_option( 'boldgrid_asset' );
 
-		if( $is_staging_active && class_exists( 'Boldgrid_Staging_Plugin' ) ) {
-			$staging = new Boldgrid_Staging_Plugin;
-			add_action( 'pre_option_boldgrid_asset', array ( $staging, 'boldgrid_asset_pre_option' ) );
-		}
+		delete_option( 'boldgrid_staging_get_unfiltered_boldgrid_asset' );
 
 		return $assets;
 	}

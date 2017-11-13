@@ -38,7 +38,8 @@ Temporary fix until a near-future update:
 = 1.5.1 =
 * Update:                       Updates to library.
 * Bug fix:      JIRA WPB-3587   Menu assignment after deployment broken in WP 4.9.
-* Buf fix:      JIRA WPB-3570   Inspirations Select button misplaced in WP 4.9.
+* Bug fix:      JIRA WPB-3570   Inspirations Select button misplaced in WP 4.9.
+* Bug fix:      JIRA WPB-3593   Changes require to help Staging support new Customizer scheduler.
 
 = 1.5 =
 * Update:                       Bump version.
