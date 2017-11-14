@@ -5,7 +5,7 @@
 **Contributors:** imh_brad, joemoto, rramo012, timph
 **Tags:** inspiration,customization,build,create,design
 **Requires at least:** 4.4
-**Tested up to:** 4.8.1
+**Tested up to:** 4.9
 **License:** GPLv2 or later
 **License URI:** http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -38,6 +38,14 @@ Temporary fix until a near-future update:
 
 ## Changelog ##
 
+### 1.5.2 ###
+* Bug fix:      JIRA WPB-3587   Menu assignment after deployment broken in WP 4.9.
+* Bug fix:      JIRA WPB-3570   Inspirations Select button misplaced in WP 4.9.
+* Bug fix:      JIRA WPB-3593   Changes require to help Staging support new Customizer scheduler.
+
+### 1.5.1 ###
+* Update:                       Updates to library.
+
 ### 1.5 ###
 * Update:                       Bump version.
 
@@ -54,7 +62,7 @@ Temporary fix until a near-future update:
 * Update:		JIRA WPB-3355	Add data-image-url attribute.
 * Update:		JIRA WPB-3382	More descriptive creative commons icon.
 * Update:		JIRA WPB-3384	Add License details to attachment details.
-* Update:		JIRA WPB-3383	Filter out boldgrid-gridblock-set-preview-page. 
+* Update:		JIRA WPB-3383	Filter out boldgrid-gridblock-set-preview-page.
 
 ### 1.4.9 ###
 * Bug fix:		JIRA WPB-3318	When forcing a preferred form plugin install, first check if plugin is installed before trying to activate.
