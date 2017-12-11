@@ -2786,6 +2786,61 @@ class Boldgrid_Inspirations_Deploy {
 			return;
 		}
 
+		// Define the plugins path.
+		$plugin_path = ABSPATH . 'wp-content/plugins/';
+
+		// Get BoldGrid data for checking wporg plugins.
+		$boldgrid_api_data = get_site_transient( 'boldgrid_api_data' );
+
+		// If an old plugin is installed, then do not install the new.  Ensure activation.
+		if ( $boldgrid_api_data && ! empty( $boldgrid_api_data->result->data->wporg_plugins ) ) {
+			foreach ( $boldgrid_api_data->result->data->wporg_plugins as $wporg_plugin ) {
+				$old_plugin_file = $wporg_plugin->old_slug . '/' .
+					$wporg_plugin->old_slug . '.php';
+
+				if ( false !== strpos( $activate_path, $wporg_plugin->slug ) &&
+					file_exists( $plugin_path . $old_plugin_file ) ) {
+						$this->add_to_deploy_log(
+							sprintf(
+								__( 'Skipping installation of %s; comparable plugin already installed',
+									'boldgrid-inspirations'
+								),
+								$activate_path
+							) . ': ' . $old_plugin_file
+						);
+
+						// Activate, if needed.
+						if ( ! $this->external_plugin->is_active( $old_plugin_file ) ) {
+							$this->add_to_deploy_log(
+								__( 'Activating plugin...' , 'boldgrid-inspirations' )
+							);
+
+							$result = activate_plugin( $old_plugin_file );
+
+							if ( is_wp_error( $result ) ) {
+								$this->add_to_deploy_log(
+									__( 'Plugin activation failed.', 'boldgrid-inspirations' )
+								);
+
+								error_log(
+									__METHOD__ . ': Error: Plugin activation failed! ' . print_r(
+										array (
+											'activate_path' => $old_plugin_file,
+											'result' => $result,
+										), true )
+								);
+							} else {
+								$this->add_to_deploy_log(
+									__( 'Plugin activation complete.', 'boldgrid-inspirations' )
+								);
+							}
+						}
+
+						return;
+				}
+			}
+		}
+
 		$boldgrid_configs = $this->get_configs();
 
 		// If ASSET_SERVER in plugin url name, then replace it from configs.
@@ -2811,8 +2866,6 @@ class Boldgrid_Inspirations_Deploy {
 		 * Check if the version we are trying to install.
 		 */
 		$plugin_version_already_exists = false;
-
-		$plugin_path = ABSPATH . 'wp-content/plugins/';
 
 		$absolute_activation_path = $plugin_path . $activate_path;
 

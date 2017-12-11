@@ -5,7 +5,7 @@
 **Contributors:** imh_brad, joemoto, rramo012, timph
 **Tags:** inspiration,customization,build,create,design
 **Requires at least:** 4.4
-**Tested up to:** 4.9
+**Tested up to:** 4.9.1
 **License:** GPLv2 or later
 **License URI:** http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -37,6 +37,9 @@ Temporary fix until a near-future update:
 3. You will find the Inspirations menu in your WordPress Dashboard / admin panel.
 
 ## Changelog ##
+
+### 1.5.3 In progress ###
+* New feature:  JIRA WPB-3643   Ensure that deployment does not install new wporg plugins if old ones are installed.
 
 ### 1.5.2 ###
 * Bug fix:      JIRA WPB-3587   Menu assignment after deployment broken in WP 4.9.
