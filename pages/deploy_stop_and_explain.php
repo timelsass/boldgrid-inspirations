@@ -50,7 +50,6 @@ if ( ! is_plugin_active( 'boldgrid-staging/boldgrid-staging.php' ) ) {
 <div class='wrap hidden' id='stop_and_explain'>
 	<div class='plugin-card no-float'>
 		<div class='plugin-card-top '>
-			<?php echo $this->get_plugin_activation_notices(); ?>
 			<h3><?php _e( 'Congratulations!', 'boldgrid-inspirations' ); ?></h3>
 
 			<p><?php echo $your_new_site_is_now_installed_message; ?></p>

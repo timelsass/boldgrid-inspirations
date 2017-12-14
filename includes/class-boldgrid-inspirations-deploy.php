@@ -2631,50 +2631,28 @@ class Boldgrid_Inspirations_Deploy {
 	 * @see Boldgrid_Inspirations_Api::get_api_key_hash().
 	 */
 	public function install_sitewide_plugins() {
-		$this->change_deploy_status( 'Installation sitewide plugins...' );
+		$this->change_deploy_status( 'Installation site-wide plugins...' );
 
-		$this->add_to_deploy_log( 'Requesting list of any sitewide plugins...' );
+		$this->add_to_deploy_log( 'Retrieving list of site-wide plugins...' );
 
-		$boldgrid_configs = $this->get_configs();
+		$boldgrid_api_data = get_site_transient( 'boldgrid_api_data' );
 
-		$get_plugins_url = $boldgrid_configs['asset_server'] .
-			 $boldgrid_configs['ajax_calls']['get_plugins'];
+		if ( ! empty( $boldgrid_api_data->result->data->wporg_plugins ) ) {
+			foreach ( $boldgrid_api_data->result->data->wporg_plugins as $key_code => $plugin_data ) {
+				// Skip plugins not marked as site-wide.
+				if ( isset( $plugin_data->sitewide ) && false === $plugin_data->sitewide ) {
+					continue;
+				}
 
-		// Determine the release channel.
-		( $options = get_site_option( 'boldgrid_settings' ) ) ||
-		( $options = get_option( 'boldgrid_settings' ) );
+				// For now, build the plugin basename from the folder name.
+				$plugin_basename = $plugin_data->slug . '/' . $plugin_data->slug . '.php';
 
-		$release_channel = isset( $options['release_channel'] ) ? $options['release_channel'] : 'stable';
-
-		// Build API call arguments:
-		$arguments = array (
-			'method' => 'POST',
-			'body' => array(
-				'channel' => $release_channel
-			)
-		);
-
-		// Get the API key hash.
-		$api_key_hash = $this->asset_manager->api->get_api_key_hash();
-
-		if ( ! empty( $api_key_hash ) ) {
-			$arguments['body']['key'] = $api_key_hash;
-		}
-
-		$response = wp_remote_post( $get_plugins_url, $arguments );
-
-		if ( $response instanceof WP_Error ) {
-			throw new Exception( 'Error downloading plugin list.' );
-		}
-
-		$plugin_list = json_decode( $response['body'] );
-
-		$plugin_list = isset( $plugin_list->result->data ) ? $plugin_list->result->data : array ();
-
-		if ( count( $plugin_list ) ) {
-			foreach ( $plugin_list as $plugin_list_k => $plugin_list_v ) {
-				$this->download_and_install_plugin( $plugin_list_v->plugin_zip_url,
-					$plugin_list_v->plugin_activate_path, $plugin_list_v->version, $plugin_list_v );
+				$this->download_and_install_plugin(
+					$plugin_data->package_url,
+					$plugin_basename,
+					$plugin_data->version,
+					$plugin_data
+				);
 			}
 		} else {
 			$this->add_to_deploy_log( 'No plugins found to install.' );
@@ -2688,35 +2666,6 @@ class Boldgrid_Inspirations_Deploy {
 	 */
 	public function is_staging_install() {
 		return ( isset( $_POST['staging'] ) && 1 == $_POST['staging'] );
-	}
-
-	/**
-	 * If we activated any existing plugins on behalf of the user, print this notices
-	 */
-	public function get_plugin_activation_notices() {
-		$plugin_titles = array ();
-
-		$notices = '';
-
-		foreach ( $this->plugin_installation_data as $plugin ) {
-			if ( ! empty( $plugin['forked_plugin_activated'] ) &&
-				 ! empty( $plugin['full_data']->plugin_title ) ) {
-				$plugin_titles[] = $plugin['full_data']->plugin_title;
-			}
-		}
-
-		if ( count( $plugin_titles ) ) {
-			$notices = '<div class="updated auto-updated-plugins"><p>The following existing' .
-				 ' plugins where activated for use on your new BoldGrid site:</p><ul>';
-
-			foreach ( $plugin_titles as $plugin_title ) {
-				$notices .= "<li>{$plugin_title}</li>";
-			}
-
-			$notices .= '</ul></div>';
-		}
-
-		return $notices;
 	}
 
 	/**
@@ -2909,7 +2858,7 @@ class Boldgrid_Inspirations_Deploy {
 			'forked_plugin_exists' => false,
 			'forked_plugin_active' => false,
 			'forked_plugin_activated' => false,
-			'full_data' => $full_plugin_data
+			'full_data' => $full_plugin_data,
 		);
 
 		// Do not install plugins if the forked plugin exists:
@@ -2921,11 +2870,12 @@ class Boldgrid_Inspirations_Deploy {
 		if ( ! empty( $full_plugin_data->forked_plugin_path ) &&
 			file_exists( $plugin_path . $full_plugin_data->forked_plugin_path ) ) {
 				$forked_plugin_active = $this->external_plugin->is_active(
-					$full_plugin_data->forked_plugin_path );
+					$full_plugin_data->forked_plugin_path
+				);
 
-				$this->plugin_installation_data[$activate_path] = array (
+				$this->plugin_installation_data[ $activate_path ] = array(
 					'forked_plugin_active' => $forked_plugin_active,
-					'forked_plugin_exists' => true
+					'forked_plugin_exists' => true,
 				);
 
 				$this->add_to_deploy_log(
@@ -2934,8 +2884,8 @@ class Boldgrid_Inspirations_Deploy {
 						$full_plugin_data->forked_plugin_path
 					) .
 					( $forked_plugin_active ?
-					__( 'active; skipping installation', 'boldgrid-inspirations' ) :
-					__( 'inactive', 'boldgrid-inspirations' )
+						__( 'active; skipping installation', 'boldgrid-inspirations' ) :
+						__( 'inactive', 'boldgrid-inspirations' )
 					) . '.'
 				);
 		}
@@ -2976,13 +2926,6 @@ class Boldgrid_Inspirations_Deploy {
 							'$activate_path' => $activate_path,
 							'$result' => $result
 						), true ) );
-			} elseif ( $this->plugin_installation_data[$original_active_path]['forked_plugin_exists'] &&
-				 false == $forked_plugin_active ) {
-				/*
-				 * In the case that the activation of this plugin was a success and the plugin was a
-				 * fork, set "forked_plugin_activated" so that we can display a message to the user
-				 */
-				$this->plugin_installation_data[$original_active_path]['forked_plugin_activated'] = true;
 			} else {
 				$this->add_to_deploy_log( 'Plugin activation complete.' );
 			}

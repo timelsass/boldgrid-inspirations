@@ -33,7 +33,6 @@ return array(
 		'create_theme' =>								'/api/theme/create',
 		'submit_theme_for_approval' =>					'/api/theme/submit-for-approval',
 		// Plugin.
-		'get_plugins' =>								'/api/plugin/get-plugin-data',
 		'get_version' =>								'/api/plugin/check-version',
 		'get_plugin_version' =>							'/api/open/get-plugin-version',
 		// Pageset.
