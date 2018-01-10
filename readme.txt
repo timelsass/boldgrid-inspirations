@@ -35,6 +35,9 @@ Temporary fix until a near-future update:
 
 == Changelog ==
 
+= 1.5.4 In progress =
+* New feature:  JIRA BGCNTRL-46 Added filters for manipulating Dashboard help in trial sites.
+
 = 1.5.3 =
 * New feature:  JIRA WPB-3643   Ensure that deployment does not install new wporg plugins if old ones are installed.
 

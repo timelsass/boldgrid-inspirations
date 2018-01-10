@@ -2,6 +2,16 @@
 // Prevent direct calls.
 require BOLDGRID_BASE_DIR . '/pages/templates/restrict-direct-access.php';
 
+$experienced_section_h2 = apply_filters(
+	'boldgrid_experienced_section_h2',
+	'Experienced WordPress Users'
+);
+
+$experienced_section_path = apply_filters(
+	'boldgrid_experienced_section_path',
+	BOLDGRID_BASE_DIR . '/pages/boldgrid-dashboard-advanced-wp-users.php'
+);
+
 ?>
 <!-- Start of BoldGrid Dashboard Widget -->
 <div id="dashboard-widget" class="metabox-holder">
@@ -25,8 +35,8 @@ require BOLDGRID_BASE_DIR . '/pages/templates/restrict-direct-access.php';
 					</section>
 					<section id="boldgrid-experienced-section" class="right w50">
 						<div class="boldgrid-50-50-right">
-							<h2>Experienced WordPress Users</h2>
-							<?php include BOLDGRID_BASE_DIR . '/pages/boldgrid-dashboard-advanced-wp-users.php'; ?>
+							<h2><?php echo $experienced_section_h2; ?></h2>
+							<?php include $experienced_section_path; ?>
 						</div>
 					</section>
 				</div>
