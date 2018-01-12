@@ -1,6 +1,7 @@
 {
     "require": {
         "boldgrid/boldgrid-inspirations-premium": "^1.0.0",
+        "boldgrid/plugin-installer": "dev-dev",
         "boldgrid/bgforms": "^1.0.0"
     }
 }
