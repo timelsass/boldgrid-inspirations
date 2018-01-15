@@ -53,7 +53,7 @@ if ( Boldgrid_Inspirations::is_php_compatible() ) {
 			'type' => 'plugin',
 			'file' => plugin_basename( __FILE__ ),
 			'loader' => $loader,
-			'keyValidate' => false,
+			'keyValidate' => true,
 			'licenseActivate', false,
 		)
 	);

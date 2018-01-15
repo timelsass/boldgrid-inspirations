@@ -90,6 +90,10 @@ class Boldgrid_Inspirations_Built {
 		);
 
 		add_action( 'admin_init', array( $this, 'remove_notices' ) );
+
+		if ( isset( $_REQUEST['page'] ) && 'boldgrid-inspirations' === $_REQUEST['page'] ) {
+			add_filter( 'Boldgrid\Library\Library\Notice\KeyPrompt_display', '__return_true' );
+		}
 	}
 
 	/**
