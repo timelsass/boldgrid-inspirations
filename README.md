@@ -39,6 +39,7 @@ Temporary fix until a near-future update:
 ## Changelog ##
 
 ### 1.5.4 In progress ###
+* Update:       JIRA BGINSP-4   Removed admin notice recommending plugin installations.
 * Update:       JIRA BGINSP-3   Forcing display of Connect Key prompt admin notice on the Inpspirations page, even if dismissed, until key is entered.
 * Update:       JIRA WPB-3684   Updated composer.json, due to package changes.
 * New feature:  JIRA BGCNTRL-46 Added filters for manipulating Dashboard help in trial sites.

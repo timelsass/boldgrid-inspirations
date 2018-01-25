@@ -222,10 +222,6 @@ class Boldgrid_Inspirations_Inspiration extends Boldgrid_Inspirations {
 			$purchase_for_publish = new Boldgrid_Inspirations_Purchase_For_Publish();
 			$purchase_for_publish->add_hooks();
 
-			// Dependency plugins.
-			$dependency_plugins = new Boldgrid_Inspirations_Dependency_Plugins();
-			$dependency_plugins->add_hooks();
-
 			// Purchase Coins.
 			$boldgrid_purchase_coins = new Boldgrid_Inspirations_Purchase_Coins();
 			$boldgrid_purchase_coins->add_hooks();
@@ -414,7 +410,6 @@ public function include_admin_files() {
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-update.php';
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-options.php';
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-built.php';
-	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-dependency-plugins.php';
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-receipts.php';
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-purchase-coins.php';
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-admin-notices.php';
