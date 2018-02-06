@@ -5,7 +5,7 @@
 **Contributors:** imh_brad, joemoto, rramo012, timph
 **Tags:** inspiration,customization,build,create,design
 **Requires at least:** 4.4
-**Tested up to:** 4.9.1
+**Tested up to:** 4.9.4
 **License:** GPLv2 or later
 **License URI:** http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -38,11 +38,13 @@ Temporary fix until a near-future update:
 
 ## Changelog ##
 
-### 1.5.4 In progress ###
-* Update:       JIRA BGINSP-4   Removed admin notice recommending plugin installations.
+### 1.5.5 In progress ###
 * Update:       JIRA BGINSP-3   Forcing display of Connect Key prompt admin notice on the Inpspirations page, even if dismissed, until key is entered.
 * Update:       JIRA WPB-3684   Updated composer.json, due to package changes.
 * New feature:  JIRA BGCNTRL-46 Added filters for manipulating Dashboard help in trial sites.
+
+### 1.5.4 ###
+* Update:       JIRA BGINSP-4   Removed admin notice recommending plugin installations.
 
 ### 1.5.3 ###
 * New feature:  JIRA WPB-3643   Ensure that deployment does not install new wporg plugins if old ones are installed.
