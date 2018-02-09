@@ -39,6 +39,7 @@ Temporary fix until a near-future update:
 ## Changelog ##
 
 ### 1.5.5 In progress ###
+* Bug fix:      JIRA BGSTAGE-32 Fixed staging plugin install.
 * Update:       JIRA BGINSP-3   Forcing display of Connect Key prompt admin notice on the Inpspirations page, even if dismissed, until key is entered.
 * Update:       JIRA WPB-3684   Updated composer.json, due to package changes.
 * New feature:  JIRA BGCNTRL-46 Added filters for manipulating Dashboard help in trial sites.
