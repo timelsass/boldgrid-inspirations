@@ -226,7 +226,6 @@ class Boldgrid_Inspirations_Inspiration extends Boldgrid_Inspirations {
 			$boldgrid_purchase_coins = new Boldgrid_Inspirations_Purchase_Coins();
 			$boldgrid_purchase_coins->add_hooks();
 
-
 			// Easy Attachment Preview Size.
 			$boldgrid_easy_attachment_preview_size = new Boldgrid_Inspirations_Easy_Attachment_Preview_Size();
 			$boldgrid_easy_attachment_preview_size->add_hooks();
@@ -252,6 +251,9 @@ class Boldgrid_Inspirations_Inspiration extends Boldgrid_Inspirations {
 
 			$kitchen_sink = new Boldgrid_Inspirations_GridBlock_Sets_Kitchen_Sink( $this->configs );
 			$kitchen_sink->add_hooks();
+
+			$staging = new Boldgrid_Inspirations_Staging();
+			$staging->add_hooks();
 		}
 
 		/* Classes to add_hooks for, regardless of is_admin. */
@@ -434,6 +436,7 @@ public function include_admin_files() {
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-blog.php';
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-widget.php';
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-attachment.php';
+	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-staging.php';
 }
 
 /**
