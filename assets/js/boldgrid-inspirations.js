@@ -554,6 +554,9 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 							alert( 'failed setting up staging plugin' );
 							self.disableInstallButton( false );
 						}
+					}).fail( function() {
+						alert( 'failed setting up staging plugin' );
+						self.disableInstallButton( false );
 					});
 					break;
 
@@ -572,6 +575,9 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 							alert( 'failed activating staging plugin' );
 							self.disableInstallButton( false );
 						}
+					}).fail( function() {
+						alert( 'failed activating staging plugin' );
+						self.disableInstallButton( false );
 					});
 					break;
 			}
@@ -1026,17 +1032,17 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			self.loadBuild();
 		});
 	};
-	
+
 	/**
 	 * @summary Remove a category.
-	 * 
+	 *
 	 * @since 1.4.9
-	 * 
+	 *
 	 * @param string id Category id.
 	 */
 	this.removeCategory = function( id ) {
 		delete self.categories[id];
-		
+
 		$( '.sub-category [data-sub-category-id="' + id + '"]' )
 			.closest( '.sub-category' )
 			.slideUp( 1000, function() {
@@ -1162,7 +1168,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 
 				return;
 			}
-			
+
 			// Add the pseudo "Default" category, which is our theme showcase.
 			self.categories['default'] = {
 				subcategories : [
@@ -1309,14 +1315,14 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 					self.$themes.append( template( { configs: IMHWPB.configs, build: build } ) );
 					build.isDefault = false;
 				}
-				
+
 				self.$themes.append( template( { configs: IMHWPB.configs, build: build } ) );
 			});
-			
+
 			if( 0 === defaultBuilds ) {
 				self.removeCategory( 'default' );
 			}
-			
+
 			self.sortThemes( 'data-all-order' );
 
 			$( "img.lazy" ).lazyload({threshold : 400});
@@ -1371,7 +1377,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			if ( 'timeout' === msg.statusText ) {
 				message = timeoutMessage;
 			}
-			self.loadBuildFail( message + '<br />' + tryAgainButton );	
+			self.loadBuildFail( message + '<br />' + tryAgainButton );
 		};
 
 		successAction = function( msg ) {
@@ -1512,7 +1518,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 */
 	this.toggleSubCategory = function( subCategoryId ) {
 		var fancyboxAnchor = '.theme-screenshot a',
-			isDefault = 'default' === subCategoryId, 
+			isDefault = 'default' === subCategoryId,
 			showAll = '0' === subCategoryId,
 			hideSelector = '.theme[data-is-default!="true"]',
 			showSelector = '.theme[data-is-default="true"]',
@@ -1522,7 +1528,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			hideSelector = showSelector + ',.theme[data-sub-category-id!="' + subCategoryId + '"]';
 			showSelector = '.theme[data-sub-category-id="' + subCategoryId + '"]';
 		}
-		
+
 		$categoryName.toggle( isDefault || showAll );
 
 		if( '0' === subCategoryId ) {
@@ -1540,7 +1546,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 				 * rather than open thumbnail in fancybox gallery.
 				 */
 				.find( fancyboxAnchor ).addClass( 'fancybox' );
-			
+
 			$( hideSelector )
 				.addClass( 'hidden' )
 				.appendTo( '.themes' )
