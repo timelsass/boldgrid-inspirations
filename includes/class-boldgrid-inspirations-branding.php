@@ -283,7 +283,7 @@ class Boldgrid_Inspirations_Branding {
 		$args = array(
 			'id' => 'boldgrid-adminbar-icon',
 			'title' => '<span aria-hidden="true" class="boldgrid-icon ab-icon"></span>',
-			'href' => 'http://www.boldgrid.com/',
+			'href' => 'https://www.boldgrid.com/',
 			'meta' => array(
 				'class' => 'boldgrid-node-icon',
 			),
@@ -295,7 +295,7 @@ class Boldgrid_Inspirations_Branding {
 			'id' => 'boldgrid-site-url',
 			'parent' => 'boldgrid-adminbar-icon',
 			'title' => __( 'BoldGrid.com', 'boldgrid-inspirations' ),
-			'href' => 'http://www.boldgrid.com/',
+			'href' => 'https://www.boldgrid.com/',
 			'meta' => array(
 				'class' => 'boldgrid-dropdown',
 				'target' => '_blank',
@@ -310,7 +310,7 @@ class Boldgrid_Inspirations_Branding {
 			'id' => 'boldgrid-site-documentation',
 			'parent' => 'boldgrid-adminbar-icon',
 			'title' => __( 'Documentation', 'boldgrid-inspirations' ),
-			'href' => 'http://www.boldgrid.com/docs',
+			'href' => 'https://www.boldgrid.com/docs',
 			'meta' => array(
 				'class' => 'boldgrid-dropdown',
 				'target' => '_blank',
@@ -325,7 +325,7 @@ class Boldgrid_Inspirations_Branding {
 			'id' => 'boldgrid-support-center',
 			'parent' => 'boldgrid-adminbar-icon',
 			'title' => __( 'Support Center', 'boldgrid-inspirations' ),
-			'href' => 'http://www.boldgrid.com/support',
+			'href' => 'https://www.boldgrid.com/support',
 			'meta' => array(
 				'class' => 'boldgrid-dropdown',
 				'target' => '_blank',
@@ -337,10 +337,25 @@ class Boldgrid_Inspirations_Branding {
 		$wp_admin_bar->add_menu( $boldgrid_submenu_item );
 
 		$boldgrid_submenu_item = array(
+			'id' => 'boldgrid-central-url',
+			'parent' => 'boldgrid-adminbar-icon',
+			'title' => __( 'BoldGrid Central', 'boldgrid-inspirations' ),
+			'href' => 'https://www.boldgrid.com/central',
+			'meta' => array(
+				'class' => 'boldgrid-dropdown',
+				'target' => '_blank',
+				'title' => 'BoldGrid Central',
+				'tabindex' => '1',
+			),
+		);
+
+		$wp_admin_bar->add_menu( $boldgrid_submenu_item );
+
+		$boldgrid_submenu_item = array(
 			'id' => 'boldgrid-feedback-url',
 			'parent' => 'boldgrid-adminbar-icon',
 			'title' => __( 'Feedback', 'boldgrid-inspirations' ),
-			'href' => 'http://www.boldgrid.com/feedback',
+			'href' => 'https://www.boldgrid.com/feedback',
 			'meta' => array(
 				'class' => 'boldgrid-dropdown',
 				'target' => '_blank',
