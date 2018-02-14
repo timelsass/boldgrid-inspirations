@@ -38,6 +38,9 @@ Temporary fix until a near-future update:
 
 ## Changelog ##
 
+### 1.5.5 ###
+* Bug fix:      JIRA BGSTAGE-32 Fixed staging plugin install.
+
 ### 1.5.4 ###
 * Update:       JIRA BGINSP-4   Removed admin notice recommending plugin installations.
 
