@@ -2598,6 +2598,13 @@ class Boldgrid_Inspirations_Deploy {
 		}
 
 		/**
+		 * After the deployment process is complete. Fire off a completion event.
+		 *
+		 * @since 1.5.5
+		 */
+		do_action( 'boldgrid_inspirations_deploy_complete', get_option( 'boldgrid_install_options', array() ) );
+
+		/**
 		 * ********************************************************************
 		 * We inteded for the preview server to return a json string.
 		 * This was not possible however because WordPress has data echoing that cannot be canceled.
