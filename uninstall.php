@@ -1,5 +1,8 @@
 <?php
 
+// @todo Determine best approach for clearing shared options.
+return;
+
 // Abort if uninstall is not called from WordPress.
 if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit();
