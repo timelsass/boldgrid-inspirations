@@ -35,6 +35,9 @@ Temporary fix until a near-future update:
 
 == Changelog ==
 
++ 1.5.7 In progress =
+* Bug fix:      JIRA WPB-3767   Prevent invalid API calls for check-version.
+
 = 1.5.6 =
 * Update:       JIRA WPB-3730   Updated library dependency to ^2.0.0.
 * Update:       JIRA BGINSP-3   Forcing display of Connect Key prompt admin notice on the Inspirations page, even if dismissed, until key is entered.

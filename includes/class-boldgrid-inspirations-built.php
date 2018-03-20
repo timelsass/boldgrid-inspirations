@@ -595,7 +595,7 @@ class Boldgrid_Inspirations_Built {
 		global $user_email;
 
 		// If we are prompting the user for an API key, then show only that prompt.
-		if ( $this->inspiration->api->get_have_enqueued_api_key_prompt() ) {
+		if ( class_exists( '\Boldgrid\Library\Library\Notice\KeyPrompt', false ) ) {
 			return;
 		}
 
@@ -608,7 +608,7 @@ class Boldgrid_Inspirations_Built {
 		if ( is_null( $api_call_results ) ) {
 			error_log( __METHOD__ . ': Error getting BoldGrid version.' );
 
-			wp_die( $this->inspiration->api->notify_connection_issue() );
+			wp_die();
 		}
 
 		if ( isset( $_POST['task'] ) && 'deploy' == $_POST['task'] ) {
@@ -650,7 +650,7 @@ class Boldgrid_Inspirations_Built {
 		$is_inspirations_page = ( 'admin.php' === $pagenow && 'boldgrid-inspirations' === $page );
 
 		// Are we prompting the user to enter their API key?
-		$prompting_for_key = $this->inspiration->api->get_have_enqueued_api_key_prompt();
+		$prompting_for_key = class_exists( '\Boldgrid\Library\Library\Notice\KeyPrompt', false );
 
 		/*
 		 * If we're on the Inspirations page and we're not prompting the user for a key, remove all

@@ -259,29 +259,10 @@ class Boldgrid_Inspirations_Update {
 			$boldgrid_configs['ajax_calls']['get_version']
 		);
 
-		// Check asset server availability.
-		if ( isset( $boldgrid_api_data->status ) ) {
-			Boldgrid_Inspirations_Api::set_is_asset_server_available( true );
-		} else {
-			Boldgrid_Inspirations_Api::set_is_asset_server_available( false );
-
-			return false;
-		}
-
 		// Fail if we do not have success.
-		if ( 200 !== $boldgrid_api_data->status || 'OK' !== $boldgrid_api_data->message ) {
-			error_log(
-				__METHOD__ . ': Failed to get valid updated boldgrid_api_data.  ' .
-				print_r(
-					array(
-						'uri' => $boldgrid_configs['ajax_calls']['get_version'],
-						'$boldgrid_api_data' => $boldgrid_api_data,
-					),
-					true
-				)
-			);
-
-			return false;
+		if ( ! isset( $boldgrid_api_data->status ) || 200 !== $boldgrid_api_data->status ||
+			'OK' !== $boldgrid_api_data->message ) {
+				return false;
 		}
 
 		// Add the current timestamp (in seconds).

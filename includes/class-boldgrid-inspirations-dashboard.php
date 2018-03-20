@@ -690,7 +690,7 @@ class Boldgrid_Inspirations_Dashboard extends Boldgrid_Inspirations {
 			)
 		);
 
-		if ( current_user_can( 'edit_dashboard' ) && ! $this->api->get_have_enqueued_api_key_prompt() ) {
+		if ( current_user_can( 'edit_dashboard' ) && ! class_exists( '\Boldgrid\Library\Library\Notice\KeyPrompt', false ) ) {
 			wp_add_dashboard_widget(
 				'boldgrid_feedback_widget',
 				esc_html__( 'BoldGrid Feedback', 'boldgrid-inspirations' ),

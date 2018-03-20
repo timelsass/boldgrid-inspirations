@@ -106,12 +106,6 @@ class Boldgrid_Inspirations_Receipts extends Boldgrid_Inspirations {
 	public function menu_transactions() {
 		// Check asset server availability.
 		if ( ! Boldgrid_Inspirations_Api::get_is_asset_server_available() ) {
-			// Notify that there is a connection issue.
-			add_action(
-				'admin_notices',
-				Boldgrid_Inspirations_Admin_Notices::display_connection_notice()
-			);
-
 			return;
 		}
 

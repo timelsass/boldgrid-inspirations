@@ -73,16 +73,6 @@ class Boldgrid_Inspirations_Api {
 	private static $last_api_status = 0;
 
 	/**
-	 * Static class property $have_enqueued_api_key_prompt.
-	 *
-	 * @since 1.2.2
-	 * @access private
-	 * @var bool
-	 * @staticvar
-	 */
-	private static $have_enqueued_api_key_prompt = false;
-
-	/**
 	 * Constructor.
 	 *
 	 * @since 1.2.2
@@ -108,7 +98,7 @@ class Boldgrid_Inspirations_Api {
 	 * @return bool
 	 */
 	public static function get_is_asset_server_available() {
-		return self::$is_asset_server_available;
+		return 0 !== self::$is_asset_server_available;
 	}
 
 	/**
@@ -127,7 +117,7 @@ class Boldgrid_Inspirations_Api {
 		self::$is_asset_server_available = $is_asset_server_available;
 
 		// Save the WP Option.
-		set_site_transient( 'boldgrid_available', $is_asset_server_available, HOUR_IN_SECONDS );
+		set_site_transient( 'boldgrid_available', (int) $is_asset_server_available, 5 * MINUTE_IN_SECONDS );
 
 		return true;
 	}
@@ -187,17 +177,6 @@ class Boldgrid_Inspirations_Api {
 	 */
 	public function get_last_api_status() {
 		return self::$last_api_status;
-	}
-
-	/**
-	 * Accessor for self::$have_enqueued_api_key_prompt.
-	 *
-	 * @since 1.2.3
-	 *
-	 * @return bool
-	 */
-	public function get_have_enqueued_api_key_prompt() {
-		return self::$have_enqueued_api_key_prompt;
 	}
 
 	/**
@@ -337,6 +316,9 @@ class Boldgrid_Inspirations_Api {
 		// Build the GET parameters.
 		if ( ! empty( $api_key_hash ) ) {
 			$params_array['key'] = $api_key_hash;
+		} else if ( '/api/plugin/check-version' === $api_path ) {
+			// Abort if there is no Connect Key for an authenticated API call.
+			return false;
 		}
 
 		if ( ! empty( self::$site_hash ) ) {
@@ -522,116 +504,6 @@ class Boldgrid_Inspirations_Api {
 		}
 
 		return $boldgrid_api_data;
-	}
-
-	/**
-	 * Load the necessary resources in the admin section when prompting the user for an api key.
-	 *
-	 * @since 1.2.2
-	 * @see Boldgrid_Inspirations_Api::get_is_asset_server_available().
-	 * @see /assets/js/api/api.js
-	 */
-	public function add_hooks_to_prompt_for_api_key() {
-
-		// If the current cannot manage_options, do not allow them to enter an API key.
-		if( ! current_user_can( 'manage_options' ) ) {
-			return;
-		}
-
-		// At this point, we've decided that we need to ask the user for an api key.
-		// Let's only ask them once! IE don't show two admin notices asking for a key.
-		if ( ! self::$have_enqueued_api_key_prompt ) {
-			// If the asset server is available and there is no site hash, then ask for the api key, else notify.
-			if ( self::get_is_asset_server_available() ) {
-				// If we're asking for a key, then any stored key is not valid, so delete it.
-				delete_option( 'boldgrid_api_key' );
-
-				// Add a message to the dashboard that asks for the api key.
-				add_action( 'admin_notices',
-					array(
-						$this,
-						'prompt_for_api_key',
-					)
-				);
-
-				// Load javascript that handles ajax submission of api key.
-				add_action( 'admin_enqueue_scripts',
-					array(
-						$this,
-						'enqueue_js_api_submission',
-					)
-				);
-
-				// Action to handle submission of key via ajax.
-				add_action( 'wp_ajax_set_api_key',
-					array(
-						$this,
-						'set_api_key_callback',
-					)
-				);
-
-				// Remember that we already printed the notice.
-				self::$have_enqueued_api_key_prompt = true;
-			} else {
-				// Notify that there is a connection issue.
-				add_action( 'admin_notices',
-					array(
-						$this,
-						'notify_connection_issue',
-					)
-				);
-			}
-		}
-	}
-
-	/**
-	 * Print a notice asking the user to input their api_key.
-	 *
-	 * @since 1.2.2
-	 */
-	public function prompt_for_api_key() {
-		/*
-		 * Get our $configs, so we can supply them to the template file at the end of this method.
-		 *
-		 * Initially, this wasn't required as the configs were available on every page via js.
-		 * However, that is no longer the case. As the only configs required are
-		 * $configs['asset_server'] and $configs['ajax_calls']['generate_api_key'], to minimize
-		 * required changes to this method we'll simply include those values in the form.
-		 */
-		$configs = Boldgrid_Inspirations_Config::get_format_configs();
-
-		// Get current user.
-		$current_user = wp_get_current_user();
-
-		// E-mail is always checked and is a required wp field for user.
-		$email = $current_user->user_email;
-
-		// First name if exists from user.
-		$first_name = ( empty( $current_user->user_firstname ) ? '' : $current_user->user_firstname );
-
-		// Last name if exists from user.
-		$last_name = ( empty( $current_user->user_lastname ) ? '' : $current_user->user_lastname );
-
-		// Display the notice.
-		include BOLDGRID_BASE_DIR . '/pages/templates/boldgrid-inspirations-api-prompt.php';
-	}
-
-	/**
-	 * Print a notice for connection issues.
-	 *
-	 * @since 1.2.2
-	 */
-	public function notify_connection_issue() {
-		// Show a notice, if not already printed.
-		$notice_template_file = BOLDGRID_BASE_DIR .
-		'/pages/templates/boldgrid-connection-issue.php';
-
-		if ( ! in_array( $notice_template_file, get_included_files(), true ) ) {
-			include $notice_template_file;
-		}
-
-		// Mark "boldgrid_available" transient to FALSE (unavailable).
-		set_site_transient( 'boldgrid_available', false, HOUR_IN_SECONDS );
 	}
 
 	/**
@@ -926,47 +798,5 @@ class Boldgrid_Inspirations_Api {
 
 		// Return the resulting site hash string.
 		return self::$site_hash;
-	}
-
-	/**
-	 * Make a test call to the asset server.
-	 *
-	 * @since 1.2.3
-	 * @see Boldgrid_Inspirations_Api::get_is_asset_server_available().
-	 * @see Boldgrid_Inspirations_Api::set_is_asset_server_available().
-	 *
-	 * @return bool
-	 */
-	public function test_api() {
-		// Get the WP transient "boldgrid_api_test".
-		$boldgrid_api_test = get_site_transient( 'boldgrid_api_test' );
-
-		// If the BoldGrid API was tested recently, then just return the stored result.
-		if ( false !== $boldgrid_api_test ) {
-			return self::get_is_asset_server_available();
-		}
-
-		// Get the BoldGrid configuration array.
-		$configs = $this->core->get_configs();
-
-		// Make a test API call.
-		$boldgrid_api_result = Boldgrid_Inspirations_Api::boldgrid_api_call(
-			$boldgrid_configs['ajax_calls']['get_plugin_version']
-		);
-
-		// Check asset server availability.
-		$boldgrid_api_test = (
-			isset( $boldgrid_api_result->status ) &&
-			200 === $boldgrid_api_result->status
-		);
-
-		// Set the result.
-		self::set_is_asset_server_available( $boldgrid_api_test );
-
-		// Store the result in WP transient "boldgrid_api_test", expires in 1 minute.
-		set_site_transient( 'boldgrid_api_test', $boldgrid_api_test , MINUTE_IN_SECONDS );
-
-		// Return the result.
-		return $boldgrid_api_test;
 	}
 }

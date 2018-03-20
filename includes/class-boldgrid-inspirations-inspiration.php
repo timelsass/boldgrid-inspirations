@@ -39,7 +39,6 @@ class Boldgrid_Inspirations_Inspiration extends Boldgrid_Inspirations {
 	/**
 	 * Pre-add hooks.
 	 *
-	 * @see Boldgrid_Inspirations_Api::add_hooks_to_prompt_for_api_key().
 	 * @see Boldgrid_Inspirations_Api::passes_api_check();
 	 * @see Boldgrid_Inspirations_Api::get_is_asset_server_available().
 	 * @see Boldgrid_Inspirations_Api::get_site_hash().
@@ -56,34 +55,21 @@ class Boldgrid_Inspirations_Inspiration extends Boldgrid_Inspirations {
 		// Add hooks regardless of key validation.
 		$this->add_hooks_always();
 
-		// If POST is an API key activation call, then handle the callback.
-		if ( isset( $_POST['action'] ) && 'set_api_key' === $_POST['action'] &&
-		isset( $_POST['api_key'] ) ) {
-			// Prompt for the API key.
-			$this->api->add_hooks_to_prompt_for_api_key();
-		} else {
-			// Get the API hash from configs.
-			$api_key_hash = (
-				isset( $this->configs['api_key'] ) ? $this->configs['api_key'] : null
-			);
+		// Get the API hash from configs.
+		$api_key_hash = (
+			isset( $this->configs['api_key'] ) ? $this->configs['api_key'] : null
+		);
 
-			// Verify API key and add hooks, or prompt for api key.
-			$passes_api_check = false;
+		// Verify API key and add hooks, or prompt for api key.
+		$passes_api_check = false;
 
-			if ( ! empty( $api_key_hash ) ) {
-				$passes_api_check = $this->api->passes_api_check( true );
-			}
+		if ( ! empty( $api_key_hash ) ) {
+			$passes_api_check = $this->api->passes_api_check( true );
+		}
 
-			// Get the site hash.
-			$site_hash = Boldgrid_Inspirations_Api::get_site_hash();
-
-			// If the last API status code was 401 (unauthorized), then prompt for a new key.
-			if ( empty( $api_key_hash ) || 401 === $this->api->get_last_api_status() ) {
-				$this->api->add_hooks_to_prompt_for_api_key();
-			} elseif ( $passes_api_check ) {
-				// API key check passed, add hooks.
-				$this->add_hooks();
-			}
+		// API key check passed, add hooks.
+		if ( $passes_api_check ) {
+			$this->add_hooks();
 		}
 	}
 
