@@ -215,8 +215,11 @@ class Boldgrid_Inspirations {
 	}
 
 	/**
-	 * If DOING_CRON, then check if this plugin, should be auto-updated.
-	 * Also set filters for optional plugin and them updates.
+	 * Instantiate a new instance of Boldgrid_Inspirations_Update().
+	 *
+	 * Previously, this method also handled auto updates based on the settings
+	 * in the boldgrid_options settings. This functionality however has been
+	 * moved to the library.
 	 *
 	 * @since 1.2.3
 	 * @access private
@@ -234,16 +237,6 @@ class Boldgrid_Inspirations {
 		// Get BoldGrid settings.
 		( $boldgrid_settings = get_site_option( 'boldgrid_settings' ) ) ||
 		( $boldgrid_settings = get_option( 'boldgrid_settings' ) );
-
-		// Enable plugin auto-updates, if enabled in the BoldGrid settings.
-		if ( ! empty( $boldgrid_settings['plugin_autoupdate'] ) ) {
-			add_filter( 'auto_update_plugin', '__return_true' );
-		}
-
-		// Enable theme auto-updates, if enabled in the BoldGrid settings.
-		if ( ! empty( $boldgrid_settings['theme_autoupdate'] ) ) {
-			add_filter( 'auto_update_theme', '__return_true' );
-		}
 
 		// Ensure required definitions for pluggable.
 		if ( ! defined( 'AUTH_COOKIE' ) ) {
