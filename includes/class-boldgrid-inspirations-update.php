@@ -644,9 +644,6 @@ class Boldgrid_Inspirations_Update {
 				'auto_update_this_plugin',
 			), 10, 2
 		);
-
-		// Have WordPress check for plugin updates.
-		wp_maybe_auto_update();
 	}
 
 	/**
