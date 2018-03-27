@@ -35,9 +35,9 @@ Temporary fix until a near-future update:
 
 == Changelog ==
 
-+ 1.5.7 In progress =
++ 1.5.6-rc.2 =
 * Bug fix:      JIRA WPB-3767   Prevent invalid API calls for check-version.
-* Update:                       Auto update code moved to library and remove from Inspirations.
+* Update:       JIRA BGBKUP-180 Auto update code moved to library and removed from Inspirations.
 
 = 1.5.6 =
 * Update:       JIRA WPB-3730   Updated library dependency to ^2.0.0.
