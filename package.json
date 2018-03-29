@@ -8,8 +8,8 @@
   },
   "scripts": {
     "postinstall": "gulp;bower install;",
-    "js-lint": "eslint **/*.js",
-    "js-lint-fix": "prettier-eslint **/*.js --write"
+    "js-lint": "prettier-eslint assets/**/*.js --list-different",
+    "js-lint-fix": "prettier-eslint assets/**/*.js --write"
   },
   "repository": {
     "type": "git",
