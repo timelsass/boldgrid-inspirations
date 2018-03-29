@@ -9,7 +9,7 @@ IMHWPB.BoldGrid_Cart = function( configs ) {
 		this.api_key = this.configs.api_key;
 
 		this.api_param = 'key';
-		this.api_key_query_str = this.api_param + "=" + this.api_key;
+		this.api_key_query_str = this.api_param + '=' + this.api_key;
 
 		self.ajax = new IMHWPB.Ajax( configs );
 		self.baseAdmin = new IMHWPB.BaseAdmin();
@@ -17,6 +17,7 @@ IMHWPB.BoldGrid_Cart = function( configs ) {
 		$c_wpbody = $( '#wpbody' );
 
 		$( function() {
+
 			/**
 			 * ********************************************************************
 			 * Var definitions:
@@ -43,7 +44,8 @@ IMHWPB.BoldGrid_Cart = function( configs ) {
 			 */
 
 			// TOS - is it checked?
-			error_tos_not_agreed_to = 'Please review the terms of service and<br />check the box above if you agree.';
+			error_tos_not_agreed_to =
+				'Please review the terms of service and<br />check the box above if you agree.';
 
 			// Valid BoldGrid Connect Key.
 			error_no_key_entered = 'Please enter your BoldGrid Connect Key!';
@@ -65,6 +67,7 @@ IMHWPB.BoldGrid_Cart = function( configs ) {
 			 * Action to take when a checkbox is selected for an image.
 			 */
 			$( '.image-select' ).change( function() {
+
 				// The price of this image.
 				var image_price = $( this ).attr( 'data-coin-cost' );
 
@@ -88,25 +91,25 @@ IMHWPB.BoldGrid_Cart = function( configs ) {
 				// Update the 'checked_in_cart' attribute of the asset.
 				var asset_id = $( this ).data( 'asset-id' );
 				self.image_in_shopping_cart_checked( asset_id, checked );
-			});
+			} );
 
 			// Validate connect_key and submit form to "Purchase all for publishing"
 			$( 'button#purchase_all_for_publishing' ).on( 'click', function() {
 				self.validate_form();
 				return false;
-			});
+			} );
 
 			// Purchase more coins button... do nothing for now.
 			$( 'button.purchase-more-coins' ).on( 'click', function() {
 				window.location.href = 'admin.php?page=boldgrid-purchase-coins';
 				return false;
-			});
+			} );
 
 			// Update the cart total after purchase.
-			if ( typeof boldgrid_cart_total_coins_spent != 'undefined' ) {
+			if ( 'undefined' != typeof boldgrid_cart_total_coins_spent ) {
 				self.baseAdmin.update_header_cart( -1 * boldgrid_cart_total_coins_spent );
 			}
-		});
+		} );
 
 		/**
 		 * Return the user's coin balance.
@@ -127,16 +130,16 @@ IMHWPB.BoldGrid_Cart = function( configs ) {
 		 */
 		this.image_in_shopping_cart_checked = function( asset_id, checked ) {
 			var data = {
-				'action' : 'image_in_shopping_cart_checked',
-				'asset_id' : asset_id,
-				'checked' : checked,
+				action: 'image_in_shopping_cart_checked',
+				asset_id: asset_id,
+				checked: checked
 			};
 
-			$.post(ajaxurl, data, function( response ) {
+			$.post( ajaxurl, data, function( response ) {
 				if ( 'success' != response ) {
 					alert( 'Error, image selection has not been updated.' );
 				}
-			});
+			} );
 		};
 
 		/**
@@ -152,12 +155,13 @@ IMHWPB.BoldGrid_Cart = function( configs ) {
 		 * purchase button
 		 */
 		this.toggle_insufficient_funds = function() {
+
 			// If we purchased all of the images on the page, how many coins would
 			// we have left?
-			var balance_if_purchased = ( self.get_coin_balance() - self.get_total_cost() );
+			var balance_if_purchased = self.get_coin_balance() - self.get_total_cost();
 
 			// If our balance is not high enough
-			if (balance_if_purchased < 0) {
+			if ( 0 > balance_if_purchased ) {
 				insufficient_funds_element.removeClass( 'hidden' );
 
 				// Also disable the Purchase for Publish button:
@@ -166,7 +170,7 @@ IMHWPB.BoldGrid_Cart = function( configs ) {
 				insufficient_funds_element.addClass( 'hidden' );
 
 				// Also toggle the Purchase for Publish button, if needed:
-				if ( self.get_coin_balance() <= 0 || self.get_total_cost() <= 0 ) {
+				if ( 0 >= self.get_coin_balance() || 0 >= self.get_total_cost() ) {
 					self.purchase_all_for_publishing.attr( 'disabled', 'disabled' );
 				} else {
 					self.purchase_all_for_publishing.removeAttr( 'disabled' );
@@ -180,6 +184,7 @@ IMHWPB.BoldGrid_Cart = function( configs ) {
 		 * If valid, submit the form to "purchase all for publishing".
 		 */
 		this.validate_form = function() {
+
 			// clear any existing messages
 			$( 'span#purchase_error' ).empty();
 
@@ -190,7 +195,8 @@ IMHWPB.BoldGrid_Cart = function( configs ) {
 			 */
 
 			var boldgrid_connect_key = $( 'form#purchase_for_publish input[id=boldgrid_connect_key]' )
-				.val().trim();
+				.val()
+				.trim();
 
 			// Abort if the user did not enter their BoldGrid Connect Key.
 			if ( '' === boldgrid_connect_key ) {
@@ -200,7 +206,7 @@ IMHWPB.BoldGrid_Cart = function( configs ) {
 
 			// Abort if the user entered an invalid BoldGrid Connect Key (either too
 			// long or short)
-			if ( boldgrid_connect_key.length < 32 ) {
+			if ( 32 > boldgrid_connect_key.length ) {
 				self.set_purchase_error( error_key_too_short );
 				return false;
 			}
@@ -233,7 +239,7 @@ IMHWPB.BoldGrid_Cart = function( configs ) {
 			};
 
 			data = {
-				'api_key' : boldgrid_connect_key
+				api_key: boldgrid_connect_key
 			};
 
 			self.ajax.ajaxCall( data, 'validate_connect_key', success_action );
@@ -243,6 +249,7 @@ IMHWPB.BoldGrid_Cart = function( configs ) {
 		 *
 		 */
 		this.update_all_price_totals = function() {
+
 			// The total cost of all images on all pages.
 			var total_cost = 0;
 
@@ -261,6 +268,7 @@ IMHWPB.BoldGrid_Cart = function( configs ) {
 			 * ********************************************************************
 			 */
 			$( '[data-page-id]' ).each( function() {
+
 				// The container holding all of the images for this page.
 				var page_container = $( this );
 
@@ -276,6 +284,7 @@ IMHWPB.BoldGrid_Cart = function( configs ) {
 				 * ********************************************************
 				 */
 				page_container.find( '.image-select' ).each( function() {
+
 					// The checkbox that represents this image.
 					var image = $( this );
 
@@ -287,15 +296,13 @@ IMHWPB.BoldGrid_Cart = function( configs ) {
 						total_cost += image_cost;
 						total_page_cost += image_cost;
 					}
-				});
+				} );
 
 				// We are done looping through every image in this page.
 				// Now, update the cost of this page.
-				var page_cost_element = page_container
-					.find( '.total-page-cost-' + page_id );
-				page_cost_element.html( total_page_cost )
-					.attr( 'data-total-page-cost', total_page_cost );
-			});
+				var page_cost_element = page_container.find( '.total-page-cost-' + page_id );
+				page_cost_element.html( total_page_cost ).attr( 'data-total-page-cost', total_page_cost );
+			} );
 
 			/*
 			 * We are now done looping through all of the pages. We now need to
@@ -304,10 +311,11 @@ IMHWPB.BoldGrid_Cart = function( configs ) {
 			 */
 			// Update the total coin cost
 			total_cost_element.html( total_cost ).attr( 'data-total-cost', total_cost );
+
 			// Toggle the "Insufficient funds" notice.
 			self.toggle_insufficient_funds();
 		};
-	})( jQuery );
+	} )( jQuery );
 };
 
 new IMHWPB.BoldGrid_Cart( IMHWPB.configs );

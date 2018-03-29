@@ -1,8 +1,9 @@
 /* global boldgridAttributionCount */
 
 jQuery( function() {
+
 	// Abort if we don't have a count to remove.
-	if( typeof boldgridAttributionCount === 'undefined' ) {
+	if ( 'undefined' === typeof boldgridAttributionCount ) {
 		return;
 	}
 
@@ -14,14 +15,21 @@ jQuery( function() {
 	 * However, there does not appear to be a filter to manage that count. So,
 	 * we will use JS to remove 1 from the count.
 	 */
-	var $mine_span = jQuery( 'li.mine a span' ), mineCount, newMineCount;
+	var $mine_span = jQuery( 'li.mine a span' ),
+		mineCount,
+		newMineCount;
 
 	// If we don't have a "Mine" element, abort.
 	if ( 0 === $mine_span.length ) {
 		return;
 	}
 
-	mineCount = parseInt( $mine_span.html().replace( "(", "" ).replace( ")", "" ) );
+	mineCount = parseInt(
+		$mine_span
+			.html()
+			.replace( '(', '' )
+			.replace( ')', '' )
+	);
 
 	newMineCount = mineCount - parseInt( boldgridAttributionCount.removeFromMine );
 
@@ -30,5 +38,5 @@ jQuery( function() {
 		return;
 	}
 
-	$mine_span.html( "(" + newMineCount + ")" );
-});
+	$mine_span.html( '(' + newMineCount + ')' );
+} );

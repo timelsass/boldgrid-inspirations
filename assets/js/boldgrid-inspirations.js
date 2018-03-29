@@ -92,9 +92,10 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 *
 	 * @since 1.3.1
 	 */
-	self.themeTop = self.themeTop = self.$topMenu.outerHeight() +
-					parseInt( self.$topMenu.css( 'margin-bottom' ) ) +
-					$( '#wpadminbar' ).outerHeight();
+	self.themeTop = self.themeTop =
+		self.$topMenu.outerHeight() +
+		parseInt( self.$topMenu.css( 'margin-bottom' ) ) +
+		$( '#wpadminbar' ).outerHeight();
 
 	// Scroll position.
 	self.scrollPosition = '';
@@ -128,12 +129,15 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 *
 	 * @since 1.2.3
 	 */
-	this.chooseTheme = function( ) {
+	this.chooseTheme = function() {
+
 		// Immediately hide the iframe to give a better transition effect.
 		self.$themePreview.css( 'visibility', 'hidden' );
 
 		// Load the theme title and sub category title.
-		$( '#sub-category-title' ).html( '- ' + self.$theme.closest( '.theme' ).attr( 'data-sub-category-title' ) );
+		$( '#sub-category-title' ).html(
+			'- ' + self.$theme.closest( '.theme' ).attr( 'data-sub-category-title' )
+		);
 		$( '#theme-title' ).html( self.$theme.closest( '.theme' ).attr( 'data-theme-title' ) );
 
 		self.toggleStep( 'content' );
@@ -216,7 +220,8 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		var $previewContainer = $( '#preview-container' );
 
 		self.$wrap.on( 'click', '.devices button', function() {
-			var $button = $( this ), iframeClass;
+			var $button = $( this ),
+				iframeClass;
 
 			/*
 			 * If we're waiting on a preview to load, don't allow the user to click different device
@@ -253,9 +258,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			 * to step 2 for the first time.
 			 */
 			if ( $button.hasClass( 'active' ) ) {
-				$button
-					.removeClass( 'active' )
-					.blur();
+				$button.removeClass( 'active' ).blur();
 
 				$previewContainer.removeClass();
 				self.highlightDeviceButton();
@@ -273,10 +276,8 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 				.attr( 'aria-pressed', 'true' )
 				.addClass( 'active' );
 
-			$previewContainer
-				.removeClass()
-				.addClass( iframeClass );
-		});
+			$previewContainer.removeClass().addClass( iframeClass );
+		} );
 	};
 
 	/**
@@ -296,6 +297,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		var $selectInstallType = $( '#select-install-type' );
 
 		if ( true === disable ) {
+
 			// Disable the "Go back" and "Install this website" buttons.
 			$selectInstallType.find( '.button' ).attr( 'disabled', true );
 
@@ -314,10 +316,10 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 * @since 1.3.1
 	 */
 	this.fancybox = function() {
-		$( '.fancybox' ).fancybox({
-			'type': 'image',
-			'openSpeed': 500,
-			'closeSpeed': 250,
+		$( '.fancybox' ).fancybox( {
+			type: 'image',
+			openSpeed: 500,
+			closeSpeed: 250,
 			beforeLoad: function() {
 				$( 'body' ).addClass( 'fancyboxed' );
 			},
@@ -326,31 +328,39 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 
 				self.$themePreviewed = $link.closest( '.theme' );
 
-		        this.title =	'<a class="button button-primary hide-if-no-customize fancybox-select">' + Inspiration.select + '</a>' +
-		        				'<h2 class="theme-name" >' + self.$themePreviewed.find( 'h2.theme-name' ).html() + '</h2>';
+				this.title =
+					'<a class="button button-primary hide-if-no-customize fancybox-select">' +
+					Inspiration.select +
+					'</a>' +
+					'<h2 class="theme-name" >' +
+					self.$themePreviewed.find( 'h2.theme-name' ).html() +
+					'</h2>';
 
-		        /*
+				/*
 		         * When previewing a large theme screenshot, scroll the body to that theme.
 		         *
 		         * The "complex" scrollTop calculation simply ensures a nice scroll position,
 		         * positioning the theme flush with the "Category Filter" heading.
 		         */
-		        $( 'html, body' ).animate({
-		            scrollTop: ( self.$themePreviewed.offset().top - self.themeTop )
-		        }, 250 );
-		    },
-		    afterClose: function() {
-		        $( 'body' ).removeClass( 'fancyboxed' );
-		    },
-		    helpers: {
-		        title: {
-		            type: 'inside'
-		        },
-		        overlay: {
-			        locked: false
-		        }
-		    }
-		});
+				$( 'html, body' ).animate(
+					{
+						scrollTop: self.$themePreviewed.offset().top - self.themeTop
+					},
+					250
+				);
+			},
+			afterClose: function() {
+				$( 'body' ).removeClass( 'fancyboxed' );
+			},
+			helpers: {
+				title: {
+					type: 'inside'
+				},
+				overlay: {
+					locked: false
+				}
+			}
+		} );
 	};
 
 	/**
@@ -381,7 +391,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	this.backButton = function() {
 		$( '.inspirations.button-secondary' ).on( 'click', function() {
 			self.toggleStep( 'design' );
-		});
+		} );
 	};
 
 	/**
@@ -425,7 +435,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		self.$wrap.on( 'click', '.feature-option', function() {
 			var $feature = $( this );
 			self.toggleFeature( $feature );
-		});
+		} );
 
 		/*
 		 * During step 3, we give the user the option to click on a social media icon and configure
@@ -434,7 +444,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		self.$wrap.on( 'click', '#social-media-index span', function() {
 			var $icon = $( this );
 			self.socialMediaAdd( $icon );
-		});
+		} );
 
 		/*
 		 * During step 3, we give the user the ability to click x / delete a social media site from
@@ -443,7 +453,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		self.$wrap.on( 'click', '.social-media .fa-times', function() {
 			var $deleteIcon = $( this );
 			self.socialMediaRemove( $deleteIcon );
-		});
+		} );
 
 		/*
 		 * During step 3, we give the user the ability to toggle the "Do not display" checkbox for
@@ -452,22 +462,23 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		self.$wrap.on( 'change', '.survey-field .option :checkbox', function() {
 			var $checkbox = $( this );
 			self.surveyToggleDisplay( $checkbox );
-		});
+		} );
 	};
 
 	/**
 	 *
 	 */
 	this.bindInstallModal = function() {
+
 		// Step 2 Next button.
 		$( '#screen-content .button-primary' ).click( function() {
 			self.toggleStep( 'contact' );
-		});
+		} );
 
 		// Step 3 Go back button.
 		$( '#screen-contact .button-secondary' ).on( 'click', function() {
 			self.toggleStep( 'content' );
-		});
+		} );
 
 		// Step 3 Skip button.
 		$( '#screen-contact .button-primary' ).on( 'click', function() {
@@ -477,17 +488,17 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 
 			self.toggleStep( 'install' );
 			self.toggleConfirmationNotes();
-		});
+		} );
 
 		// Step 4 Go back button.
 		$( '#screen-install .button-secondary' ).on( 'click', function() {
 			self.toggleStep( 'contact' );
-		});
+		} );
 
 		// Take action when someone clicks on a install-decision radio button.
 		self.$wrap.on( 'click', 'input[type="radio"][name="install-decision"]', function() {
 			self.toggleConfirmationNotes();
-		});
+		} );
 
 		/*
 		 * Bind click of "Install this website!".
@@ -495,8 +506,10 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		 * This is the button that submits the #post_deploy form and actually installs a website.
 		 */
 		$( '#install-this-website' ).on( 'click', function() {
+
 			// Get our install decision.
-			var installDecision = $( 'input[name="install-decision"]:checked' ).val(), data;
+			var installDecision = $( 'input[name="install-decision"]:checked' ).val(),
+				data;
 
 			self.disableInstallButton( true );
 
@@ -534,12 +547,13 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 
 				case 'download-staging':
 					data = {
-						'action': 'install_staging',
+						action: 'install_staging',
 						'boldgrid-plugin-install[boldgrid-staging]': 'install',
 						'nonce-install-staging': $( '#nonce-install-staging' ).val()
 					};
 
 					$.post( ajaxurl, data, function( response ) {
+
 						/*
 						 * Validate success of installing staging.
 						 *
@@ -554,15 +568,15 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 							alert( 'failed setting up staging plugin' );
 							self.disableInstallButton( false );
 						}
-					}).fail( function() {
+					} ).fail( function() {
 						alert( 'failed setting up staging plugin' );
 						self.disableInstallButton( false );
-					});
+					} );
 					break;
 
 				case 'activate-staging':
 					data = {
-						'action': 'activate_staging',
+						action: 'activate_staging',
 						'nonce-install-staging': $( '#nonce-install-staging' ).val()
 					};
 
@@ -575,13 +589,13 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 							alert( 'failed activating staging plugin' );
 							self.disableInstallButton( false );
 						}
-					}).fail( function() {
+					} ).fail( function() {
 						alert( 'failed activating staging plugin' );
 						self.disableInstallButton( false );
-					});
+					} );
 					break;
 			}
-		});
+		} );
 	};
 
 	/**
@@ -590,7 +604,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 * @return boolean
 	 */
 	this.isMobile = function() {
-		return ( $( '.wp-filter:visible' ).length === 0 ? false : true );
+		return 0 === $( '.wp-filter:visible' ).length ? false : true;
 	};
 
 	/**
@@ -614,7 +628,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	this.mobileMenuToggle = function() {
 		$( '.drawer-toggle' ).on( 'click', function() {
 			self.mobileToggle();
-		});
+		} );
 	};
 
 	/**
@@ -631,12 +645,16 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		 * button.
 		 */
 		$( window ).resize( function() {
-		    clearTimeout( $.data( this, 'resizeTimer' ) );
+			clearTimeout( $.data( this, 'resizeTimer' ) );
 
-		    $.data( this, 'resizeTimer', setTimeout( function() {
-		    	self.highlightDeviceButton();
-		    }, 400 ) );
-		});
+			$.data(
+				this,
+				'resizeTimer',
+				setTimeout( function() {
+					self.highlightDeviceButton();
+				}, 400 )
+			);
+		} );
 	};
 
 	/**
@@ -644,28 +662,34 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 *
 	 * @since 1.2.3
 	 */
-	 this.showAll = function() {
-		 self.$wrap.on( 'click', '[data-sort="show-all"]', function() {
+	this.showAll = function() {
+		self.$wrap.on( 'click', '[data-sort="show-all"]', function() {
 			var $all = $( '[data-sub-category-id="0"]' ),
-			    ref = $all.parent( '.sub-category' );
+				ref = $all.parent( '.sub-category' );
 
 			// Remove all active classes from sub categories.
 			$( '.sub-category.active' ).removeClass( 'active' );
+
 			// Check radio.
 			$all.prop( 'checked', true );
+
 			// Check radio check.
 			if ( $all.is( ':checked' ) ) {
 				ref.addClass( 'active' );
 			}
+
 			// Collapse mobile.
 			self.mobileCollapse();
+
 			// Update filter text.
 			self.updateFilterText( 'All' );
+
 			// Display all themes.
 			self.toggleSubCategory( '0' );
+
 			// Toggle the current class for show all.
 			self.toggleShowAll( ref );
-		});
+		} );
 	};
 
 	/**
@@ -681,6 +705,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 				icon: dataIcon,
 				url: $icon.attr( 'data-sample-url' )
 			},
+
 			// Our $icon is a span, $faIcon is the actual icon.
 			$faIcon = $icon.find( 'i.fa' ),
 			template = wp.template( 'social-media' );
@@ -692,6 +717,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 
 		// If this is the plus icon, show all other icons and abort.
 		if ( $faIcon.hasClass( 'fa-plus' ) ) {
+
 			// Show all other icons.
 			self.$socialIndex.find( '[data-icon]' ).removeClass( 'hidden' );
 
@@ -706,6 +732,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 
 		// If this is the minus icon, hide the non default icons.
 		if ( $faIcon.hasClass( 'fa-minus' ) ) {
+
 			// Hide non default icons.
 			self.$socialIndex.find( '[data-hidden]' ).addClass( 'hidden' );
 
@@ -739,7 +766,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 
 		defaults.each( function( index ) {
 			self.socialMediaAdd( $( this ) );
-		});
+		} );
 	};
 
 	/**
@@ -769,7 +796,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 *
 	 * @since 1.2.3
 	 */
-	this.sortAll = function( ) {
+	this.sortAll = function() {
 		var themeCount;
 
 		self.setDistinctThemes();
@@ -777,22 +804,23 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		themeCount = self.distinctThemes.length;
 
 		self.genericBuilds.sort( function( a, b ) {
+
 			/*
 			 * If a theme does not have a CategoryOrder, set it to themeCount, which does the same
 			 * thing as setting it to be the last theme displayed in the category.
 			 */
-			a.CategoryOrder = ( a.CategoryOrder === null ? themeCount : a.CategoryOrder );
-			b.CategoryOrder = ( b.CategoryOrder === null ? themeCount : b.CategoryOrder );
+			a.CategoryOrder = null === a.CategoryOrder ? themeCount : a.CategoryOrder;
+			b.CategoryOrder = null === b.CategoryOrder ? themeCount : b.CategoryOrder;
 
 			/*
 			 * Based upon the theme's CategoryOrder and the SubCategoryDisplayOrder, calculate this
 			 * theme's AllOrder.
 			 */
-			a.AllOrder = ( ( parseInt( a.SubCategoryDisplayOrder ) - 1 ) * themeCount ) + a.CategoryOrder;
-			b.AllOrder = ( ( parseInt( b.SubCategoryDisplayOrder ) - 1 ) * themeCount ) + b.CategoryOrder;
+			a.AllOrder = ( parseInt( a.SubCategoryDisplayOrder ) - 1 ) * themeCount + a.CategoryOrder;
+			b.AllOrder = ( parseInt( b.SubCategoryDisplayOrder ) - 1 ) * themeCount + b.CategoryOrder;
 
-			return ( parseInt( a.AllOrder ) > parseInt( b.AllOrder ) ? 1 : -1 );
-		});
+			return parseInt( a.AllOrder ) > parseInt( b.AllOrder ) ? 1 : -1;
+		} );
 	};
 
 	/**
@@ -801,15 +829,17 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 * @since 1.2.6
 	 */
 	this.sortCategories = function( sortBy ) {
+
 		// The "Category Filter" heading.
-		var $categoryHeading =  $( '.category-filter', self.$categories ),
+		var $categoryHeading = $( '.category-filter', self.$categories ),
+
 			// Sorted categories.
 			$sortedCategories = $( '.sub-category', self.$categories ).sort( function( a, b ) {
 				var aSort = parseInt( $( a ).attr( sortBy ) ),
 					bSort = parseInt( $( b ).attr( sortBy ) );
 
-				return ( aSort > bSort ? 1 : -1 );
-			});
+				return aSort > bSort ? 1 : -1;
+			} );
 
 		// Insert our sorted categories after the category heading.
 		$sortedCategories.insertAfter( $categoryHeading );
@@ -821,16 +851,18 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 * @since 1.2.3
 	 */
 	this.sortThemes = function( sortBy ) {
-		$( '.themes .theme:visible' ).sort( function( a, b ) {
-			var aSort = parseInt( $( a ).attr( sortBy ) ),
-				bSort = parseInt( $( b ).attr( sortBy ) );
+		$( '.themes .theme:visible' )
+			.sort( function( a, b ) {
+				var aSort = parseInt( $( a ).attr( sortBy ) ),
+					bSort = parseInt( $( b ).attr( sortBy ) );
 
-			if ( ! aSort ) {
-				return 1;
-			}
+				if ( ! aSort ) {
+					return 1;
+				}
 
-			return ( aSort > bSort ? 1 : -1 );
-		}).prependTo( '.themes' );
+				return aSort > bSort ? 1 : -1;
+			} )
+			.prependTo( '.themes' );
 	};
 
 	/**
@@ -838,10 +870,11 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 */
 	this.toggleShowAll = function( o ) {
 		var $showAll = $( '[data-sort="show-all"]' ),
-		    $subcatId = o.find( '[data-sub-category-id]' ).data( 'sub-category-id' );
+			$subcatId = o.find( '[data-sub-category-id]' ).data( 'sub-category-id' );
 
 		// Add current class to show all filter if previewing all themes.
 		$showAll.addClass( 'current' );
+
 		// If we aren't clicking on All remove that class.
 		if ( 0 !== $subcatId ) {
 			$showAll.removeClass( 'current' );
@@ -859,12 +892,15 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 * Subcategories event handler.
 	 */
 	this.subcategories = function() {
+
 		// Subcategories.
 		self.$wrap.on( 'click', '.sub-category', function() {
 			var $subCategory = $( this ).find( 'input[name="sub-category"]' ),
-			    $subcategoryName = $( this ).find( '.sub-category-name' ).text(),
-			    subCategoryId = $subCategory.attr( 'data-sub-category-id' ),
-			    ref = $( this );
+				$subcategoryName = $( this )
+					.find( '.sub-category-name' )
+					.text(),
+				subCategoryId = $subCategory.attr( 'data-sub-category-id' ),
+				ref = $( this );
 
 			/*
 			 * Keep track of the sub category id the user clicked.
@@ -881,25 +917,32 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 
 			// Reset scroll position.
 			window.scrollTo( 0, 0 );
+
 			// Remove any active classes.
 			$( '.sub-category.active' ).removeClass( 'active' );
+
 			// Mark subcategory as active.
 			$subCategory.prop( 'checked', true );
+
 			// Add active class.
 			if ( $subCategory.is( ':checked' ) ) {
 				ref.addClass( 'active' );
 			}
 			self.updateFilterText( $subcategoryName );
+
 			// Toggle the show all filter.
 			self.toggleShowAll( ref );
+
 			// Mobile actions.
 			if ( self.isMobile() ) {
+
 				// Collapse the menu when selection is made.
 				self.mobileToggle();
 			}
+
 			// Always toggle subcategory.
 			self.toggleSubCategory( subCategoryId );
-		});
+		} );
 	};
 
 	/**
@@ -945,7 +988,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		self.$wrap.on( 'click', '.theme .theme-actions .button-primary', function() {
 			self.$theme = $( this );
 			self.chooseTheme();
-		});
+		} );
 	};
 
 	/**
@@ -967,10 +1010,15 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 * Sets the hover colors class.
 	 */
 	this.hoverColors = function() {
+
 		// Hovers.
-		self.$wrap.on( 'mouseenter mouseleave', '.sub-category, .pageset-option, .coin-option', function() {
-			$( this ).toggleClass( 'blue' );
-		});
+		self.$wrap.on(
+			'mouseenter mouseleave',
+			'.sub-category, .pageset-option, .coin-option',
+			function() {
+				$( this ).toggleClass( 'blue' );
+			}
+		);
 	};
 
 	/**
@@ -981,11 +1029,13 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 * @since 1.2.5
 	 */
 	this.highlightDeviceButton = function() {
+
 		// Get the active button.
-		var $activeButton = $( '.devices button.active' ), previewWidth;
+		var $activeButton = $( '.devices button.active' ),
+			previewWidth;
 
 		// If we have an active button, there's no need to highlight at this point, abort.
-		if ( $activeButton.length > 0 ) {
+		if ( 0 < $activeButton.length ) {
 			return;
 		}
 
@@ -996,9 +1046,9 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		previewWidth = $( '#preview-container' ).outerWidth();
 
 		// Highlight the appropriate device button.
-		if ( previewWidth <= 320 ) {
+		if ( 320 >= previewWidth ) {
 			$( '.devices .preview-mobile' ).addClass( 'highlight' );
-		} else if ( previewWidth < 768 ) {
+		} else if ( 768 > previewWidth ) {
 			$( '.devices .preview-tablet' ).addClass( 'highlight' );
 		} else {
 			$( '.devices .preview-desktop' ).addClass( 'highlight' );
@@ -1009,6 +1059,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 * Click event handler for pageset options section.
 	 */
 	this.pagesetOptions = function() {
+
 		// Pageset Options.
 		self.$wrap.on( 'click', '.pageset-option', function() {
 
@@ -1030,7 +1081,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			self.$pageset = $( 'input[name="pageset"]:checked' );
 
 			self.loadBuild();
-		});
+		} );
 	};
 
 	/**
@@ -1046,19 +1097,20 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		$( '.sub-category [data-sub-category-id="' + id + '"]' )
 			.closest( '.sub-category' )
 			.slideUp( 1000, function() {
-				$(this).remove();
-			});
-	}
+				$( this ).remove();
+			} );
+	};
 
 	/**
 	 * Click event handler for coin budget options section.
 	 */
 	this.coinOptions = function() {
+
 		// Coin Budgets.
 		self.$wrap.on( 'click', '.coin-option', function() {
 
 			// If we're waiting on something, don't allow the user to select a different budget.
-			if( $( 'body' ).hasClass( 'waiting' ) ) {
+			if ( $( 'body' ).hasClass( 'waiting' ) ) {
 				return;
 			}
 
@@ -1070,7 +1122,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			$newBudget.addClass( 'active' );
 
 			self.loadBuild();
-		});
+		} );
 	};
 
 	/**
@@ -1089,7 +1141,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 
 				self.$themePreview.css( 'visibility', 'visible' );
 			} );
-		});
+		} );
 	};
 
 	/**
@@ -1100,12 +1152,12 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			var $link = $( this ),
 				step = $link.attr( 'data-step' );
 
-			if( $link.hasClass( 'disabled' ) ) {
+			if ( $link.hasClass( 'disabled' ) ) {
 				return;
 			} else {
 				self.toggleStep( step );
 			}
-		});
+		} );
 	};
 
 	/**
@@ -1139,15 +1191,21 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 *
 	 * @since 1.2.3
 	 */
-	this.initCategories = function( ) {
+	this.initCategories = function() {
 		var failureMessage, failAction, success_action;
 
 		// Show a loading message to the user that we're fetching categories.
 		self.$categories.html( Inspiration.fetchingCategories + ' <span class="spinner inline"></span>' );
 
 		// Define a message for users when fetching themes has failed.
-		failureMessage = Inspiration.errorFetchingCategories + ' ' + Inspiration.tryFewMinutes + '<br />' +
-		'<button class="button" id="try-categories-again">' + Inspiration.tryAgain + '</button>';
+		failureMessage =
+			Inspiration.errorFetchingCategories +
+			' ' +
+			Inspiration.tryFewMinutes +
+			'<br />' +
+			'<button class="button" id="try-categories-again">' +
+			Inspiration.tryAgain +
+			'</button>';
 
 		// Display a 'Try again' message to the user if our call to get active categories fails.
 		failAction = function() {
@@ -1155,7 +1213,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		};
 
 		success_action = function( msg ) {
-			var template = wp.template('init-categories');
+			var template = wp.template( 'init-categories' );
 
 			self.categories = msg.result.data.categories;
 
@@ -1163,31 +1221,36 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			 * If our categories are not valid or we have 0 categories, show a 'Try again' message
 			 * and abort.
 			 */
-			if( self.categories === undefined || $.isEmptyObject( self.categories ) ) {
+			if ( self.categories === undefined || $.isEmptyObject( self.categories ) ) {
 				self.$categories.html( failureMessage );
 
 				return;
 			}
 
 			// Add the pseudo "Default" category, which is our theme showcase.
-			self.categories['default'] = {
-				subcategories : [
+			self.categories.default = {
+				subcategories: [
 					{
 						displayOrder: 1,
 						name: 'Default',
-						id : 'default',
-					},
-				],
+						id: 'default'
+					}
+				]
 			};
 
-			self.$categories.html( ( template( self.categories ) ) );
+			self.$categories.html( template( self.categories ) );
 
 			self.sortCategories( 'data-display-order' );
 
 			self.initThemes();
 		};
 
-		self.ajax.ajaxCall( {'inspirations_mode' : 'standard'}, 'get_categories', success_action, failAction );
+		self.ajax.ajaxCall(
+			{ inspirations_mode: 'standard' },
+			'get_categories',
+			success_action,
+			failAction
+		);
 	};
 
 	/**
@@ -1199,7 +1262,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 */
 	this.initFeatureToggles = function() {
 		$( '#blog-toggle' )
-			.toggles({
+			.toggles( {
 				checkbox: $( '[name="install-blog"]' ),
 				click: false,
 				drag: false,
@@ -1209,9 +1272,10 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 				},
 				height: 15,
 				width: 40
-			})
-			.find('.toggle-on').addClass('blue');
-	}
+			} )
+			.find( '.toggle-on' )
+			.addClass( 'blue' );
+	};
 
 	/**
 	 * @summary Init pagesets.
@@ -1222,11 +1286,19 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 * @since 1.2.5
 	 */
 	this.initPagesets = function() {
+
 		// Define a message for users when fetching pagesets has failed.
-		var failureMessage = Inspiration.errorFetchingPagesets + ' ' + Inspiration.tryFewMinutes + '<br />' +
-		'<button class="button" id="try-pagesets-again">' + Inspiration.tryAgain + '</button>',
+		var failureMessage =
+				Inspiration.errorFetchingPagesets +
+				' ' +
+				Inspiration.tryFewMinutes +
+				'<br />' +
+				'<button class="button" id="try-pagesets-again">' +
+				Inspiration.tryAgain +
+				'</button>',
 			categoryId = self.$theme.closest( '.theme' ).attr( 'data-category-id' ),
-			pagesetFail, pagesetSuccess;
+			pagesetFail,
+			pagesetSuccess;
 
 		// Reset any previous error messages.
 		self.$contentNotices.html( '' );
@@ -1241,19 +1313,24 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			var template = wp.template( 'pagesets' );
 
 			// If we have 0 pagesets, show a try again notice and abort.
-			if( 0 === $( msg.result.data.pageSets ).length ) {
+			if ( 0 === $( msg.result.data.pageSets ).length ) {
 				self.$contentNotices.html( failureMessage );
 				return;
 			}
 
-			$( '#pageset-options' ).html( ( template( msg.result.data.pageSets ) ) );
+			$( '#pageset-options' ).html( template( msg.result.data.pageSets ) );
 
 			self.$pageset = $( 'input[name="pageset"]:checked' );
 
 			self.loadBuild();
 		};
 
-		self.ajax.ajaxCall( { 'category_id' : categoryId }, 'get_category_page_sets', pagesetSuccess, pagesetFail );
+		self.ajax.ajaxCall(
+			{ category_id: categoryId },
+			'get_category_page_sets',
+			pagesetSuccess,
+			pagesetFail
+		);
 	};
 
 	/**
@@ -1264,14 +1341,22 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	this.initThemes = function() {
 		var template = wp.template( 'theme' ),
 			data = {
-				'site_hash' : self.configs.site_hash,
-				'theme_release_channel' : self.themeReleaseChannel,
+				site_hash: self.configs.site_hash,
+				theme_release_channel: self.themeReleaseChannel
 			},
-			getGenericSuccess, getGenericFail, failureMessage;
+			getGenericSuccess,
+			getGenericFail,
+			failureMessage;
 
 		// Define a message for users when fetching themes has failed.
-		failureMessage = Inspiration.errorFetchingThemes + ' ' + Inspiration.tryFewMinutes + '<br />' +
-		'<button class="button" id="try-themes-again">' + Inspiration.tryAgain + '</button>';
+		failureMessage =
+			Inspiration.errorFetchingThemes +
+			' ' +
+			Inspiration.tryFewMinutes +
+			'<br />' +
+			'<button class="button" id="try-themes-again">' +
+			Inspiration.tryAgain +
+			'</button>';
 
 		// Show a loading message to the user that we're fetching themes.
 		self.$themes.html( Inspiration.fetchingThemes + ' <span class="spinner inline"></span>' );
@@ -1293,7 +1378,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			 * If 0 themes are returned, show a 'Try again' message and abort.
 			 * Else, assign themes to self.genericBuilds and sort them.
 			 */
-			if( 0 === msg.result.data.length ) {
+			if ( 0 === msg.result.data.length ) {
 				self.$themes.html( failureMessage );
 				return;
 			} else {
@@ -1304,28 +1389,29 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			// Empty the themes container. We'll fill it with themes below.
 			self.$themes.empty();
 
-			_.each( self.genericBuilds, function( build ){
+			_.each( self.genericBuilds, function( build ) {
+
 				/*
 				 * Default themes are printed twice. This allows for
 				 * "Pavilion / Real Estate" to show in both the Default category
 				 * and the Real Estate category.
 				 */
-				if( build.isDefault ) {
+				if ( build.isDefault ) {
 					defaultBuilds++;
 					self.$themes.append( template( { configs: IMHWPB.configs, build: build } ) );
 					build.isDefault = false;
 				}
 
 				self.$themes.append( template( { configs: IMHWPB.configs, build: build } ) );
-			});
+			} );
 
-			if( 0 === defaultBuilds ) {
+			if ( 0 === defaultBuilds ) {
 				self.removeCategory( 'default' );
 			}
 
 			self.sortThemes( 'data-all-order' );
 
-			$( "img.lazy" ).lazyload({threshold : 400});
+			$( 'img.lazy' ).lazyload( { threshold: 400 } );
 
 			self.fancybox();
 		};
@@ -1339,10 +1425,14 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 * @since 1.2.3
 	 */
 	this.loadBuild = function() {
-		var data, successAction, failAction,
+		var data,
+			successAction,
+			failAction,
 			failureMessage = Inspiration.errorBuildingPreview + ' ' + Inspiration.tryFewMinutes,
 			timeoutMessage = Inspiration.previewTimeout + ' ' + Inspiration.tryFewSeconds,
-			tryAgainButton = '<button class="button" id="try-build-again">' + Inspiration.tryAgain + '</button>',
+			tryAgainButton =
+				'<button class="button" id="try-build-again">' + Inspiration.tryAgain + '</button>',
+
 			// Should our request for a build be for a generic build?
 			requestGeneric = false,
 			hasBlog = $( '[name="install-blog"]' ).is( ':checked' ),
@@ -1355,9 +1445,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		 * # Coin budget:	20
 		 * # Blog:			False
 		 */
-		if( '1' === self.$pageset.attr( 'data-is-default' ) &&
-			'20' === coinBudget &&
-			! hasBlog ) {
+		if ( '1' === self.$pageset.attr( 'data-is-default' ) && '20' === coinBudget && ! hasBlog ) {
 			requestGeneric = true;
 		}
 
@@ -1390,15 +1478,13 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			 *
 			 * Else, load the preview for them.
 			 */
-			if( 200 !== msg.status ) {
+			if ( 200 !== msg.status ) {
 				self.loadBuildFail( failureMessage + '<br />' + tryAgainButton );
 				return;
 			} else {
 				url = msg.result.data.profile.preview_url;
 
-				$iframe
-					.attr( 'src', url )
-					.attr( 'data-build-cost', msg.result.data.profile.coins );
+				$iframe.attr( 'src', url ).attr( 'data-build-cost', msg.result.data.profile.coins );
 
 				$( '[name=boldgrid_build_profile_id]' ).val( msg.result.data.profile.id );
 
@@ -1407,20 +1493,20 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		};
 
 		data = {
-			'build_profile_id' :	self.$theme.closest( '.theme' ).attr( 'data-build-id' ),
-			'theme_id' :			self.$theme.closest( '.theme' ).attr( 'data-theme-id' ),
-			'cat_id' :				self.$theme.closest( '.theme' ).attr( 'data-category-id' ),
-			'sub_cat_id' :			self.$theme.closest( '.theme' ).attr( 'data-sub-category-id' ),
-			'page_set_id' :			self.$pageset.attr( 'data-page-set-id' ),
-			'pde' :					self.$theme.closest( '.theme' ).attr( 'data-pde' ),
-			'wp_language' :			'en-US',
-			'coin_budget' :			coinBudget,
-			'theme_version_type' :	self.themeReleaseChannel,
-			'page_version_type' :	self.themeReleaseChannel,
-			'site_hash' :			self.configs.site_hash,
-			'inspirations_mode' :	'standard',
-			'is_generic' :			requestGeneric,
-			'has_blog' :			hasBlog,
+			build_profile_id: self.$theme.closest( '.theme' ).attr( 'data-build-id' ),
+			theme_id: self.$theme.closest( '.theme' ).attr( 'data-theme-id' ),
+			cat_id: self.$theme.closest( '.theme' ).attr( 'data-category-id' ),
+			sub_cat_id: self.$theme.closest( '.theme' ).attr( 'data-sub-category-id' ),
+			page_set_id: self.$pageset.attr( 'data-page-set-id' ),
+			pde: self.$theme.closest( '.theme' ).attr( 'data-pde' ),
+			wp_language: 'en-US',
+			coin_budget: coinBudget,
+			theme_version_type: self.themeReleaseChannel,
+			page_version_type: self.themeReleaseChannel,
+			site_hash: self.configs.site_hash,
+			inspirations_mode: 'standard',
+			is_generic: requestGeneric,
+			has_blog: hasBlog
 		};
 
 		// Set form.
@@ -1447,8 +1533,8 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		$( '#screen-content .boldgrid-loading' ).fadeOut( function() {
 			self.$contentNotices.html( notice );
 			self.allActions( 'enable' );
-		});
-	}
+		} );
+	};
 
 	/**
 	 * Toggle steps.
@@ -1469,9 +1555,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		 * classs). After that item loads, we'll enable all the steps that should be enabled (those
 		 * that don't have data-disabled).
 		 */
-		$thisStep
-			.removeClass( 'disabled' )
-			.removeAttr( 'data-disabled' );
+		$thisStep.removeClass( 'disabled' ).removeAttr( 'data-disabled' );
 
 		// Toggle .active class for steps at the top of the page.
 		$( '[data-step]' ).removeClass( 'active' );
@@ -1487,14 +1571,14 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		 * Configure scroll position.
 		 * Confiure top menu class.
 		 */
-		switch( step ) {
+		switch ( step ) {
 			case 'design':
 				$( document ).scrollTop( self.scrollPosition );
-				self.$topMenu.addClass( 'design' ).removeClass('content');
+				self.$topMenu.addClass( 'design' ).removeClass( 'content' );
 				break;
 			default:
 				$( document ).scrollTop( 0 );
-				self.$topMenu.removeClass( 'design' ).addClass('content');
+				self.$topMenu.removeClass( 'design' ).addClass( 'content' );
 				break;
 		}
 
@@ -1524,39 +1608,45 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			showSelector = '.theme[data-is-default="true"]',
 			$categoryName = $( '.theme-name .sub-category-name' );
 
-		if( ! isDefault ) {
+		if ( ! isDefault ) {
 			hideSelector = showSelector + ',.theme[data-sub-category-id!="' + subCategoryId + '"]';
 			showSelector = '.theme[data-sub-category-id="' + subCategoryId + '"]';
 		}
 
 		$categoryName.toggle( isDefault || showAll );
 
-		if( '0' === subCategoryId ) {
-			$( '.theme[data-sub-category-id]')
+		if ( '0' === subCategoryId ) {
+			$( '.theme[data-sub-category-id]' )
 				.removeClass( 'hidden' )
+
 				// Add fancybox class, which adds theme back to the gallery.
-				.find( fancyboxAnchor ).addClass( 'fancybox' );
+				.find( fancyboxAnchor )
+				.addClass( 'fancybox' );
 
 			self.sortThemes( 'data-all-order' );
 		} else {
 			$( showSelector )
 				.removeClass( 'hidden' )
+
 				/*
 				 * Add the fancybox class back, otherwise thumbnail will link directly to thumbnail,
 				 * rather than open thumbnail in fancybox gallery.
 				 */
-				.find( fancyboxAnchor ).addClass( 'fancybox' );
+				.find( fancyboxAnchor )
+				.addClass( 'fancybox' );
 
 			$( hideSelector )
 				.addClass( 'hidden' )
 				.appendTo( '.themes' )
+
 				// Remove fancybox class, which removes theme from the gallery.
-				.find( fancyboxAnchor ).removeClass( 'fancybox' );
+				.find( fancyboxAnchor )
+				.removeClass( 'fancybox' );
 
 			self.sortThemes( 'data-category-order' );
 		}
 
-		$( 'img.lazy' ).lazyload({threshold : 400});
+		$( 'img.lazy' ).lazyload( { threshold: 400 } );
 	};
 
 	/**
@@ -1578,22 +1668,22 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		isValidEmail = BoldGrid.Utility.validateEmail( $email.val() );
 
 		// The user does not want to display their email address, don't worry about validating it.
-		if( ! displayEmail ) {
+		if ( ! displayEmail ) {
 			return true;
 		}
 
-		if( isValidEmail ) {
+		if ( isValidEmail ) {
 			$invalidMessage.hide();
 		} else {
 			$invalidMessage.show();
 		}
 
 		return isValidEmail;
-	}
+	};
 
 	$( function() {
 		self.init();
-	});
+	} );
 };
 
 IMHWPB.InspirationsDesignFirst( jQuery, IMHWPB.configs );

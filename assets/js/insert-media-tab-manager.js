@@ -31,10 +31,10 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 	 * @since 1.1.4
 	 */
 	self.selectors = {
-		insertMedia:   '.media-menu-item:contains("' + _wpMediaViewsL10n.insertMediaTitle + '")',
-		mediaLibrary:  '.media-menu-item:contains("' + _wpMediaViewsL10n.mediaLibraryTitle + '")',
+		insertMedia: '.media-menu-item:contains("' + _wpMediaViewsL10n.insertMediaTitle + '")',
+		mediaLibrary: '.media-menu-item:contains("' + _wpMediaViewsL10n.mediaLibraryTitle + '")',
 		createGallery: '.media-menu-item:contains("' + _wpMediaViewsL10n.createGalleryTitle + '")',
-		addToGallery:  '.media-menu-item:contains("' + _wpMediaViewsL10n.addToGalleryTitle + '")',
+		addToGallery: '.media-menu-item:contains("' + _wpMediaViewsL10n.addToGalleryTitle + '")'
 	};
 
 	/**
@@ -45,7 +45,9 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 	 * @since 1.1.2
 	 */
 	// The image "Change" button on WP's toolbar.
-	self.addTabTriggers = 'div[aria-label="Change"],' +
+	self.addTabTriggers =
+		'div[aria-label="Change"],' +
+
 		/*
 		 * Add Media.
 		 *
@@ -56,12 +58,18 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 		 */
 		// Add Media.
 		'#insert-media-button,' +
+
 		// Add Media > Insert Media.
-		self.selectors.insertMedia + ',' +
+		self.selectors.insertMedia +
+		',' +
+
 		// Add Media > Create Gallery.
-		self.selectors.createGallery + ',' +
+		self.selectors.createGallery +
+		',' +
+
 		// Add Media > Gallery > Add to Gallery.
-		self.selectors.addToGallery + ',' +
+		self.selectors.addToGallery +
+		',' +
 
 		/*
 		 * Customizer.
@@ -74,14 +82,19 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 		 */
 		// Header > Add new image.
 		'#customize-control-header_image .button.new,' +
+
 		// Background > Select image.
 		'#background_image-button,' +
+
 		// Background > thumbnail.
 		'.customize-control-background img.attachment-thumb,' +
+
 		// Site Icon > Select image.
 		'#site_icon-button,' +
+
 		// Site Logo > Select image.
 		'#boldgrid_logo_setting-button,' +
+
 		// Widget > Image.
 		'[id^=customize-control-widget_media_image] .select-media,' +
 
@@ -103,12 +116,15 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 		 */
 		// Change Image.
 		'[data-action="menu-image-change"],' +
+
 		// Add Media.
 		'[data-action="menu-add"] .add-media,' +
+
 		// Section Background > Add Image.
 		'[data-type="background"] .add-image-controls';
 
 	$( function() {
+
 		/*
 		 * When one of our addTabTrigger elements is clicked, wait 2/10's of a
 		 * second and then add our BoldGrid Connect Search tab. The timout is
@@ -117,7 +133,7 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 		 * for adding tabs to the media modal.
 		 */
 		$( document.body ).on( 'click', self.addTabTriggers, function() {
-			var $clicked = $(this);
+			var $clicked = $( this );
 
 			setTimeout( function() {
 				self.addTab( $clicked );
@@ -138,7 +154,7 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 		 * refresh the media library.
 		 */
 		$( document.body ).on( 'click', self.selectors.insertMedia, function() {
-			if( $( self.selectors.mediaLibrary ).hasClass( 'active' ) ) {
+			if ( $( self.selectors.mediaLibrary ).hasClass( 'active' ) ) {
 				self.refreshMediaLibrary();
 			}
 		} );
@@ -153,7 +169,10 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 	 * @since 1.1.2
 	 */
 	this.addLoadingMessage = function() {
-		var $content = $( '.media-frame-content:visible' ), $spinner = $( '<span class="spinner boldgrid_connect_search">Loading BoldGrid Connect Search.</span>' );
+		var $content = $( '.media-frame-content:visible' ),
+			$spinner = $(
+				'<span class="spinner boldgrid_connect_search">Loading BoldGrid Connect Search.</span>'
+			);
 
 		// Add the spinner.
 		$content.append( $spinner );
@@ -174,19 +193,31 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 	 * @param object $clicked a jQuery object, the element clicked that triggered the BGCS tab to be added.
 	 */
 	this.addTab = function( $clicked ) {
+
 		// There may be multiple menus, find the one that is visible.
 		var $mediaRouter = $( '.media-router:visible' ),
-		// Define the html that makes up our tab.
-		$tab = $( '<a href="#" class="media-menu-item boldgrid-connect-search hidden">BoldGrid Connect Search</a>' ),
-		// Check if there is already a visible "BoldGrid Connect Search" tab.
-		$bgcsTab = $mediaRouter.find( '.boldgrid-connect-search' ),
-		// Get our "Media Library" tab.
-		$libraryTab = $mediaRouter.find( '.media-menu-item:contains("' + _wpMediaViewsL10n.mediaLibraryTitle + '")' ),
-		// Get our "Upload Files" tab.
-		$uploadTab = $( '.media-menu-item:visible:contains("' + _wpMediaViewsL10n.uploadFilesTitle + '")' ),
-		clickedText = $clicked.text(),
-		// Find the number of active tabs.
-		activeTabs = $mediaRouter.find( '.media-menu-item.active' ).length;
+
+			// Define the html that makes up our tab.
+			$tab = $(
+				'<a href="#" class="media-menu-item boldgrid-connect-search hidden">BoldGrid Connect Search</a>'
+			),
+
+			// Check if there is already a visible "BoldGrid Connect Search" tab.
+			$bgcsTab = $mediaRouter.find( '.boldgrid-connect-search' ),
+
+			// Get our "Media Library" tab.
+			$libraryTab = $mediaRouter.find(
+				'.media-menu-item:contains("' + _wpMediaViewsL10n.mediaLibraryTitle + '")'
+			),
+
+			// Get our "Upload Files" tab.
+			$uploadTab = $(
+				'.media-menu-item:visible:contains("' + _wpMediaViewsL10n.uploadFilesTitle + '")'
+			),
+			clickedText = $clicked.text(),
+
+			// Find the number of active tabs.
+			activeTabs = $mediaRouter.find( '.media-menu-item.active' ).length;
 
 		/*
 		 * Sometimes we need to know which element caused the tab to be added.
@@ -199,12 +230,14 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 		 * Under certain circumstances, add a data-added-by attribute to the BGCS tab so we know
 		 * what click event caused it to be added.
 		 */
-		if( $clicked.hasClass( 'add-image-controls' ) ) {
+		if ( $clicked.hasClass( 'add-image-controls' ) ) {
 			$tab.attr( 'data-added-by', 'section-background' );
-		} else if( _wpMediaViewsL10n.addToGalleryTitle === clickedText ) {
+		} else if ( _wpMediaViewsL10n.addToGalleryTitle === clickedText ) {
+
 			// "Add to Gallery".
 			$tab.attr( 'data-added-by', 'add-to-gallery' );
-		} else if( _wpMediaViewsL10n.createGalleryTitle === clickedText ) {
+		} else if ( _wpMediaViewsL10n.createGalleryTitle === clickedText ) {
+
 			// "Create Gallery".
 			$tab.attr( 'data-added-by', 'create-gallery' );
 		}
@@ -223,8 +256,8 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 		 * There are some instances, though rare, that no tabs are selected. If
 		 * this is the case, click the "Media Library" tab.
 		 */
-		if ( activeTabs.length === 0 ) {
-			$libraryTab[ 0 ].click();
+		if ( 0 === activeTabs.length ) {
+			$libraryTab[0].click();
 		}
 
 		/*
@@ -233,12 +266,13 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 		 * reopened the modal.
 		 */
 		if ( 1 === $bgcsTab.length ) {
+
 			/*
 			 * If the tab is active, 'reset' things by clicking the "Media
 			 * Library" tab.
 			 */
 			if ( $bgcsTab.hasClass( 'active' ) ) {
-				$libraryTab[ 0 ].click();
+				$libraryTab[0].click();
 				return;
 			} else {
 				return;
@@ -269,11 +303,11 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 	 * @since 1.1.4
 	 */
 	this.refreshMediaLibrary = function() {
-		if( wp.media.frame.content.get() !== null ) {
-			wp.media.frame.content.get().collection.props.set( { ignore: ( + new Date() ) } );
+		if ( null !== wp.media.frame.content.get() ) {
+			wp.media.frame.content.get().collection.props.set( { ignore: +new Date() } );
 			wp.media.frame.content.get().options.selection.reset();
 		} else {
-			wp.media.frame.library.props.set( { ignore: ( + new Date() ) } );
+			wp.media.frame.library.props.set( { ignore: +new Date() } );
 		}
 	};
 
@@ -291,7 +325,7 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 	 */
 	this.removeImageSearch = function() {
 		setTimeout( function() {
-			$( "a.media-menu-item:contains('Image Search')" ).remove();
+			$( 'a.media-menu-item:contains(\'Image Search\')' ).remove();
 		}, 200 );
 	};
 
@@ -301,8 +335,10 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 	 * @since 1.2.10
 	 */
 	this.onFrameOpen = function() {
+
 		// Make sure we're not already listening.
-		if( wp.media.frame.boldgridListening === undefined ) {
+		if ( wp.media.frame.boldgridListening === undefined ) {
+
 			/*
 			 * Ensure bottom toolbar is visible.
 			 *
@@ -313,13 +349,13 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 			 * states are activated.
 			 */
 			wp.media.frame.on( 'open', function() {
-					self.showToolbar();
-					self.removeImageSearch();
-			});
+				self.showToolbar();
+				self.removeImageSearch();
+			} );
 
 			wp.media.frame.on( 'activate', function() {
-					self.showToolbar();
-			});
+				self.showToolbar();
+			} );
 
 			// Take note that we're now listening to this frame.
 			wp.media.frame.boldgridListening = true;
@@ -334,24 +370,34 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 	this.onTabClick = function() {
 
 		// Tab clicks in the top menu.
-		$( document.body )
-			.on( 'click', '.media-router .media-menu-item', function() {
-				var $content = $( '.media-frame-content:visible' ),
+		$( document.body ).on( 'click', '.media-router .media-menu-item', function() {
+			var $content = $( '.media-frame-content:visible' ),
+
 				// Our BGCS iframe.
 				$iframe = $content.find( '#boldgrid_connect_search' ),
+
 				// The content for the "Media Library" tab.
 				$library = $content.find( '.attachments-browser' ),
+
 				// The media router.
-				$mediaRouter = $( '.media-router:visible', window.parent.document ), $priorTab = $mediaRouter
-					.find( '.media-menu-item.active' ), $newTab = $( this ),
+				$mediaRouter = $( '.media-router:visible', window.parent.document ),
+				$priorTab = $mediaRouter.find( '.media-menu-item.active' ),
+				$newTab = $( this ),
+
 				// The "Media Library" tab.
 				$libraryTab = $mediaRouter.find( self.selectors.mediaLibrary ),
+
 				// The tab clicked.
 				$tab = $( this ),
+
 				// The content for the "Upload Files" tab.
 				$uploader = $content.find( '.uploader-inline-content' ),
+
 				// The "BoldGrid Connect Search" tab.
-				$bgcsTab = $mediaRouter.find( '.media-menu-item.boldgrid-connect-search', window.parent.document );
+				$bgcsTab = $mediaRouter.find(
+					'.media-menu-item.boldgrid-connect-search',
+					window.parent.document
+				);
 
 			/*
 			 * The function below adds an action to the opening of wp.media.frame.
@@ -370,9 +416,9 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 			 * the "Media Library" tab to generate our library, then
 			 * click the BGCS tab.
 			 */
-			if ( $newTab.is( $bgcsTab ) && !$priorTab.is( $libraryTab ) ) {
-				$libraryTab[ 0 ].click();
-				$bgcsTab[ 0 ].click();
+			if ( $newTab.is( $bgcsTab ) && ! $priorTab.is( $libraryTab ) ) {
+				$libraryTab[0].click();
+				$bgcsTab[0].click();
 				return;
 			}
 
@@ -387,6 +433,7 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 
 			// If we have clicked on the BoldGrid tab.
 			if ( $tab.hasClass( 'boldgrid-connect-search' ) ) {
+
 				// Hide the uploader and the library.
 				$uploader.addClass( 'hidden' );
 				$library.addClass( 'hidden' );
@@ -400,6 +447,7 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 
 				self.hideToolbar();
 			} else {
+
 				// Hide the BGCS iframe.
 				$iframe.addClass( 'hidden' );
 
@@ -418,8 +466,10 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 	 * @since 1.1.2
 	 */
 	this.setIframe = function() {
+
 		// Configure our post_id parameter for the iframe.
-		var post_id_param = ( typeof IMHWPB.post_id === 'undefined' ) ? '' : '&post_id=' + IMHWPB.post_id, ref;
+		var post_id_param = 'undefined' === typeof IMHWPB.post_id ? '' : '&post_id=' + IMHWPB.post_id,
+			ref;
 
 		// Configure our referrer parameter for the iframe.
 		if ( 'object' == typeof window._wpCustomizeSettings ) {
@@ -430,7 +480,12 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 			ref = 'dashboard-media';
 		}
 
-		self.iframe = '<iframe src="media-upload.php?chromeless=1' + post_id_param + '&tab=image_search&ref=' + ref + '" id="boldgrid_connect_search"></iframe>';
+		self.iframe =
+			'<iframe src="media-upload.php?chromeless=1' +
+			post_id_param +
+			'&tab=image_search&ref=' +
+			ref +
+			'" id="boldgrid_connect_search"></iframe>';
 	};
 
 	/**

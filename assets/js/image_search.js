@@ -9,7 +9,7 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 	this.api_key = this.configs.api_key;
 
 	this.api_param = 'key';
-	this.api_key_query_str = this.api_param + "=" + this.api_key;
+	this.api_key_query_str = this.api_param + '=' + this.api_key;
 
 	this.last_query = '';
 	this.page = 1;
@@ -22,6 +22,7 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 	$c_sr = jQuery( '#search_results', $c_imhmf );
 
 	jQuery( function() {
+
 		// When the page has finished loading, enable the search button.
 		$( '#image_search .button-primary', $c_imhmf ).prop( 'disabled', false );
 
@@ -50,14 +51,14 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 			$imageProviderId = $( '#image_search [name="image_provider_id"]' );
 
 		// if we're searching for a different word, reset the search
-		if ( self.last_query != '' && query != self.last_query ) {
+		if ( '' != self.last_query && query != self.last_query ) {
 			self.reset_search();
 		}
 		self.last_query = query;
 
 		// prevent empty searches
-		if ( query.trim() == '' ) {
-			alert( "Please enter a search term." );
+		if ( '' == query.trim() ) {
+			alert( 'Please enter a search term.' );
 			return false;
 		}
 
@@ -69,25 +70,25 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 		}
 
 		// Show "searching" message
-		if ( self.page == 1 ) {
-			jQuery( $c_sr ).append( "<div class='loading_message pointer'>Searching...</div>" );
+		if ( 1 == self.page ) {
+			jQuery( $c_sr ).append( '<div class=\'loading_message pointer\'>Searching...</div>' );
 		} else {
-			jQuery( '.loading_message', $c_sr ).html( "Searching..." );
+			jQuery( '.loading_message', $c_sr ).html( 'Searching...' );
 		}
 
 		// setup our variables
 		var data = {
-			'query' : query,
-			'free' : jQuery( '#free', $c_imhmf ).val(),
-			'attribution' : attribution,
-			'paid' : jQuery( '#paid', $c_imhmf ).val(),
-			'palette' : jQuery( '#palette', $c_imhmf ).val(),
-			'page' : self.page,
-			'image_provider_id' : ! $imageProviderId.length || "-1" === $imageProviderId.val() ? null : $imageProviderId.val(),
+			query: query,
+			free: jQuery( '#free', $c_imhmf ).val(),
+			attribution: attribution,
+			paid: jQuery( '#paid', $c_imhmf ).val(),
+			palette: jQuery( '#palette', $c_imhmf ).val(),
+			page: self.page,
+			image_provider_id:
+				! $imageProviderId.length || '-1' === $imageProviderId.val() ? null : $imageProviderId.val()
 		};
 
 		var api_call_image_search_success_action = function( msg ) {
-
 			resultsCount = msg.result.data.length;
 
 			/*
@@ -96,17 +97,17 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 			 *
 			 * todo: The logic / code in much of this file is in need of a rewrite.
 			 */
-			if( false === attribution && msg.result.data.length > 0 ) {
+			if ( false === attribution && 0 < msg.result.data.length ) {
 				$( msg.result.data ).each( function() {
-					if( true === this.requires_attribution ) {
+					if ( true === this.requires_attribution ) {
 						resultsCount--;
 					}
-				});
+				} );
 			}
 
 			// if we have search results
-			if ( resultsCount > 0 ) {
-				var source = jQuery( "#search-results-template" ).html();
+			if ( 0 < resultsCount ) {
+				var source = jQuery( '#search-results-template' ).html();
 				var template = Handlebars.compile( source );
 				jQuery( '#search_results', $c_imhmf ).append( template( msg.result ) );
 
@@ -118,14 +119,15 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 				var $search_results = jQuery( '#search_results', $c_imhmf );
 
 				jQuery( '.loading_message', $c_sr )
-				    .appendTo( $c_sr )
-				    .css( 'display', 'inherit' )
-				    .html(
-				        '<strong>Scroll down</strong> or <strong>click here</strong> to load more search results' )
-				    .on( 'click', function() {
-					    self.initiate_stock_image_search();
-					    return false;
-				    } );
+					.appendTo( $c_sr )
+					.css( 'display', 'inherit' )
+					.html(
+						'<strong>Scroll down</strong> or <strong>click here</strong> to load more search results'
+					)
+					.on( 'click', function() {
+						self.initiate_stock_image_search();
+						return false;
+					} );
 
 				// update the page value (page number for pagination)
 				self.page++;
@@ -138,11 +140,12 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 					var message = 'No search results.';
 				}
 
-				var no_search_results = '1' == self.page ? 'No search results'
-				    : 'No more search results';
+				var no_search_results = '1' == self.page ? 'No search results' : 'No more search results';
 
-				jQuery( '.loading_message', $c_sr ).appendTo( $c_sr ).css( 'display', 'inherit' )
-				    .html( no_search_results );
+				jQuery( '.loading_message', $c_sr )
+					.appendTo( $c_sr )
+					.css( 'display', 'inherit' )
+					.html( no_search_results );
 			}
 
 			self.currently_searching = 0;
@@ -161,16 +164,19 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 		var image_provider_id = jQuery( result ).data( 'image-provider-id' ),
 			id_from_provider = jQuery( result ).data( 'id-from-provider' ),
 			attachment_details = jQuery( '#attachment_details', $c_imhmf ),
+
 			// Count of image sizes that have been flagged as recommended.
 			recommendedCount,
+
 			// The select element with options of different image sizes.
 			$imageSelect;
 
 		// show loading message...
 		jQuery( attachment_details )
-		    .empty()
-		    .html(
-		        "<div class='loading_message white-bg'><span class='spinner is-active'></span>Loading image details</div>" );
+			.empty()
+			.html(
+				'<div class=\'loading_message white-bg\'><span class=\'spinner is-active\'></span>Loading image details</div>'
+			);
 
 		/**
 		 * Toggle 'details selected' classes
@@ -184,26 +190,27 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 
 		// configure data to send with ajax request
 		var data = {
-		    'image_provider_id' : image_provider_id,
-		    'id_from_provider' : id_from_provider
+			image_provider_id: image_provider_id,
+			id_from_provider: id_from_provider
 		};
 
 		// after ajax command, run this
 		var api_call_image_get_details_success_action = function( msg ) {
+
 			/*
 			 * Determine if we had a successful call. Currently determined by
 			 * whether or not an array of downloadable sizes was returned.
 			 */
 			var sizes = msg.result.data.sizes;
-			var has_sizes = ( true == jQuery.isArray( sizes ) && 0 < jQuery( sizes ).length ) ? true
-			    : false;
+			var has_sizes = true == jQuery.isArray( sizes ) && 0 < jQuery( sizes ).length ? true : false;
 
 			if ( has_sizes ) {
+
 				/*
 				 * We successfully fetched the details of the image. Display
 				 * those attachment details for the user.
 				 */
-				var source = jQuery( "#attachment-details-template" ).html();
+				var source = jQuery( '#attachment-details-template' ).html();
 				var template = Handlebars.compile( source );
 				jQuery( '#attachment_details', $c_imhmf ).html( template( msg.result.data ) );
 
@@ -221,7 +228,7 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 				 * 75px by 75px as the default option rather than a large image we need such as
 				 * 1920px by 1080.
 				 */
-				if( 0 === recommendedCount ) {
+				if ( 0 === recommendedCount ) {
 					$imageSelect.find( 'option:last' ).prop( 'selected', true );
 				}
 
@@ -231,13 +238,12 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 				/**
 				 * Display the pointer if applicable.
 				 */
-				if ( typeof WPHelpPointerIndex != 'undefined' ) {
-					var pointer_index = WPHelpPointerIndex[ '#image_size' ];
-					if ( typeof pointer_index != 'undefined' ) {
-						if ( 'yes' != WPHelpPointer.pointers[ pointer_index ][ 'is-dismissed' ] ) {
+				if ( 'undefined' != typeof WPHelpPointerIndex ) {
+					var pointer_index = WPHelpPointerIndex['#image_size'];
+					if ( 'undefined' != typeof pointer_index ) {
+						if ( 'yes' != WPHelpPointer.pointers[pointer_index]['is-dismissed'] ) {
 							setTimeout( function() {
-								self.baseAdmin
-								    .show_pointer( jQuery( '#imaeg_size' ), '#image_size' );
+								self.baseAdmin.show_pointer( jQuery( '#imaeg_size' ), '#image_size' );
 							}, 1000 );
 						}
 					}
@@ -248,22 +254,21 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 					self.download( $( this ) );
 				} );
 			} else {
+
 				/*
 				 * There was an issue fetching the image details. Display an
 				 * applicable message.
 				 */
-				var source = jQuery( "#attachment-details-error-template" ).html();
+				var source = jQuery( '#attachment-details-error-template' ).html();
 				var template = Handlebars.compile( source );
 				jQuery( '#attachment_details', $c_imhmf ).html( template() );
 			}
-
 		};
 
 		/**
 		 * ajax / reach out for the attachment details
 		 */
 		self.ajax.ajaxCall( data, 'image_get_details', api_call_image_get_details_success_action );
-
 	};
 
 	/**
@@ -276,29 +281,33 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 	 * @return string.
 	 */
 	this.getAction = function() {
-		var inCustomizer = ( 'dashboard-customizer' === self.baseAdmin.GetURLParameter( 'ref' ) ),
+		var inCustomizer = 'dashboard-customizer' === self.baseAdmin.GetURLParameter( 'ref' ),
+
 			// The BoldGrid Connect Search tab.
 			$bgcsTab = $( '.media-menu-item.boldgrid-connect-search:visible', parent.document ),
 			action = null;
 
-		if( 'dashboard-media' === self.baseAdmin.GetURLParameter( 'ref' ) ) {
+		if ( 'dashboard-media' === self.baseAdmin.GetURLParameter( 'ref' ) ) {
 			action = 'dashboard-media';
-		} else if( 'undefined' !== parent.wp.media.frame && 'replace-image' === parent.wp.media.frame._state ) {
+		} else if (
+			'undefined' !== parent.wp.media.frame &&
+			'replace-image' === parent.wp.media.frame._state
+		) {
 			action = 'replace-image';
-		} else if( 'section-background' === $bgcsTab.attr( 'data-added-by' ) ) {
+		} else if ( 'section-background' === $bgcsTab.attr( 'data-added-by' ) ) {
 			action = 'section-background';
-		} else if( 'add-to-gallery' === $bgcsTab.attr( 'data-added-by' ) ) {
+		} else if ( 'add-to-gallery' === $bgcsTab.attr( 'data-added-by' ) ) {
 			action = 'add-to-gallery';
-		} else if( 'create-gallery' === $bgcsTab.attr( 'data-added-by' ) ) {
+		} else if ( 'create-gallery' === $bgcsTab.attr( 'data-added-by' ) ) {
 			action = 'create-gallery';
-		} else if( 'function' === typeof parent.window.send_to_editor && ! inCustomizer ) {
+		} else if ( 'function' === typeof parent.window.send_to_editor && ! inCustomizer ) {
 			action = 'editor';
-		} else if( inCustomizer ) {
+		} else if ( inCustomizer ) {
 			action = 'customizer';
 		}
 
 		return action;
-	}
+	};
 
 	/**
 	 * @summary Get a theme's header / background recommended width.
@@ -317,26 +326,27 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 	 * @since 1.2.6
 	 */
 	this.getRecommendedWidth = function() {
-		var $instructions = $('.instructions', window.parent.document).last().html(),
+		var $instructions = $( '.instructions', window.parent.document )
+				.last()
+				.html(),
 			recommendedDimensions,
 			recommendedWidth = null;
 
-		if( typeof $instructions !== 'undefined' && $instructions.length ) {
-			recommendedDimensions = $instructions.split(':');
+		if ( 'undefined' !== typeof $instructions && $instructions.length ) {
+			recommendedDimensions = $instructions.split( ':' );
 
 			// Note, that's not an 'x' below, it's an '×'.
-			recommendedWidth = recommendedDimensions[1].split('×');
+			recommendedWidth = recommendedDimensions[1].split( '×' );
 			recommendedWidth = parseInt( recommendedWidth[0].trim() );
 		}
 
 		return recommendedWidth;
-	}
+	};
 
 	/**
 	 * Set the alignment to the current image's alignment
 	 */
 	this.select_image_alignment = function() {
-
 		if ( parent.tinymce && parent.tinymce.activeEditor ) {
 			var $current_selection = jQuery( parent.tinymce.activeEditor.selection.getNode() );
 			var $alignment_sidebar = jQuery( '.attachments-browser select.alignment' );
@@ -351,17 +361,17 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 
 				var value_selection = 'none';
 				jQuery.each( current_classes, function( index, class_item ) {
-					if ( class_item == "aligncenter" ) {
-						value_selection = "center";
+					if ( 'aligncenter' == class_item ) {
+						value_selection = 'center';
 						return false;
-					} else if ( class_item == "alignnone" ) {
-						value_selection = "none";
+					} else if ( 'alignnone' == class_item ) {
+						value_selection = 'none';
 						return false;
-					} else if ( class_item == "alignright" ) {
-						value_selection = "right";
+					} else if ( 'alignright' == class_item ) {
+						value_selection = 'right';
 						return false;
-					} else if ( class_item == "alignleft" ) {
-						value_selection = "left";
+					} else if ( 'alignleft' == class_item ) {
+						value_selection = 'left';
 						return false;
 					}
 				} );
@@ -389,14 +399,14 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 		var action = self.getAction();
 
 		$( '#image_size > option', $c_imhmf ).each( function() {
-			var $option = $(this),
+			var $option = $( this ),
 				width = parseInt( $option.attr( 'data-width' ) ),
 				low = 0,
 				high = 0,
 				originalHtml;
 
 			// Based upon our action, determine the low and high range for our recommended image width.
-			switch( action ) {
+			switch ( action ) {
 				case 'editor':
 					low = 450;
 					high = 900;
@@ -411,7 +421,7 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 					 * Else, suggest width based upon current monitor statistics:
 					 * https://www.w3counter.com/globalstats.php
 					 */
-					if( recommendedWidth ) {
+					if ( recommendedWidth ) {
 						low = recommendedWidth - 300;
 						high = recommendedWidth + 500;
 					} else {
@@ -420,20 +430,22 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 					}
 
 					break;
-			};
+			}
 
 			// If this is a recommended image, flag it as so.
-			if( width >= low && width <= high ) {
+			if ( width >= low && width <= high ) {
 				originalHtml = $option.html();
 
 				$option
 					.addClass( 'recommended_image_size' )
 					.html( originalHtml + ' &#10004; Recommended size' );
 			}
-		});
+		} );
 
 		// Select the last recommended image in the list.
-		$( '#image_size > option.recommended_image_size', $c_imhmf ).last().prop( 'selected', true );
+		$( '#image_size > option.recommended_image_size', $c_imhmf )
+			.last()
+			.prop( 'selected', true );
 	};
 
 	/**
@@ -446,6 +458,7 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 	this.download = function( $anchor ) {
 		var $c_ad = $( '#attachment_details' ),
 			$image_size_option_selected = $( '#image_size option:selected', $c_imhmf ),
+
 			// Are we currently downloading an image?
 			$currently_downloading = $( '#currently_downloading_image', $c_ad );
 
@@ -456,30 +469,30 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 			$currently_downloading.val( '1' );
 		}
 
-		$anchor.attr( 'disabled', true ).text( "Downloading image..." );
+		$anchor.attr( 'disabled', true ).text( 'Downloading image...' );
 
 		var data = {
-		    'action' : 'download_and_insert_into_page',
-		    'id_from_provider' : jQuery( '#id_from_provider', $c_imhmf ).val(),
-		    'image_provider_id' : jQuery( '#image_provider_id', $c_imhmf ).val(),
-		    'image_size' : jQuery( '#image_size', $c_imhmf ).val(),
-		    'post_id' : IMHWPB.post_id,
-		    'title' : jQuery( '#title', $c_ad ).val(),
-		    'caption' : jQuery( '#caption', $c_ad ).val(),
-		    'alt_text' : jQuery( '#alt_text', $c_ad ).val(),
-		    'description' : jQuery( '#description', $c_ad ).val(),
-		    'alignment' : jQuery( '#alignment', $c_ad ).val(),
-		    'width' : $image_size_option_selected.attr( 'data-width' ),
-		    'height' : $image_size_option_selected.attr( 'data-height' ),
+			action: 'download_and_insert_into_page',
+			id_from_provider: jQuery( '#id_from_provider', $c_imhmf ).val(),
+			image_provider_id: jQuery( '#image_provider_id', $c_imhmf ).val(),
+			image_size: jQuery( '#image_size', $c_imhmf ).val(),
+			post_id: IMHWPB.post_id,
+			title: jQuery( '#title', $c_ad ).val(),
+			caption: jQuery( '#caption', $c_ad ).val(),
+			alt_text: jQuery( '#alt_text', $c_ad ).val(),
+			description: jQuery( '#description', $c_ad ).val(),
+			alignment: jQuery( '#alignment', $c_ad ).val(),
+			width: $image_size_option_selected.attr( 'data-width' ),
+			height: $image_size_option_selected.attr( 'data-height' )
 		};
 
 		jQuery.post( ajaxurl, data, function( response ) {
 			response = JSON.parse( response );
 
-			$anchor.text( "Image downloaded!" );
+			$anchor.text( 'Image downloaded!' );
 
 			self.downloadSuccess( response, $anchor );
-		});
+		} );
 	};
 
 	/**
@@ -493,19 +506,18 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 	this.downloadSuccess = function( response, $anchor ) {
 		var action = self.getAction();
 
-		switch( action ) {
+		switch ( action ) {
 			case 'editor':
-
 				parent.window.send_to_editor( response.html_for_editor );
 
 				break;
 			case 'dashboard-media':
+				var anchor_to_view_attachment_details_media_library =
+					'<a href="post.php?post=' +
+					response.attachment_id +
+					'&action=edit" target="_parent" class="button button-small view-image-in-library">View image in Media Library</a>';
 
-				var anchor_to_view_attachment_details_media_library = '<a href="post.php?post='
-		            + response.attachment_id
-		            + '&action=edit" target="_parent" class="button button-small view-image-in-library">View image in Media Library</a>';
-
-		        $anchor.after( anchor_to_view_attachment_details_media_library );
+				$anchor.after( anchor_to_view_attachment_details_media_library );
 
 				break;
 			case 'replace-image':
@@ -513,30 +525,31 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 			case 'section-background':
 			case 'add-to-gallery':
 			case 'create-gallery':
-
 				self.refresh_media_library();
-	        	self.whenInLibrary( response.attachment_id, action );
+				self.whenInLibrary( response.attachment_id, action );
 
 				break;
-		};
-	}
+		}
+	};
 
 	/**
 	 * Refresh the images in the library.
 	 */
 	this.refresh_media_library = function() {
-		var haveCollection = ( typeof window.parent.wp.media.frame.content.get().collection !== 'undefined' ),
-		// Do we have a library?
-		haveLibrary = typeof window.parent.wp.media.frame.library !== 'undefined';
+		var haveCollection =
+				'undefined' !== typeof window.parent.wp.media.frame.content.get().collection,
 
-		if ( window.parent.wp.media.frame.content.get() !== null && haveCollection ) {
+			// Do we have a library?
+			haveLibrary = 'undefined' !== typeof window.parent.wp.media.frame.library;
+
+		if ( null !== window.parent.wp.media.frame.content.get() && haveCollection ) {
 			window.parent.wp.media.frame.content.get().collection.props.set( {
-				ignore : ( +new Date() )
+				ignore: +new Date()
 			} );
 			window.parent.wp.media.frame.content.get().options.selection.reset();
 		} else if ( haveLibrary ) {
 			window.parent.wp.media.frame.library.props.set( {
-				ignore : ( +new Date() )
+				ignore: +new Date()
 			} );
 		}
 	};
@@ -557,7 +570,7 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 	this.search_results_scroll = function() {
 		var scrollTop = jQuery( '#search_results', $c_imhmf ).scrollTop();
 		var height = jQuery( '#search_results', $c_imhmf ).height();
-		var scrollHeight = jQuery( '#search_results', $c_imhmf )[ 0 ].scrollHeight;
+		var scrollHeight = jQuery( '#search_results', $c_imhmf )[0].scrollHeight;
 		var pixels_bottom_unseen = scrollHeight - height - scrollTop;
 		var loading_message_outer_height = jQuery( '.loading_message', $c_sr ).outerHeight( false );
 
@@ -570,27 +583,33 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 	 * @param bool fadeOut Should we fade out images or immediately hide them.
 	 */
 	this.toggle_search_results_by_requires_attribution = function( fadeOut ) {
+
 		// determine whether or not "Attribution" is checked
 		need_to_show = jQuery( '#attribution', $c_imhmf ).is( ':checked' );
 
 		// If no value is passed in, fadeOut should be true.
-		fadeOut = ( fadeOut === undefined ? true : fadeOut );
+		fadeOut = fadeOut === undefined ? true : fadeOut;
 
 		// loop through each image in the search results
-		jQuery( "#search_results li", $c_imhmf ).each( function( index, li ) {
+		jQuery( '#search_results li', $c_imhmf ).each( function( index, li ) {
+
 			// grab the value of "data-requires-attribution"
 			var li_requires_attribution = jQuery( li ).data( 'requires-attribution' );
 
 			// if this image requires attribution
 			if ( '1' == li_requires_attribution ) {
+
 				// If the user checked "attribution"
 				if ( true == need_to_show ) {
+
 					// then fade this image in
 					jQuery( li ).fadeIn();
+
 					// else [the user unchecked "attribution"
 				} else {
+
 					// then fade this image out
-					if( fadeOut ) {
+					if ( fadeOut ) {
 						jQuery( li ).fadeOut();
 					} else {
 						jQuery( li ).hide();
@@ -615,23 +634,30 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 	 * @param string action The location we're downloading the image from. For example, Customizer.
 	 */
 	this.whenInLibrary = function( attachmentId, action ) {
-		var
-			// How much time has elapsed since we began looking for the image?
+		var // How much time has elapsed since we began looking for the image?
 			elapsed = 0,
+
 			// Wait up to 10 seconds for the new image to appear in the  library.
 			elapsedLimit = 10000,
+
 			// Has the new image been found in the library?
 			found,
+
 			// How often should we check to see if the new image is in the library.
 			interval = 100,
+
 			// An Interval to check for the new image in the library
 			checkInLibrary,
+
 			// A reference to the attachment in the library.
 			$attachment;
 
 		checkInLibrary = setInterval( function() {
+
 			// Has our attachment been found in the Media Library?
-			found = ( $( '.attachments', window.parent.document ).children( "[data-id=" + attachmentId + "]" ).length > 0 );
+			found =
+				0 < $( '.attachments', window.parent.document ).children( '[data-id=' + attachmentId + ']' )
+					.length;
 
 			/*
 			 * Take action based upon whether or not our new image is in the Media Library.
@@ -643,12 +669,14 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 			 * Else:
 			 * # Increase the elapsed time. If we've reached our limit, clear the interval and abort.
 			 */
-			if( found ) {
+			if ( found ) {
 				clearInterval( checkInLibrary );
 
-				$attachment = $( '.attachments', window.parent.document ).children( "[data-id=" + attachmentId + "]" ).find( '.attachment-preview' );
+				$attachment = $( '.attachments', window.parent.document )
+					.children( '[data-id=' + attachmentId + ']' )
+					.find( '.attachment-preview' );
 
-				switch( action ) {
+				switch ( action ) {
 					case 'replace-image':
 					case 'customizer':
 					case 'section-background':
@@ -664,12 +692,12 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 			} else {
 				elapsed += interval;
 
-				if( elapsed >= elapsedLimit ) {
+				if ( elapsed >= elapsedLimit ) {
 					clearInterval( checkInLibrary );
 				}
 			}
 		}, interval );
-	}
+	};
 };
 
 new IMHWPB.StockImageSearch( IMHWPB.configs, jQuery );

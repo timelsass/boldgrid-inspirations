@@ -12,17 +12,18 @@ IMHWPB.BaseAdmin = function( $ ) {
 	self.$wrap_header = jQuery( 'h1', self.$wrap );
 
 	self.strings = {
-		'add_gridblock_set' : 'New From GridBlocks'
+		add_gridblock_set: 'New From GridBlocks'
 	};
 
 	jQuery( function() {
+
 		// Within Dashboard >> Media >> BoldGrid Connect Search, self.init is
 		// not a function. Therefore, only self.init if self.init is found to be
 		// a function.
-		if ( typeof self.init === 'function' ) {
+		if ( 'function' === typeof self.init ) {
 			self.init();
 		}
-	});
+	} );
 
 	/**
 	 * Init.
@@ -30,13 +31,14 @@ IMHWPB.BaseAdmin = function( $ ) {
 	 * @since 1.0.10
 	 */
 	this.init = function() {
+
 		/*
 		 * Avoid this error: Uncaught TypeError: self.update_customizer_link is
 		 * not a function.
 		 *
 		 * Only call self.update_customizer_link if it is a function.
 		 */
-		if ( 'function' === typeof ( self.update_customizer_link ) ) {
+		if ( 'function' === typeof self.update_customizer_link ) {
 			self.update_customizer_link();
 		}
 
@@ -63,21 +65,21 @@ IMHWPB.BaseAdmin = function( $ ) {
 	 *
 	 */
 	this.show_pointer = function( element, selector ) {
+
 		// Abort if necessary.
-		if ( typeof WPHelpPointerIndex === 'undefined' ) {
+		if ( 'undefined' === typeof WPHelpPointerIndex ) {
 			return;
 		}
 
 		// Get the pointer.
 		var i = WPHelpPointerIndex[selector];
 		pointer = WPHelpPointer.pointers[i];
-		if ( typeof pointer == 'undefined' ) {
+		if ( 'undefined' == typeof pointer ) {
 			return;
 		}
 
 		// If the pointer has not been dismissed, show it.
-		var pointer_is_dismissed = jQuery( element )
-			.attr( 'data-pointer-is-dismissed' );
+		var pointer_is_dismissed = jQuery( element ).attr( 'data-pointer-is-dismissed' );
 		if ( 'yes' != pointer_is_dismissed ) {
 			wp_help_pointer_open( i );
 		}
@@ -89,6 +91,7 @@ IMHWPB.BaseAdmin = function( $ ) {
 	 * @thanks http://stackoverflow.com/questions/16588123/sorting-tables-by-columns-jquery
 	 */
 	this.sort_table_column = function( this_th ) {
+
 		/**
 		 * Get the th the user clicked on.
 		 *
@@ -107,7 +110,8 @@ IMHWPB.BaseAdmin = function( $ ) {
 		 *
 		 * </th>
 		 */
-		var $this_th = jQuery( this_th ), sort_order;
+		var $this_th = jQuery( this_th ),
+			sort_order;
 
 		/**
 		 * Get the current sort and define the new sort.
@@ -121,17 +125,24 @@ IMHWPB.BaseAdmin = function( $ ) {
 		}
 
 		var $tbody = $this_th.closest( 'table' ).children( 'tbody' );
-		$tbody.find( 'tr' ).sort( function( a, b ) {
-			var tda = jQuery( a ).find( 'td:eq(' + $this_th.index() + ')' ).text();
+		$tbody
+			.find( 'tr' )
+			.sort( function( a, b ) {
+				var tda = jQuery( a )
+					.find( 'td:eq(' + $this_th.index() + ')' )
+					.text();
 
-			var tdb = jQuery( b ).find( 'td:eq(' + $this_th.index() + ')' ).text();
+				var tdb = jQuery( b )
+					.find( 'td:eq(' + $this_th.index() + ')' )
+					.text();
 
-			if ( 'desc' == sort_order ) {
-				return tda < tdb ? 1 : tda > tdb ? -1 : 0;
-			} else {
-				return tda > tdb ? 1 : tda < tdb ? -1 : 0;
-			}
-		}).appendTo( $tbody );
+				if ( 'desc' == sort_order ) {
+					return tda < tdb ? 1 : tda > tdb ? -1 : 0;
+				} else {
+					return tda > tdb ? 1 : tda < tdb ? -1 : 0;
+				}
+			} )
+			.appendTo( $tbody );
 	};
 
 	/**
@@ -140,16 +151,16 @@ IMHWPB.BaseAdmin = function( $ ) {
 	 * @since 1.0.10
 	 */
 	this.init_gridblock_sets = function() {
+
 		// If we do not have IMHWPB.configs, such as in the Customizer, abort.
-		if ( typeof IMHWPB.configs === 'undefined' ) {
+		if ( 'undefined' === typeof IMHWPB.configs ) {
 			return;
 		}
 
 		// If we're using the BoldGrid Menu System, update the Top Menu > New >
 		// Page link.
 		if ( 1 == IMHWPB.configs.settings.boldgrid_menu_option ) {
-			jQuery( '#wp-admin-bar-new-page a')
-				.attr( 'href', IMHWPB.gridblock_sets_admin );
+			jQuery( '#wp-admin-bar-new-page a' ).attr( 'href', IMHWPB.gridblock_sets_admin );
 		}
 	};
 
@@ -163,16 +174,21 @@ IMHWPB.BaseAdmin = function( $ ) {
 	this.update_customizer_link = function() {
 		var useAdminMenu = 0,
 			currentUrl = encodeURIComponent( window.location.pathname + window.location.search ),
-			pageNow = typeof pagenow === 'undefined' ? null : pagenow,
-			returnUrl = ( 'toplevel_page_boldgrid-inspirations' === pageNow ? BoldGridAdmin.dashboardUrl : currentUrl );
+			pageNow = 'undefined' === typeof pagenow ? null : pagenow,
+			returnUrl =
+				'toplevel_page_boldgrid-inspirations' === pageNow ? BoldGridAdmin.dashboardUrl : currentUrl;
 
 		// Set useAdminMenu.
-		if ( IMHWPB.configs !== undefined && IMHWPB.configs.settings !== undefined &&
-			IMHWPB.configs.settings.boldgrid_menu_option !== undefined ) {
-				useAdminMenu = IMHWPB.configs.settings.boldgrid_menu_option;
+		if (
+			IMHWPB.configs !== undefined &&
+			IMHWPB.configs.settings !== undefined &&
+			IMHWPB.configs.settings.boldgrid_menu_option !== undefined
+		) {
+			useAdminMenu = IMHWPB.configs.settings.boldgrid_menu_option;
 		}
 
 		if ( 1 == useAdminMenu && 'undefined' != typeof pagenow && 'dashboard-network' != pagenow ) {
+
 			// Configure the correct link.
 			var correct_link = 'customize.php?return=' + returnUrl;
 
@@ -185,6 +201,7 @@ IMHWPB.BaseAdmin = function( $ ) {
 	 * Update the shopping cart total.
 	 */
 	this.update_header_cart = function( change ) {
+
 		// Get the cart element.
 		var $cart = jQuery( '#wp-admin-bar-pfp a' );
 
@@ -196,8 +213,7 @@ IMHWPB.BaseAdmin = function( $ ) {
 		var new_price = current_price + parseInt( change );
 
 		// <span class="ab-icon"></span> (20)
-		var new_cart_html = cart_html.replace( '(' + current_price + ')',
-			'(' + new_price + ')' );
+		var new_cart_html = cart_html.replace( '(' + current_price + ')', '(' + new_price + ')' );
 
 		// Update the cart element.
 		$cart.html( new_cart_html );
@@ -219,6 +235,7 @@ new IMHWPB.BaseAdmin( jQuery );
 var BoldGrid = BoldGrid || {};
 
 BoldGrid.Utility = {
+
 	/**
 	 * Make a string's first character uppercase.
 	 *
@@ -230,7 +247,7 @@ BoldGrid.Utility = {
 	 * @return string
 	 */
 	ucfirst: function( str ) {
-		return str.charAt(0).toUpperCase() + str.substr(1);
+		return str.charAt( 0 ).toUpperCase() + str.substr( 1 );
 	},
 
 	/**
@@ -244,8 +261,8 @@ BoldGrid.Utility = {
 	 * @return bool
 	 */
 	validateEmail: function( email ) {
-	    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-	    return re.test( email );
+		var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+		return re.test( email );
 	}
 };
 
@@ -265,9 +282,9 @@ BoldGrid.Utility = {
  * @link http://stackoverflow.com/questions/11903293/toggle-disabled-attribute-in-jquery
  */
 jQuery.fn.toggleDisabled = function() {
-    return this.each( function() {
-        this.disabled = !this.disabled;
-    });
+	return this.each( function() {
+		this.disabled = ! this.disabled;
+	} );
 };
 
 /**
@@ -286,8 +303,10 @@ jQuery.fn.boldgridTrimVal = function() {
  */
 jQuery.fn.boldgridFindAndTrim = function() {
 	this.each( function() {
-		jQuery(this).find( 'input[type=text]' ).each( function() {
-			jQuery(this).boldgridTrimVal();
-		});
-	});
+		jQuery( this )
+			.find( 'input[type=text]' )
+			.each( function() {
+				jQuery( this ).boldgridTrimVal();
+			} );
+	} );
 };
