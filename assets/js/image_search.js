@@ -656,8 +656,8 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 
 			// Has our attachment been found in the Media Library?
 			found =
-				0 < $( '.attachments', window.parent.document ).children( '[data-id=' + attachmentId + ']' )
-					.length;
+				0 <
+				$( '.attachments', window.parent.document ).children( '[data-id=' + attachmentId + ']' ).length;
 
 			/*
 			 * Take action based upon whether or not our new image is in the Media Library.
