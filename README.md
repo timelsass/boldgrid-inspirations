@@ -38,11 +38,9 @@ Temporary fix until a near-future update:
 
 ## Changelog ##
 
-+ 1.5.6-rc.2 =
+### 1.5.6 In Progress ###
 * Bug fix:      JIRA WPB-3767   Prevent invalid API calls for check-version.
 * Update:       JIRA BGBKUP-180 Auto update code moved to library and removed from Inspirations.
-
-### 1.5.6 ###
 * Update:       JIRA WPB-3730   Updated library dependency to ^2.0.0.
 * Update:       JIRA BGINSP-3   Forcing display of Connect Key prompt admin notice on the Inspirations page, even if dismissed, until key is entered.
 * Update:       JIRA WPB-3684   Updated composer.json, due to package changes.
