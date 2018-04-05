@@ -32,6 +32,16 @@ class Boldgrid_Inspirations_Attachment {
 		$image = wp_get_image_editor( $filepath );
 		$dimensions = $image->get_size();
 
+		/*
+		 * Note: As of PHP 7.1.0, applying the empty index operator on a string throws a fatal
+		 * error. Formerly, the string was silently converted to an array.
+		 *
+		 * @link http://php.net/manual/en/language.types.array.php
+		 */
+		if ( ! is_array( $metadata ) ) {
+			$metadata = array();
+		}
+
 		$metadata['sizes'][$size] = array(
 				'file' => basename( $filepath ),
 				'width' => $dimensions['width'],

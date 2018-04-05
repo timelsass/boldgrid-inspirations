@@ -2,7 +2,7 @@
 Contributors: imh_brad, joemoto, rramo012, timph
 Tags: inspiration,customization,build,create,design
 Requires at least: 4.4
-Tested up to: 4.9.4
+Tested up to: 4.9.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,6 +36,7 @@ Temporary fix until a near-future update:
 == Changelog ==
 
 = 1.5.6 In Progress =
+* Bug fix:      JIRA BGINSP-14  Fatal in PHP >=7.1.0 when creating internal preview builds.
 * Bug fix:      JIRA WPB-3767   Prevent invalid API calls for check-version.
 * Update:       JIRA BGBKUP-180 Auto update code moved to library and removed from Inspirations.
 * Update:       JIRA WPB-3730   Updated library dependency to ^2.0.0.
