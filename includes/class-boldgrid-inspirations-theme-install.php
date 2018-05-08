@@ -351,10 +351,12 @@ class Boldgrid_Inspirations_Theme_Install {
 
 				if ( $is_base_pageset ) {
 					$widget_instances = $boldgrid_theme_configs['widget']['widget_instances'];
-					$company_details_widget = $widget_instances['boldgrid-widget-3'];
-					$index = array_values( $company_details_widget );
-					$boldgrid_theme_configs['widget']['widget_instances']['footer-company-details'] = $index[0];
-					unset( $boldgrid_theme_configs['widget']['widget_instances']['boldgrid-widget-3'] );
+					if ( ! empty( $widget_instances ) && ! empty( $widget_instances['boldgrid-widget-3'] ) ) {
+						$company_details_widget = $widget_instances['boldgrid-widget-3'];
+						$index = array_values( $company_details_widget );
+						$boldgrid_theme_configs['widget']['widget_instances']['footer-company-details'] = $index[0];
+						unset( $boldgrid_theme_configs['widget']['widget_instances']['boldgrid-widget-3'] );
+					}
 				}
 
 				return $boldgrid_theme_configs;

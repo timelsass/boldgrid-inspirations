@@ -35,6 +35,9 @@ Temporary fix until a near-future update:
 
 == Changelog ==
 
+= 1.5.7 in progress =
+* Bug fix:      JIRA BGINSP-16  Warnings and notices within inspiration w/ Crio theme
+
 = 1.5.6 =
 * Bug fix:      JIRA BGINSP-14  Fatal in PHP >=7.1.0 when creating internal preview builds.
 * Bug fix:      JIRA WPB-3767   Prevent invalid API calls for check-version.
