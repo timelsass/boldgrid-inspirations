@@ -2,7 +2,7 @@
 Contributors: imh_brad, joemoto, rramo012, timph
 Tags: inspiration,customization,build,create,design
 Requires at least: 4.4
-Tested up to: 4.9.5
+Tested up to: 4.9.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -35,8 +35,11 @@ Temporary fix until a near-future update:
 
 == Changelog ==
 
-= 1.5.7 in progress =
+= 1.5.8 in progress =
 * Bug fix:      JIRA BGINSP-16  Warnings and notices within inspiration w/ Crio theme
+
+= 1.5.7 =
+* Update:                       Updated to library version 2.3.4.
 
 = 1.5.6 =
 * Bug fix:      JIRA BGINSP-14  Fatal in PHP >=7.1.0 when creating internal preview builds.
