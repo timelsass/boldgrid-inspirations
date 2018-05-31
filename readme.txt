@@ -39,7 +39,7 @@ Temporary fix until a near-future update:
 * Bug fix:      JIRA BGINSP-16  Warnings and notices within inspiration w/ Crio theme
 
 = 1.5.7 =
-* Update:                       Updated to library version 2.3.4.
+* Update:                       Updated to library version 2.3.5.
 
 = 1.5.6 =
 * Bug fix:      JIRA BGINSP-14  Fatal in PHP >=7.1.0 when creating internal preview builds.
