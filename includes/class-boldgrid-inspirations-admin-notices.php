@@ -230,7 +230,7 @@ class Boldgrid_Inspirations_Admin_Notices {
 	 * @return bool
 	 */
 	public function boldgrid_connection_issue_exists() {
-		return ! get_site_transient( 'boldgrid_available' );
+		return 0 === get_site_transient( 'boldgrid_available' );
 	}
 
 	/**
