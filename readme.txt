@@ -37,6 +37,7 @@ Temporary fix until a near-future update:
 
 = 1.5.8 in progress =
 * Bug fix:      JIRA BGINSP-16  Warnings and notices within inspiration w/ Crio theme
+* Bug fix:      JIRA BGINSP-23  Fixed issue: Connect Search may load with connection notice.
 
 = 1.5.7 =
 * Update:                       Updated to library version 2.3.5.
