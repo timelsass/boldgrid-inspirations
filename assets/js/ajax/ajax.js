@@ -8,8 +8,18 @@ IMHWPB.Ajax = function( configs ) {
 	this.api_key = this.configs.api_key;
 	this.site_hash = this.configs.site_hash;
 
-	// Execute an ajax call.
+	/**
+	 * Execute an AJAX call.
+	 *
+	 * @param array    data           Data to sent via POST.
+	 * @param string   requestUrlKey  Configuration index for the URL.
+	 * @param function successAction  The success/done callback function.
+	 * @param function errorAction    The errorAction/fail callback function.
+	 * @param function completeAction The completeAction/always callback function.
+	 */
 	this.ajaxCall = function( data, requestUrlKey, successAction, errorAction, completeAction ) {
+		self.data = data || {};
+		self.requestUrlKey = requestUrlKey;
 
 		if ( 'function' !== typeof errorAction ) {
 			errorAction = self.errorAction;
@@ -32,56 +42,79 @@ IMHWPB.Ajax = function( configs ) {
 				Accept : 'application/json'
 			},
 			dataType : 'json',
-			success : successAction,
-			error : errorAction,
-			complete : completeAction
-		} );
+		} )
+			.done( successAction )
+			.fail ( [
+				errorAction,
+				self.errorLogAction
+			] )
+			.always( completeAction );
 	};
 
 	/**
 	 * Error handling.
 	 */
 	this.errorAction = function( jqXHR, textStatus, errorThrown ) {
+		var message, $wpbody;
+
 		switch ( textStatus ) {
-		case 'timeout':
-			alert( 'Ajax error: timeout. Please try your request again.' );
-			break;
+			case 'timeout':
+				message = 'Ajax error: timeout. Please try your request again.';
+				break;
 
-		case 'parsererror':
-			alert( 'Ajax error: Unexpected return. In some cases, trying your request again may help.' );
-			break;
+			case 'parsererror':
+				message = 'Ajax error: Unexpected return. In some cases, trying your request again may help.';
+				break;
 
-		case 'error':
-			var $wpbody;
+			case 'error':
+				break;
 
-			if ( window.parent.jQuery( '#wpbody-content' ).length ) {
-				$wpbody = window.parent.jQuery( '#wpbody-content' );
-			} else {
-				$wpbody = jQuery( '#wpbody-content' );
-			}
-
-			// Provide a friendly error for comm failure, if notice is not already displayed.
-			if ( ! window.parent.jQuery( '#container_boldgrid_connection_notice' ).length  &&
-				! jQuery( '#container_boldgrid_connection_notice' ).length ) {
-					$wpbody
-						.html(
-							'<div id="container_boldgrid_connection_notice" class="error"><h2 class="dashicons-before dashicons-admin-network">BoldGrid Connection Issue</h2><p>There was an issue reaching the BoldGrid Connect server. Some BoldGrid features may be temporarily unavailable. Please try again in a moment.</p><p>If the issue persists, then please feel free to check our <a target="_blank" href="https://www.boldgrid.com/">BoldGrid Status</a> page.</p></div>'
-						);
-			}
-
-			// Make WordPress check the asset server connection.
-			var data = {
-					'action': 'check_asset_server'
-				};
-			jQuery.post( ajaxurl, data );
-
-			break;
-
-		default:
+			default:
+				break;
 		}
 
-		console.log( 'jqXHR:', jqXHR, '\n\njqXHR.responseText: ' + jqXHR.responseText +
-		'\n\nTextStatus:' + textStatus + '\n\nerrorThrown: ' + errorThrown
-		);
+		if ( window.parent.jQuery( '#wpbody-content' ).length ) {
+			$wpbody = window.parent.jQuery( '#wpbody-content' );
+		} else {
+			$wpbody = jQuery( '#wpbody-content' );
+		}
+
+		// Provide a friendly error for comm failure, if notice is not already displayed.
+		if ( ! window.parent.jQuery( '#container_boldgrid_connection_notice' ).length  &&
+			! jQuery( '#container_boldgrid_connection_notice' ).length ) {
+				if ( message ) {
+					message += '<br />';
+				} else {
+					message = '';
+				}
+
+				$wpbody
+					.hide()
+					.before(
+						'<div id="container_boldgrid_connection_notice" class="error"><h2 class="dashicons-before dashicons-admin-network">BoldGrid Connection Issue</h2><p>There was an issue reaching the BoldGrid Connect server. Some BoldGrid features may be temporarily unavailable. Please try again in a moment.</p><p>If the issue persists, then please feel free to check our <a target="_blank" href="https://www.boldgrid.com/">BoldGrid Status</a> page.</p><p>' +
+						message + '<button class="button button-primary" onclick="location.reload();">Try Again</button></p></div>'
+					);
+		}
+	};
+
+	/**
+	 * Error log handling.
+	 */
+	this.errorLogAction = function( jqXHR, textStatus, errorThrown ) {
+		var jqxhr2,
+			data = {
+				action : 'check_asset_server'
+			};
+
+		data.request = {
+			data : self.data,
+			requestUrlKey : self.requestUrlKey
+		}
+
+		data.response = {
+			textStatus : textStatus
+		}
+
+		jQuery.post( ajaxurl, data, null, 'json' );
 	};
 };

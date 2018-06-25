@@ -123,9 +123,10 @@ class Boldgrid_Inspirations_Api {
 	}
 
 	/**
-	 * Check the connection to the asset server.
+	 * Check the connection to the asset server, and report results back to the AJAX caller.
 	 *
 	 * @since 1.2.2
+	 *
 	 * @see Boldgrid_Inspirations_Api::verify_api_key().
 	 * @see Boldgrid_Inspirations_Api::get_is_asset_server_available().
 	 */
@@ -136,10 +137,11 @@ class Boldgrid_Inspirations_Api {
 		}
 
 		// Verify API key, which connects to the asset server and sets the status.
-		$this->verify_api_key();
+		$response = $this->verify_api_key();
 
-		// Return status.
-		return self::get_is_asset_server_available();
+		// Send a JSON response and die.
+		self::get_is_asset_server_available() ?
+			wp_send_json_success( $response ) : wp_send_json_error( $response );
 	}
 
 	/**
