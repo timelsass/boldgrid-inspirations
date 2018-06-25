@@ -18,20 +18,11 @@ class Boldgrid_Inspirations_Coins extends Boldgrid_Inspirations {
 	 * First, try getting it from the transient.
 	 * If it doesn't exist there, reach out to the asset server to get it.
 	 *
-	 * @see Boldgrid_Inspirations_Api::get_is_asset_server_available().
 	 * @see Boldgrid_Inspirations_Api::boldgrid_api_call().
 	 *
 	 * @return string
 	 */
 	public function get_coin_balance() {
-		// Initialize $is_asset_server_available; set class property from transient.
-		$is_asset_server_available = (bool) get_site_transient( 'boldgrid_available' );
-
-		// If our API is unavailable, then abort.
-		if( ! $is_asset_server_available ){
-			return '?';
-		}
-
 		// Check for the coin balance in a transient.
 		$user_coin_balance = get_transient( 'boldgrid_coin_balance' );
 

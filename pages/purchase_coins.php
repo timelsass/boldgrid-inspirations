@@ -2,18 +2,6 @@
 // Prevent direct calls.
 require BOLDGRID_BASE_DIR . '/pages/templates/restrict-direct-access.php';
 
-// Check asset server availability.
-$is_asset_server_available = (bool) get_site_transient( 'boldgrid_available' );
-
-// Print a message for connection failure.
-$notice_template_file = BOLDGRID_BASE_DIR .
-'/pages/templates/boldgrid-connection-issue.php';
-
-if ( ! $is_asset_server_available &&
-! in_array( $notice_template_file, get_included_files(), true ) ) {
-	include $notice_template_file;
-}
-
 $reseller = new Boldgrid\Library\Library\Reseller();
 $coinUrl = $reseller->data['reseller_coin_url'];
 

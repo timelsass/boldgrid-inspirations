@@ -117,7 +117,7 @@ class Boldgrid_Inspirations_Api {
 		self::$is_asset_server_available = $is_asset_server_available;
 
 		// Save the WP Option.
-		set_site_transient( 'boldgrid_available', (int) $is_asset_server_available, 5 * MINUTE_IN_SECONDS );
+		set_site_transient( 'boldgrid_available', (int) $is_asset_server_available, 2 * MINUTE_IN_SECONDS );
 
 		return true;
 	}

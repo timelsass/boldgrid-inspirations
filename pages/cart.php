@@ -2,17 +2,6 @@
 // Prevent direct calls.
 require BOLDGRID_BASE_DIR . '/pages/templates/restrict-direct-access.php';
 
-// Check if asset server is available.
-$is_asset_server_available = (bool) get_site_transient( 'boldgrid_available' );
-
-$notice_template_file = BOLDGRID_BASE_DIR .
-'/pages/templates/boldgrid-connection-issue.php';
-
-if ( ! $is_asset_server_available &&
-! in_array( $notice_template_file, get_included_files(), true ) ) {
-	include $notice_template_file;
-}
-
 // Wrap the entire page within a '.wrap'.
 echo '<div class="wrap">';
 
@@ -24,9 +13,6 @@ $args = array (
 $data = $this->get_all_data_of_assets_needing_purchase( $args );
 
 $have_assets_needing_purchase = isset( $data['assets_needing_purchase']['by_page_id'] );
-
-// Check asset server availability:
-$is_asset_server_available = ( bool ) get_site_transient( 'boldgrid_available' );
 
 // Get the user's current copyright coin balance.
 $current_copyright_coin_balance = $this->get_current_copyright_coin_balance();
