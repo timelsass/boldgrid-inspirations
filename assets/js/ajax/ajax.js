@@ -66,9 +66,6 @@ IMHWPB.Ajax = function( configs ) {
 				message = 'Ajax error: Unexpected return. In some cases, trying your request again may help.';
 				break;
 
-			case 'error':
-				break;
-
 			default:
 				break;
 		}
