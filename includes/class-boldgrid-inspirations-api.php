@@ -127,13 +127,21 @@ class Boldgrid_Inspirations_Api {
 	 *
 	 * @since 1.2.2
 	 *
-	 * @see Boldgrid_Inspirations_Api::verify_api_key().
-	 * @see Boldgrid_Inspirations_Api::get_is_asset_server_available().
+	 * @see Boldgrid_Inspirations_Feedback::add_feedback()
+	 * @see Boldgrid_Inspirations_Api::verify_api_key()
+	 * @see Boldgrid_Inspirations_Api::get_is_asset_server_available()
+	 *
+	 * @uses $_POST['data'] Array of data to log.
 	 */
 	public function check_asset_server_callback() {
 		// If you are not at least a Contributer, there's no need to be making api calls.
 		if( ! current_user_can( 'edit_posts' ) ) {
 			return false;
+		}
+
+		// Log any reported data.
+		if ( isset( $_POST['data'] ) ) {
+			Boldgrid_Inspirations_Feedback::add_feedback( 'ajax_error', $_POST['data'], false );
 		}
 
 		// Verify API key, which connects to the asset server and sets the status.

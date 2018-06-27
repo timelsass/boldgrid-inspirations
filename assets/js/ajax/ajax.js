@@ -96,21 +96,22 @@ IMHWPB.Ajax = function( configs ) {
 
 	/**
 	 * Error log handling.
+	 *
+	 * @since 1.5.8
 	 */
 	this.errorLogAction = function( jqXHR, textStatus, errorThrown ) {
-		var jqxhr2,
-			data = {
-				action : 'check_asset_server'
-			};
-
-		data.request = {
-			data : self.data,
-			requestUrlKey : self.requestUrlKey
-		}
-
-		data.response = {
-			textStatus : textStatus
-		}
+		var data = {
+			action : 'check_asset_server',
+			data : {
+				request : {
+					data : self.data,
+					requestUrlKey : self.requestUrlKey
+				},
+				response : {
+					textStatus : textStatus
+				}
+			}
+		};
 
 		jQuery.post( ajaxurl, data, null, 'json' );
 	};

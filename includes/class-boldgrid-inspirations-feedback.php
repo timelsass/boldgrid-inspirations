@@ -248,7 +248,7 @@ class Boldgrid_Inspirations_Feedback {
 		}
 
 		// If we are not allowing duplicates and this entry already exists, abort.
-		if( false === $allow_duplicates && true === self::exists( $metaname, $metavalue ) ) {
+		if ( ! $allow_duplicates && self::exists( $metaname, $metavalue ) ) {
 			return true;
 		}
 

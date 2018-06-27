@@ -35,6 +35,9 @@ Temporary fix until a near-future update:
 
 == Changelog ==
 
+= 1.5.9 In progress =
+* New feature:  JIRA BGINSP-24  Log data when there may be a connection or Ajax error.
+
 = 1.5.8 =
 * Bug fix:      JIRA BGINSP-16  Warnings and notices within inspiration w/ Crio theme
 * Bug fix:      JIRA BGINSP-23  Fixed issue: Connect Search may load with connection notice.
