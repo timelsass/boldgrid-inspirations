@@ -93,14 +93,6 @@ class Boldgrid_Inspirations_Branding {
 			)
 		);
 
-		// Add BoldGrid admin bar menu.
-		add_action( 'admin_bar_menu',
-			array(
-				$this,
-				'boldgrid_admin_node',
-			), 5
-		);
-
 		// Add actions and filters for reseller admin bar menu and footer.
 		$reseller_data = $this->get_reseller_data();
 
@@ -266,105 +258,6 @@ class Boldgrid_Inspirations_Branding {
 				'all'
 			);
 		}
-	}
-
-	/**
-	 * Custom BoldGrid Icon in Admin Bar.
-	 *
-	 * Adds the BoldGrid logo before the WordPress Logo.
-	 *
-	 * @see wp_admin_bar().
-	 * @see add_node().
-	 * @see add_menu() each $boldgrid_submenu_item adds menu item to boldgrid parent menu node.
-	 *
-	 * @param object $wp_admin_bar WP admin bar object.
-	 */
-	public function boldgrid_admin_node( $wp_admin_bar ) {
-		$args = array(
-			'id' => 'boldgrid-adminbar-icon',
-			'title' => '<span aria-hidden="true" class="boldgrid-icon ab-icon"></span>',
-			'href' => 'https://www.boldgrid.com/',
-			'meta' => array(
-				'class' => 'boldgrid-node-icon',
-			),
-		);
-
-		$wp_admin_bar->add_node( $args );
-
-		$boldgrid_submenu_item = array(
-			'id' => 'boldgrid-site-url',
-			'parent' => 'boldgrid-adminbar-icon',
-			'title' => __( 'BoldGrid.com', 'boldgrid-inspirations' ),
-			'href' => 'https://www.boldgrid.com/',
-			'meta' => array(
-				'class' => 'boldgrid-dropdown',
-				'target' => '_blank',
-				'title' => 'BoldGrid.com',
-				'tabindex' => '1',
-			),
-		);
-
-		$wp_admin_bar->add_menu( $boldgrid_submenu_item );
-
-		$boldgrid_submenu_item = array(
-			'id' => 'boldgrid-site-documentation',
-			'parent' => 'boldgrid-adminbar-icon',
-			'title' => __( 'Documentation', 'boldgrid-inspirations' ),
-			'href' => 'https://www.boldgrid.com/docs',
-			'meta' => array(
-				'class' => 'boldgrid-dropdown',
-				'target' => '_blank',
-				'title' => 'Documentation',
-				'tabindex' => '1',
-			),
-		);
-
-		$wp_admin_bar->add_menu( $boldgrid_submenu_item );
-
-		$boldgrid_submenu_item = array(
-			'id' => 'boldgrid-support-center',
-			'parent' => 'boldgrid-adminbar-icon',
-			'title' => __( 'Support Center', 'boldgrid-inspirations' ),
-			'href' => 'https://www.boldgrid.com/support',
-			'meta' => array(
-				'class' => 'boldgrid-dropdown',
-				'target' => '_blank',
-				'title' => 'Support Center',
-				'tabindex' => '1',
-			),
-		);
-
-		$wp_admin_bar->add_menu( $boldgrid_submenu_item );
-
-		$boldgrid_submenu_item = array(
-			'id' => 'boldgrid-central-url',
-			'parent' => 'boldgrid-adminbar-icon',
-			'title' => __( 'BoldGrid Central', 'boldgrid-inspirations' ),
-			'href' => 'https://www.boldgrid.com/central',
-			'meta' => array(
-				'class' => 'boldgrid-dropdown',
-				'target' => '_blank',
-				'title' => 'BoldGrid Central',
-				'tabindex' => '1',
-			),
-		);
-
-		$wp_admin_bar->add_menu( $boldgrid_submenu_item );
-
-		$boldgrid_submenu_item = array(
-			'id' => 'boldgrid-feedback-url',
-			'parent' => 'boldgrid-adminbar-icon',
-			'title' => __( 'Feedback', 'boldgrid-inspirations' ),
-			'href' => 'https://www.boldgrid.com/feedback',
-			'meta' => array(
-				'class' => 'boldgrid-dropdown',
-				'target' => '_blank',
-				'title' => 'Feedback',
-				'tabindex' => '1',
-			),
-		);
-
-		$wp_admin_bar->add_menu( $boldgrid_submenu_item );
 	}
 
 	/**
