@@ -97,14 +97,6 @@ class Boldgrid_Inspirations_Branding {
 		$reseller_data = $this->get_reseller_data();
 
 		if ( ! empty( $reseller_data['reseller_identifier'] ) ) {
-			// Reseller.
-			add_action( 'admin_bar_menu',
-				array(
-					$this,
-					'reseller_admin_node',
-				), 15
-			);
-
 			add_filter( 'admin_footer_text',
 				array(
 					$this,
@@ -258,110 +250,6 @@ class Boldgrid_Inspirations_Branding {
 				'all'
 			);
 		}
-	}
-
-	/**
-	 * Custom IMH Icon in Admin Bar.
-	 *
-	 * Adds IMH Icon in third position directly after WordPress Icon.
-	 *
-	 * @see wp_admin_bar().
-	 * @see add_node().
-	 * @see add_menu() each $imh_submenu_item adds menu item to imh parent menu node.
-	 *
-	 * @param object $wp_admin_bar WP admin bar object.
-	 */
-	public function reseller_admin_node( $wp_admin_bar ) {
-		// Get the reseller vars.
-		$reseller_data = $this->get_reseller_data();
-
-		$reseller_identifier = (
-			! empty( $reseller_data['reseller_identifier'] ) ?
-			$reseller_data['reseller_identifier'] : null
-		);
-
-		$reseller_title = (
-			esc_html(
-				! empty( $reseller_data['reseller_title'] ) ?
-				$reseller_data['reseller_title'] : 'BoldGrid.com'
-			)
-		);
-
-		$reseller_website_url = (
-			esc_url(
-				! empty( $reseller_data['reseller_website_url'] ) ?
-				$reseller_data['reseller_website_url'] : 'http://www.boldgrid.com/'
-			)
-		);
-
-		$reseller_support_url = (
-			esc_url(
-				! empty( $reseller_data['reseller_support_url'] ) ?
-				$reseller_data['reseller_support_url'] : 'http://www.boldgrid.com/documentation'
-			)
-		);
-
-		$reseller_amp_url = (
-			! empty( $reseller_data['reseller_amp_url'] ) ?
-			esc_url( $reseller_data['reseller_amp_url'] ) : null
-		);
-
-		$args = array(
-			'id' => 'reseller-adminbar-icon',
-			'title' => '<span aria-hidden="true" class="' . strtolower( $reseller_identifier ) .
-			'-icon ab-icon"></span>',
-			'href' => $reseller_website_url,
-			'meta' => array(
-				'class' => 'reseller-node-icon',
-			),
-		);
-
-		$wp_admin_bar->add_node( $args );
-
-		$reseller_submenu_item = array(
-			'id' => 'reseller-site-url',
-			'parent' => 'reseller-adminbar-icon',
-			'title' => esc_html__( $reseller_title, 'boldgrid-inspirations' ),
-			'href' => $reseller_website_url,
-			'meta' => array(
-				'class' => 'reseller-dropdown',
-				'target' => '_blank',
-				'title' => $reseller_title,
-				'tabindex' => '1',
-			),
-		);
-
-		$wp_admin_bar->add_menu( $reseller_submenu_item );
-
-		$reseller_submenu_item = array(
-			'id' => 'reseller-support-center',
-			'parent' => 'reseller-adminbar-icon',
-			'title' => esc_html__( 'Support Center', 'boldgrid-inspirations' ),
-			'href' => $reseller_support_url,
-			'meta' => array(
-				'class' => 'reseller-dropdown',
-				'target' => '_blank',
-				'title' => 'Support Center',
-				'tabindex' => '1',
-			),
-		);
-
-		$wp_admin_bar->add_menu( $reseller_submenu_item );
-
-		$reseller_submenu_item = array(
-			'id' => 'reseller-amp-login',
-			'parent' => 'reseller-adminbar-icon',
-			'title' => esc_html__( 'AMP Login', 'boldgrid-inspirations' ),
-			'href' => $reseller_amp_url,
-			'meta' => array(
-				'class' => 'reseller-dropdown',
-				'target' => '_blank',
-				'title' => 'Feedback',
-				'tabindex' => '1',
-			),
-		);
-
-		$wp_admin_bar->add_menu( $reseller_submenu_item );
 	}
 
 	/**
