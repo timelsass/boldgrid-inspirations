@@ -90,7 +90,7 @@ class Boldgrid_Inspirations_Options {
 		add_submenu_page(
 			'options-general.php',
 			'BoldGrid Settings',
-			'BoldGrid',
+			'BoldGrid Inspirations',
 			'administrator',
 			'boldgrid-settings',
 			array(
