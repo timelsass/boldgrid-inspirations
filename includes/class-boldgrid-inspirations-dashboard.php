@@ -169,14 +169,14 @@ class Boldgrid_Inspirations_Dashboard extends Boldgrid_Inspirations {
 
 		// Add main boldgrid menu.
 		add_menu_page(
-			__( 'BoldGrid' ),
-			__( 'BoldGrid' ),
+			__( 'Inspirations' ),
+			__( 'Inspirations' ),
 			'manage_options', $top_level_menu,
 			array(
 				$this,
 				'boldgrid_admin_one_menu_add',
 			),
-			'none',
+			'dashicons-lightbulb',
 			'4.37'
 		);
 
