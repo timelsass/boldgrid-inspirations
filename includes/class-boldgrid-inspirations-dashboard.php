@@ -243,13 +243,13 @@ class Boldgrid_Inspirations_Dashboard extends Boldgrid_Inspirations {
 		// Remove Background from Admin Menu.
 		Boldgrid_Inspirations_Admin_Menu::remove_submenu_page(
 			'themes.php',
-			__( 'Background', 'boldgrid-inspirations' )
+			__( 'Background' )
 		);
 
 		// Remove Header submenu item from Appearances.
 		Boldgrid_Inspirations_Admin_Menu::remove_submenu_page(
 			'themes.php',
-			__( 'Header', 'boldgrid-inspirations' )
+			__( 'Header' )
 		);
 
 		// Capability check.
@@ -285,8 +285,8 @@ class Boldgrid_Inspirations_Dashboard extends Boldgrid_Inspirations {
 			// Add Comments as submenu item to Blog Posts (aka Posts).
 			add_submenu_page(
 				'edit.php',
-				__( 'Comments', 'boldgrid-inspirations' ),
-				__( 'Comments', 'boldgrid-inspirations' ),
+				__( 'Comments' ),
+				__( 'Comments' ),
 				'moderate_comments',
 				esc_url( 'edit-comments.php' )
 			);
@@ -311,10 +311,10 @@ class Boldgrid_Inspirations_Dashboard extends Boldgrid_Inspirations {
 			if ( version_compare( get_bloginfo( 'version' ), '3.9.0' ) >= 1 ) {
 				add_theme_page(
 					// Page Title.
-					__( 'Widgets', 'boldgrid-inspirations' ),
+					__( 'Widgets' ),
 
 					// Menu Title.
-					__( 'Widgets', 'boldgrid-inspirations' ),
+					__( 'Widgets' ),
 
 					// Give users access to this feature if they are capable of editing theme
 					// options.
@@ -340,8 +340,8 @@ class Boldgrid_Inspirations_Dashboard extends Boldgrid_Inspirations {
 
 				// Add our submenu item in.
 				add_theme_page(
-					__( 'Widgets', 'boldgrid-inspirations' ),
-					__( 'Widgets', 'boldgrid-inspirations' ),
+					__( 'Widgets' ),
+					__( 'Widgets' ),
 					'edit_theme_options',
 					'widgets.php'
 				);
@@ -382,10 +382,10 @@ class Boldgrid_Inspirations_Dashboard extends Boldgrid_Inspirations {
 				// Create our submenu item for Menus under Customize.
 				add_theme_page(
 					// Page Title.
-					__( 'Menus', 'boldgrid-inspirations' ),
+					__( 'Menus' ),
 
 					// Menu Title.
-					__( 'Menus', 'boldgrid-inspirations' ),
+					__( 'Menus' ),
 
 					// Give users access to this feature if they are capable of editing theme
 					// options.
@@ -430,8 +430,8 @@ class Boldgrid_Inspirations_Dashboard extends Boldgrid_Inspirations {
 				// customizer link.
 				add_submenu_page(
 					'themes.php',
-					__( 'Menus', 'boldgrid-inspirations' ),
-					__( 'Menus', 'boldgrid-inspirations' ),
+					__( 'Menus' ),
+					__( 'Menus' ),
 					'edit_theme_options',
 					'nav-menus.php'
 				);
