@@ -1,8 +1,8 @@
 === BoldGrid Inspirations ===
-Contributors: imh_brad, joemoto, rramo012, timph
+Contributors: boldgrid,imh_brad, joemoto, rramo012, timph
 Tags: inspiration,customization,build,create,design
 Requires at least: 4.4
-Tested up to: 4.9.6
+Tested up to: 4.9.8
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -35,7 +35,8 @@ Temporary fix until a near-future update:
 
 == Changelog ==
 
-= 1.5.9 In progress =
+= 1.5.9 =
+* Update:                       Updated BoldGrid library to version 2.4.2.
 * New feature:  JIRA BGINSP-24  Log data when there may be a connection or Ajax error.
 
 = 1.5.8 =
