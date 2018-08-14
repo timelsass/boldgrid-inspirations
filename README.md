@@ -2,7 +2,7 @@
 [![PHP Version](https://img.shields.io/badge/PHP-5.3%2B-blue.svg)](https://php.net)
 
 # BoldGrid Inspirations #
-**Contributors:** boldgrid,imh_brad, joemoto, rramo012, timph
+**Contributors:** boldgrid, imh_brad, joemoto, rramo012, timph
 **Tags:** inspiration,customization,build,create,design
 **Requires at least:** 4.4
 **Tested up to:** 4.9.8
