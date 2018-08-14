@@ -3,7 +3,7 @@
 
 # BoldGrid Inspirations #
 **Contributors:** boldgrid, imh_brad, joemoto, rramo012, timph
-**Tags:** inspiration,customization,build,create,design
+**Tags:** inspiration, customization, build, create, design
 **Requires at least:** 4.4
 **Tested up to:** 4.9.8
 **License:** GPLv2 or later
