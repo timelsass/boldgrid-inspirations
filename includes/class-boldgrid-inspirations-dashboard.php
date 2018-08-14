@@ -169,8 +169,8 @@ class Boldgrid_Inspirations_Dashboard extends Boldgrid_Inspirations {
 
 		// Add main boldgrid menu.
 		add_menu_page(
-			__( 'Inspirations' ),
-			__( 'Inspirations' ),
+			'Inspirations',
+			'Inspirations',
 			'manage_options', $top_level_menu,
 			array(
 				$this,
@@ -183,8 +183,8 @@ class Boldgrid_Inspirations_Dashboard extends Boldgrid_Inspirations {
 		// Add Inspirations as first child.
 		add_submenu_page(
 			$top_level_menu,
-			__( 'Inspirations', 'boldgrid-inspirations' ),
-			__( 'Inspirations', 'boldgrid-inspirations' ),
+			'Inspirations',
+			'Inspirations',
 			'manage_options',
 			$top_level_menu
 		);
@@ -193,8 +193,8 @@ class Boldgrid_Inspirations_Dashboard extends Boldgrid_Inspirations {
 		if( ! is_plugin_active( 'boldgrid-staging/boldgrid-staging.php' ) ) {
 			add_submenu_page(
 				$top_level_menu,
-				__( 'Customize Active' ),
-				__( 'Customize Active' ),
+				__( 'Customize Active', 'boldgrid-inspirations' ),
+				__( 'Customize Active', 'boldgrid-inspirations' ),
 				'edit_theme_options',
 				$this->link_to_customizer
 			);
@@ -208,8 +208,8 @@ class Boldgrid_Inspirations_Dashboard extends Boldgrid_Inspirations {
 
 			add_submenu_page(
 				$top_level_menu,
-				__( 'Install First Inspiration' ),
-				__( 'Install First Inspiration' ),
+				__( 'Install First Inspiration', 'boldgrid-inspirations' ),
+				__( 'Install First Inspiration', 'boldgrid-inspirations' ),
 				'manage_options',
 				$top_level_menu
 			);
@@ -241,10 +241,16 @@ class Boldgrid_Inspirations_Dashboard extends Boldgrid_Inspirations {
 		}
 
 		// Remove Background from Admin Menu.
-		Boldgrid_Inspirations_Admin_Menu::remove_submenu_page( 'themes.php', __( 'Background' ) );
+		Boldgrid_Inspirations_Admin_Menu::remove_submenu_page(
+			'themes.php',
+			__( 'Background', 'boldgrid-inspirations' )
+		);
 
 		// Remove Header submenu item from Appearances.
-		Boldgrid_Inspirations_Admin_Menu::remove_submenu_page( 'themes.php', __( 'Header' ) );
+		Boldgrid_Inspirations_Admin_Menu::remove_submenu_page(
+			'themes.php',
+			__( 'Header', 'boldgrid-inspirations' )
+		);
 
 		// Capability check.
 		if ( current_user_can( 'manage_options' ) ) {
@@ -279,8 +285,8 @@ class Boldgrid_Inspirations_Dashboard extends Boldgrid_Inspirations {
 			// Add Comments as submenu item to Blog Posts (aka Posts).
 			add_submenu_page(
 				'edit.php',
-				__( 'Comments' ),
-				__( 'Comments' ),
+				__( 'Comments', 'boldgrid-inspirations' ),
+				__( 'Comments', 'boldgrid-inspirations' ),
 				'moderate_comments',
 				esc_url( 'edit-comments.php' )
 			);
@@ -288,8 +294,8 @@ class Boldgrid_Inspirations_Dashboard extends Boldgrid_Inspirations {
 			// Add Change Themes submenu item.
 			add_submenu_page(
 				'themes.php',
-				__( 'Change Themes' ),
-				__( 'Change Themes' ),
+				__( 'Change Themes', 'boldgrid-inspirations' ),
+				__( 'Change Themes', 'boldgrid-inspirations' ),
 				'edit_themes',
 				esc_url( 'themes.php' )
 			);
@@ -304,16 +310,11 @@ class Boldgrid_Inspirations_Dashboard extends Boldgrid_Inspirations {
 			// If WP Version 3.9.0 or higher is used.
 			if ( version_compare( get_bloginfo( 'version' ), '3.9.0' ) >= 1 ) {
 				add_theme_page(
-					// We will want to make sure that we keep our menu items translatable in the
-					// future, so we will need to add the text domain for Page Title and Menu Title,
-					// like this.
-					// __( 'Widgets', 'boldgrid-core' ),.
-
 					// Page Title.
-					__( 'Widgets' ),
+					__( 'Widgets', 'boldgrid-inspirations' ),
 
 					// Menu Title.
-					__( 'Widgets' ),
+					__( 'Widgets', 'boldgrid-inspirations' ),
 
 					// Give users access to this feature if they are capable of editing theme
 					// options.
@@ -339,8 +340,8 @@ class Boldgrid_Inspirations_Dashboard extends Boldgrid_Inspirations {
 
 				// Add our submenu item in.
 				add_theme_page(
-					__( 'Widgets' ),
-					__( 'Widgets' ),
+					__( 'Widgets', 'boldgrid-inspirations' ),
+					__( 'Widgets', 'boldgrid-inspirations' ),
 					'edit_theme_options',
 					'widgets.php'
 				);
@@ -380,17 +381,11 @@ class Boldgrid_Inspirations_Dashboard extends Boldgrid_Inspirations {
 
 				// Create our submenu item for Menus under Customize.
 				add_theme_page(
-					// We will want to make sure that we keep our menu items translatable in the
-					// future,
-					// so we will need to add the text domain for Page Title and Menu Title, like
-					// this:
-					// __( 'Menus', 'boldgrid-core' ),.
-
 					// Page Title.
-					__( 'Menus' ),
+					__( 'Menus', 'boldgrid-inspirations' ),
 
 					// Menu Title.
-					__( 'Menus' ),
+					__( 'Menus', 'boldgrid-inspirations' ),
 
 					// Give users access to this feature if they are capable of editing theme
 					// options.
@@ -435,8 +430,8 @@ class Boldgrid_Inspirations_Dashboard extends Boldgrid_Inspirations {
 				// customizer link.
 				add_submenu_page(
 					'themes.php',
-					__( 'Menus' ),
-					__( 'Menus' ),
+					__( 'Menus', 'boldgrid-inspirations' ),
+					__( 'Menus', 'boldgrid-inspirations' ),
 					'edit_theme_options',
 					'nav-menus.php'
 				);
@@ -445,8 +440,8 @@ class Boldgrid_Inspirations_Dashboard extends Boldgrid_Inspirations {
 
 		// Add Editor into submenu renamed as CSS/HTML Editor.
 		add_theme_page(
-			__( 'CSS/HTML Editor' ),
-			__( 'CSS/HTML Editor' ),
+			__( 'CSS/HTML Editor', 'boldgrid-inspirations' ),
+			__( 'CSS/HTML Editor', 'boldgrid-inspirations' ),
 			'manage_options',
 			esc_url( 'theme-editor.php' )
 		);
@@ -607,7 +602,10 @@ class Boldgrid_Inspirations_Dashboard extends Boldgrid_Inspirations {
 		if ( is_wp_error($rss) ) {
 			if ( is_admin() || current_user_can( 'manage_options' ) ) {
 				echo '<p>';
-				printf( __( '<strong>RSS Error</strong>: %s' ), $rss->get_error_message() );
+				printf(
+					__( '<strong>RSS Error</strong>: %s', 'boldgrid-inspirations' ),
+					$rss->get_error_message()
+				);
 				echo '</p>';
 			}
 
