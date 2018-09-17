@@ -36,8 +36,7 @@ class Boldgrid_Inspirations_Config {
 		$channels = ! empty( $configs['features'][ $feature ] ) ? $configs['features'][ $feature ] : false;
 
 		if ( $channels ) {
-			( $boldgrid_settings = get_site_option( 'boldgrid_settings', array() ) ) ||
-			( $boldgrid_settings = get_option( 'boldgrid_settings', array() ) );
+			$boldgrid_settings = get_option( 'boldgrid_settings', array() );
 
 			$release_channel = ! empty( $boldgrid_settings['release_channel'] ) ?
 				$boldgrid_settings['release_channel'] : 'stable';
@@ -105,8 +104,7 @@ class Boldgrid_Inspirations_Config {
 		// Add boldgrid_settings to our configs.
 		// @since 1.0.10
 		if ( ! isset( $formated_configs['settings'] ) ) {
-			( $formated_configs['settings'] = get_site_option( 'boldgrid_settings' ) ) ||
-			( $formated_configs['settings'] = get_option( 'boldgrid_settings' ) );
+			$formated_configs['settings'] = get_option( 'boldgrid_settings' );
 		}
 
 		$formated_configs['settings'] = self::set_default_settings( $formated_configs['settings'] );

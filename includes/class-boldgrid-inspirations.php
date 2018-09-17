@@ -235,8 +235,7 @@ class Boldgrid_Inspirations {
 		}
 
 		// Get BoldGrid settings.
-		( $boldgrid_settings = get_site_option( 'boldgrid_settings' ) ) ||
-		( $boldgrid_settings = get_option( 'boldgrid_settings' ) );
+		$boldgrid_settings = get_option( 'boldgrid_settings' );
 
 		// Ensure required definitions for pluggable.
 		if ( ! defined( 'AUTH_COOKIE' ) ) {
@@ -648,8 +647,7 @@ class Boldgrid_Inspirations {
 	 */
 	public static function is_feedback_optout() {
 		// Get BoldGrid settings.
-		( $options = get_site_option( 'boldgrid_settings' ) ) ||
-		( $options = get_option( 'boldgrid_settings' ) );
+		$options = get_option( 'boldgrid_settings' );
 
 		// Get feedback option.
 		$boldgrid_feedback_optout = (

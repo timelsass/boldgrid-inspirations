@@ -38,6 +38,9 @@ Temporary fix until a near-future update:
 
 ## Changelog ##
 
+### 1.6.1 In progress ###
+* Update:       JIRA BGCONN-20  Removed update settings; have been moved to the BoldGrid Library packages.
+
 ### 1.6.0 ###
 * Update:                       Updated BoldGrid library to version 2.4.2.
 * New feature:  JIRA BGINSP-24  Log data when there may be a connection or Ajax error.

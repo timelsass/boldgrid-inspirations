@@ -338,8 +338,7 @@ class Boldgrid_Inspirations_Api {
 		// If getting plugin version information, include other parameters.
 		if ( 1 === preg_match( '/(check|get-plugin)-version/', $api_path ) ) {
 			// Get BoldGrid settings.
-			( $options = get_site_option( 'boldgrid_settings' ) ) ||
-			( $options = get_option( 'boldgrid_settings' ) );
+			$options = get_option( 'boldgrid_settings' );
 
 			// Include update release and theme channels.
 			$params_array['channel'] = (

@@ -62,8 +62,7 @@ class Boldgrid_Inspirations_Theme_Install {
 	 * @return string $theme_channel.
 	 */
 	public static function fetch_theme_channel() {
-		( $boldgrid_settings = get_site_option( 'boldgrid_settings' ) ) ||
-		( $boldgrid_settings = get_option( 'boldgrid_settings' ) );
+		$boldgrid_settings = get_option( 'boldgrid_settings' );
 
 		$theme_channel = ! empty( $boldgrid_settings['theme_release_channel'] ) ?
 			$boldgrid_settings['theme_release_channel'] : 'stable';
