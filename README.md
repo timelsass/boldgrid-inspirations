@@ -39,7 +39,8 @@ Temporary fix until a near-future update:
 ## Changelog ##
 
 ### 1.6.1 In progress ###
-* Update:       JIRA BGCONN-20  Removed update settings; have been moved to the BoldGrid Library packages.
+* Update:       JIRA BGCONN-20   Removed update settings; have been moved to the BoldGrid Library packages.
+* Bug fix:      JIRA BGTHEME-558 Fixed conflict between tgmpa plugin installer and the BoldGrid custom update classes.
 
 ### 1.6.0 ###
 * Update:                       Updated BoldGrid library to version 2.4.2.

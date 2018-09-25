@@ -12,7 +12,6 @@
  * BoldGrid Inspirations (core) update class.
  */
 class Boldgrid_Inspirations_Update {
-
 	/**
 	 * BoldGrid Inspirations Configuration.
 	 *
@@ -111,7 +110,7 @@ class Boldgrid_Inspirations_Update {
 				array(
 					$this,
 					'custom_plugins_transient_update',
-				), 11
+				), 11, 3
 			);
 
 			add_filter( 'site_transient_update_plugins',
@@ -125,7 +124,7 @@ class Boldgrid_Inspirations_Update {
 				array(
 					$this,
 					'custom_plugins_transient_update',
-				), 11
+				), 11, 2
 			);
 
 			if ( $is_cron ){
@@ -301,10 +300,12 @@ class Boldgrid_Inspirations_Update {
 	 * @global $pagenow The current WordPress page filename.
 	 * @global $wp_version The WordPress version.
 	 *
-	 * @param object $transient WordPress plugin update transient object.
+	 * @param  object $transient WordPress plugin update transient object.
+	 * @param  string $action    Action name.
+	 * @param  array  $args      Optional arguments.
 	 * @return object $transient
 	 */
-	public function custom_plugins_transient_update( $transient ) {
+	public function custom_plugins_transient_update( $transient, $action, $args = array() ) {
 		// Get api data transient.
 		$boldgrid_api_data = get_site_transient( 'boldgrid_api_data' );
 
@@ -338,6 +339,12 @@ class Boldgrid_Inspirations_Update {
 		$plugin_data = get_plugin_data(
 			BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php',
 			false
+		);
+
+		$install_or_ajax = in_array(
+			$pagenow,
+			array( 'plugin-install.php', 'admin-ajax.php' ),
+			true
 		);
 
 		// Create a new object to be injected into transient.
@@ -379,7 +386,6 @@ class Boldgrid_Inspirations_Update {
 			$transient->name = $boldgrid_api_data->result->data->title;
 			$transient->requires = $boldgrid_api_data->result->data->requires_wp_version;
 			$transient->tested = $boldgrid_api_data->result->data->tested_wp_version;
-			// $transient->downloaded = $boldgrid_api_data->result->data->downloads;
 			$transient->last_updated = $boldgrid_api_data->result->data->release_date;
 			$transient->download_link = $boldgrid_configs['asset_server'] .
 				$boldgrid_configs['ajax_calls']['get_asset'] . '?key=' .
@@ -391,15 +397,6 @@ class Boldgrid_Inspirations_Update {
 				null !== ( $compatibility = json_decode( $boldgrid_api_data->result->data->compatibility, true ) ) ) {
 					$transient->compatibility = $boldgrid_api_data->result->data->compatibility;
 			}
-
-			/*
-			 * Not currently showing ratings.
-			 * if ( ! ( empty( $boldgrid_api_data->result->data->rating ) ||
-			 * empty( $boldgrid_api_data->result->data->num_ratings ) ) ) {
-			 * $transient->rating = ( float ) $boldgrid_api_data->result->data->rating;
-			 * $transient->num_ratings = ( int ) $boldgrid_api_data->result->data->num_ratings;
-			 * }
-			 */
 
 			$transient->added = '2015-03-19';
 
@@ -421,8 +418,7 @@ class Boldgrid_Inspirations_Update {
 			$transient->slug = 'boldgrid-inspirations';
 			$transient->version = $boldgrid_api_data->result->data->version;
 			$transient->new_version = $boldgrid_api_data->result->data->version;
-			// $transient->active_installs = false;
-		} elseif ( ! in_array( $pagenow, array( 'plugin-install.php', 'admin-ajax.php' ), true ) ) {
+		} else if ( 'update_plugins' === $action && ! $install_or_ajax ) {
 			$obj = new stdClass();
 			$obj->slug = 'boldgrid-inspirations';
 			$obj->plugin = 'boldgrid-inspirations/boldgrid-inspirations.php';
