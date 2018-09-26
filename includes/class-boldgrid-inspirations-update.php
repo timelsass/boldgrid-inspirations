@@ -610,14 +610,14 @@ class Boldgrid_Inspirations_Update {
 			array(
 				$this,
 				'custom_plugins_transient_update',
-			)
+			), 11, 2
 		);
 
 		add_filter( 'plugins_api',
 			array(
 				$this,
 				'custom_plugins_transient_update',
-			)
+			), 11, 3
 		);
 
 		add_filter( 'site_transient_update_plugins',
