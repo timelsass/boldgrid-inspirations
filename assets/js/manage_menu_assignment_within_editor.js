@@ -1,7 +1,7 @@
 var IMHWPB = IMHWPB || {};
 
 // Stash original_selections for use in other scripts.
-IMHWPB.original_selections = original_selections || [];
+IMHWPB.original_selections = IMHWPB.original_selections || [];
 
 IMHWPB.PagenowPostnew = function( $ ) {
 	var self = this;

@@ -13,7 +13,7 @@
  * @since 0.1
  */
 
-/* globals wp, _wpMediaViewsL10n, pagenow */
+/* globals wp, _wpMediaViewsL10n, pagenow, jQuery */
 
 var IMHWPB = IMHWPB || {};
 
@@ -25,105 +25,8 @@ var IMHWPB = IMHWPB || {};
 IMHWPB.InsertMediaTabManager = function( $ ) {
 	var self = this;
 
-	/*
-	 * A list of jQuery selectors used throughout this class.
-	 *
-	 * @since 1.1.4
-	 */
-	self.selectors = {
-		insertMedia: '.media-menu-item:contains("' + _wpMediaViewsL10n.insertMediaTitle + '")',
-		mediaLibrary: '.media-menu-item:contains("' + _wpMediaViewsL10n.mediaLibraryTitle + '")',
-		createGallery: '.media-menu-item:contains("' + _wpMediaViewsL10n.createGalleryTitle + '")',
-		addToGallery: '.media-menu-item:contains("' + _wpMediaViewsL10n.addToGalleryTitle + '")'
-	};
-
-	/**
-	 * A list of selectors, when clicked, that cause the BGCS tab to be added.
-	 *
-	 * Note: When updating this list, ensure each entry ends with a comma.
-	 *
-	 * @since 1.1.2
-	 */
-	// The image "Change" button on WP's toolbar.
-	self.addTabTriggers =
-		'div[aria-label="Change"],' +
-
-		/*
-		 * Add Media.
-		 *
-		 * # Add Media.
-		 * # Add Media > Insert Media.
-		 * # Add Media > Create Gallery.
-		 * # Add Media > Gallery > Add to Gallery.
-		 */
-		// Add Media.
-		'#insert-media-button,' +
-
-		// Add Media > Insert Media.
-		self.selectors.insertMedia +
-		',' +
-
-		// Add Media > Create Gallery.
-		self.selectors.createGallery +
-		',' +
-
-		// Add Media > Gallery > Add to Gallery.
-		self.selectors.addToGallery +
-		',' +
-
-		/*
-		 * Customizer.
-		 *
-		 * # Header > Add new image.
-		 * # Background > Select image.
-		 * # Background > thumbnail.
-		 * # Site Icon > Select image.
-		 * # Site Logo > Select image.
-		 */
-		// Header > Add new image.
-		'#customize-control-header_image .button.new,' +
-
-		// Background > Select image.
-		'#background_image-button,' +
-
-		// Background > thumbnail.
-		'.customize-control-background img.attachment-thumb,' +
-
-		// Site Icon > Select image.
-		'#site_icon-button,' +
-
-		// Site Logo > Select image.
-		'#boldgrid_logo_setting-button,' +
-
-		// Widget > Image.
-		'[id^=customize-control-widget_media_image] .select-media,' +
-
-		/*
-		 * BoldGrid Editor - Column options.
-		 *
-		 * # Insert Media
-		 */
-		// Insert Media
-		// @todo: This isn't quite working.
-		'[data-action="add-media"],' +
-
-		/*
-		 * BoldGrid Editor - Top menu buttons.
-		 *
-		 * # Change Image.
-		 * # Add > Media.
-		 * # Section Background > Add Image.
-		 */
-		// Change Image.
-		'[data-action="menu-image-change"],' +
-
-		// Add Media.
-		'[data-action="menu-add"] .add-media,' +
-
-		// Section Background > Add Image.
-		'[data-type="background"] .add-image-controls';
-
 	$( function() {
+		self.initVars();
 
 		/*
 		 * When one of our addTabTrigger elements is clicked, wait 2/10's of a
@@ -293,6 +196,114 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 	this.hideToolbar = function() {
 		$( '.media-frame-toolbar' ).addClass( 'hidden' );
 		$( '.media-frame-content' ).addClass( 'bottom-0' );
+	};
+
+	/**
+	 * @summary Init vars, called during document ready.
+	 *
+	 * @since 1.6.1
+	 */
+	this.initVars = function() {
+		/*
+		 * A list of jQuery selectors used throughout this class.
+		 *
+		 * @since 1.1.4
+		 */
+		self.selectors = {
+			insertMedia: '.media-menu-item:contains("' + _wpMediaViewsL10n.insertMediaTitle + '")',
+			mediaLibrary: '.media-menu-item:contains("' + _wpMediaViewsL10n.mediaLibraryTitle + '")',
+			createGallery: '.media-menu-item:contains("' + _wpMediaViewsL10n.createGalleryTitle + '")',
+			addToGallery: '.media-menu-item:contains("' + _wpMediaViewsL10n.addToGalleryTitle + '")'
+		};
+
+		/*
+		 * A list of selectors, when clicked, that cause the BGCS tab to be added.
+		 *
+		 * Note: When updating this list, ensure each entry ends with a comma.
+		 *
+		 * @since 1.1.2
+		 */
+		// The image "Change" button on WP's toolbar.
+		self.addTabTriggers =
+			'div[aria-label="Change"],' +
+
+			/*
+			 * Add Media.
+			 *
+			 * # Add Media.
+			 * # Add Media > Insert Media.
+			 * # Add Media > Create Gallery.
+			 * # Add Media > Gallery > Add to Gallery.
+			 */
+			// Add Media.
+			'#insert-media-button,' +
+
+			// Add Media > Insert Media.
+			self.selectors.insertMedia +
+			',' +
+
+			// Add Media > Create Gallery.
+			self.selectors.createGallery +
+			',' +
+
+			// Add Media > Gallery > Add to Gallery.
+			self.selectors.addToGallery +
+			',' +
+
+			/*
+			 * Customizer.
+			 *
+			 * # Header > Add new image.
+			 * # Background > Select image.
+			 * # Background > thumbnail.
+			 * # Site Icon > Select image.
+			 * # Site Logo > Select image.
+			 */
+			// Header > Add new image.
+			'#customize-control-header_image .button.new,' +
+
+			// Background > Select image.
+			'#background_image-button,' +
+
+			// Background > thumbnail.
+			'.customize-control-background img.attachment-thumb,' +
+
+			// Site Icon > Select image.
+			'#site_icon-button,' +
+
+			// Site Logo > Select image.
+			'#boldgrid_logo_setting-button,' +
+
+			// Widget > Image.
+			'[id^=customize-control-widget_media_image] .select-media,' +
+
+			/*
+			 * BoldGrid Editor - Column options.
+			 *
+			 * # Insert Media
+			 */
+			// Insert Media
+			// @todo: This isn't quite working.
+			'[data-action="add-media"],' +
+
+			/*
+			 * BoldGrid Editor - Top menu buttons.
+			 *
+			 * # Change Image.
+			 * # Add > Media.
+			 * # Section Background > Add Image.
+			 */
+			// Change Image.
+			'[data-action="menu-image-change"],' +
+
+			// Add Media.
+			'[data-action="menu-add"] .add-media,' +
+
+			// Section Background > Add Image.
+			'[data-type="background"] .add-image-controls,' +
+
+			// Gutenberg.
+			'.wp-block-image button';
 	};
 
 	/**

@@ -300,6 +300,8 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 			action = 'add-to-gallery';
 		} else if ( 'create-gallery' === $bgcsTab.attr( 'data-added-by' ) ) {
 			action = 'create-gallery';
+		} else if ( typeof parent.wp.blocks !== 'undefined' ) {
+			action = 'gutenberg';
 		} else if ( 'function' === typeof parent.window.send_to_editor && ! inCustomizer ) {
 			action = 'editor';
 		} else if ( inCustomizer ) {
@@ -504,9 +506,29 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 	 * @param jQuery object $anchor   A reference to our Download button.
 	 */
 	this.downloadSuccess = function( response, $anchor ) {
-		var action = self.getAction();
+		var action = self.getAction(),
+			block,
+			placeholder;
 
 		switch ( action ) {
+			case 'gutenberg':
+
+				// @todo Works, but there probably is an easier way to get the active block.
+				placeholder = $( '.wp-block.is-selected [data-block]', parent.document ).attr( 'data-block' );
+
+				parent.wp.media.frame.close();
+
+				block = parent.wp.blocks.createBlock( 'core/image', {
+					url: response.attachment_url
+				});
+
+				if( placeholder === undefined ) {
+					parentwp.data.dispatch( 'core/editor' ).insertBlock( block );
+				} else {
+					parent.wp.data.dispatch( 'core/editor' ).replaceBlock( placeholder, block );
+				}
+
+				break;
 			case 'editor':
 				parent.window.send_to_editor( response.html_for_editor );
 
