@@ -508,24 +508,32 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 	this.downloadSuccess = function( response, $anchor ) {
 		var action = self.getAction(),
 			block,
-			placeholder;
+			placeholder,
+			$selectedBlock,
+			isClassicBlock;
 
 		switch ( action ) {
 			case 'gutenberg':
-
 				// @todo Works, but there probably is an easier way to get the active block.
-				placeholder = $( '.wp-block.is-selected [data-block]', parent.document ).attr( 'data-block' );
+				$selectedBlock = $( '.wp-block.is-selected', parent.document );
 
-				parent.wp.media.frame.close();
+				placeholder = $selectedBlock.find( '[data-block]' ).attr( 'data-block' );
+				isClassicBlock = 'core/freeform' === $selectedBlock.attr( 'data-type' );
 
 				block = parent.wp.blocks.createBlock( 'core/image', {
 					url: response.attachment_url
 				});
 
-				if( placeholder === undefined ) {
-					parentwp.data.dispatch( 'core/editor' ).insertBlock( block );
+				if( isClassicBlock ) {
+					parent.window.send_to_editor( response.html_for_editor );
+					parent.wp.media.frame.close();
 				} else {
-					parent.wp.data.dispatch( 'core/editor' ).replaceBlock( placeholder, block );
+					parent.wp.media.frame.close();
+					if ( placeholder === undefined ) {
+						parent.wp.data.dispatch( 'core/editor' ).insertBlock( block );
+					} else {
+						parent.wp.data.dispatch( 'core/editor' ).replaceBlock( placeholder, block );
+					}
 				}
 
 				break;

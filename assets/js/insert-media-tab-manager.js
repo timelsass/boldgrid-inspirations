@@ -303,7 +303,10 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 			'[data-type="background"] .add-image-controls,' +
 
 			// Gutenberg.
-			'.wp-block-image button';
+			'.wp-block-image button,' +
+
+			// WordPress 5.0 - Classic editor's tiny "Add Media" icon.
+			'.block-library-classic__toolbar .dashicons-admin-media';
 	};
 
 	/**
