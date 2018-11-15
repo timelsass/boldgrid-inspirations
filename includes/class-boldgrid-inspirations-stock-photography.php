@@ -522,12 +522,18 @@ iframe#boldgrid_connect_search {
 		 * display of the BoldGrid Connect Search tab.
 		 */
 		if ( $in_page_editor || $in_customizer ) {
-			wp_enqueue_script( 'insert-media-tab-manager',
+			$handle = 'insert-media-tab-manager';
+			wp_register_script(
+				$handle,
 				plugins_url( '/assets/js/insert-media-tab-manager.js', BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ),
 				array(),
 				BOLDGRID_INSPIRATIONS_VERSION,
 				true
 			);
+			wp_localize_script( $handle, 'BoldGridInspirationsMediaTab', array(
+				'Change' => __( 'Change', 'boldgrid-inspirations' ),
+			));
+			wp_enqueue_script( $handle );
 		}
 	}
 }

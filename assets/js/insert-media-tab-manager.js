@@ -204,6 +204,8 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 	 * @since 1.6.1
 	 */
 	this.initVars = function() {
+		self.i18n = BoldGridInspirationsMediaTab;
+
 		/*
 		 * A list of jQuery selectors used throughout this class.
 		 *
@@ -223,9 +225,9 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 		 *
 		 * @since 1.1.2
 		 */
-		// The image "Change" button on WP's toolbar.
 		self.addTabTriggers =
-			'div[aria-label="Change"],' +
+			// P&PB: The image "Change" button added to the TinyMCE toolbar.
+			'div[aria-label="' + self.i18n.Change + '"],' +
 
 			/*
 			 * Add Media.
