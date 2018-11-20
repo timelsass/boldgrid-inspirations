@@ -410,8 +410,9 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 			// Based upon our action, determine the low and high range for our recommended image width.
 			switch ( action ) {
 				case 'editor':
-					low = 450;
-					high = 900;
+				case 'gutenberg':
+					low = 400;
+					high = 1100;
 					break;
 				case 'customizer':
 				case 'section-background':

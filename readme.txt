@@ -41,6 +41,7 @@ Temporary fix until a near-future update:
 * Bug fix:                       BoldGrid Connect Search / WP 5.0 fix.
 * Bug fix:                       Attribution page not being rebuilt / WP 5.0 fix.
 * Bug fix:                       BoldGrid Connect Search in the Customizer / WP 5.0 fix.
+* Bug fix:                       Recommended image sizes not working as expected.
 
 = 1.6.0 =
 * Update:                       Updated BoldGrid library to version 2.4.2.
