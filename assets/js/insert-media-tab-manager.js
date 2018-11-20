@@ -239,6 +239,7 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 			 */
 			// Add Media.
 			'#insert-media-button,' +
+			'[aria-label="' + _wpMediaViewsL10n.addMedia + '"],' + // WordPress 5.0, Classic block TinyMCE toolbar.
 
 			// Add Media > Insert Media.
 			self.selectors.insertMedia +
