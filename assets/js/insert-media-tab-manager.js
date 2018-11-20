@@ -308,6 +308,7 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 
 			// Gutenberg.
 			'.wp-block-image button,' +
+			'[aria-label="' + self.i18n.editImage + '"],' +
 
 			// WordPress 5.0 - Classic editor's tiny "Add Media" icon.
 			'.block-library-classic__toolbar .dashicons-admin-media';
@@ -321,11 +322,13 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 	 * @since 1.1.4
 	 */
 	this.refreshMediaLibrary = function() {
-		if ( null !== wp.media.frame.content.get() ) {
-			wp.media.frame.content.get().collection.props.set( { ignore: +new Date() } );
-			wp.media.frame.content.get().options.selection.reset();
+		var frame = parent.wp.media.frame;
+
+		if ( null !== frame.content.get() ) {
+			frame.content.get().collection.props.set( { ignore: +new Date() } );
+			frame.content.get().options.selection.reset();
 		} else {
-			wp.media.frame.library.props.set( { ignore: +new Date() } );
+			frame.library.props.set( { ignore: +new Date() } );
 		}
 	};
 

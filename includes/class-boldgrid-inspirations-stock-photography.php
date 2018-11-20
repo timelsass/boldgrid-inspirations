@@ -531,7 +531,8 @@ iframe#boldgrid_connect_search {
 				true
 			);
 			wp_localize_script( $handle, 'BoldGridInspirationsMediaTab', array(
-				'Change' => __( 'Change', 'boldgrid-inspirations' ),
+				'Change'    => __( 'Change', 'boldgrid-inspirations' ),
+				'editImage' => __( 'Edit image', 'boldgrid-inspirations' ),
 			));
 			wp_enqueue_script( $handle );
 		}
