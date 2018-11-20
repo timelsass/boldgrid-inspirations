@@ -266,6 +266,7 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 
 			// Background > Select image.
 			'#background_image-button,' +
+			'#customize-control-background_image .actions button,' + // WordPress 5.0.
 
 			// Background > thumbnail.
 			'.customize-control-background img.attachment-thumb,' +
