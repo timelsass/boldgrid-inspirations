@@ -93,7 +93,7 @@ class Boldgrid_Inspirations_Attribution_Asset {
 		global $wpdb;
 
 		$asset_in_page = $wpdb->get_var( $wpdb->prepare("
-			SELECT	`post_title`
+			SELECT	`ID`
 			FROM	$wpdb->posts
 			WHERE	`post_content`	LIKE %s AND
 					`post_type`		IN ('page','post') AND

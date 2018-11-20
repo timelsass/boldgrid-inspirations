@@ -55,9 +55,8 @@ class Boldgrid_Inspirations_Attribution {
 	 * Add hooks.
 	 */
 	public function add_hooks() {
-		if ( is_admin() ) {
-			add_action( 'save_post', array( $this, 'save_post' ) );
-		}
+		// Generally hooks are added when is_admin(). Posts may be saved in either scenario.
+		add_action( 'save_post', array( $this, 'save_post' ) );
 	}
 
 	/**
@@ -214,10 +213,19 @@ class Boldgrid_Inspirations_Attribution {
 	 * When saving a post, flag that the Attribution page needs to be rebuild.
 	 *
 	 * @since 1.3.1
+	 *
+	 * @param int $post_id The post ID.
 	 */
 	public function save_post( $post_id ) {
-		update_option( 'boldgrid_attribution_rebuild', true );
-		return;
+		/*
+		 * Flag attribution page as needing to be rebuilt when NOT saving a revision.
+		 *
+		 * Intention is to save resources by limiting when the attribution page is rebuilt.
+		 * Revisions may be saved very frequently, so filter that scenario out.
+		 */
+		if ( ! wp_is_post_revision( $post_id ) ) {
+			update_option( 'boldgrid_attribution_rebuild', true );
+		}
 	}
 
 	/**
