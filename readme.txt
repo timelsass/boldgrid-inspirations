@@ -2,7 +2,9 @@
 Contributors: boldgrid, imh_brad, joemoto, rramo012, timph
 Tags: inspiration, customization, build, create, design
 Requires at least: 4.4
-Tested up to: 4.9.8
+Tested up to: 5.0.0
+Requires PHP: 5.3
+Stable tag: 1.6.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -18,7 +20,6 @@ The second phase is Customization; tools to transform your website into your vis
 
 == Requirements ==
 
-* PHP 5.3 or higher.
 * PHP cURL.
 
 Temporary fix until a near-future update:
@@ -35,7 +36,10 @@ Temporary fix until a near-future update:
 
 == Changelog ==
 
-= 1.6.1 In progress =
+= 1.6.1 =
+
+Release date: Nov 20th, 2018
+
 * Update:       JIRA BGCONN-20   Removed update settings; have been moved to the BoldGrid Library packages.
 * Bug fix:      JIRA BGTHEME-558 Fixed conflict between tgmpa plugin installer and the BoldGrid custom update classes.
 * Bug fix:                       BoldGrid Connect Search / WP 5.0 fix.
