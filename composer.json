@@ -4,5 +4,13 @@
         "boldgrid/boldgrid-inspirations-premium": "^1.0.0",
         "boldgrid/plugin-installer": "^1.0.0",
         "boldgrid/bgforms": "^1.0.0"
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "bash -c \"cd vendor/boldgrid/library/; yarn install; gulp build\""
+        ],
+        "post-package-uninstall": [
+            "bash -c \"rm -rf vendor/boldgrid/library/build; yarn install; gulp build\""
+        ]
     }
 }

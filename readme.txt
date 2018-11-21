@@ -36,7 +36,11 @@ Temporary fix until a near-future update:
 
 == Changelog ==
 
-= 1.6.1 =
+= 1.6.2 In progress =
+
+* Bug fix:
+
+= 1.6.1 =       JIRA BGINSP-33   Fixed missing build for library dependencies.
 
 Release date: Nov 20th, 2018
 
