@@ -7,10 +7,7 @@
     },
     "scripts": {
         "post-autoload-dump": [
-            "bash -c \"cd vendor/boldgrid/library/; yarn install; gulp build\""
-        ],
-        "post-package-uninstall": [
-            "bash -c \"rm -rf vendor/boldgrid/library/build; yarn install; gulp build\""
+            "composer run-script post-autoload-dump -d ./vendor/boldgrid/library"
         ]
     }
 }
