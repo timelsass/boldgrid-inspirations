@@ -7,7 +7,7 @@
 **Requires at least:** 4.4
 **Tested up to:** 5.0.0
 **Requires PHP:** 5.3
-**Stable tag:** 1.6.1
+**Stable tag:** 1.6.2
 **License:** GPLv2 or later
 **License URI:** http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -39,11 +39,13 @@ Temporary fix until a near-future update:
 
 ## Changelog ##
 
-### 1.6.2 In progress ###
+### 1.6.2 ###
 
-* Bug fix:
+Release date: Nov 26th, 2018
 
-= 1.6.1 =       JIRA BGINSP-33   Fixed missing build for library dependencies.
+* Bug fix:      JIRA BGINSP-33   Fixed missing build for library dependencies; Updated production build process to use composer post-autoload-dump hook.
+
+### 1.6.1 ###
 
 Release date: Nov 20th, 2018
 
