@@ -621,6 +621,9 @@ class Boldgrid_Inspirations_Built {
 
 			$mode_data = $this->generate_scenarios();
 
+			// Required for toggling of "Coin Budget" help.
+			wp_enqueue_script( 'image-edit' );
+
 			// Underscores Templates.
 			include BOLDGRID_BASE_DIR . '/pages/templates/boldgrid-inspirations.php';
 

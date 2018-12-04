@@ -36,6 +36,12 @@ Temporary fix until a near-future update:
 
 == Changelog ==
 
+= 1.6.3 In progress =
+
+Release date: Dec 4th, 2018
+
+* Bug fix:                       Coin Budget help was not toggling when clicked.
+
 = 1.6.2 =
 
 Release date: Nov 26th, 2018
