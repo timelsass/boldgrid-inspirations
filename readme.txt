@@ -41,6 +41,7 @@ Temporary fix until a near-future update:
 Release date: Dec 5th, 2018
 
 * Bug fix:                       Unable to save "boldgrid_menu_option" on settings page.
+* Bug fix:                       Fixed updating plugin via ajax.
 
 = 1.6.3 =
 

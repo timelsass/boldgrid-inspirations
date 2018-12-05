@@ -341,12 +341,6 @@ class Boldgrid_Inspirations_Update {
 			false
 		);
 
-		$install_or_ajax = in_array(
-			$pagenow,
-			array( 'plugin-install.php', 'admin-ajax.php' ),
-			true
-		);
-
 		// Create a new object to be injected into transient.
 		if ( 'plugin-install.php' === $pagenow && isset( $_GET['plugin'] ) &&
 			 'boldgrid-inspirations' === $_GET['plugin'] ) {
@@ -418,7 +412,7 @@ class Boldgrid_Inspirations_Update {
 			$transient->slug = 'boldgrid-inspirations';
 			$transient->version = $boldgrid_api_data->result->data->version;
 			$transient->new_version = $boldgrid_api_data->result->data->version;
-		} else if ( 'update_plugins' === $action && ! $install_or_ajax ) {
+		} else if ( 'update_plugins' === $action ) {
 			$obj = new stdClass();
 			$obj->slug = 'boldgrid-inspirations';
 			$obj->plugin = 'boldgrid-inspirations/boldgrid-inspirations.php';
