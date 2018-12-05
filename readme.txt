@@ -36,6 +36,12 @@ Temporary fix until a near-future update:
 
 == Changelog ==
 
+= 1.6.4 =
+
+Release date: Dec 5th, 2018
+
+* Bug fix:                       Unable to save "boldgrid_menu_option" on settings page.
+
 = 1.6.3 =
 
 Release date: Dec 4th, 2018
