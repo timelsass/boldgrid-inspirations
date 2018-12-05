@@ -36,6 +36,12 @@ Temporary fix until a near-future update:
 
 == Changelog ==
 
+= 1.6.4 =
+
+Release date: Dec 5th, 2018
+
+* Bug fix:                       Fixed updating plugin via ajax.
+
 = 1.6.3 =
 
 Release date: Dec 4th, 2018
