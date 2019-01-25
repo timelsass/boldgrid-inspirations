@@ -190,6 +190,44 @@ class Boldgrid_Inspirations_Api {
 	}
 
 	/**
+	 * Try to get our key from certain $_POST / $_GET values.
+	 *
+	 * If that fails, try to get our key from the configs.
+	 *
+	 * This set of logic was originally contained within the boldgrid_api_call() static method, but
+	 * was separated and improved (check for 32 char length of key) as of 1.6.5.
+	 *
+	 * @since 1.6.5
+	 *
+	 * @return string Our api key hash.
+	 */
+	public static function maybe_get_key() {
+		$configs = Boldgrid_Inspirations_Config::get_format_configs();
+
+		$key_len = 32;
+
+		switch( true ) {
+			// On activation.
+			case ! empty( $_POST['api_key'] ) && $key_len === strlen( $_POST['api_key'] ):
+				$api_key_hash = self::hash_api_key( $_POST['api_key'] );
+				break;
+			// POST of the hash.
+			case ! empty( $_POST['key'] ) && $key_len === strlen( $_POST['key'] ):
+				$api_key_hash = sanitize_text_field( $_POST['key'] );
+				break;
+			// GET of the hash.
+			case ! empty( $_GET['key'] ) && $key_len === strlen( $_GET['key'] ):
+				$api_key_hash = sanitize_text_field( $_GET['key'] );
+				break;
+			// From configs.
+			default:
+				$api_key_hash = isset( $configs['api_key'] ) ? $configs['api_key'] : '';
+		}
+
+		return $api_key_hash;
+	}
+
+	/**
 	 * API key requirement check.
 	 *
 	 * If required, verify the stored API key with the asset server.
@@ -308,20 +346,7 @@ class Boldgrid_Inspirations_Api {
 		// Get the BoldGrid configuration array.
 		$configs = Boldgrid_Inspirations_Config::get_format_configs();
 
-		// Set the API key.
-		if ( isset( $_POST['api_key'] ) ) {
-			// On activation.
-			$api_key_hash = self::hash_api_key( $_POST['api_key'] );
-		} elseif ( isset( $_POST['key'] ) ) {
-			// POST of the hash.
-			$api_key_hash = sanitize_text_field( $_POST['key'] );
-		} elseif ( isset( $_GET['key'] ) ) {
-			// GET of the hash.
-			$api_key_hash = sanitize_text_field( $_GET['key'] );
-		} else {
-			// From configs.
-			$api_key_hash = ( isset( $configs['api_key'] ) ? $configs['api_key'] : null );
-		}
+		$api_key_hash = self::maybe_get_key();
 
 		// Build the GET parameters.
 		if ( ! empty( $api_key_hash ) ) {
