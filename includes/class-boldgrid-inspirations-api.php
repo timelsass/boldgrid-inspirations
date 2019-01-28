@@ -207,9 +207,8 @@ class Boldgrid_Inspirations_Api {
 		$key_len = 32;
 
 		switch( true ) {
-			// On activation.
-			case ! empty( $_POST['api_key'] ) && $key_len === strlen( $_POST['api_key'] ):
-				$api_key_hash = self::hash_api_key( $_POST['api_key'] );
+			// On activation. self::hash_api_key will validate the key.
+			case ! empty( $_POST['api_key'] ) && $api_key_hash = self::hash_api_key( $_POST['api_key'] ):
 				break;
 			// POST of the hash.
 			case ! empty( $_POST['key'] ) && $key_len === strlen( $_POST['key'] ):
