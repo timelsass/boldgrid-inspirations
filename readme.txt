@@ -36,6 +36,12 @@ Temporary fix until a near-future update:
 
 == Changelog ==
 
+= 1.6.5 =
+
+Release date: Jan 28th, 2019
+
+* Bug fix:                       Pages fail to install on Pages > Add New.
+
 = 1.6.4 =
 
 Release date: Dec 5th, 2018
