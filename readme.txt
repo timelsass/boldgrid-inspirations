@@ -4,7 +4,7 @@ Tags: inspiration, customization, build, create, design
 Requires at least: 4.4
 Tested up to: 5.0.0
 Requires PHP: 5.4
-Stable tag: 1.6.4
+Stable tag: 1.6.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -38,7 +38,7 @@ Temporary fix until a near-future update:
 
 = 1.6.5 =
 
-Release date: Jan 28th, 2019
+Release date: Jan 29th, 2019
 
 * Bug fix:                       Pages fail to install on Pages > Add New.
 
