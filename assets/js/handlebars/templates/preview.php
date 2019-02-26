@@ -1,11 +1,15 @@
 <?php
-/*
+/**
  * preview.php
  *
  * This file included by author plugin.
  *
  * @link https://github.com/BoldGrid/boldgrid-author/blob/dev/pages/preview.php#L63-L66
  */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 ?>
 <!-- TEMPLATES: text author -->
 

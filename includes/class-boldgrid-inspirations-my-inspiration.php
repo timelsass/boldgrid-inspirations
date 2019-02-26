@@ -13,6 +13,13 @@
  */
 class Boldgrid_Inspirations_My_Inspiration {
 
+	/**
+	 * The My Inspirations screen id.
+	 *
+	 * @since 1.7.0
+	 * @var string $screen_id
+	 * @access private
+	 */
 	private $screen_id = 'inspirations_page_my-inspiration';
 
 	/**
@@ -21,10 +28,14 @@ class Boldgrid_Inspirations_My_Inspiration {
 	 * This method is called via the Boldgrid_Inspirations_Inspiration::add_hooks method, specifically
 	 * within the is_admin conditional.
 	 *
-	 * @since x.x.x
+	 * @since 1.7.0
 	 */
 	public function add_admin_hooks() {
-		// Reset meta box order.
+		/*
+		 * Reset meta box order.
+		 *
+		 * For developers only. If you drag metaboxes around / etc and need to reset things, do this.
+		 */
 		// delete_user_meta( get_current_user_id(), 'meta-box-order_' . $this->screen_id );
 
 		add_action( 'admin_menu', array( $this, 'admin_menu', ) );
@@ -37,27 +48,30 @@ class Boldgrid_Inspirations_My_Inspiration {
 	}
 
 	/**
+	 * Add our meta boxes.
 	 *
+	 * @since 1.7.0
 	 */
 	public function add_meta_boxes() {
-		add_action('add_meta_boxes_'.$this->screen_id, function() {
+		add_action( 'add_meta_boxes_' . $this->screen_id, function() {
 			$theme = wp_get_theme();
 
 			$installed = new Boldgrid_Inspirations_Installed();
 
+			// Help button, which includes applicable js to handle toggling the help.
 			$on_click = ' <span class="dashicons dashicons-editor-help" onclick="event.stopPropagation(); imageEdit.toggleHelp(this); return false;"></span>';
 
 			add_meta_box(
 				'current_inspiration',
-				esc_html__('Current Inspiration','plugin_domain'),
-				array( $this, 'box_current_screen' ),
+				esc_html__( 'Current Inspiration', 'boldgrid-inspirations' ),
+				array( $this, 'box_current_inspiration' ),
 				$this->screen_id,
 				'container1'
 			);
 
 			add_meta_box(
 				'pages_content',
-				__('Pages Content','plugin_domain') . $on_click,
+				esc_html__( 'Pages Content', 'boldgrid-inspirations' ) . $on_click,
 				array( $this, 'box_pages' ),
 				$this->screen_id,
 				'container2'
@@ -65,7 +79,7 @@ class Boldgrid_Inspirations_My_Inspiration {
 
 			add_meta_box(
 				'customization',
-				__('Customize Theme','plugin_domain') . $on_click,
+				esc_html__( 'Customize Theme', 'boldgrid-inspirations' ) . $on_click,
 				array( $this, 'box_customization' ),
 				$this->screen_id,
 				'container3'
@@ -75,26 +89,26 @@ class Boldgrid_Inspirations_My_Inspiration {
 				'theme',
 				esc_html__( 'Current theme:', 'boldgrid-inspirations' ) . ' ' . esc_html__( $theme->get( 'Name' ) ),
 				array( $this, 'box_theme' ),
-				$this->screen_id, // Screen to which to add the meta box
-				'container4' // Context
+				$this->screen_id,
+				'container4'
 			);
 
 			if ( $installed->has_installed_posts() ) {
 				add_meta_box(
-					'additional_features', //Meta box ID
+					'additional_features',
 					esc_html__( 'Additional Features', 'boldgrid-inspirations' ),
 					array( $this, 'box_features' ),
-					$this->screen_id, // Screen to which to add the meta box
-					'container4' // Context
+					$this->screen_id,
+					'container4'
 				);
 			}
 
 			add_meta_box(
-				'support', //Meta box ID
+				'support',
 				esc_html__( 'Support & Learning', 'boldgrid-inspirations' ),
 				array( $this, 'box_support' ),
-				$this->screen_id, // Screen to which to add the meta box
-				'container5' // Context
+				$this->screen_id,
+				'container5'
 			);
 
 			// Add .imgedit-group-top class to applicable meta boxes so that the help icons work.
@@ -114,24 +128,25 @@ class Boldgrid_Inspirations_My_Inspiration {
 	}
 
 	/**
+	 * Add screen meta boxes.
 	 *
+	 * @since 1.7.0
 	 */
 	public function add_screen_meta_boxes() {
 		$this->add_meta_boxes();
 
-		/* Trigger the add_meta_boxes hooks to allow meta boxes to be added */
-		do_action('add_meta_boxes_'. $this->screen_id, null);
-		do_action('add_meta_boxes', $this->screen_id, null);
+		do_action( 'add_meta_boxes_'. $this->screen_id, null );
+		do_action( 'add_meta_boxes', $this->screen_id, null );
 
-		/* Enqueue WordPress' script for handling the meta boxes */
-		wp_enqueue_script('postbox');
-
-		/* Add screen option: user can choose between 1 or 2 columns (default 2) */
-		// add_screen_option('layout_columns', array( 'max' => 4, 'default' => 4) );
+		wp_enqueue_script( 'postbox' );
 	}
 
 	/**
+	 * Enqueue scripts.
 	 *
+	 * @since 1.7.0
+	 *
+	 * @param string $hook Current hook.
 	 */
 	public function admin_enqueue_scripts( $hook ) {
 		if ( $hook !== $this->screen_id ) {
@@ -159,7 +174,7 @@ class Boldgrid_Inspirations_My_Inspiration {
 	/**
 	 * Add our menu item.
 	 *
-	 * @since x.x.x
+	 * @since 1.7.0
 	 */
 	public function admin_menu() {
 		add_submenu_page(
@@ -173,17 +188,21 @@ class Boldgrid_Inspirations_My_Inspiration {
 	}
 
 	/**
+	 * Render meta box for, "Current Inspiration".
 	 *
+	 * @since 1.7.0
 	 */
-	public function box_current_screen() { ?>
+	public function box_current_inspiration() { ?>
 		<p>
-			<a href="<?php echo esc_url( get_site_url() ); ?>" class="button button-primary dashicons-before dashicons-admin-home"><?php echo esc_html__( 'View Site', 'boldgrid-inspirations' ); ?></a>
-			<a href="<?php echo esc_url( admin_url( 'admin.php?page=boldgrid-inspirations' ) ); ?>" class="button button-primary dashicons-before dashicons-lightbulb"><?php echo esc_html__( 'Start Over with New Inspiration', 'boldgrid-inspirations' ); ?></a>
+			<a href="<?php echo esc_url( get_site_url() ); ?>" class="button button-primary dashicons-before dashicons-admin-home"><?php esc_html_e( 'View Site', 'boldgrid-inspirations' ); ?></a>
+			<a href="<?php echo esc_url( admin_url( 'admin.php?page=boldgrid-inspirations' ) ); ?>" class="button button-primary dashicons-before dashicons-lightbulb"><?php esc_html_e( 'Start Over with New Inspiration', 'boldgrid-inspirations' ); ?></a>
 		</p>
 	<?php }
 
 	/**
+	 * Render meta box for, "Customization".
 	 *
+	 * @since 1.7.0
 	 */
 	public function box_customization() {
 	// Link to Customizer.
@@ -204,29 +223,33 @@ class Boldgrid_Inspirations_My_Inspiration {
 
 	<ul>
 		<li>
-			<a href="<?php echo esc_url( $colors_url ); ?>" class="dashicons-before dashicons-art"><?php echo esc_html__( 'Colors', 'boldgrid-inspirations' ); ?></a>
+			<a href="<?php echo esc_url( $colors_url ); ?>" class="dashicons-before dashicons-art"><?php esc_html_e( 'Colors', 'boldgrid-inspirations' ); ?></a>
 		</li>
 		<li>
-			<a href="<?php echo esc_url( $logo_url ); ?>" class="dashicons-before dashicons-id-alt"><?php echo esc_html__( 'Logo', 'boldgrid-inspirations' ); ?></a>
+			<a href="<?php echo esc_url( $logo_url ); ?>" class="dashicons-before dashicons-id-alt"><?php esc_html_e( 'Logo', 'boldgrid-inspirations' ); ?></a>
 		</li>
 		<li>
-			<a href="<?php echo esc_url( $contact_url ); ?>" class="dashicons-before dashicons-phone"><?php echo esc_html__( 'Contact Info', 'boldgrid-inspirations' ); ?></a>
+			<a href="<?php echo esc_url( $contact_url ); ?>" class="dashicons-before dashicons-phone"><?php esc_html_e( 'Contact Info', 'boldgrid-inspirations' ); ?></a>
 		</li>
 	</ul>
-	<a href="<?php echo esc_url( $customizer_url ); ?>" class="button button-primary dashicons-before dashicons-admin-customize"><?php echo esc_html__( 'Go to Customizer', 'boldgrid-inspirations' ); ?></a>
+	<a href="<?php echo esc_url( $customizer_url ); ?>" class="button button-primary dashicons-before dashicons-admin-customize"><?php esc_html_e( 'Go to Customizer', 'boldgrid-inspirations' ); ?></a>
 	<?php }
 
 	/**
+	 * Render meta box for, "Features".
 	 *
+	 * @since 1.7.0
 	 */
 	public function box_features() { ?>
 		<ul>
-			<li><?php echo esc_html__( 'Blog', 'boldgrid-inspirations' ); ?> <a class="dashicons-before dashicons-admin-post small" href="<?php echo esc_url( admin_url( 'edit.php' ) ); ?>"><?php echo esc_html__( 'Go to Posts', 'boldgrid-inspirations' ); ?></a>
+			<li><?php esc_html_e( 'Blog', 'boldgrid-inspirations' ); ?> <a class="dashicons-before dashicons-admin-post small" href="<?php echo esc_url( admin_url( 'edit.php' ) ); ?>"><?php esc_html_e( 'Go to Posts', 'boldgrid-inspirations' ); ?></a>
 		</ul>
 	<?php }
 
 	/**
+	 * Render meta box for, "Pages".
 	 *
+	 * @since 1.7.0
 	 */
 	public function box_pages() {
 		$installed = new Boldgrid_Inspirations_Installed();
@@ -244,8 +267,8 @@ class Boldgrid_Inspirations_My_Inspiration {
 			<li>' .
 				esc_html__( $page->post_title ) . ' (<em>' . $page->post_type . '</em>)
 				<span style="float:right;">
-					<a href="" class="dashicons-before dashicons-edit" title="' . esc_attr__( 'Edit', 'boldgrid-inspirations' ) . '"></a>
-					<a href="" class="dashicons-before dashicons-external" title="' . esc_attr( 'View', 'boldgrid-inspirations' ) . '"></a>
+					<a href="' . get_edit_post_link( $page->ID ) . '" class="dashicons-before dashicons-edit" title="' . esc_attr__( 'Edit', 'boldgrid-inspirations' ) . '"></a>
+					<a href="' . get_page_link( $page ) . '" class="dashicons-before dashicons-external" title="' . esc_attr( 'View', 'boldgrid-inspirations' ) . '" target="_blank"></a>
 				</span>
 				<div style="clear:both;"></div>
 			</li>';
@@ -257,41 +280,43 @@ class Boldgrid_Inspirations_My_Inspiration {
 			<a href="<?php echo admin_url( 'post-new.php?post_type=page' ); ?>" class="dashicons-before dashicons-welcome-add-page"><?php esc_html_e( 'Add New Page', 'boldgrid-inspirations' ); ?></a>
 		</p>
 
-		<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=page' ) ); ?>" class="button button-primary dashicons-before dashicons-admin-page"><?php echo esc_html__( 'Go to Page Editor', 'boldgrid-inspirations' ); ?></a>
+		<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=page' ) ); ?>" class="button button-primary dashicons-before dashicons-admin-page"><?php esc_html_e( 'Go to Page Editor', 'boldgrid-inspirations' ); ?></a>
 	<?php }
 
 	/**
+	 * Render meta box for, "Support".
 	 *
+	 * @since 1.7.0
 	 */
 	public function box_support() {
 		$reseller = new \Boldgrid\Library\Library\Menu\Reseller();
 	?>
 		<p>
-			<a href="https://www.boldgrid.com/support/inspirations-plugin/" class="dashicons-before dashicons-external"><?php echo esc_html__( 'View Support Docs', 'boldgrid-inspirations' ); ?></a>
+			<a href="https://www.boldgrid.com/support/inspirations-plugin/" class="dashicons-before dashicons-external"><?php esc_html_e( 'View Support Docs', 'boldgrid-inspirations' ); ?></a>
 		</p>
 
-		<h3><?php echo esc_html__( 'New to Wordpress? Ways to get Support:', 'boldgrid-inspirations' ); ?></h3>
+		<h3><?php esc_html_e( 'New to Wordpress? Ways to get Support:', 'boldgrid-inspirations' ); ?></h3>
 
 		<ul class="support-boxes">
 
 			<li>
-				<?php echo esc_html__( 'Find guides and tutorials on BoldGrid.com.', 'boldgrid-inspirations' ); ?>
+				<?php esc_html_e( 'Find guides and tutorials on BoldGrid.com.', 'boldgrid-inspirations' ); ?>
 				<p>
-					<a href="https://www.boldgrid.com/support/" class="button button-primary dashicons-before dashicons-sos"><?php echo esc_html__( 'View Tutorials', 'boldgrid-inspirations' ); ?></a>
+					<a href="https://www.boldgrid.com/support/" class="button button-primary dashicons-before dashicons-sos"><?php esc_html_e( 'View Tutorials', 'boldgrid-inspirations' ); ?></a>
 				</p>
 			</li>
 
 			<li>
-				<?php echo esc_html__( 'Need one-one support?', 'boldgrid-inspirations' ); ?>
+				<?php esc_html_e( 'Need one-one support?', 'boldgrid-inspirations' ); ?>
 				<p>
-					<a href="<?php echo esc_url( $reseller->getAttribute( 'reseller_amp_url' ) ); ?>" class="button button-primary dashicons-before dashicons-admin-users"><?php echo esc_html__( 'Login Now', 'boldgrid-inspirations' ); ?></a>
+					<a href="<?php echo esc_url( $reseller->getAttribute( 'reseller_amp_url' ) ); ?>" class="button button-primary dashicons-before dashicons-admin-users"><?php esc_html_e( 'Login Now', 'boldgrid-inspirations' ); ?></a>
 				</p>
 			</li>
 
 			<li>
-				<?php echo esc_html__( 'Get support from your fellow users.', 'boldgrid-inspirations' ); ?>
+				<?php esc_html_e( 'Get support from your fellow users.', 'boldgrid-inspirations' ); ?>
 				<p>
-					<a href="https://www.facebook.com/groups/BGTeamOrange" class="button button-primary dashicons-before dashicons-format-chat"><?php echo esc_html__( 'User Groups', 'boldgrid-inspirations' ); ?></a>
+					<a href="https://www.facebook.com/groups/BGTeamOrange" class="button button-primary dashicons-before dashicons-format-chat"><?php esc_html_e( 'User Groups', 'boldgrid-inspirations' ); ?></a>
 				</p>
 			</li>
 
@@ -299,7 +324,9 @@ class Boldgrid_Inspirations_My_Inspiration {
 	<?php }
 
 	/**
+	 * Render meta box for, "Theme".
 	 *
+	 * @since 1.7.0
 	 */
 	public function box_theme() {
 		$theme = wp_get_theme(); ?>
@@ -307,29 +334,30 @@ class Boldgrid_Inspirations_My_Inspiration {
 		<p><img src="<?php echo esc_url( $theme->get_screenshot() ); ?>" style="max-width:100%; border:1px solid #ddd;" /></p>
 
 		<p style="text-align:center;">
-			<a href="<?php echo esc_url( admin_url( 'themes.php' ) ); ?>" class="button button-primary dashicons-before dashicons-admin-appearance"><?php echo esc_html__( 'Choose New Theme' , 'boldgrid-inspirations' ); ?></a>
+			<a href="<?php echo esc_url( admin_url( 'themes.php' ) ); ?>" class="button button-primary dashicons-before dashicons-admin-appearance"><?php esc_html_e( 'Choose New Theme' , 'boldgrid-inspirations' ); ?></a>
 		</p>
 	<?php }
 
 	/**
 	 * Render the "My Inspiration" page.
 	 *
-	 * @since x.x.x
+	 * @since 1.7.0
 	 */
 	public function page() {
 		include BOLDGRID_BASE_DIR . '/pages/my-inspiration.php';
 	}
 
 	/**
+	 * Render required js for meta boxes.
 	 *
+	 * @since 1.7.0
 	 */
 	public function page_footer() {
 		?>
 		<script type="text/javascript">
 		//<![CDATA[
-		jQuery(document).ready( function($) {
-			// toggle
-			$('.if-js-closed').removeClass('if-js-closed').addClass('closed');
+		jQuery( document ).ready( function( $ ) {
+			$( '.if-js-closed' ).removeClass( 'if-js-closed' ).addClass( 'closed' );
 			postboxes.add_postbox_toggles( pagenow );
 		});
 		//]]>

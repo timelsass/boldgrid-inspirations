@@ -8,6 +8,10 @@
  * @param array $mode_data
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 // Configure variables.
 $lang = array(
 	'AddFunctionality' => __( 'Add Functionality', 'boldgrid-inspirations' ),
@@ -30,8 +34,6 @@ $lang = array(
 <div class="wrap main">
 
 	<?php require_once BOLDGRID_BASE_DIR . '/pages/includes/boldgrid-inspirations/menu.php'; ?>
-
-	<!-- <div id="test-spacing-div"></div> -->
 
 	<form method="post" class="inspir-under-menu' name="post_deploy" id="post_deploy" action="admin.php?page=boldgrid-inspirations">
 

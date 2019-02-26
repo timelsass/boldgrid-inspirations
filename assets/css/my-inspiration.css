@@ -1,6 +1,5 @@
 /**
  * #.# Main layout.
- *
  */
  
 #post-body {
@@ -42,9 +41,11 @@
 	}
 }
 
+
 /**
  * #.# Support boxes.
  *
+ * These are the support links at the bottom of the page.
  */
 
 .support-boxes li {

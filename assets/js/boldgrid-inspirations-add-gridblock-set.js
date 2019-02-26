@@ -23,9 +23,9 @@ IMHWPB.AddGridBlockSet = function( $ ) {
 
 	// An object of strings used within this class.
 	self.strings = {
-		homepage_iframe:         '<iframe id="homepage" src="' + IMHWPB.homepage_url + '"></iframe>',
+		homepage_iframe: '<iframe id="homepage" src="' + IMHWPB.homepage_url + '"></iframe>',
 		homepage_iframe_loading: '<div style="position:fixed; top:45%; left:45%;">' + self.lang.loadingPreview + '</div>',
-		select_message:          '<p>' + self.lang.selectASet + '</p>'
+		select_message: '<p>' + self.lang.selectASet + '</p>'
 	};
 
 	jQuery( function() {

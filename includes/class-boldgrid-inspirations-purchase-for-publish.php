@@ -877,7 +877,11 @@ class Boldgrid_Inspirations_Purchase_For_Publish extends Boldgrid_Inspirations {
 	}
 
 	/**
+	 * Get our language strings.
 	 *
+	 * @since 1.7.0
+	 *
+	 * @return array
 	 */
 	private function get_language() {
 		return array(

@@ -2,6 +2,9 @@
 /**
  * Top menu.
  *
+ * This file renders the top menu in the Inspirations process.
+ *
+ * @since 1.7.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -51,8 +54,6 @@ $steps = array(
 	</button>
 
 	<div>
-
-
 		<?php
 		$last_class = '';
 
@@ -61,24 +62,17 @@ $steps = array(
 			$class .= 'active' === $step['class'] ? ' boldgrid-orange-important' : '';
 			$class .= 'active' === $last_class ? ' next' : '';
 
-			echo '<a
-					style="position: relative;"
-					class="' . esc_attr( $class ) . '"
-					data-step="' . esc_attr( $step['data-step'] ) . '" ' .
-					( ! empty( $step['disabled'] ) ? 'data-disabled' : '' ) . '>' .
-					esc_html( $step['title'] ) . '</a>';
+			$attributes = array(
+				'style="postion:relative;"',
+				'class="' . esc_attr( $class ) . '"',
+				'data-step="' . esc_attr( $step['data-step'] ) . '"',
+				! empty( $step['disabled'] ) ? 'data-disabled' : '',
+			);
 
-					$last_class = $step['class'];
+			echo '<a ' . implode( ' ', $attributes ) . '>' . esc_html( $step['title'] ) . '</a>';
+
+			$last_class = $step['class'];
 		}
-
-		/*
-		<a class="active" data-step="welcome" ><?php echo $lang['Welcome'] ?></a>
-		<a class="disabled" data-step="design" ><?php echo $lang['Design'] ?></a>
-		<a class="disabled" data-step="content" data-disabled ><?php echo $lang['Content']; ?></a>
-		<a class="disabled" data-step="contact" data-disabled ><?php echo esc_html__( 'Essentials', 'boldgrid-inspirations' ); ?></a>
-		<a class="disabled" data-step="install" data-disabled ><?php echo esc_html__( 'Finish', 'boldgrid-inspirations'); ?></a>
-		*/
-
 		?>
 	</div>
 </div>

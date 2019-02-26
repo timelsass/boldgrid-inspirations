@@ -1206,7 +1206,7 @@ class Boldgrid_Inspirations_Deploy {
 		 * Only get_posts if we have an array of installed_page_ids.
 		 *
 		 * Otherwise, we'll end up getting all pages. This would be bad because if there were 100+
-		 * pages already existing, we would end of scanning each page, looking at the image tags,
+		 * pages already existing, we would end up scanning each page, looking at the image tags,
 		 * and trying to download those images (which would cause lots of errors).
 		 */
 		if ( ! empty( $this->installed_page_ids ) ) {
@@ -1501,12 +1501,6 @@ class Boldgrid_Inspirations_Deploy {
 					) );
 			}
 
-			// @todo This feature not implemented. $to_do_list system may be able to be removed.
-			if ( $page_v->checklist_html ) {
-				$to_do_list[] = $page_v->checklist_html . ' <a href="post.php?post=' . $post_id .
-					 '&action=edit">Click here.</a>';
-			}
-
 			// set homepage
 			if ( $page_v->homepage_theme_id ) {
 				update_option( 'show_on_front', 'page' );
@@ -1560,9 +1554,6 @@ class Boldgrid_Inspirations_Deploy {
 		update_option( 'boldgrid_installed_page_ids', $this->installed_page_ids );
 		update_option( 'boldgrid_installed_pages_metadata', $boldgrid_installed_pages_metadata );
 
-		if ( isset( $to_do_list ) ) {
-			update_option( 'boldgrid_todo', json_encode( $to_do_list ) );
-		}
 		// delete the "Sample Page"
 		// @thanks
 		// https://wordpress.org/support/topic/remove-default-pages-created-on-all-multisites
@@ -2049,8 +2040,6 @@ class Boldgrid_Inspirations_Deploy {
 					'add_meta_data' => ( isset(
 						$this->image_placeholders_needing_images['by_page_id'][$image_data['post_id']][$image_data['images_array_key']]['gallery_image_position'] ) )
 				) );
-
-			echo '<img src="' . esc_url( wp_get_attachment_thumb_url( $attachment_data['attachment_id'] ) ) . '" />';
 
 			$attachment_url = $attachment_data['uploaded_url'];
 
@@ -2649,24 +2638,11 @@ class Boldgrid_Inspirations_Deploy {
 			echo '[RETURN_ARRAY]' . json_encode( $this->deploy_results ) . '[RETURN_ARRAY]';
 		}
 
-// 		/**
-// 		 * ********************************************************************
-// 		 * Display the "stop and explain page
-// 		 * ********************************************************************
-// 		 */
-// 		include BOLDGRID_BASE_DIR . '/pages/deploy_stop_and_explain.php';
-
 		// Reach out and hit the front end of the site to make sure all after theme switch hooks are fired.
 		Boldgrid_Inspirations_Utility::inline_js_file( 'deploy_stop_and_explain.js' );
 
-		Boldgrid_Inspirations_Utility::inline_js_oneliner( 'console.log(' . 'window.location.href = "' . admin_url( 'admin.php?page=my-inspiration&new_inspiration=1' ) . '"' . ');' );
-
 		// Redirect the user to "My Inspiration".
 		Boldgrid_Inspirations_Utility::inline_js_oneliner( 'window.location.href = "' . admin_url( 'admin.php?page=my-inspiration&new_inspiration=1' ) . '";' );
-
-// 		// After deployment, we'll want to update the coin cost in the top right of the page.
-// 		Boldgrid_Inspirations_Utility::inline_js_oneliner(
-// 			'boldgrid_deploy_cost = ' . $this->current_build_cost . ';' );
 	}
 
 	/**
@@ -3494,7 +3470,7 @@ class Boldgrid_Inspirations_Deploy {
 		$boldgrid_configs = $this->get_configs();
 
 		// Set the PHP max_execution_time to 120 seconds (2 minutes):
-		@ini_set( 'max_execution_time', 180 );
+		@ini_set( 'max_execution_time', 120 );
 
 		// Start XHProf.
 		if ( ! empty( $boldgrid_configs['xhprof'] ) && extension_loaded( 'xhprof' ) ) {

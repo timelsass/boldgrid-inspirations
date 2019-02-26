@@ -50,10 +50,12 @@
 	visibility: visible;
 }
 
+
 /* *****************************************************************
 Resize youtube vidoes
 @thanks http://stackoverflow.com/questions/7737557/how-can-i-make-the-youtube-player-scale-to-the-width-of-the-page-but-also-keep-t
 ***************************************************************** */
+
 .auto-resizable-iframe {
 	max-width: 420px;
 	margin: 0px auto;
@@ -73,12 +75,14 @@ Resize youtube vidoes
 	height: 100%;
 }
 
+
 /* *****************************************************************
 Pointers
 ***************************************************************** */
 .wp-pointer {
 	z-index: 1000000 !important;
 }
+
 
 /* *****************************************************************
 Inspiration
@@ -149,9 +153,11 @@ Inspiration
 	font-weight: 300;
 }
 
+
 /* *****************************************************************
 plugin-card
 ***************************************************************** */
+
 .row .plugin-card {
 	margin: 0px;
 	padding: 0px;
@@ -176,9 +182,11 @@ plugin-card
 	border-top: 1px solid #dfdfdf;
 }
 
+
 /* *****************************************************************
 Misc
 ***************************************************************** */
+
 .inactive-link {
 	pointer-events: none;
 	cursor: default;
@@ -266,6 +274,7 @@ a[disabled="disabled"] {
 /* *****************************************************************
 Coins
 ***************************************************************** */
+
 .coin-bg-s {
 	background: url("../images/bg-coin-toolbar-graphic.png") no-repeat left
 		top;
@@ -273,9 +282,11 @@ Coins
 	min-height: 21px;
 }
 
+
 /* *****************************************************************
 Inline dashicons
 ***************************************************************** */
+
 .dashicons-inline {
 	display: inline;
 }
@@ -284,9 +295,10 @@ Inline dashicons
 	padding: 0px 3px;
 }
 
+
 /**
-* Spinners.
-*/
+ * #.# Spinners.
+ */
 
 /* Create an inline spinner floated next to a button. */
 .spinner.inline.left-of-button {
@@ -301,6 +313,7 @@ Inline dashicons
 	margin-right: 5px;
 }
 
+
 /* *****************************************************************
 BoldGrid Connect Search
 ***************************************************************** */
@@ -313,9 +326,11 @@ BoldGrid Connect Search
 	height: 100%;
 }
 
+/* Allow a font to be a little smaller than its surrounding fonts. */
 .small {
 	font-size: 0.8em;
 }
+
 
 /*
  * #.# Dashicons.
@@ -334,7 +349,8 @@ a:not(.button).dashicons-before:before {
 	vertical-align: sub;
 }
 
-/*
+
+/**
  * #.# BoldGrid Plugin Card My Inspirations
  *
  * Handle the display / usage of boldgrid plugin cards as used on the "My Inspiration" page.
@@ -393,9 +409,13 @@ a:not(.button).dashicons-before:before {
     padding-bottom: 2px;
 }
 
-/* BoldGrid Inspirations logo. The element should contain the text "BoldGrid Inspirations" and the
- * logo will appear to the left.
- */   
+
+/**
+ * #.# BoldGrid Inspirations logo.
+ *
+ * The element should contain the text "BoldGrid Inspirations" and the logo will appear to the left.
+ */
+
 .wrap h1.bginsp-logo {
 	font-family: 'Josefin Sans';
     font-weight: 300;

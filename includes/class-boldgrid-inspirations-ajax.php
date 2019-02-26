@@ -13,7 +13,9 @@
  */
 class Boldgrid_Inspirations_Ajax {
 	/**
+	 * Enqueue.
 	 *
+	 * @since 1.7.0
 	 */
 	public static function enqueue() {
 		$handle = 'inspiration-ajax';

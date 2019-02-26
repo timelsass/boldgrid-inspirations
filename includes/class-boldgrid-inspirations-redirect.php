@@ -12,9 +12,10 @@
  * The BoldGrid Inspiration Redirect class.
  *
  * This class is responsible for redirecting the user to the Inspirations process.
+ *
+ * @since 1.7.0
  */
 class Boldgrid_Inspirations_Redirect {
-
 	/**
 	 * The minimum Inspirations version required in order to auto redirect the user to the Inspirations
 	 * process.
@@ -26,7 +27,11 @@ class Boldgrid_Inspirations_Redirect {
 	private $minimum_version = '1.7.0';
 
 	/**
+	 * The option name which stores redirect info.
 	 *
+	 * @since 1.7.0
+	 * @var string
+	 * @access private
 	 */
 	private $option_name = 'boldgrid_inspirations_redirect';
 
@@ -36,21 +41,27 @@ class Boldgrid_Inspirations_Redirect {
 	 * This method is called via the Boldgrid_Inspirations_Inspiration::add_hooks method, specifically
 	 * within the is_admin conditional.
 	 *
-	 * @since x.x.x
+	 * @since 1.7.0
 	 */
 	public function add_admin_hooks() {
 		add_action( 'current_screen', array( $this, 'redirect' ) );
 	}
 
 	/**
+	 * Get our option.
 	 *
+	 * @since 1.7.0
+	 *
+	 * @return mixed False if no option set, otherwise the time we redirected the user.
 	 */
 	private function get_option() {
 		return get_option( $this->option_name );
 	}
 
 	/**
+	 * Determine whether or not we need to redirect.
 	 *
+	 * @since 1.7.0
 	 */
 	private function maybe_redirect() {
 		// DEBUG, REMOVE THE BELOW LINE.
@@ -87,7 +98,9 @@ class Boldgrid_Inspirations_Redirect {
 	}
 
 	/**
+	 * Redirect to Inspirations.
 	 *
+	 * @since 1.7.0
 	 */
 	public function redirect() {
 		if ( $this->maybe_redirect() ) {
@@ -99,10 +112,12 @@ class Boldgrid_Inspirations_Redirect {
 	}
 
 	/**
+	 * Set our option value.
 	 *
+	 * @since 1.7.0
 	 */
 	public function set_option() {
-		// Flag that we are redirecting the user.
+		// Flag that we are redirecting the user to Inspirations.
 		update_option( $this->option_name, time() );
 	}
 }

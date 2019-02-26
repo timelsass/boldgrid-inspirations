@@ -1,16 +1,14 @@
 <?php
+/**
+ * deploy.php
+ *
+ * This file renders the actual deploy page.
+ */
+
 // Prevent direct calls.
 require BOLDGRID_BASE_DIR . '/pages/templates/restrict-direct-access.php';
-
-// Boldgrid_Inspirations_Utility::inline_js_oneliner( 'jQuery( "body" ).addClass( "bginsp-full-screen" );' );
-
 ?>
 
-<!--
-*******************************************************************************
-Inline style
-*******************************************************************************
- -->
 <style>
 ul#deploy_log {
 	list-style-position: inside;
@@ -24,10 +22,6 @@ ul#deploy_log {
 .wrap:not(.main) {
  	display: none;
 }
-
-/* div#wpbody-content div#deploy_status.wrap { */
-/* 	display: block; */
-/* } */
 
 #deploy_status .spinner {
 	visibility: visible;
@@ -51,20 +45,12 @@ h1 .dashicons.dashicons-yes {
 }
 </style>
 
-<!--
-*******************************************************************************
-Deployment container
-*******************************************************************************
- -->
-
 <div class="wrap main">
 
 	<?php
 	$active_menu_item = 'install';
 	require_once BOLDGRID_BASE_DIR . '/pages/includes/boldgrid-inspirations/menu.php';
 	?>
-
-	<!-- <div id="test-spacing-div"></div> -->
 
 	<div name='deploy_status' id='deploy_status' class='screen-contained'>
 
@@ -74,7 +60,6 @@ Deployment container
 
 		<div class="boldgrid-plugin-card">
 			<div class="top">
-				<!-- <div class='boldgrid-loading'></div> -->
 
 				<h2 style="text-align:center;"><?php echo esc_html__( 'Premium Key Bonus', 'boldgrid-inspirations' ); ?></h2>
 				<p style="text-align:center;max-width:75%;margin-left:auto;margin-right:auto;">

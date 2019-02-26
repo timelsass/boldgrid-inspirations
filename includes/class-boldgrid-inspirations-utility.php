@@ -142,7 +142,12 @@ class Boldgrid_Inspirations_Utility {
 	}
 
 	/**
+	 * Get the url to an image within the assets/images/ folder.
 	 *
+	 * @since 1.7.0
+	 *
+	 * @param  string $path The path to the image, as in assets/images/PATH
+	 * @return string
 	 */
 	public static function get_image_url( $path ) {
 		return esc_url( plugins_url() . '/' . basename( BOLDGRID_BASE_DIR ) . '/assets/images/' . $path );

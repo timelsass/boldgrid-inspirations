@@ -63,7 +63,7 @@ class Boldgrid_Inspirations_Built {
 	 * Add actions/hooks
 	 */
 	public function add_hooks() {
-		add_action( 'admin_menu', array( $this, 'admin_menu', ) );
+		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
 
 		if ( self::is_inspirations() ) {
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts', ) );
@@ -237,14 +237,24 @@ class Boldgrid_Inspirations_Built {
 	}
 
 	/**
+	 * Whether or not we are currently deploying.
 	 *
+	 * @since 1.7.0
+	 *
+	 * @return bool
 	 */
 	public function is_deploy() {
 		return self::is_inspirations() && isset( $_POST['task'] ) && 'deploy' == $_POST['task'];
 	}
 
 	/**
+	 * Whether or not we are on the Inspirations page.
 	 *
+	 * @since 1.7.0
+	 *
+	 * @global string $pagenow The current admin page.
+	 *
+	 * @return bool
 	 */
 	public static function is_inspirations() {
 		global $pagenow;
@@ -255,7 +265,7 @@ class Boldgrid_Inspirations_Built {
 	/**
 	 * Our active site was installed by BoldGrid.
 	 *
-	 * @since x.x.x
+	 * @return bool
 	 */
 	public function has_active_bg_site( $install_options ) {
 		$installed_pages = get_option( 'boldgrid_installed_page_ids', array() );
@@ -502,15 +512,14 @@ class Boldgrid_Inspirations_Built {
 	}
 
 	/**
+	 * Enqueue css for the Inspirations process.
 	 *
+	 * @since 1.7.0
 	 */
 	public function enqueue_inspirations_css() {
 		wp_register_style(
 			'boldgrid-inspirations-css',
-			plugins_url(
-				'/assets/css/boldgrid-inspirations.css',
-				BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php'
-			),
+			plugins_url( '/assets/css/boldgrid-inspirations.css', BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ),
 			array(),
 			BOLDGRID_INSPIRATIONS_VERSION
 		);
@@ -519,7 +528,9 @@ class Boldgrid_Inspirations_Built {
 	}
 
 	/**
+	 * Enqueue js for the Inspirations process.
 	 *
+	 * @since 1.7.0
 	 */
 	public function enqueue_inspirations_js( $in_footer = true ) {
 		$handle = 'boldgrid-inspirations';
@@ -627,10 +638,6 @@ class Boldgrid_Inspirations_Built {
 	public function inspiration_page() {
 		global $user_email;
 
-		// If we are prompting the user for an API key, then show only that prompt.
-		// if ( class_exists( '\Boldgrid\Library\Library\Notice\KeyPrompt', false ) ) {
-		//	return;
-		// }
 		$prompting_for_key = class_exists( '\Boldgrid\Library\Library\Notice\KeyPrompt', false );
 
 		$boldgrid_configs = Boldgrid_Inspirations_Config::get_format_configs();
@@ -654,8 +661,6 @@ class Boldgrid_Inspirations_Built {
 			$theme_channel = Boldgrid_Inspirations_Theme_Install::fetch_theme_channel();
 
 			$mode_data = $this->generate_scenarios();
-
-			// echo '<pre>$mode_data = ' . print_r( $mode_data,1) . '</pre>';
 
 			// Required for toggling of "Coin Budget" help.
 			wp_enqueue_script( 'image-edit' );

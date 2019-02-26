@@ -133,14 +133,22 @@ IMHWPB.Ajax = function( configs ) {
 	};
 
 	/**
+	 * Set the api key.
 	 *
+	 * @since 1.7.0
+	 *
+	 * @param string apiKey The api key to set.
 	 */
 	this.setApiKey = function( apiKey ) {
 		self.api_key = apiKey;
 	}
 
 	/**
+	 * Set the site hash.
 	 *
+	 * @since 1.7.0
+	 *
+	 * @param string siteHash the site hash to set.
 	 */
 	this.setSiteHash = function( siteHash ) {
 		self.site_hash = siteHash;

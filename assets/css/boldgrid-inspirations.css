@@ -37,24 +37,12 @@ body.bginsp-full-screen {
 	}
 }
 
-/*
+
+/**
  * #.# Section: Under top menu alignment.
  *
  * Ensure all elements are properly aligned under the top menu.
  */
-
-/* TMP DELETE THIS. */
-#test-spacing-div {
-	background:red;
-	position:fixed;
-	width:100%;
-	height:35px;
-	left:0px;
-	top:90px;
-	border-top:1px solid green;
-	border-bottom: 1px solid green;
-	box-sizing: border-box;
-}
 
 #post_deploy,    /* The form on the Inspirations page. */
 #deploy_status { /* The container on the deploy page. */
@@ -64,7 +52,6 @@ body.bginsp-full-screen {
 #post_deploy > div > h1 { /* Content Check Warning header. */
 	padding-top: 0px;
 }
-
 
 /* Page layout */
 #screen-design  .left,
@@ -76,8 +63,7 @@ body.bginsp-full-screen {
 
 .left .sub-category,
 .left .pageset-option,
-.left .feature-option,
-.left .coin-option {
+.left .feature-option {
 	background: #fff;
 }
 
@@ -92,7 +78,6 @@ body.bginsp-full-screen {
 
 /* The heading, "Category filter" */
 .category-filter,
-.coin-filter,
 .feature-filter,
 .page-set-filter {
 	background: #e6e6e6;
@@ -100,24 +85,11 @@ body.bginsp-full-screen {
 	font-weight: bold;
 	text-transform: uppercase;
 }
-.coin-option,
+
 .pageset-option,
 .feature-option,
 .sub-category {
 	cursor: pointer;
-}
-
-/* COIN BUDGET: The help text. */
-.coin-filter .imgedit-help {
-	font-weight: normal;
-	text-transform: none;
-	font-style: italic;
-}
-
-/* COIN BUDGET: The help icon. */
-.coin-filter span.dashicons {
-	cursor: pointer;
-	margin-top: -2px;
 }
 
 /* Radio Buttons */
@@ -126,7 +98,7 @@ input[type="radio"][name="pageset"],
 input[type="radio"][name="sub-category"] {
 	visibility: hidden;
 }
-.coin-option,
+
 .pageset-option,
 .feature-option,
 .sub-category {
@@ -136,10 +108,6 @@ input[type="radio"][name="sub-category"] {
 	-o-transition: background-color .3s linear, color .3s linear;
 	-ms-transition: background-color .3s linear, color .3s linear;
 	transition: background-color .3s linear, color .3s linear;
-}
-
-.coin-option {
-	padding-left: 24px;
 }
 
 /* Override WordPress' default cursor when hovering over a theme. */
@@ -199,8 +167,6 @@ input[type="radio"][name="sub-category"] {
     background-position: center;
     height: 4.4em;
     overflow: hidden;
-    
-    /* Adding for 1280x800 / not full screen / welcome step */
     padding-left: 0px;
 }
 
@@ -232,14 +198,12 @@ body:not(.bginsp-full-screen) .top-menu.content {
 	margin-right: -1px;
 }
 
-/* .top-menu a:not(:first-of-type), */
-/* .top-menu a:not(:first-of-type) { */
-/* 		background-image: url( '../images/inspirations/arrows.png' ); */
-/* 	background-size: cover; */
 
-/* 	} */
-
-/* this CS forms the triangles */
+/**
+ * #.# Top Menu / Triangles
+ *
+ * These styles for the top menu in the Inspirations process and the triangles between steps.
+ */
 
 .top-menu a:not(:first-of-type):not(.next):not(.active) {
 	background: url( '../images/inspirations/arrow.png' ) no-repeat;
@@ -263,11 +227,6 @@ body:not(.bginsp-full-screen) .top-menu.content {
 	background-repeat: no-repeat;
 }
 
-/* .top-menu a.next { */
-/* 	background: url( '../images/inspirations/arrow.png' ) no-repeat; */
-/* 	background-size: contain; */
-/* } */
-
 .top-menu a:first-of-type {
 	border-left: 1px solid #676767;
 }
@@ -276,10 +235,11 @@ body:not(.bginsp-full-screen) .top-menu.content {
 	border-right: 1px solid #676767;
 }
 
-
+.top-menu a.disabled {
+	cursor: not-allowed;
+}
 
 /* The dismiss button in the menu. */
-
 .top-menu .notice-dismiss {
 	position: static;
 	float: right;
@@ -302,15 +262,10 @@ body:not(.bginsp-full-screen) .top-menu.content {
 	font: normal 2.5em/20px dashicons;
 }
 
-.top-menu a.disabled {
-	cursor: not-allowed;
-}
-
 body.waiting .devices button,
 body.waiting .pageset-option,
 body.waiting .feature-option,
 body.waiting .toggle-inner,
-body.waiting .coin-option,
 body.waiting .pointer {
 	cursor: wait;
 }
@@ -352,10 +307,8 @@ body.waiting .pointer {
 }
 
 .pageset-option.active,
-.coin-option.active,
 .sub-category.active,
 .pageset-option.blue,
-.coin-option.blue,
 .blue {
 	color: white;
 }
@@ -439,9 +392,10 @@ body.waiting .pointer {
 	transform: rotate(90deg);
 }
 
+
 /**
-* Theme preview and iframe.
-*/
+ * #.# Theme preview and iframe.
+ */
 
 #preview-container {
 	margin:0px;
@@ -458,14 +412,18 @@ body.waiting .pointer {
 	transition: width .3s;
 }
 
+
 /**
-* Toggles, like the toggle for Blog.
-*/
+ * #.# Toggles
+ *
+ * For example, the toggle for "Blog".
+ */
 
 .feature-option .toggle {
 	float: right;
 	margin: 2px 10px 0px 0px;
 }
+
 
 /* ****************************************************************************
 Desktop view.
@@ -475,6 +433,7 @@ Desktop view.
 	min-width: 992px;
 	height: 100%;
 }
+
 
 /* ****************************************************************************
 Mobile view.
@@ -500,6 +459,7 @@ http://www.kylejlarson.com/blog/iphone-6-screen-size-web-design-tips/
 	width: 480px;
 	height: 320px;
 }
+
 
 /* ****************************************************************************
 Tablet view.
@@ -575,9 +535,12 @@ http://ivomynttinen.com/blog/the-ios-design-cheat-sheet-volume-2
 	max-width: 170px;
 }
 
+
 /**
-* Begin code for the Contact section.
-*/
+ * #.# Contact
+ *
+ * Begin code for the Contact section.
+ */
 
 .survey-field {
 	margin-bottom: 14px;
@@ -662,7 +625,8 @@ http://ivomynttinen.com/blog/the-ios-design-cheat-sheet-volume-2
 	color: red;
 }
 
-/*
+
+/**
  * #.# BoldGrid Connect Key notice.
  *
  * Apply custom styles to the BoldGrid Connect Key notice.
@@ -684,7 +648,8 @@ http://ivomynttinen.com/blog/the-ios-design-cheat-sheet-volume-2
 	display: none;
 }
 
-/*
+
+/**
  * #.# Miscellaneous.
  */
 
@@ -719,8 +684,7 @@ http://ivomynttinen.com/blog/the-ios-design-cheat-sheet-volume-2
 		background-color: transparent;
 		margin-bottom: 2em;
 	}
-	.pageset-option,
-	.coin-option {
+	.pageset-option {
 		background-color: #fff;
 	}
 
@@ -793,10 +757,6 @@ http://ivomynttinen.com/blog/the-ios-design-cheat-sheet-volume-2
 		margin-bottom: 1em;
 	}
 	
-/* 	.top-menu { */
-/* 		margin-left: -10px; #wpcontent has a 10px left padding, need to offset this. */
-/* 	} */
-	
 	body:not(.bginsp-full-screen) .top-menu.design,
 	body:not(.bginsp-full-screen) .top-menu.content {
 		top: 56px;
@@ -828,13 +788,6 @@ http://ivomynttinen.com/blog/the-ios-design-cheat-sheet-volume-2
 	}
 }
 
-/* WordPress dashboard shows icons only at this size. */
-@media only screen and (max-width: 960px) {
-/* 	body.auto-fold:not(.bginsp-full-screen) .top-menu.design { */
-/* 		left: 36px; */
-/* 	} */
-}
-
 /* Force left menu to be open on desktop if it was previously collapsed in mobile. */
 @media (min-width: 783px) {
 	#screen-design .left {
@@ -850,12 +803,7 @@ http://ivomynttinen.com/blog/the-ios-design-cheat-sheet-volume-2
 	.bginsp-full-screen #screen-content {
 		padding-top: 0;
 	} 
-/* 	.top-menu.design { */
-/* 		width: 100%; */
-/* 		z-index: 999; */
-/* 		position: fixed; */
-/* 		top: 42px; */
-/* 	} */
+
 	#screen-design .left {
 		position: fixed;
 	}
@@ -870,20 +818,7 @@ http://ivomynttinen.com/blog/the-ios-design-cheat-sheet-volume-2
 	#screen-content .left {
 		display: block !important; /* Show left menu on large screens. */
 	}
-/* 	.top-menu.content { */
-/* 		width: 100%; */
-/* 		z-index: 999; */
-/* 		position: fixed; */
-/* 	} */
 
-	/*
-	#screen-welcome,
-	#screen-content,
-	#screen-contact,
-	#screen-install {
-		padding-top: 5em;
-	}
-	*/
 	#screen-content .left {
 		position: fixed;
 	}

@@ -1,4 +1,14 @@
 <?php
+/**
+ * My Inspiration page.
+ *
+ * This file used to render the My Inspirations page.
+ *
+ * This file is included by class-boldgrid-inspirations-my-inspiration.php
+ *
+ * @since 1.7.0
+ */
+
 // Prevent direct calls.
 require BOLDGRID_BASE_DIR . '/pages/templates/restrict-direct-access.php';
 
@@ -28,14 +38,14 @@ wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
 			<div id="dashboard-widgets">
 
 				<div id="postbox-container-1" class="postbox-container">
-					<?php do_meta_boxes( $this->screen_id,'container1',null); ?>
+					<?php do_meta_boxes( $this->screen_id, 'container1', null ); ?>
 
 					<div id="postbox-container-2" class="postbox-container">
-						<?php do_meta_boxes($this->screen_id,'container2',null); ?>
+						<?php do_meta_boxes( $this->screen_id, 'container2', null ); ?>
 					</div>
 
 					<div id="postbox-container-3" class="postbox-container">
-						<?php do_meta_boxes($this->screen_id,'container3',null); ?>
+						<?php do_meta_boxes( $this->screen_id, 'container3', null ); ?>
 					</div>
 
 					<div style="clear:both;"></div>
@@ -43,19 +53,19 @@ wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false );
 				</div>
 
 				<div id="postbox-container-4" class="postbox-container">
-					<?php do_meta_boxes($this->screen_id,'container4',null); ?>
+					<?php do_meta_boxes( $this->screen_id, 'container4', null ); ?>
 				</div>
 
 				<div style="clear:both;"></div>
 
 				<div id="postbox-container-5" class="postbox-container">
-					<?php do_meta_boxes($this->screen_id,'container5',null); ?>
+					<?php do_meta_boxes( $this->screen_id,' container5' ,null ); ?>
 				</div>
 
 			</div>
 
-		</div> <!-- #post-body -->
+		</div>
 
-	</div> <!-- #poststuff -->
+	</div>
 
 </div>

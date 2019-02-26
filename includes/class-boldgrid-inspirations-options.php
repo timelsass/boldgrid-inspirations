@@ -142,7 +142,7 @@ class Boldgrid_Inspirations_Options {
 	 * Display the options page body.
 	 */
 	public function boldgrid_options_global_text() {
-		echo esc_html__( 'Here you may change the BoldGrid plugin global settings.', 'boldgrid-inspirations' ) . '<br />';
+		esc_html_e( 'Here you may change the BoldGrid plugin global settings.', 'boldgrid-inspirations' ) . '<br />';
 	}
 
 	/**

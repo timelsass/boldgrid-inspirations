@@ -391,7 +391,9 @@ class Boldgrid_Inspirations_Feedback {
 	}
 
 	/**
+	 * Enqueue js.
 	 *
+	 * @since 1.7.0
 	 */
 	public static function enqueue_js() {
 		$handle = 'boldgrid-feedback-js';
@@ -400,7 +402,7 @@ class Boldgrid_Inspirations_Feedback {
 			plugins_url( 'assets/js/boldgrid-feedback.js', BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ),
 			array( 'jQuery' ),
 			BOLDGRID_INSPIRATIONS_VERSION
-			);
+		);
 		wp_localize_script(
 			$handle,
 			'BoldGridFeedback',
@@ -410,7 +412,7 @@ class Boldgrid_Inspirations_Feedback {
 				'tryAgain'       => esc_html__( 'There was an error processing your request.  Please try again.', 'boldgrid-inspirations' ),
 				'weAreListening' => esc_html__( 'The BoldGrid team wants you to know that we are listening and every bit of feedback helps us improve our tool.', 'boldgrid-inspirations' ),
 			)
-			);
+		);
 		wp_enqueue_script( $handle );
 	}
 
