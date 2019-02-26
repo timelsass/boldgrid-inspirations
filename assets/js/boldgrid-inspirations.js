@@ -1,18 +1,24 @@
 /* globals ajaxurl, Inspiration, wp, _, jQuery */
 
+console.log( 'here in inspirations.js' );
+
 var IMHWPB = IMHWPB || {};
 
 /**
  * Inspirstions, design first.
  *
  * @since 1.2.3
+ *
+ * @memberof IMHWPB
  */
 IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	var self = this;
 
 	this.configs = configs;
 
-	self.ajax = new IMHWPB.Ajax( configs );
+	if ( 'function' === typeof IMHWPB.Ajax ) {
+		self.ajax = new IMHWPB.Ajax( configs );
+	}
 
 	self.$categories = $( '#categories' );
 
@@ -64,7 +70,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 *
 	 * @since 1.2.5
 	 */
-	self.themeReleaseChannel = configs.settings.theme_release_channel;
+	self.themeReleaseChannel = configs === undefined ? 'stable' : configs.settings.theme_release_channel;
 
 	/**
 	 * Theme preview.
@@ -111,16 +117,22 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 * Enable or disable all actions on the page.
 	 *
 	 * @since 1.2.3
+	 *
+	 * @memberof IMHWPB.InspirationsDesignFirst
 	 */
 	this.allActions = function( effect ) {
+		var $bottomButtons = $( '.boldgrid-plugin-card .bottom .button' );
+
 		if ( 'disable' === effect ) {
 			$( 'body' ).addClass( 'waiting' );
 			self.$topMenu.find( 'a' ).addClass( 'disabled' );
 			$( '#build-summary .button' ).attr( 'disabled', true );
+			$bottomButtons.attr( 'disabled', true );
 		} else {
 			$( 'body' ).removeClass( 'waiting' );
 			self.$topMenu.find( 'a:not([data-disabled])' ).removeClass( 'disabled' );
 			$( '#build-summary .button' ).attr( 'disabled', false );
+			$bottomButtons.attr( 'disabled', false );
 		}
 	};
 
@@ -153,39 +165,39 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		$subCategory.parent().css( 'background', 'blue' );
 	};
 
-	/**
-	 * @summary Toggle the notes listed in the last step, the confirmation page.
-	 *
-	 * For example, if you click the radio button to overwrite your existing site, there is a note
-	 * that your pages will be trashed. This method should show that note.
-	 *
-	 * @since 1.2.5
-	 */
-	this.toggleConfirmationNotes = function() {
-		var installDecision = $( 'input[name="install-decision"]:checked' ).val(),
-			showStagingDecisions = [ 'download-staging', 'install-as-staging', 'activate-staging' ];
-
-		// Begin by hiding all of the notes, which is any paragraph with a class startign with note-.
-		$( '.top p[class^="note-"]' ).hide();
-
-		/*
-		 * If there is no install decision, there are no notes that need to be toggled. For example,
-		 * on a fresh install there will be no site and no Staging pluin installed, so the user
-		 * does not need to make a decision, just install. At this point, we can abort.
-		 */
-		if ( installDecision === undefined ) {
-			return;
-		}
-
-		// Toggle the approprate note based upon the install decision.
-		if ( -1 !== showStagingDecisions.indexOf( installDecision ) ) {
-			$( '.note-download-staging' ).show();
-		} else if ( 'overwrite-active' === installDecision ) {
-			$( '.note-overwrite' ).show();
-		} else if ( 'overwrite-staging' === installDecision ) {
-			$( '.note-overwrite-staging' ).show();
-		}
-	};
+//	/**
+//	 * @summary Toggle the notes listed in the last step, the confirmation page.
+//	 *
+//	 * For example, if you click the radio button to overwrite your existing site, there is a note
+//	 * that your pages will be trashed. This method should show that note.
+//	 *
+//	 * @since 1.2.5
+//	 */
+//	this.toggleConfirmationNotes = function() {
+//		var installDecision = $( 'input[name="install-decision"]:checked' ).val(),
+//			showStagingDecisions = [ 'download-staging', 'install-as-staging', 'activate-staging' ];
+//
+//		// Begin by hiding all of the notes, which is any paragraph with a class startign with note-.
+//		$( '.top p[class^="note-"]' ).hide();
+//
+//		/*
+//		 * If there is no install decision, there are no notes that need to be toggled. For example,
+//		 * on a fresh install there will be no site and no Staging pluin installed, so the user
+//		 * does not need to make a decision, just install. At this point, we can abort.
+//		 */
+//		if ( installDecision === undefined ) {
+//			return;
+//		}
+//
+//		// Toggle the approprate note based upon the install decision.
+//		if ( -1 !== showStagingDecisions.indexOf( installDecision ) ) {
+//			$( '.note-download-staging' ).show();
+//		} else if ( 'overwrite-active' === installDecision ) {
+//			$( '.note-overwrite' ).show();
+//		} else if ( 'overwrite-staging' === installDecision ) {
+//			$( '.note-overwrite-staging' ).show();
+//		}
+//	};
 
 	/**
 	 * Toggle build features in Step 2.
@@ -281,36 +293,6 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	};
 
 	/**
-	 * @summary Enable or disable install buttons on the last step of Inspirations.
-	 *
-	 * After the user clicks "Install this website!", disable that button so the user cannot click
-	 * it again.
-	 *
-	 * If there is an issue with the installation, we need to be able to enable the buttons
-	 * again too (the disable parameter).
-	 *
-	 * @since 1.2.14
-	 *
-	 * @param bool $disable Are we disabling the install buttons?
-	 */
-	this.disableInstallButton = function( disable ) {
-		var $selectInstallType = $( '#select-install-type' );
-
-		if ( true === disable ) {
-
-			// Disable the "Go back" and "Install this website" buttons.
-			$selectInstallType.find( '.button' ).attr( 'disabled', true );
-
-			// Show a spinner
-			$selectInstallType.append( '<span class="spinner inline"></span>' );
-		} else {
-			$selectInstallType.find( '.button' ).attr( 'disabled', false );
-
-			$selectInstallType.find( 'span.spinner' ).remove();
-		}
-	};
-
-	/**
 	 * @summary Init fancybox.
 	 *
 	 * @since 1.3.1
@@ -377,15 +359,6 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	};
 
 	/**
-	 * @summary Get the selected coin budget.
-	 *
-	 * @since 1.2.6
-	 */
-	this.getSelectedBudget = function() {
-		return $( '.coin-option.active' ).attr( 'data-coin' );
-	};
-
-	/**
 	 * Event handler for the back button on step 2.
 	 */
 	this.backButton = function() {
@@ -400,6 +373,12 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 * @since 1.2.5
 	 */
 	this.bindClicks = function() {
+
+		// Whenever a "Next" button is clicked, toggle to the next step.
+		self.$wrap.on( 'click', '.button.next-step', self.toggleStep );
+
+		// Handle the click of the "get started" button on the "Welcome" screen.
+		self.$wrap.on( 'click', '#screen-welcome .button-primary', self.toggleStep );
 
 		/*
 		 * During step 1, if there is an error fetching categories, we'll give the user a button to
@@ -480,122 +459,135 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			self.toggleStep( 'content' );
 		} );
 
-		// Step 3 Skip button.
+		// Contact step, handle "finish and install" button.
 		$( '#screen-contact .button-primary' ).on( 'click', function() {
 			if ( ! self.validateContact() ) {
 				return;
 			}
 
-			self.toggleStep( 'install' );
-			self.toggleConfirmationNotes();
+			self.allActions( 'disable' );
+
+			$( this ).after( '<span class="spinner inline spinner-left"></span>' );
+
+			// TMP remove this.
+			$( '#post_deploy' ).attr( 'target', '_blank' ); self.allActions( 'enable' );
+
+			$( '#post_deploy' ).submit();
+
+//			self.toggleStep( 'install' );
+//			self.toggleConfirmationNotes();
 		} );
 
-		// Step 4 Go back button.
-		$( '#screen-install .button-secondary' ).on( 'click', function() {
-			self.toggleStep( 'contact' );
-		} );
+//		// Step 4 Go back button.
+//		$( '#screen-install .button-secondary' ).on( 'click', function() {
+//			self.toggleStep( 'contact' );
+//		} );
 
+		/*
 		// Take action when someone clicks on a install-decision radio button.
 		self.$wrap.on( 'click', 'input[type="radio"][name="install-decision"]', function() {
 			self.toggleConfirmationNotes();
 		} );
+		*/
 
 		/*
 		 * Bind click of "Install this website!".
 		 *
 		 * This is the button that submits the #post_deploy form and actually installs a website.
 		 */
-		$( '#install-this-website' ).on( 'click', function() {
+//		$( '#screen-contact .button-primary' ).on( 'click', function() {
+//			self.disableInstallButton( true );
+//			$( '#post_deploy' ).submit();
 
-			// Get our install decision.
-			var installDecision = $( 'input[name="install-decision"]:checked' ).val(),
-				data;
-
-			self.disableInstallButton( true );
-
-			switch ( installDecision ) {
-
-				/*
-				 * Install as Active site.
-				 *
-				 * If installDecision is undefined, it means there is no install decision, install
-				 * to active site.
-				 */
-				case 'install-as-active':
-				case undefined:
-					$( '#post_deploy' ).submit();
-					break;
-
-				// Install as Staging site.
-				case 'install-as-staging':
-					$( 'input[name="staging"]' ).val( 1 );
-					$( '#post_deploy' ).submit();
-					break;
-
-				// Install as Active site, overwriting existing active site.
-				case 'overwrite-active':
-					$( '#start_over' ).val( 'true' );
-					$( '#post_deploy' ).submit();
-					break;
-
-				// Install as Staging site, overwriting existing staging site.
-				case 'overwrite-staging':
-					$( 'input[name="staging"]' ).val( 1 );
-					$( '#start_over' ).val( 'true' );
-					$( '#post_deploy' ).submit();
-					break;
-
-				case 'download-staging':
-					data = {
-						action: 'install_staging',
-						'boldgrid-plugin-install[boldgrid-staging]': 'install',
-						'nonce-install-staging': $( '#nonce-install-staging' ).val()
-					};
-
-					$.post( ajaxurl, data, function( response ) {
-
-						/*
-						 * Validate success of installing staging.
-						 *
-						 * Installing staging via ajax produces a bit of output. If the last character
-						 * of the output is a 1, success, otherwise failure.
-						 */
-						if ( '1' === response.substr( response.length - 1 ) ) {
-							$( 'input[name="staging"]' ).val( 1 );
-							$( '#start_over' ).val( 'true' );
-							$( '#post_deploy' ).submit();
-						} else {
-							alert( 'failed setting up staging plugin' );
-							self.disableInstallButton( false );
-						}
-					} ).fail( function() {
-						alert( 'failed setting up staging plugin' );
-						self.disableInstallButton( false );
-					} );
-					break;
-
-				case 'activate-staging':
-					data = {
-						action: 'activate_staging',
-						'nonce-install-staging': $( '#nonce-install-staging' ).val()
-					};
-
-					$.post( ajaxurl, data, function( response ) {
-						if ( '1' === response ) {
-							$( 'input[name="staging"]' ).val( 1 );
-							$( '#start_over' ).val( 'true' );
-							$( '#post_deploy' ).submit();
-						} else {
-							alert( 'failed activating staging plugin' );
-							self.disableInstallButton( false );
-						}
-					} ).fail( function() {
-						alert( 'failed activating staging plugin' );
-						self.disableInstallButton( false );
-					} );
-					break;
-			}
-		} );
+//			// Get our install decision.
+//			var installDecision = $( 'input[name="install-decision"]:checked' ).val(),
+//				data;
+//
+//			self.disableInstallButton( true );
+//
+//			switch ( installDecision ) {
+//
+//				/*
+//				 * Install as Active site.
+//				 *
+//				 * If installDecision is undefined, it means there is no install decision, install
+//				 * to active site.
+//				 */
+//				case 'install-as-active':
+//				case undefined:
+//					$( '#post_deploy' ).submit();
+//					break;
+//
+//				// Install as Staging site.
+//				case 'install-as-staging':
+//					$( 'input[name="staging"]' ).val( 1 );
+//					$( '#post_deploy' ).submit();
+//					break;
+//
+//				// Install as Active site, overwriting existing active site.
+//				case 'overwrite-active':
+//					$( '#start_over' ).val( 'true' );
+//					$( '#post_deploy' ).submit();
+//					break;
+//
+//				// Install as Staging site, overwriting existing staging site.
+//				case 'overwrite-staging':
+//					$( 'input[name="staging"]' ).val( 1 );
+//					$( '#start_over' ).val( 'true' );
+//					$( '#post_deploy' ).submit();
+//					break;
+//
+//				case 'download-staging':
+//					data = {
+//						action: 'install_staging',
+//						'boldgrid-plugin-install[boldgrid-staging]': 'install',
+//						'nonce-install-staging': $( '#nonce-install-staging' ).val()
+//					};
+//
+//					$.post( ajaxurl, data, function( response ) {
+//
+//						/*
+//						 * Validate success of installing staging.
+//						 *
+//						 * Installing staging via ajax produces a bit of output. If the last character
+//						 * of the output is a 1, success, otherwise failure.
+//						 */
+//						if ( '1' === response.substr( response.length - 1 ) ) {
+//							$( 'input[name="staging"]' ).val( 1 );
+//							$( '#start_over' ).val( 'true' );
+//							$( '#post_deploy' ).submit();
+//						} else {
+//							alert( 'failed setting up staging plugin' );
+//							self.disableInstallButton( false );
+//						}
+//					} ).fail( function() {
+//						alert( 'failed setting up staging plugin' );
+//						self.disableInstallButton( false );
+//					} );
+//					break;
+//
+//				case 'activate-staging':
+//					data = {
+//						action: 'activate_staging',
+//						'nonce-install-staging': $( '#nonce-install-staging' ).val()
+//					};
+//
+//					$.post( ajaxurl, data, function( response ) {
+//						if ( '1' === response ) {
+//							$( 'input[name="staging"]' ).val( 1 );
+//							$( '#start_over' ).val( 'true' );
+//							$( '#post_deploy' ).submit();
+//						} else {
+//							alert( 'failed activating staging plugin' );
+//							self.disableInstallButton( false );
+//						}
+//					} ).fail( function() {
+//						alert( 'failed activating staging plugin' );
+//						self.disableInstallButton( false );
+//					} );
+//					break;
+//			}
+//		} );
 	};
 
 	/**
@@ -1130,15 +1122,8 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 */
 	this.iframeLoad = function() {
 		self.$themePreview.on( 'load', function() {
-			var buildCost = $( this ).attr( 'data-build-cost' ),
-				cost = ( '0' === buildCost ? '0 ' : '0 - ' + buildCost + ' ' ) + Inspiration.coins;
-
 			$( '#screen-content .boldgrid-loading' ).fadeOut( function() {
 				self.allActions( 'enable' );
-				$( '#build-cost' )
-					.html( cost )
-					.animate( { opacity: 1 }, 400 );
-
 				self.$themePreview.css( 'visibility', 'visible' );
 			} );
 		} );
@@ -1166,8 +1151,48 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 * @since 1.2.3
 	 */
 	this.init = function() {
+		console.log( 'ini init' );
+
+		self.initFullScreen();
+
+		$( function() {
+			if ( '' === Inspiration.isDeploy ) {
+				self.initInspirationsPage();
+			} else {
+
+			}
+		} );
+	}
+
+	this.initInspirationsPage = function() {
+
 		self.bindClicks();
-		self.initCategories();
+
+		var promptingForKey = self.$wrap.find( '#screen-api-key' ).length;
+		if ( promptingForKey ) {
+			$( '#container_boldgrid_api_key_notice' )
+				// Remove the option to dismiss the notice.
+				.find( '.notice-dismiss' ).remove().end()
+				// Ensure the page doesn't refresh after the key is saved successfully.
+				.addClass( 'no-refresh' )
+				// Move the notice to the "enter api key" step.
+				.prependTo( '#screen-api-key' );
+
+			// After the key has been saved successfully, wait 2 seconds, then go to design step.
+			$( 'body' ).on( 'boldgrid-key-saved', function( e, data ) {
+				self.ajax.setApiKey( data.api_key );
+				self.ajax.setSiteHash( data.site_hash );
+
+				self.initCategories();
+
+				setTimeout( function() {
+					self.toggleStep();
+				}, 2000 );
+			});
+		} else {
+			self.initCategories();
+		}
+
 		self.toggleCheckbox();
 		self.devicePreviews();
 		self.backButton();
@@ -1435,8 +1460,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 
 			// Should our request for a build be for a generic build?
 			requestGeneric = false,
-			hasBlog = $( '[name="install-blog"]' ).is( ':checked' ),
-			coinBudget = self.getSelectedBudget();
+			hasBlog = $( '[name="install-blog"]' ).is( ':checked' );
 
 		/*
 		 * By default, we will not request a generic build. The only time we will request a generic
@@ -1445,7 +1469,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		 * # Coin budget:	20
 		 * # Blog:			False
 		 */
-		if ( '1' === self.$pageset.attr( 'data-is-default' ) && '20' === coinBudget && ! hasBlog ) {
+		if ( '1' === self.$pageset.attr( 'data-is-default' ) && ! hasBlog ) {
 			requestGeneric = true;
 		}
 
@@ -1456,16 +1480,19 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		self.$contentNotices.html( '' );
 
 		// Load our loading graphic.
-		$( '#build-cost' ).animate( { opacity: 0 }, 400 );
 		self.$themePreview.css( 'visibility', 'hidden' );
 		$( '#screen-content .boldgrid-loading' ).fadeIn();
 
 		failAction = function( msg ) {
 			var message = failureMessage;
+
 			if ( 'timeout' === msg.statusText ) {
 				message = timeoutMessage;
 			}
+
 			self.loadBuildFail( message + '<br />' + tryAgainButton );
+
+			self.allActions( 'enable' );
 		};
 
 		successAction = function( msg ) {
@@ -1490,6 +1517,9 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 
 				self.highlightDeviceButton();
 			}
+
+			console.log( 'calling self.allActions("enable");' );
+			self.allActions( 'enable' );
 		};
 
 		data = {
@@ -1500,7 +1530,8 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			page_set_id: self.$pageset.attr( 'data-page-set-id' ),
 			pde: self.$theme.closest( '.theme' ).attr( 'data-pde' ),
 			wp_language: 'en-US',
-			coin_budget: coinBudget,
+			// By default, option to change coin budget has been removed in x.x.x. Defaulting to 20.
+			coin_budget: 20,
 			theme_version_type: self.themeReleaseChannel,
 			page_version_type: self.themeReleaseChannel,
 			site_hash: self.configs.site_hash,
@@ -1536,34 +1567,63 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		} );
 	};
 
+	this.initFullScreen = function() {
+		$( 'html' ).on( 'click', '.top-menu .notice-dismiss', function() {
+			$( 'body' ).toggleClass( 'bginsp-full-screen' );
+		});
+	}
+
 	/**
 	 * Toggle steps.
 	 *
 	 * @since 1.3
 	 */
 	this.toggleStep = function( step ) {
-		var $thisStep = $( '[data-step="' + step + '"]' ),
-			previewHeight = 'content' === step ? '100%' : '99%';
+		var $thisStep,
+			previewHeight,
+			$activeStep,
+			screens;
 
-		/*
-		 * Once you've been to a step, remove it's disabled settings.
-		 *
-		 * The disabled class means the link isn't clickable. The attribute data-disabled means the
-		 * link shouldn't be enabled.
-		 *
-		 * For example, if we're waiting on something to load, we'll disable all steps (add disabled
-		 * classs). After that item loads, we'll enable all the steps that should be enabled (those
-		 * that don't have data-disabled).
-		 */
-		$thisStep.removeClass( 'disabled' ).removeAttr( 'data-disabled' );
+		// If step not passed in as a string (it will be the "next" button instead), get the next step.
+		if ( 'string' !== typeof step ) {
+			$activeStep = self.$wrap.find( '[id^="screen-"]:visible' );
+			step        = $activeStep.nextAll( '[id^="screen-"]:hidden' ).first().attr( 'id' ).slice( 7 );
+		}
 
-		// Toggle .active class for steps at the top of the page.
-		$( '[data-step]' ).removeClass( 'active' );
-		$thisStep.addClass( 'active' );
+		// $thisStep refers to the link in the menu.
+		$thisStep = $( '[data-step="' + step + '"]' );
+
+		previewHeight = 'content' === step ? '100%' : '99%';
+
+		// Not all steps will have a menu item in the top.
+		if ( $thisStep.length ) {
+			/*
+			 * Once you've been to a step, remove it's disabled settings.
+			 *
+			 * The disabled class means the link isn't clickable. The attribute data-disabled means the
+			 * link shouldn't be enabled.
+			 *
+			 * For example, if we're waiting on something to load, we'll disable all steps (add disabled
+			 * classs). After that item loads, we'll enable all the steps that should be enabled (those
+			 * that don't have data-disabled).
+			 */
+			$thisStep.removeClass( 'disabled' ).removeAttr( 'data-disabled' );
+
+			// Toggle .active class for steps at the top of the page.
+			$( '[data-step]' ).removeClass( 'active next boldgrid-orange-important' );
+			$thisStep
+				.addClass( 'active boldgrid-orange-important' )
+				.next().addClass( 'next' );
+		}
 
 		// Toggle the step's container.
 		self.$wrap.find( '[id^="screen-"]' ).addClass( 'hidden' );
 		$( '#screen-' + step ).removeClass( 'hidden' );
+
+		// Toggle the menu's class based on the screen.
+		screens = self.getAllScreens();
+		self.$topMenu.removeClass( screens.join( ' ' ) );
+		self.$topMenu.addClass( step );
 
 		/*
 		 * Misc steps.
@@ -1574,11 +1634,20 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		switch ( step ) {
 			case 'design':
 				$( document ).scrollTop( self.scrollPosition );
-				self.$topMenu.addClass( 'design' ).removeClass( 'content' );
+
+				/*
+				 * Sometimes the screenshot placeholders will be fully loaded before the user gets
+				 * to the design step. In this case, we need to trigger the screenshots to load.
+				 */
+				$( 'img.lazy' ).lazyload( { threshold: 400 } );
+
+				break;
+			case 'api-key':
+				// We hid the key prompt on page load. Now is the time to show it.
+				$( '#container_boldgrid_api_key_notice' ).show();
 				break;
 			default:
 				$( document ).scrollTop( 0 );
-				self.$topMenu.removeClass( 'design' ).addClass( 'content' );
 				break;
 		}
 
@@ -1681,9 +1750,20 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		return isValidEmail;
 	};
 
-	$( function() {
-		self.init();
-	} );
+	/**
+	 *
+	 */
+	this.getAllScreens = function() {
+		var screens = [];
+
+		$( '.wrap [id^="screen-"]' ).each( function() {
+			screens.push( $( this ).attr( 'id' ).slice( 7 ) );
+		} );
+
+		return screens;
+	}
+
+	self.init();
 };
 
 IMHWPB.InspirationsDesignFirst( jQuery, IMHWPB.configs );

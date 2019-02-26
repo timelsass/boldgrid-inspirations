@@ -11,9 +11,9 @@ include BOLDGRID_BASE_DIR . '/pages/templates/transaction_history.php';
 <?php
 	include BOLDGRID_BASE_DIR . '/pages/includes/cart_header.php';
 ?>
-	<h1>Transaction History</h1>
+	<h1><?php echo esc_html__( 'Transaction History', 'boldgrid-inspirations' ); ?></h1>
 	<div class='tablenav top'></div>
-	<div id='transactions'>Loading transaction history...</div>
+	<div id='transactions'><?php echo esc_html__( 'Loading transaction history...', 'boldgrid-inspirations' ); ?></div>
 	<div class='tablenav bottom'></div>
 	<div id='transaction' class='hidden'></div>
 </div>

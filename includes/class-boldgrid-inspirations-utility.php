@@ -38,10 +38,25 @@ class Boldgrid_Inspirations_Utility {
 	 * All js files must be located within the assets/js/inline folder.
 	 *
 	 * @param string $filename A filename.
+	 * @param array  $localize If applicable, an array of strings needed for translations.
 	 */
-	public static function inline_js_file( $filename ) {
-		$full_path_to_js = plugins_url( '/assets/js/inline/' . $filename,
-		BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' );
+	public static function inline_js_file( $filename, $localize = array() ) {
+		$full_path_to_js = plugins_url( '/assets/js/inline/' . $filename, BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' );
+
+		/*
+		 * Allow for localization.
+		 *
+		 * One item we didn't think about with this utility method is localizations and
+		 * translations. If we need to localize the inline js file, let's do that first.
+		 */
+		if ( ! empty( $localize ) ) {
+			?>
+			<script type="text/javascript">
+			/* <![CDATA[ */
+			var <?php echo $localize['name']; ?> = <?php echo wp_json_encode( $localize['data'] ); ?>;
+			/* ]]> */
+			</script><?php
+		}
 
 		echo '<script type="text/javascript" src="' . $full_path_to_js;
 
@@ -124,6 +139,13 @@ class Boldgrid_Inspirations_Utility {
 		ob_start();
 		include $file;
 		return ob_get_clean();
+	}
+
+	/**
+	 *
+	 */
+	public static function get_image_url( $path ) {
+		return esc_url( plugins_url() . '/' . basename( BOLDGRID_BASE_DIR ) . '/assets/images/' . $path );
 	}
 
 	/**

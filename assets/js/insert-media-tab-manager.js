@@ -73,8 +73,7 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 	 */
 	this.addLoadingMessage = function() {
 		var $content = $( '.media-frame-content:visible' ),
-			$spinner = $(
-				'<span class="spinner boldgrid_connect_search">Loading BoldGrid Connect Search.</span>'
+			$spinner = $( '<span class="spinner boldgrid_connect_search">' + self.i18n.loading + '</span>'
 			);
 
 		// Add the spinner.
@@ -346,7 +345,7 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 	 */
 	this.removeImageSearch = function() {
 		setTimeout( function() {
-			$( 'a.media-menu-item:contains(\'Image Search\')' ).remove();
+			$( 'a.media-menu-item:contains(\'' + self.i18n.imageSearch + '\')' ).remove();
 		}, 200 );
 	};
 

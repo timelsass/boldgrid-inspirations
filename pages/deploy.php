@@ -2,6 +2,8 @@
 // Prevent direct calls.
 require BOLDGRID_BASE_DIR . '/pages/templates/restrict-direct-access.php';
 
+// Boldgrid_Inspirations_Utility::inline_js_oneliner( 'jQuery( "body" ).addClass( "bginsp-full-screen" );' );
+
 ?>
 
 <!--
@@ -17,15 +19,15 @@ ul#deploy_log {
 	line-height: 11px;
 }
 
-/* When deployment is installing a theme, it prints the details of the theme on
-	the screen. This css hides those details. */
-div#wpbody-content div.wrap {
-	display: none;
+/* When deployment is installing a theme, it prints the details of the theme on the screen. This css
+   hides those details. */
+.wrap:not(.main) {
+ 	display: none;
 }
 
-div#wpbody-content div#deploy_status.wrap {
-	display: block;
-}
+/* div#wpbody-content div#deploy_status.wrap { */
+/* 	display: block; */
+/* } */
 
 #deploy_status .spinner {
 	visibility: visible;
@@ -55,20 +57,57 @@ Deployment container
 *******************************************************************************
  -->
 
-<div name='deploy_status' id='deploy_status' class='wrap'>
-	<h1>Installing your new content</h1>
+<div class="wrap main">
 
-	<div class='boldgrid-loading'></div>
+	<?php
+	$active_menu_item = 'install';
+	require_once BOLDGRID_BASE_DIR . '/pages/includes/boldgrid-inspirations/menu.php';
+	?>
 
-	<p>
-		<strong>Installation log:</strong> <a id='toggle_view_deploy_log'>show
-			/ hide log</a> (<em><span class='deploy_log_line_count'></span></em>)<br />
-		<span class='spinner'></span><span name='deploy_text' id='deploy_text'>loading...</span>
-	</p>
+	<!-- <div id="test-spacing-div"></div> -->
 
-	<div class='plugin-card hidden'>
-		<div class='plugin-card-top'>
-			<ul name='deploy_log' id='deploy_log'></ul>
+	<div name='deploy_status' id='deploy_status' class='screen-contained'>
+
+		<div style="text-align:center;">
+			<h1><?php echo esc_html__( 'Installing...', 'boldgrid-inspirations' ); ?> <span class='spinner'></span></h1>
+		</div>
+
+		<div class="boldgrid-plugin-card">
+			<div class="top">
+				<!-- <div class='boldgrid-loading'></div> -->
+
+				<h2 style="text-align:center;"><?php echo esc_html__( 'Premium Key Bonus', 'boldgrid-inspirations' ); ?></h2>
+				<p style="text-align:center;max-width:75%;margin-left:auto;margin-right:auto;">
+					<?php echo esc_html__( 'Because you\'re a Premium Key holder, we\'re installing the Premium versions of our BoldGrid Plugins.', 'boldgrid-inspirations' ); ?>
+				</p>
+				<ul style="max-width:75%;margin-left:auto;margin-right:auto;">
+					<li style="display:block; width:calc(50% - 7.5px); float:left; text-align:center;">
+						<img src="https://repo.boldgrid.com/assets/icon-boldgrid-editor-128x128.png" style="max-width: 100px;"><br />
+						BoldGrid Post and Page Builder Premium
+					</li>
+					<li style="display:block; width:calc(50% - 7.5px); float:right; text-align:center;">
+						<img src="https://repo.boldgrid.com/assets/icon-boldgrid-backup-128x128.png" style="max-width: 100px;"><br />
+						BoldGrid Backup Premium
+					</li>
+				</ul>
+
+				<div style="clear:both;"></div>
+			</div>
+		</div>
+
+
+		<h2 style='color:red;'>EVERYTHING BELOW THIS IS TO BE REMOVED</h2>
+
+		<p>
+			<strong>Installation log:</strong> <a id='toggle_view_deploy_log'>show
+				/ hide log</a> (<em><span class='deploy_log_line_count'></span></em>)<br />
+			<span name='deploy_text' id='deploy_text'>loading...</span>
+		</p>
+
+		<div class='plugin-card hidden'>
+			<div class='plugin-card-top'>
+				<ul name='deploy_log' id='deploy_log'></ul>
+			</div>
 		</div>
 	</div>
 </div>

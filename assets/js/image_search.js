@@ -14,6 +14,8 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 	this.last_query = '';
 	this.page = 1;
 
+	this.lang = BoldGridImageSearch;
+
 	// include additional submodules
 	self.ajax = new IMHWPB.Ajax( configs );
 	self.baseAdmin = new IMHWPB.BaseAdmin();
@@ -58,7 +60,7 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 
 		// prevent empty searches
 		if ( '' == query.trim() ) {
-			alert( 'Please enter a search term.' );
+			alert( self.lang.noSearchTerm );
 			return false;
 		}
 
@@ -71,9 +73,9 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 
 		// Show "searching" message
 		if ( 1 == self.page ) {
-			jQuery( $c_sr ).append( '<div class=\'loading_message pointer\'>Searching...</div>' );
+			jQuery( $c_sr ).append( '<div class=\'loading_message pointer\'>' + self.lang.searching + '...</div>' );
 		} else {
-			jQuery( '.loading_message', $c_sr ).html( 'Searching...' );
+			jQuery( '.loading_message', $c_sr ).html( self.lang.searching + '...' );
 		}
 
 		// setup our variables
@@ -121,9 +123,7 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 				jQuery( '.loading_message', $c_sr )
 					.appendTo( $c_sr )
 					.css( 'display', 'inherit' )
-					.html(
-						'<strong>Scroll down</strong> or <strong>click here</strong> to load more search results'
-					)
+					.html( self.lang.scrollDown )
 					.on( 'click', function() {
 						self.initiate_stock_image_search();
 						return false;
@@ -137,10 +137,10 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 				var $search_results = jQuery( '#search_results', $c_imhmf );
 
 				if ( '1' == self.page ) {
-					var message = 'No search results.';
+					var message = self.lang.noSearchResults;
 				}
 
-				var no_search_results = '1' == self.page ? 'No search results' : 'No more search results';
+				var no_search_results = '1' == self.page ? self.lang.noSearchResults : self.lang.noMore;
 
 				jQuery( '.loading_message', $c_sr )
 					.appendTo( $c_sr )
@@ -175,7 +175,7 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 		jQuery( attachment_details )
 			.empty()
 			.html(
-				'<div class=\'loading_message white-bg\'><span class=\'spinner is-active\'></span>Loading image details</div>'
+				'<div class=\'loading_message white-bg\'><span class=\'spinner is-active\'></span>' + self.lang.loadingImageDetails + '</div>'
 			);
 
 		/**
@@ -472,7 +472,7 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 			$currently_downloading.val( '1' );
 		}
 
-		$anchor.attr( 'disabled', true ).text( 'Downloading image...' );
+		$anchor.attr( 'disabled', true ).text( self.lang.downloading );
 
 		var data = {
 			action: 'download_and_insert_into_page',
@@ -492,7 +492,7 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 		jQuery.post( ajaxurl, data, function( response ) {
 			response = JSON.parse( response );
 
-			$anchor.text( 'Image downloaded!' );
+			$anchor.text( self.lang.imageDownloaded );
 
 			self.downloadSuccess( response, $anchor );
 		} );
@@ -546,7 +546,7 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 				var anchor_to_view_attachment_details_media_library =
 					'<a href="post.php?post=' +
 					response.attachment_id +
-					'&action=edit" target="_parent" class="button button-small view-image-in-library">View image in Media Library</a>';
+					'&action=edit" target="_parent" class="button button-small view-image-in-library">' + self.lang.viewInLibrary + '</a>';
 
 				$anchor.after( anchor_to_view_attachment_details_media_library );
 

@@ -8,6 +8,7 @@ $coinUrl = $reseller->data['reseller_coin_url'];
 // Configure the "purchase coins" link.
 $reseller_link = sprintf(
 	wp_kses(
+		// translators: 1 URL to BoldGrid Central.
 		__( 'You can purchase additional coins through <a href="%1$s" target="_blank">BoldGrid Central</a>.', 'boldgrid-inspirations' ),
 		array( 'a' => array( 'href' => array(), 'target' => array() ) )
 	),
@@ -16,7 +17,8 @@ $reseller_link = sprintf(
 if ( $reseller->centralUrl !== $coinUrl && isset( $reseller->data['reseller_title'] ) ) {
 	$reseller_link = sprintf(
 		wp_kses(
-			__( 'You can purchase additional coins through your official BoldGrid reseller, <a href="%s" target="_blank">%s</a>.', 'boldgrid-inspirations' ),
+			// translators: 1 URL to reseller's page where user can purchase additional BoldGrid Connect Coins, 2 the name of the reseller.
+			__( 'You can purchase additional coins through your official BoldGrid reseller, <a href="%1$s" target="_blank">%2$s</a>.', 'boldgrid-inspirations' ),
 			array( 'a' => array( 'href' => array(), 'target' => array() ) )
 		),
 		$coinUrl,

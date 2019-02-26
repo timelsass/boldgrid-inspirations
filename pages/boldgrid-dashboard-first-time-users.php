@@ -57,7 +57,10 @@ require BOLDGRID_BASE_DIR . '/pages/templates/restrict-direct-access.php';
 		to add your content and photos.</li>
 </ol>
 <p>
-<?php printf( __( 'Watching the video above is recommended.  You can also visit our %s support center %s to learn more.', 'boldgrid-inspirations' ), '<a href="http://www.boldgrid.com/support/" target="_blank">', '</a>' ); ?>
+<?php
+	// translators: 1 opening anchor tag linking to BoldGrid support center, 2 closing anchor tag.
+	printf( __( 'Watching the video above is recommended.  You can also visit our %1$s support center %2$s to learn more.', 'boldgrid-inspirations' ), '<a href="http://www.boldgrid.com/support/" target="_blank">', '</a>' );
+	?>
 </p>
 <div class="boldgrid-button-wrapper-left">
 	<?php

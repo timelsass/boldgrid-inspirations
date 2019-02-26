@@ -6,11 +6,11 @@ require BOLDGRID_BASE_DIR . '/pages/templates/restrict-direct-access.php';
 
 <div class='wrap'>
 
-	<h1>New From GridBlocks</h1>
+	<h1><?php echo esc_html__( 'New From GridBlocks', 'boldgrid-inspirations' ); ?></h1>
 
 	<div id='loading_message'>
 		<p>
-			<span class='spinner inline'></span>Loading GridBlock Sets.
+			<span class='spinner inline'></span><?php echo esc_html__( 'Loading GridBlock Sets.', 'boldgrid-inspirations' ); ?>
 		</p>
 	</div>
 

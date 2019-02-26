@@ -78,55 +78,57 @@ class Boldgrid_WP_Help_Pointers {
 		$this->initial_pointers = array (
 			array (
 				// unique id for this pointer
-				'id' => 'boldgrid_image_search_internal_only_8',
+				'id'       => 'boldgrid_image_search_internal_only_8',
 				// this is the page hook we want our pointer to show on
-				'screen' => 'page',
+				'screen'   => 'page',
 				// the css selector for the pointer to be tied to, best to use ID's
-				'target' => '#media-search-input',
-				'title' => 'Image search',
-				'content' => "<em>This search function</em> helps you find images you've already uploaded to your Media Library. If you would like to search the web for new images, click the <strong>BoldGrid Connect Search</strong> tab in the top menu.",
+				'target'   => '#media-search-input',
+				'title'    => esc_html__( 'Image search', 'boldgrid-inspirations' ),
+				// translators: 1 opening em tag, 2 closing em tag, 3 opening strong tag, 4 closing strong tag.
+				'content'  => sprintf( __( '%1$sThis search function%2$s helps you find images you\'ve already uploaded to your Media Library. If you would like to search the web for new images, click the %3$sBoldGrid Connect Search%4$s tab in the top menu.', 'boldgrid-inspirations' ), '<em>', '</em>', '<strong>', '</strong>' ),
 				'position' => array (
 					// top, bottom, left, right
-					'edge' => 'right',
+					'edge'  => 'right',
 					'align' => 'middle'
 				)
 			),
 			// Dashboard >> Media >> Library >> Search
 			array (
-				'id' => 'boldgrid_media_library_image_search_internal_only',
-				'screen' => 'upload',
-				'target' => '#media-search-input',
-				'title' => 'Image search',
-				'content' => "<em>This search function</em> helps you find images you've already uploaded to your Media Library. If you would like to search the web for new images, click the <strong>BoldGrid Connect Search</strong> tab in the top menu.",
+				'id'       => 'boldgrid_media_library_image_search_internal_only',
+				'screen'   => 'upload',
+				'target'   => '#media-search-input',
+				'title'    => esc_html__( 'Image search', 'boldgrid-inspirations' ),
+				// translators: 1 opening em tag, 2 closing em tag, 3 opening strong tag, 4 closing strong tag.
+				'content'  => sprintf( __( '%1$sThis search function%2$s helps you find images you\'ve already uploaded to your Media Library. If you would like to search the web for new images, click the %3$sBoldGrid Connect Search%4$s tab in the top menu.', 'boldgrid-inspirations' ), '<em>', '</em>', '<strong>', '</strong>' ),
 				'position' => array (
-					'edge' => 'top',
-					'align' => 'middle',
+					'edge'              => 'top',
+					'align'             => 'middle',
 					'open_on_page_load' => false
 				)
 			),
 			array (
-				'id' => 'boldgrid_image_size_do_you_need_help_8',
-				'screen' => 'media-upload',
+				'id'       => 'boldgrid_image_size_do_you_need_help_8',
+				'screen'   => 'media-upload',
 				// the css selector for the pointer to be tied to, best to use ID's
-				'target' => '#image_size',
-				'title' => 'Image size',
-				'content' => "Need help choosing an image size?",
+				'target'   => '#image_size',
+				'title'    => esc_html__( 'Image size', 'boldgrid-inspirations' ),
+				'content'  => esc_html__( 'Need help choosing an image size?', 'boldgrid-inspirations' ),
 				'position' => array (
 					// top, bottom, left, right
-					'edge' => 'right',
+					'edge'  => 'right',
 					'align' => 'middle'
 				)
 			),
 			array (
-				'id' => 'boldgrid_customization_widget',
-				'screen' => 'dashboard',
+				'id'       => 'boldgrid_customization_widget',
+				'screen'   => 'dashboard',
 				// the css selector for the pointer to be tied to, best to use ID's
-				'target' => '#customization_widget',
-				'title' => 'Begin customizing your new website!',
-				'content' => "Congratulations, you've just installed your new website! Below you'll find tips to help you begin customizing your site.",
+				'target'   => '#customization_widget',
+				'title'    => esc_html__( 'Begin customizing your new website!', 'boldgrid-inspirations' ),
+				'content'  => esc_html__( 'Congratulations, you\'ve just installed your new website! Below you\'ll find tips to help you begin customizing your site.', 'boldgrid-inspirations' ),
 				'position' => array (
 					// top, bottom, left, right
-					'edge' => 'bottom',
+					'edge'  => 'bottom',
 					'align' => 'middle'
 				)
 			)

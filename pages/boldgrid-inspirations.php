@@ -1,55 +1,161 @@
 <?php
+/**
+ * This page handles displaying the Inspirations page.
+ *
+ * This file is included via Boldgrid_Inspirations_Built::inspiration_page().
+ *
+ * @param bool  $prompting_for_key Whether or not we are prompting for the api key.
+ * @param array $mode_data
+ */
 
 // Configure variables.
 $lang = array(
-	'AddFunctionality' =>					__( 'Add Functionality', 'boldgrid-inspirations' ),
-	'Blog' =>								__( 'Blog', 'boldgrid-inspirations' ),
-	'Design' =>								__( 'Design', 'boldgrid-inspirations' ),
-	'Content' =>							__( 'Content', 'boldgrid-inspirations' ),
-	'CoinBudget' =>							__( 'Coin Budget', 'boldgrid-inspirations'),
-	'Coins' =>								__( 'Coins', 'boldgrid-inspirations' ),
-	'Contact' =>							__( 'Contact', 'boldgrid-inspirations' ),
-	'Install' =>							__( 'Install', 'boldgrid-inspirations' ),
-	'InstallBlog' =>						__( 'Install a sample blog.', 'boldgrid-inspirations' ),
-	'Pageset' =>							__( 'Pageset', 'boldgrid-inspirations' ),
-	'Free' =>								__( 'Free', 'boldgrid-inspirations' ),
-	'Desktop' =>							__( 'Enter desktop preview mode', 'boldgrid-inspirations' ),
-	'Tablet' =>								__( 'Enter tablet preview mode', 'boldgrid-inspirations' ),
-	'Mobile' =>								__( 'Enter mobile preview mode', 'boldgrid-inspirations' ),
-	'Next' =>								__( 'Next', 'boldgrid-inspirations' ),
+	'AddFunctionality' => __( 'Add Functionality', 'boldgrid-inspirations' ),
+	'Blog'             => __( 'Blog', 'boldgrid-inspirations' ),
+	'Design'           => __( 'Design', 'boldgrid-inspirations' ),
+	'Content'          => __( 'Content', 'boldgrid-inspirations' ),
+	'CoinBudget'       => __( 'Coin Budget', 'boldgrid-inspirations'),
+	'Coins'            => __( 'Coins', 'boldgrid-inspirations' ),
+	'InstallBlog'      => __( 'Install a sample blog.', 'boldgrid-inspirations' ),
+	'Pageset'          => __( 'Pageset', 'boldgrid-inspirations' ),
+	'Free'             => __( 'Free', 'boldgrid-inspirations' ),
+	'Desktop'          => __( 'Enter desktop preview mode', 'boldgrid-inspirations' ),
+	'Tablet'           => __( 'Enter tablet preview mode', 'boldgrid-inspirations' ),
+	'Mobile'           => __( 'Enter mobile preview mode', 'boldgrid-inspirations' ),
+	'Next'             => __( 'Next', 'boldgrid-inspirations' ),
+	'Welcome'          => __( 'Welcome', 'boldgrid-inspirations' ),
 );
 
 ?>
 <div class="wrap main">
 
-	<form method="post" name="post_deploy" id="post_deploy" action="admin.php?page=boldgrid-inspirations" >
+	<?php require_once BOLDGRID_BASE_DIR . '/pages/includes/boldgrid-inspirations/menu.php'; ?>
 
-	<div class="top-menu design">
-		<a class="active" data-step="design" ><?php echo $lang['Design'] ?></a>
-		<a class="disabled" data-step="content" data-disabled ><?php echo $lang['Content']; ?></a>
-		<a class="disabled" data-step="contact" data-disabled ><?php echo $lang['Contact']; ?></a>
-		<a class="disabled" data-step="install" data-disabled ><?php echo $lang['Install']; ?></a>
-	</div>
+	<!-- <div id="test-spacing-div"></div> -->
+
+	<form method="post" class="inspir-under-menu' name="post_deploy" id="post_deploy" action="admin.php?page=boldgrid-inspirations">
 
 	<div style="clear:both;"></div>
 
-	<div id="screen-design">
+	<div id="screen-welcome" class="screen-contained" style="max-width:800px;">
+
+		<div style="text-align:center; margin-bottom:24px;">
+
+			<h1 class="bginsp-logo"><strong>BOLD</strong>GRID INSPIRATIONS</h1>
+
+		</div>
+
+		<div style="float:left; width:calc( 55% - 30px);">
+
+			<p style="text-align:center;"><strong><?php echo esc_html__( 'Just 3 Simple Steps to Get Started:', 'boldgrid-inspirations' ); ?></strong>
+
+			<div class="boldgrid-plugin-card">
+				<div class="top">
+					<img src="<?php echo Boldgrid_Inspirations_Utility::get_image_url( 'inspirations/features-themes-gridpic.png' ); ?>" class="step-screenshot" />
+					<h2 class="circled-text circled-text-left boldgrid-orange-border">1</h2>
+					<p><strong><?php echo esc_html__( 'Choose a theme design', 'boldgrid-inspirations' ); ?></strong></p>
+					<div style="clear:both;"></div>
+				</div>
+			</div>
+
+			<div class="boldgrid-plugin-card">
+				<div class="top">
+					<img src="<?php echo Boldgrid_Inspirations_Utility::get_image_url( 'inspirations/features-templates-gridpic.png' ); ?>" class="step-screenshot" />
+					<h2 class="circled-text circled-text-left boldgrid-orange-border">2</h2>
+					<p><strong><?php echo esc_html__( 'Choose page options', 'boldgrid-inspirations' ); ?></strong></p>
+					<div style="clear:both;"></div>
+				</div>
+			</div>
+
+			<div class="boldgrid-plugin-card">
+				<div class="top">
+					<img src="<?php echo Boldgrid_Inspirations_Utility::get_image_url( 'inspirations/contact-info-close-24ac47.png' ); ?>" class="step-screenshot" />
+					<h2 class="circled-text circled-text-left boldgrid-orange-border">3</h2>
+					<p><strong><?php echo esc_html__( 'Enter Essential info', 'boldgrid-inspirations' ); ?></strong></p>
+					<div style="clear:both;"></div>
+				</div>
+			</div>
+
+			<div class="boldgrid-plugin-card">
+				<div class="top">
+					<img src="<?php echo Boldgrid_Inspirations_Utility::get_image_url( 'inspirations/click.png' ); ?>" class="step-screenshot" style="padding-left:51px; padding-right:51px;" />
+					<h2 class="circled-text circled-text-left boldgrid-orange-border">&#10004;</h2>
+					<p><?php
+						printf(
+							wp_kses(
+								// translators: 1 Opening span tag which will surround "Install", 2 its closing span tag.
+								__( 'Click %1$sInstall%2$s and you\'re ready to customize and design with our intuitive interface.', 'boldgrid-inspirations' ),
+								array( 'span' => array( 'class' => array(), ), )
+							),
+							'<span class="boldgrid-orange">',
+							'</span>'
+						);
+					?></p>
+					<p><?php echo esc_html__( 'Don\'t worry, if you make a mistake or change your mind, you can start over with a single click!', 'boldgrid-inspirations' ); ?></p>
+					<div style="clear:both;"></div>
+				</div>
+			</div>
+
+		</div>
+
+		<div style="float:right; width:calc( 45% - 30px);">
+
+			<p>
+				<?php esc_html_e( 'Inspirations is a tool to inspire and create. Choose from a large repository of themes, use demo content as a start or make your own with the easy to use design tools. Customize to your heart\'s content and add useful plugin functionality. Publish and be proud of your new site.', 'boldgrid-inspirations' ); ?>
+			</p>
+
+			<p style="text-align:center;">
+				<a class="button button-primary boldgrid-orange"><?php echo esc_html__( 'Let\'s Get Started!', 'boldgrid-inspirations' ); ?></a>
+			</p>
+
+		</div>
+
+
+	</div>
+
+<?php
+if ( $prompting_for_key ) {
+?>
+	<div id="screen-api-key" class="hidden screen-contained">
+	</div>
+<?php
+}
+if ( ! empty( $mode_data['has_any_site'] ) ) {
+?>
+	<div id="screen-content-check-warning" class="hidden screen-contained" style="text-align:center;">
+		<h1><?php echo esc_html__( 'Content Check Warning', 'boldgrid-inspirations' ); ?></h1>
+		<p><?php echo esc_html__( 'We see that you have content on your site already - Make sure you have a backup of your site (Use BoldGrid Backup Plugin) before you install a new Inspiration as all of your content will be erased.', 'boldgrid-inspirations' ); ?></p>
+		<a class="button button-primary next-step dashicons-before dashicons-after dashicons-arrow-right-alt"><?php echo esc_html__( 'I Understand - Continue', 'boldgrid-inspirations'); ?></a>
+
+		<p style="margin-top:2em;"><?php esc_html_e( 'If you just want to change your theme and keep your current content in tact, simply change your theme:', 'boldgrid-inspirations' ); ?></p>
+		<a class="button button-primary dashicons-before dashicons-arrow-left-alt" href="<?php echo esc_url( admin_url( 'theme-install.php?browse=featured' ) ); ?>"><?php esc_html_e( 'Go to Customize > Add Themes')?></a>
+	</div>
+<?php
+}
+?>
+
+	<div id="screen-design" class="hidden">
 		<div class="inspirations-mobile-toggle">
 			<!-- Mobile Filter-->
 				<div class="wp-filter">
 					<div class="filter-count">
-						<span class="count theme-count">All</span>
+						<span class="count theme-count"><?php echo esc_html__( 'All', 'boldgrid-inspirations' ); ?></span>
 					</div>
 					<ul class="filter-links">
-						<li><a href="#" data-sort="show-all" class="current">Show All</a></li>
+						<li><a href="#" data-sort="show-all" class="current"><?php echo esc_html__( 'Show All', 'boldgrid-inspirations' ); ?></a></li>
 					</ul>
-					<a class="drawer-toggle" href="#">Filter Themes</a>
+					<a class="drawer-toggle" href="#"><?php echo esc_html__( 'Filter Themes', 'boldgrid-inspirations' ); ?></a>
 				</div>
 			<!-- End of Mobile Filter-->
 		</div>
 		<div class="left" id="categories">
 		</div>
 		<div class="theme-browser rendered right">
+		<div class="boldgrid-plugin-card full-width" style="margin-bottom:15px;">
+			<div class="top">
+				<?php echo esc_html__( 'Choose a theme to start your design. A theme sets the basics of layout, type and colors but you can customize each once you start designing.', 'boldgrid-inspirations' ); ?>
+			</div>
+		</div>
 			<div class="themes wp-clearfix"></div>
 		</div>
 	</div>
@@ -60,7 +166,7 @@ $lang = array(
 		<div class="inspirations-mobile-toggle">
 			<!-- Mobile Filter-->
 				<div class="wp-filter">
-					<a class="drawer-toggle" href="#">Change Content</a>
+					<a class="drawer-toggle" href="#"><?php echo esc_html__( 'Change Content', 'boldgrid-inspirations' ); ?></a>
 				</div>
 			<!-- End of Mobile Filter-->
 		</div>
@@ -76,6 +182,7 @@ $lang = array(
 					<div id="blog-toggle" class="toggle toggle-light"></div>
 				</div>
 			</div>
+			<!--
 			<div class="content-menu-section">
 				<div class="coin-filter imgedit-group-top">
 					<?php echo $lang['CoinBudget']; ?> <span class="dashicons dashicons-editor-help" onclick="imageEdit.toggleHelp(this);return false;" aria-expanded='false' ></span>
@@ -92,14 +199,20 @@ $lang = array(
 				<div class="coin-option"        data-coin="80">0 - 80 <?php echo $lang['Coins']; ?></div>
 				<div class="coin-option"        data-coin="0">        <?php echo $lang['Free'];  ?></div>
 			</div>
+			-->
 		</div>
 
 		<div class="right">
+			<div class="boldgrid-plugin-card full-width" style="margin-bottom:15px;">
+				<div class="top">
+					<?php echo esc_html__( 'Choose the basic pages you wish to start with, and any additional features.', 'boldgrid-inspirations' ); ?>
+				</div>
+			</div>
 			<div id="build-summary">
 				<div style="float:left;">
 					<span id="theme-title"></span>
 					<span class ="summary-subheading">
-						<span id="sub-category-title"></span><span id="build-cost">...</span>
+						<span id="sub-category-title"></span>
 						<span class="devices">
 							<button type="button" class="preview-desktop" aria-pressed="true" data-device="desktop">
 								<span class="screen-reader-text"><?php echo $lang['Desktop']; ?></span>
@@ -114,7 +227,7 @@ $lang = array(
 					</span>
 				</div>
 				<div style="float:right;">
-					<a class="button inspirations button-secondary">Back</a>
+					<a class="button inspirations button-secondary"><?php echo esc_html__( 'Back', 'boldgrid-inspirations' ); ?></a>
 					<a class="inspirations button button-primary install"><?php echo $lang['Next']; ?></a>
 				</div>
 			</div>
@@ -132,17 +245,10 @@ $lang = array(
 
 	<div style="clear:both;"></div>
 
-	<div id="screen-contact" class="hidden">
+	<div id="screen-contact" class="hidden screen-contained">
 		<?php
 		// Contact template.
 		include BOLDGRID_BASE_DIR . '/pages/includes/boldgrid-inspirations/contact.php';
-		?>
-	</div>
-
-	<div id="screen-install" class="hidden">
-		<?php
-		// Confirmation template.
-		include BOLDGRID_BASE_DIR . '/pages/includes/boldgrid-inspirations/confirmation.php';
 		?>
 	</div>
 
@@ -174,5 +280,3 @@ $lang = array(
 	</form>
 
 </div>
-
-

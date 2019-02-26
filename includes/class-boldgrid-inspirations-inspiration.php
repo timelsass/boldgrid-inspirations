@@ -224,8 +224,7 @@ class Boldgrid_Inspirations_Inspiration extends Boldgrid_Inspirations {
 			$boldgrid_pages_and_posts = new Boldgrid_Inspirations_Pages_And_Posts();
 			$boldgrid_pages_and_posts->add_hooks();
 
-			// Include BoldGrid Inspirations Feedback.
-			require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-feedback.php';
+			// BoldGrid Inspirations Feedback.
 			$boldgrid_inspirations_feedback = new Boldgrid_Inspirations_Feedback();
 
 			// GridBlock Sets - Admin Page.
@@ -240,6 +239,12 @@ class Boldgrid_Inspirations_Inspiration extends Boldgrid_Inspirations {
 
 			$staging = new Boldgrid_Inspirations_Staging();
 			$staging->add_hooks();
+
+			$my_inspiration = new Boldgrid_Inspirations_My_Inspiration();
+			$my_inspiration->add_admin_hooks();
+
+			$redirect = new Boldgrid_Inspirations_Redirect();
+			$redirect->add_admin_hooks();
 		}
 
 		/* Classes to add_hooks for, regardless of is_admin. */
@@ -320,14 +325,7 @@ public function boldgrid_style( $hook ) {
 	wp_enqueue_style( 'base-admin-css' );
 
 	// ajax.js
-	wp_enqueue_script( 'inspiration-ajax',
-		plugins_url(
-			'/assets/js/ajax/ajax.js', BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php'
-		),
-		array(),
-		BOLDGRID_INSPIRATIONS_VERSION,
-		true
-	);
+	Boldgrid_Inspirations_Ajax::enqueue();
 
 	// handlebars
 	wp_enqueue_script( 'inspiration-handle-bars',
@@ -423,6 +421,11 @@ public function include_admin_files() {
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-widget.php';
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-attachment.php';
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-staging.php';
+	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-my-inspiration.php';
+	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-installed.php';
+	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-redirect.php';
+	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-ajax.php';
+	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-feedback.php';
 }
 
 /**

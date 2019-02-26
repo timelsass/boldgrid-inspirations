@@ -550,16 +550,16 @@ class Boldgrid_Inspirations {
 		// Check that PHP is installed at our required version or deactivate and die.
 		if ( ! self::is_php_compatible() ) {
 			self::deactivate(
-				sprintf(
+				'<p><center>' . sprintf(
+					// translators: 1 opening strong tag, 2 closing strong tag, 3 required php version for BoldGrid Inspirations plugin.
 					esc_html__(
-						'%sBoldGrid Inspirations%s requires PHP %s or greater.%s',
+						'%1$sBoldGrid Inspirations%2$s requires PHP %3$s or greater.',
 						'boldgrid-inspirations'
 					),
-					'<p><center><strong>',
+					'<strong>',
 					'</strong>',
-					self::$required_php_version,
-					'</center></p>'
-				),
+					self::$required_php_version
+				) . '</center></p>',
 				esc_html__( 'Plugin Activation Error', 'boldgrid-inspirations' ),
 				array (
 					'response' => 200,
@@ -574,16 +574,16 @@ class Boldgrid_Inspirations {
 
 		if ( version_compare( $wp_version, self::$required_wp_version, '<' ) ) {
 			self::deactivate(
-				sprintf(
+				'<p><center>' . sprintf(
+				// translators: 1 opening strong tag, 2 closing strong tag, 3 required WordPress version for BoldGrid Inspirations plugin.
 					esc_html__(
-						'%sBoldGrid Inspirations%s requires WordPress %s or higher.%s',
+						'%1$sBoldGrid Inspirations%2s requires WordPress %3$s or higher.',
 						'boldgrid-inspirations'
 					),
-					'<p><center><strong>',
+					'<strong>',
 					'</strong>',
-					self::$required_wp_version,
-					'</center></p>'
-				),
+					self::$required_wp_version
+				) . '</center></p>',
 				esc_html__( 'Plugin Activation Error', 'boldgrid-inspirations' ),
 				array (
 					'response' => 200,

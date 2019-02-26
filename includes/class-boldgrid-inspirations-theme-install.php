@@ -242,9 +242,7 @@ class Boldgrid_Inspirations_Theme_Install {
 		<p>
 			<span class="boldgrid-cert"></span>
 			<span class='recommend-boldgrid-text'>
-				We recommend choosing a BoldGrid Theme.
-				Our themes have theme specific content available through
-				Inspirations and include more features while customizing.
+				<?php esc_html_e( 'We recommend choosing a BoldGrid Theme. Our themes have theme specific content available through Inspirations and include more features while customizing.', 'boldgrid-inspirations' ); ?>
 			</span>
 		</p>
 	</div>

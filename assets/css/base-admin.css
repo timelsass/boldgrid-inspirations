@@ -288,14 +288,6 @@ Inline dashicons
 * Spinners.
 */
 
-/* Create an inline spinner. */
-.spinner.inline {
-	float: none;
-	visibility: visible;
-	vertical-align: bottom;
-	margin-left: 0px;
-}
-
 /* Create an inline spinner floated next to a button. */
 .spinner.inline.left-of-button {
 	float: right;
@@ -319,4 +311,100 @@ BoldGrid Connect Search
 	bottom: 0px;
 	width: 100%;
 	height: 100%;
+}
+
+.small {
+	font-size: 0.8em;
+}
+
+/*
+ * #.# Dashicons.
+ *
+ * Custom styles for dashicons.
+ */
+ 
+a.button.dashicons-before:before {
+	vertical-align: text-top;
+	padding-right: 5px;
+}
+
+a:not(.button).dashicons-before:before {
+	text-decoration: none;
+	font-size: 1.2em;
+	vertical-align: sub;
+}
+
+/*
+ * #.# BoldGrid Plugin Card My Inspirations
+ *
+ * Handle the display / usage of boldgrid plugin cards as used on the "My Inspiration" page.
+ */
+ 
+.boldgrid-plugin-card-boxy > h1 {
+	margin-bottom: 8px;
+}
+
+/* The boxes may be stacked on top of each other. Give them some space. */
+.boldgrid-plugin-card-boxy .boldgrid-plugin-card {
+	margin-bottom: 15px;
+}
+
+/* If the plugin cards are nested, don't give bottom margin. */
+.boldgrid-plugin-card-boxy .boldgrid-plugin-card .boldgrid-plugin-card {
+	margin-bottom: 0px;
+}
+
+/* Keep the first elements flush to the top of the top / bottom boxes. */
+.boldgrid-plugin-card-boxy .top > :first-child {
+	margin-top: 0px;
+}
+
+/* Keep the last elements flush to the bottom of the top / bottom boxes. */
+.boldgrid-plugin-card-boxy .top > :nth-last-child(-n + 1),
+.boldgrid-plugin-card-boxy .bottom > :nth-last-child(-n + 1) {
+	margin-bottom: 0px;
+}
+
+.boldgrid-plugin-card-boxy .top, 
+.boldgrid-plugin-card-boxy .bottom {
+	padding: 7.5px;
+}
+
+.boldgrid-plugin-card-boxy h2 {
+	font-size: 1.1em;
+}
+
+.boldgrid-plugin-card-boxy h3 {
+	font-size: 1.05em;
+}
+
+.boldgrid-plugin-card-boxy .top.header h2 {
+	margin: 0px;
+}
+
+.boldgrid-plugin-card-boxy .bottom .top {
+	text-align: left;
+}
+
+.boldgrid-plugin-card-boxy .top .header {
+	border-bottom: 1px solid #bbb;
+    margin-left: -3px;
+    margin-right: -3px;
+    padding-bottom: 2px;
+}
+
+/* BoldGrid Inspirations logo. The element should contain the text "BoldGrid Inspirations" and the
+ * logo will appear to the left.
+ */   
+.wrap h1.bginsp-logo {
+	font-family: 'Josefin Sans';
+    font-weight: 300;
+    background: url( ../images/boldgrid-login-logo.png ) no-repeat;
+    background-size: 4.4em;
+    display: inline-block;
+    padding-left: 1.7em;
+    padding-top: 0.1em;
+    background-position: -1.6em .04em;
+    max-height: 1.2em;
+    letter-spacing: 0.1em;
 }

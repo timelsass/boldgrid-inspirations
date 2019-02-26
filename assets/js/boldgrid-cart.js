@@ -11,6 +11,8 @@ IMHWPB.BoldGrid_Cart = function( configs ) {
 		this.api_param = 'key';
 		this.api_key_query_str = this.api_param + '=' + this.api_key;
 
+		this.lang = BoldGridCart;
+
 		self.ajax = new IMHWPB.Ajax( configs );
 		self.baseAdmin = new IMHWPB.BaseAdmin();
 
@@ -44,13 +46,12 @@ IMHWPB.BoldGrid_Cart = function( configs ) {
 			 */
 
 			// TOS - is it checked?
-			error_tos_not_agreed_to =
-				'Please review the terms of service and<br />check the box above if you agree.';
+			error_tos_not_agreed_to = self.lang.reviewTos;
 
 			// Valid BoldGrid Connect Key.
-			error_no_key_entered = 'Please enter your BoldGrid Connect Key!';
-			error_key_too_short = 'Your BoldGrid Connect Key appears to be invalid, it is too short.';
-			error_invalid_key = 'Invalid BoldGrid Connect Key!';
+			error_no_key_entered = self.lang.reviewKey;
+			error_key_too_short  = self.lang.reviewKeyShort;
+			error_invalid_key    = self.lang.reviewKeyInvalid;
 
 			/**
 			 * ********************************************************************
@@ -137,7 +138,7 @@ IMHWPB.BoldGrid_Cart = function( configs ) {
 
 			$.post( ajaxurl, data, function( response ) {
 				if ( 'success' != response ) {
-					alert( 'Error, image selection has not been updated.' );
+					alert( self.lang.imageSelection );
 				}
 			} );
 		};
@@ -234,7 +235,7 @@ IMHWPB.BoldGrid_Cart = function( configs ) {
 				if ( response.result.data ) {
 					$( 'form#purchase_for_publish' ).submit();
 				} else {
-					$( 'span#purchase_error' ).html( 'Invalid BoldGrid Connect Key!' );
+					$( 'span#purchase_error' ).html( self.lang.reviewKeyInvalid );
 				}
 			};
 

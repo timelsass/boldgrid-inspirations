@@ -29,6 +29,8 @@ IMHWPB.BoldGridFeedback = function( $ ) {
 	// Declare vars.
 	var self = this;
 
+	self.lang = BoldGridFeedback;
+
 	// Initialize self.diagnosticData.
 	self.diagnosticData = '';
 
@@ -242,8 +244,7 @@ IMHWPB.BoldGridFeedback = function( $ ) {
 		if ( ! $comment ) {
 
 			// Show error message.
-			markup = '<p>Please enter your feedback comment.</p>';
-			$feedbackError.find( '.feedback-form-field' ).html( markup );
+			$feedbackError.find( '.feedback-form-field' ).html( '<p>' + self.lang.enterComment + '</p>' );
 
 			// Unhide the error message.
 			$feedbackError.show();
@@ -304,8 +305,7 @@ IMHWPB.BoldGridFeedback = function( $ ) {
 		errorCallback = function() {
 
 			// Show error message.
-			markup = '<p>There was an error processing your request.  Please try again.</p>';
-			$feedbackError.find( '.feedback-form-field' ).html( markup );
+			$feedbackError.find( '.feedback-form-field' ).html( '<p>' + self.lang.tryAgain + '</p>' );
 
 			// Unhide the error message.
 			$feedbackError.show();
@@ -335,8 +335,8 @@ IMHWPB.BoldGridFeedback = function( $ ) {
 
 					// Replace the form with a success message.
 					markup =
-						'<h2>Thanks for the feedback</h2>\n' +
-						'<p>The BoldGrid team wants you to know that we are listening and every bit of feedback helps us improve our tool.</p>';
+						'<h2>' + self.lang.thanks + '</h2>\n' +
+						'<p>' + self.lang.weAreListening + '</p>';
 
 					// Empty the notice area.
 					$feedbackContent.empty();

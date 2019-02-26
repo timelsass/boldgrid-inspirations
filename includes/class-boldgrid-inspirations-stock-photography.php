@@ -51,12 +51,9 @@ class Boldgrid_Inspirations_Stock_Photography extends Boldgrid_Inspirations {
 			?>
 <div class="wrap">
 	<h2 class="nav-tab-wrapper">
-		<a href="upload.php" class="nav-tab <?php echo $library_active; ?>">Media
-			Library</a> <a href="media-new.php"
-			class="nav-tab <?php echo $upload_active; ?>">Add New Media</a> <a
-			href="upload.php?page=boldgrid-connect-search"
-			class="nav-tab <?php echo $boldgrid_connect_search_active; ?>">BoldGrid
-			Connect Search</a>
+		<a href="upload.php" class="nav-tab <?php echo $library_active; ?>"><?php esc_html_e( 'Media Library' ); ?></a>
+		<a href="media-new.php" class="nav-tab <?php echo $upload_active; ?>"><?php esc_html_e( 'Add New Media' ); ?></a>
+		<a href="upload.php?page=boldgrid-connect-search" class="nav-tab <?php echo $boldgrid_connect_search_active; ?>"><?php esc_html_e( 'BoldGrid Connect Search', 'boldgrid-inspirations' ); ?></a>
 	</h2>
 </div>
 <?php
@@ -183,7 +180,7 @@ iframe#boldgrid_connect_search {
 </style>
 
 <div class="wrap wrap-boldgrid-connect-search">
-	<h2>BoldGrid Connect Search</h2>
+	<h2><?php  esc_html_e( 'BoldGrid Connect Search', 'boldgrid-inspirations' ); ?></h2>
 	<iframe id="boldgrid_connect_search"
 		src="media-upload.php?chromeless=1&tab=image_search&ref=dashboard-media"></iframe>
 </div>
@@ -196,7 +193,7 @@ iframe#boldgrid_connect_search {
 	 * @param array $tabs
 	 */
 	public function custom_media_upload_image_search( $tabs ) {
-		$newtab['image_search'] = 'Image Search';
+		$newtab['image_search'] = esc_html__( 'Image Search', 'boldgrid-inspirations' );
 
 		return array_merge( $tabs, $newtab );
 	}
@@ -259,14 +256,14 @@ iframe#boldgrid_connect_search {
 		$boldgrid_configs = $this->get_configs();
 
 		$item = array (
-			'type' => 'stock_photography_download',
+			'type'   => 'stock_photography_download',
 			'params' => array (
-				'key' => $boldgrid_configs['api_key'],
-				'id_from_provider' => (int) $_POST['id_from_provider'],
+				'key'               => $boldgrid_configs['api_key'],
+				'id_from_provider'  => (int) $_POST['id_from_provider'],
 				'image_provider_id' => (int) $_POST['image_provider_id'],
-				'image_size' => $_POST['image_size'],
-				'width' => isset( $_POST['width'] ) ? (int) $_POST['width'] : null,
-				'height' => isset( $_POST['height'] ) ? (int) $_POST['height'] : null
+				'image_size'        => $_POST['image_size'],
+				'width'             => isset( $_POST['width'] ) ? (int) $_POST['width'] : null,
+				'height'            => isset( $_POST['height'] ) ? (int) $_POST['height'] : null
 			)
 		);
 
@@ -491,12 +488,35 @@ iframe#boldgrid_connect_search {
 		if ( $in_image_search ) {
  			wp_enqueue_media();
 
-			wp_enqueue_script( 'image_search',
+ 			$handle = 'image_search';
+			wp_register_script(
+				$handle,
 				plugins_url( '/assets/js/image_search.js', BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ),
 				array (),
 				BOLDGRID_INSPIRATIONS_VERSION,
 				true
 			);
+			wp_localize_script(
+				$handle,
+				'BoldGridImageSearch',
+				array(
+					'downloading'         => esc_html__( 'Downloading image...', 'boldgrid-inspirations' ),
+					'imageDownloaded'     => esc_html__( 'Image downloaded!', 'boldgrid-inspirations' ),
+					'loadingImageDetails' => esc_html__( 'Loading image details', 'boldgrid-inspirations' ),
+					'noMore'              => esc_html__( 'No more search results', 'boldgrid-inspirations' ),
+					'noSearchResults'     => esc_html__( 'No search results.', 'boldgrid-inspirations' ),
+					'noSearchTerm'        => esc_html__( 'Please enter a search term.', 'boldgrid-inspirations' ),
+					'scrollDown'          => sprintf(
+						// translators: 1 Opening strong tag, 2 closing strong tag.
+						__( '%1$sScroll down%2$s or %1$sclick here%2$s to load more search results', 'boldgrid-inspirations' ),
+						'<strong>',
+						'</strong>'
+					),
+					'searching'           => esc_html__( 'Searching', 'boldgrid-inspirations' ),
+					'viewInLibrary'       => esc_html__( 'View image in Media Library', 'boldgrid-inspirations' ),
+				)
+			);
+			wp_enqueue_script( $handle );
 
 			wp_register_style( 'wp_iframe-media_upload',
 				plugins_url( '/' . basename( BOLDGRID_BASE_DIR ) . '/assets/css/wp_iframe-media_upload.css' ),
@@ -531,8 +551,10 @@ iframe#boldgrid_connect_search {
 				true
 			);
 			wp_localize_script( $handle, 'BoldGridInspirationsMediaTab', array(
-				'Change'    => __( 'Change', 'boldgrid-inspirations' ),
-				'editImage' => __( 'Edit image', 'boldgrid-inspirations' ),
+				'Change'      => __( 'Change', 'boldgrid-inspirations' ),
+				'editImage'   => __( 'Edit image', 'boldgrid-inspirations' ),
+				'imageSearch' => __( 'Image Search', 'boldgrid-inspirations' ),
+				'loading'     => __( 'Loading BoldGrid Connect Search.', 'boldgrid-inspirations' )
 			));
 			wp_enqueue_script( $handle );
 		}

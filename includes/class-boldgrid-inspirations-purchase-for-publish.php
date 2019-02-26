@@ -95,20 +95,38 @@ class Boldgrid_Inspirations_Purchase_For_Publish extends Boldgrid_Inspirations {
 
 			wp_enqueue_style( 'boldgrid-cart' );
 
-			wp_enqueue_script( 'boldgrid-cart',
-				plugins_url( '/assets/js/boldgrid-cart.js',
-					BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ), array(),
-				BOLDGRID_INSPIRATIONS_VERSION, true );
+			$handle = 'boldgrid-cart';
+
+			wp_register_script(
+				$handle,
+				plugins_url( '/assets/js/boldgrid-cart.js', BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ),
+				array(),
+				BOLDGRID_INSPIRATIONS_VERSION,
+				true
+			);
+			wp_localize_script(
+				$handle,
+				'BoldGridCart',
+				array(
+					'imageSelection'   => esc_html__( 'Error, image selection has not been updated.', 'boldgrid-inspirations' ),
+					'reviewKey'        => esc_html__( 'Please enter your BoldGrid Connect Key!', 'boldgrid-inspirations' ),
+					'reviewKeyInvalid' => esc_html__( 'Invalid BoldGrid Connect Key!', 'boldgrid-inspirations' ),
+					'reviewKeyShort'   => esc_html__( 'Your BoldGrid Connect Key appears to be invalid, it is too short.', 'boldgrid-inspirations' ),
+					'reviewTos'        => sprintf(
+						// translators: 1 A break tag, please insert the break tag in the middle of the sentence.
+						__( 'Please review the terms of service and%1$scheck the box above if you agree.', 'boldgrid-inspirations' ),
+						'<br />'
+					),
+				)
+			);
+			wp_enqueue_script( $handle );
 		}
 
 		if ( 'boldgrid_page_transaction-history' != $hook && 'transactions_page_cart' != $hook ) {
 			return;
 		}
 
-		wp_enqueue_script( 'inspiration-ajax',
-			plugins_url( '/assets/js/ajax/ajax.js',
-				BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ), array(), BOLDGRID_INSPIRATIONS_VERSION,
-			true );
+		Boldgrid_Inspirations_Ajax::enqueue();
 	}
 
 	/**
@@ -178,7 +196,7 @@ class Boldgrid_Inspirations_Purchase_For_Publish extends Boldgrid_Inspirations {
 
 		// Only Administrators can be in the cart.
 		if( ! current_user_can( 'manage_options' ) ) {
-			echo __( 'Insufficient permissions', 'boldgrid-inspirations' );
+			esc_html_e( 'Insufficient permissions', 'boldgrid-inspirations' );
 			wp_die();
 		}
 
@@ -270,7 +288,7 @@ class Boldgrid_Inspirations_Purchase_For_Publish extends Boldgrid_Inspirations {
 	 */
 	public function local_cost_matches_remote_cost() {
 		if ( empty( $this->local_publish_cost_data ) ) {
-			echo 'Error: We have no local cost data';
+			esc_html_e( 'Error: We have no local cost data', 'boldgrid-inspirations' );
 
 			return false;
 		}
@@ -303,7 +321,7 @@ class Boldgrid_Inspirations_Purchase_For_Publish extends Boldgrid_Inspirations {
 		 * resize the unwatermarked image.
 		 */
 		if( ! empty( $original_metadata['sizes']['boldgrid_deployment_resize'] ) ) {
-			$width = $original_metadata['sizes']['boldgrid_deployment_resize']['width'];
+			$width  = $original_metadata['sizes']['boldgrid_deployment_resize']['width'];
 			$height = $original_metadata['sizes']['boldgrid_deployment_resize']['height'];
 
 			Boldgrid_Inspirations_Attachment::resize( $attachment_id, $width, $height );
@@ -332,7 +350,7 @@ class Boldgrid_Inspirations_Purchase_For_Publish extends Boldgrid_Inspirations {
 		// If there are images that need purchasing, create a "Purchase" link:
 		$purchase_link = ( 0 == $count_of_watermarked_images_on_this_page ) ? '' : '<a href="admin.php?page=boldgrid-cart">Purchase</a>';
 
-		$template = '
+		echo '
 			<style>
 				.watermarked_image_count:before {
 					content: "\f128";
@@ -352,13 +370,20 @@ class Boldgrid_Inspirations_Purchase_For_Publish extends Boldgrid_Inspirations {
 				}
 			</style>
 			<div class="misc-pub-section watermarked_image_count">
-				Watermarked: <strong>%u %s</strong> %s
-			</div>
 		';
 
-		// Print the message:
-		echo sprintf( $template, $count_of_watermarked_images_on_this_page, $text_images,
-			$purchase_link );
+		printf(
+			wp_kses(
+				// translators: 1 The count of watermarked images on this page, 'Image' or 'Images', 3 a link to where the user can purchase these images.
+				__( 'Watermarked: <strong>%1$u %2$s</strong> %3$s', 'boldgrid-inspirations' ),
+				array( 'a' => array( 'href' => array(), ), 'strong' => array(), )
+			),
+			$count_of_watermarked_images_on_this_page,
+			$text_images,
+			$purchase_link
+		);
+
+		echo '</div>';
 	}
 
 	/**
@@ -371,32 +396,48 @@ class Boldgrid_Inspirations_Purchase_For_Publish extends Boldgrid_Inspirations {
 
 		include BOLDGRID_BASE_DIR . '/pages/cart/checking-out.php';
 
-		$this->send_publish_status( '<li>Gathering local data about images needing purchase... ' );
+		$this->send_publish_status( '<li>' . esc_html__( 'Gathering local data about images needing purchase...', 'boldgrid-inspirations' ) );
 
 		$local_publish_cost_data = $this->get_local_publish_cost_data();
 
 		if ( false == $this->local_publish_cost_data ) {
-			echo 'Error: We have no local cost data';
+			esc_html_e( 'Error: We have no local cost data', 'boldgrid-inspirations' );
 
 			return false;
 		}
 
-		$this->send_publish_status( '<li>Gathering remote data about each image...</li>' );
+		$this->send_publish_status( '<li>' . esc_html_e( 'Gathering remote data about each image...', 'boldgrid-inspirations' ) . '</li>' );
 		$remote_publish_cost_data = $this->get_remote_publish_cost_data();
 
-		$this->send_publish_status( '<li>Checking your coin balance...</li>' );
+		$this->send_publish_status( '<li>' . esc_html_e( 'Checking your coin balance...', 'boldgrid-inspirations' ) . '</li>' );
 		$current_copyright_coin_balance = $this->get_current_copyright_coin_balance();
 		$this->send_publish_status(
-			'<li>Available coin balance before purchase is: ' . $current_copyright_coin_balance .
-				 '</li>' );
+			'<li>' .
+			sprintf(
+				// translators: 1 The user's current Copyright Coin balance.
+				esc_html__( 'Available coin balance before purchase is: %1$s', 'boldgrid-inspirations' ),
+				$current_copyright_coin_balance
+			) .
+			'</li>'
+		);
 
 		if ( ! $this->local_cost_matches_remote_cost() ) {
 			$this->update_local_asset_cost();
 
 			// Complete with errors:
-			$this->send_publish_status(
-				'<li>Local prices have been updated.  Please proceed to the <a href="admin.php?page=boldgrid-cart">Cart</a></li>' );
-			Boldgrid_Inspirations_Utility::inline_js_file( 'checking_out_complete_with_errors.js' );
+			$status = '<li>' .
+				printf(
+					wp_kses(
+						// translators: 1 The opening anchor tag to our Cart page, 2 its closing anchor tag.
+						__( 'Local prices have been updated.  Please proceed to the %1$sCart%2$s', 'boldgrid-inspirations' ),
+						array( 'a' => array( 'href' => array(), ), )
+					),
+					'<a href="admin.php?page=boldgrid-cart">',
+					'</a>'
+				) .
+			'</li>';
+			$this->send_publish_status( $status );
+			Boldgrid_Inspirations_Utility::inline_js_file( 'checking_out_complete_with_errors.js', $this->get_language() );
 
 			return false;
 		}
@@ -427,16 +468,16 @@ class Boldgrid_Inspirations_Purchase_For_Publish extends Boldgrid_Inspirations {
 			) );
 
 			$download_data = array(
-				'type' => 'built_photo_search_purchase',
+				'type'   => 'built_photo_search_purchase',
 				'params' => array(
-					'id_from_provider' => $asset['id_from_provider'],
-					'image_provider_id' => $asset['image_provider_id'],
-					'orientation' => $asset['orientation'],
-					'image_size' => $asset['image_size'],
-					'expected_coin_cost' => $asset['coin_cost'],
+					'id_from_provider'     => $asset['id_from_provider'],
+					'image_provider_id'    => $asset['image_provider_id'],
+					'orientation'          => $asset['orientation'],
+					'image_size'           => $asset['image_size'],
+					'expected_coin_cost'   => $asset['coin_cost'],
 					'boldgrid_connect_key' => $_POST['boldgrid_connect_key'],
-					'transaction_id' => $transaction_id,
-					'attachment_id' => $asset['attachment_id'],
+					'transaction_id'       => $transaction_id,
+					'attachment_id'        => $asset['attachment_id'],
 				)
 			);
 
@@ -462,7 +503,7 @@ class Boldgrid_Inspirations_Purchase_For_Publish extends Boldgrid_Inspirations {
 				// Determine the error message to print.
 				$message = ( is_array( $call_to_download_and_attach ) && isset( $call_to_download_and_attach['message'] ) )
 							? htmlspecialchars( $call_to_download_and_attach['message'] )
-							: __( 'Error downloading image.', 'boldgrid-inspirations' );
+							: esc_html__( 'Error downloading image.', 'boldgrid-inspirations' );
 
 				// Print the error message.
 				$this->send_publish_status( "<span style='color:red;'>$message</li>" );
@@ -471,9 +512,9 @@ class Boldgrid_Inspirations_Purchase_For_Publish extends Boldgrid_Inspirations {
 
 				// Set the key/value pairs to update.
 				$asset_data_to_update = array(
-					'purchase_date' => date( 'Y-m-d H:i:s' ),
+					'purchase_date'       => date( 'Y-m-d H:i:s' ),
 					'transaction_item_id' => $call_to_download_and_attach['transaction_item_id'],
-					'transaction_id' => $call_to_download_and_attach['transaction_id'],
+					'transaction_id'      => $call_to_download_and_attach['transaction_id'],
 				);
 
 				// Set $transaction_id:
@@ -486,16 +527,15 @@ class Boldgrid_Inspirations_Purchase_For_Publish extends Boldgrid_Inspirations {
 				foreach ( $asset_data_to_update as $update_key => $update_value ) {
 					$assetManager->update_asset(
 						array(
-							'task' => 'update_key_value',
+							'task'       => 'update_key_value',
 							'asset_type' => 'image',
-							'asset_id' => $asset_id,
-							'key' => $update_key,
-							'value' => $update_value,
+							'asset_id'   => $asset_id,
+							'key'        => $update_key,
+							'value'      => $update_value,
 						) );
 				}
 
-				$this->send_publish_status(
-					'<li><strong>Replacing</strong> watermaked image...</li>' );
+				$this->send_publish_status( '<li>' . esc_html__( 'Replacing watermaked image...', 'boldgrid-inspirations' ) . '</li>' );
 
 				// Replace the watermakred image with the new image
 				$mediaReplacer->replace_image( $asset['attachment_id'],
@@ -514,9 +554,9 @@ class Boldgrid_Inspirations_Purchase_For_Publish extends Boldgrid_Inspirations {
 		}
 
 		if ( $errors ) {
-			Boldgrid_Inspirations_Utility::inline_js_file( 'checking_out_complete_with_errors.js' );
+			Boldgrid_Inspirations_Utility::inline_js_file( 'checking_out_complete_with_errors.js', $this->get_language() );
 		} else {
-			Boldgrid_Inspirations_Utility::inline_js_file( 'checking_out_complete.js' );
+			Boldgrid_Inspirations_Utility::inline_js_file( 'checking_out_complete.js', $this->get_language() );
 		}
 
 		// Add a JS var to the page so we have access to how many coins we spent.
@@ -544,7 +584,7 @@ class Boldgrid_Inspirations_Purchase_For_Publish extends Boldgrid_Inspirations {
 		// Validate input vars:
 		if ( ! is_numeric( $image_provider_id ) || ! is_numeric( $id_from_provider ) ||
 			 ! is_numeric( $user_transaction_item_id ) ) {
-			echo 'Invalid data.';
+			esc_html_e( 'Invalid data.', 'boldgrid-inspirations' );
 			wp_die();
 		}
 
@@ -552,13 +592,13 @@ class Boldgrid_Inspirations_Purchase_For_Publish extends Boldgrid_Inspirations {
 		$assetManager = new Boldgrid_Inspirations_Asset_Manager();
 
 		$download_data = array(
-			'type' => 'built_photo_search_purchase',
+			'type'   => 'built_photo_search_purchase',
 			'params' => array(
-				'id_from_provider' => $id_from_provider,
-				'image_provider_id' => $image_provider_id,
+				'id_from_provider'         => $id_from_provider,
+				'image_provider_id'        => $image_provider_id,
 				'user_transaction_item_id' => $user_transaction_item_id,
-				'expected_coin_cost' => '0',
-				'is_redownload' => true,
+				'expected_coin_cost'       => '0',
+				'is_redownload'            => true,
 			)
 		);
 
@@ -617,7 +657,7 @@ class Boldgrid_Inspirations_Purchase_For_Publish extends Boldgrid_Inspirations {
 
 		foreach ( $this->remote_publish_cost_data as $asset_id => $asset_coin_cost ) {
 			$params = array(
-				'by' => 'asset_id',
+				'by'       => 'asset_id',
 				'asset_id' => $asset_id,
 			);
 			$current_asset = $assetManager->get_asset( $params );
@@ -625,30 +665,36 @@ class Boldgrid_Inspirations_Purchase_For_Publish extends Boldgrid_Inspirations {
 			// If the local prices does not match the remote prices.
 			if ( $current_asset['coin_cost'] != $asset_coin_cost ) {
 				$params = array(
-					'task' => 'update_key_value',
+					'task'       => 'update_key_value',
 					'asset_type' => 'image',
-					'asset_id' => $asset_id,
-					'key' => 'coin_cost',
-					'value' => $asset_coin_cost,
+					'asset_id'   => $asset_id,
+					'key'        => 'coin_cost',
+					'value'      => $asset_coin_cost,
 				);
 
 				if ( null === $asset_coin_cost || '' == $asset_coin_cost ) {
 					$asset_coin_cost = 'unknown';
 
 					// Alert that the remote image is not available:
-					?>
-<p style='color: red;'>Error: Image (asset id "<?php echo $asset_id; ?>") is no longer available
-for purchase, and will be removed from the cart.</p>
-<?php
-					// LOG:
-					error_log(
-						__METHOD__ . ': Error: Image (asset id "' . $asset_id .
-							 '") is no longer available for purchase.' );
+					echo '<p style="color:red;">' .
+						sprintf(
+							// translators: 1 The id of the asset that is no longer available for purchase.
+							esc_html__( 'Error: Image (asset id "%1$s") is no longer available for purchase, and will be removed from the cart.', 'boldgrid-inspirations' ),
+							$asset_id
+						) .
+						'</p>';
+
+					error_log( __METHOD__ . ': Error: Image (asset id "' . $asset_id .  '") is no longer available for purchase.' );
 				} else {
 					// Alert that there was a mismatch:
-					?>
-<p style='color: red;'>Error: Local coin cost of <?php echo $current_asset['coin_cost']; ?> does not match remote coin cost <?php echo $asset_coin_cost; ?>.</p>
-<?php
+					echo '<p style="color:red;">' .
+						sprintf(
+							// translators: 1 The local coin cost, 2 the remote coin cost.
+							esc_html__( 'Error: Local coin cost of %1$s does not match remote coin cost %2$s.', 'boldgrid-inspirations' ),
+							$current_asset['coin_cost'],
+							$asset_coin_cost
+						) .
+						'</p>';
 				}
 
 				if ( true == $assetManager->update_asset( $params ) ) {
@@ -658,12 +704,17 @@ for purchase, and will be removed from the cart.</p>
 		}
 
 		if ( $local_updated ) {
-			?>
-<p style='color: green;'>
-	Local prices have been updated! Please proceed to the <a
-		href="admin.php?page=boldgrid-cart">Cart</a>.
-</p>
-<?php
+			echo '<p style="color:green;">' .
+				sprintf(
+					wp_kses(
+						// translators: 1 An opening anchor tag linking to the shopping card, 2 its closing anchor tag.
+						__( 'Local prices have been updated! Please proceed to the %1$sCart%2$s.', 'boldgrid-inspirations' ),
+						array( 'a' => array( 'href' => array(), ), )
+					),
+					'<a href="admin.php?page=boldgrid-cart">',
+					'</a>'
+				) .
+				'</p>';
 		}
 
 		return $local_updated;
@@ -693,16 +744,12 @@ for purchase, and will be removed from the cart.</p>
 	 */
 	public function cart_checkout_admin_page() {
 		if ( isset( $_POST['task'] ) && 'purchase_all' == $_POST['task'] ) {
-			// Verify nonce:
-			if ( ! isset( $_POST['_wpnonce'] ) ||
-				 ! wp_verify_nonce( $_POST['_wpnonce'], 'purchase_for_publish' ) ) {
-				// Nonce not verified; print an error message and return false.
-				?>
-<div class="error">
-	<p>Error processing request to purchase for publish; WordPress security
-		violation! Please try again.</p>
-</div>
-<?php
+			$invalid_nonce = ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], 'purchase_for_publish' );
+			if ( $invalid_nonce ) {
+				echo '<div class="error"><p>' .
+					esc_html__( 'Error processing request to purchase for publish; WordPress security violation! Please try again.', 'boldgrid-inspirations' ) .
+					'</p></div>';
+
 				include BOLDGRID_BASE_DIR . '/pages/cart.php';
 			} else {
 				$this->purchase_for_publish();
@@ -829,6 +876,19 @@ for purchase, and will be removed from the cart.</p>
 		return $return;
 	}
 
+	/**
+	 *
+	 */
+	private function get_language() {
+		return array(
+			'name' => 'BoldGridInspirationsPurchase',
+			'data' => array(
+				'purchaseComplete' => esc_html__( 'Purchase complete!', 'boldgrid-inspirations' ),
+				'withErrors'       => esc_html__( 'Purchase complete (with errors)!', 'boldgrid-inspirations' ),
+			),
+		);
+	}
+
 	/* @formatter:off */
 	/**
 	 * Below, we will loop through $this->assets_needing_purchase.
@@ -922,11 +982,7 @@ for purchase, and will be removed from the cart.</p>
 
 		if ( ! is_numeric( $transaction_item_id ) ) {
 			echo 'Invalid transaction_item_id';
-
-			error_log(
-				__METHOD__ . ': Invalid transaction_item_id: ' .
-					 print_r( $transaction_item_id, true ) );
-
+			error_log( __METHOD__ . ': Invalid transaction_item_id: ' . print_r( $transaction_item_id, true ) );
 			wp_die();
 		}
 
@@ -942,7 +998,7 @@ for purchase, and will be removed from the cart.</p>
 
 		// Grab the details of the asset based off of asset_id.
 		$search_params = array(
-			'by' => 'transaction_item_id',
+			'by'                  => 'transaction_item_id',
 			'transaction_item_id' => $transaction_item_id,
 		);
 
@@ -994,19 +1050,18 @@ for purchase, and will be removed from the cart.</p>
 			 $boldgrid_configs['ajax_calls']['image_get_details'];
 
 		$arguments = array(
-			'method' => 'POST',
-			'body' => array(
+			'method'  => 'POST',
+			'body'    => array(
 				'user_transaction_item_id' => $transaction_item_id,
-				'key' => $this->api->get_api_key_hash(),
+				'key'                      => $this->api->get_api_key_hash(),
 			),
 			'timeout' => 20,
 		);
 
 		$call_to_get_image_details = wp_remote_post( $url_to_get_image_details, $arguments );
 
-		if ( is_wp_error( $call_to_get_image_details ) ||
-			 '200' != $call_to_get_image_details['response']['code'] ) {
-			echo 'Unable to get image details.';
+		if ( is_wp_error( $call_to_get_image_details ) || '200' != $call_to_get_image_details['response']['code'] ) {
+			esc_html_e( 'Unable to get image details.', 'boldgrid-inspirations' );
 
 			error_log(
 				__METHOD__ . ': Error: Could not retrieve image details from the asset server.  ' . print_r(
@@ -1023,12 +1078,8 @@ for purchase, and will be removed from the cart.</p>
 
 		// If the remote data is bad, then log and exit.
 		if ( empty( $image_data ) ) {
-			error_log(
-				__METHOD__ . ': Error in remote data call.  $call_to_get_image_details: ' .
-					 print_r( $call_to_get_image_details, true ) );
-
-			echo 'Unable to get image details from asset server.';
-
+			error_log( __METHOD__ . ': Error in remote data call.  $call_to_get_image_details: ' . print_r( $call_to_get_image_details, true ) );
+			esc_html_e( 'Unable to get image details from asset server.', 'boldgrid-inspirations' );
 			wp_die();
 		}
 
@@ -1071,9 +1122,9 @@ for purchase, and will be removed from the cart.</p>
 		 * **********************************************************************
 		 */
 		$return_data = array(
-			'data_type' => 'remote_data',
-			'thumbnail_url' => $image_data->result->data->thumbnail_url,
-			'id_from_provider' => $image_data->result->data->id_from_provider,
+			'data_type'         => 'remote_data',
+			'thumbnail_url'     => $image_data->result->data->thumbnail_url,
+			'id_from_provider'  => $image_data->result->data->id_from_provider,
 			'image_provider_id' => $image_data->result->data->image_provider_id,
 		);
 
@@ -1107,8 +1158,8 @@ for purchase, and will be removed from the cart.</p>
 
 		$arguments = array(
 			'method' => 'POST',
-			'body' => array(
-				'key' => $this->api->get_api_key_hash(),
+			'body'   => array(
+				'key'       => $this->api->get_api_key_hash(),
 				'cost_data' => $this->get_local_publish_cost_data(),
 			)
 		);
@@ -1117,16 +1168,13 @@ for purchase, and will be removed from the cart.</p>
 
 		// Error checking.
 		if ( is_wp_error( $response ) ) {
-			error_log(
-				'Error: Could not retrieve asset cost details from the asset server!
-' . print_r(
-					array(
-						'Method' => __METHOD__,
-						'Error' => '$response is wp_error',
-						'url' => $url_to_get_remote_publish_cost_data,
-						'arguments' => $arguments,
-						'response' => $response,
-					), true ) );
+			error_log( 'Error: Could not retrieve asset cost details from the asset server! ' . print_r( array(
+				'Method'    => __METHOD__,
+				'Error'     => '$response is wp_error',
+				'url'       => $url_to_get_remote_publish_cost_data,
+				'arguments' => $arguments,
+				'response'  => $response,
+			), true ) );
 
 			return false;
 		}
@@ -1162,16 +1210,12 @@ for purchase, and will be removed from the cart.</p>
 
 		$attachment_id = (int) $asset['attachment_id'];
 
-		/**
-		 * If an asset has a coin cost <= 0, then it doesn't need purchase.
-		 */
+		// If an asset has a coin cost <= 0, then it doesn't need purchase.
 		if ( $asset['coin_cost'] <= 0 ) {
 			return false;
 		}
 
-		/**
-		 * If an asset already has a 'purchase_date', then it doesn't need purchase
-		 */
+		// If an asset already has a 'purchase_date', then it doesn't need purchase.
 		if ( ! empty( $asset['purchase_date'] ) ) {
 			return false;
 		}

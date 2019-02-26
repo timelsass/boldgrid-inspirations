@@ -190,15 +190,8 @@ class Boldgrid_Inspirations_Branding {
 			plugins_url() . '/' . basename( BOLDGRID_BASE_DIR ) . '/assets/images/wordpresslogo.png'
 		);
 
-		$reseller_title = esc_html(
-			! empty( $reseller_data['reseller_title'] ) ?
-			$reseller_data['reseller_title'] : null
-		);
-
-		$reseller_support_url = esc_url(
-			! empty( $reseller_data['reseller_support_url'] ) ?
-			$reseller_data['reseller_support_url'] : 'http://www.boldgrid.com/documentation'
-		);
+		$reseller_title       = ! empty( $reseller_data['reseller_title'] ) ? $reseller_data['reseller_title'] : null;
+		$reseller_support_url = ! empty( $reseller_data['reseller_support_url'] ) ? $reseller_data['reseller_support_url'] : 'http://www.boldgrid.com/documentation';
 
 		// Print HTML.
 		?>
@@ -208,19 +201,27 @@ class Boldgrid_Inspirations_Branding {
 </center>
 <br />
 <div style='text-align: center;'>
-	Need Support?<br />
+	<?php esc_html_e( 'Need Support?', 'boldgrid-inspirations' ); ?><br />
 		<?php
 
 		if ( ! empty( $reseller_title ) ) {
-			echo $reseller_title;
-			?> provides dedicated help for <a target='_blank'
-		href='<?php echo $reseller_support_url; ?>'>BoldGrid</a>.
-		<?php
+			printf(
+				wp_kses(
+					// translators: 1 Title of reseller, 2 opening anchor tag linking to reseller's support center, 3 its closing anchor tag.
+					__( '%1$s provides dedicated help for %2$sBoldGrid%3$s.', 'boldgrid-inspirations' ),
+					array( 'a' => array( 'target' => array( 'blank' ), 'href' => array(), ) )
+					),
+				esc_html( $reseller_title ),
+				'<a target="_blank" href="' . esc_url( $reseller_support_url ) . '">',
+				'</a>'
+			);
 		} else {
-		?>
-			Check out the<a href='http://www.boldgrid.com/support/'
-		target='_blank'>BoldGrid Education Channel</a>!
-		<?php
+			printf(
+				// translators: 1 The opening anchor tag linking to the BoldGrid support center, 2 its closing anchor tag.
+				__( 'Check out the %1$sBoldGrid Education Channel%2$s!', 'boldgrid-inspirations' ),
+				'<a href="http://www.boldgrid.com/support/" target="_blank">',
+				'</a>'
+			);
 		}
 		?>
 		</div>
@@ -261,13 +262,18 @@ class Boldgrid_Inspirations_Branding {
 	 * @see admin_footer_text().
 	 */
 	public function boldgrid_footer_admin() {
-		?>
-<i>Built with <a href='https://www.boldgrid.com/' target='_blank'>BoldGrid</a>.
-</i>
-|
-<i>Powered by <a href='http://wordpress.org/' target='_blank'>WordPress</a>.
-</i>
-		<?php
+		printf(
+			wp_kses(
+				// translators: 1 Opening anchor tag linking to boldgrid.com, 2 closing anchor tag, 3 opening anchor tag to wordpress.org, 4 opening i tag, 5 closing i tag.
+				__( '%4$sBuilt with %1$sBoldGrid%2$s.%5$s | %4$sPowered by %3$sWordPress%2$s.%5$s', 'boldgrid-inspirations' ),
+				array( 'a' => array( 'href' => array(), 'target' => array( '_blank' ) ), 'i' => array() )
+				),
+			'<a href="https://www.boldgrid.com/" target="_blank">',
+			'</a>',
+			'<a href="http://wordpress.org/" target="_blank">',
+			'<i>',
+			'</i>'
+		);
 	}
 
 	/**
@@ -277,27 +283,22 @@ class Boldgrid_Inspirations_Branding {
 		// Load the general footer.
 		$this->boldgrid_footer_admin();
 
-		// Get the reseller vars.
-		$reseller_data = $this->get_reseller_data();
-
-		$reseller_title = (
-			esc_html(
-				! empty( $reseller_data['reseller_title'] ) ?
-				$reseller_data['reseller_title'] : 'BoldGrid.com'
-			)
-		);
-
-		$reseller_support_url = (
-			esc_url(
-				! empty( $reseller_data['reseller_support_url'] ) ?
-				$reseller_data['reseller_support_url'] : 'https://www.boldgrid.com/documentation'
-			)
-		);
+		$reseller_data        = $this->get_reseller_data();
+		$reseller_title       = ! empty( $reseller_data['reseller_title'] ) ? $reseller_data['reseller_title'] : 'BoldGrid.com';
+		$reseller_support_url = ! empty( $reseller_data['reseller_support_url'] ) ? $reseller_data['reseller_support_url'] : 'https://www.boldgrid.com/documentation';
 
 		// Display the reseller footer.
-		?>|
-<i>Support from <a target='_blank'
-href='<?php echo $reseller_support_url; ?>'><?php echo $reseller_title; ?></a>.</i>
-		<?php
+		printf(
+			wp_kses(
+				// translators: 1 Opening anchor tag linking to reseller's support url, 2 its closing anchor tag, 3 name of reseller, 4 opening i tag, 5 closing i tag.
+				__( '%4$sSupport from %1$s%3$s%2$s.%5$s', 'boldgrid-inspirations' ),
+				array( 'a' => array( 'href' => array(), 'target' => array( '_blank' ) ), 'i' => array() )
+			),
+			'<a target="_blank" href="' . esc_url( $reseller_support_url ) . '">',
+			'</a>',
+			esc_html( $reseller_title ),
+			'<i>',
+			'</i>'
+		);
 	}
 }

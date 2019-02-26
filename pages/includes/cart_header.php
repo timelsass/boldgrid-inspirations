@@ -24,18 +24,18 @@ $purchase_coins_active = ( 'boldgrid-purchase-coins' == $_GET['page'] ? 'nav-tab
 
 <!-- display available balance -->
 <div id='coin_balance_container'>
-	<strong>Available Balance</strong>: <span id='coin_balance'><?php echo $current_coin_balance; ?></span>
+	<strong><?php echo esc_html__( 'Available Balance', 'boldgrid-inspirations' ); ?></strong>: <span id='coin_balance'><?php echo $current_coin_balance; ?></span>
 </div>
 
 <!-- tab navigation for transaction page -->
 <div id='boldgrid-transaction-tabs'>
 	<h2 class="nav-tab-wrapper">
 		<span class="boldgrid-transaction-tab">
-			<?php printf( '<a href="%s" class="nav-tab ' . esc_attr__( $transactions_active ) . '">' . esc_html__( 'Receipts / Transaction History' ) . '</a>', esc_url( add_query_arg('page', 'boldgrid-transactions', admin_url( 'admin.php' ) ) ) ); ?>
+			<?php printf( '<a href="%s" class="nav-tab ' . esc_attr__( $transactions_active ) . '">' . esc_html__( 'Receipts / Transaction History', 'boldgrid-inspirations' ) . '</a>', esc_url( add_query_arg('page', 'boldgrid-transactions', admin_url( 'admin.php' ) ) ) ); ?>
 		</span> <span class="boldgrid-transaction-tab">
-			<?php printf( '<a href="%s" class="nav-tab ' . esc_attr__( $checkout_active ) . '">' . esc_html__( 'Cart / Checkout' ) . '</a>', esc_url( add_query_arg('page', 'boldgrid-cart', admin_url( 'admin.php' ) ) ) ); ?>
+			<?php printf( '<a href="%s" class="nav-tab ' . esc_attr__( $checkout_active ) . '">' . esc_html__( 'Cart / Checkout', 'boldgrid-inspirations' ) . '</a>', esc_url( add_query_arg('page', 'boldgrid-cart', admin_url( 'admin.php' ) ) ) ); ?>
 		</span> <span class="boldgrid-transaction-tab">
-			<?php printf( '<a href="%s" class="nav-tab ' . esc_attr__( $purchase_coins_active ) . '">' . esc_html__( 'Purchase Coins' ) . '</a>', esc_url( add_query_arg('page', 'boldgrid-purchase-coins', admin_url( 'admin.php' ) ) ) ); ?>
+			<?php printf( '<a href="%s" class="nav-tab ' . esc_attr__( $purchase_coins_active ) . '">' . esc_html__( 'Purchase Coins', 'boldgrid-inspirations' ) . '</a>', esc_url( add_query_arg('page', 'boldgrid-purchase-coins', admin_url( 'admin.php' ) ) ) ); ?>
 		</span>
 	</h2>
 </div>

@@ -121,10 +121,29 @@ class Boldgrid_Inspirations_GridBlock_Sets_Admin {
 			 */
 			wp_enqueue_media();
 
-			wp_enqueue_script( 'boldgrid-inspirations-add-gridblock-set',
-				plugins_url( 'assets/js/boldgrid-inspirations-add-gridblock-set.js',
-					BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ), array (),
-				BOLDGRID_INSPIRATIONS_VERSION, true );
+			$handle = 'boldgrid-inspirations-add-gridblock-set';
+			wp_register_script(
+				$handle,
+				plugins_url( 'assets/js/boldgrid-inspirations-add-gridblock-set.js', BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ),
+				array (),
+				BOLDGRID_INSPIRATIONS_VERSION,
+				true
+			);
+			wp_localize_script(
+				$handle,
+				'BoldGridAddGridblockSet',
+				array(
+					'downloadingNewest' => esc_html__( 'Downloading the newest GridBlock Sets. This may take up to one minute this first time.', 'boldgrid-inspirations' ),
+					'goBack'            => esc_html__( 'Go Back', 'boldgrid-inspirations' ),
+					'installing'        => esc_html__( 'Installing', 'boldgrid-inspirations' ),
+					'loading'           => esc_html__( 'Loading', 'boldgrid-inspirations' ),
+					'loadingPreview'    => esc_html__( 'Loading preview...', 'boldgrid-inspirations' ),
+					'loadingSets'       => esc_html__( 'Loading GridBlock Sets.', 'boldgrid-inspirations' ),
+					'preview'           => esc_html__( 'Preview', 'boldgrid-inspirations' ),
+					'selectASet'        => esc_html__( 'Select a GridBlock Set below to use with your new page.', 'boldgrid-inspirations' ),
+				)
+			);
+			wp_enqueue_script( $handle );
 
 			// Add our css.
 			wp_register_style( 'boldgrid-inspirations-add-gridblock-set',
@@ -196,10 +215,10 @@ class Boldgrid_Inspirations_GridBlock_Sets_Admin {
 		$gridblock_set = $gridbock_sets[$category]['data']['pages'][$key];
 
 		// Save our new page.
-		$new_page = array (
-			'post_title' => $gridblock_set['preview_data']['post_title'],
-			'post_status' => 'draft',
-			'post_type' => $gridblock_set['preview_data']['post_type'],
+		$new_page = array(
+			'post_title'   => $gridblock_set['preview_data']['post_title'],
+			'post_status'  => 'draft',
+			'post_type'    => $gridblock_set['preview_data']['post_type'],
 			'post_content' => $gridblock_set['preview_data']['post_content']
 		);
 		$page_id = wp_insert_post( $new_page );
@@ -271,22 +290,22 @@ class Boldgrid_Inspirations_GridBlock_Sets_Admin {
 		$images = $dom->getElementsByTagName( 'img' );
 
 		foreach ( $images as $image ) {
-			$id_from_provider = $image->getAttribute( 'data-id-from-provider' );
+			$id_from_provider  = $image->getAttribute( 'data-id-from-provider' );
 			$image_provider_id = $image->getAttribute( 'data-image-provider-id' );
-			$width = $image->getAttribute( 'width' );
-			$asset_id = $image->getAttribute( 'data-imhwpb-asset-id' );
+			$width             = $image->getAttribute( 'width' );
+			$asset_id          = $image->getAttribute( 'data-imhwpb-asset-id' );
 
 			// If we have the necessary details to download an image, then download it.
 			// The first If statement is for downloading 'built_photo_search'.
 			// The second If statement (elseif) is for downloading asset ids.
 			if ( $id_from_provider && $image_provider_id && $width ) {
 				$download_data = array (
-					'type' => 'built_photo_search',
+					'type'   => 'built_photo_search',
 					'params' => array (
-						'key' => $this->configs['api_key'],
-						'id_from_provider' => $id_from_provider,
+						'key'               => $this->configs['api_key'],
+						'id_from_provider'  => $id_from_provider,
 						'image_provider_id' => $image_provider_id,
-						'width' => $width
+						'width'             => $width
 					)
 				);
 
@@ -350,9 +369,9 @@ class Boldgrid_Inspirations_GridBlock_Sets_Admin {
 		$preview_page_helper = new Boldgrid_Inspirations_GridBlock_Sets_Preview_Page();
 
 		// Get and update our preview page.
-		$preview_page = $preview_page_helper->get();
+		$preview_page               = $preview_page_helper->get();
 		$preview_page->post_content = $gridblock_set['preview_data']['post_content'];
-		$preview_page->post_title = $gridblock_set['preview_data']['post_title'];
+		$preview_page->post_title   = $gridblock_set['preview_data']['post_title'];
 
 		// Update the content of the preview page.
 		wp_update_post( $preview_page );
@@ -373,12 +392,17 @@ class Boldgrid_Inspirations_GridBlock_Sets_Admin {
 	 */
 	public function register_menu_gridblock_set() {
 		if ( 0 == $this->configs['settings']['boldgrid_menu_option'] ) {
-			add_submenu_page( 'edit.php?post_type=page', 'New From GridBlocks',
-				'New From GridBlocks', 'administrator', 'boldgrid-add-gridblock-sets',
+			add_submenu_page(
+				'edit.php?post_type=page',
+				__( 'New From GridBlocks', 'boldgrid-inspirations' ),
+				__( 'New From GridBlocks', 'boldgrid-inspirations' ),
+				'administrator',
+				'boldgrid-add-gridblock-sets',
 				array (
 					$this,
 					'admin_page_add_gridblock_set'
-				) );
+				)
+			);
 
 			$this->add_gridblock_set_url = 'edit.php?post_type=page&page=boldgrid-add-gridblock-sets';
 			$this->hook = 'pages_page_boldgrid-add-gridblock-sets';
@@ -387,19 +411,29 @@ class Boldgrid_Inspirations_GridBlock_Sets_Admin {
 			remove_submenu_page( 'edit.php?post_type=page', 'post-new.php?post_type=page' );
 
 			// Add New.
-			add_submenu_page( 'edit.php?post_type=page', 'Add New', 'Add New', 'administrator',
+			add_submenu_page(
+				'edit.php?post_type=page',
+				__( 'Add New', 'boldgrid-inspirations' ),
+				__( 'Add New', 'boldgrid-inspirations' ),
+				'administrator',
 				'boldgrid-add-gridblock-sets',
 				array (
 					$this,
 					'admin_page_add_gridblock_set'
-				) );
+				)
+			);
 
 			$this->add_gridblock_set_url = 'edit.php?post_type=page&page=boldgrid-add-gridblock-sets';
 			$this->hook = 'pages_page_boldgrid-add-gridblock-sets';
 
 			// Add Blank.
-			add_submenu_page( 'edit.php?post_type=page', 'Add Blank', 'Add Blank', 'administrator',
-				'post-new.php?post_type=page' );
+			add_submenu_page(
+				'edit.php?post_type=page',
+				__( 'Add Blank', 'boldgrid-inspirations' ),
+				__( 'Add Blank', 'boldgrid-inspirations' ),
+				'administrator',
+				'post-new.php?post_type=page'
+			);
 		}
 	}
 }

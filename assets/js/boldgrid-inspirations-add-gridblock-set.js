@@ -10,6 +10,8 @@ var IMHWPB = IMHWPB || {};
 IMHWPB.AddGridBlockSet = function( $ ) {
 	var self = this;
 
+	self.lang = BoldGridAddGridblockSet;
+
 	self.baseAdmin = new IMHWPB.BaseAdmin();
 
 	// Create selectors.
@@ -21,10 +23,9 @@ IMHWPB.AddGridBlockSet = function( $ ) {
 
 	// An object of strings used within this class.
 	self.strings = {
-		homepage_iframe: '<iframe id="homepage" src="' + IMHWPB.homepage_url + '"></iframe>',
-		homepage_iframe_loading:
-			'<div style="position:fixed; top:45%; left:45%;">Loading preview...</div>',
-		select_message: '<p>Select a GridBlock Set below to use with your new page.</p>'
+		homepage_iframe:         '<iframe id="homepage" src="' + IMHWPB.homepage_url + '"></iframe>',
+		homepage_iframe_loading: '<div style="position:fixed; top:45%; left:45%;">' + self.lang.loadingPreview + '</div>',
+		select_message:          '<p>' + self.lang.selectASet + '</p>'
 	};
 
 	jQuery( function() {
@@ -113,7 +114,7 @@ IMHWPB.AddGridBlockSet = function( $ ) {
 			.on( 'click', function() {
 				$( this )
 					.prop( 'disabled', true )
-					.html( 'Installing' )
+					.html( self.lang.installing )
 					.css( 'margin-left', '0px' )
 					.after( '<span class=\'spinner inline left-of-button\'></span>' );
 				self.gridblock_set_install( category, key );
@@ -238,7 +239,7 @@ IMHWPB.AddGridBlockSet = function( $ ) {
 
 		// Create the media modal.
 		self.page_previewer = wp.media( {
-			title: 'Preview',
+			title: self.lang.preview,
 			id: 'page_previewer',
 			frame: 'select'
 		} );
@@ -271,9 +272,7 @@ IMHWPB.AddGridBlockSet = function( $ ) {
 		self.$page_previewer_select_button.prop( 'disabled', false );
 
 		// Add a "Go Back" button.
-		self.$page_previewer_select_button.after(
-			'<a class=\'button button-secondary media-button button-large\'>Go Back</a>'
-		);
+		self.$page_previewer_select_button.after( '<a class=\'button button-secondary media-button button-large\'>' + self.lang.goBack + '</a>' );
 
 		// Create a reference to our new "Go Back" button.
 		self.$page_previewer_go_back_button = self.$page_previewer_select_button.siblings(
@@ -354,11 +353,7 @@ IMHWPB.AddGridBlockSet = function( $ ) {
 		) {
 			self.$loading_message
 				.removeClass( 'hidden' )
-				.html(
-					'<span class="spinner inline"></span> ' +
-						'Downloading the newest GridBlock Sets. ' +
-						'This may take up to one minute this first time.'
-				);
+				.html( '<span class="spinner inline"></span> ' + self.lang.downloadingNewest );
 
 			var data = {
 				action: 'get_gridblock_sets'
@@ -375,7 +370,7 @@ IMHWPB.AddGridBlockSet = function( $ ) {
 		} else {
 			self.$loading_message
 				.removeClass( 'hidden' )
-				.html( '<p><span class=\'spinner inline\'></span>Loading GridBlock Sets.</p>' );
+				.html( '<p><span class=\'spinner inline\'></span>' + self.lang.loadingSets + '</p>' );
 
 			self.gridblock_sets = IMHWPB.gridblock_sets;
 			self.gridblock_sets_validate();
@@ -469,7 +464,7 @@ IMHWPB.AddGridBlockSet = function( $ ) {
 				.find( 'a.button-primary' )
 				.attr( 'disabled', 'disabled' )
 				.css( 'opacity', 1 )
-				.html( 'Loading' )
+				.html( self.lang.loading )
 				.after( '<span class=\'spinner inline left-of-anchor\'></span>' );
 			window.location.href = 'post-new.php?post_type=page&';
 		} );

@@ -670,8 +670,8 @@ class Boldgrid_Inspirations_Asset_Manager extends Boldgrid_Inspirations {
 				$server_response = json_decode( $response['body'], true );
 
 				$message = ( is_array( $server_response ) && isset( $server_response['message'] ) )
-				? $server_response['message']
-				: __( 'Unknown Error.', 'boldgrid-inspirations' );
+				? esc_html( $server_response['message'] )
+				: esc_html__( 'Unknown Error.', 'boldgrid-inspirations' );
 
 				return array(
 					'success' => false,

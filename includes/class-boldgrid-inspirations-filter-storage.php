@@ -56,7 +56,7 @@ class Boldgrid_Filter_Storage {
 			), $arguments, $this->values );
 		}
 
-		// Wrong function called.
+		// Wrong function called. No need to translate this error message.
 		throw new InvalidArgumentException(
 			sprintf(
 				'File: %1$s<br>Line %2$d<br>Not callable: %3$s', __FILE__, __LINE__,

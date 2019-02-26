@@ -103,10 +103,10 @@ class Boldgrid_Inspirations_Attribution {
 	public static function get_lang() {
 		return array(
 			// Used for the page title.
-			'Attribution' => __( 'Attribution', 'boldgrid-inspirations' ),
+			'Attribution' => esc_html__( 'Attribution', 'boldgrid-inspirations' ),
 			// Used for the page slug.
-			'attribution' => __( 'attribution', 'boldgrid-inspirations' ),
-			'post_type' => 'bg_attribution',
+			'attribution' => 'attribution',
+			'post_type'   => 'bg_attribution',
 		);
 	}
 
@@ -257,7 +257,7 @@ class Boldgrid_Inspirations_Attribution {
 		}
 
 		// Create the link to the author.
-		$author = '<strong>' . __( 'Author', 'boldgrid-inspirations' ) . '</strong>: ';
+		$author = '<strong>' . esc_html__( 'Author', 'boldgrid-inspirations' ) . '</strong>: ';
 		if ( isset( $attribution_details['details']->author_username ) ) {
 			if ( isset( $attribution_details['details']->author_url ) ) {
 				$author .= sprintf(
@@ -269,7 +269,7 @@ class Boldgrid_Inspirations_Attribution {
 				$author .= $attribution_details['details']->author_username;
 			}
 		} else {
-			$author .= '<em>' . __( 'Unknown', 'boldgrid-inspirations' ) . '</em>';
+			$author .= '<em>' . esc_html__( 'Unknown', 'boldgrid-inspirations' ) . '</em>';
 		}
 
 		// Additonal attribution to image provider.
@@ -278,7 +278,7 @@ class Boldgrid_Inspirations_Attribution {
 		}
 
 		// Create the link to the license.
-		$license = '<strong>' . __( 'License', 'boldgrid-inspirations' ) . '</strong>: ';
+		$license = '<strong>' . esc_html__( 'License', 'boldgrid-inspirations' ) . '</strong>: ';
 		if ( isset( $license_id ) && isset( $this->license_details[$license_id] ) ) {
 			$license .= sprintf(
 				'<a href="%s" target="_blank"><img src="%s" title="%s" /></a>',
@@ -287,7 +287,7 @@ class Boldgrid_Inspirations_Attribution {
 				$this->license_details[$license_id]['name']
 			);
 		} else {
-			$license .= '<em>' . __( 'Unknown license', 'boldgrid-inspirations' ) . '</em>';
+			$license .= '<em>' . esc_html__( 'Unknown license', 'boldgrid-inspirations' ) . '</em>';
 		}
 
 		return $image_tag . "<br />" . $author . "<br />" . $license;
@@ -303,17 +303,17 @@ class Boldgrid_Inspirations_Attribution {
 	public function set_license_details() {
 		$this->license_details = array(
 			'4' => array(
-				'name' => 'Attribution License',
+				'name' => esc_html__( 'Attribution License', 'boldgrid-inspirations' ),
 				'icon' => 'https://licensebuttons.net/l/by/2.0/80x15.png',
 				'url' => 'http://creativecommons.org/licenses/by/2.0/',
 			),
 			'5' => array(
-				'name' => 'Attribution-ShareAlike License',
+				'name' => esc_html__( 'Attribution-ShareAlike License', 'boldgrid-inspirations' ),
 				'icon' => 'https://licensebuttons.net/l/by-sa/2.0/80x15.png',
 				'url' => 'http://creativecommons.org/licenses/by-sa/2.0/',
 			),
 			'6' => array(
-				'name' => 'Attribution-NoDerivs License',
+				'name' => esc_html__( 'Attribution-NoDerivs License', 'boldgrid-inspirations' ),
 				'icon' => 'https://licensebuttons.net/l/by-nd/2.0/80x15.png',
 				'url' => 'http://creativecommons.org/licenses/by-nd/2.0/',
 			),
@@ -324,7 +324,7 @@ class Boldgrid_Inspirations_Attribution {
 			 * 10 - Unsplash.
 			 */
 			'10' => array(
-				'name' => 'Public Domain Dedication',
+				'name' => esc_html__( 'Public Domain Dedication', 'boldgrid-inspirations' ),
 				'icon' => 'https://licensebuttons.net/l/zero/1.0/80x15.png',
 				'url' => 'https://creativecommons.org/publicdomain/zero/1.0/',
 				'source' => ' / <a href="https://unsplash.com/" target="_blank">Unsplash</a>',

@@ -46,11 +46,11 @@ class Boldgrid_Inspirations_Purchase_Coins extends Boldgrid_Inspirations {
 		$boldgrid_settings = get_option( 'boldgrid_settings' );
 
 		( 1 == $boldgrid_settings['boldgrid_menu_option'] ? add_submenu_page(
-			'boldgrid-transactions', 'Purchase Coins', 'Purchase Coins', 'administrator',
+			'boldgrid-transactions', __( 'Purchase Coins', 'boldgrid-inspirations' ), __( 'Purchase Coins', 'boldgrid-inspirations' ), 'administrator',
 			'boldgrid-purchase-coins', array (
 				$this,
 				'page_purchase_coins'
-			) ) : add_submenu_page( 'boldgrid-inspirations', 'Purchase Coins', 'Purchase Coins',
+			) ) : add_submenu_page( 'boldgrid-inspirations', __( 'Purchase Coins', 'boldgrid-inspirations' ), __( 'Purchase Coins', 'boldgrid-inspirations' ),
 			'administrator', 'boldgrid-purchase-coins',
 			array (
 				$this,

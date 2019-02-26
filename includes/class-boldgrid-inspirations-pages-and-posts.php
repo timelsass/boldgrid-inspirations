@@ -397,7 +397,7 @@ class Boldgrid_Inspirations_Pages_And_Posts {
 		// If there are no nav menus, abort with a message.
 		if ( empty( $nav_menus ) ) {
 			// Print a message.
-			$nav_menus_html = '<div class="active staging">There are no menus to select.</div>';
+			$nav_menus_html = '<div class="active staging">' . esc_html__( 'There are no menus to select.', 'boldgrid-inspirations' ) . '</div>';
 
 			// Include the page template.
 			require BOLDGRID_BASE_DIR .
@@ -460,7 +460,7 @@ class Boldgrid_Inspirations_Pages_And_Posts {
 			if ( count( $menu_location_names ) > 0 ) {
 				$menu_location_list .= implode( '</li><li>', $menu_location_names );
 			} else {
-				$menu_location_list .= '<i>Not in a menu location.</i>';
+				$menu_location_list .= '<i>' . esc_html__( 'Not in a menu location.', 'boldgrid-inspirations' ) . '</i>';
 			}
 
 			$menu_location_list .= '</li></ul>';
@@ -518,12 +518,12 @@ class Boldgrid_Inspirations_Pages_And_Posts {
 
 		// If there are no active menus, then print a message.
 		if ( ! $has_active_menus && '<div>' != $active_div_tag ) {
-			$nav_menus_html .= $active_div_tag . '<i>There are no menus to select.</i></div>';
+			$nav_menus_html .= $active_div_tag . '<i>' . esc_html__( 'There are no menus to select.', 'boldgrid-inspirations' ) . '</i></div>';
 		} else
 
 		// If there are no staging menus, then print a message.
 		if ( ! $has_staging_menus && '<div>' != $staging_div_tag ) {
-			$nav_menus_html .= $staging_div_tag . '<i>There are no menus to select.</i></div>';
+			$nav_menus_html .= $staging_div_tag . '<i>' . esc_html__( 'There are no menus to select.', 'boldgrid-inspirations' ) . '</i></div>';
 		}
 
 		// Include the page template.

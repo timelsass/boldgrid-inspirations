@@ -56,17 +56,24 @@ class Boldgrid_Inspirations_Receipts extends Boldgrid_Inspirations {
 			return;
 		}
 
-		wp_register_script( 'transaction-history',
-			plugins_url(
-				'/assets/js/transaction_history.js',
-				BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php'
-			),
-			array(
-				'jquery'
-			),
+		$handle = 'transaction-history';
+		wp_register_script(
+			$handle,
+			plugins_url( '/assets/js/transaction_history.js', BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ),
+			array( 'jquery' ),
 			BOLDGRID_INSPIRATIONS_VERSION,
 			true
 		);
+		wp_localize_script(
+			$handle,
+			'BoldGridReceipts',
+			array(
+				'download'     => esc_html__( 'Download Image', 'boldgrid-inspirations' ),
+				'notAvailable' => esc_html__( 'Image not available', 'boldgrid-inspirations' ),
+				'viewImage'    => esc_html__( 'View Image', 'boldgrid-inspirations' ),
+			)
+		);
+		wp_enqueue_script( $handle );
 
 		// Check if the asset server is marked as available.
 		$asset_server_available = Boldgrid_Inspirations_Api::get_is_asset_server_available();
@@ -89,9 +96,6 @@ class Boldgrid_Inspirations_Receipts extends Boldgrid_Inspirations {
 			$connection_info
 		);
 
-		// Enqueue the transaction history script.
-		wp_enqueue_script( 'transaction-history' );
-
 		return;
 	}
 
@@ -111,8 +115,8 @@ class Boldgrid_Inspirations_Receipts extends Boldgrid_Inspirations {
 
 		// Add menu page.
 		add_menu_page(
-			'Transactions',
-			'Transactions',
+			__( 'Transactions', 'boldgrid-inspirations' ),
+			__( 'Transactions', 'boldgrid-inspirations' ),
 			'manage_options',
 			'boldgrid-transactions',
 			array(
@@ -125,8 +129,8 @@ class Boldgrid_Inspirations_Receipts extends Boldgrid_Inspirations {
 		// Add Submenu item receipts.
 		add_submenu_page(
 			'boldgrid-transactions',
-			'Receipts',
-			'Receipts',
+			__( 'Receipts', 'boldgrid-inspirations' ),
+			__( 'Receipts', 'boldgrid-inspirations' ),
 			'administrator',
 			'boldgrid-transactions'
 		);
@@ -141,8 +145,8 @@ class Boldgrid_Inspirations_Receipts extends Boldgrid_Inspirations {
 		// Add submenu receipts.
 		add_submenu_page(
 			'boldgrid-inspirations',
-			'Receipts',
-			'Receipts',
+			__( 'Receipts', 'boldgrid-inspirations' ),
+			__( 'Receipts', 'boldgrid-inspirations' ),
 			'administrator',
 			'boldgrid-transactions',
 			array(

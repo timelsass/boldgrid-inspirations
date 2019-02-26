@@ -89,7 +89,7 @@ class Boldgrid_Inspirations_Options {
 	public function boldgrid_admin_add_options_submenu() {
 		add_submenu_page(
 			'options-general.php',
-			'BoldGrid Settings',
+			__( 'BoldGrid Settings', 'boldgrid-inspirations' ),
 			'BoldGrid Inspirations',
 			'administrator',
 			'boldgrid-settings',
@@ -142,9 +142,7 @@ class Boldgrid_Inspirations_Options {
 	 * Display the options page body.
 	 */
 	public function boldgrid_options_global_text() {
-		?>
-		Here you may change the BoldGrid plugin global settings.<br />
-		<?php
+		echo esc_html__( 'Here you may change the BoldGrid plugin global settings.', 'boldgrid-inspirations' ) . '<br />';
 	}
 
 	/**
@@ -177,7 +175,7 @@ name="boldgrid_settings[boldgrid_menu_option]" value="1"
 		<?php
 		echo checked( 1, ( bool ) $options['boldgrid_menu_option'], false );
 		?> />
-<label for="boldgrid_menu_option"><?php echo __( 'Use BoldGrid Admin Menu system' ); ?></label>
+<label for="boldgrid_menu_option"><?php esc_html_e( 'Use BoldGrid Admin Menu system', 'boldgrid-inspirations' ); ?></label>
 		<?php
 	}
 
@@ -195,7 +193,7 @@ name='boldgrid_settings[boldgrid_feedback_optout]' value='1'
 		<?php
 		echo checked( 1, ! empty( $options['boldgrid_feedback_optout'] ), false );
 		?> />
-<label for='boldgrid_menu_option'><?php echo __( 'Opt-out of feedback' ); ?></label>
+<label for='boldgrid_menu_option'><?php echo esc_html_e( 'Opt-out of feedback', 'boldgrid-inspirations' ); ?></label>
 		<?php
 	}
 
@@ -239,18 +237,18 @@ name='boldgrid_settings[boldgrid_feedback_optout]' value='1'
 			$this->process_boldgrid_settings();
 		}
 		?>
-<h2>BoldGrid Settings</h2>
+<h2><?php esc_html_e( 'BoldGrid Settings', 'boldgrid-inspirations' ); ?></h2>
 <form method="post">
 <input type="hidden" name="action" value="update">
 	<?php
 		wp_nonce_field( 'boldgrid_options' );
 	?>
-	<h2>Global Settings</h2>
+	<h2><?php esc_html_e( 'Global Settings', 'boldgrid-inspirations' ); ?></h2>
 	<?php echo $this->boldgrid_options_global_text(); ?>
 	<table class="form-table">
 		<tbody>
 			<tr>
-				<th scope="row">Reorder Admin Menu</th>
+				<th scope="row"><?php esc_html_e( 'Reorder Admin Menu', 'boldgrid-inspirations' ); ?></th>
 				<td><?php echo $this->boldgrid_menu_callback(); ?></td>
 			</tr>
 		</tbody>
@@ -317,7 +315,7 @@ name='boldgrid_settings[boldgrid_feedback_optout]' value='1'
 		<?php wp_nonce_field( 'reset_pointers' ); ?>
 	<p>
 		<input type='checkbox' id='reset_pointers' name='reset_pointers' value='true' />
-		 Reset Pointers and Admin Notices (help messages)
+		 <?php esc_html_e( 'Reset Pointers and Admin Notices (help messages)', 'boldgrid-inspirations' ); ?>
 	</p>
 	<p>
 		<?php submit_button( esc_html__( 'Reset Pointers', 'boldgrid_inspirations' ), 'secondary' ); ?>

@@ -8,7 +8,8 @@ require BOLDGRID_BASE_DIR . '/pages/templates/restrict-direct-access.php';
 </div>
 <p>
 <?php
-printf( __( 'We encourage you to watch the video above and check out the %s Advanced Tutorials %s', 'boldgrid-inspirations' ),
+// translators: 1 opening anchor tag linking to advanced tutorials on boldgrid.com, 2 closing anchor tag.
+printf( __( 'We encourage you to watch the video above and check out the %1$s Advanced Tutorials %2$s', 'boldgrid-inspirations' ),
 '<a href="https://www.boldgrid.com/support/advanced-tutorials/" target="_blank">',
 '</a>'
 );
@@ -32,12 +33,12 @@ $boldgrid_settings = get_option( 'boldgrid_settings' );
 </p>
 
 <p>
-	<b><?php _e( 'Is this WordPress running a live website?', 'boldgrid-inspirations' ); ?></b>
+	<b><?php echo esc_html__( 'Is this WordPress running a live website?', 'boldgrid-inspirations' ); ?></b>
 </p>
 <p>
 <?php
-// Use printf to separate out the actual words from HTML so it can be translated.
-printf( __( 'Our %s Staging Plugin %s will help you transition to a new site while running your current Active Site.', 'boldgrid-inspirations' ),
+// translators: 1 opening anchor tag linking to tutorial on boldgrid.com for setting up the staging plugin, 2 closing anchor tag.
+printf( __( 'Our %1$s Staging Plugin %2$s will help you transition to a new site while running your current Active Site.', 'boldgrid-inspirations' ),
 	'<a href="https://www.boldgrid.com/support/getting-to-know-boldgrid/how-to-set-up-staging-in-boldgrid/" target="_blank">',
 	'</a>'
 );
@@ -47,13 +48,11 @@ printf( __( 'Our %s Staging Plugin %s will help you transition to a new site whi
 <p>
 
 <?php
-// Use printf to separate out the actual words from HTML
-// so it can be sent through translate.
-printf( __( 'In addition to the video above, we have more detail on things that have changed like the %s Admin Menu %s (you can change it back %s here %s).', 'boldgrid-inspirations' ),
+// translators: 1 opening anchor tag linking to tutorial on boldgrid.com for restoring admin menu, 2 closing anchor tag, 3 opening anchor tag to boldgrid settings page.
+printf( __( 'In addition to the video above, we have more detail on things that have changed like the %1$s Admin Menu %2$s (you can change it back %3$s here %2$s).', 'boldgrid-inspirations' ),
 	'<a href="https://www.boldgrid.com/support/designers-developers/how-to-restore-the-wordpress-admin-menu/" target="_blank">',
 	'</a>',
-	'<a href="' . esc_url( add_query_arg( 'page', 'boldgrid-settings', 'admin.php' ) ) . '">',
-	'</a>'
+	'<a href="' . esc_url( add_query_arg( 'page', 'boldgrid-settings', 'admin.php' ) ) . '">'
 );
 
 ?>

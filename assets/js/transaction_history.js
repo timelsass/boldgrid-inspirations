@@ -18,6 +18,8 @@ IMHWPB.TransactionHistory = function( configs, $ ) {
 
 	self.pagination_per_page = 10;
 
+	self.lang = BoldGridReceipts;
+
 	/**
 	 * "jQuery(function() {" is the shorthand for "$( document ).ready()".
 	 *
@@ -198,7 +200,7 @@ IMHWPB.TransactionHistory = function( configs, $ ) {
 
 		// If the image download fails.
 		fail = function() {
-			$td.html( 'Image not available' );
+			$td.html( self.lang.notAvailable );
 		};
 
 		// If the image download is successful.
@@ -210,12 +212,7 @@ IMHWPB.TransactionHistory = function( configs, $ ) {
 					response = JSON.parse( response );
 
 				if ( response.attachment_id ) {
-
-					// Change the link from 'Download Image' to 'View Image'.
-					view_image_link =
-						'<a href=\'post.php?post=' + response.attachment_id + '&action=edit\'>View Image</a>';
-
-					$td.html( view_image_link );
+					$td.html( '<a href=\'post.php?post=' + response.attachment_id + '&action=edit\'>' + self.lang.viewImage + '</a>' );
 				} else {
 					fail();
 				}
@@ -375,8 +372,12 @@ IMHWPB.TransactionHistory = function( configs, $ ) {
 	 * image.
 	 */
 	this.update_receipt_for_stock_photo_purchase = function() {
-
-		// get all the td's where the description is "Stock Photo Purchase"
+		/*
+		 * Get all the td's where the description is "Stock Photo Purchase".
+		 *
+		 * String is not localized as it is coming from the API server, which currently does not
+		 * have this support.
+		 */
 		var tds_of_stock_photo_purchase = jQuery(
 			'div#TB_window div#TB_ajaxContent table tbody tr td:contains("Stock Photo Purchase")'
 		);
@@ -421,14 +422,14 @@ IMHWPB.TransactionHistory = function( configs, $ ) {
 				switch ( response.data_type ) {
 					case 'local_data':
 						var thumbnail_html = '<img src=\'' + response.sizes.thumbnail.url + '\' />';
-						var view_in_gallery_link = '<a href=\'' + response.editLink + '\'>View Image</a>';
+						var view_in_gallery_link = '<a href=\'' + response.editLink + '\'>' + self.lang.viewImage + '</a>';
 						$thumbnail_td.html( thumbnail_html );
 						$redownload_td.html( view_in_gallery_link );
 						break;
 					case 'local_library_data':
 						var thumbnail_html = '<img src=\'' + response.sizes.thumbnail.url + '\' />';
 						var view_in_gallery_link =
-							'<a href=\'post.php?post=' + response.attachment_id + '&action=edit\'>View Image</a>';
+							'<a href=\'post.php?post=' + response.attachment_id + '&action=edit\'>' + self.lang.viewImage + '</a>';
 						$thumbnail_td.html( thumbnail_html );
 						$redownload_td.html( view_in_gallery_link );
 						break;
@@ -441,7 +442,7 @@ IMHWPB.TransactionHistory = function( configs, $ ) {
 							response.id_from_provider +
 							'\' data-user-transaction-item-id=\'' +
 							user_transaction_item_id +
-							'\' class=\'re-download-purchased-image pointer\'>Download Image</a>';
+							'\' class=\'re-download-purchased-image pointer\'>' + self.lang.download + '</a>';
 						$thumbnail_td.html( thumbnail_html );
 						$redownload_td.html( download_image_link );
 						break;

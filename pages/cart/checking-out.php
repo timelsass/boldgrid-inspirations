@@ -26,14 +26,14 @@ h1 .dashicons.dashicons-yes {
 
 <div class="wrap">
 
-	<h1 class="purchasing clear">Purchasing items in your cart</h1>
+	<h1 class="purchasing clear"><?php echo esc_html__( 'Purchasing items in your cart', 'boldgrid-inspirations' ); ?></h1>
 
 	<div class='boldgrid-loading'></div>
 
 	<p>
-		<strong>Installation log</strong>: <a class="toggle-log pointer">show
-			/ hide log</a> (<em class="deploy_log_line_count"></em>) <span
-			class="spinner"></span>
+		<strong><?php echo esc_html__( 'Installation log', 'boldgrid-inspirations' ); ?></strong>:
+		<a class="toggle-log pointer"><?php echo esc_html__( 'show / hide log', 'boldgrid-inspirations' ); ?></a>
+		(<em class="deploy_log_line_count"></em>) <span	class="spinner"></span>
 	</p>
 
 	<div
@@ -45,27 +45,28 @@ h1 .dashicons.dashicons-yes {
 
 <div class="wrap">
 
-	<div
-		class="plugin-card stop-and-explain hidden col-xs-12 col-sm-8 col-md-8 col-lg-6">
+	<div class="plugin-card stop-and-explain hidden col-xs-12 col-sm-8 col-md-8 col-lg-6">
 
 		<div class="plugin-card-top">
-			<h3>Congratulations on your purchase!</h3>
+			<h3><?php echo esc_html__( 'Congratulations on your purchase!', 'boldgrid-inspirations' ); ?></h3>
 
-			<p>Your images have now downloaded to your Media Library and have
-				replaced the watermarked versions used throughout your site.</p>
+			<p><?php echo esc_html__( 'Your images have now downloaded to your Media Library and have replaced the watermarked versions used throughout your site.', 'boldgrid-inspirations' ); ?></p>
 
 			<p>
-				Should you ever delete a purchased image from your Media Library,
-				you'll be able to download them again from the <strong>Transactions
-					&gt; Receipts</strong> page.
-			</p>
+				<?php printf(
+						wp_kses(
+							// translators: 1 opening strong tag, 2 closing strong tag.
+							__( 'Should you ever delete a purchased image from your Media Library, you\'ll be able to download them again from the %1$sTransactions &gt; Receipts%2$s page.', 'boldgrid-inspirations' ), '<strong>', '</strong>' ),
+							array( 'strong' => array() )
+						);
+				?>
+
 		</div>
 
 		<div class="plugin-card-bottom">
 			<div class="column-updated">
-				<a class="button" href="<?php echo get_site_url(); ?>">Visit Your
-					Site</a> <a class="button button-primary"
-					href="<?php echo get_admin_url(); ?>">Continue to your Dashboard</a>
+				<a class="button" href="<?php echo get_site_url(); ?>"><?php echo esc_html__( 'Visit Your Site', 'boldgrid-inspirations' ); ?></a>
+				<a class="button button-primary" href="<?php echo get_admin_url(); ?>"><?php echo esc_html__( 'Continue to your Dashboard', 'boldgrid-inspirations' ); ?></a>
 			</div>
 		</div>
 	</div>

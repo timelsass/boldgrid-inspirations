@@ -99,8 +99,7 @@ class Boldgrid_Inspirations_Enable_Media_Replace {
 			$file['userfile']['name'] );
 
 		if ( empty( $filedata['ext'] ) ) {
-			echo __( 'File type does not meet security guidelines. Try another.' );
-			echo '<pre>$filedata = ' . print_r( $filedata, true ) . '</pre>';
+			esc_html_e( 'File type does not meet security guidelines. Try another.', 'boldgrid-inspirations' );
 
 			return false;
 		}
@@ -170,11 +169,8 @@ class Boldgrid_Inspirations_Enable_Media_Replace {
 				// Everything OK; delete the file
 				unlink( $current_file );
 			} else {
-				// File exists, but has wrong permissions. Let the user know.
-				printf(
-					__(
-						'The file %1$s can not be deleted by the web server, most likely because the permissions on the file are wrong.',
-						'enable-media-replace' ), $current_file );
+				// translators: 1 The name of the file that could not be deleted.
+				printf( __( 'The file %1$s can not be deleted by the web server, most likely because the permissions on the file are wrong.', 'boldgrid-inspirations' ), esc_html__( $current_file ) );
 
 				exit();
 			}

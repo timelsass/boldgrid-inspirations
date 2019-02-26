@@ -1,18 +1,19 @@
 <?php
 $lang = array(
-	'Address' => __( 'Address', 'boldgrid-inspirations' ),
-	'Back' => __( 'Back', 'boldgrid-inspirations' ),
-	'Change' => __( 'This information can be edited later.', 'boldgrid-inspirations' ),
-	'Company_name' => __( 'Company Name / Site Title', 'boldgrid-inspirations' ),
+	'Address'        => __( 'Address', 'boldgrid-inspirations' ),
+	'Back'           => __( 'Back', 'boldgrid-inspirations' ),
+	'Change'         => __( 'This information can be edited later.', 'boldgrid-inspirations' ),
+	'Company_name'   => __( 'Company Name / Site Title', 'boldgrid-inspirations' ),
 	'Do_not_display' => __( 'Do not display', 'boldgrid-inspirations' ),
-	'Email' => __( 'Email', 'boldgrid-inspirations' ),
-	'Intro' => __( '%sOPTIONAL:%s The information you provide below will be used to populate contact information and social media icons throughout your BoldGrid website.', 'boldgrid-inspirations' ),
-	'Next' => __( 'Next', 'boldgrid-inspirations' ),
-	'Phone' => __( 'Phone', 'boldgrid-inspirations' ),
-	'Show_fewer' => __( 'Show fewer', 'boldgrid-inspirations' ),
-	'Show_more' => __( 'Show more', 'boldgrid-inspirations' ),
-	'Social_media' => __( 'Social Media', 'boldgrid-inspirations' ),
-	'Valid_email' => __( 'Please enter a valid email address.', 'boldgrid-inspirations' ),
+	'Email'          => __( 'Email', 'boldgrid-inspirations' ),
+	// translators: 1 opening strong tag, 2 closing strong tag.
+	'Intro'          => __( '%1$sOPTIONAL:%2$s The information you provide below will be used to populate contact information and social media icons throughout your BoldGrid website.', 'boldgrid-inspirations' ),
+	'Next'           => __( 'Next', 'boldgrid-inspirations' ),
+	'Phone'          => __( 'Phone', 'boldgrid-inspirations' ),
+	'Show_fewer'     => __( 'Show fewer', 'boldgrid-inspirations' ),
+	'Show_more'      => __( 'Show more', 'boldgrid-inspirations' ),
+	'Social_media'   => __( 'Social Media', 'boldgrid-inspirations' ),
+	'Valid_email'    => __( 'Please enter a valid email address.', 'boldgrid-inspirations' ),
 );
 
 $networks = require BOLDGRID_BASE_DIR . '/includes/config/networks.config.php';
@@ -61,7 +62,7 @@ $blogname = get_option( 'blogname' );
 ?>
 
 
-<div class="boldgrid-plugin-card">
+<div class="boldgrid-plugin-card full-width">
 	<div class="top">
 
 		<p>
@@ -103,6 +104,6 @@ $blogname = get_option( 'blogname' );
 	</div>
 	<div class="bottom">
 		<a class="button button-secondary"><?php echo $lang['Back']; ?></a>
-		<a class="button button-primary"><?php echo $lang['Next']; ?></a>
+		<a class="button button-primary boldgrid-orange"><?php echo esc_html__( 'Finish and Install', 'boldgrid-inspirations' ); ?></a>
 	</div>
 </div>

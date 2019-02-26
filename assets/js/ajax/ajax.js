@@ -7,6 +7,7 @@ IMHWPB.Ajax = function( configs ) {
 	this.api_url = this.configs.asset_server;
 	this.api_key = this.configs.api_key;
 	this.site_hash = this.configs.site_hash;
+	this.lang = BoldGridInspirationsAjax;
 
 	/**
 	 * Execute an AJAX call.
@@ -59,11 +60,11 @@ IMHWPB.Ajax = function( configs ) {
 
 		switch ( textStatus ) {
 			case 'timeout':
-				message = 'Ajax error: timeout. Please try your request again.';
+				message = self.lang.timeout;
 				break;
 
 			case 'parsererror':
-				message = 'Ajax error: Unexpected return. In some cases, trying your request again may help.';
+				message = self.lang.unexpected;
 				break;
 
 			default:
@@ -88,8 +89,23 @@ IMHWPB.Ajax = function( configs ) {
 				$wpbody
 					.hide()
 					.before(
-						'<div id="container_boldgrid_connection_notice" class="error"><h2 class="dashicons-before dashicons-admin-network">BoldGrid Connection Issue</h2><p>There was an issue reaching the BoldGrid Connect server. Some BoldGrid features may be temporarily unavailable. Please try again in a moment.</p><p>If the issue persists, then please feel free to check our <a target="_blank" href="https://www.boldgrid.com/">BoldGrid Status</a> page.</p><p>' +
-						message + '<button class="button button-primary" onclick="location.reload();">Try Again</button></p></div>'
+						'<div id="container_boldgrid_connection_notice" class="error">' +
+							'<h2 class="dashicons-before dashicons-admin-network">' +
+								self.lang.connectionIssue +
+							'</h2>' +
+							'<p>' +
+								self.lang.pleaseTryAgain +
+							'</p>' +
+							'<p>' +
+								self.lang.checkStatusPage +
+							'</p>' +
+							'<p>' +
+								message +
+								'<button class="button button-primary" onclick="location.reload();">' +
+									self.lang.tryAgain +
+								'</button>' +
+							'</p>' +
+						'</div>'
 					);
 		}
 	};
@@ -115,4 +131,18 @@ IMHWPB.Ajax = function( configs ) {
 
 		jQuery.post( ajaxurl, data, null, 'json' );
 	};
+
+	/**
+	 *
+	 */
+	this.setApiKey = function( apiKey ) {
+		self.api_key = apiKey;
+	}
+
+	/**
+	 *
+	 */
+	this.setSiteHash = function( siteHash ) {
+		self.site_hash = siteHash;
+	}
 };

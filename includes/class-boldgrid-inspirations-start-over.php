@@ -273,15 +273,12 @@ class Boldgrid_Inspirations_Start_Over {
 	 * Removed boldgrid_ admin pointers from dismissed_wp_pointers
 	 */
 	public function reset_pointers() {
-		if ( ! isset( $_POST['_wpnonce'] ) ||
-			 ! wp_verify_nonce( $_POST['_wpnonce'], 'reset_pointers' ) ) {
-			// nonce not verified; print an error message and return false:
-			?>
-<div class="error">
-	<p>Error processing request to reset pointers (help messages);
-		WordPress security violation! Please try again.</p>
-</div>
-<?php
+		$invalid_nonce = ! isset( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], 'reset_pointers' );
+
+		if ( $invalid_nonce ) {
+			echo '<div class="error"><p>' .
+				esc_html__( 'Error processing request to reset pointers (help messages); WordPress security violation! Please try again.', 'boldgrid-inspirations' ) .
+				'</p></div>';
 		} else {
 			// clear all the pointers
 			update_user_meta( get_current_user_id(), 'dismissed_wp_pointers', '' );

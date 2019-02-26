@@ -2,16 +2,16 @@
 <table class="widefat" id='receipts'>
 	<thead>
 		<tr>
-			<th>Transaction ID</th>
+			<th><?php echo esc_html__( 'Transaction ID', 'boldgrid-inspirations' ); ?></th>
 			<th class='sort-date sorted asc'>
 				<a href=''>
-					<span>Date</span>
+					<span><?php echo esc_html__( 'Date', 'boldgrid-inspirations' ); ?></span>
 					<span class="sorting-indicator"></span>
 				</a>
 			</th>
-			<th>Items</th>
-			<th>Coins</th>
-			<th>Invoice</th>
+			<th><?php echo esc_html__( 'Items', 'boldgrid-inspirations' ); ?></th>
+			<th><?php echo esc_html__( 'Coins', 'boldgrid-inspirations' ); ?></th>
+			<th><?php echo esc_html__( 'Invoice', 'boldgrid-inspirations' ); ?></th>
 		</tr>
 	</htead>
 	<tbody>
@@ -22,29 +22,29 @@
 			<td>{{objCount transaction_item}}</td>
 			<td>
 				<span class='coin-bg-s'>
-					{{#ifCond transaction_total '<' 0}}{{multiply transaction_total "-1"}}{{else}}{{transaction_total}}{{/ifCond}} 
-					{{#ifCond transaction_total '>' 0}}(Credit){{/ifCond}}
+					{{#ifCond transaction_total '<' 0}}{{multiply transaction_total "-1"}}{{else}}{{transaction_total}}{{/ifCond}}
+					{{#ifCond transaction_total '>' 0}}(<?php echo esc_html__( 'Credit', 'boldgrid-inspirations' ); ?>){{/ifCond}}
 				</span>
 			</td>
-			<td><a class='view' data-transaction-id="{{transaction_id}}" href='#'>View</a></td>
-		</tr> 
+			<td><a class='view' data-transaction-id="{{transaction_id}}" href='#'><?php echo esc_html__( 'View', 'boldgrid-inspirations' ); ?></a></td>
+		</tr>
 		{{/each}}
 </table>
 </script>
 
 <script id="no-transactions-template" type="text/x-handlebars-template">
-	<p>There are no transactions to display at this time.</p>
+	<p><?php echo esc_html__( 'There are no transactions to display at this time.', 'boldgrid-inspirations' ); ?></p>
 </script>
 
 <?php // Example object being passed in: http://pastebin.com/sgQL6Bb1 ?>
 <script id="transaction-template" type="text/x-handlebars-template">
-<h1>Invoice for Transaction ID: {{transaction_id}}</h1>
+<h1><?php echo esc_html__( 'Invoice for Transaction ID:', 'boldgrid-inspirations' ); ?> {{transaction_id}}</h1>
 <table class="widefat receipt">
 	<thead>
 		<tr>
-			<th>Description</th>
+			<th><?php echo esc_html__( 'Description', 'boldgrid-inspirations' ); ?></th>
 			<th></th>
-			<th>Coins</th>
+			<th><?php echo esc_html__( 'Coins', 'boldgrid-inspirations' ); ?></th>
 			<th></th>
 		</tr>
 	</htead>
@@ -56,7 +56,7 @@
 				{{description}}
 				{{#ifCond coins '>' 0}}
 					{{#isSetAndNotNull ../../transaction_reseller_title}}
-						(<strong>Processed by</strong>: <em>{{../../../transaction_reseller_title}})</em>
+						(<strong><?php echo esc_html__( 'Processed by', 'boldgrid-inspirations' ); ?></strong>: <em>{{../../../transaction_reseller_title}})</em>
 					{{/isSetAndNotNull}}
 				{{/ifCond}}
 			</td>
@@ -66,13 +66,13 @@
 				</span>
 			</td>
 			<td class='redownload'></td>
-		</tr> 
+		</tr>
 		{{/each}}
 </table>
 </script>
 
 <script id="tablenav-top-template" type="text/x-handlebars-template">
 	<div class='tablenav-pages'>
-		{{this}} Invoices
+		{{this}} <?php echo esc_html__( 'Invoices', 'boldgrid-inspirations' ); ?>
 	</div>
 </script>

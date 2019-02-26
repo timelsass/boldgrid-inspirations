@@ -7,7 +7,7 @@ echo '<div class="wrap">';
 
 // get all the data we need to print the page
 $args = array (
-	'process_checked_in_cart_attribute' => false
+	'process_checked_in_cart_attribute' => false,
 );
 
 $data = $this->get_all_data_of_assets_needing_purchase( $args );
@@ -43,7 +43,7 @@ $page_header_template = '
 				<div class="col-md-12">
 					<a href="%s" class="row-title">%s</a>
 					<div class="row-actions">
-						<a href="%s">Edit</a>  | <a href="%s">View</a>
+						<a href="%s">' . esc_html( 'Edit', 'boldgrid-inspirations' ) . '</a>  | <a href="%s">' . esc_html( 'View', 'boldgrid-inspirations' ) . '</a>
 					</div>
 				</div>
 			</div>
@@ -53,7 +53,7 @@ $page_header_template_end = '
 		</div>
 		<div class="plugin-card-bottom">
 			<div class="column-updated">
-				Page coin cost: <span class="total-page-cost-%s" data-total-page-cost="%s">%u
+				' . esc_html__( 'Page coin cost', 'boldgrid-inspirations' ) . ': <span class="total-page-cost-%s" data-total-page-cost="%s">%u
 			</div>
 		</div>
 	</div>
@@ -70,7 +70,7 @@ $image_template = '
 		<img src="%s" class="img-responsive image-thumbnail" />
 		<div class="image-info">
 			<div class="image-dimensions">%u x %u</div>
-			<div class="coin-bg-s">%u Coins</div>
+			<div class="coin-bg-s">%u ' . esc_html__( 'Coins', 'boldgrid-inspirations' ) . '</div>
 		</div>
 		<input type="checkbox" class="image-select" data-coin-cost="%u" data-asset-id="%u" %s>
 		<div class="clear:both;"></div>
@@ -187,7 +187,6 @@ if ( $have_assets_needing_purchase ) {
 				$grid_row_closed = true;
 				?>
 				</div>
-	<!-- a -->
 				<?php
 			}
 		}
@@ -238,12 +237,12 @@ if ( $have_assets_needing_purchase ) {
 					<div class="plugin-card-top">
 						<table style='width: 100%;'>
 							<tr>
-								<td>Your Copyright Coin balance:</td>
+								<td><?php echo esc_html__( 'Your Copyright Coin balance', 'boldgrid-inspirations' ); ?>:</td>
 								<td><span class='coin-bg-s .coin-balance'
 									data-coin-balance='<?php echo $current_copyright_coin_balance; ?>'><?php echo $current_copyright_coin_balance; ?></span></td>
 							</tr>
 							<tr>
-								<td>Total coin cost:</td>
+								<td><?php echo esc_html__( 'Total coin cost', 'boldgrid-inspirations' ); ?>:</td>
 								<td><div class='coin-bg-s total_cost'
 										data-total-cost='<?php echo $data['total_cost']; ?>'><?php echo $data['total_cost']; ?></div></td>
 							</tr>
@@ -260,10 +259,15 @@ if ( $have_assets_needing_purchase ) {
 			<div class="col-md-6 col-md-offset-6">
 				<div class="plugin-card boldgrid-plugin-card-full-width error inline">
 					<div class="plugin-card-top">
-						Whoops! It looks like you'll need more Coins for this transaction.
-						You can remove images or <a
-							href="<?php echo admin_url( 'admin.php?page=boldgrid-purchase-coins'); ?>">Purchase
-							More Coins.</a>
+						<?php printf(
+							wp_kses(
+								// translators: 1 opening anchor tag, a link to purchase more coins. 2 The closing anchor tag.
+								__( 'Whoops! It looks like you\'ll need more Coins for this transaction. You can remove images or %1$sPurchase More Coins%2$s.', 'boldgrid-inspirations' ),
+								array( 'a' => array( 'href' => array() ), )
+							),
+							'<a href="' . admin_url( 'admin.php?page=boldgrid-purchase-coins') . '">',
+							'</a>'
+						); ?>
 					</div>
 				</div>
 			</div>
@@ -273,25 +277,23 @@ if ( $have_assets_needing_purchase ) {
 	<div class="container-fluid cart-summary text-right">
 		<div class="row">
 			<div class="col-md-6 col-md-offset-6">
-				BoldGrid Connect Key: <input type="text" name='boldgrid_connect_key'
-					id='boldgrid_connect_key' size="37" maxlength="37"
-					placeholder="XXXXXXXX - XXXXXXXX - XXXXXXXX - XXXXXXXX" autocomplete='off' />
+				BoldGrid Connect Key:
+				<input type="text" name='boldgrid_connect_key' id='boldgrid_connect_key' size="37" maxlength="37" placeholder="XXXXXXXX - XXXXXXXX - XXXXXXXX - XXXXXXXX" autocomplete='off' />
 				<div>
-					<a
-						href='https://www.boldgrid.com/support/where-to-get-a-boldgrid-connect-key/'
-						target='_blank'>Lost your BoldGrid Connect Key?</a>
+					<a href='https://www.boldgrid.com/support/where-to-get-a-boldgrid-connect-key/' target='_blank'><?php echo esc_html__( 'Lost your BoldGrid Connect Key?', 'boldgrid-inspirations' ); ?></a>
 				</div>
 				<br />
 				<input type="checkbox" name="agree_to_tos" id="agree_to_tos" value="yes">
 				<?php
 					printf(
 						wp_kses(
-							__( 'I agree to the <a href="%1$s" target="_blank">BoldGrid</a>, <a href="%2$s" target="_blank">Fotolia</a>, and <a href="%3$s" target="_blank">123RF</a> Terms and Conditions.', 'boldgrid-inspirations' ),
+							// translators: 1 a link to the BoldGrid TOS, 2 a link to the Fotolia TOS, 3 a link to the 123RF TOS.
+							__( 'I agree to the %1$s, %2$s, and %3$s Terms and Conditions.', 'boldgrid-inspirations' ),
 							array( 'a' => array( 'href' => array(), 'target' => 'blank' ) )
 						),
-						'https://www.boldgrid.com/tos',
-						'https://www.fotolia.com/Info/Agreements/TermsAndConditions',
-						'https://www.123rf.com/terms.php'
+						'<a href="https://www.boldgrid.com/tos" target="_blank">BoldGrid</a>',
+						'<a href="https://www.fotolia.com/Info/Agreements/TermsAndConditions" target="_blank">Fotolia</a>',
+						'<a href="https://www.123rf.com/terms.php" target="_blank">123RF</a>'
 					);
 				?>
 			</div>
@@ -303,16 +305,14 @@ if ( $have_assets_needing_purchase ) {
 			<div class="col-md-6 col-md-offset-6">
 				<span name='purchase_error' id='purchase_error' style='color: red;'></span>
 				<p>
-					<button class='button purchase-more-coins' id='purchase-more-coins'>Purchase
-						More Coins</button>
-					<button class='button button-primary'
-						id='purchase_all_for_publishing'
+					<button class='button purchase-more-coins' id='purchase-more-coins'><?php echo esc_html__( 'Purchase More Coins', 'boldgrid-inspirations' ); ?></button>
+					<button class='button button-primary' id='purchase_all_for_publishing'
 						<?php
 	if ( ! is_numeric( $current_copyright_coin_balance ) ||
 	$current_copyright_coin_balance < $data['total_cost'] ) {
 		echo 'disabled="disabled"';
 	}
-	?>>Purchase for Publishing</button>
+	?>><?php echo esc_html__( 'Purchase for Publishing', 'boldgrid-inspirations' ); ?></button>
 				</p>
 			</div>
 		</div>
@@ -329,7 +329,7 @@ if ( $have_assets_needing_purchase ) {
  */
 } else {
 	?>
-<p>There are currently no assets needing purchase.</p>
+<p><?php echo esc_html__( 'There are currently no assets needing purchase.', 'boldgrid-inspirations' ); ?></p>
 <?php
 }
 

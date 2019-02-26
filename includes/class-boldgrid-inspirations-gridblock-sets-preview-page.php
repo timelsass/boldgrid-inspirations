@@ -22,10 +22,10 @@ class Boldgrid_Inspirations_GridBlock_Sets_Preview_Page {
 	 * @var array $page_data.
 	 */
 	public $page_data = array (
-		'post_title' => 'BoldGrid - GridBlock Set - Preview Page',
-		'post_name' => 'boldgrid-gridblock-set-preview-page',
-		'post_status' => 'draft',
-		'post_type' => 'page',
+		'post_title'     => 'BoldGrid - GridBlock Set - Preview Page',
+		'post_name'      => 'boldgrid-gridblock-set-preview-page',
+		'post_status'    => 'draft',
+		'post_type'      => 'page',
 		'comment_status' => 'closed'
 	);
 

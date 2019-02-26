@@ -63,36 +63,37 @@ class Boldgrid_Inspirations_Built {
 	 * Add actions/hooks
 	 */
 	public function add_hooks() {
+		add_action( 'admin_menu', array( $this, 'admin_menu', ) );
 
-		// Find the users individual scenario and set up the menu.
-		add_action( 'admin_menu',
-			array(
-				$this,
-				'admin_menu',
-			)
-		);
+		if ( self::is_inspirations() ) {
+			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts', ) );
 
-		// Add the needed styles.
-		add_action( 'admin_enqueue_scripts',
-			array(
-				$this,
-				'enqueue_scripts',
-			)
-		);
-
-		// Should the user be starting with inspirations? If so, give them a notice at the top of
-		// the page.
-		add_action( 'admin_notices',
-			array(
-				$this,
-				'you_should_start_with_inspirations',
-			)
-		);
-
-		add_action( 'admin_init', array( $this, 'remove_notices' ) );
-
-		if ( isset( $_REQUEST['page'] ) && 'boldgrid-inspirations' === $_REQUEST['page'] ) {
 			add_filter( 'Boldgrid\Library\Library\Notice\KeyPrompt_display', '__return_true' );
+
+			// Add a custom header to the key prompt, just for Inspirations.
+			add_filter( 'Boldgrid\Library\Views\KeyPrompt\header', function() {
+				return __( 'We\'re almost ready to start your site!', 'boldgrid-inspirations' );
+			} );
+
+			/*
+			 * On the Inspirations page, do not show the key prompt by default. It will get shown when
+			 * the time is right, otherwise the user will see the key prompt flash on the screen and
+			 * then disappear.
+			 */
+			add_filter( 'Boldgrid\Library\Views\KeyPrompt\classes', function( $classes ) {
+				$classes[] = 'hidden';
+				return $classes;
+			} );
+
+			/*
+			 * Make Inspirations full screen by adding the .bginsp-full-screen class to the body. If we
+			 * did this via js, the normal dashboard would show and then flash to the full screen mode,
+			 * giving a bad user experience.
+			 */
+			add_filter( 'admin_body_class', function( $classes ) {
+				$classes .= ' bginsp-full-screen';
+				return $classes;
+			} );
 		}
 	}
 
@@ -236,6 +237,22 @@ class Boldgrid_Inspirations_Built {
 	}
 
 	/**
+	 *
+	 */
+	public function is_deploy() {
+		return self::is_inspirations() && isset( $_POST['task'] ) && 'deploy' == $_POST['task'];
+	}
+
+	/**
+	 *
+	 */
+	public static function is_inspirations() {
+		global $pagenow;
+
+		return 'admin.php' === $pagenow && ! empty( $_GET['page'] ) && 'boldgrid-inspirations' === $_GET['page'];
+	}
+
+	/**
 	 * Our active site was installed by BoldGrid.
 	 *
 	 * @since x.x.x
@@ -274,9 +291,9 @@ class Boldgrid_Inspirations_Built {
 		}
 
 		// Get default, attribution, and coming soon pages.
-		$default_page = get_page_by_title( 'Sample Page' );
+		$default_page = get_page_by_title( __( 'Sample Page' ) );
 		$attribution_page = get_page_by_title( 'Attribution' );
-		$coming_soon_page = get_page_by_title( 'WEBSITE COMING SOON' );
+		$coming_soon_page = get_page_by_title( __( 'WEBSITE COMING SOON' ) );
 
 		// Initialize $ids_to_remove.
 		$ids_to_filter = array();
@@ -343,8 +360,8 @@ class Boldgrid_Inspirations_Built {
 
 		// Get default pages we're expecting.
 		$default_pages = array(
-			'sample' => get_page_by_title( 'Sample Page' ),
-			'coming_soon' => get_page_by_title( 'WEBSITE COMING SOON' ),
+			'sample' => get_page_by_title( __( 'Sample Page' ) ),
+			'coming_soon' => get_page_by_title( __( 'WEBSITE COMING SOON' ) ),
 		);
 
 		// How many of our default pages were found.
@@ -412,9 +429,10 @@ class Boldgrid_Inspirations_Built {
 	 * Add the styles and the scripts.
 	 */
 	public function enqueue_scripts() {
-		$current_screen = get_current_screen();
-
-		if ( 'toplevel_page_boldgrid-inspirations' != $current_screen->base ) {
+		// If we are deploying, enqueue the following and then return;
+		if ( $this->is_deploy() ) {
+			$this->enqueue_inspirations_css();
+			$this->enqueue_inspirations_js( false );
 			return;
 		}
 
@@ -432,55 +450,13 @@ class Boldgrid_Inspirations_Built {
 
 		add_thickbox();
 
-		// Css.
-		wp_register_style(
-			'boldgrid-inspirations-css',
-			plugins_url(
-				'/assets/css/boldgrid-inspirations.css',
-				BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php'
-			),
-			array(),
-			BOLDGRID_INSPIRATIONS_VERSION
-		);
-
-		wp_enqueue_style( 'boldgrid-inspirations-css' );
+		$this->enqueue_inspirations_css();
 
 		wp_enqueue_style( 'boldgrid-inspirations-font-awesome' );
 
 		wp_enqueue_style( 'dashicons' );
 
-		// Js.
-		wp_enqueue_script( 'boldgrid-inspirations',
-			plugins_url(
-				'assets/js/boldgrid-inspirations.js',
-				BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php'
-			),
-			array(
-				'wp-util',
-			),
-			BOLDGRID_INSPIRATIONS_VERSION,
-			true
-		);
-
-		wp_localize_script( 'boldgrid-inspirations',
-			'Inspiration',
-			array(
-				'active' => 'Active',
-				'staging' => 'Staging',
-				'coins' => __( 'Coins', 'boldgrid-inspirations' ),
-				'fetchingThemes' => __( 'Fetching themes...', 'boldgrid-inspirations' ),
-				'fetchingCategories' => __( 'Fetching categories...', 'boldgrid-inspirations' ),
-				'errorFetchingThemes' => __( 'There was an error fetching themes.', 'boldgrid-inspirations' ),
-				'errorFetchingCategories' => __( 'There was an error fetching categories.', 'boldgrid-inspirations' ),
-				'errorFetchingPagesets' => __( 'There was an error fetching pagesets.', 'boldgrid-inspirations' ),
-				'errorBuildingPreview' => __( 'There was an error building your custom website preview.', 'boldgrid-inspirations' ),
-				'previewTimeout' => __( 'Connection timed out when attempting to load custom website preview.', 'boldgrid-inspirations' ),
-				'select' => __( 'Select', 'boldgrid-inspirations' ),
-				'tryFewMinutes' => __( 'Please try again in a few minutes.', 'boldgrid-inspirations' ),
-				'tryFewSeconds' => __( 'Please try again in a few seconds.', 'boldgrid-inspirations' ),
-				'tryAgain' => __( 'Try again', 'boldgrid-inspirations' ),
-			)
-		);
+		$this->enqueue_inspirations_js();
 
 		/*
 		 * Add Fancybox.
@@ -523,6 +499,63 @@ class Boldgrid_Inspirations_Built {
 			BOLDGRID_INSPIRATIONS_VERSION,
 			true
 		);
+	}
+
+	/**
+	 *
+	 */
+	public function enqueue_inspirations_css() {
+		wp_register_style(
+			'boldgrid-inspirations-css',
+			plugins_url(
+				'/assets/css/boldgrid-inspirations.css',
+				BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php'
+			),
+			array(),
+			BOLDGRID_INSPIRATIONS_VERSION
+		);
+
+		wp_enqueue_style( 'boldgrid-inspirations-css' );
+	}
+
+	/**
+	 *
+	 */
+	public function enqueue_inspirations_js( $in_footer = true ) {
+		$handle = 'boldgrid-inspirations';
+
+		wp_register_script( $handle,
+			plugins_url( 'assets/js/boldgrid-inspirations.js', BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ),
+			array(
+				'wp-util',
+			),
+			BOLDGRID_INSPIRATIONS_VERSION,
+			$in_footer
+		);
+
+		wp_localize_script(
+			$handle,
+			'Inspiration',
+			array(
+				'active'                  => 'Active',
+				'staging'                 => 'Staging',
+				'coins'                   => __( 'Coins', 'boldgrid-inspirations' ),
+				'isDeploy'                => $this->is_deploy(),
+				'fetchingThemes'          => __( 'Fetching themes...', 'boldgrid-inspirations' ),
+				'fetchingCategories'      => __( 'Fetching categories...', 'boldgrid-inspirations' ),
+				'errorFetchingThemes'     => __( 'There was an error fetching themes.', 'boldgrid-inspirations' ),
+				'errorFetchingCategories' => __( 'There was an error fetching categories.', 'boldgrid-inspirations' ),
+				'errorFetchingPagesets'   => __( 'There was an error fetching pagesets.', 'boldgrid-inspirations' ),
+				'errorBuildingPreview'    => __( 'There was an error building your custom website preview.', 'boldgrid-inspirations' ),
+				'previewTimeout'          => __( 'Connection timed out when attempting to load custom website preview.', 'boldgrid-inspirations' ),
+				'select'                  => __( 'Select', 'boldgrid-inspirations' ),
+				'tryFewMinutes'           => __( 'Please try again in a few minutes.', 'boldgrid-inspirations' ),
+				'tryFewSeconds'           => __( 'Please try again in a few seconds.', 'boldgrid-inspirations' ),
+				'tryAgain'                => __( 'Try again', 'boldgrid-inspirations' ),
+			)
+		);
+
+		wp_enqueue_script( $handle );
 	}
 
 	/**
@@ -595,9 +628,10 @@ class Boldgrid_Inspirations_Built {
 		global $user_email;
 
 		// If we are prompting the user for an API key, then show only that prompt.
-		if ( class_exists( '\Boldgrid\Library\Library\Notice\KeyPrompt', false ) ) {
-			return;
-		}
+		// if ( class_exists( '\Boldgrid\Library\Library\Notice\KeyPrompt', false ) ) {
+		//	return;
+		// }
+		$prompting_for_key = class_exists( '\Boldgrid\Library\Library\Notice\KeyPrompt', false );
 
 		$boldgrid_configs = Boldgrid_Inspirations_Config::get_format_configs();
 
@@ -621,6 +655,8 @@ class Boldgrid_Inspirations_Built {
 
 			$mode_data = $this->generate_scenarios();
 
+			// echo '<pre>$mode_data = ' . print_r( $mode_data,1) . '</pre>';
+
 			// Required for toggling of "Coin Budget" help.
 			wp_enqueue_script( 'image-edit' );
 
@@ -632,39 +668,6 @@ class Boldgrid_Inspirations_Built {
 		}
 
 		return;
-	}
-
-	/**
-	 * Remove all admin notices from BoldGrid Inspirations page.
-	 *
-	 * If we allow admin notices to the Inspirations page, the page begins to feel a bit wonky. Don't
-	 * allow any notices on this page.
-	 *
-	 * @since 1.2.6
-	 *
-	 * @global string $pagenow
-	 */
-	public function remove_notices() {
-		global $pagenow;
-
-		$page = ( isset( $_GET['page'] ) ? $_GET['page'] : null );
-
-		// Are we on the Inspirations page?
-		$is_inspirations_page = ( 'admin.php' === $pagenow && 'boldgrid-inspirations' === $page );
-
-		// Are we prompting the user to enter their API key?
-		$prompting_for_key = class_exists( '\Boldgrid\Library\Library\Notice\KeyPrompt', false );
-
-		/*
-		 * If we're on the Inspirations page and we're not prompting the user for a key, remove all
-		 * notices.
-		 *
-		 * If we were prompting them for a key, then we don't want to remove the notice to prompt
-		 * them for a key.
-		 */
-		if ( $is_inspirations_page && ! $prompting_for_key ) {
-			remove_all_actions( 'admin_notices' );
-		}
 	}
 
 	/**
@@ -681,54 +684,18 @@ class Boldgrid_Inspirations_Built {
 	public function generate_scenarios() {
 		$this->install_options = self::find_all_install_options();
 
-		// Create return array.
-		return array(
-			'has_active_bg_site' => $this->has_active_bg_site( $this->install_options ),
-			'has_staged_site' => $this->has_staged_site(),
+		$scenarios = array(
+			'has_active_bg_site'    => $this->has_active_bg_site( $this->install_options ),
+			'has_staged_site'       => $this->has_staged_site(),
 			'has_blank_active_site' => self::has_blank_active_site(),
-			'open-section' => ( ! empty( $_GET['force-section'] ) ) ? sanitize_text_field( $_GET['force-section'] ) : '',
-			'staging_active' => $this->check_staging_plugin(),
-			'staging_installed' => file_exists( WP_PLUGIN_DIR . '/boldgrid-staging' ),
-			'url' => get_admin_url() . 'admin.php?page=boldgrid-inspirations',
-		);
-	}
-
-	/**
-	 * Should the user be starting with inspirations? If so, give them a notice at the top of the
-	 * page.
-	 *
-	 * @global pagenow
-	 */
-	public function you_should_start_with_inspirations() {
-		$pages_to_show_this_notice = array(
-			'post-new.php',
-			'theme-install.php',
+			'open-section'          => ( ! empty( $_GET['force-section'] ) ) ? sanitize_text_field( $_GET['force-section'] ) : '',
+			'staging_active'        => $this->check_staging_plugin(),
+			'staging_installed'     => file_exists( WP_PLUGIN_DIR . '/boldgrid-staging' ),
+			'url'                   => get_admin_url() . 'admin.php?page=boldgrid-inspirations',
 		);
 
-		global $pagenow;
+		$scenarios['has_any_site'] = ! empty( $scenarios['has_active_bg_site'] ) || empty( $scenarios['has_blank_active_site'] );
 
-		// Abort if necessary.
-		if ( ! in_array( $pagenow, $pages_to_show_this_notice ) ) {
-			return;
-		}
-
-		// Generate our scenario data.
-		$scenarios = $this->generate_scenarios();
-
-		// Display our alert.
-		if ( false === $scenarios['has_active_bg_site'] && false === $scenarios['has_staged_site'] ) {
-			?>
-<div class="error notice is-dismissible">
-	<p>
-		We've recognized that you haven't installed an Active or Staging site
-		with Inspirations. Before adding additional pages and themes, we
-		recommend that you start with <a
-			href="admin.php?page=boldgrid-inspirations&boldgrid-tab=install"
-			class="dashicons-before dashicons-lightbulb"
-			style="text-decoration: none;">Inspirations</a>.
-	</p>
-</div>
-<?php
-		}
+		return $scenarios;
 	}
 }

@@ -1,3 +1,12 @@
+<?php
+/*
+ * preview.php
+ *
+ * This file included by author plugin.
+ *
+ * @link https://github.com/BoldGrid/boldgrid-author/blob/dev/pages/preview.php#L63-L66
+ */
+?>
 <!-- TEMPLATES: text author -->
 
 <script id="sub-cat-id-template" type="text/x-handlebars-template">
@@ -18,7 +27,7 @@
 			{{#each subcategories}}
 				<option value='{{id}}'>{{../name}} - {{name}} {{cat}}</option>
 			{{/each}}
-		
+
 	</select>
 </script>
 
@@ -62,7 +71,7 @@
 			{{#each this}}
 				<option value='{{Id}}'>{{CategoryName}}</option>
 			{{/each}}
-		
+
 	</select>
 </script>
 

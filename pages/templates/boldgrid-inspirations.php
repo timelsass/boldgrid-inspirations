@@ -1,5 +1,5 @@
 <script type="text/html" id="tmpl-init-categories">
-	<div class="category-filter" ><?php echo __( 'Category filter', 'boldgrid-inspirations' ); ?></div>
+	<div class="category-filter" ><?php echo __( 'Categories', 'boldgrid-inspirations' ); ?></div>
 
 	<div class="sub-category active" data-display-order="0" >
 		<input type="radio" name="sub-category" checked data-sub-category-id="0" >
@@ -55,7 +55,7 @@
 			</h2>
 
 			<div class="theme-actions">
-				<a class="button button-primary hide-if-no-customize">Select</a>
+				<a class="button button-primary hide-if-no-customize"><?php echo esc_html__( 'Select', 'boldgrid-inspirations' ); ?></a>
 			</div>
 
 		</div>

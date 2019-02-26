@@ -540,21 +540,6 @@ class Boldgrid_Inspirations_Api {
 	}
 
 	/**
-	 * Load api.js script.
-	 *
-	 * @since 1.2.2
-	 */
-	public function enqueue_js_api_submission() {
-		wp_enqueue_script( 'api-submission',
-			plugins_url(
-				'/assets/js/api/api.js',
-				BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php'
-			),
-			array(), BOLDGRID_INSPIRATIONS_VERSION, true
-		);
-	}
-
-	/**
 	 * Store the user's api_key as wp_option.
 	 *
 	 * This function is called via ajax.
@@ -571,15 +556,17 @@ class Boldgrid_Inspirations_Api {
 				, 'boldgrid-inspirations'
 			),
 			'invalid_key' => sprintf(
+				// translators: A line break / br tag.
 				esc_html__(
-					'Your API key appears to be invalid!%sPlease try to enter your BoldGrid Connect Key again.'
+					'Your API key appears to be invalid!%1$sPlease try to enter your BoldGrid Connect Key again.'
 					, 'boldgrid-inspirations'
 				),
 				'<br />'
 			),
 			'error_saving_key' => sprintf(
+			// translators: A line break / br tag.
 				esc_html__(
-					'There was an error saving your key.%sPlease try entering your BoldGrid Connect Key again.'
+					'There was an error saving your key.%1$sPlease try entering your BoldGrid Connect Key again.'
 					, 'boldgrid-inspirations'
 				),
 				'<br />'

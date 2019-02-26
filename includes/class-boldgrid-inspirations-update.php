@@ -377,10 +377,10 @@ class Boldgrid_Inspirations_Update {
 			}
 
 			// Set the other elements.
-			$transient->name = $boldgrid_api_data->result->data->title;
-			$transient->requires = $boldgrid_api_data->result->data->requires_wp_version;
-			$transient->tested = $boldgrid_api_data->result->data->tested_wp_version;
-			$transient->last_updated = $boldgrid_api_data->result->data->release_date;
+			$transient->name          = $boldgrid_api_data->result->data->title;
+			$transient->requires      = $boldgrid_api_data->result->data->requires_wp_version;
+			$transient->tested        = $boldgrid_api_data->result->data->tested_wp_version;
+			$transient->last_updated  = $boldgrid_api_data->result->data->release_date;
 			$transient->download_link = $boldgrid_configs['asset_server'] .
 				$boldgrid_configs['ajax_calls']['get_asset'] . '?key=' .
 				$boldgrid_configs['api_key'] . '&id=' . $boldgrid_api_data->result->data->asset_id .
@@ -409,13 +409,13 @@ class Boldgrid_Inspirations_Update {
 			}
 
 			$transient->plugin_name = 'boldgrid-inspirations.php';
-			$transient->slug = 'boldgrid-inspirations';
-			$transient->version = $boldgrid_api_data->result->data->version;
+			$transient->slug        = 'boldgrid-inspirations';
+			$transient->version     = $boldgrid_api_data->result->data->version;
 			$transient->new_version = $boldgrid_api_data->result->data->version;
 		} else if ( 'update_plugins' === $action ) {
-			$obj = new stdClass();
-			$obj->slug = 'boldgrid-inspirations';
-			$obj->plugin = 'boldgrid-inspirations/boldgrid-inspirations.php';
+			$obj              = new stdClass();
+			$obj->slug        = 'boldgrid-inspirations';
+			$obj->plugin      = 'boldgrid-inspirations/boldgrid-inspirations.php';
 			$obj->new_version = $boldgrid_api_data->result->data->version;
 
 			if ( ! empty( $boldgrid_api_data->result->data->siteurl ) ) {
@@ -433,7 +433,7 @@ class Boldgrid_Inspirations_Update {
 					$obj->autoupdate = true;
 				}
 				$transient->response[ $obj->plugin ] = $obj;
-				$transient->tested = $boldgrid_api_data->result->data->tested_wp_version;
+				$transient->tested                   = $boldgrid_api_data->result->data->tested_wp_version;
 			} else {
 				$transient->no_update[ $obj->plugin ] = $obj;
 			}
@@ -532,7 +532,7 @@ class Boldgrid_Inspirations_Update {
 
 					// $transient->response[$slug]['browse'] = 'updated';
 					$transient->response[ $slug ]['author'] = $installed_theme->Author;
-					$transient->response[ $slug ]['Tag'] = $installed_theme->Tags;
+					$transient->response[ $slug ]['Tag']    = $installed_theme->Tags;
 					$transient->response[ $slug ]['search'] = $boldgrid_tag;
 					$transient->response[ $slug ]['fields'] = array(
 						'version' => $theme_versions[ $theme_id ]['version'],
@@ -761,22 +761,26 @@ class Boldgrid_Inspirations_Update {
 	 */
 	private function update_notice_13() {
 		// Build the notice.
-		$markup = sprintf(
-			'<div id="update-notice-1-3"
-			class="updated notice is-dismissible fade boldgrid-admin-notice"
-			data-admin-notice-id="update-notice-1-3">
-			<h2>%1$s</h2>
-			<p>BoldGrid Inspirations %2$s ' . $this->notice_params['plugin_version'] . '.</p>
-			<p>%3$s
-			<a target="_blank" href="https://www.boldgrid.com/boldgrid-1-3-released/">%4$s.</a>
+		$markup = '<div id="update-notice-1-3" class="updated notice is-dismissible fade boldgrid-admin-notice" data-admin-notice-id="update-notice-1-3">
+			<h2>' . esc_html__( 'Update notice', 'boldgrid-inpirations' ) . '</h2>
+			<p>' .
+				sprintf(
+					esc_html__( 'BoldGrid Inspirations has been updated to %1$s.', 'boldgrid-inspirations' ),
+					$this->notice_params['plugin_version']
+				) .
+			'</p>
+			<p>' .
+				sprintf(
+					wp_kses(
+						// translators: 1 Opening anchor tag linking to our BoldGrid Inspirations 1.3 blog post, its closing anchor tag.
+						__( 'Version 1.3 has been released with a redesigned Inspiration phase. For more information on this change and others, please %1$svisit our blog%2$s.', 'boldgrid-inpirations' ),
+						array( 'a' => array( 'href' => array(), 'target' => array( '_blank' ), ), )
+					),
+					'<a target="_blank" href="https://www.boldgrid.com/boldgrid-1-3-released/">',
+					'</a>'
+				) . '
 			</p>
-			</div>
-			',
-			esc_html__( 'Update notice', 'boldgrid-inpirations' ),
-			esc_html__( 'has been updated to version', 'boldgrid-inpirations' ),
-			esc_html__( 'Version 1.3 has been released with a redesigned Inspiration phase. For more information on this change and others, please', 'boldgrid-inpirations' ),
-			esc_html__( 'visit our blog', 'boldgrid-inpirations' )
-		);
+			</div>';
 
 		// Display the notice.
 		$this->show_notice( 'update-notice-1-3', '1.3', $markup );

@@ -15,8 +15,9 @@ $stop_and_explain.insertBefore($title_purchase).slideToggle(1000);
 jQuery(ruler).insertBefore($title_purchase);
 
 // Update the title of the page.
-$title_purchase.html("Purchase complete (with errors)!").prepend(
-		"<span class='dashicons dashicons-no'></span>");
+$title_purchase
+	.html( BoldGridInspirationsPurchase.withErrors )
+	.prepend( "<span class='dashicons dashicons-no'></span>" );
 
 // Scroll the user to the top of the page.
 jQuery("html").animate({

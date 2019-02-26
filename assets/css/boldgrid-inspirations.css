@@ -1,3 +1,71 @@
+/**
+ * #.# Make Inspirations full screen.
+ *
+ * These styles allow the Inspirations process to be full screen.
+ */
+
+body.bginsp-full-screen {
+	margin-top: 16px;
+} 
+
+.bginsp-full-screen #adminmenumain,
+
+.bginsp-full-screen #wpadminbar {
+	display: none;
+}
+
+.bginsp-full-screen #wpcontent {
+	margin: 0px;
+}
+
+.bginsp-full-screen .top-menu { 
+	position: fixed;
+	margin-top: 0px;
+	margin-left: 0px;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	z-index: 999;
+}
+
+@media (min-width: 1423px) {
+	.bginsp-full-screen #screen-welcome,
+	.bginsp-full-screen #screen-content,
+	.bginsp-full-screen #screen-contact,
+	.bginsp-full-screen #screen-install {
+		padding-top: 0px;
+	}
+}
+
+/*
+ * #.# Section: Under top menu alignment.
+ *
+ * Ensure all elements are properly aligned under the top menu.
+ */
+
+/* TMP DELETE THIS. */
+#test-spacing-div {
+	background:red;
+	position:fixed;
+	width:100%;
+	height:35px;
+	left:0px;
+	top:90px;
+	border-top:1px solid green;
+	border-bottom: 1px solid green;
+	box-sizing: border-box;
+}
+
+#post_deploy,    /* The form on the Inspirations page. */
+#deploy_status { /* The container on the deploy page. */
+	margin-top: 35px;
+}
+
+#post_deploy > div > h1 { /* Content Check Warning header. */
+	padding-top: 0px;
+}
+
+
 /* Page layout */
 #screen-design  .left,
 #screen-content .left {
@@ -101,12 +169,6 @@ input[type="radio"][name="sub-category"] {
 	font-weight: normal;
 }
 
-/* Coin Budget Styling */
-#build-cost::before {
-	content: '/';
-	padding: 0 .5em;
-}
-
 /* Theme */
 .theme {
 	-webkit-transition-property:		-webkit-box-shadow;
@@ -130,24 +192,117 @@ input[type="radio"][name="sub-category"] {
 }
 
 .top-menu {
-	background: #ccc;
-	margin: -10px -20px 30px -22px;
+	margin: -10px -20px 0px -22px; /* Required to make the top menu flush with the top and left menus. */
 	padding-left: 22px;
+	background-image: url(../images/inspirations/header-bg.png);
+    background-color: #ff4000;
+    background-position: center;
+    height: 4.4em;
+    overflow: hidden;
+    
+    /* Adding for 1280x800 / not full screen / welcome step */
+    padding-left: 0px;
+}
+
+.top-menu > div {
+	margin-left: auto;
+	margin-right: auto;
+	width: fit-content;
+}
+
+/* On the design screen, the top menu is fixed. */
+body:not(.bginsp-full-screen) .top-menu.design,
+body:not(.bginsp-full-screen) .top-menu.content {
+	right: 0px;
+	left: 160px;
+	margin-left: 0px;
+	margin-right: 0px;
+	/* padding-left: 0px; */
+	position: fixed;
+	top: 42px;
+	z-index: 1;
 }
 
 .top-menu a {
-	padding: 15px 30px;
+	/* padding: 15px 20px 15px 31px; */
+	padding: 1.53em 1.54em 1.53em 2.38em;
 	display: inline-block;
 	cursor: pointer;
-	color: #6b747b;
+	color: #fff;
+	margin-right: -1px;
 }
 
-.top-menu .active {
-	background: #f1f1f1;
-	color: #fa5a26;
+/* .top-menu a:not(:first-of-type), */
+/* .top-menu a:not(:first-of-type) { */
+/* 		background-image: url( '../images/inspirations/arrows.png' ); */
+/* 	background-size: cover; */
+
+/* 	} */
+
+/* this CS forms the triangles */
+
+.top-menu a:not(:first-of-type):not(.next):not(.active) {
+	background: url( '../images/inspirations/arrow.png' ) no-repeat;
+	background-size: contain;
 }
 
-a.disabled {
+.top-menu a.active:not(:first-of-type) {
+	background: url(../images/inspirations/arrow-right-filled.png) no-repeat, url(../images/inspirations/fill.png) no-repeat;
+	background-position: left, 1em;
+    background-size: contain, cover;
+    box-shadow: inset 0 -1px #ebebeb;
+}
+
+.top-menu a.active:first-of-type {
+	background: url(../images/inspirations/fill.png) repeat;
+}
+
+.top-menu a.next {
+	background: url( '../images/inspirations/arrow-left-filled.png' ), url( '../images/inspirations/arrow.png' );
+	background-size: contain;
+	background-repeat: no-repeat;
+}
+
+/* .top-menu a.next { */
+/* 	background: url( '../images/inspirations/arrow.png' ) no-repeat; */
+/* 	background-size: contain; */
+/* } */
+
+.top-menu a:first-of-type {
+	border-left: 1px solid #676767;
+}
+
+.top-menu a:last-of-type {
+	border-right: 1px solid #676767;
+}
+
+
+
+/* The dismiss button in the menu. */
+
+.top-menu .notice-dismiss {
+	position: static;
+	float: right;
+	margin: 10px 10px 0px 0px;
+}
+
+.top-menu .notice-dismiss:hover:before {
+	color: #565a5d;
+}
+
+.top-menu .notice-dismiss:focus,
+.top-menu .notice-dismiss:active:before,
+.top-menu .notice-dismiss:focus:before {
+	box-shadow: none;
+	color: #72777c;
+}
+
+.top-menu .notice-dismiss:before {
+	content: "\f335";
+	font: normal 2.5em/20px dashicons;
+}
+
+.top-menu a.disabled {
 	cursor: not-allowed;
 }
 
@@ -376,10 +531,48 @@ http://ivomynttinen.com/blog/the-ios-design-cheat-sheet-volume-2
 }
 
 /* Set a width for the plugin cards in Inpsirations, and center them. */
-.boldgrid-plugin-card {
+.boldgrid-plugin-card,
+.screen-contained {
 	max-width: 570px;
 	margin-left: auto;
 	margin-right: auto;
+}
+.boldgrid-plugin-card.full-width {
+	max-width: none;
+}
+
+/**
+ * #.# Welcome screen.
+ *
+ * This section handles the styles of the welcome screen.
+ */
+
+#screen-welcome .boldgrid-plugin-card {
+	margin-bottom: 15px;
+}
+
+/* Use in conjunction with a style which adds a border. */
+.circled-text {
+	border-radius: 50%;
+    width: 45px;
+    height: 45px;
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.circled-text.circled-text-left {
+	float: left;
+    line-height: 45px;
+    margin-top: 0px;
+    margin-right: 15px;
+    margin-bottom: 35px;
+}
+
+#screen-welcome .step-screenshot {
+	float:right;
+	margin: 0px 0px 0px 15px;
+	max-width: 170px;
 }
 
 /**
@@ -469,6 +662,37 @@ http://ivomynttinen.com/blog/the-ios-design-cheat-sheet-volume-2
 	color: red;
 }
 
+/*
+ * #.# BoldGrid Connect Key notice.
+ *
+ * Apply custom styles to the BoldGrid Connect Key notice.
+ */
+
+#container_boldgrid_api_key_notice {
+	border: 0px;
+    box-shadow: none;
+    background: none;
+    padding-top: 0px;
+    margin-top: 0px;
+}
+
+.new-api-key h2 {
+	margin-top: 0px;
+}
+
+.bg-key-saved .notice-dismiss {
+	display: none;
+}
+
+/*
+ * #.# Miscellaneous.
+ */
+
+/* Hide all notices except the Connect Key prompt. */
+.notice:not( #container_boldgrid_api_key_notice ) {
+	display: none;
+}
+
 /**
 * Media queries appear in this order:
 *
@@ -514,6 +738,38 @@ http://ivomynttinen.com/blog/the-ios-design-cheat-sheet-volume-2
 	}
 }
 
+/* iPhone 5: 640 x 1136 */
+@media (max-width: 640px) {
+	.top-menu {
+		text-align: left;
+		height: 3.5em;
+	}
+	
+	.top-menu > div {
+		margin-left: 0px;
+	}
+	
+	.top-menu a {
+		font-size: 0.7em;
+		text-align: left;
+		padding-left: 1.8em;
+		padding-right: 0.2em;
+	}
+	
+	.bginsp-full-screen .top-menu a:first-of-type {
+		padding-left: 0.8em;
+	}
+	
+	.top-menu a:last-of-type {
+		padding-right: 0.8em;
+	}
+	
+	.top-menu .notice-dismiss {
+		margin: 0 10px 0 0;
+	}
+}
+
+/* Point in which menus are adjusted in the dashboard. */
 @media screen and (max-width: 782px) {
 	#screen-content .left,
 	#screen-design .left {
@@ -536,6 +792,29 @@ http://ivomynttinen.com/blog/the-ios-design-cheat-sheet-volume-2
 		margin-top: -0.8em;
 		margin-bottom: 1em;
 	}
+	
+/* 	.top-menu { */
+/* 		margin-left: -10px; #wpcontent has a 10px left padding, need to offset this. */
+/* 	} */
+	
+	body:not(.bginsp-full-screen) .top-menu.design,
+	body:not(.bginsp-full-screen) .top-menu.content {
+		top: 56px;
+	}
+	
+	body:not(.bginsp-full-screen) .top-menu.design,
+	body:not(.bginsp-full-screen) .top-menu.content {
+		left: 0px;
+	}
+	
+	.top-menu a.active:not(:first-of-type) {
+		background-position: left, 0.95em;
+	}
+	
+	body:not(.bginsp-full-screen) #screen-design,
+	body:not(.bginsp-full-screen) #screen-content {
+		padding-top: 3em;
+	}
 
 	/* Ensure the preview button is always visible. The proceding rule is needed as well.  */
 	.theme-browser .theme div.theme-actions {
@@ -549,21 +828,41 @@ http://ivomynttinen.com/blog/the-ios-design-cheat-sheet-volume-2
 	}
 }
 
+/* WordPress dashboard shows icons only at this size. */
+@media only screen and (max-width: 960px) {
+/* 	body.auto-fold:not(.bginsp-full-screen) .top-menu.design { */
+/* 		left: 36px; */
+/* 	} */
+}
+
 /* Force left menu to be open on desktop if it was previously collapsed in mobile. */
 @media (min-width: 783px) {
 	#screen-design .left {
 		display: block !important;
 	}
-	#screen-design {
+	
+	#screen-design,
+	#screen-content {
 		padding-top: 5em;
 	}
-	.top-menu.design {
-		width: 100%;
-		z-index: 999;
-		position: fixed;
-	}
+	
+	.bginsp-full-screen #screen-design,
+	.bginsp-full-screen #screen-content {
+		padding-top: 0;
+	} 
+/* 	.top-menu.design { */
+/* 		width: 100%; */
+/* 		z-index: 999; */
+/* 		position: fixed; */
+/* 		top: 42px; */
+/* 	} */
 	#screen-design .left {
 		position: fixed;
+	}
+	
+	/* On the design screen, when the left WP nav is showing only icons. */
+	body.auto-fold:not(.bginsp-full-screen) .top-menu.design {
+			left: 36px;
 	}
 }
 
@@ -571,16 +870,20 @@ http://ivomynttinen.com/blog/the-ios-design-cheat-sheet-volume-2
 	#screen-content .left {
 		display: block !important; /* Show left menu on large screens. */
 	}
-	.top-menu.content {
-		width: 100%;
-		z-index: 999;
-		position: fixed;
-	}
+/* 	.top-menu.content { */
+/* 		width: 100%; */
+/* 		z-index: 999; */
+/* 		position: fixed; */
+/* 	} */
+
+	/*
+	#screen-welcome,
 	#screen-content,
 	#screen-contact,
 	#screen-install {
 		padding-top: 5em;
 	}
+	*/
 	#screen-content .left {
 		position: fixed;
 	}

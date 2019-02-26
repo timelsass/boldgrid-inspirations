@@ -8,8 +8,7 @@ $show_start_over = ( isset( $_GET['show_start_over'] ) && 1 == $_GET['show_start
 if ( true == $this->user_has_built_a_boldgrid_site() || true == $show_start_over ) {
 	?>
 
-<p>Starting over will let you start over with a fresh site to run the
-	BoldGrid Inspirations installer again.</p>
+<p><?php echo esc_html__( 'Starting over will let you start over with a fresh site to run the BoldGrid Inspirations installer again.', 'boldgrid-inspirations' ); ?></p>
 
 <form method="post">
 
@@ -18,20 +17,37 @@ if ( true == $this->user_has_built_a_boldgrid_site() || true == $show_start_over
 <div class='plugin-card col-xs-12 col-sm-10 col-md-10 col-lg-6'>
 		<div class='plugin-card-top'>
 
-			<strong>Pages, Posts, and Menus:</strong>
+			<strong><?php echo esc_html__( 'Pages, Posts, and Menus:', 'boldgrid-inspirations' ); ?></strong>
 
 			<p>
-				This <b>WILL</b> unpublish all of your pages and posts, and all of
-				your menus <b>WILL</b> be deleted!
+
+				<?php printf(
+					wp_kses(
+						// translators: 1 opening strong tag, 2 closing strong tag.
+						__( 'This %1$sWILL%2$s unpublish all of your pages and posts, and all of your menus %1$sWILL%2$s be deleted!', 'boldgrid-inspirations' ),
+						array( 'strong' => array() )
+					),
+					'<strong>',
+					'</strong>'
+				); ?>
+
 			</p>
 
 			<input type="checkbox" id="start_over" name="start_over" value="Y" />
 
-			<span>Yes, let me start fresh!</span> <span
-				id="boldgrid-alert-remove" style="display: none;"> <b> WARNING: </b>
-				Pressing the "Start Over" button below will move your pages and
-				posts to your trash!
-			</span><br /><br />
+			<span><?php echo esc_html__( 'Yes, let me start fresh!', 'boldgrid-inspirations' ); ?></span>
+			<span id="boldgrid-alert-remove" style="display: none;">
+				<?php printf(
+					wp_kses(
+						// translators: 1
+						__( '%1$sWARNING:%2$s Pressing the "Start Over" button below will move your pages and posts to your trash!', 'boldgrid-inspirations' ),
+						array( 'strong' => array() )
+					),
+					'<strong>',
+					'</strong>'
+				); ?>
+			</span>
+			<br /><br />
 
 	<?php
 
@@ -52,11 +68,9 @@ if ( true == $this->user_has_built_a_boldgrid_site() || true == $show_start_over
 	// If the staging l
 	if ( true == $this->staging_installed ) {
 		?>
- 		Which sites would you like to perform the above actions with?<br /> <input
-				type="checkbox" name="start_over_active" value="start_over_active"
-				checked> Active<br /> <input type="checkbox"
-				name="start_over_staging" value="start_over_staging" checked>
-			Staging<br /> <br />
+ 		<?php echo esc_html__( 'Which sites would you like to perform the above actions with?', 'boldgrid-inspirations' ); ?><br />
+ 		<input type="checkbox" name="start_over_active" value="start_over_active" checked> <?php echo esc_html__( 'Active', 'boldgrid-inspirations' ); ?><br />
+ 		<input type="checkbox" name="start_over_staging" value="start_over_staging" checked> <?php echo esc_html__( 'Staging', 'boldgrid-inspirations' ); ?><br /> <br />
  		<?php
 	} else {
 		?>
@@ -67,17 +81,13 @@ if ( true == $this->user_has_built_a_boldgrid_site() || true == $show_start_over
 	?>
 
 			<hr />
-			<br /> <strong>BoldGrid Plugins and Themes:</strong><br /> <br />
+			<br /> <strong><?php echo esc_html__( 'BoldGrid Plugins and Themes:', 'boldgrid-inspirations' ); ?></strong><br /> <br />
 
 			<?php if ( is_plugin_active( 'boldgrid-ninja-forms/ninja-forms.php' ) && ( current_user_can( 'delete_plugins' ) ||  function_exists( 'is_multisite' ) && is_multisite() && is_super_admin() ) ) { ?>
-				<input type="checkbox" id="boldgrid_delete_forms"
-				name="boldgrid_delete_forms" value="1" /> <span>Delete all BoldGrid
-				Forms and Entries.</span><br /> <br />
+				<input type="checkbox" id="boldgrid_delete_forms" name="boldgrid_delete_forms" value="1" /> <span><?php echo esc_html__( 'Delete all BoldGrid Forms and Entries.', 'boldgrid-inspirations' ); ?></span><br /> <br />
 			<?php } ?>
 
-			<input type="checkbox" id="boldgrid_delete_themes"
-				name="boldgrid_delete_themes" value="1" /> <span>Remove all BoldGrid
-				Themes.</span>
+			<input type="checkbox" id="boldgrid_delete_themes" name="boldgrid_delete_themes" value="1" /> <span><?php echo esc_html__( 'Remove all BoldGrid Themes.', 'boldgrid-inspirations' ); ?></span>
 		</div>
 	</div>
 	<div style='clear: both;'></div>
@@ -94,13 +104,11 @@ if ( true == $this->user_has_built_a_boldgrid_site() || true == $show_start_over
 <?php }else { ?>
 
 <p>
-	You do not have a BoldGrid site to delete! You can build a new website
-	using <span class="dashicons-before dashicons-lightbulb"><?php
-
-	printf( '<a href="%s">' . esc_html__( 'BoldGrid Inspirations' ) . '</a>.',
-		esc_url( add_query_arg( 'page', 'boldgrid-inspirations', admin_url( 'admin.php' ) ) ) );
+	<?php
+	$link = printf( '<span class="dashicons-before dashicons-lightbulb"><a href="%s">BoldGrid Inspirations</a>', esc_url( add_query_arg( 'page', 'boldgrid-inspirations', admin_url( 'admin.php' ) ) ) );
+	// translators: 1 The url to access BoldGrid Inspirations in your WordPress dashboard.
+	printf( __( 'You do not have a BoldGrid site to delete! You can build a new website using %1$s.', 'boldgrid-inspirations' ), $link );
 	?>
-	</span>
 </p>
 <?php
 }

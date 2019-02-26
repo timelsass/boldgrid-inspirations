@@ -391,6 +391,30 @@ class Boldgrid_Inspirations_Feedback {
 	}
 
 	/**
+	 *
+	 */
+	public static function enqueue_js() {
+		$handle = 'boldgrid-feedback-js';
+		wp_register_script(
+			$handle,
+			plugins_url( 'assets/js/boldgrid-feedback.js', BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ),
+			array( 'jQuery' ),
+			BOLDGRID_INSPIRATIONS_VERSION
+			);
+		wp_localize_script(
+			$handle,
+			'BoldGridFeedback',
+			array(
+				'enterComment'   => esc_html__( 'Please enter your feedback comment.', 'boldgrid-inspirations' ),
+				'thanks'         => esc_html__( 'Thanks for the feedback', 'boldgrid-inspirations' ),
+				'tryAgain'       => esc_html__( 'There was an error processing your request.  Please try again.', 'boldgrid-inspirations' ),
+				'weAreListening' => esc_html__( 'The BoldGrid team wants you to know that we are listening and every bit of feedback helps us improve our tool.', 'boldgrid-inspirations' ),
+			)
+			);
+		wp_enqueue_script( $handle );
+	}
+
+	/**
 	 * Enqueue scripts.
 	 *
 	 * @since 1.1
@@ -410,17 +434,7 @@ class Boldgrid_Inspirations_Feedback {
 
 		wp_enqueue_style( 'boldgrid-feedback-css' );
 
-		wp_register_script(
-			'boldgrid-feedback-js',
-			plugins_url(
-				'assets/js/boldgrid-feedback.js',
-				BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php'
-			),
-			array(),
-			BOLDGRID_INSPIRATIONS_VERSION
-		);
-
-		wp_enqueue_script( 'boldgrid-feedback-js' );
+		self::enqueue_js();
 
 		return;
 	}
@@ -465,8 +479,8 @@ class Boldgrid_Inspirations_Feedback {
 	public function feedback_diagnostic_data_callback() {
 		// If this user is not an Administrator, do not allow this data to be populated and returned.
 		if( ! current_user_can( 'manage_options' ) ) {
-			echo __( 'To have diagnostic data sent with your feedback, please login as an Administrator', 'boldgrid-inspirations' );
-			wp_die( 'Error: WordPress security violation.' );
+			esc_html_e( 'To have diagnostic data sent with your feedback, please login as an Administrator', 'boldgrid-inspirations' );
+			wp_die( esc_html__( 'Error: WordPress security violation.', 'boldgrid-inspirations' ) );
 		}
 
 		// Check the nonce.
@@ -474,27 +488,26 @@ class Boldgrid_Inspirations_Feedback {
 
 		if ( 1 !== $nonce_check ) {
 			// Terminate this callback script, with an error message.
-			wp_die( 'Error: WordPress security violation.' );
+			wp_die( esc_html__( 'Error: WordPress security violation.', 'boldgrid-inspirations' ) );
 		}
 
 		// Initialize $return.
-		$return = 'This diagnostic data is populated to better assist you, and can be modified before submitted.' .
-			 PHP_EOL;
+		$return = esc_html__( 'This diagnostic data is populated to better assist you, and can be modified before submitted.', 'boldgrid-inspirations' ) .  PHP_EOL;
 
 		// Import the WordPress global $wp_version.
 		global $wp_version;
 
 		// Print WordPress Information.
-		$return .= 'WordPress Information:' . PHP_EOL;
+		$return .= esc_html__( 'WordPress Information', 'boldgrid-inspirations' ) . ':' . PHP_EOL;
 
 		// Print the WordPress version.
-		$return .= ' Version: ' . $wp_version . PHP_EOL;
+		$return .= ' ' . esc_html__( 'Version', 'boldgrid-inspirations' ) . ': ' . $wp_version . PHP_EOL;
 
 		// Print the WordPress home_url.
-		$return .= ' Home URL: ' . home_url() . PHP_EOL;
+		$return .= ' ' . esc_html__( 'Home URL', 'boldgrid-inspirations' ) . ': ' . home_url() . PHP_EOL;
 
 		// Print the WordPress site_url.
-		$return .= ' Site URL: ' . site_url() . PHP_EOL;
+		$return .= ' ' . esc_html__( 'Site URL', 'boldgrid-inspirations' ) . ': ' . site_url() . PHP_EOL;
 
 		// Print the WordPress Installation Root Directory.
 		//$return .= ' Installation Root: ' . ABSPATH . PHP_EOL;
@@ -526,7 +539,7 @@ class Boldgrid_Inspirations_Feedback {
 		}
 
 		// Print the installed plugins.
-		$return .= ' Installed Plugins:' . PHP_EOL;
+		$return .= ' ' . esc_html__( 'Installed Plugins', 'boldgrid-inspirations' ) . ':' . PHP_EOL;
 
 		$plugins = get_plugins();
 
@@ -554,23 +567,23 @@ class Boldgrid_Inspirations_Feedback {
 		$current_staging_stylesheet = get_option( 'boldgrid_staging_stylesheet' );
 
 		// Print all WordPress themes.
-		$return .= ' Installed Themes:' . PHP_EOL;
+		$return .= ' ' . esc_html__( 'Installed Themes', 'boldgrid-inspirations' ) . ':' . PHP_EOL;
 
 		$themes = wp_get_themes( array (
 			'errors' => null
 		) );
 
 		foreach ( $themes as $key => $object ) {
-			$active = ( $current_active_stylesheet === $key ? ' (Active theme)' : '' );
+			$active = ( $current_active_stylesheet === $key ? ' (' . esc_html__( 'Active theme', 'boldgrid-inspirations' ) . ')' : '' );
 
-			$staging = ( $current_staging_stylesheet === $key ? ' (Active Staging theme)' : '' );
+			$staging = ( $current_staging_stylesheet === $key ? ' (' . esc_html__( 'Active Staging theme', 'boldgrid-inspirations' ) . ')' : '' );
 
 			$return .= '  ' . $object->get( 'Name' ) . ' (' . $key . ') [' .
 				 $object->get( 'Version' ) . ']' . $active . $staging . PHP_EOL;
 
 			$parent_theme = $object->get( 'Template' );
 
-			$return .= '    Parent Theme: ' . ( $parent_theme ? $parent_theme : 'None' ) . PHP_EOL;
+			$return .= '    ' . esc_html__( 'Parent Theme', 'boldgrid-inspirations' ) . ': ' . ( $parent_theme ? $parent_theme : 'None' ) . PHP_EOL;
 
 			unset( $active );
 			unset( $parent_theme );
@@ -579,13 +592,13 @@ class Boldgrid_Inspirations_Feedback {
 		unset( $themes );
 
 		// Print BoldGrid Information.
-		$return .= 'BoldGrid Information:' . PHP_EOL;
+		$return .= esc_html__( 'BoldGrid Information', 'boldgrid-inspirations' ) . ':' . PHP_EOL;
 
 		// Retrieve all WordPress Options.
 		$wp_options = wp_load_alloptions();
 
 		// Print some BoldGrid WordPress Options.
-		$return .= ' WordPress Options:' . PHP_EOL;
+		$return .= ' ' . esc_html__( 'WordPress Options', 'boldgrid-inspirations' ) . ':' . PHP_EOL;
 
 		$include_options = array(
 			'boldgrid_reseller',
@@ -602,10 +615,10 @@ class Boldgrid_Inspirations_Feedback {
 		//$return .= 'OS Information: ' . php_uname() . PHP_EOL;
 
 		// Print PHP Information.
-		$return .= 'PHP Information:' . PHP_EOL;
+		$return .= esc_html__( 'PHP Information', 'boldgrid-inspirations' ) . ':' . PHP_EOL;
 
 		// Print PHP version.
-		$return .= ' Version: ' . phpversion() . PHP_EOL;
+		$return .= ' ' . esc_html__( 'Version', 'boldgrid-inspirations' ) . ': ' . phpversion() . PHP_EOL;
 
 		// Print PHP SAPI.
 		//$return .= ' SAPI: ' . php_sapi_name() . PHP_EOL;
@@ -637,18 +650,18 @@ class Boldgrid_Inspirations_Feedback {
 
 		// If you are not at least a Contributor, you may not submit feedback.
 		if( ! current_user_can( 'edit_posts' ) ) {
-			wp_die( 'Error: WordPress security violation.' );
+			wp_die( esc_html__( 'Error: WordPress security violation.', 'boldgrid-inspirations' ) );
 		}
 
 		if ( 1 !== $nonce_check ) {
 			// Terminate this callback script, with an error message.
-			wp_die( 'Error: WordPress security violation.' );
+			wp_die( esc_html__( 'Error: WordPress security violation.', 'boldgrid-inspirations' ) );
 		}
 
 		// Validate POST form_data.
 		if ( empty( $_POST['form_data'] ) ) {
 			// Terminate this callback script, with an error message.
-			wp_die( 'Error: Empty form data set.' );
+			wp_die( esc_html__( 'Error: Empty form data set.', 'boldgrid-inspirations' ) );
 		}
 
 		// Add feedback.
