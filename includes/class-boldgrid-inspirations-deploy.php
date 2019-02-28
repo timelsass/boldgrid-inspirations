@@ -67,6 +67,15 @@ class Boldgrid_Inspirations_Deploy {
 	protected $subcategory_id = null;
 
 	/**
+	 * An instance of Boldgrid_Inspirations_Deploy_Messages
+	 *
+	 * @since 1.7.0
+	 * @access private
+	 * @var Boldgrid_Inspirations_Deploy_Messages
+	 */
+	private $messages;
+
+	/**
 	 * A variable to store the menu_id that we create using:
 	 * $menu_id = wp_create_nav_menu( 'primary' );
 	 *
@@ -181,6 +190,8 @@ class Boldgrid_Inspirations_Deploy {
 
 		// Get the asset cache object from the asset manager.
 		$this->asset_cache = $this->asset_manager->get_asset_cache();
+
+		$this->messages = new Boldgrid_Inspirations_Deploy_Messages();
 
 		// Instantiate the built photo search class.
 		require_once BOLDGRID_BASE_DIR .
@@ -747,26 +758,23 @@ class Boldgrid_Inspirations_Deploy {
 
 		$this->theme_details = $this->theme_details->result->data;
 
-		/**
-		 * At this point, we have the theme details from the asset server.
-		 */
-
-		/**
+		/*
+		 * Temporarily save the theme details.
+		 *
 		 * When the deployment script was initially written, $this->theme_details was always used
-		 * under the assumption
-		 * that there was no parent / child themes being used.
+		 * under the assumption that there was no parent / child themes being used.
 		 *
 		 * $this->theme_details is used in several places within the deployment script. Other than
-		 * this deploy_theme
-		 * method, $this->theme_details is always referring to a single theme (ie not a parent and a
-		 * child theme)
+		 * this deploy_theme method, $this->theme_details is always referring to a single theme
+		 * (ie not a parent and a child theme)
 		 *
 		 * Whew... So basically, if this is the child theme, store the theme_details temporarily.
-		 * After the deploy_theme
-		 * method is complete, set $this->theme_details = $this->child_theme_details
+		 * After the deploy_theme method is complete, set
+		 * $this->theme_details = $this->child_theme_details
 		 */
-		// Temporarily save the theme details:
 		$this->theme_details_original = $this->theme_details;
+
+		$this->messages->print_theme( $this->theme_details );
 
 		// If this is a site preview, set the site title to that of the theme.
 		if( $this->is_preview_server && isset( $this->theme_details->themeRevision->Title ) ) {
@@ -1424,6 +1432,8 @@ class Boldgrid_Inspirations_Deploy {
 				continue;
 			}
 
+			$this->messages->print_page( $page_v );
+
 			/*
 			 * Prevent the user from installing the same page twice.
 			 *
@@ -1435,11 +1445,6 @@ class Boldgrid_Inspirations_Deploy {
 				$this->add_to_deploy_log( sprintf( esc_html__( 'Skipping page, "%1$s". Page already exists.', 'boldgrid-inspirations' ), $page_v->page_title ) );
 				continue;
 			}
-
-			// is this a page or a post?
-			/*
-			 * $page_type = "post"; if($page_v->is_post == 0) $page_type = "page";
-			 */
 
 			$page_type = $page_v->post_type;
 
@@ -1566,12 +1571,6 @@ class Boldgrid_Inspirations_Deploy {
 		if ( $defaultPage ) {
 			wp_delete_post( $defaultPage->ID );
 		}
-
-		// setup our menus
-		//
-		// This is no longer being done.
-		// It is instead handled above with a call to
-		// $this->assign_menu_id_to_all_locations();
 
 		// setup our custom homepage (per theme_id and homepage)
 		if ( isset( $this->theme_details->homepage ) ) {
@@ -2040,6 +2039,8 @@ class Boldgrid_Inspirations_Deploy {
 					'add_meta_data' => ( isset(
 						$this->image_placeholders_needing_images['by_page_id'][$image_data['post_id']][$image_data['images_array_key']]['gallery_image_position'] ) )
 				) );
+
+			$this->messages->print_image( $attachment_data['attachment_id'] );
 
 			$attachment_url = $attachment_data['uploaded_url'];
 
@@ -2544,8 +2545,6 @@ class Boldgrid_Inspirations_Deploy {
 
 		$install_time = time() - $this->start_time;
 
-		$this->change_deploy_status( esc_html__( 'Installation complete! Redirecting you to the Inspirations dashboard...', 'boldgrid-inspirations' ) );
-
 		$this->add_to_deploy_log(
 			sprintf(
 				// translators: 1 the number of seconds the Inspirations deployment process took.
@@ -2641,6 +2640,8 @@ class Boldgrid_Inspirations_Deploy {
 		// Reach out and hit the front end of the site to make sure all after theme switch hooks are fired.
 		Boldgrid_Inspirations_Utility::inline_js_file( 'deploy_stop_and_explain.js' );
 
+		$this->messages->print_heading( 'complete', esc_html__( '&#10003; Installation complete! Redirecting you to the Inspirations dashboard...', 'boldgrid-inspirations' ) . ' <span class="spinner inline"></span>' );
+
 		// Redirect the user to "My Inspiration".
 		Boldgrid_Inspirations_Utility::inline_js_oneliner( 'window.location.href = "' . admin_url( 'admin.php?page=my-inspiration&new_inspiration=1' ) . '";' );
 	}
@@ -2690,8 +2691,15 @@ class Boldgrid_Inspirations_Deploy {
 
 		$plugin_list = isset( $plugin_list->result->data ) ? $plugin_list->result->data : array ();
 
+		// Print plugins we've already installed.
+		$this->messages->print_plugins();
+
 		if ( count( $plugin_list ) ) {
 			foreach ( $plugin_list as $plugin_list_k => $plugin_list_v ) {
+				$slug = explode( '/', $plugin_list_v->plugin_activate_path );
+				$slug = $slug[0];
+				$this->messages->print_plugin( $plugin_list_v->plugin_title, $slug );
+
 				$this->download_and_install_plugin( $plugin_list_v->plugin_zip_url,
 					$plugin_list_v->plugin_activate_path, $plugin_list_v->version, $plugin_list_v );
 			}
@@ -2751,8 +2759,14 @@ class Boldgrid_Inspirations_Deploy {
 	 * @param object $full_plugin_data Plugin details.
 	 */
 	public function download_and_install_plugin( $url, $activate_path, $version, $full_plugin_data ) {
+		$installing_form_plugin = preg_match( '/^(boldgrid-ninja-forms|wpforms)/', $activate_path );
+
+		if ( ! $installing_form_plugin ) {
+			$this->messages->add_plugin( $full_plugin_data );
+		}
+
 		// If trying to install boldgrid-ninja-forms, then try WPForms instead.
-		if ( preg_match( '/^(boldgrid-ninja-forms|wpforms)/', $activate_path ) ) {
+		if ( $installing_form_plugin ) {
 			// Prevent PHP notice before trying to run a config script.
 			$this->plugin_installation_data[ $activate_path ] = null;
 
@@ -2761,10 +2775,9 @@ class Boldgrid_Inspirations_Deploy {
 
 				$this->bgforms->check_wpforms();
 
+				// If we have a $result, WPForms is installed and activated.
 				if ( $result ) {
-					$this->add_to_deploy_log(
-						esc_html__( 'WPForms is installed and activated.', 'boldgrid-inspirations' )
-					);
+					$this->messages->add_plugin_wpforms();
 				} else {
 					$this->add_to_deploy_log(
 						esc_html__( 'A BoldGrid form plugin is already installed.', 'boldgrid-inspirations' )
@@ -2785,10 +2798,13 @@ class Boldgrid_Inspirations_Deploy {
 				return;
 			}
 
+			$this->messages->add_plugin_wpforms();
+
 			$this->add_to_deploy_log(
 				esc_html__( 'Installing plugin: WPForms.', 'boldgrid-inspirations' )
 			);
 
+			// If $result, then WPForms was installed successfully.
 			$result = $this->bgforms->install();
 
 			if ( $result ) {

@@ -1,7 +1,5 @@
 /* globals ajaxurl, Inspiration, wp, _, jQuery */
 
-console.log( 'here in inspirations.js' );
-
 var IMHWPB = IMHWPB || {};
 
 /**
@@ -1151,15 +1149,11 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 * @since 1.2.3
 	 */
 	this.init = function() {
-		console.log( 'ini init' );
-
 		self.initFullScreen();
 
 		$( function() {
 			if ( '' === Inspiration.isDeploy ) {
 				self.initInspirationsPage();
-			} else {
-
 			}
 		} );
 	}
@@ -1518,7 +1512,6 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 				self.highlightDeviceButton();
 			}
 
-			console.log( 'calling self.allActions("enable");' );
 			self.allActions( 'enable' );
 		};
 

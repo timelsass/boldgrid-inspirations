@@ -659,6 +659,58 @@ http://ivomynttinen.com/blog/the-ios-design-cheat-sheet-volume-2
 }
 
 /**
+ * #.# Deployment.
+ *
+ * Styles used on the deployment page.
+ */
+
+.installed-item {
+	background: #fff;
+	display: inline-block;
+	padding: 15px;
+	text-align: center;
+	width: 100px;
+	min-height: 100px;
+	border: 1px solid #ddd;
+	vertical-align: top;
+}
+
+p.heading:not(:first-of-type) {
+	clear: both;
+	margin-top: 35px;
+}
+
+.installed-item.installed-image {
+	padding: 5px;
+	width: calc( 25% - 13px );
+	box-sizing: border-box;
+	margin: 0 10px 10px 0;
+}
+
+.installed-image img {
+	max-width: 100%;
+}
+
+.installed-item p {
+	margin-bottom: 0;
+}
+
+.installed-theme img,
+.installed-plugin img {
+	max-width: 75px;
+}
+
+.installed-page .dashicons,
+.installed-plugin .dashicons {
+	display: block;
+	font-size: 75px;
+	width: 75px;
+	height: 75px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+/**
 * Media queries appear in this order:
 *
 * For average size displays.

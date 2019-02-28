@@ -9,6 +9,19 @@
 require BOLDGRID_BASE_DIR . '/pages/templates/restrict-direct-access.php';
 ?>
 
+<script type="text/javascript">
+	/**
+	 * Scroll the user to the bottom of the page.
+	 *
+	 * @since 1.7.0
+	 */
+	function scrollToBottom() {
+		jQuery( "html, body" )
+			.stop()
+			.animate( { scrollTop: jQuery( document ).height() }, 2000 );
+	}
+</script>
+
 <style>
 ul#deploy_log {
 	list-style-position: inside;
@@ -58,49 +71,7 @@ h1 .dashicons.dashicons-yes {
 			<h1><?php echo esc_html__( 'Installing...', 'boldgrid-inspirations' ); ?> <span class='spinner'></span></h1>
 		</div>
 
-		<div class="boldgrid-plugin-card">
-			<div class="top">
-
-				<h2 style="text-align:center;"><?php echo esc_html__( 'Premium Key Bonus', 'boldgrid-inspirations' ); ?></h2>
-				<p style="text-align:center;max-width:75%;margin-left:auto;margin-right:auto;">
-					<?php echo esc_html__( 'Because you\'re a Premium Key holder, we\'re installing the Premium versions of our BoldGrid Plugins.', 'boldgrid-inspirations' ); ?>
-				</p>
-				<ul style="max-width:75%;margin-left:auto;margin-right:auto;">
-					<li style="display:block; width:calc(50% - 7.5px); float:left; text-align:center;">
-						<img src="https://repo.boldgrid.com/assets/icon-boldgrid-editor-128x128.png" style="max-width: 100px;"><br />
-						BoldGrid Post and Page Builder Premium
-					</li>
-					<li style="display:block; width:calc(50% - 7.5px); float:right; text-align:center;">
-						<img src="https://repo.boldgrid.com/assets/icon-boldgrid-backup-128x128.png" style="max-width: 100px;"><br />
-						BoldGrid Backup Premium
-					</li>
-				</ul>
-
-				<div style="clear:both;"></div>
-			</div>
-		</div>
-
-
-		<h2 style='color:red;'>EVERYTHING BELOW THIS IS TO BE REMOVED</h2>
-
-		<p>
-			<strong>Installation log:</strong> <a id='toggle_view_deploy_log'>show
-				/ hide log</a> (<em><span class='deploy_log_line_count'></span></em>)<br />
-			<span name='deploy_text' id='deploy_text'>loading...</span>
-		</p>
-
-		<div class='plugin-card hidden'>
-			<div class='plugin-card-top'>
-				<ul name='deploy_log' id='deploy_log'></ul>
-			</div>
-		</div>
-	</div>
-</div>
-
 <?php
-
-Boldgrid_Inspirations_Utility::inline_js_file( 'after_deployment_container.js' );
-
 add_shortcode( 'imhwpb', array (
 	'imhwpbDeploy',
 	'dummy_shortcode_imhwpb'
@@ -108,4 +79,3 @@ add_shortcode( 'imhwpb', array (
 
 $new_deploy = new Boldgrid_Inspirations_Deploy( $this->get_configs() );
 $new_deploy->do_deploy();
-?>
