@@ -49,13 +49,6 @@ class Boldgrid_Inspirations_Deploy {
 	private $bps;
 
 	/**
-	 * The Boldgrid Inspirations Built Photo Search class object.
-	 *
-	 * @var Boldgrid_Inspirations_Built_Photo_Search
-	 */
-	private $built_photo_search;
-
-	/**
 	 * Build profile id.
 	 *
 	 * @since 1.7.0
@@ -350,9 +343,6 @@ class Boldgrid_Inspirations_Deploy {
 		$this->survey = new Boldgrid_Inspirations_Survey();
 
 		$this->messages = new Boldgrid_Inspirations_Deploy_Messages();
-
-		require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-built-photo-search.php';
-		$this->built_photo_search = new Boldgrid_Inspirations_Built_Photo_Search();
 
 		require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-external-plugin.php';
 		$this->external_plugin = new Boldgrid_Inspirations_External_Plugin();
