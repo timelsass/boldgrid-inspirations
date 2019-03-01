@@ -432,8 +432,6 @@ class Boldgrid_Inspirations_Deploy {
 
 		$this->page_set_id = intval( $_POST['boldgrid_page_set_id'] );
 
-		$api_key_hash = $this->get_api_key_hash();
-
 		$this->set_site_hash();
 
 		$this->theme_id = intval( $_POST['boldgrid_theme_id'] );
@@ -568,6 +566,8 @@ class Boldgrid_Inspirations_Deploy {
 	 * @since 1.7.0
 	 */
 	public function set_site_hash() {
+		$boldgrid_configs = $this->get_configs();
+
 		$this->site_hash = ( isset( $_REQUEST['site_hash'] ) ? sanitize_title_with_dashes( trim( $_REQUEST['site_hash'] ) ) : null );
 
 		$this->site_hash = ( ( null == $this->site_hash && isset( $boldgrid_configs['site_hash'] ) ) ? sanitize_title_with_dashes( $boldgrid_configs['site_hash'] ) : $this->site_hash );
@@ -1026,7 +1026,7 @@ class Boldgrid_Inspirations_Deploy {
 
 			// Enable theme options:
 			if ( isset( $this->theme_details->options ) ) {
-				foreach ( $this->theme_details->options as $option_k => $option_obj ) {
+				foreach ( $this->theme_details->options as $option_obj ) {
 					update_option( $option_obj->name, $option_obj->value, '', $option_obj->autoload );
 				}
 			}
@@ -1189,9 +1189,7 @@ class Boldgrid_Inspirations_Deploy {
 				// If the we have defined configurations for this plugin, configure it.
 				if ( ! empty( $plugin->config_script ) ) {
 					// Passing page_id to config script.
-					$plugin_install_details = $this->plugin_installation_data[ $plugin->plugin_activate_path ];
-
-					$post_id = ! empty( $page_id_to_post[ $plugin->page_id ] ) ? $page_id_to_post[ $plugin->page_id ] : null;
+					$this->plugin_installation_data[ $plugin->plugin_activate_path ];
 
 					// Configure Plugin.
 					if ( file_exists( BOLDGRID_BASE_DIR . '/includes/configure_plugin/' . $plugin->config_script ) ) {
@@ -1229,7 +1227,7 @@ class Boldgrid_Inspirations_Deploy {
 
 		$existing_pages_from_meta_data = $this->get_existing_pages();
 
-		foreach ( $pages_in_pageset as $page_k => $page_v ) {
+		foreach ( $pages_in_pageset as $page_v ) {
 			if ( ! is_object( $page_v ) ) {
 				continue;
 			}
@@ -1283,21 +1281,13 @@ class Boldgrid_Inspirations_Deploy {
 
 			// add page to menu
 			if ( '1' == $page_v->in_menu ) {
-				// configure the url to this page
-				$menu_item_url = home_url( '/' );
-
-				if ( ! $page_v->homepage_theme_id ) {
-					$menu_item_url = home_url( '/' ) . "?p=$post_id";
-				}
-
-				$menu_item_db_id = wp_update_nav_menu_item( $menu_id, 0,
-					array (
-						'menu-item-object-id' => $post_id,
-						'menu-item-parent-id' => 0,
-						'menu-item-object'    => 'page',
-						'menu-item-type'      => 'post_type',
-						'menu-item-status'    => 'publish'
-					) );
+				wp_update_nav_menu_item( $menu_id, 0, array(
+					'menu-item-object-id' => $post_id,
+					'menu-item-parent-id' => 0,
+					'menu-item-object'    => 'page',
+					'menu-item-type'      => 'post_type',
+					'menu-item-status'    => 'publish'
+				) );
 			}
 
 			// set homepage
@@ -1333,13 +1323,11 @@ class Boldgrid_Inspirations_Deploy {
 
 			$pages_created ++;
 
-			$page_id_to_post[ $page_v->id ] = $post_id;
-
 			// Add the page id so that we can recognize it
 			add_post_meta( $post_id, 'boldgrid_page_id', $page_v->id );
 		}
 
-		$updated = update_option( 'blogdescription', '' );
+		update_option( 'blogdescription', '' );
 
 		// Store the pages we created:
 		update_option( 'boldgrid_installed_page_ids', $this->installed_page_ids );
@@ -1538,8 +1526,6 @@ class Boldgrid_Inspirations_Deploy {
 
 		$this->deploy_results['built_photo_search_log'] = $this->bps->built_photo_search_log;
 
-		$path = $this->new_path;
-
 		update_option( 'boldgrid_has_built_site', 'yes' );
 		update_option( 'boldgrid_show_tip_start_editing', 'yes' );
 
@@ -1616,7 +1602,7 @@ class Boldgrid_Inspirations_Deploy {
 		$this->messages->print_plugins();
 
 		if ( count( $plugin_list ) ) {
-			foreach ( $plugin_list as $plugin_list_k => $plugin_list_v ) {
+			foreach ( $plugin_list as $plugin_list_v ) {
 				$slug = explode( '/', $plugin_list_v->plugin_activate_path );
 				$slug = $slug[0];
 				$this->messages->print_plugin( $plugin_list_v->plugin_title, $slug );
@@ -1872,7 +1858,7 @@ class Boldgrid_Inspirations_Deploy {
 	public function set_custom_homepage() {
 		$homepage_var = '';
 
-		foreach ( $this->theme_details->homepage as $homepage_step_key => $homepage_step_obj ) {
+		foreach ( $this->theme_details->homepage as $homepage_step_obj ) {
 			switch ( $homepage_step_obj->action ) {
 				case 'page' :
 
@@ -1883,12 +1869,14 @@ class Boldgrid_Inspirations_Deploy {
 						OBJECT, $page_type );
 
 					if ( null === $existing_page ) {
-						// insert the page
-						$post['post_content'] = $homepage_step_obj->page->code;
-						$post['post_name']    = $homepage_step_obj->page->page_slug;
-						$post['post_title']   = $homepage_step_obj->page->page_title;
-						$post['post_status']  = 'publish';
-						$post['post_type']    = $page_type;
+						// Insert the page.
+						$post = array(
+							'post_content' => $homepage_step_obj->page->code,
+							'post_name'    => $homepage_step_obj->page->page_slug,
+							'post_title'   => $homepage_step_obj->page->page_title,
+							'post_status'  => 'publish',
+							'post_type'    => $page_type,
+						);
 
 						$post_id = wp_insert_post( $post );
 					} else
@@ -1986,16 +1974,13 @@ class Boldgrid_Inspirations_Deploy {
 					break;
 
 				case 'add_widget_text' :
-
-					/**
-					 * First we need to add the new text widget to the database
-					 */
-
-					// create the widget array
-					$widget['title'] = $homepage_step_obj->widget_text->title;
-					$widget['text'] = $homepage_step_obj->widget_text->text;
-					$widget['filter'] = $homepage_step_obj->widget_text->filter;
-					$widget['_multiwidget'] = $homepage_step_obj->widget_text->_multiwidget;
+					// Add the widget to the database.
+					$widget = array(
+						'title'        => $homepage_step_obj->widget_text->title,
+						'text'         => $homepage_step_obj->widget_text->text,
+						'filter'       => $homepage_step_obj->widget_text->filter,
+						'_multiwidget' => $homepage_step_obj->widget_text->_multiwidget,
+					);
 
 					// get current widgets
 					$current_widgets = get_option( 'widget_text' );
