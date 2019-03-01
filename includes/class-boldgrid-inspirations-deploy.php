@@ -203,11 +203,6 @@ class Boldgrid_Inspirations_Deploy {
 		$this->timer_start = microtime( true );
 		$this->show_full_log = false;
 
-		$this->full_deploy_log = null;
-		$this->full_deploy_log['procedural'][] = '\t#########################################';
-		$this->full_deploy_log['procedural'][] = '\tFULL DEPLOY LOG';
-		$this->full_deploy_log['procedural'][] = '\t#########################################';
-
 		$this->built_photo_search_log = array ();
 		$this->built_photo_search_log['count'] = 0;
 
@@ -2321,24 +2316,6 @@ class Boldgrid_Inspirations_Deploy {
 
 			// reset the counter
 			$this->timer_start = microtime( true );
-
-			// append to our log
-			$this->full_deploy_log['procedural'][] = '\t' . $process_time . '\t' . $status_no_tags;
-
-			// add to total time
-			if ( ! isset( $this->full_deploy_log['per task'][$status_no_tags]['total'] ) ) {
-				$this->full_deploy_log['per task'][$status_no_tags]['total'] = 0;
-			}
-
-			if ( ! isset( $this->full_deploy_log['per task'][$status_no_tags]['count'] ) ) {
-				$this->full_deploy_log['per task'][$status_no_tags]['count'] = 0;
-			}
-
-			$this->full_deploy_log['per task'][$status_no_tags]['total'] += $process_time;
-
-			$this->full_deploy_log['per task'][$status_no_tags]['count'] ++;
-		} else {
-			$this->full_deploy_log['procedural'][] = '\t    \t\t' . strip_tags( $status );
 		}
 
 		/**
@@ -2476,21 +2453,6 @@ class Boldgrid_Inspirations_Deploy {
 		 * This is for dev's. No need to do translations.
 		 */
 		if ( true == $this->show_full_log ) {
-			// create % of time data
-			foreach ( $this->full_deploy_log['per task'] as $task => $task_data ) {
-				$percentage_of_deployment = round( $task_data['total'] / $install_time * 100, 2 );
-
-				$this->full_deploy_log['per task'][$task]['percentage_of_deployment'] = $percentage_of_deployment;
-
-				$this->full_deploy_log['percentage of deployment (' . $install_time . ' seconds)'][$task] = $percentage_of_deployment;
-
-				$this->full_deploy_log['seconds of deployment (' . $install_time . ' seconds)'][$task] = $task_data['total'];
-			}
-			arsort(
-				$this->full_deploy_log['percentage of deployment (' . $install_time . ' seconds)'] );
-
-			arsort(
-				$this->full_deploy_log['seconds of deployment (' . $install_time . ' seconds)'] );
 		}
 
 		/**
