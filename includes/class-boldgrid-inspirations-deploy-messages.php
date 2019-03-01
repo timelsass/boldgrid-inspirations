@@ -65,7 +65,7 @@ class Boldgrid_Inspirations_Deploy_Messages {
 		$plugin->plugin_title         = $title;
 		$plugin->plugin_activate_path = $path;
 
-		$this->messages->add_plugin( $plugin );
+		$this->add_plugin( $plugin );
 	}
 
 	/**
