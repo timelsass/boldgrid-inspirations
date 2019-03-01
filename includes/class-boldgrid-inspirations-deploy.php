@@ -455,8 +455,6 @@ class Boldgrid_Inspirations_Deploy {
 	 * @return array Array of pages.
 	 */
 	public function remote_install_options() {
-		$this->change_deploy_status( esc_html__( 'Updating Remote Install Options...', 'boldgrid-inspirations' ) );
-
 		// Get configs.
 		$boldgrid_install_options = get_option( 'boldgrid_install_options' );
 		$boldgrid_configs = $this->get_configs();
@@ -682,8 +680,6 @@ class Boldgrid_Inspirations_Deploy {
 	 * @return string or false
 	 */
 	public function deploy_theme() {
-		$this->change_deploy_status( esc_html__( 'Downloading theme...', 'boldgrid-inspirations' ) );
-
 		// Get configs:
 		$boldgrid_configs = $this->get_configs();
 
@@ -1183,14 +1179,14 @@ class Boldgrid_Inspirations_Deploy {
 	}
 
 	/**
+	 * Create pages.
+	 *
 	 * Download and import the page set the user selected
 	 *
 	 * @see Boldgrid_Inspirations_Api::get_api_key_hash().
 	 * @link http://codex.wordpress.org/Function_Reference/wp_insert_post
 	 */
 	public function deploy_page_sets() {
-		$this->change_deploy_status( esc_html__( 'Creating pages...', 'boldgrid-inspirations' ) );
-
 		$pages_created = 0;
 
 		/**
@@ -1518,14 +1514,13 @@ class Boldgrid_Inspirations_Deploy {
 	}
 
 	/**
+	 * Gather media information.
+	 *
 	 * Deploy page sets: Media: Find placeholders.
 	 *
 	 * @see Boldgrid_Inspirations_Api::get_api_key_hash().
 	 */
 	public function deploy_page_sets_media_find_placeholders() {
-		// Update deploy status and log:
-		$this->change_deploy_status( esc_html__( 'Gathering media information...', 'boldgrid-inspirations' ) );
-
 		// Get configs:
 		$boldgrid_configs = $this->get_configs();
 
@@ -1796,12 +1791,11 @@ class Boldgrid_Inspirations_Deploy {
 	}
 
 	/**
+	 * Download media.
+	 *
 	 * Deploy page sets: Media: Process image queue
 	 */
 	public function deploy_page_sets_media_process_image_queue() {
-		// Update deploy status and log:
-		$this->change_deploy_status( esc_html__( 'Downloading media...', 'boldgrid-inspirations' ) );
-
 		// Return if we have no media to download for pages.
 		if ( empty( $this->image_placeholders_needing_images['by_page_id'] ) ) {
 			return;
@@ -1974,6 +1968,8 @@ class Boldgrid_Inspirations_Deploy {
 	}
 
 	/**
+	 * Replace media in pages.
+	 *
 	 * Deploy page sets: Media: Replace placeholders.
 	 *
 	 * This method updates a post's content in 2 ways:
@@ -1989,8 +1985,6 @@ class Boldgrid_Inspirations_Deploy {
 	 * # Gallery images     post_content
 	 */
 	public function deploy_page_sets_media_replace_placeholders() {
-		$this->change_deploy_status( esc_html__( 'Replacing media in pages...', 'boldgrid-inspirations' ) );
-
 		$pages_and_posts = $this->get_media_pages();
 
 		foreach ( $pages_and_posts as $k => $page ) {
@@ -2167,15 +2161,14 @@ class Boldgrid_Inspirations_Deploy {
 	}
 
 	/**
-	 * Primary Design Elements (pde) vary based upon theme group.
-	 * This function will download and setup the appropriate pde's.
+	 * Setup primary design elements.
+	 *
+	 * Primary Design Elements (pde) vary based upon theme group. This function will download and
+	 * setup the appropriate pde's.
 	 *
 	 * @see Boldgrid_Inspirations_Api::get_api_key_hash().
 	 */
 	public function deploy_pde( $params = array() ) {
-		// Update deploy status and log:
-		$this->change_deploy_status( esc_html__( 'Setting up primary design elements...', 'boldgrid-inspirations' ) );
-
 		$defaults = array (
 			'update_current_themes_mods' => true
 		);
@@ -2283,27 +2276,6 @@ class Boldgrid_Inspirations_Deploy {
 	 * http://codex.wordpress.org/Function_Reference/get_shortcode_regex
 	 */
 	public function dummy_shortcode_imhwpb() {
-	}
-
-	/**
-	 * These two functions (change_deploy_status / add_to_deploy_log)
-	 * are used to print / update logs on the user's screen of the installation process.
-	 */
-	public function change_deploy_status( $status ) {
-		// The preview server does not need to print this information.
-		if ( ! $this->is_preview_server ) {
-			ob_start();
-
-			$oneliner = 'jQuery("#deploy_text").html("' . htmlentities( $status, ENT_QUOTES ) . '");';
-			Boldgrid_Inspirations_Utility::inline_js_oneliner( $oneliner );
-
-			if ( false != ob_get_length() ) {
-				ob_flush();
-				flush();
-			}
-
-			ob_end_clean();
-		}
 	}
 
 	/**
@@ -2445,13 +2417,13 @@ class Boldgrid_Inspirations_Deploy {
 	}
 
 	/**
+	 * Install sitewide plugins.
+	 *
 	 * This plugin requests a list of sitewide plugins to be installed, and then installs them.
 	 *
 	 * @see Boldgrid_Inspirations_Api::get_api_key_hash().
 	 */
 	public function install_sitewide_plugins() {
-		$this->change_deploy_status( esc_html__( 'Installation sitewide plugins...', 'boldgrid-inspirations' ) );
-
 		$boldgrid_configs = $this->get_configs();
 
 		$get_plugins_url = $boldgrid_configs['asset_server'] .
@@ -3085,9 +3057,6 @@ class Boldgrid_Inspirations_Deploy {
 		if ( ! $deploy_theme_success ) {
 			// Add info to the deployment log.
 			$this->messages->print_notice( esc_html__( 'Theme deployment failed.  Please choose another theme.', 'boldgrid-inspirations' ) );
-
-			// Change the deployment status.
-			$this->change_deploy_status( esc_html__( 'Installation failed!  Please choose another theme.', 'boldgrid-inspirations' ) );
 
 			return false;
 		}
