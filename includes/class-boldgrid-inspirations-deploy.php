@@ -200,7 +200,6 @@ class Boldgrid_Inspirations_Deploy {
 
 		// Variables used for debug purposes.
 		$this->start_time = time();
-		$this->timer_start = microtime( true );
 		$this->show_full_log = false;
 
 		$this->built_photo_search_log = array ();
@@ -2306,17 +2305,6 @@ class Boldgrid_Inspirations_Deploy {
 	 */
 	public function add_to_deploy_log( $status, $log_the_time = true ) {
 		$status_no_tags = strip_tags( $status );
-
-		if ( true == $log_the_time ) {
-			// calculate the process time
-			$process_time = round( microtime( true ) - $this->timer_start, 2 );
-			if ( 0 == $process_time ) {
-				$process_time = '0.00';
-			}
-
-			// reset the counter
-			$this->timer_start = microtime( true );
-		}
 
 		/**
 		 * Print the javascript that adds lines to the deployment log.
