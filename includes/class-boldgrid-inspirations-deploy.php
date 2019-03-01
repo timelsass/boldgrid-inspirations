@@ -22,15 +22,6 @@ class Boldgrid_Inspirations_Deploy {
 	protected $configs;
 
 	/**
-	 * Default post status.
-	 *
-	 * @access protected
-	 *
-	 * @var string
-	 */
-	protected $post_status = 'publish';
-
-	/**
 	 * A list of all the installed pages.
 	 *
 	 * @access protected
@@ -58,6 +49,15 @@ class Boldgrid_Inspirations_Deploy {
 	protected $is_preview_server = false;
 
 	/**
+	 * Default post status.
+	 *
+	 * @access protected
+	 *
+	 * @var string
+	 */
+	protected $post_status = 'publish';
+
+	/**
 	 * Subcategory ID.
 	 *
 	 * @access protected
@@ -65,6 +65,30 @@ class Boldgrid_Inspirations_Deploy {
 	 * @var int
 	 */
 	protected $subcategory_id = null;
+
+	/**
+	 * Class property for the asset cache object (only for preview servers).
+	 *
+	 * @since 1.1.2
+	 * @access private
+	 *
+	 * @var object|null
+	 */
+	private $asset_cache = null;
+
+	/**
+	 * The Boldgrid Inspirations Asset Manager class object.
+	 *
+	 * @var Boldgrid_Inspirations_Asset_Manager
+	 */
+	private $asset_manager;
+
+	/**
+	 * The Boldgrid Inspirations Built Photo Search class object.
+	 *
+	 * @var Boldgrid_Inspirations_Built_Photo_Search
+	 */
+	private $built_photo_search;
 
 	/**
 	 * An instance of Boldgrid_Inspirations_Deploy_Messages
@@ -87,6 +111,24 @@ class Boldgrid_Inspirations_Deploy {
 	private $start_time;
 
 	/**
+	 * The BoldGrid Forms class object.
+	 *
+	 * @since 1.4.8
+	 *
+	 * @var \Boldgrid\Library\Form\Forms
+	 */
+	public $bgforms;
+
+	/**
+	 * Install a sample blog.
+	 *
+	 * @since  1.3.6
+	 * @access public
+	 * @var    bool True to install a sample blog.
+	 */
+	public $install_blog = false;
+
+	/**
 	 * A variable to store the menu_id that we create using:
 	 * $menu_id = wp_create_nav_menu( 'primary' );
 	 *
@@ -107,16 +149,6 @@ class Boldgrid_Inspirations_Deploy {
 	public $plugin_installation_data = array();
 
 	/**
-	 * Class property for the asset cache object (only for preview servers).
-	 *
-	 * @since 1.1.2
-	 * @access private
-	 *
-	 * @var object|null
-	 */
-	private $asset_cache = null;
-
-	/**
 	 * Does the user want to start over before deployment?
 	 *
 	 * @since 1.2.3
@@ -134,29 +166,6 @@ class Boldgrid_Inspirations_Deploy {
 	public $survey;
 
 	/**
-	 * The Boldgrid Inspirations Asset Manager class object.
-	 *
-	 * @var Boldgrid_Inspirations_Asset_Manager
-	 */
-	private $asset_manager;
-
-	/**
-	 * The Boldgrid Inspirations Built Photo Search class object.
-	 *
-	 * @var Boldgrid_Inspirations_Built_Photo_Search
-	 */
-	private $built_photo_search;
-
-	/**
-	 * Install a sample blog.
-	 *
-	 * @since  1.3.6
-	 * @access public
-	 * @var    bool True to install a sample blog.
-	 */
-	public $install_blog = false;
-
-	/**
 	 * Tags containing background images.
 	 *
 	 * When importing pages, certain tags will have background images set within their style that
@@ -167,15 +176,6 @@ class Boldgrid_Inspirations_Deploy {
 	 * @var    array
 	 */
 	public $tags_having_background = array( 'div' );
-
-	/**
-	 * The BoldGrid Forms class object.
-	 *
-	 * @since 1.4.8
-	 *
-	 * @var \Boldgrid\Library\Form\Forms
-	 */
-	public $bgforms;
 
 	/**
 	 * Constructor.
