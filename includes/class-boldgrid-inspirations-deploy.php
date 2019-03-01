@@ -76,6 +76,17 @@ class Boldgrid_Inspirations_Deploy {
 	private $messages;
 
 	/**
+	 * The time the deployment began.
+	 *
+	 * Start time is used to measure deployment time, which is returned to the asset server.
+	 *
+	 * @since 1.7.0
+	 * @access private
+	 * @var int
+	 */
+	private $start_time;
+
+	/**
 	 * A variable to store the menu_id that we create using:
 	 * $menu_id = wp_create_nav_menu( 'primary' );
 	 *
@@ -198,8 +209,8 @@ class Boldgrid_Inspirations_Deploy {
 			 '/includes/class-boldgrid-inspirations-built-photo-search.php';
 		$this->built_photo_search = new Boldgrid_Inspirations_Built_Photo_Search();
 
-		// Variables used for debug purposes.
 		$this->start_time = time();
+
 		$this->show_full_log = false;
 
 		$this->built_photo_search_log = array ();
@@ -2298,34 +2309,6 @@ class Boldgrid_Inspirations_Deploy {
 	}
 
 	/**
-	 * See description for change_deploy_status()
-	 *
-	 * @param unknown $status
-	 * @param bool $log_the_time
-	 */
-	public function add_to_deploy_log( $status, $log_the_time = true ) {
-		$status_no_tags = strip_tags( $status );
-
-		/**
-		 * Print the javascript that adds lines to the deployment log.
-		 */
-		if ( ! $this->is_preview_server ) {
-			ob_start();
-
-			$oneliner = 'jQuery("#deploy_log").append("<li>' . $status . '</li>");';
-			Boldgrid_Inspirations_Utility::inline_js_oneliner( $oneliner );
-			Boldgrid_Inspirations_Utility::inline_js_oneliner( 'update_deploy_log_line_count();' );
-
-			if ( false != ob_get_length() ) {
-				ob_flush();
-				flush();
-			}
-
-			ob_end_clean();
-		}
-	}
-
-	/**
 	 * Allow downloads over the backlan.
 	 *
 	 * WordPress blocks 10.x.x.x connections.
@@ -2397,12 +2380,8 @@ class Boldgrid_Inspirations_Deploy {
 		// This may not be our first deployment. If we have prior kitchen sink data, remove it.
 		delete_transient( 'boldgrid_inspirations_kitchen_sink' );
 
+		// Log how long deployment took.
 		$install_time = time() - $this->start_time;
-
-		/**
-		 * Configure $this->deploy_results, the data to be returned to the asset server.
-		 */
-		// installation time
 		$this->deploy_results['install_time_in_seconds'] = $install_time;
 
 		// built photo search usage
