@@ -211,8 +211,6 @@ class Boldgrid_Inspirations_Deploy {
 
 		$this->start_time = time();
 
-		$this->show_full_log = false;
-
 		$this->built_photo_search_log = array ();
 		$this->built_photo_search_log['count'] = 0;
 
@@ -2413,14 +2411,6 @@ class Boldgrid_Inspirations_Deploy {
 			) );
 
 		$this->deploy_results['total_cost_to_purchase_for_publish'] = $purchase_for_publish->get_total_cost_to_purchase_for_publishing();
-
-		/*
-		 * Steps to take if we're showing the full log.
-		 *
-		 * This is for dev's. No need to do translations.
-		 */
-		if ( true == $this->show_full_log ) {
-		}
 
 		/**
 		 * After the deployment process is complete. Fire off a completion event.
