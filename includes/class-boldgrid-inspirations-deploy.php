@@ -67,6 +67,15 @@ class Boldgrid_Inspirations_Deploy {
 	protected $subcategory_id = null;
 
 	/**
+	 * An instance of the Boldgrid_Inspirations_Deploy_Api class.
+	 *
+	 * @since 1.7.0
+	 * @access private
+	 * @var Boldgrid_Inspirations_Deploy_Api
+	 */
+	private $api;
+
+	/**
 	 * Class property for the asset cache object (only for preview servers).
 	 *
 	 * @since 1.1.2
@@ -371,6 +380,8 @@ class Boldgrid_Inspirations_Deploy {
 
 		$deploy_image = new BoldGrid_Inspirations_Deploy_Image();
 		$deploy_image->add_hooks();
+
+		$this->api = new Boldgrid_Inspirations_Deploy_Api( $configs );
 	}
 
 	/**
@@ -534,33 +545,20 @@ class Boldgrid_Inspirations_Deploy {
 	 * @return array Array of pages.
 	 */
 	public function remote_install_options() {
-		// Get configs.
 		$boldgrid_install_options = get_option( 'boldgrid_install_options' );
-		$boldgrid_configs = $this->get_configs();
 
-		// Reach out to the asset server to get a collection of install options.
-		$get_install_details = $boldgrid_configs['asset_server'] .
-			 $boldgrid_configs['ajax_calls']['get_install_details'];
-
-		// Get the API key hash.
 		$api_key_hash = $this->asset_manager->api->get_api_key_hash();
 
-		$arguments = array (
-			'method'  => 'POST',
-			'body'    => array (
-				'subcategory_id' => $boldgrid_install_options['subcategory_id'],
-				'page_set_id'    => $boldgrid_install_options['page_set_id'],
-				'key'            => ! empty( $api_key_hash ) ? $api_key_hash : null
-			),
-			'timeout' => 20
+		$args = array(
+			'subcategory_id' => $boldgrid_install_options['subcategory_id'],
+			'page_set_id'    => $boldgrid_install_options['page_set_id'],
+			'key'            => ! empty( $api_key_hash ) ? $api_key_hash : null,
 		);
 
-		$response = wp_remote_retrieve_body( wp_remote_post( $get_install_details, $arguments ) );
-		$response = json_decode( $response ?  : '', true );
-
-		$remote_options = ( ! empty( $response['result']['data'] ) ? $response['result']['data'] : array() );
+		$remote_options = $this->api->get_install_options( $args );
 
 		$boldgrid_install_options = array_merge( $boldgrid_install_options, $remote_options );
+
 		update_option( 'boldgrid_install_options', $boldgrid_install_options );
 	}
 
@@ -803,47 +801,28 @@ class Boldgrid_Inspirations_Deploy {
 	 * @return string or false
 	 */
 	public function deploy_theme() {
-		// Get configs:
-		$boldgrid_configs = $this->get_configs();
+ 		$boldgrid_configs = $this->get_configs();
 
-		// Connect to the asset server and get all of the details for our theme.
-		$url_to_get_theme_details = $boldgrid_configs['asset_server'] .
-			 $boldgrid_configs['ajax_calls']['get_theme_details'];
+ 		$api_key_hash = $this->asset_manager->api->get_api_key_hash();
 
-		// Get the API key hash.
-		$api_key_hash = $this->asset_manager->api->get_api_key_hash();
-
-		$arguments = array (
-			'method' => 'POST',
-			'body' => array (
-				'theme_id' => $this->theme_id,
-				'page_set_id' => $this->page_set_id,
-				'theme_version_type' => $this->theme_version_type,
-				'is_preview_server' => $this->is_preview_server,
-				'build_profile_id' => $this->boldgrid_build_profile_id,
-				'is_staged' => ! empty( $_POST['staging'] ) ? trim( $_POST['staging'] ) : null,
-				'key' => ! empty( $api_key_hash ) ? $api_key_hash : null,
-				'site_hash' => ! empty( $boldgrid_configs['site_hash'] ) ? $boldgrid_configs['site_hash'] : null
-			),
-			'timeout' => 20
+		$args = array(
+			'theme_id'           => $this->theme_id,
+			'page_set_id'        => $this->page_set_id,
+			'theme_version_type' => $this->theme_version_type,
+			'is_preview_server'  => $this->is_preview_server,
+			'build_profile_id'   => $this->boldgrid_build_profile_id,
+			'is_staged'          => ! empty( $_POST['staging'] ) ? trim( $_POST['staging'] ) : null,
+			'key'                => ! empty( $api_key_hash ) ? $api_key_hash : null,
+			'site_hash'          => ! empty( $boldgrid_configs['site_hash'] ) ? $boldgrid_configs['site_hash'] : null,
 		);
 
-		$response = wp_remote_post( $url_to_get_theme_details, $arguments );
+		$this->theme_details = $this->api->get_theme_details( $args );
 
-		if ( is_wp_error( $response ) ) {
-			// LOG:
-			error_log(
-				__METHOD__ .
-					 ': Error: Received WP_Error in wp_remote_post to the asset server. Response: ' .
-					 print_r( $response, true ) );
-
-			// Unrecoverable error:
+		if ( is_wp_error( $this->theme_details ) ) {
 			$this->messages->print_notice( esc_html__( 'Error: Failed to retrieve theme!', 'boldgrid-inspirations' ) );
 
 			return false;
 		}
-
-		$this->theme_details = json_decode( $response['body'] );
 
 		if ( ! isset( $this->theme_details->status ) || 200 != $this->theme_details->status ) {
 			$this->messages->print_notice( esc_html__( 'Error: Received an unsuccessful return code when retrieving theme information!', 'boldgrid-inspirations' ) );
@@ -1299,10 +1278,6 @@ class Boldgrid_Inspirations_Deploy {
 			$this->blog->create_menu_item( $this->primary_menu_id, 150 );
 		}
 
-		$boldgrid_configs = $this->get_configs();
-
-		$page_set_url = $boldgrid_configs['asset_server'] . $boldgrid_configs['ajax_calls']['get_page_set'];
-
 		// Determine the release channel:
 		$options = get_option( 'boldgrid_settings' );
 
@@ -1311,35 +1286,28 @@ class Boldgrid_Inspirations_Deploy {
 		// Get the theme id, category id, etc.
 		$this->get_deploy_details();
 
-		// Build API call arguments:
-		$arguments = array (
-			'method' => 'POST',
-			'body'   => array (
-				'page_set_id'           => $this->page_set_id,
-				'theme_id'              => $this->theme_id,
-				'subcategory_id'        => $this->subcategory_id,
-				'page_set_version_type' => $this->page_set_version_type,
-				'custom_pages'          => $this->custom_pages,
-				'homepage_only'         => false,
-				'channel'               => $release_channel
-			)
+		$args = array(
+			'page_set_id'           => $this->page_set_id,
+			'theme_id'              => $this->theme_id,
+			'subcategory_id'        => $this->subcategory_id,
+			'page_set_version_type' => $this->page_set_version_type,
+			'custom_pages'          => $this->custom_pages,
+			'homepage_only'         => false,
+			'channel'               => $release_channel,
 		);
 
 		$api_key_hash = $this->asset_manager->api->get_api_key_hash();
-
 		if ( ! empty( $api_key_hash ) ) {
-			$arguments['body']['key'] = $api_key_hash;
+			$args['key'] = $api_key_hash;
 		}
 
-		$response = wp_remote_post( $page_set_url, $arguments );
+		$json_response = $this->api->get_page_set( $args );
 
 		// Check response:
-		if ( is_wp_error( $response ) ) {
-			$error_message = $response->get_error_message();
+		if ( is_wp_error( $json_response ) ) {
+			$error_message = $json_response->get_error_message();
 			$this->messages->print_notice( esc_html__( 'WP ERROR', 'boldgrid-inspirations' ) . ': ' . esc_html( $error_message ) );
 		}
-
-		$json_response = json_decode( $response['body'] );
 
 		if ( 200 != $json_response->status ) {
 			$this->messages->print_notice( esc_html__( 'Error: Asset server did not return HTTP 200 OK!', 'boldgrid-inspirations' ) );
@@ -1709,31 +1677,16 @@ class Boldgrid_Inspirations_Deploy {
 					$tag_position++;
 				}
 			}
-
 		}
 
 		// Get all the bps data from the image server.
-		$params = array (
+		$args = array (
 			'key'                               => $api_key_hash,
 			'image_placeholders_needing_images' => json_encode( $this->image_placeholders_needing_images ),
 			'coin_budget'                       => $this->coin_budget,
 			'is_generic'                        => $this->is_generic,
 		);
-
-		// Get configs:
-		$boldgrid_configs = $this->get_configs();
-
-		// Set the URL address:
-		$url = $boldgrid_configs['asset_server'] . $boldgrid_configs['ajax_calls']['bps-get-photos'];
-
-		// Make a call to the asset server:
-		$response = wp_remote_post( $url, array (
-			'body'    => $params,
-			'timeout' => 60
-		) );
-
-		// Decode response into an array:
-		$response_body = json_decode( $response['body'], true );
+		$response_body = $this->api->get_photos( $args );
 
 		// Validate response:
 		if ( empty( $response_body['result']['data'] ) || ( isset(
@@ -2405,38 +2358,22 @@ class Boldgrid_Inspirations_Deploy {
 	 * @see Boldgrid_Inspirations_Api::get_api_key_hash().
 	 */
 	public function install_sitewide_plugins() {
-		$boldgrid_configs = $this->get_configs();
-
-		$get_plugins_url = $boldgrid_configs['asset_server'] .
-			 $boldgrid_configs['ajax_calls']['get_plugins'];
-
-		// Determine the release channel.
 		$options = get_option( 'boldgrid_settings' );
 
-		$release_channel = isset( $options['release_channel'] ) ? $options['release_channel'] : 'stable';
-
-		// Build API call arguments:
-		$arguments = array (
-			'method' => 'POST',
-			'body' => array(
-				'channel' => $release_channel
-			)
+		$args = array(
+			'channel' => isset( $options['release_channel'] ) ? $options['release_channel'] : 'stable',
 		);
 
-		// Get the API key hash.
 		$api_key_hash = $this->asset_manager->api->get_api_key_hash();
-
 		if ( ! empty( $api_key_hash ) ) {
-			$arguments['body']['key'] = $api_key_hash;
+			$args['key'] = $api_key_hash;
 		}
 
-		$response = wp_remote_post( $get_plugins_url, $arguments );
+		$plugin_list = $this->api->get_plugins( $args );
 
-		if ( $response instanceof WP_Error ) {
+		if ( $plugin_list instanceof WP_Error ) {
 			throw new Exception( esc_html__( 'Error downloading plugin list.', 'boldgrid-inspirations' ) );
 		}
-
-		$plugin_list = json_decode( $response['body'] );
 
 		$plugin_list = isset( $plugin_list->result->data ) ? $plugin_list->result->data : array ();
 
