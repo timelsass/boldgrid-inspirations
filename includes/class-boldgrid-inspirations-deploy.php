@@ -31,15 +31,6 @@ class Boldgrid_Inspirations_Deploy {
 	protected $full_page_list;
 
 	/**
-	 * Is this a preview server?
-	 *
-	 * @access protected
-	 *
-	 * @var bool
-	 */
-	protected $is_preview_server = false;
-
-	/**
 	 * An instance of the Boldgrid_Inspirations_Deploy_Bps class.
 	 *
 	 * @since 1.7.0
@@ -78,15 +69,6 @@ class Boldgrid_Inspirations_Deploy {
 	 * @var bool
 	 */
 	private $custom_pages;
-
-	/**
-	 * Is author.
-	 *
-	 * @since 1.7.0
-	 * @access private
-	 * @var bool
-	 */
-	private $is_author;
 
 	/**
 	 * New path.
@@ -223,11 +205,26 @@ class Boldgrid_Inspirations_Deploy {
 	public $install_blog = false;
 
 	/**
+	 * Is author.
+	 *
+	 * @since 1.7.0
+	 * @var bool
+	 */
+	public $is_author;
+
+	/**
 	 * Is this a generic build?
 	 *
 	 * @var bool
 	 */
 	public $is_generic = false;
+
+	/**
+	 * Is this a preview server?
+	 *
+	 * @var bool
+	 */
+	public $is_preview_server = false;
 
 	/**
 	 * An instance of Boldgrid_Inspirations_Deploy_Messages
