@@ -484,8 +484,6 @@ class Boldgrid_Inspirations_Deploy {
 		// Update the boldgird_ install options array.
 		$boldgrid_install_options = array_merge( $boldgrid_install_options, $remote_options );
 		update_option( 'boldgrid_install_options', $boldgrid_install_options );
-
-		$this->add_to_deploy_log( esc_html__( 'Finished Updating Remote Install Options.', 'boldgrid-inspirations' ) );
 	}
 
 	/**
@@ -557,10 +555,8 @@ class Boldgrid_Inspirations_Deploy {
 			$blog_title = 'Company Name';
 
 			// create the new blog
-			$this->add_to_deploy_log( esc_html__( 'Creating new blog...', 'boldgrid-inspirations' ) );
 			$new_blog_id = wpmu_create_blog( $_SERVER['SERVER_NAME'], '/' . $this->new_path,
 				$blog_title, get_current_user_id() );
-			$this->add_to_deploy_log( esc_html__( 'Finished, new blog created!', 'boldgrid-inspirations' ), false );
 
 			if ( is_object( $new_blog_id ) ) {
 				?>
@@ -570,8 +566,6 @@ class Boldgrid_Inspirations_Deploy {
 <?php
 			}
 
-			// Switch to the new blog.
-			$this->add_to_deploy_log( esc_html__( 'Switching to new blog...', 'boldgrid-inspirations' ), false );
 			switch_to_blog( $new_blog_id );
 
 			// Set the blog's admin email address using the network admin email address.
@@ -596,8 +590,6 @@ class Boldgrid_Inspirations_Deploy {
 
 			// Disable comments:
 			update_option( 'default_comment_status', 'closed' );
-
-			$this->add_to_deploy_log( esc_html__( 'New blog has been created and switched to.', 'boldgrid-inspirations' ) );
 		}
 	}
 
@@ -688,7 +680,6 @@ class Boldgrid_Inspirations_Deploy {
 	 */
 	public function deploy_theme() {
 		$this->change_deploy_status( esc_html__( 'Downloading theme...', 'boldgrid-inspirations' ) );
-		$this->add_to_deploy_log( esc_html__( 'Beginning theme deployment.', 'boldgrid-inspirations' ) );
 
 		// Get configs:
 		$boldgrid_configs = $this->get_configs();
@@ -725,11 +716,7 @@ class Boldgrid_Inspirations_Deploy {
 					 print_r( $response, true ) );
 
 			// Unrecoverable error:
-			$this->add_to_deploy_log( esc_html__( 'Error: Failed to retrieve theme!', 'boldgrid-inspirations' ) );
-
-			// $this->add_to_deploy_log( "Error: Exiting theme deployment." );
-			// Failing deployment should be avoided at this time.
-			// $this->fail_deployment( $response->get_error_message() );
+			$this->messages->print_notice( esc_html__( 'Error: Failed to retrieve theme!', 'boldgrid-inspirations' ) );
 
 			return false;
 		}
@@ -737,22 +724,7 @@ class Boldgrid_Inspirations_Deploy {
 		$this->theme_details = json_decode( $response['body'] );
 
 		if ( ! isset( $this->theme_details->status ) || 200 != $this->theme_details->status ) {
-			$this->add_to_deploy_log(
-				esc_html__( 'Error: Received an unsuccessful return code when retrieving theme information!', 'boldgrid-inspirations' ) );
-			// LOG:
-			error_log(
-				__METHOD__ . ': Error: ' . ( isset( $this->theme_details->status ) ? 'Received status code "' .
-					 $this->theme_details->status .
-					 '" when retrieving theme details from the asset server' : 'Failed theme details: ' .
-					 print_r( $this->theme_details, true ) ) . print_r(
-						array (
-							'$arguments' => $arguments,
-							'$response' => print_r( $response, true )
-						), true ) );
-
-			// Failing deployment should be avoided at this time.
-			// $this->fail_deployment( "Non 200 status when getting theme details." );
-
+			$this->messages->print_notice( esc_html__( 'Error: Received an unsuccessful return code when retrieving theme information!', 'boldgrid-inspirations' ) );
 			return;
 		}
 
@@ -884,20 +856,9 @@ class Boldgrid_Inspirations_Deploy {
 						);
 
 						if ( $theme_installation_failed_attemps >
-							 $boldgrid_configs['installation']['max_num_install_attempts'] ) {
+							$boldgrid_configs['installation']['max_num_install_attempts'] ) {
 
-							// LOG:
-							error_log(
-								__METHOD__ .
-								 ': Error: Failed to install theme; Exceeded max theme install attempts. ' . print_r(
-									array (
-										'$this->theme_details' => $this->theme_details
-									), true ) );
-
-							$this->add_to_deploy_log(
-								esc_html__( 'Error: Exceeded max theme install attempts!', 'boldgrid-inspirations' ) );
-
-							$this->add_to_deploy_log( esc_html__( 'Error: Exiting theme deployment.', 'boldgrid-inspirations' ) );
+							$this->messages->print_notice( esc_html__( 'Error: Exceeded max theme install attempts!', 'boldgrid-inspirations' ) );
 
 							return false;
 						}
@@ -983,11 +944,9 @@ class Boldgrid_Inspirations_Deploy {
 						$theme_installation_failed_attemps += 0.5;
 					} else {
 
-						// Delete the old theme, if exists:
+						// Delete the old theme, if exists. We'll update to the latest copy.
 						if ( $theme->exists() ) {
 							delete_theme( $theme_folder_name );
-							$this->add_to_deploy_log(
-								esc_html__( 'Theme already installed, updating to the latest copy.', 'boldgrid-inspirations' ) );
 						}
 
 						// Install the theme:
@@ -1016,19 +975,7 @@ class Boldgrid_Inspirations_Deploy {
 							// Increment the failed attempts counter:
 							$theme_installation_failed_attemps ++;
 
-							// LOG:
-							error_log(
-								__METHOD__ . 'Error: Failed to install theme. ' . print_r(
-									array (
-										'is_wp_error' => is_wp_error( $wp_theme_install_success ) ? 'true' : 'false',
-										'WP_Error' => is_wp_error( $wp_theme_install_success ) ? get_error_messages(
-											$wp_theme_install_success ) : $wp_theme_install_success,
-										'$theme_url' => $theme_url,
-										'$this->theme_details' => $this->theme_details,
-										'theme_name' => $this->theme_name
-									), true ) );
-
-							$this->add_to_deploy_log( esc_html__( 'Error: Exiting theme deployment.', 'boldgrid-inspirations' ) );
+							$this->messages->print_notice( esc_html__( 'Error: Exiting theme deployment.', 'boldgrid-inspirations' ) );
 
 							// On multisite, remove locks.
 							if ( is_multisite() ) {
@@ -1104,8 +1051,6 @@ class Boldgrid_Inspirations_Deploy {
 
 		// Reset the $this->theme_details variable. Refer to loooon comment above as to why.
 		$this->theme_details = $this->theme_details_original;
-
-		$this->add_to_deploy_log( esc_html__( 'Finished theme deployment.', 'boldgrid-inspirations' ) );
 
 		do_action( 'boldgrid_deployment_deploy_theme_pre_return', $theme_folder_name );
 
@@ -1242,7 +1187,6 @@ class Boldgrid_Inspirations_Deploy {
 	 */
 	public function deploy_page_sets() {
 		$this->change_deploy_status( esc_html__( 'Creating pages...', 'boldgrid-inspirations' ) );
-		$this->add_to_deploy_log( esc_html__( 'Beginning page set deployment.', 'boldgrid-inspirations' ) );
 
 		$pages_created = 0;
 
@@ -1327,7 +1271,7 @@ class Boldgrid_Inspirations_Deploy {
 		// Check response:
 		if ( is_wp_error( $response ) ) {
 			$error_message = $response->get_error_message();
-			$this->add_to_deploy_log( esc_html__( 'WP ERROR', 'boldgrid-inspirations' ) . ': ' . esc_html( $error_message ) );
+			$this->messages->print_notice( esc_html__( 'WP ERROR', 'boldgrid-inspirations' ) . ': ' . esc_html( $error_message ) );
 		}
 
 		// JSON decode the response into an object:
@@ -1335,30 +1279,12 @@ class Boldgrid_Inspirations_Deploy {
 
 		// Check response code:
 		if ( 200 != $json_response->status ) {
-			$this->add_to_deploy_log( esc_html__( 'Error: Asset server did not return HTTP 200 OK!', 'boldgrid-inspirations' ) );
-
-			// LOG:
-			error_log(
-				__METHOD__ . ': Error: Asset server did not return HTTP 200 OK.  ' . print_r(
-					array (
-						'$page_set_url' => $page_set_url,
-						'$arguments' => print_r( $arguments, true ),
-						'$response' => print_r( $response, true )
-					), true ) );
+			$this->messages->print_notice( esc_html__( 'Error: Asset server did not return HTTP 200 OK!', 'boldgrid-inspirations' ) );
 		}
 
 		// Check the response data:
 		if ( empty( $json_response->result->data ) ) {
-			$this->add_to_deploy_log( esc_html__( 'Error: Asset server returned an empty data set!', 'boldgrid-inspirations' ) );
-
-			// LOG:
-			error_log(
-				__METHOD__ . ': Error: Asset server returned an empty data set.  ' . print_r(
-					array (
-						'$page_set_url' => $page_set_url,
-						'$arguments' => print_r( $arguments, true ),
-						'$response' => print_r( $response, true )
-					), true ) );
+			$this->messages->print_notice( esc_html__( 'Error: Asset server returned an empty data set!', 'boldgrid-inspirations' ) );
 		}
 
 		// Download Plugins needed for pages.
@@ -1441,8 +1367,6 @@ class Boldgrid_Inspirations_Deploy {
 			 * from being installed multiple times.
 			 */
 			if ( in_array( $page_v->id, $existing_pages_from_meta_data ) ) {
-				// translators: 1 The title of the page that is being skipped during the Inspirations process, because it already exists.
-				$this->add_to_deploy_log( sprintf( esc_html__( 'Skipping page, "%1$s". Page already exists.', 'boldgrid-inspirations' ), $page_v->page_title ) );
 				continue;
 			}
 
@@ -1484,17 +1408,6 @@ class Boldgrid_Inspirations_Deploy {
 				if ( ! $page_v->homepage_theme_id ) {
 					$menu_item_url = home_url( '/' ) . "?p=$post_id";
 				}
-
-				$this->add_to_deploy_log(
-					sprintf(
-						// translators: 1 opening em tag, 2 closing em tag, 3 title of page being added to primary menu.
-						__( 'Adding page: %1$s%3$s%2$s to primary menu.', 'boldgrid-inspirations' ),
-						'<em>',
-						'</em>',
-						esc_html( $page_v->page_title )
-					)
-					, false
-				);
 
 				$menu_item_db_id = wp_update_nav_menu_item( $menu_id, 0,
 					array (
@@ -1576,8 +1489,6 @@ class Boldgrid_Inspirations_Deploy {
 		if ( isset( $this->theme_details->homepage ) ) {
 			$this->set_custom_homepage();
 		}
-
-		$this->add_to_deploy_log( esc_html__( 'Finished page set deployment.', 'boldgrid-inspirations' ) );
 	}
 
 	/**
@@ -1611,7 +1522,6 @@ class Boldgrid_Inspirations_Deploy {
 	public function deploy_page_sets_media_find_placeholders() {
 		// Update deploy status and log:
 		$this->change_deploy_status( esc_html__( 'Gathering media information...', 'boldgrid-inspirations' ) );
-		$this->add_to_deploy_log( esc_html__( 'Gathering media information for pages...', 'boldgrid-inspirations' ) );
 
 		// Get configs:
 		$boldgrid_configs = $this->get_configs();
@@ -1880,9 +1790,6 @@ class Boldgrid_Inspirations_Deploy {
 				}
 			}
 		}
-
-		// Update the deploy log:
-		$this->add_to_deploy_log( 'Finished gathering media information for pages.' );
 	}
 
 	/**
@@ -1891,13 +1798,9 @@ class Boldgrid_Inspirations_Deploy {
 	public function deploy_page_sets_media_process_image_queue() {
 		// Update deploy status and log:
 		$this->change_deploy_status( esc_html__( 'Downloading media...', 'boldgrid-inspirations' ) );
-		$this->add_to_deploy_log( esc_html__( 'Downloading media for pages...', 'boldgrid-inspirations' ) );
 
-		// Validate $this->image_placeholders_needing_images['by_page_id']:
+		// Return if we have no media to download for pages.
 		if ( empty( $this->image_placeholders_needing_images['by_page_id'] ) ) {
-			// Update the deploy log:
-			$this->add_to_deploy_log( esc_html__( 'No media to download for pages.', 'boldgrid-inspirations' ) );
-
 			return;
 		}
 
@@ -2065,9 +1968,6 @@ class Boldgrid_Inspirations_Deploy {
 				$this->current_build_cost += $attachment_data['coin_cost'];
 			}
 		}
-
-		// Update the deploy log:
-		$this->add_to_deploy_log( 'Finished downloading media for pages.' );
 	}
 
 	/**
@@ -2087,7 +1987,6 @@ class Boldgrid_Inspirations_Deploy {
 	 */
 	public function deploy_page_sets_media_replace_placeholders() {
 		$this->change_deploy_status( esc_html__( 'Replacing media in pages...', 'boldgrid-inspirations' ) );
-		$this->add_to_deploy_log( esc_html__( 'Replacing media in pages...', 'boldgrid-inspirations' ) );
 
 		$pages_and_posts = $this->get_media_pages();
 
@@ -2259,13 +2158,9 @@ class Boldgrid_Inspirations_Deploy {
 			}
 
 			if ( $content_changed ) {
-				$this->add_to_deploy_log( esc_html__( 'Beginning to update post in db with new html code.', 'boldgrid-inspirations' ) );
 				wp_update_post( $page );
-				$this->add_to_deploy_log( esc_html__( 'Finished updating post in db with new html code.', 'boldgrid-inspirations' ) );
 			}
 		} // End of foreach pages_and_posts.
-
-		$this->add_to_deploy_log( esc_html__( 'Finished replacing media in pages.', 'boldgrid-inspirations' ) );
 	}
 
 	/**
@@ -2277,7 +2172,6 @@ class Boldgrid_Inspirations_Deploy {
 	public function deploy_pde( $params = array() ) {
 		// Update deploy status and log:
 		$this->change_deploy_status( esc_html__( 'Setting up primary design elements...', 'boldgrid-inspirations' ) );
-		$this->add_to_deploy_log( esc_html__( 'Checking Primary Design Elements...', 'boldgrid-inspirations' ) );
 
 		$defaults = array (
 			'update_current_themes_mods' => true
@@ -2286,8 +2180,6 @@ class Boldgrid_Inspirations_Deploy {
 		$params = wp_parse_args( $params, $defaults );
 
 		if ( is_array( $this->pde ) ) {
-			$this->add_to_deploy_log( esc_html__( 'Yes, we have a pde value.', 'boldgrid-inspirations' ) );
-
 			foreach ( $this->pde as $pde ) {
 
 				if ( 'header_image' == $pde['pde_type_name'] ||
@@ -2374,9 +2266,6 @@ class Boldgrid_Inspirations_Deploy {
 				}
 			}
 		}
-
-		// Update the deploy log:
-		$this->add_to_deploy_log( 'Primary Design Elements configuration complete.' );
 	}
 
 	/**
@@ -2545,14 +2434,6 @@ class Boldgrid_Inspirations_Deploy {
 
 		$install_time = time() - $this->start_time;
 
-		$this->add_to_deploy_log(
-			sprintf(
-				// translators: 1 the number of seconds the Inspirations deployment process took.
-				__( 'Installed in %1$s seconds.', 'boldgrid-inspirations' ),
-				$install_time
-			)
-		);
-
 		/**
 		 * Configure $this->deploy_results, the data to be returned to the asset server.
 		 */
@@ -2574,8 +2455,6 @@ class Boldgrid_Inspirations_Deploy {
 		if ( $this->create_preview_site ) {
 			update_option( 'boldgrid_built_as_preview_site', 'yes' );
 		}
-
-		$this->add_to_deploy_log( get_site_url() );
 
 		/**
 		 * ********************************************************************
@@ -2654,8 +2533,6 @@ class Boldgrid_Inspirations_Deploy {
 	public function install_sitewide_plugins() {
 		$this->change_deploy_status( esc_html__( 'Installation sitewide plugins...', 'boldgrid-inspirations' ) );
 
-		$this->add_to_deploy_log( esc_html__( 'Requesting list of any sitewide plugins...', 'boldgrid-inspirations' ) );
-
 		$boldgrid_configs = $this->get_configs();
 
 		$get_plugins_url = $boldgrid_configs['asset_server'] .
@@ -2703,8 +2580,6 @@ class Boldgrid_Inspirations_Deploy {
 				$this->download_and_install_plugin( $plugin_list_v->plugin_zip_url,
 					$plugin_list_v->plugin_activate_path, $plugin_list_v->version, $plugin_list_v );
 			}
-		} else {
-			$this->add_to_deploy_log( esc_html__( 'No plugins found to install.', 'boldgrid-inspirations' ) );
 		}
 	}
 
@@ -2775,46 +2650,28 @@ class Boldgrid_Inspirations_Deploy {
 
 				$this->bgforms->check_wpforms();
 
-				// If we have a $result, WPForms is installed and activated.
+				/*
+				 * If we have a $result, WPForms is installed and activated. Otherwise, a BoldGrid
+				 * form plugin is already installed.
+				 */
 				if ( $result ) {
 					$this->messages->add_plugin_wpforms();
-				} else {
-					$this->add_to_deploy_log(
-						esc_html__( 'A BoldGrid form plugin is already installed.', 'boldgrid-inspirations' )
-					);
 				}
 
-				if ( $this->bgforms->activate_preferred_plugin() ) {
-					$this->add_to_deploy_log(
-						esc_html__( 'Form plugin is active.', 'boldgrid-inspirations' )
-					);
-				} else {
-					$this->add_to_deploy_log(
-						esc_html__( 'Error: Form plugin activation failed!', 'boldgrid-inspirations' )
-					);
+				if ( ! $this->bgforms->activate_preferred_plugin() ) {
+					$this->messages->print_notice( esc_html__( 'Error: Form plugin activation failed!', 'boldgrid-inspirations' ) );
 				}
-
 
 				return;
 			}
 
 			$this->messages->add_plugin_wpforms();
 
-			$this->add_to_deploy_log(
-				esc_html__( 'Installing plugin: WPForms.', 'boldgrid-inspirations' )
-			);
-
 			// If $result, then WPForms was installed successfully.
 			$result = $this->bgforms->install();
 
-			if ( $result ) {
-				$this->add_to_deploy_log(
-					esc_html__( 'Installed plugin: WPForms.', 'boldgrid-inspirations' )
-				);
-			} else {
-				$this->add_to_deploy_log(
-					esc_html__( 'Error: Plugin installation failed!', 'boldgrid-inspirations' )
-				);
+			if ( ! $result ) {
+				$this->messages->print_notice( esc_html__( 'Error: Plugin installation failed!', 'boldgrid-inspirations' ) );
 			}
 
 			return;
@@ -2832,42 +2689,16 @@ class Boldgrid_Inspirations_Deploy {
 				$old_plugin_file = $wporg_plugin->old_slug . '/' .
 					$wporg_plugin->old_slug . '.php';
 
+				// The plugin already exists.
 				if ( false !== strpos( $activate_path, $wporg_plugin->slug ) &&
 					file_exists( $plugin_path . $old_plugin_file ) ) {
-						$this->add_to_deploy_log(
-							sprintf(
-								// translators: Name of a plugin being skipped during the inspirations process because the plugin already exists.
-								esc_html__( 'Skipping installation of %s; comparable plugin already installed',
-									'boldgrid-inspirations'
-								),
-								$activate_path
-							) . ': ' . $old_plugin_file
-						);
 
 						// Activate, if needed.
 						if ( ! $this->external_plugin->is_active( $old_plugin_file ) ) {
-							$this->add_to_deploy_log(
-								esc_html__( 'Activating plugin...' , 'boldgrid-inspirations' )
-							);
-
 							$result = activate_plugin( $old_plugin_file );
 
 							if ( is_wp_error( $result ) ) {
-								$this->add_to_deploy_log(
-									esc_html__( 'Plugin activation failed.', 'boldgrid-inspirations' )
-								);
-
-								error_log(
-									__METHOD__ . ': Error: Plugin activation failed! ' . print_r(
-										array (
-											'activate_path' => $old_plugin_file,
-											'result' => $result,
-										), true )
-								);
-							} else {
-								$this->add_to_deploy_log(
-									esc_html__( 'Plugin activation complete.', 'boldgrid-inspirations' )
-								);
+								$this->messages->print_notice( esc_html__( 'Plugin activation failed.', 'boldgrid-inspirations' ) );
 							}
 						}
 
@@ -2892,9 +2723,6 @@ class Boldgrid_Inspirations_Deploy {
 			}
 		}
 
-		$this->add_to_deploy_log(
-			'Installing plugin: ' . $activate_path . ' version ' . $version . '.' );
-
 		include_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
 
 		/**
@@ -2907,43 +2735,15 @@ class Boldgrid_Inspirations_Deploy {
 		if ( file_exists( $absolute_activation_path ) ) {
 			$plugin_version_already_exists = true;
 
-			$plugin_data = get_plugin_data( $absolute_activation_path );
-
-			$comparison = version_compare( $plugin_data['Version'], $version );
-
-			// Set flag and add to deploy log.
-			switch ( $comparison ) {
-				case - 1 :
-					// Older version installed.
-					$this->add_to_deploy_log( sprintf(
-						// translators: 1 The older version of the plugin, 2 the newer version of the plugin the user should update to.
-						esc_html__( 'An older version (%1$s) of the plugin is installed.  Update to version %2$s using WordPress Updates.', 'boldgrid-inspirations' ),
-						$plugin_data['Version'],
-						$version
-					) );
-
-					break;
-
-				case 0 :
-					// Current version installed.
-					$this->add_to_deploy_log( sprintf(
-						// translators: 1 The version number of the plugin already installed.
-						esc_html__( 'Plugin version %1$s is already installed.', 'boldgrid-inspirations' ),
-						$plugin_data['Version']
-					) );
-
-					break;
-
-				case 1 :
-					// Newer version installed.
-					$this->add_to_deploy_log( sprintf(
-						// translators: 1 The version number of the plugin that is already installed.
-						esc_html__( 'A newer version (%1$s) of the plugin is already installed.', 'boldgrid-inspirations' ),
-						$plugin_data['Version']
-					) );
-
-					break;
-			}
+			/*
+			 * For reference of $comparison:
+			 *
+			 * -1: An older version of the plugin is installed. Update version using WordPress Updates.
+			 *  0: Plugin version is already installed.
+			 *  1: A newer version (%1$s) of the plugin is already installed.
+			 */
+			// $plugin_data = get_plugin_data( $absolute_activation_path );
+			// $comparison = version_compare( $plugin_data['Version'], $version );
 		}
 
 		// If the user already has the parent plugin skip this installation, init settings:
@@ -2969,66 +2769,40 @@ class Boldgrid_Inspirations_Deploy {
 					'forked_plugin_active' => $forked_plugin_active,
 					'forked_plugin_exists' => true
 				);
-
-				$this->add_to_deploy_log(
-					sprintf(
-						// translators: The path to a forked plugin.
-						__( 'A fork (%s) was found ', 'boldgrid-inspirations' ),
-						$full_plugin_data->forked_plugin_path
-					) .
-					(
-						$forked_plugin_active ?
-							esc_html__( 'active; skipping installation', 'boldgrid-inspirations' ) :
-							esc_html__( 'inactive', 'boldgrid-inspirations' )
-					) . '.'
-				);
 		}
 
 		// If the plugin still needs to be installed, then do it.
 		if ( ! $plugin_version_already_exists ) {
-			$upgrader = new Plugin_Upgrader(
-				new Plugin_Installer_Skin( compact( 'title', 'url', 'nonce', 'plugin', 'api' ) ) );
+			$upgrader = new Plugin_Upgrader( new Plugin_Installer_Skin( compact( 'title', 'url', 'nonce', 'plugin', 'api' ) ) );
 
+			/*
+			 * Install the plugin.
+			 *
+			 * There's an issue if:
+			 * 1. is_object( $upgrader->skin->result ) &&
+			 * 2. ( is_wp_error( $upgrader->skin->result ) || false == $upgrader->skin->result )
+			 *
+			 * Plugin installation not complete. Either the destination folder already exists, or
+			 * the plugin files already exist. Review $upgrader->skin->result->get_error_message().
+			 */
 			$upgrader->install( $url );
-
-			if ( is_object( $upgrader->skin->result ) &&
-				 ( is_wp_error( $upgrader->skin->result ) || false == $upgrader->skin->result ) ) {
-				$error_message = $upgrader->skin->result->get_error_message();
-
-				if ( __( 'Destination folder already exists.' ) == $error_message ) {
-					$this->add_to_deploy_log( esc_html__( 'Plugin files already exist.', 'boldgrid-inspirations' ) );
-				}
-			} else {
-				$this->add_to_deploy_log( esc_html__( 'Plugin installation complete.', 'boldgrid-inspirations' ) );
-			}
 		}
 
 		$boldgrid_plugin_active = $this->external_plugin->is_active( $activate_path );
 
 		// Activate the plugin, if the BoldGrid or forked plugins are not already active.
 		if ( ! $boldgrid_plugin_active && ! $forked_plugin_active ) {
-			$this->add_to_deploy_log( esc_html__( 'Activating plugin...', 'boldgrid-inspirations' ) );
-
 			$result = activate_plugin( $activate_path );
 
-			// Check for activation error:
+			// Check for activation error.
 			if ( is_wp_error( $result ) ) {
-				// LOG:
-				error_log(
-					__METHOD__ . ': Error: Plugin activation failed! ' . print_r(
-						array (
-							'$activate_path' => $activate_path,
-							'$result' => $result
-						), true ) );
-			} elseif ( $this->plugin_installation_data[$original_active_path]['forked_plugin_exists'] &&
-				 false == $forked_plugin_active ) {
+				$this->messages->print_notice( esc_html__( 'Error: Plugin activation failed!', 'boldgrid-inspirations' ) );
+			} elseif ( $this->plugin_installation_data[$original_active_path]['forked_plugin_exists'] && false == $forked_plugin_active ) {
 				/*
 				 * In the case that the activation of this plugin was a success and the plugin was a
 				 * fork, set "forked_plugin_activated" so that we can display a message to the user
 				 */
 				$this->plugin_installation_data[$original_active_path]['forked_plugin_activated'] = true;
-			} else {
-				$this->add_to_deploy_log( esc_html__( 'Plugin activation complete.', 'boldgrid-inspirations' ) );
 			}
 		}
 	}
@@ -3104,7 +2878,6 @@ class Boldgrid_Inspirations_Deploy {
 						$post['post_title'] = $homepage_step_obj->page->page_title;
 						$post['post_status'] = 'publish';
 						$post['post_type'] = $page_type;
-						$this->add_to_deploy_log( '' );
 						$post_id = wp_insert_post( $post );
 					} else
 						$post_id = $existing_page->ID;
@@ -3392,19 +3165,10 @@ class Boldgrid_Inspirations_Deploy {
 		// If theme deployemnt fails, then show a message to choose a different theme.
 		if ( ! $deploy_theme_success ) {
 			// Add info to the deployment log.
-			$this->add_to_deploy_log( esc_html__( 'Theme deployment failed.  Please choose another theme.', 'boldgrid-inspirations' ) );
-
-			// LOG:
-			error_log( __METHOD__ . ': Error: Theme deployment failed.' );
+			$this->messages->print_notice( esc_html__( 'Theme deployment failed.  Please choose another theme.', 'boldgrid-inspirations' ) );
 
 			// Change the deployment status.
 			$this->change_deploy_status( esc_html__( 'Installation failed!  Please choose another theme.', 'boldgrid-inspirations' ) );
-
-			// Remove the loading graphic.
-			$js = "	jQuery( '#deploy_status .boldgrid-loading' ).slideUp();
-					jQuery( '#deploy_status .spinner' ).hide();
-			";
-			Boldgrid_Inspirations_Utility::inline_js_oneliner( $js );
 
 			return false;
 		}
@@ -3434,7 +3198,6 @@ class Boldgrid_Inspirations_Deploy {
 		// Remove Temp pages that were created in order to force image creation.
 		$boldgrid_inspiration_deploy_pages->cleanup_temp_pages( $this->full_page_list,
 			$this->installed_page_ids );
-		$this->add_to_deploy_log( esc_html__( 'Created static page backups.', 'boldgrid-inspirations' ) );
 
 		// download / setup the primary design elements.
 		$this->deploy_pde();

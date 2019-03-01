@@ -18,6 +18,10 @@ body.bginsp-full-screen {
 	margin: 0px;
 }
 
+.bginsp-full-screen #wpfooter {
+	margin: 0px;
+}
+
 .bginsp-full-screen .top-menu { 
 	position: fixed;
 	margin-top: 0px;
@@ -654,7 +658,7 @@ http://ivomynttinen.com/blog/the-ios-design-cheat-sheet-volume-2
  */
 
 /* Hide all notices except the Connect Key prompt. */
-.notice:not( #container_boldgrid_api_key_notice ) {
+.notice:not( #container_boldgrid_api_key_notice ):not( .bginsp-deploy-notice ) {
 	display: none;
 }
 
@@ -708,6 +712,10 @@ p.heading:not(:first-of-type) {
 	height: 75px;
 	margin-left: auto;
 	margin-right: auto;
+}
+
+.bginsp-deploy-notice {
+	text-align: left;
 }
 
 /**
