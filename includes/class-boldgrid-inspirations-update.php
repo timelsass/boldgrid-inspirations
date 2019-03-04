@@ -765,6 +765,7 @@ class Boldgrid_Inspirations_Update {
 			<h2>' . esc_html__( 'Update notice', 'boldgrid-inpirations' ) . '</h2>
 			<p>' .
 				sprintf(
+					// translators: 1 The version number BoldGrid Inspirations has been updated to.
 					esc_html__( 'BoldGrid Inspirations has been updated to %1$s.', 'boldgrid-inspirations' ),
 					$this->notice_params['plugin_version']
 				) .

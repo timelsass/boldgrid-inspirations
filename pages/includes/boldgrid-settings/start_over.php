@@ -1,4 +1,4 @@
-<h3>Start Over</h3>
+<h3><?php esc_html_e( 'Start Over', 'boldgrid-inspirations' ); ?></h3>
 
 <?php
 // Allow the user to add &show_start_over=1 to the url to force showing the start over
@@ -94,7 +94,7 @@ if ( true == $this->user_has_built_a_boldgrid_site() || true == $show_start_over
 
 <?php
 	// Print the "Start Over" button.
-	submit_button( __( 'Start Over' ), 'secondary', 'submit', false,
+	submit_button( __( 'Start Over', 'boldgrid-inspirations' ), 'secondary', 'submit', false,
 		array (
 			'id' => 'start_over_button'
 		) );

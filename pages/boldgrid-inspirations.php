@@ -130,7 +130,7 @@ if ( ! empty( $mode_data['has_any_site'] ) ) {
 		<a class="button button-primary next-step dashicons-before dashicons-after dashicons-arrow-right-alt"><?php echo esc_html__( 'I Understand - Continue', 'boldgrid-inspirations'); ?></a>
 
 		<p style="margin-top:2em;"><?php esc_html_e( 'If you just want to change your theme and keep your current content in tact, simply change your theme:', 'boldgrid-inspirations' ); ?></p>
-		<a class="button button-primary dashicons-before dashicons-arrow-left-alt" href="<?php echo esc_url( admin_url( 'theme-install.php?browse=featured' ) ); ?>"><?php esc_html_e( 'Go to Customize > Add Themes')?></a>
+		<a class="button button-primary dashicons-before dashicons-arrow-left-alt" href="<?php echo esc_url( admin_url( 'theme-install.php?browse=featured' ) ); ?>"><?php esc_html_e( 'Go to Customize > Add Themes', 'boldgrid-inspirations' ); ?></a>
 	</div>
 <?php
 }

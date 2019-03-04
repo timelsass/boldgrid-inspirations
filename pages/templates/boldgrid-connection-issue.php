@@ -26,7 +26,7 @@
 	<p>
 		<?php
 		printf(
-			// translators: 1 opening anchor tag linking to the BoldGrid status page, 2 closing anchor tag.
+			// translators: 1 The opening anchor tag to the BoldGrid Status page, 2 its closing anchor tag.
 			esc_html__( 'If the issue persists, then please feel free to check our %1$sBoldGrid Status%2$s page.',
 				'boldgrid-inspirations'
 			),

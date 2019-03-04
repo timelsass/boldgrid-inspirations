@@ -12,7 +12,7 @@
 	<div id='feedback-notice-1-1-content'>
 		<form action='#' id='boldgrid-feedback-form' method='POST'>
 		<?php wp_nonce_field( 'feedback-notice-1-1', 'feedback_auth' ); ?>
-			<div class='feedback-form-label'><?php echo __('Feedback type'); ?></div>
+			<div class='feedback-form-label'><?php esc_html_e( 'Feedback type', 'boldgrid-inspirations' ); ?></div>
 			<div>
 				<select id='feedback-type' class='feedback-form-field' name='feedback_type'>
 					<option value=''><?php echo esc_html__( 'Select', 'boldgrid-inspirations' ); ?>...</option>
