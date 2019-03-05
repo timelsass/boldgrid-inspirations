@@ -2,7 +2,7 @@
 Contributors: boldgrid, imh_brad, joemoto, rramo012, timph
 Tags: inspiration, customization, build, create, design
 Requires at least: 4.4
-Tested up to: 5.0.3
+Tested up to: 5.1
 Requires PHP: 5.4
 Stable tag: 1.6.5
 License: GPLv2 or later
@@ -35,6 +35,12 @@ Temporary fix until a near-future update:
 3. You will find the Inspirations menu in your WordPress Dashboard / admin panel.
 
 == Changelog ==
+
+= 1.7.0 In progress =
+
+* Update: Made translation ready. Text domain is boldgrid-inspirations.
+* Update: Inspirations process with full screen mode and design updates.
+* New feature: Inspirations dashboard.
 
 = 1.6.5 =
 
