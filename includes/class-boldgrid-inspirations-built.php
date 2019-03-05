@@ -65,6 +65,16 @@ class Boldgrid_Inspirations_Built {
 	public function add_hooks() {
 		add_action( 'admin_menu', array( $this, 'admin_menu' ) );
 
+		/*
+		 * The Inspirations left menu items in the dashboard have menu items, "Inspirations" and
+		 * "My Inspiration". We don't want to show "My Inspirations" however as a menu item.
+		 * Therefore, if the user is trying to access "Inspirations" and they've already deployed
+		 * a site, redirect them to "My Inspiration".
+		 */
+		if ( self::is_inspirations_page() && Boldgrid_Inspirations_Installed::has_built_site() && empty( $_GET['force'] ) ) {
+			Boldgrid_Inspirations_My_Inspiration::redirect();
+		}
+
 		if ( self::is_inspirations() ) {
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts', ) );
 
@@ -243,12 +253,19 @@ class Boldgrid_Inspirations_Built {
 	 *
 	 * @return bool
 	 */
-	public function is_deploy() {
+	public static function is_deploy() {
 		return self::is_inspirations() && isset( $_POST['task'] ) && 'deploy' == $_POST['task'];
 	}
 
 	/**
 	 * Whether or not we are on the Inspirations page.
+	 *
+	 * Technically, this method returns true if we're on the Inspirations page (IE the wizard) or
+	 * if we're deploying a site (which is also the inspirations page).
+	 *
+	 * For further specification, please see:
+	 * self::is_inspirations_page()
+	 * self::is_deploy()
 	 *
 	 * @since 1.7.0
 	 *
@@ -260,6 +277,19 @@ class Boldgrid_Inspirations_Built {
 		global $pagenow;
 
 		return 'admin.php' === $pagenow && ! empty( $_GET['page'] ) && 'boldgrid-inspirations' === $_GET['page'];
+	}
+
+	/**
+	 * Whether or not we are on the Inspirations page with the wizard.
+	 *
+	 * We're either on the wizard page or on the deployment page. Please see self::is_inspiration.
+	 *
+	 * @since 1.7.0
+	 *
+	 * @return bool
+	 */
+	public static function is_inspirations_page() {
+		return self::is_inspirations() && ! self::is_deploy();
 	}
 
 	/**
@@ -440,7 +470,7 @@ class Boldgrid_Inspirations_Built {
 	 */
 	public function enqueue_scripts() {
 		// If we are deploying, enqueue the following and then return;
-		if ( $this->is_deploy() ) {
+		if ( self::is_deploy() ) {
 			$this->enqueue_inspirations_css();
 			$this->enqueue_inspirations_js( false );
 			return;
@@ -551,7 +581,7 @@ class Boldgrid_Inspirations_Built {
 				'active'                  => 'Active',
 				'staging'                 => 'Staging',
 				'coins'                   => __( 'Coins', 'boldgrid-inspirations' ),
-				'isDeploy'                => $this->is_deploy(),
+				'isDeploy'                => self::is_deploy(),
 				'fetchingThemes'          => __( 'Fetching themes...', 'boldgrid-inspirations' ),
 				'fetchingCategories'      => __( 'Fetching categories...', 'boldgrid-inspirations' ),
 				'errorFetchingThemes'     => __( 'There was an error fetching themes.', 'boldgrid-inspirations' ),

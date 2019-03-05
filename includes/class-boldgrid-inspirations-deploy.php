@@ -1513,7 +1513,9 @@ class Boldgrid_Inspirations_Deploy {
 
 		$this->deploy_results['built_photo_search_log'] = $this->bps->built_photo_search_log;
 
+		// This option is used by Boldgrid_Inspirations_Installed::has_built_site().
 		update_option( 'boldgrid_has_built_site', 'yes' );
+
 		update_option( 'boldgrid_show_tip_start_editing', 'yes' );
 
 		if ( $this->create_preview_site ) {

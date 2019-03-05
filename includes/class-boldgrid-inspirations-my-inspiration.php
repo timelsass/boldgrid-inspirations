@@ -20,7 +20,7 @@ class Boldgrid_Inspirations_My_Inspiration {
 	 * @var string $screen_id
 	 * @access private
 	 */
-	private $screen_id = 'inspirations_page_my-inspiration';
+	private $screen_id = 'admin_page_my-inspiration';
 
 	/**
 	 * Add Admin hooks.
@@ -178,7 +178,8 @@ class Boldgrid_Inspirations_My_Inspiration {
 	 */
 	public function admin_menu() {
 		add_submenu_page(
-			'boldgrid-inspirations',
+			// Null so "My Inspiration" does not show as a menu item.
+			null,
 			__( 'My Inspiration', 'boldgrid-inspirations' ),
 			__( 'My Inspiration', 'boldgrid-inspirations' ),
 			'manage_options',
@@ -195,7 +196,7 @@ class Boldgrid_Inspirations_My_Inspiration {
 	public function box_current_inspiration() { ?>
 		<p>
 			<a href="<?php echo esc_url( get_site_url() ); ?>" class="button button-primary dashicons-before dashicons-admin-home"><?php esc_html_e( 'View Site', 'boldgrid-inspirations' ); ?></a>
-			<a href="<?php echo esc_url( admin_url( 'admin.php?page=boldgrid-inspirations' ) ); ?>" class="button button-primary dashicons-before dashicons-lightbulb"><?php esc_html_e( 'Start Over with New Inspiration', 'boldgrid-inspirations' ); ?></a>
+			<a href="<?php echo esc_url( admin_url( 'admin.php?page=boldgrid-inspirations&force=1' ) ); ?>" class="button button-primary dashicons-before dashicons-lightbulb"><?php esc_html_e( 'Start Over with New Inspiration', 'boldgrid-inspirations' ); ?></a>
 		</p>
 	<?php }
 
@@ -363,5 +364,15 @@ class Boldgrid_Inspirations_My_Inspiration {
 		//]]>
 		</script>
 		<?php
+	}
+
+	/**
+	 * Redirect the user to the My Insprations page.
+	 *
+	 * @since 1.7.0
+	 */
+	public static function redirect() {
+		wp_redirect( admin_url( 'admin.php?page=my-inspiration' ), 301 );
+		exit;
 	}
 }

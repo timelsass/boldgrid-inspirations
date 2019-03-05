@@ -76,6 +76,17 @@ class Boldgrid_Inspirations_Installed {
 	}
 
 	/**
+	 * Determine whether or not we have deployed a site with Inspirations.
+	 *
+	 * @since 1.7.0
+	 *
+	 * @return bool
+	 */
+	public static function has_built_site() {
+		return 'yes' === get_option( 'boldgrid_has_built_site', 'yes' );
+	}
+
+	/**
 	 * Check whether or not Inspirations has installed any posts.
 	 *
 	 * @since 1.7.0
