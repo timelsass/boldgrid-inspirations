@@ -163,40 +163,6 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		$subCategory.parent().css( 'background', 'blue' );
 	};
 
-//	/**
-//	 * @summary Toggle the notes listed in the last step, the confirmation page.
-//	 *
-//	 * For example, if you click the radio button to overwrite your existing site, there is a note
-//	 * that your pages will be trashed. This method should show that note.
-//	 *
-//	 * @since 1.2.5
-//	 */
-//	this.toggleConfirmationNotes = function() {
-//		var installDecision = $( 'input[name="install-decision"]:checked' ).val(),
-//			showStagingDecisions = [ 'download-staging', 'install-as-staging', 'activate-staging' ];
-//
-//		// Begin by hiding all of the notes, which is any paragraph with a class startign with note-.
-//		$( '.top p[class^="note-"]' ).hide();
-//
-//		/*
-//		 * If there is no install decision, there are no notes that need to be toggled. For example,
-//		 * on a fresh install there will be no site and no Staging pluin installed, so the user
-//		 * does not need to make a decision, just install. At this point, we can abort.
-//		 */
-//		if ( installDecision === undefined ) {
-//			return;
-//		}
-//
-//		// Toggle the approprate note based upon the install decision.
-//		if ( -1 !== showStagingDecisions.indexOf( installDecision ) ) {
-//			$( '.note-download-staging' ).show();
-//		} else if ( 'overwrite-active' === installDecision ) {
-//			$( '.note-overwrite' ).show();
-//		} else if ( 'overwrite-staging' === installDecision ) {
-//			$( '.note-overwrite-staging' ).show();
-//		}
-//	};
-
 	/**
 	 * Toggle build features in Step 2.
 	 *
@@ -471,121 +437,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			// $( '#post_deploy' ).attr( 'target', '_blank' ); self.allActions( 'enable' );
 
 			$( '#post_deploy' ).submit();
-
-//			self.toggleStep( 'install' );
-//			self.toggleConfirmationNotes();
 		} );
-
-//		// Step 4 Go back button.
-//		$( '#screen-install .button-secondary' ).on( 'click', function() {
-//			self.toggleStep( 'contact' );
-//		} );
-
-		/*
-		// Take action when someone clicks on a install-decision radio button.
-		self.$wrap.on( 'click', 'input[type="radio"][name="install-decision"]', function() {
-			self.toggleConfirmationNotes();
-		} );
-		*/
-
-		/*
-		 * Bind click of "Install this website!".
-		 *
-		 * This is the button that submits the #post_deploy form and actually installs a website.
-		 */
-//		$( '#screen-contact .button-primary' ).on( 'click', function() {
-//			self.disableInstallButton( true );
-//			$( '#post_deploy' ).submit();
-
-//			// Get our install decision.
-//			var installDecision = $( 'input[name="install-decision"]:checked' ).val(),
-//				data;
-//
-//			self.disableInstallButton( true );
-//
-//			switch ( installDecision ) {
-//
-//				/*
-//				 * Install as Active site.
-//				 *
-//				 * If installDecision is undefined, it means there is no install decision, install
-//				 * to active site.
-//				 */
-//				case 'install-as-active':
-//				case undefined:
-//					$( '#post_deploy' ).submit();
-//					break;
-//
-//				// Install as Staging site.
-//				case 'install-as-staging':
-//					$( 'input[name="staging"]' ).val( 1 );
-//					$( '#post_deploy' ).submit();
-//					break;
-//
-//				// Install as Active site, overwriting existing active site.
-//				case 'overwrite-active':
-//					$( '#start_over' ).val( 'true' );
-//					$( '#post_deploy' ).submit();
-//					break;
-//
-//				// Install as Staging site, overwriting existing staging site.
-//				case 'overwrite-staging':
-//					$( 'input[name="staging"]' ).val( 1 );
-//					$( '#start_over' ).val( 'true' );
-//					$( '#post_deploy' ).submit();
-//					break;
-//
-//				case 'download-staging':
-//					data = {
-//						action: 'install_staging',
-//						'boldgrid-plugin-install[boldgrid-staging]': 'install',
-//						'nonce-install-staging': $( '#nonce-install-staging' ).val()
-//					};
-//
-//					$.post( ajaxurl, data, function( response ) {
-//
-//						/*
-//						 * Validate success of installing staging.
-//						 *
-//						 * Installing staging via ajax produces a bit of output. If the last character
-//						 * of the output is a 1, success, otherwise failure.
-//						 */
-//						if ( '1' === response.substr( response.length - 1 ) ) {
-//							$( 'input[name="staging"]' ).val( 1 );
-//							$( '#start_over' ).val( 'true' );
-//							$( '#post_deploy' ).submit();
-//						} else {
-//							alert( 'failed setting up staging plugin' );
-//							self.disableInstallButton( false );
-//						}
-//					} ).fail( function() {
-//						alert( 'failed setting up staging plugin' );
-//						self.disableInstallButton( false );
-//					} );
-//					break;
-//
-//				case 'activate-staging':
-//					data = {
-//						action: 'activate_staging',
-//						'nonce-install-staging': $( '#nonce-install-staging' ).val()
-//					};
-//
-//					$.post( ajaxurl, data, function( response ) {
-//						if ( '1' === response ) {
-//							$( 'input[name="staging"]' ).val( 1 );
-//							$( '#start_over' ).val( 'true' );
-//							$( '#post_deploy' ).submit();
-//						} else {
-//							alert( 'failed activating staging plugin' );
-//							self.disableInstallButton( false );
-//						}
-//					} ).fail( function() {
-//						alert( 'failed activating staging plugin' );
-//						self.disableInstallButton( false );
-//					} );
-//					break;
-//			}
-//		} );
 	};
 
 	/**
@@ -1560,6 +1412,11 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		} );
 	};
 
+	/**
+	 * Initialize the full screen feature.
+	 *
+	 * @since 1.7.0
+	 */
 	this.initFullScreen = function() {
 		$( 'html' ).on( 'click', '.top-menu .notice-dismiss', function() {
 			$( 'body' ).toggleClass( 'bginsp-full-screen' );
@@ -1744,7 +1601,11 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	};
 
 	/**
+	 * Get all of the screens.
 	 *
+	 * @since 1.7.0
+	 *
+	 * @return array An array of screen ids.
 	 */
 	this.getAllScreens = function() {
 		var screens = [];

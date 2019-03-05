@@ -114,7 +114,7 @@ class Boldgrid_Inspirations_My_Inspiration {
 			// Add .imgedit-group-top class to applicable meta boxes so that the help icons work.
 			$box_ids = array( 'pages_content', 'customization' );
 			foreach( $box_ids as $id ) {
-				add_filter( 'postbox_classes_' . $this->screen_id . '_' . $id, function( $classes = array() ) {
+				add_filter( 'postbox_classes_' . $this->screen_id . '_' . $id, function( array $classes = array() ) {
 					$class = 'imgedit-group-top';
 
 					if ( ! in_array( $class, $classes ) ) {

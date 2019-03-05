@@ -80,7 +80,7 @@ class Boldgrid_Inspirations_Built {
 			 * the time is right, otherwise the user will see the key prompt flash on the screen and
 			 * then disappear.
 			 */
-			add_filter( 'Boldgrid\Library\Views\KeyPrompt\classes', function( $classes ) {
+			add_filter( 'Boldgrid\Library\Views\KeyPrompt\classes', function( array $classes ) {
 				$classes[] = 'hidden';
 				return $classes;
 			} );

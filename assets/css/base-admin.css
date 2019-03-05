@@ -404,9 +404,9 @@ a:not(.button).dashicons-before:before {
 
 .boldgrid-plugin-card-boxy .top .header {
 	border-bottom: 1px solid #bbb;
-    margin-left: -3px;
-    margin-right: -3px;
-    padding-bottom: 2px;
+	margin-left: -3px;
+	margin-right: -3px;
+	padding-bottom: 2px;
 }
 
 
@@ -418,13 +418,13 @@ a:not(.button).dashicons-before:before {
 
 .wrap h1.bginsp-logo {
 	font-family: 'Josefin Sans';
-    font-weight: 300;
-    background: url( ../images/boldgrid-login-logo.png ) no-repeat;
-    background-size: 4.4em;
-    display: inline-block;
-    padding-left: 1.7em;
-    padding-top: 0.1em;
-    background-position: -1.6em .04em;
-    max-height: 1.2em;
-    letter-spacing: 0.1em;
+	font-weight: 300;
+	background: url( ../images/boldgrid-login-logo.png ) no-repeat;
+	background-size: 4.4em;
+	display: inline-block;
+	padding-left: 1.7em;
+	padding-top: 0.1em;
+	background-position: -1.6em .04em;
+	max-height: 1.2em;
+	letter-spacing: 0.1em;
 }

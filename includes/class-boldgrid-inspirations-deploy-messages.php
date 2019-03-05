@@ -58,7 +58,12 @@ class Boldgrid_Inspirations_Deploy_Messages {
 	}
 
 	/**
+	 * Add a plugin manually.
 	 *
+	 * @since 1.7.0
+	 *
+	 * @param string $title Plugin title.
+	 * @param string $path  Path the plugin.
 	 */
 	public function add_plugin_manually( $title, $path ) {
 		$plugin                       = new stdClass();
@@ -69,7 +74,9 @@ class Boldgrid_Inspirations_Deploy_Messages {
 	}
 
 	/**
+	 * Add the wpforms plugin to the list of plugins.
 	 *
+	 * @since 1.7.0
 	 */
 	public function add_plugin_wpforms() {
 		$this->add_plugin_manually( 'WPForms', 'wpforms-lite/wpforms.php' );

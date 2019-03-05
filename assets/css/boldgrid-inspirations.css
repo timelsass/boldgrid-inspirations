@@ -15,19 +15,19 @@ body.bginsp-full-screen {
 }
 
 .bginsp-full-screen #wpcontent {
-	margin: 0px;
+	margin: 0;
 }
 
 .bginsp-full-screen #wpfooter {
-	margin: 0px;
+	margin: 0;
 }
 
 .bginsp-full-screen .top-menu { 
 	position: fixed;
-	margin-top: 0px;
-	margin-left: 0px;
-	top: 0px;
-	left: 0px;
+	margin-top: 0;
+	margin-left: 0;
+	top: 0;
+	left: 0;
 	width: 100%;
 	z-index: 999;
 }
@@ -37,7 +37,7 @@ body.bginsp-full-screen {
 	.bginsp-full-screen #screen-content,
 	.bginsp-full-screen #screen-contact,
 	.bginsp-full-screen #screen-install {
-		padding-top: 0px;
+		padding-top: 0;
 	}
 }
 
@@ -48,19 +48,19 @@ body.bginsp-full-screen {
  * Ensure all elements are properly aligned under the top menu.
  */
 
-#post_deploy,    /* The form on the Inspirations page. */
+#post_deploy,	/* The form on the Inspirations page. */
 #deploy_status { /* The container on the deploy page. */
 	margin-top: 35px;
 }
 
 #post_deploy > div > h1 { /* Content Check Warning header. */
-	padding-top: 0px;
+	padding-top: 0;
 }
 
 /* Page layout */
 #screen-design  .left,
 #screen-content .left {
-	border: 0px solid #000;
+	border: 0 solid #000;
 	width: 200px;
 	box-sizing: border-box;
 }
@@ -74,7 +74,7 @@ body.bginsp-full-screen {
 /* Page layout */
 #screen-design  .right,
 #screen-content .right {
-	border: 0px solid #000;
+	border: 0 solid #000;
 	width: calc( 100% - 215px );
 	box-sizing: border-box;
 	position: relative;
@@ -85,7 +85,7 @@ body.bginsp-full-screen {
 .feature-filter,
 .page-set-filter {
 	background: #e6e6e6;
-	padding: 3px 0px 3px 10px;
+	padding: 3px 0 3px 10px;
 	font-weight: bold;
 	text-transform: uppercase;
 }
@@ -153,9 +153,9 @@ input[type="radio"][name="sub-category"] {
 
 /* Theme hover */
 .theme:hover {
-	-webkit-box-shadow: 0px 0px 7px 0px rgba(0, 141, 194, 1.0);
-	-moz-box-shadow:    0px 0px 7px 0px rgba(0, 141, 194, 1.0);
-	box-shadow:         0px 0px 7px 0px rgba(0, 141, 194, 1.0);
+	-webkit-box-shadow: 0 0 7px 0 rgba(0, 141, 194, 1.0);
+	-moz-box-shadow:	0px 0 7px 0 rgba(0, 141, 194, 1.0);
+	box-shadow:		 0 0 7px 0 rgba(0, 141, 194, 1.0);
 }
 
 .info-icon:before {
@@ -164,14 +164,14 @@ input[type="radio"][name="sub-category"] {
 }
 
 .top-menu {
-	margin: -10px -20px 0px -22px; /* Required to make the top menu flush with the top and left menus. */
+	margin: -10px -20px 0 -22px; /* Required to make the top menu flush with the top and left menus. */
 	padding-left: 22px;
 	background-image: url(../images/inspirations/header-bg.png);
-    background-color: #ff4000;
-    background-position: center;
-    height: 4.4em;
-    overflow: hidden;
-    padding-left: 0px;
+	background-color: #ff4000;
+	background-position: center;
+	height: 4.4em;
+	overflow: hidden;
+	padding-left: 0;
 }
 
 .top-menu > div {
@@ -183,18 +183,16 @@ input[type="radio"][name="sub-category"] {
 /* On the design screen, the top menu is fixed. */
 body:not(.bginsp-full-screen) .top-menu.design,
 body:not(.bginsp-full-screen) .top-menu.content {
-	right: 0px;
+	right: 0;
 	left: 160px;
-	margin-left: 0px;
-	margin-right: 0px;
-	/* padding-left: 0px; */
+	margin-left: 0;
+	margin-right: 0;
 	position: fixed;
 	top: 42px;
 	z-index: 1;
 }
 
 .top-menu a {
-	/* padding: 15px 20px 15px 31px; */
 	padding: 1.53em 1.54em 1.53em 2.38em;
 	display: inline-block;
 	cursor: pointer;
@@ -217,8 +215,8 @@ body:not(.bginsp-full-screen) .top-menu.content {
 .top-menu a.active:not(:first-of-type) {
 	background: url(../images/inspirations/arrow-right-filled.png) no-repeat, url(../images/inspirations/fill.png) no-repeat;
 	background-position: left, 1em;
-    background-size: contain, cover;
-    box-shadow: inset 0 -1px #ebebeb;
+	background-size: contain, cover;
+	box-shadow: inset 0 -1px #ebebeb;
 }
 
 .top-menu a.active:first-of-type {
@@ -247,7 +245,7 @@ body:not(.bginsp-full-screen) .top-menu.content {
 .top-menu .notice-dismiss {
 	position: static;
 	float: right;
-	margin: 10px 10px 0px 0px;
+	margin: 10px 10px 0 0;
 }
 
 .top-menu .notice-dismiss:hover:before {
@@ -277,8 +275,8 @@ body.waiting .pointer {
 .boldgrid-loading {
 	position: absolute;
 	top: 69px;
-	left: 0px;
-	right: 0px;
+	left: 0;
+	right: 0;
 	background-color: #f1f1f1;
 }
 
@@ -425,7 +423,7 @@ body.waiting .pointer {
 
 .feature-option .toggle {
 	float: right;
-	margin: 2px 10px 0px 0px;
+	margin: 2px 10px 0 0;
 }
 
 
@@ -518,24 +516,24 @@ http://ivomynttinen.com/blog/the-ios-design-cheat-sheet-volume-2
 /* Use in conjunction with a style which adds a border. */
 .circled-text {
 	border-radius: 50%;
-    width: 45px;
-    height: 45px;
-    text-align: center;
-    display: table-cell;
-    vertical-align: middle;
+	width: 45px;
+	height: 45px;
+	text-align: center;
+	display: table-cell;
+	vertical-align: middle;
 }
 
 .circled-text.circled-text-left {
 	float: left;
-    line-height: 45px;
-    margin-top: 0px;
-    margin-right: 15px;
-    margin-bottom: 35px;
+	line-height: 45px;
+	margin-top: 0;
+	margin-right: 15px;
+	margin-bottom: 35px;
 }
 
 #screen-welcome .step-screenshot {
 	float:right;
-	margin: 0px 0px 0px 15px;
+	margin: 0 0 0 15px;
 	max-width: 170px;
 }
 
@@ -563,23 +561,23 @@ http://ivomynttinen.com/blog/the-ios-design-cheat-sheet-volume-2
 }
 
 .survey-field .option input {
-	margin-right: 0px;
+	margin-right: 0;
 	margin-left: 8px;
 	border: 1px solid #ddd;
 }
 
 .survey-field .main-input {
 	width: 100%;
-	margin: 6px 0px;
+	margin: 6px 0;
 }
 
 .survey-field .social-media {
-	margin: 5px 0px;
+	margin: 5px 0;
 }
 
 .survey-field .social-media span {
-    width: 20px;
-    display: inline-block;
+	width: 20px;
+	display: inline-block;
 }
 
 .survey-field .social-media input {
@@ -588,16 +586,16 @@ http://ivomynttinen.com/blog/the-ios-design-cheat-sheet-volume-2
 }
 
 #social-media-index span {
-    font-size: 14px;
-    background: #f6f6f6;
-    width: 25px;
-    height: 25px;
-    display: inline-block;
-    text-align: center;
-    padding: 5px;
-    margin: 0px 10px 10px 0px;
-    line-height: 23px;
-    cursor: pointer;
+	font-size: 14px;
+	background: #f6f6f6;
+	width: 25px;
+	height: 25px;
+	display: inline-block;
+	text-align: center;
+	padding: 5px;
+	margin: 0 10px 10px 0;
+	line-height: 23px;
+	cursor: pointer;
 }
 
 #social-media-index .hidden {
@@ -637,15 +635,15 @@ http://ivomynttinen.com/blog/the-ios-design-cheat-sheet-volume-2
  */
 
 #container_boldgrid_api_key_notice {
-	border: 0px;
-    box-shadow: none;
-    background: none;
-    padding-top: 0px;
-    margin-top: 0px;
+	border: 0;
+	box-shadow: none;
+	background: none;
+	padding-top: 0;
+	margin-top: 0;
 }
 
 .new-api-key h2 {
-	margin-top: 0px;
+	margin-top: 0;
 }
 
 .bg-key-saved .notice-dismiss {
@@ -770,7 +768,7 @@ p.heading:not(:first-of-type) {
 	}
 	
 	.top-menu > div {
-		margin-left: 0px;
+		margin-left: 0;
 	}
 	
 	.top-menu a {
@@ -824,7 +822,7 @@ p.heading:not(:first-of-type) {
 	
 	body:not(.bginsp-full-screen) .top-menu.design,
 	body:not(.bginsp-full-screen) .top-menu.content {
-		left: 0px;
+		left: 0;
 	}
 	
 	.top-menu a.active:not(:first-of-type) {
