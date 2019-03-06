@@ -83,7 +83,7 @@ class Boldgrid_Inspirations_Installed {
 	 * @return bool
 	 */
 	public static function has_built_site() {
-		return 'yes' === get_option( 'boldgrid_has_built_site', 'yes' );
+		return 'yes' === get_option( 'boldgrid_has_built_site' );
 	}
 
 	/**
