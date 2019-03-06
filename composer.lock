@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "42709986912655d6c0696e1780a95848",
+    "content-hash": "d16281bff85c428740215360c0fc4571",
     "packages": [
         {
             "name": "boldgrid/bgforms",
@@ -113,16 +113,16 @@
         },
         {
             "name": "boldgrid/library",
-            "version": "2.7.6",
+            "version": "2.8.0-rc.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BoldGrid/library.git",
-                "reference": "d8a76ec83ae20a07d86eee712dc6c99279ff9f1d"
+                "reference": "a6016b7bdd8a1ce90d77afba5149ae29dbecaf62"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BoldGrid/library/zipball/d8a76ec83ae20a07d86eee712dc6c99279ff9f1d",
-                "reference": "d8a76ec83ae20a07d86eee712dc6c99279ff9f1d",
+                "url": "https://api.github.com/repos/BoldGrid/library/zipball/a6016b7bdd8a1ce90d77afba5149ae29dbecaf62",
+                "reference": "a6016b7bdd8a1ce90d77afba5149ae29dbecaf62",
                 "shasum": ""
             },
             "type": "library",
@@ -158,20 +158,20 @@
                 }
             ],
             "description": "The BoldGrid Library for shared code used in official BoldGrid plugins and themes.",
-            "time": "2018-12-05T17:55:38+00:00"
+            "time": "2019-03-05T19:36:25+00:00"
         },
         {
             "name": "boldgrid/plugin-installer",
-            "version": "1.0.4",
+            "version": "1.0.5-rc.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BoldGrid/plugin-installer.git",
-                "reference": "08830fd488df38e3297c11843f3a8f51e68fdf97"
+                "reference": "0927b18c44b2b29aa26d5b5f89caa444bca84ca5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BoldGrid/plugin-installer/zipball/08830fd488df38e3297c11843f3a8f51e68fdf97",
-                "reference": "08830fd488df38e3297c11843f3a8f51e68fdf97",
+                "url": "https://api.github.com/repos/BoldGrid/plugin-installer/zipball/0927b18c44b2b29aa26d5b5f89caa444bca84ca5",
+                "reference": "0927b18c44b2b29aa26d5b5f89caa444bca84ca5",
                 "shasum": ""
             },
             "require": {
@@ -212,13 +212,23 @@
                 }
             ],
             "description": "The BoldGrid plugin installer used for official BoldGrid plugins.",
-            "time": "2018-12-04T19:40:05+00:00"
+            "time": "2019-03-05T19:41:04+00:00"
         }
     ],
     "packages-dev": [],
-    "aliases": [],
+    "aliases": [
+        {
+            "alias": "2.8.0",
+            "alias_normalized": "2.8.0.0",
+            "version": "2.8.0.0-RC1",
+            "package": "boldgrid/library"
+        }
+    ],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "boldgrid/library": 5,
+        "boldgrid/plugin-installer": 5
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
