@@ -70,7 +70,7 @@
 				</div>
 				<div class='feedback-form-label'></div>
 				<div class='feedback-form-field'>
-					<button id='feedback-submit' class='button button-primary' disabled='disabled'><?php esc_html__( 'Submit', 'boldgrid-inspirations' ); ?></button>
+					<button id='feedback-submit' class='button button-primary' disabled='disabled'><?php esc_html_e( 'Submit', 'boldgrid-inspirations' ); ?></button>
 					<span class="spinner"></span>
 				</div>
 			</div>

@@ -400,7 +400,7 @@ class Boldgrid_Inspirations_Feedback {
 		wp_register_script(
 			$handle,
 			plugins_url( 'assets/js/boldgrid-feedback.js', BOLDGRID_BASE_DIR . '/boldgrid-inspirations.php' ),
-			array( 'jQuery' ),
+			array( 'jquery' ),
 			BOLDGRID_INSPIRATIONS_VERSION
 		);
 		wp_localize_script(
