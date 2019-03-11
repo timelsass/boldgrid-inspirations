@@ -406,7 +406,7 @@ class Boldgrid_Inspirations_Purchase_For_Publish extends Boldgrid_Inspirations {
 			return false;
 		}
 
-		$this->send_publish_status( '<li>' . esc_html_e( 'Gathering remote data about each image...', 'boldgrid-inspirations' ) . '</li>' );
+		$this->send_publish_status( '<li>' . esc_html__( 'Gathering remote data about each image...', 'boldgrid-inspirations' ) . '</li>' );
 		$remote_publish_cost_data = $this->get_remote_publish_cost_data();
 
 		$this->send_publish_status( '<li>' . esc_html_e( 'Checking your coin balance...', 'boldgrid-inspirations' ) . '</li>' );
