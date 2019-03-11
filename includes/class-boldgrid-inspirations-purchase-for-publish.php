@@ -724,19 +724,25 @@ class Boldgrid_Inspirations_Purchase_For_Publish extends Boldgrid_Inspirations {
 	public function cart_checkout() {
 		$boldgrid_menu_options = get_option( 'boldgrid_settings' );
 
-		( 1 == $boldgrid_menu_options['boldgrid_menu_option'] ?
-
-		add_submenu_page( 'boldgrid-transactions', 'Cart', 'Cart', 'administrator',
-			'boldgrid-cart', array(
-				$this,
-				'cart_checkout_admin_page',
-			) ) :
-
-		add_submenu_page( 'boldgrid-inspirations', 'Cart', 'Cart', 'administrator',
-			'boldgrid-cart', array(
-				$this,
-				'cart_checkout_admin_page',
-			), 1900 ) );
+		if ( 1 == $boldgrid_menu_options['boldgrid_menu_option'] ) {
+			add_submenu_page(
+				'boldgrid-transactions',
+				esc_html__( 'Cart', 'boldgrid-inspirations' ),
+				esc_html__( 'Cart', 'boldgrid-inspirations' ),
+				'administrator',
+				'boldgrid-cart',
+				array( $this, 'cart_checkout_admin_page' )
+			);
+		} else {
+			add_submenu_page(
+				'boldgrid-inspirations',
+				esc_html__( 'Cart', 'boldgrid-inspirations' ),
+				esc_html__( 'Cart', 'boldgrid-inspirations' ),
+				'administrator',
+				'boldgrid-cart',
+				array( $this, 'cart_checkout_admin_page' )
+			);
+		}
 	}
 
 	/**
