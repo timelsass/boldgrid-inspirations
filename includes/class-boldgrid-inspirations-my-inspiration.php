@@ -296,7 +296,7 @@ class Boldgrid_Inspirations_My_Inspiration {
 			<a href="https://www.boldgrid.com/support/inspirations-plugin/" class="dashicons-before dashicons-external"><?php esc_html_e( 'View Support Docs', 'boldgrid-inspirations' ); ?></a>
 		</p>
 
-		<h3><?php esc_html_e( 'New to Wordpress? Ways to get Support:', 'boldgrid-inspirations' ); ?></h3>
+		<h3><?php esc_html_e( 'New to WordPress? Ways to get Support:', 'boldgrid-inspirations' ); ?></h3>
 
 		<ul class="support-boxes">
 
