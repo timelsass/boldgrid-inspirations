@@ -33,20 +33,6 @@ $boldgrid_settings = get_option( 'boldgrid_settings' );
 </p>
 
 <p>
-	<b><?php echo esc_html__( 'Is this WordPress running a live website?', 'boldgrid-inspirations' ); ?></b>
-</p>
-<p>
-<?php
-// translators: 1 opening anchor tag linking to tutorial on boldgrid.com for setting up the staging plugin, 2 closing anchor tag.
-printf( __( 'Our %1$s Staging Plugin %2$s will help you transition to a new site while running your current Active Site.', 'boldgrid-inspirations' ),
-	'<a href="https://www.boldgrid.com/support/getting-to-know-boldgrid/how-to-set-up-staging-in-boldgrid/" target="_blank">',
-	'</a>'
-);
-?>
-</p>
-
-<p>
-
 <?php
 // translators: 1 opening anchor tag linking to tutorial on boldgrid.com for restoring admin menu, 2 closing anchor tag, 3 opening anchor tag to boldgrid settings page.
 printf( __( 'In addition to the video above, we have more detail on things that have changed like the %1$s Admin Menu %2$s (you can change it back %3$s here %2$s).', 'boldgrid-inspirations' ),
@@ -54,8 +40,8 @@ printf( __( 'In addition to the video above, we have more detail on things that 
 	'</a>',
 	'<a href="' . esc_url( add_query_arg( 'page', 'boldgrid-settings', 'admin.php' ) ) . '">'
 );
-
 ?>
+</p>
 
 <div class="boldgrid-button-wrapper-right">
 
