@@ -63,7 +63,7 @@ include BOLDGRID_BASE_DIR . '/pages/templates/attachment_details.php';
 				</ul>
 				<hr />
 				<p>
-					<?php esc_html__( 'While we\'ve tried our best to filter out any explicit images in search results, we cannot guarantee the content of all images in your search results.', 'boldgrid-inspirations' ); ?>
+					<?php esc_html_e( 'While we\'ve tried our best to filter out any explicit images in search results, we cannot guarantee the content of all images in your search results.', 'boldgrid-inspirations' ); ?>
 				</p>
 			</div>
 			<?php
