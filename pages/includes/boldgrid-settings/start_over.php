@@ -105,7 +105,7 @@ if ( true == $this->user_has_built_a_boldgrid_site() || true == $show_start_over
 
 <p>
 	<?php
-	$link = printf( '<span class="dashicons-before dashicons-lightbulb"><a href="%s">BoldGrid Inspirations</a>', esc_url( add_query_arg( 'page', 'boldgrid-inspirations', admin_url( 'admin.php' ) ) ) );
+	$link = sprintf( '<span class="dashicons-before dashicons-lightbulb"><a href="%s">BoldGrid Inspirations</a>', esc_url( add_query_arg( 'page', 'boldgrid-inspirations', admin_url( 'admin.php' ) ) ) );
 	// translators: 1 The url to access BoldGrid Inspirations in your WordPress dashboard.
 	printf( __( 'You do not have a BoldGrid site to delete! You can build a new website using %1$s.', 'boldgrid-inspirations' ), $link );
 	?>
