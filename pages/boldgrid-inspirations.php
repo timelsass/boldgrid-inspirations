@@ -126,7 +126,19 @@ if ( ! empty( $mode_data['has_any_site'] ) ) {
 ?>
 	<div id="screen-content-check-warning" class="hidden screen-contained" style="text-align:center;">
 		<h1><?php echo esc_html__( 'Content Check Warning', 'boldgrid-inspirations' ); ?></h1>
-		<p><?php echo esc_html__( 'We see that you have content on your site already - Make sure you have a backup of your site (Use BoldGrid Backup Plugin) before you install a new Inspiration as all of your content will be erased.', 'boldgrid-inspirations' ); ?></p>
+		<p>
+		<?php echo
+			wp_kses(
+				sprintf(
+					// translators: 1 The opening anchor tag to https://wordpress.org/plugins/boldgrid-backup/, 2 it's closing anchor tag.
+					__( 'We see that you have content on your site already - Make sure you have a backup of your site (Use %1$sBoldGrid Backup Plugin%2$s) before you install a new Inspiration as all of your content will be erased.', 'boldgrid-inspirations' ),
+					'<a href="https://wordpress.org/plugins/boldgrid-backup/" target="_blank">',
+					'</a>'
+				),
+				array( 'a' => array( 'href' => array(), 'target' => array() ) )
+			);
+		?>
+		</p>
 		<a class="button button-primary next-step dashicons-before dashicons-after dashicons-arrow-right-alt"><?php echo esc_html__( 'I Understand - Continue', 'boldgrid-inspirations'); ?></a>
 
 		<p style="margin-top:2em;"><?php esc_html_e( 'If you just want to change your theme and keep your current content in tact, simply change your theme:', 'boldgrid-inspirations' ); ?></p>
