@@ -256,9 +256,13 @@ body:not(.bginsp-full-screen) .top-menu.content {
 }
 
 .top-menu .notice-dismiss:before {
-	content: "\f335";
+	content: "\f211"; /* When in standard view, the collapse icon should become an expand icon. */
 	font: normal 2.5em/20px dashicons;
 	color: #fff;
+}
+
+.bginsp-full-screen .top-menu .notice-dismiss:before {
+	content: "\f506"; /* When in full screen mode, the expand icon should become a collapse icon. */
 }
 
 body.waiting .devices button,

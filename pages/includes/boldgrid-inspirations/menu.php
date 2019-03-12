@@ -49,7 +49,7 @@ $steps = array(
 ?>
 
 <div class="top-menu welcome">
-	<button type="button" class="notice-dismiss">
+	<button type="button" class="notice-dismiss" title="<?php esc_attr_e( 'Toggle full screen', 'boldgrid-inspirations' ); ?>">
 		<span class="screen-reader-text"><?php echo esc_html__( 'Dismiss this notice.', 'boldgrid-inspirations' ); ?></span>
 	</button>
 
