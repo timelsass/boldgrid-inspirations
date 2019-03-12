@@ -249,20 +249,16 @@ body:not(.bginsp-full-screen) .top-menu.content {
 	margin: 10px 10px 0 0;
 }
 
-.top-menu .notice-dismiss:hover:before {
-	color: #565a5d;
-}
-
 .top-menu .notice-dismiss:focus,
 .top-menu .notice-dismiss:active:before,
 .top-menu .notice-dismiss:focus:before {
 	box-shadow: none;
-	color: #72777c;
 }
 
 .top-menu .notice-dismiss:before {
 	content: "\f335";
 	font: normal 2.5em/20px dashicons;
+	color: #fff;
 }
 
 body.waiting .devices button,
