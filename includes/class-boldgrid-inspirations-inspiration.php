@@ -365,6 +365,8 @@ public function boldgrid_style( $hook ) {
 		'settings_page_boldgrid-settings',
 		'appearance_page_boldgrid-staging',
 		'boldgrid_page_boldgrid-cart',
+		// Cart page, not using "BoldGrid Admin Menu system".
+		'inspirations_page_boldgrid-cart',
 	);
 
 	if ( in_array( $hook, $hooks_to_load_grid ) ) {

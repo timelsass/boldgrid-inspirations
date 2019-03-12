@@ -287,12 +287,11 @@ if ( $have_assets_needing_purchase ) {
 				<?php
 					printf(
 						wp_kses(
-							// translators: 1 a link to the BoldGrid TOS, 2 a link to the Fotolia TOS, 3 a link to the 123RF TOS.
-							__( 'I agree to the %1$s, %2$s, and %3$s Terms and Conditions.', 'boldgrid-inspirations' ),
+							// translators: 1 a link to the BoldGrid TOS, 2 a link to the 123RF TOS.
+							__( 'I agree to the %1$s and %2$s Terms and Conditions.', 'boldgrid-inspirations' ),
 							array( 'a' => array( 'href' => array(), 'target' => 'blank' ) )
 						),
 						'<a href="https://www.boldgrid.com/tos" target="_blank">BoldGrid</a>',
-						'<a href="https://www.fotolia.com/Info/Agreements/TermsAndConditions" target="_blank">Fotolia</a>',
 						'<a href="https://www.123rf.com/terms.php" target="_blank">123RF</a>'
 					);
 				?>

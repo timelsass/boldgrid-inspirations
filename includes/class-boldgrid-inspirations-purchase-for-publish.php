@@ -85,7 +85,10 @@ class Boldgrid_Inspirations_Purchase_For_Publish extends Boldgrid_Inspirations {
 
 		// Cart.
 		$cart_hooks = array(
+			// Cart page, when not using "BoldGrid Admin Menu system".
 			'boldgrid_page_boldgrid-cart',
+			// Cart page, when using "BoldGrid Admin Menu system".
+			'inspirations_page_boldgrid-cart',
 			'transactions_page_boldgrid-cart',
 		);
 		if ( in_array( $hook, $cart_hooks ) ) {
