@@ -97,6 +97,20 @@ class Boldgrid_Inspirations_Theme_Install {
 		$response_body = wp_remote_retrieve_body ( $raw_response );
 
 		$response_decoded = json_decode( $response_body );
+
+		/*
+		 * Change $theme->author to $theme->author['display_name'].
+		 *
+		 * This change occurred in WordPress around Feb 2018.
+		 *
+		 * @link https://github.com/WordPress/WordPress/commit/1e5629d1f1440b56d77e2f8cb77cbffd4faf6d49#diff-d2aa2a8fe3d41f489aaaa80a3b74b2fbL3221
+		 */
+		if ( ! empty( $response_decoded->result->data[0]->author ) && is_string( $response_decoded->result->data[0]->author ) ) {
+			$response_decoded->result->data[0]->author = array(
+				'display_name' => $response_decoded->result->data[0]->author,
+			);
+		}
+
 		return ! empty( $response_decoded->result->data ) && is_array( $response_decoded->result->data )
 			? $response_decoded->result->data : array();
 	}
