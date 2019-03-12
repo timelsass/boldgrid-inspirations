@@ -340,6 +340,24 @@ class Boldgrid_Inspirations_My_Inspiration {
 	<?php }
 
 	/**
+	 * Get the URL to the My Inspirations page.
+	 *
+	 * @since 1.7.0
+	 *
+	 * @param  bool $new Whether or not to include the new_inspiration flag.
+	 * @return string
+	 */
+	public static function get_url( $new = false ) {
+		$url = admin_url( 'admin.php?page=my-inspiration' );
+
+		if ( $new ) {
+			$url .= '&new_inspiration=1';
+		}
+
+		return $url;
+	}
+
+	/**
 	 * Render the "My Inspiration" page.
 	 *
 	 * @since 1.7.0

@@ -678,7 +678,8 @@ http://ivomynttinen.com/blog/the-ios-design-cheat-sheet-volume-2
 	vertical-align: top;
 }
 
-p.heading:not(:first-of-type) {
+p.heading:not(:first-of-type),
+.notice.inline {
 	clear: both;
 	margin-top: 35px;
 }

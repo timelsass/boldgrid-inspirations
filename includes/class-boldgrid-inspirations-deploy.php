@@ -1554,10 +1554,7 @@ class Boldgrid_Inspirations_Deploy {
 		// Reach out and hit the front end of the site to make sure all after theme switch hooks are fired.
 		Boldgrid_Inspirations_Utility::inline_js_file( 'deploy_stop_and_explain.js' );
 
-		$this->messages->print_heading( 'complete', esc_html__( '&#10003; Installation complete! Redirecting you to the Inspirations dashboard...', 'boldgrid-inspirations' ) . ' <span class="spinner inline"></span>' );
-
-		// Redirect the user to "My Inspiration".
-		Boldgrid_Inspirations_Utility::inline_js_oneliner( 'window.location.href = "' . admin_url( 'admin.php?page=my-inspiration&new_inspiration=1' ) . '";' );
+		$this->messages->print_complete();
 	}
 
 	/**

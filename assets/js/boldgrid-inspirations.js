@@ -43,6 +43,15 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	self.$contentNotices = $( '#step-content-notices p' );
 
 	/**
+	 * The time deployment has started.
+	 *
+	 * This is a rough time frame, pertains really to when this javascript is loaded.
+	 *
+	 * @since 1.7.0
+	 */
+	self.deployStartTime = Date.now();
+
+	/**
 	 * An array of distinct themes returned from our call to get generic builds.
 	 *
 	 * @since 1.2.6
@@ -1006,8 +1015,50 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		$( function() {
 			if ( '' === Inspiration.isDeploy ) {
 				self.initInspirationsPage();
+			} else {
+				self.initDeployPage();
 			}
 		} );
+	}
+
+	/**
+	 * Init the deploy page.
+	 *
+	 * @since 1.7.0
+	 */
+	this.initDeployPage = function() {
+		$( window ).bind( 'load', self.onDeployFinish );
+	}
+
+	/**
+	 * Steps to take when a deployment has finished.
+	 *
+	 * @since 1.7.0
+	 */
+	this.onDeployFinish = function() {
+		var installTime = Date.now() - self.deployStartTime;
+
+		/*
+		 * Redirect the user to the My Inspirations page (or give them a link).
+		 *
+		 * Because of output buffering issues, we can't always guarantee that the user will see the
+		 * deploying page show items as they're being installed. Sometimes they will just see the
+		 * whole page load at once.
+		 *
+		 * Initial testing shows the following load times:
+		 * 4369 - 5249ms   To install a site that alrady been installed (IE all images and plugins
+		 *                 have already been installed, so install is much faster.
+		 * 20460 - 38495ms To install a standard 3 page website.
+		 *
+		 * If they have a short page load (less than 8000ms), give them a link to the My Inspirations
+		 * page, otherwise automatically redirect them.
+		 */
+		if ( 8000 >= installTime ) {
+			$( '#bginsp_deploy_short' ).show();
+		} else {
+			$( '#bginsp_deploy_long' ).show();
+			window.location.href = Inspiration.myInspirationUrl;
+		}
 	}
 
 	this.initInspirationsPage = function() {

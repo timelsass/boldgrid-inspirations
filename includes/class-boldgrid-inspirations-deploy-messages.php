@@ -83,6 +83,34 @@ class Boldgrid_Inspirations_Deploy_Messages {
 	}
 
 	/**
+	 * Print the Inspirations complete message.
+	 *
+	 * @since 1.7.0
+	 */
+	public function print_complete() {
+		echo '
+			<div class="notice notice-success inline bginsp-deploy-notice hidden" id="bginsp_deploy_long">
+				<p>
+					' . esc_html__( '&#10003; Inspirations Installed Successfully! Redirecting you to the Inspirations dashboard...', 'boldgrid-inspirations' ) . ' <span class="spinner inline"></span>
+				</p>
+			</div>
+			<div class="notice notice-success inline bginsp-deploy-notice hidden" id="bginsp_deploy_short">
+				<p>
+					' . esc_html__( '&#10003; Inspirations Installed Successfully!', 'boldgrid-inspirations' ) . '
+				</p>
+				<p>
+					' . esc_html__( 'Please continue to your Inspirations Dashboard to get started editing pages and customizing your site.', 'boldgrid-inspirations' ) . '
+				</p>
+				<p>
+					<a href="' . esc_url( Boldgrid_Inspirations_My_Inspiration::get_url() ) . '" class="button button-primary">' . esc_html__( 'Go to your Inspirations Dashboard', 'boldgrid-inspirations' ) . '</a>
+				</p>
+			</div>
+		';
+
+		Boldgrid_Inspirations_Utility::inline_js_oneliner( 'scrollToBottom();' );
+	}
+
+	/**
 	 * Print a heading.
 	 *
 	 * @since 1.7.0
