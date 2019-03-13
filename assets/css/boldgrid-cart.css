@@ -34,10 +34,20 @@
 	color: #a8a8a8;
 }
 
-.image-select {
+.image-container .spinner,
+#purchase_for_publish .image-select {
 	position: absolute;
 	top: 10px;
 	right: 10px;
+	margin: 0px;
+}
+
+/*
+ * When an ajax call is being made to update the checked_in_cart attribute, all other checkboxes are
+ * disabled. Change the cursor to show users they are disabled.
+ */
+#purchase_for_publish input[disabled] {
+	cursor: progress;
 }
 
 .image-thumbnail {

@@ -64,34 +64,56 @@ IMHWPB.BoldGrid_Cart = function( configs ) {
 			 */
 			self.toggle_insufficient_funds();
 
-			/*
+			/**
 			 * Action to take when a checkbox is selected for an image.
 			 */
 			$( '.image-select' ).change( function() {
+				var $checkbox   = $( this ),
+					$checkboxes = $( '#purchase_for_publish :checkbox' );
+					image_price = $checkbox.attr( 'data-coin-cost' ),
+					$container  = $checkbox.closest( '.col-md-3' ),
+					checked     = $checkbox.attr( 'checked' ) ? true : false,
+					$spinner    = $( '<span class="spinner inline"></span>' ),
+					// Data for ajax call.
+					data        = {
+						action:   'image_in_shopping_cart_checked',
+						asset_id: $checkbox.data( 'asset-id' ),
+						checked:  checked
+					},
 
-				// The price of this image.
-				var image_price = $( this ).attr( 'data-coin-cost' );
+				$checkbox
+					.hide()
+					.after( $spinner );
 
-				// The column containing this checkbox.
-				var image_container = $( this ).closest( '.col-md-3' );
+				$checkboxes.attr( 'disabled', true );
 
-				// Is the checkbox checked?
-				var checked = $( this ).attr( 'checked' ) ? true : false;
-
-				// If applicable, add opacity to the image to show it's unselectd.
 				if ( checked ) {
-					image_container.removeClass( 'unselected-image' );
 					self.baseAdmin.update_header_cart( image_price );
 				} else {
-					image_container.addClass( 'unselected-image' );
 					self.baseAdmin.update_header_cart( -1 * image_price );
 				}
 
 				self.update_all_price_totals();
 
-				// Update the 'checked_in_cart' attribute of the asset.
-				var asset_id = $( this ).data( 'asset-id' );
-				self.image_in_shopping_cart_checked( asset_id, checked );
+				// Make ajax call to update the asset's 'checked_in_cart' value.
+				$.post( ajaxurl, data, function( response ) {
+					// If applicable, add opacity to the image to show it's unselectd.
+					if ( checked ) {
+						$container.removeClass( 'unselected-image' );
+					} else {
+						$container.addClass( 'unselected-image' );
+					}
+
+					$container.find( '.spinner' ).remove();
+
+					$checkbox.show();
+
+					$checkboxes.removeAttr( 'disabled' );
+
+					if ( 'success' != response ) {
+						alert( self.lang.imageSelection );
+					}
+				} );
 			} );
 
 			// Validate connect_key and submit form to "Purchase all for publishing"
@@ -124,23 +146,6 @@ IMHWPB.BoldGrid_Cart = function( configs ) {
 		 */
 		this.get_total_cost = function() {
 			return Number( total_cost_element.attr( 'data-total-cost' ) );
-		};
-
-		/**
-		 * Update the 'checked_in_cart' attribute of the asset.
-		 */
-		this.image_in_shopping_cart_checked = function( asset_id, checked ) {
-			var data = {
-				action: 'image_in_shopping_cart_checked',
-				asset_id: asset_id,
-				checked: checked
-			};
-
-			$.post( ajaxurl, data, function( response ) {
-				if ( 'success' != response ) {
-					alert( self.lang.imageSelection );
-				}
-			} );
 		};
 
 		/**
