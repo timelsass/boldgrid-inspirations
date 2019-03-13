@@ -51,7 +51,9 @@
 	<tbody>
 		{{#each transaction_item}}
 		<tr data-user-transaction-item-id='{{user_transaction_item_id}}'>
-			<td class='thumbnail'></td>
+			<td class='thumbnail'>
+				<span class="spinner inline"></span>
+			</td>
 			<td>
 				{{description}}
 				{{#ifCond coins '>' 0}}

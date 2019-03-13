@@ -399,19 +399,18 @@ IMHWPB.TransactionHistory = function( configs, $ ) {
 			};
 
 			var success_action = function( response ) {
+				// Get the td that will hold the thumbnail.
+				$thumbnail_td = $( this_td )
+					.closest( 'tr' )
+					.find( '.thumbnail' );
+
 				try {
 					response = JSON.parse( response );
 				} catch ( e ) {
-
-					// error parsing string as jquery
+					// Assume we have an error message, such as, "Unable to get image details".
+					$thumbnail_td.text( response );
 					return;
 				}
-
-				// Get the td that will hold the
-				// thumbnail,
-				$thumbnail_td = jQuery( this_td )
-					.closest( 'tr' )
-					.find( '.thumbnail' );
 
 				// Get the td that will hold the re-download
 				// link.
