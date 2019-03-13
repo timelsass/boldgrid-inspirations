@@ -6,55 +6,66 @@ require BOLDGRID_BASE_DIR . '/pages/templates/restrict-direct-access.php';
 <div class="youtube-container">
 	<div class="youtube-player" data-id="0CMIjXez0nU"></div>
 </div>
-<p>Creating a site with BoldGrid is done in 3 steps:</p>
+<p><?php esc_html_e( 'Creating a site with BoldGrid is done in 3 steps:', 'boldgrid-inspirations' ); ?></p>
 <ol class="boldgrid-counter">
-	<li>Go to
-			<?php
-			// Get BoldGrid settings.
-			$boldgrid_settings = get_option( 'boldgrid_settings' );
+	<li><?php
+		/*
+		 * Create the link to Inspirations.
+		 *
+		 * Show either Inspirations lightbulb or BoldGrid Logo depending on their menu settings.
+		 */
+		$boldgrid_settings = get_option( 'boldgrid_settings' );
+		$inspirations_link = add_query_arg( 'page', 'boldgrid-inspirations', admin_url( 'admin.php' ) );
+		if ( 1 == $boldgrid_settings['boldgrid_menu_option'] ) {
+			$link = sprintf(
+				' <a href="%s" class="dashicons-before dashicons-lightbulb">Inspirations</a> ',
+				esc_url( $inspirations_link )
+			);
+		} else {
+			$link = sprintf(
+				' <a href="%s" class="dashicons-before boldgrid-icon"> BoldGrid</a> ',
+				esc_url( $inspirations_link )
+			);
+		}
 
-			// Show either Inspirations lightbulb or BoldGrid Logo depending on their
-			// menu settings.
-			( 1 == $boldgrid_settings['boldgrid_menu_option'] ? printf(
-				' <a href="%s" class="dashicons-before dashicons-lightbulb">' .
-					 esc_html__( 'Inspirations', 'boldgrid-inspirations' ) . '</a> ',
-					esc_url(
-						add_query_arg( 'page', 'boldgrid-inspirations',
-							admin_url( 'admin.php' ) ) ) ) : printf(
-				' <a href="%s" class="dashicons-before boldgrid-icon"> ' .
-				 esc_html__( 'BoldGrid', 'boldgrid-inspirations' ) . '</a>',
-				esc_url(
-					add_query_arg( 'page', 'boldgrid-inspirations',
-						admin_url( 'admin.php' ) ) ) )
-			);
-			?>
-		to install your starter website and pages typical for your industry.</li>
-	<li>
-		<?php
-			printf( ' <a href="%s" class="dashicons-before dashicons-admin-customize">' .
-				esc_html__( 'Customize', 'boldgrid-inspirations' ) . '</a> ',
-				// Build URL and make sure it's escaped to avoid XSS attacks.
-				esc_url(
-					// Build our query.
-					add_query_arg(
-						// We want to get the proper URL encoded and without slashes since
-						// we are escaping our URL.
-						'return', urlencode( wp_unslash( $_SERVER['REQUEST_URI'] ) ),
-						// Root page to apply our query to.
-						admin_url( 'customize.php' )
-					)
-				)
-			);
-		?>
-		site wide settings like business name, colors, menus and content in your header and footer.</li>
-	<li>Edit your
-		<?php
-			printf( ' <a href="%s" class="dashicons-before dashicons-admin-page">' .
-				esc_html__( 'Pages', 'boldgrid-inspirations' ) . '</a> ',
-				esc_url( add_query_arg( 'post_type', 'page', admin_url( 'edit.php' ) ) )
-			);
-		?>
-		to add your content and photos.</li>
+		echo wp_kses(
+			sprintf(
+				__( 'Go to %1$s to install your starter website and pages typical for your industry.', 'boldgrid-inspirations' ),
+				$link
+			),
+			array( 'a' => array( 'href' => array(), 'class' => array() ) )
+		);
+	?></li>
+	<li><?php
+		// Create link to customizer.
+		$link = sprintf(
+			' <a href="%s" class="dashicons-before dashicons-admin-customize">' . esc_html__( 'Customize', 'boldgrid-inspirations' ) . '</a> ',
+			esc_url( add_query_arg( 'return', urlencode( wp_unslash( $_SERVER['REQUEST_URI'] ) ), admin_url( 'customize.php' ) ) )
+		);
+
+		echo wp_kses(
+			sprintf(
+				__( '%1$s site wide settings like business name, colors, menus and content in your header and footer.', 'boldgrid-inspirations' ),
+				$link
+			),
+			array( 'a' => array( 'href' => array(), 'class' => array() ) )
+		);
+	?></li>
+	<li><?php
+		// Create link to All pages.
+		$link = sprintf(
+			' <a href="%s" class="dashicons-before dashicons-admin-page">' . esc_html__( 'Pages', 'boldgrid-inspirations' ) . '</a> ',
+			esc_url( add_query_arg( 'post_type', 'page', admin_url( 'edit.php' ) ) )
+		);
+
+		echo wp_kses(
+			sprintf(
+				__( 'Edit your %1$s to add your content and photos.', 'boldgrid-inspirations' ),
+				$link
+			),
+			array( 'a' => array( 'href' => array(), 'class' => array() ) )
+		);
+	?></li>
 </ol>
 <p>
 <?php
