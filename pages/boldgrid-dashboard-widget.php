@@ -4,7 +4,7 @@ require BOLDGRID_BASE_DIR . '/pages/templates/restrict-direct-access.php';
 
 $experienced_section_h2 = apply_filters(
 	'boldgrid_experienced_section_h2',
-	'Experienced WordPress Users'
+	esc_html__( 'Experienced WordPress Users', 'boldgrid-inspirations' )
 );
 
 $experienced_section_path = apply_filters(
