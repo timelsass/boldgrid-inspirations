@@ -277,8 +277,10 @@ if ( $have_assets_needing_purchase ) {
 	<div class="container-fluid cart-summary text-right">
 		<div class="row">
 			<div class="col-md-6 col-md-offset-6">
-				BoldGrid Connect Key:
-				<input type="text" name='boldgrid_connect_key' id='boldgrid_connect_key' size="37" maxlength="37" placeholder="XXXXXXXX - XXXXXXXX - XXXXXXXX - XXXXXXXX" autocomplete='off' />
+				<span style="width:30%;">
+					BoldGrid Connect Key:
+				</span>
+				<input style="width:68%;" maxlength="37" type="text" name='boldgrid_connect_key' id='boldgrid_connect_key' placeholder="XXXXXXXX - XXXXXXXX - XXXXXXXX - XXXXXXXX" autocomplete='off' />
 				<div>
 					<a href='https://www.boldgrid.com/support/where-to-get-a-boldgrid-connect-key/' target='_blank'><?php echo esc_html__( 'Lost your BoldGrid Connect Key?', 'boldgrid-inspirations' ); ?></a>
 				</div>
