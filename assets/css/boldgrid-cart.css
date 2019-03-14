@@ -34,7 +34,7 @@
 	color: #a8a8a8;
 }
 
-.image-container .spinner,
+.col-md-3 .spinner,
 #purchase_for_publish .image-select {
 	position: absolute;
 	top: 10px;
