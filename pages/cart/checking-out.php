@@ -52,14 +52,15 @@ h1 .dashicons.dashicons-yes {
 
 			<p><?php echo esc_html__( 'Your images have now downloaded to your Media Library and have replaced the watermarked versions used throughout your site.', 'boldgrid-inspirations' ); ?></p>
 
-			<p>
-				<?php printf(
-						wp_kses(
-							// translators: 1 opening strong tag, 2 closing strong tag.
-							__( 'Should you ever delete a purchased image from your Media Library, you\'ll be able to download them again from the %1$sTransactions &gt; Receipts%2$s page.', 'boldgrid-inspirations' ), '<strong>', '</strong>' ),
-							array( 'strong' => array() )
-						);
-				?>
+			<p><?php echo wp_kses(
+				sprintf(
+					// translators: 1 opening strong tag, 2 closing strong tag.
+					__( 'Should you ever delete a purchased image from your Media Library, you\'ll be able to download them again from the %1$sTransactions &gt; Receipts%2$s page.', 'boldgrid-inspirations' ),
+					'<strong>',
+					'</strong>'
+				),
+				array( 'strong' => array() )
+			); ?></p>
 
 		</div>
 

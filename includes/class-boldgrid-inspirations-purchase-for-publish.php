@@ -412,7 +412,7 @@ class Boldgrid_Inspirations_Purchase_For_Publish extends Boldgrid_Inspirations {
 		$this->send_publish_status( '<li>' . esc_html__( 'Gathering remote data about each image...', 'boldgrid-inspirations' ) . '</li>' );
 		$remote_publish_cost_data = $this->get_remote_publish_cost_data();
 
-		$this->send_publish_status( '<li>' . esc_html_e( 'Checking your coin balance...', 'boldgrid-inspirations' ) . '</li>' );
+		$this->send_publish_status( '<li>' . esc_html__( 'Checking your coin balance...', 'boldgrid-inspirations' ) . '</li>' );
 		$current_copyright_coin_balance = $this->get_current_copyright_coin_balance();
 		$this->send_publish_status(
 			'<li>' .
@@ -625,8 +625,10 @@ class Boldgrid_Inspirations_Purchase_For_Publish extends Boldgrid_Inspirations {
 		';
 		Boldgrid_Inspirations_Utility::inline_js_oneliner( $oneliner );
 
-		ob_flush();
-		flush();
+		if ( ob_get_level() > 0 ) {
+			ob_flush();
+			flush();
+		}
 	}
 
 	/**
