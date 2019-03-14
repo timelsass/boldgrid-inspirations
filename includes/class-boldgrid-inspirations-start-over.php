@@ -315,6 +315,41 @@ class Boldgrid_Inspirations_Start_Over {
 	}
 
 	/**
+	 * Get the user's "default" theme.
+	 *
+	 * The default theme is the first WordPress theme we find. If we can't find a WordPress theme,
+	 * it's the first non BoldGrid theme we find.
+	 *
+	 * @since 1.7.0
+	 *
+	 * @return string
+	 */
+	public function get_default_theme() {
+		$themes = wp_get_themes( array( 'errors' => false, 'allowed' => true ) );
+
+		$wordpress_theme     = null;
+		$non_wordpress_theme = null;
+
+		foreach( $themes as $theme ) {
+			if( 'https://wordpress.org/' === $theme->get( 'AuthorURI' ) ) {
+				$wordpress_theme = empty( $wordpress_theme ) ? $theme : $wordpress_theme;
+			} elseif ( ! Boldgrid_Inspirations_Utility::startsWith( $theme->stylesheet, 'boldgrid' ) ) {
+				$non_wordpress_theme = empty( $non_wordpress_theme ) ? $theme : $non_wordpress_theme;
+			}
+		}
+
+		if ( ! empty( $wordpress_theme ) ) {
+			$stylesheet = $wordpress_theme->stylesheet;
+		} elseif( ! empty( $non_wordpress_theme ) ) {
+			$stylesheet = $non_wordpress_theme->stylesheet;
+		} else {
+			$stylesheet = '';
+		}
+
+		return $stylesheet;
+	}
+
+	/**
 	 * Reset Framework
 	 */
 	public function reset_framework() {
@@ -377,10 +412,9 @@ class Boldgrid_Inspirations_Start_Over {
 		) );
 
 		if ( $this->delete_themes ) {
-			// If the user's current theme is a BoldGrid theme, let's switch the user to
-			// twentyfifteen.
+			// If we currently have a BoldGrid theme, switch to the default theme.
 			if ( Boldgrid_Inspirations_Utility::startsWith( get_stylesheet(), 'boldgrid' ) ) {
-				switch_theme( 'twentyfifteen' );
+				switch_theme( $this->get_default_theme() );
 			}
 
 			// Grab each theme, and see if it has $stylesheet (folder name theme is contained in)
