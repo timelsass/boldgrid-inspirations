@@ -36,6 +36,9 @@ if ( Boldgrid_Inspirations::is_php_compatible() ) {
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-deploy.php';
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-built.php';
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-survey.php';
+	if ( defined( 'WP_CLI' ) && WP_CLI ) {
+		require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-wpcli.php';
+	}
 
 	/*
 	 * Add deploy's init hooks.
