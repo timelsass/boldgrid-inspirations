@@ -388,6 +388,8 @@ public function boldgrid_style( $hook ) {
 
 /**
  * Include all files needed by BoldGrid in the admin panel
+ *
+ * A few files are included right away. Please see boldgrid-inspirations/boldgrid-inspirations.php
  */
 public function include_admin_files() {
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-external-plugin.php';
@@ -397,7 +399,6 @@ public function include_admin_files() {
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-screen.php';
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-update.php';
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-options.php';
-	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-built.php';
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-receipts.php';
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-purchase-coins.php';
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-admin-notices.php';
@@ -447,7 +448,6 @@ public function include_wp_files() {
  * Run the deploy Script.
  */
 public function deploy_script() {
-	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-deploy.php';
 	include BOLDGRID_BASE_DIR . '/pages/deploy.php';
 }
 

@@ -31,8 +31,19 @@ if ( ! class_exists( 'Boldgrid_Inspirations' ) ) {
 
 // If PHP is compatible, then load the rest.
 if ( Boldgrid_Inspirations::is_php_compatible() ) {
-	// Load the inspiration class.
+	// Classes needed ASAP.
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-inspiration.php';
+	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-deploy.php';
+	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-built.php';
+	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-survey.php';
+
+	/*
+	 * Add deploy's init hooks.
+	 *
+	 * Added right now as some hooks require priority 1, while the add_action( 'init' ) call below
+	 * runs at the default 10 priority.
+	 */
+	Boldgrid_Inspirations_Deploy::add_hooks();
 
 	// Instantiate the inspiration class (also loads the parent class Boldgrid_Inspirations).
 	$boldgrid_inspirations_inspiration = new Boldgrid_Inspirations_Inspiration();
@@ -65,7 +76,6 @@ if ( Boldgrid_Inspirations::is_php_compatible() ) {
 	}
 
 	// Inspirations survey. Needs to load ASAP in order to filter bgtfw configs.
-	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-survey.php';
 	$survey = new BoldGrid_Inspirations_Survey();
 	$survey->add_hooks();
 } else {

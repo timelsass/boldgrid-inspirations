@@ -30,6 +30,8 @@ $lang = array(
 	'Welcome'          => __( 'Welcome', 'boldgrid-inspirations' ),
 );
 
+$start_over = ! empty( $_GET['force'] );
+
 ?>
 <div class="wrap main">
 
@@ -283,7 +285,7 @@ if ( ! empty( $mode_data['has_any_site'] ) ) {
 		<input type="text"   name="coin_budget"                    id="coin_budget"                    value="20" >
 		<input type="text"   name="boldgrid_theme_version_type"    id="boldgrid_theme_version_type"    value="<?php echo $theme_channel ?>" >
 		<input type="text"   name="boldgrid_page_set_version_type" id="boldgrid_page_set_version_type" value="<?php echo $theme_channel ?>" >
-		<input type="text"   name="start_over"						id="start_over"                    value="false" >
+		<input type="text"   name="start_over"						id="start_over"                    value="<?php echo $start_over ? '1' : '0'; ?>" >
 		<input type="text"   name="pages"                                                              value="" >
 		<input type="text"   name="staging"                                                            value="" >
 		<input type="hidden" name="_wp_http_referer"                                                   value="/single-site/wp-admin/admin.php?page=boldgrid-inspirations&amp;boldgrid-tab=install" >

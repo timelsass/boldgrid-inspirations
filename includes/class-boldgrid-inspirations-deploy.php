@@ -459,9 +459,7 @@ class Boldgrid_Inspirations_Deploy {
 			$this->is_generic = true;
 		}
 
-		if( isset( $_POST['start_over'] ) && 'true' === $_POST['start_over'] ) {
-			$this->start_over = true;
-		}
+		$this->start_over = ! empty( $_POST['start_over'] ) ? true : $this->start_over;
 
 		/**
 		 * Filter $this->tags_having_background.
@@ -530,6 +528,26 @@ class Boldgrid_Inspirations_Deploy {
 		$boldgrid_install_options = array_merge( $boldgrid_install_options, $remote_options );
 
 		update_option( 'boldgrid_install_options', $boldgrid_install_options );
+	}
+
+	/**
+	 * Add hooks needed for deployment.
+	 *
+	 * This method is triggered very early on, in boldgrid-inspirations/boldgrid-inspirations.php
+	 *
+	 * @since 1.7.0
+	 */
+	public static function add_hooks() {
+		if( Boldgrid_Inspirations_Built::is_inspirations() ) {
+			/*
+			 * Disble the heartbeat on Inspirations pages. We don't want a rouge heartbeat tick
+			 * calling the front page and triggered the after_switch_theme hooks.
+			 */
+			add_action( 'init', function() {
+				wp_deregister_script( 'heartbeat' );
+			}, 1 );
+		}
+
 	}
 
 	/**
@@ -1447,6 +1465,30 @@ class Boldgrid_Inspirations_Deploy {
 	}
 
 	/**
+	 * Finish deployment by making sure all after theme switch hooks are fired.
+	 *
+	 * Reaches out and hits the front end site, which fires all after theme switch hooks.
+	 *
+	 * For this call, we do not want to fire any crons, this may trigger the framework resetting twice.
+	 * # We are sending this via POST because wp-cron.php aborts if $_POST has data.
+	 * # We are sending doing_wp_cron because the cron will not fire if that $_GET var exists.
+	 *
+	 * @since 1.7.0
+	 */
+	private function after_theme_switch() {
+		wp_remote_post(
+			get_site_url() . '?doing_wp_cron=fire-after-theme-switch-hooks',
+			array(
+				'timeout' => 30,
+				'method'  => 'POST',
+				'body'    => array(
+					'dummy_post_data' => 'Dummy post data',
+				),
+			)
+		);
+	}
+
+	/**
 	 * Allow downloads over the backlan.
 	 *
 	 * WordPress blocks 10.x.x.x connections.
@@ -1551,8 +1593,9 @@ class Boldgrid_Inspirations_Deploy {
 			echo '[RETURN_ARRAY]' . json_encode( $this->deploy_results ) . '[RETURN_ARRAY]';
 		}
 
-		// Reach out and hit the front end of the site to make sure all after theme switch hooks are fired.
-		Boldgrid_Inspirations_Utility::inline_js_file( 'deploy_stop_and_explain.js' );
+		$this->messages->print_heading( 'finish', __( 'Wrapping things up...', 'boldgrid-inspirations' ) );
+
+		$this->after_theme_switch();
 
 		$this->messages->print_complete();
 	}
