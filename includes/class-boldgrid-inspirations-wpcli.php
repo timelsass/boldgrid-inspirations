@@ -33,9 +33,16 @@ class Boldgrid_Inspirations_Wpcli {
 	 *
 	 * ## SUBCOMMANDS
 	 *
-	 * get-plugins Get sitewide plugins.
+	 * get-plugins Get a list of sitewide plugins.
 	 *
 	 * ## SUBCOMMAND: get-plugins
+	 *
+	 * Get the list of sitewide plugins that will be installed during a deployment.
+	 *
+	 * During an Inspirations deployment, there are sitewide plugins and there are per page plugins.
+	 * A sitewide plugin is a plugin that will be installed during each Inspirations deployment,
+	 * regardless of the pages installed. A per page plugin is a plugin that is installed in support
+	 * of a certain page. For example, if you have a "Contact Us" page, it will need a forms plugin.
 	 *
 	 * # OPTIONS
 	 *
