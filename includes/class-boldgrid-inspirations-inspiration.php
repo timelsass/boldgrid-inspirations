@@ -71,6 +71,15 @@ class Boldgrid_Inspirations_Inspiration extends Boldgrid_Inspirations {
 		if ( $passes_api_check ) {
 			$this->add_hooks();
 		}
+
+		// Redirect to Inspirations if we just saved a key sent to us from BoldGrid Central.
+		add_action( 'Boldgrid\Library\Key\postNewKey', function( $action ){
+			if ( 'bginsp' === $action ) {
+				if ( wp_redirect( admin_url( 'admin.php?page=boldgrid-inspirations&section=design' ) ) ) {
+					exit;
+				}
+			}
+		} );
 	}
 
 	/**

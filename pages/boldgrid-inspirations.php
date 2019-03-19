@@ -32,6 +32,66 @@ $lang = array(
 
 $start_over = ! empty( $_GET['force'] );
 
+// Whether or not we need to show the user the "Content Check Warning" screen.
+$show_content_warning = ! empty( $mode_data['has_any_site'] );
+
+$sections = array(
+	'welcome' => array(
+		'classes' => array(
+			'screen-contained',
+		),
+	),
+	'api-key' => array(
+		'classes' => array(
+			'hidden',
+			'screen-contained',
+		),
+	),
+	'content-check-warning' => array(
+		'classes' => array(
+			'hidden',
+			'screen-contained',
+		),
+	),
+	'design' => array(
+		'classes' => array(
+			'hidden',
+		),
+	),
+	'content' => array(
+		'classes' => array(
+			'hidden',
+		),
+	),
+	'contact' => array(
+		'classes' => array(
+			'hidden',
+			'screen-contained',
+		),
+	),
+);
+
+/*
+ * Allow the design section to load first instead of the "Welcome" section. Primarily used after
+ * BoldGrid Central sends us a new key and we need to resume the Inspirations process at the design
+ * step.
+ */
+$section = ! empty( $_GET['section'] ) ? $_GET['section'] : '';
+
+// If we are forcing the design section first (see comment above), adjust our screens as needed.
+if ( 'design' === $section ) {
+	$sections['welcome']['classes'] = array( 'hidden' );
+
+	switch( $show_content_warning ) {
+		case true:
+			$sections['content-check-warning']['classes'] = array( 'screen-containted' );
+			break;
+		case false:
+			$sections['design']['classes'] = array();
+			break;
+	}
+}
+
 ?>
 <div class="wrap main">
 
@@ -41,7 +101,7 @@ $start_over = ! empty( $_GET['force'] );
 
 	<div style="clear:both;"></div>
 
-	<div id="screen-welcome" class="screen-contained" style="max-width:800px;">
+	<div id="screen-welcome" class="<?php echo implode( ' ', $sections['welcome']['classes'] ); ?>" style="max-width:800px;">
 
 		<div style="text-align:center; margin-bottom:24px;">
 
@@ -120,13 +180,13 @@ $start_over = ! empty( $_GET['force'] );
 <?php
 if ( $prompting_for_key ) {
 ?>
-	<div id="screen-api-key" class="hidden screen-contained">
+	<div id="screen-api-key" class="<?php echo implode( ' ', $sections['api-key']['classes'] ); ?>">
 	</div>
 <?php
 }
-if ( ! empty( $mode_data['has_any_site'] ) ) {
+if ( $show_content_warning ) {
 ?>
-	<div id="screen-content-check-warning" class="hidden screen-contained" style="text-align:center;">
+	<div id="screen-content-check-warning" class="<?php echo implode( ' ', $sections['content-check-warning']['classes'] ); ?>" style="text-align:center;">
 		<h1><?php echo esc_html__( 'Content Check Warning', 'boldgrid-inspirations' ); ?></h1>
 		<p>
 		<?php echo
@@ -150,7 +210,7 @@ if ( ! empty( $mode_data['has_any_site'] ) ) {
 }
 ?>
 
-	<div id="screen-design" class="hidden">
+	<div id="screen-design" class="<?php echo implode( ' ', $sections['design']['classes'] ); ?>">
 		<div class="inspirations-mobile-toggle">
 			<!-- Mobile Filter-->
 				<div class="wp-filter">
@@ -178,7 +238,7 @@ if ( ! empty( $mode_data['has_any_site'] ) ) {
 
 	<div style="clear:both;"></div>
 
-	<div id="screen-content" class="hidden" >
+	<div id="screen-content" class="<?php echo implode( ' ', $sections['content']['classes'] ); ?>" >
 		<div class="inspirations-mobile-toggle">
 			<!-- Mobile Filter-->
 				<div class="wp-filter">
@@ -198,24 +258,6 @@ if ( ! empty( $mode_data['has_any_site'] ) ) {
 					<div id="blog-toggle" class="toggle toggle-light"></div>
 				</div>
 			</div>
-			<!--
-			<div class="content-menu-section">
-				<div class="coin-filter imgedit-group-top">
-					<?php echo $lang['CoinBudget']; ?> <span class="dashicons dashicons-editor-help" onclick="imageEdit.toggleHelp(this);return false;" aria-expanded='false' ></span>
-					<p class="imgedit-help">
-						Copyright Coins allow you to easily purchase content with paid
-						licenses. You will not be charged until you download images <b>without</b>
-						watermarks.
-					</p>
-				</div>
-
-				<div class="coin-option active" data-coin="20">0 - 20 <?php echo $lang['Coins']; ?></div>
-				<div class="coin-option"        data-coin="40">0 - 40 <?php echo $lang['Coins']; ?></div>
-				<div class="coin-option"        data-coin="60">0 - 60 <?php echo $lang['Coins']; ?></div>
-				<div class="coin-option"        data-coin="80">0 - 80 <?php echo $lang['Coins']; ?></div>
-				<div class="coin-option"        data-coin="0">        <?php echo $lang['Free'];  ?></div>
-			</div>
-			-->
 		</div>
 
 		<div class="right">
@@ -261,7 +303,7 @@ if ( ! empty( $mode_data['has_any_site'] ) ) {
 
 	<div style="clear:both;"></div>
 
-	<div id="screen-contact" class="hidden screen-contained">
+	<div id="screen-contact" class="<?php echo implode( ' ', $sections['contact']['classes'] ); ?>">
 		<?php
 		// Contact template.
 		include BOLDGRID_BASE_DIR . '/pages/includes/boldgrid-inspirations/contact.php';

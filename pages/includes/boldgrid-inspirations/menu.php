@@ -13,6 +13,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 $active_menu_item = empty( $active_menu_item ) ? 'welcome' : $active_menu_item;
 
+// The $section & $show_content_warning vars are set in pages/boldgrid-inspirations.php
+if ( ! empty( $section ) && 'design' === $section && empty( $show_content_warning ) ) {
+	$active_menu_item = 'design';
+}
+
 $steps = array(
 	array(
 		'class'     => 'welcome' === $active_menu_item ? 'active' : 'disabled',
@@ -21,9 +26,9 @@ $steps = array(
 		'title'     => esc_html__( 'Welcome', 'boldgrid-inspirations' ),
 	),
 	array(
-		'class'     => 'disabled',
+		'class'     => 'design' === $active_menu_item ? 'active' : 'disabled',
 		'data-step' => 'design',
-		'disabled'  => true,
+		'disabled'  => 'design' !== $active_menu_item,
 		'title'     => esc_html__( 'Design', 'boldgrid-inspirations' ),
 	),
 	array(

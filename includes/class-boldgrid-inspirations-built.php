@@ -104,6 +104,15 @@ class Boldgrid_Inspirations_Built {
 				$classes .= ' bginsp-full-screen';
 				return $classes;
 			} );
+
+			/*
+			 * If we're on the Inspirations page, the "Get a key" link should add "bginsp" as the
+			 * "postNewKey" value (The action to take after BoldGrid Central gives us a key and we
+			 * save it.
+			 */
+			add_filter( 'Boldgrid\Library\Views\KeyPrompt\postNewKey', function( $action ) {
+				return 'bginsp';
+			} );
 		}
 	}
 
