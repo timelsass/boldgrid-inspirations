@@ -22,7 +22,7 @@ $steps = array(
 	array(
 		'class'     => 'welcome' === $active_menu_item ? 'active' : 'disabled',
 		'data-step' => 'welcome',
-		'disabled'  => 'welcome' === $active_menu_item ? false : true,
+		'disabled'  => false,
 		'title'     => esc_html__( 'Welcome', 'boldgrid-inspirations' ),
 	),
 	array(
