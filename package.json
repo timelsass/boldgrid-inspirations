@@ -7,6 +7,8 @@
     "test": "tests"
   },
   "scripts": {
+    "build": "gulp && npm run create-pot",
+    "create-pot": "php -d xdebug.max_nesting_level=500 \"$(which wp)\" i18n make-pot . languages/boldgrid-inspirations.pot",
     "postinstall": "gulp",
     "js-lint": "prettier-eslint assets/**/*.js --list-different",
     "js-lint-fix": "prettier-eslint assets/**/*.js --write"
