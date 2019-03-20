@@ -18,7 +18,7 @@ require BOLDGRID_BASE_DIR . '/pages/templates/restrict-direct-access.php';
 		$inspirations_link = add_query_arg( 'page', 'boldgrid-inspirations', admin_url( 'admin.php' ) );
 		if ( 1 == $boldgrid_settings['boldgrid_menu_option'] ) {
 			$link = sprintf(
-				' <a href="%s" class="dashicons-before dashicons-lightbulb">Inspirations</a> ',
+				' <a href="%s" class="dashicons-before dashicons-lightbulb"> Inspirations</a> ',
 				esc_url( $inspirations_link )
 			);
 		} else {
@@ -30,6 +30,7 @@ require BOLDGRID_BASE_DIR . '/pages/templates/restrict-direct-access.php';
 
 		echo wp_kses(
 			sprintf(
+				// translators: 1 A complete anchor tag (both opening and closing tag) linking to Inspirations within the dashboard.
 				__( 'Go to %1$s to install your starter website and pages typical for your industry.', 'boldgrid-inspirations' ),
 				$link
 			),
@@ -45,6 +46,7 @@ require BOLDGRID_BASE_DIR . '/pages/templates/restrict-direct-access.php';
 
 		echo wp_kses(
 			sprintf(
+				// translators: 1 A complete anchor tag (both opening and closing tag) linking to the Customizer.
 				__( '%1$s site wide settings like business name, colors, menus and content in your header and footer.', 'boldgrid-inspirations' ),
 				$link
 			),
@@ -59,6 +61,7 @@ require BOLDGRID_BASE_DIR . '/pages/templates/restrict-direct-access.php';
 		);
 
 		echo wp_kses(
+			// translators: 1 a complete anchor tag (both opening and closing tag) linking to Dashboard > Pages.
 			sprintf(
 				__( 'Edit your %1$s to add your content and photos.', 'boldgrid-inspirations' ),
 				$link

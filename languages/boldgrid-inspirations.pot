@@ -2,15 +2,15 @@
 # This file is distributed under the same license as the BoldGrid Inspirations plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: BoldGrid Inspirations 1.6.5\n"
+"Project-Id-Version: BoldGrid Inspirations 1.7.0-rc.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/boldgrid-inspirations\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2019-03-04T11:53:31-05:00\n"
-"PO-Revision-Date: 2019-03-04T11:53:31-05:00\n"
+"POT-Creation-Date: 2019-03-20T08:31:36-04:00\n"
+"PO-Revision-Date: 2019-03-20T08:31:36-04:00\n"
 "X-Generator: WP-CLI 2.0.1\n"
 "X-Domain: boldgrid-inspirations\n"
 
@@ -34,33 +34,44 @@ msgstr ""
 msgid "https://www.boldgrid.com/"
 msgstr ""
 
-#: pages/boldgrid-dashboard-first-time-users.php:20
-msgid "Inspirations"
+#: pages/boldgrid-dashboard-first-time-users.php:9
+msgid "Creating a site with BoldGrid is done in 3 steps:"
 msgstr ""
 
-#: pages/boldgrid-dashboard-first-time-users.php:25
-msgid "BoldGrid"
+#. translators: 1 A complete anchor tag (both opening and closing tag) linking to Inspirations within the dashboard.
+#: pages/boldgrid-dashboard-first-time-users.php:34
+msgid "Go to %1$s to install your starter website and pages typical for your industry."
 msgstr ""
 
-#: pages/boldgrid-dashboard-first-time-users.php:35
+#: pages/boldgrid-dashboard-first-time-users.php:43
 msgid "Customize"
 msgstr ""
 
-#: pages/boldgrid-dashboard-first-time-users.php:53
+#. translators: 1 A complete anchor tag (both opening and closing tag) linking to the Customizer.
+#: pages/boldgrid-dashboard-first-time-users.php:50
+msgid "%1$s site wide settings like business name, colors, menus and content in your header and footer."
+msgstr ""
+
+#: pages/boldgrid-dashboard-first-time-users.php:59
 msgid "Pages"
 msgstr ""
 
+#. translators: 1 a complete anchor tag (both opening and closing tag) linking to Dashboard > Pages.
+#: pages/boldgrid-dashboard-first-time-users.php:66
+msgid "Edit your %1$s to add your content and photos."
+msgstr ""
+
 #. translators: 1 opening anchor tag linking to BoldGrid support center, 2 closing anchor tag.
-#: pages/boldgrid-dashboard-first-time-users.php:62
+#: pages/boldgrid-dashboard-first-time-users.php:76
 msgid "Watching the video above is recommended.  You can also visit our %1$s support center %2$s to learn more."
 msgstr ""
 
-#: pages/boldgrid-dashboard-first-time-users.php:71
-#: pages/boldgrid-dashboard-advanced-wp-users.php:62
+#: pages/boldgrid-dashboard-first-time-users.php:85
+#: pages/boldgrid-dashboard-advanced-wp-users.php:48
 msgid "Learn More"
 msgstr ""
 
-#: pages/boldgrid-dashboard-first-time-users.php:80
+#: pages/boldgrid-dashboard-first-time-users.php:94
 msgid "Get Started"
 msgstr ""
 
@@ -72,17 +83,17 @@ msgstr ""
 #: includes/class-boldgrid-inspirations-blog.php:51
 #: includes/class-boldgrid-inspirations-blog.php:56
 #: includes/class-boldgrid-inspirations-blog.php:70
-#: includes/class-boldgrid-inspirations-my-inspiration.php:245
+#: includes/class-boldgrid-inspirations-my-inspiration.php:246
 msgid "Blog"
 msgstr ""
 
 #: pages/boldgrid-inspirations.php:19
-#: pages/includes/boldgrid-inspirations/menu.php:27
+#: pages/includes/boldgrid-inspirations/menu.php:32
 msgid "Design"
 msgstr ""
 
 #: pages/boldgrid-inspirations.php:20
-#: pages/includes/boldgrid-inspirations/menu.php:33
+#: pages/includes/boldgrid-inspirations/menu.php:38
 msgid "Content"
 msgstr ""
 
@@ -95,7 +106,7 @@ msgstr ""
 #: pages/templates/attachment_details.php:111
 #: pages/templates/transaction_history.php:13
 #: pages/templates/transaction_history.php:47
-#: includes/class-boldgrid-inspirations-built.php:553
+#: includes/class-boldgrid-inspirations-built.php:592
 msgid "Coins"
 msgstr ""
 
@@ -130,89 +141,90 @@ msgid "Next"
 msgstr ""
 
 #: pages/boldgrid-inspirations.php:30
-#: pages/includes/boldgrid-inspirations/menu.php:21
+#: pages/includes/boldgrid-inspirations/menu.php:26
 msgid "Welcome"
 msgstr ""
 
-#: pages/boldgrid-inspirations.php:52
+#: pages/boldgrid-inspirations.php:114
 msgid "Just 3 Simple Steps to Get Started:"
 msgstr ""
 
-#: pages/boldgrid-inspirations.php:58
+#: pages/boldgrid-inspirations.php:120
 msgid "Choose a theme design"
 msgstr ""
 
-#: pages/boldgrid-inspirations.php:67
+#: pages/boldgrid-inspirations.php:129
 msgid "Choose page options"
 msgstr ""
 
-#: pages/boldgrid-inspirations.php:76
+#: pages/boldgrid-inspirations.php:138
 msgid "Enter Essential info"
 msgstr ""
 
 #. translators: 1 Opening span tag which will surround "Install", 2 its closing span tag.
-#: pages/boldgrid-inspirations.php:89
+#: pages/boldgrid-inspirations.php:151
 msgid "Click %1$sInstall%2$s and you're ready to customize and design with our intuitive interface."
 msgstr ""
 
-#: pages/boldgrid-inspirations.php:96
+#: pages/boldgrid-inspirations.php:158
 msgid "Don't worry, if you make a mistake or change your mind, you can start over with a single click!"
 msgstr ""
 
-#: pages/boldgrid-inspirations.php:106
+#: pages/boldgrid-inspirations.php:168
 msgid "Inspirations is a tool to inspire and create. Choose from a large repository of themes, use demo content as a start or make your own with the easy to use design tools. Customize to your heart's content and add useful plugin functionality. Publish and be proud of your new site."
 msgstr ""
 
-#: pages/boldgrid-inspirations.php:110
+#: pages/boldgrid-inspirations.php:172
 msgid "Let's Get Started!"
 msgstr ""
 
-#: pages/boldgrid-inspirations.php:128
+#: pages/boldgrid-inspirations.php:190
 msgid "Content Check Warning"
 msgstr ""
 
-#: pages/boldgrid-inspirations.php:129
-msgid "We see that you have content on your site already - Make sure you have a backup of your site (Use BoldGrid Backup Plugin) before you install a new Inspiration as all of your content will be erased."
+#. translators: 1 The opening anchor tag to https://wordpress.org/plugins/boldgrid-backup/, 2 it's closing anchor tag.
+#: pages/boldgrid-inspirations.php:196
+msgid "We see that you have content on your site already - Make sure you have a backup of your site (Use %1$sBoldGrid Backup Plugin%2$s) before you install a new Inspiration as all of your content will be erased."
 msgstr ""
 
-#: pages/boldgrid-inspirations.php:130
+#: pages/boldgrid-inspirations.php:204
 msgid "I Understand - Continue"
 msgstr ""
 
-#: pages/boldgrid-inspirations.php:132
+#: pages/boldgrid-inspirations.php:206
 msgid "If you just want to change your theme and keep your current content in tact, simply change your theme:"
 msgstr ""
 
-#: pages/boldgrid-inspirations.php:133
+#: pages/boldgrid-inspirations.php:207
 msgid "Go to Customize > Add Themes"
 msgstr ""
 
-#: pages/boldgrid-inspirations.php:144
+#: pages/boldgrid-inspirations.php:218
 #: pages/templates/boldgrid-inspirations.php:6
 msgid "All"
 msgstr ""
 
-#: pages/boldgrid-inspirations.php:147
+#: pages/boldgrid-inspirations.php:221
 msgid "Show All"
 msgstr ""
 
-#: pages/boldgrid-inspirations.php:149
+#: pages/boldgrid-inspirations.php:223
 msgid "Filter Themes"
 msgstr ""
 
-#: pages/boldgrid-inspirations.php:158
+#: pages/boldgrid-inspirations.php:232
 msgid "Choose a theme to start your design. A theme sets the basics of layout, type and colors but you can customize each once you start designing."
 msgstr ""
 
-#: pages/boldgrid-inspirations.php:171
+#: pages/boldgrid-inspirations.php:245
 msgid "Change Content"
 msgstr ""
 
-#: pages/boldgrid-inspirations.php:210
+#: pages/boldgrid-inspirations.php:266
 msgid "Choose the basic pages you wish to start with, and any additional features."
 msgstr ""
 
-#: pages/boldgrid-inspirations.php:232
+#: pages/boldgrid-inspirations.php:288
 #: pages/includes/boldgrid-inspirations/contact.php:4
 msgid "Back"
 msgstr ""
@@ -234,24 +246,24 @@ msgstr ""
 msgid "Whoops! It looks like you'll need more Coins for this transaction. You can remove images or %1$sPurchase More Coins%2$s."
 msgstr ""
 
-#: pages/cart.php:283
+#: pages/cart.php:285
 msgid "Lost your BoldGrid Connect Key?"
 msgstr ""
 
-#. translators: 1 a link to the BoldGrid TOS, 2 a link to the Fotolia TOS, 3 a link to the 123RF TOS.
-#: pages/cart.php:291
-msgid "I agree to the %1$s, %2$s, and %3$s Terms and Conditions."
+#. translators: 1 a link to the BoldGrid TOS, 2 a link to the 123RF TOS.
+#: pages/cart.php:293
+msgid "I agree to the %1$s and %2$s Terms and Conditions."
 msgstr ""
 
-#: pages/cart.php:308
+#: pages/cart.php:309
 msgid "Purchase More Coins"
 msgstr ""
 
-#: pages/cart.php:315
+#: pages/cart.php:316
 msgid "Purchase for Publishing"
 msgstr ""
 
-#: pages/cart.php:332
+#: pages/cart.php:333
 msgid "There are currently no assets needing purchase."
 msgstr ""
 
@@ -264,7 +276,7 @@ msgid "In menu"
 msgstr ""
 
 #: pages/includes/post_submitbox_misc_actions_auto_add_to_menu.php:14
-#: includes/class-boldgrid-inspirations-my-inspiration.php:270
+#: includes/class-boldgrid-inspirations-my-inspiration.php:271
 msgid "Edit"
 msgstr ""
 
@@ -288,7 +300,7 @@ msgstr ""
 #: pages/templates/feedback-widget.php:48
 #: pages/templates/feedback-notice-1-1.php:18
 #: pages/templates/feedback-notice-1-1.php:60
-#: includes/class-boldgrid-inspirations-built.php:562
+#: includes/class-boldgrid-inspirations-built.php:602
 msgid "Select"
 msgstr ""
 
@@ -341,15 +353,19 @@ msgstr ""
 msgid "Finish and Install"
 msgstr ""
 
-#: pages/includes/boldgrid-inspirations/menu.php:39
+#: pages/includes/boldgrid-inspirations/menu.php:44
 msgid "Essentials"
 msgstr ""
 
-#: pages/includes/boldgrid-inspirations/menu.php:45
+#: pages/includes/boldgrid-inspirations/menu.php:50
 msgid "Finish"
 msgstr ""
 
-#: pages/includes/boldgrid-inspirations/menu.php:53
+#: pages/includes/boldgrid-inspirations/menu.php:57
+msgid "Toggle full screen"
+msgstr ""
+
+#: pages/includes/boldgrid-inspirations/menu.php:58
 msgid "Dismiss this notice."
 msgstr ""
 
@@ -411,7 +427,7 @@ msgid "Staging"
 msgstr ""
 
 #: pages/includes/boldgrid-settings/start_over.php:84
-msgid "BoldGrid Plugins and Themes:"
+msgid "BoldGrid Themes:"
 msgstr ""
 
 #: pages/includes/boldgrid-settings/start_over.php:87
@@ -440,23 +456,14 @@ msgstr ""
 msgid " BoldGrid"
 msgstr ""
 
-#: pages/boldgrid-dashboard-advanced-wp-users.php:36
-msgid "Is this WordPress running a live website?"
-msgstr ""
-
-#. translators: 1 opening anchor tag linking to tutorial on boldgrid.com for setting up the staging plugin, 2 closing anchor tag.
-#: pages/boldgrid-dashboard-advanced-wp-users.php:41
-msgid "Our %1$s Staging Plugin %2$s will help you transition to a new site while running your current Active Site."
-msgstr ""
-
 #. translators: 1 opening anchor tag linking to tutorial on boldgrid.com for restoring admin menu, 2 closing anchor tag, 3 opening anchor tag to boldgrid settings page.
-#: pages/boldgrid-dashboard-advanced-wp-users.php:52
+#: pages/boldgrid-dashboard-advanced-wp-users.php:38
 msgid "In addition to the video above, we have more detail on things that have changed like the %1$s Admin Menu %2$s (you can change it back %3$s here %2$s)."
 msgstr ""
 
 #: pages/my-inspiration.php:22
-#: includes/class-boldgrid-inspirations-my-inspiration.php:182
 #: includes/class-boldgrid-inspirations-my-inspiration.php:183
+#: includes/class-boldgrid-inspirations-my-inspiration.php:184
 msgid "My Inspiration"
 msgstr ""
 
@@ -485,15 +492,15 @@ msgid "Your images have now downloaded to your Media Library and have replaced t
 msgstr ""
 
 #. translators: 1 opening strong tag, 2 closing strong tag.
-#: pages/cart/checking-out.php:59
+#: pages/cart/checking-out.php:58
 msgid "Should you ever delete a purchased image from your Media Library, you'll be able to download them again from the %1$sTransactions &gt; Receipts%2$s page."
 msgstr ""
 
-#: pages/cart/checking-out.php:68
+#: pages/cart/checking-out.php:69
 msgid "Visit Your Site"
 msgstr ""
 
-#: pages/cart/checking-out.php:69
+#: pages/cart/checking-out.php:70
 msgid "Continue to your Dashboard"
 msgstr ""
 
@@ -537,6 +544,10 @@ msgstr ""
 
 #: pages/image_search.php:66
 msgid "While we've tried our best to filter out any explicit images in search results, we cannot guarantee the content of all images in your search results."
+msgstr ""
+
+#: pages/boldgrid-dashboard-widget.php:7
+msgid "Experienced WordPress Users"
 msgstr ""
 
 #: pages/boldgrid-dashboard-widget.php:22
@@ -841,7 +852,7 @@ msgid "This {{provider_title}} image has been marked by its publisher with the f
 msgstr ""
 
 #: pages/templates/attachment_details.php:155
-#: includes/class-boldgrid-inspirations-built.php:565
+#: includes/class-boldgrid-inspirations-built.php:605
 msgid "Try again"
 msgstr ""
 
@@ -877,11 +888,11 @@ msgstr ""
 msgid "Invoice for Transaction ID:"
 msgstr ""
 
-#: pages/templates/transaction_history.php:59
+#: pages/templates/transaction_history.php:61
 msgid "Processed by"
 msgstr ""
 
-#: pages/templates/transaction_history.php:76
+#: pages/templates/transaction_history.php:78
 msgid "Invoices"
 msgstr ""
 
@@ -1020,111 +1031,111 @@ msgstr ""
 msgid "Congratulations, you've just installed your new website! Below you'll find tips to help you begin customizing your site."
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-deploy.php:721
+#: includes/class-boldgrid-inspirations-deploy.php:739
 msgid "Error: Failed to retrieve theme!"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-deploy.php:727
+#: includes/class-boldgrid-inspirations-deploy.php:745
 msgid "Error: Received an unsuccessful return code when retrieving theme information!"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-deploy.php:857
+#: includes/class-boldgrid-inspirations-deploy.php:875
 msgid "Error: Exceeded max theme install attempts!"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-deploy.php:956
+#: includes/class-boldgrid-inspirations-deploy.php:974
 msgid "Error: Exiting theme deployment."
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-deploy.php:1155
+#: includes/class-boldgrid-inspirations-deploy.php:1173
 msgid "WP ERROR"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-deploy.php:1159
+#: includes/class-boldgrid-inspirations-deploy.php:1177
 msgid "Error: Asset server did not return HTTP 200 OK!"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-deploy.php:1163
+#: includes/class-boldgrid-inspirations-deploy.php:1181
 msgid "Error: Asset server returned an empty data set!"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-deploy.php:1379
+#: includes/class-boldgrid-inspirations-deploy.php:1397
 msgid "Error downloading asset."
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-deploy.php:1472
+#: includes/class-boldgrid-inspirations-deploy.php:1514
 msgid "Deployment failed. We're sorry but unfortunately the site deployment failed with the following message:"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-deploy.php:1555
-msgid "&#10003; Installation complete! Redirecting you to the Inspirations dashboard..."
+#: includes/class-boldgrid-inspirations-deploy.php:1596
+msgid "Wrapping things up..."
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-deploy.php:1583
+#: includes/class-boldgrid-inspirations-deploy.php:1625
 msgid "Error downloading plugin list."
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-deploy.php:1626
+#: includes/class-boldgrid-inspirations-deploy.php:1668
 msgid "The following existing plugins where activated for use on your new BoldGrid site:"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-deploy.php:1677
+#: includes/class-boldgrid-inspirations-deploy.php:1719
 msgid "Error: Form plugin activation failed!"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-deploy.php:1689
+#: includes/class-boldgrid-inspirations-deploy.php:1731
 msgid "Error: Plugin installation failed!"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-deploy.php:1714
+#: includes/class-boldgrid-inspirations-deploy.php:1756
 msgid "Plugin activation failed."
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-deploy.php:1808
+#: includes/class-boldgrid-inspirations-deploy.php:1850
 msgid "Error: Plugin activation failed!"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-deploy.php:2147
+#: includes/class-boldgrid-inspirations-deploy.php:2189
 msgid "Theme deployment failed.  Please choose another theme."
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-built.php:75
+#: includes/class-boldgrid-inspirations-built.php:85
 msgid "We're almost ready to start your site!"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-built.php:555
+#: includes/class-boldgrid-inspirations-built.php:594
 msgid "Fetching themes..."
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-built.php:556
+#: includes/class-boldgrid-inspirations-built.php:595
 msgid "Fetching categories..."
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-built.php:557
+#: includes/class-boldgrid-inspirations-built.php:596
 msgid "There was an error fetching themes."
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-built.php:558
+#: includes/class-boldgrid-inspirations-built.php:597
 msgid "There was an error fetching categories."
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-built.php:559
+#: includes/class-boldgrid-inspirations-built.php:598
 msgid "There was an error fetching pagesets."
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-built.php:560
+#: includes/class-boldgrid-inspirations-built.php:599
 msgid "There was an error building your custom website preview."
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-built.php:561
+#: includes/class-boldgrid-inspirations-built.php:601
 msgid "Connection timed out when attempting to load custom website preview."
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-built.php:563
+#: includes/class-boldgrid-inspirations-built.php:603
 msgid "Please try again in a few minutes."
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-built.php:564
+#: includes/class-boldgrid-inspirations-built.php:604
 msgid "Please try again in a few seconds."
 msgstr ""
 
@@ -1364,107 +1375,114 @@ msgstr ""
 msgid "Receipts"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-purchase-for-publish.php:111
+#: includes/class-boldgrid-inspirations-purchase-for-publish.php:114
 msgid "Error, image selection has not been updated."
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-purchase-for-publish.php:112
+#: includes/class-boldgrid-inspirations-purchase-for-publish.php:115
 msgid "Please enter your BoldGrid Connect Key!"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-purchase-for-publish.php:113
+#: includes/class-boldgrid-inspirations-purchase-for-publish.php:116
 msgid "Invalid BoldGrid Connect Key!"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-purchase-for-publish.php:114
+#: includes/class-boldgrid-inspirations-purchase-for-publish.php:117
 msgid "Your BoldGrid Connect Key appears to be invalid, it is too short."
 msgstr ""
 
 #. translators: 1 A break tag, please insert the break tag in the middle of the sentence.
-#: includes/class-boldgrid-inspirations-purchase-for-publish.php:117
+#: includes/class-boldgrid-inspirations-purchase-for-publish.php:120
 msgid "Please review the terms of service and%1$scheck the box above if you agree."
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-purchase-for-publish.php:199
+#: includes/class-boldgrid-inspirations-purchase-for-publish.php:202
 msgid "Insufficient permissions"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-purchase-for-publish.php:291
-#: includes/class-boldgrid-inspirations-purchase-for-publish.php:404
+#: includes/class-boldgrid-inspirations-purchase-for-publish.php:294
+#: includes/class-boldgrid-inspirations-purchase-for-publish.php:407
 msgid "Error: We have no local cost data"
 msgstr ""
 
 #. translators: 1 The count of watermarked images on this page, 'Image' or 'Images', 3 a link to where the user can purchase these images.
-#: includes/class-boldgrid-inspirations-purchase-for-publish.php:378
+#: includes/class-boldgrid-inspirations-purchase-for-publish.php:381
 msgid "Watermarked: <strong>%1$u %2$s</strong> %3$s"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-purchase-for-publish.php:399
+#: includes/class-boldgrid-inspirations-purchase-for-publish.php:402
 msgid "Gathering local data about images needing purchase..."
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-purchase-for-publish.php:409
+#: includes/class-boldgrid-inspirations-purchase-for-publish.php:412
 msgid "Gathering remote data about each image..."
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-purchase-for-publish.php:412
+#: includes/class-boldgrid-inspirations-purchase-for-publish.php:415
 msgid "Checking your coin balance..."
 msgstr ""
 
 #. translators: 1 The user's current Copyright Coin balance.
-#: includes/class-boldgrid-inspirations-purchase-for-publish.php:418
+#: includes/class-boldgrid-inspirations-purchase-for-publish.php:421
 msgid "Available coin balance before purchase is: %1$s"
 msgstr ""
 
 #. translators: 1 The opening anchor tag to our Cart page, 2 its closing anchor tag.
-#: includes/class-boldgrid-inspirations-purchase-for-publish.php:432
+#: includes/class-boldgrid-inspirations-purchase-for-publish.php:435
 msgid "Local prices have been updated.  Please proceed to the %1$sCart%2$s"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-purchase-for-publish.php:506
+#: includes/class-boldgrid-inspirations-purchase-for-publish.php:509
 msgid "Error downloading image."
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-purchase-for-publish.php:538
+#: includes/class-boldgrid-inspirations-purchase-for-publish.php:541
 msgid "Replacing watermaked image..."
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-purchase-for-publish.php:587
+#: includes/class-boldgrid-inspirations-purchase-for-publish.php:590
 msgid "Invalid data."
 msgstr ""
 
 #. translators: 1 The id of the asset that is no longer available for purchase.
-#: includes/class-boldgrid-inspirations-purchase-for-publish.php:682
+#: includes/class-boldgrid-inspirations-purchase-for-publish.php:687
 msgid "Error: Image (asset id \"%1$s\") is no longer available for purchase, and will be removed from the cart."
 msgstr ""
 
 #. translators: 1 The local coin cost, 2 the remote coin cost.
-#: includes/class-boldgrid-inspirations-purchase-for-publish.php:693
+#: includes/class-boldgrid-inspirations-purchase-for-publish.php:698
 msgid "Error: Local coin cost of %1$s does not match remote coin cost %2$s."
 msgstr ""
 
 #. translators: 1 An opening anchor tag linking to the shopping card, 2 its closing anchor tag.
-#: includes/class-boldgrid-inspirations-purchase-for-publish.php:711
+#: includes/class-boldgrid-inspirations-purchase-for-publish.php:716
 msgid "Local prices have been updated! Please proceed to the %1$sCart%2$s."
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-purchase-for-publish.php:750
+#: includes/class-boldgrid-inspirations-purchase-for-publish.php:735
+#: includes/class-boldgrid-inspirations-purchase-for-publish.php:736
+#: includes/class-boldgrid-inspirations-purchase-for-publish.php:744
+#: includes/class-boldgrid-inspirations-purchase-for-publish.php:745
+msgid "Cart"
+msgstr ""
+
+#: includes/class-boldgrid-inspirations-purchase-for-publish.php:761
 msgid "Error processing request to purchase for publish; WordPress security violation! Please try again."
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-purchase-for-publish.php:890
+#: includes/class-boldgrid-inspirations-purchase-for-publish.php:901
 msgid "Purchase complete!"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-purchase-for-publish.php:891
+#: includes/class-boldgrid-inspirations-purchase-for-publish.php:902
 msgid "Purchase complete (with errors)!"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-purchase-for-publish.php:1068
+#: includes/class-boldgrid-inspirations-purchase-for-publish.php:1079
 msgid "Unable to get image details."
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-purchase-for-publish.php:1086
+#: includes/class-boldgrid-inspirations-purchase-for-publish.php:1097
 msgid "Unable to get image details from asset server."
 msgstr ""
 
@@ -1490,7 +1508,7 @@ msgstr ""
 msgid "BoldGrid API keys can only be saved by Admins. Please contact your WordPress Admin for assistance with saving your key."
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-theme-install.php:245
+#: includes/class-boldgrid-inspirations-theme-install.php:259
 msgid "We recommend choosing a BoldGrid Theme. Our themes have theme specific content available through Inspirations and include more features while customizing."
 msgstr ""
 
@@ -1523,19 +1541,35 @@ msgstr ""
 msgid "Add New"
 msgstr ""
 
+#: includes/class-boldgrid-inspirations-deploy-messages.php:94
+msgid "&#10003; Inspirations Installed Successfully! Redirecting you to the Inspirations dashboard..."
+msgstr ""
+
+#: includes/class-boldgrid-inspirations-deploy-messages.php:99
+msgid "&#10003; Inspirations Installed Successfully!"
+msgstr ""
+
+#: includes/class-boldgrid-inspirations-deploy-messages.php:102
+msgid "Please continue to your Inspirations Dashboard to get started editing pages and customizing your site."
+msgstr ""
+
 #: includes/class-boldgrid-inspirations-deploy-messages.php:105
+msgid "Go to your Inspirations Dashboard"
+msgstr ""
+
+#: includes/class-boldgrid-inspirations-deploy-messages.php:140
 msgid "Downloading images..."
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-deploy-messages.php:136
+#: includes/class-boldgrid-inspirations-deploy-messages.php:171
 msgid "Installing your pages..."
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-deploy-messages.php:196
+#: includes/class-boldgrid-inspirations-deploy-messages.php:231
 msgid "Installing plugins..."
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-deploy-messages.php:212
+#: includes/class-boldgrid-inspirations-deploy-messages.php:247
 msgid "Installing your theme..."
 msgstr ""
 
@@ -1575,83 +1609,83 @@ msgstr ""
 msgid "Support & Learning"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-my-inspiration.php:197
+#: includes/class-boldgrid-inspirations-my-inspiration.php:198
 msgid "View Site"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-my-inspiration.php:198
+#: includes/class-boldgrid-inspirations-my-inspiration.php:199
 msgid "Start Over with New Inspiration"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-my-inspiration.php:221
+#: includes/class-boldgrid-inspirations-my-inspiration.php:222
 msgid "If you want to dive into the Customizer and change colors, fonts, headers and footers, etc., go to the Customizer directly."
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-my-inspiration.php:226
+#: includes/class-boldgrid-inspirations-my-inspiration.php:227
 msgid "Colors"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-my-inspiration.php:229
+#: includes/class-boldgrid-inspirations-my-inspiration.php:230
 msgid "Logo"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-my-inspiration.php:232
+#: includes/class-boldgrid-inspirations-my-inspiration.php:233
 msgid "Contact Info"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-my-inspiration.php:235
+#: includes/class-boldgrid-inspirations-my-inspiration.php:236
 msgid "Go to Customizer"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-my-inspiration.php:245
+#: includes/class-boldgrid-inspirations-my-inspiration.php:246
 msgid "Go to Posts"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-my-inspiration.php:260
+#: includes/class-boldgrid-inspirations-my-inspiration.php:261
 msgid "If you're happy with the look of your Inspiration theme and ready to start editing the content of your site, go directly to your page editor."
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-my-inspiration.php:280
+#: includes/class-boldgrid-inspirations-my-inspiration.php:281
 msgid "Add New Page"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-my-inspiration.php:283
+#: includes/class-boldgrid-inspirations-my-inspiration.php:284
 msgid "Go to Page Editor"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-my-inspiration.php:295
+#: includes/class-boldgrid-inspirations-my-inspiration.php:296
 msgid "View Support Docs"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-my-inspiration.php:298
-msgid "New to Wordpress? Ways to get Support:"
+#: includes/class-boldgrid-inspirations-my-inspiration.php:299
+msgid "New to WordPress? Ways to get Support:"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-my-inspiration.php:303
+#: includes/class-boldgrid-inspirations-my-inspiration.php:304
 msgid "Find guides and tutorials on BoldGrid.com."
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-my-inspiration.php:305
+#: includes/class-boldgrid-inspirations-my-inspiration.php:306
 msgid "View Tutorials"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-my-inspiration.php:310
+#: includes/class-boldgrid-inspirations-my-inspiration.php:311
 msgid "Need one-one support?"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-my-inspiration.php:312
+#: includes/class-boldgrid-inspirations-my-inspiration.php:313
 msgid "Login Now"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-my-inspiration.php:317
+#: includes/class-boldgrid-inspirations-my-inspiration.php:318
 msgid "Get support from your fellow users."
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-my-inspiration.php:319
+#: includes/class-boldgrid-inspirations-my-inspiration.php:320
 msgid "User Groups"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-my-inspiration.php:337
+#: includes/class-boldgrid-inspirations-my-inspiration.php:338
 msgid "Choose New Theme"
 msgstr ""
 
