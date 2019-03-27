@@ -110,7 +110,7 @@ class Boldgrid_Inspirations_Deploy_Post {
 	 *
 	 * @param mixed  $value  Value of the option. If stored serialized, it will be unserialized prior
 	 *                       to being returned.
-     * @param string $option Option name.
+	 * @param string $option Option name.
 	 *
 	 */
 	public function stop_switch_theme( $value, $option ) {
