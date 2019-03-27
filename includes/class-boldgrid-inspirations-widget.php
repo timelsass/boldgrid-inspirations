@@ -77,9 +77,9 @@ class Boldgrid_Inspirations_Widget {
 	public static function empty_sidebar( $sidebar ) {
 		$sidebars_widgets = self::get_sidebars_widgets();
 
-		$sidebar_widgets[ $sidebar ] = array();
+		$sidebars_widgets[ $sidebar ] = array();
 
-		self::update_sidebars_widgets( $sidebar_widgets );
+		self::update_sidebars_widgets( $sidebars_widgets );
 	}
 
 	/**

@@ -33,20 +33,10 @@ if ( ! class_exists( 'Boldgrid_Inspirations' ) ) {
 if ( Boldgrid_Inspirations::is_php_compatible() ) {
 	// Classes needed ASAP.
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-inspiration.php';
-	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-deploy.php';
-	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-built.php';
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-survey.php';
 	if ( defined( 'WP_CLI' ) && WP_CLI ) {
 		require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-wpcli.php';
 	}
-
-	/*
-	 * Add deploy's init hooks.
-	 *
-	 * Added right now as some hooks require priority 1, while the add_action( 'init' ) call below
-	 * runs at the default 10 priority.
-	 */
-	Boldgrid_Inspirations_Deploy::add_hooks();
 
 	// Instantiate the inspiration class (also loads the parent class Boldgrid_Inspirations).
 	$boldgrid_inspirations_inspiration = new Boldgrid_Inspirations_Inspiration();

@@ -71,6 +71,15 @@ class Boldgrid_Inspirations_Deploy {
 	private $custom_pages;
 
 	/**
+	 * An instance of Boldgrid_Inspirations_Installed.
+	 *
+	 * @since 1.7.0
+	 * @access private
+	 * @var Boldgrid_Inspirations_Installed
+	 */
+	private $installed;
+
+	/**
 	 * New path.
 	 *
 	 * Required only on preview server.
@@ -113,6 +122,15 @@ class Boldgrid_Inspirations_Deploy {
 	 * @var int
 	 */
 	private $start_time;
+
+	/**
+	 * An instance of Boldgrid_Inspirations_Deploy_Status
+	 *
+	 * @since 1.7.0
+	 * @access private
+	 * @var Boldgrid_Inspirations_Deploy_Status
+	 */
+	private $status;
 
 	/**
 	 * Theme version type.
@@ -354,6 +372,12 @@ class Boldgrid_Inspirations_Deploy {
 		$this->api = new Boldgrid_Inspirations_Deploy_Api( $configs );
 
 		$this->bps = new Boldgrid_Inspirations_Deploy_Bps( $this );
+
+		$this->blog = new Boldgrid_Inspirations_Blog( $configs );
+
+		$this->installed = new Boldgrid_Inspirations_Installed();
+
+		$this->status = new Boldgrid_Inspirations_Deploy_Status();
 	}
 
 	/**
@@ -480,7 +504,7 @@ class Boldgrid_Inspirations_Deploy {
 	 * Store these install options for later use.
 	 */
 	public function update_install_options() {
-		$boldgrid_install_options = array(
+		$args = array(
 			'author_type'           => isset( $_POST['author_type'] ) ? sanitize_text_field( $_POST['author_type'] ) : null,
 			'language_id'           => isset( $_POST['language_id'] ) ? intval( $_POST['language_id'] ) : null,
 			'theme_group_id'        => isset( $_POST['theme_group'] ) ? sanitize_text_field( $_POST['theme_group'] ) : null,
@@ -495,10 +519,11 @@ class Boldgrid_Inspirations_Deploy {
 			'ticket_number'         => sanitize_text_field( $this->ticket_number ),
 			'build_profile_id'      => intval( $this->boldgrid_build_profile_id ),
 			'custom_pages'          => $this->custom_pages,
+			'install_blog'          => $this->install_blog,
 			'install_timestamp'     => time(),
 		);
 
-		update_option( 'boldgrid_install_options', $boldgrid_install_options );
+		$this->installed->update_install_options( $args );
 	}
 
 	/**
@@ -513,7 +538,7 @@ class Boldgrid_Inspirations_Deploy {
 	 * @return array Array of pages.
 	 */
 	public function remote_install_options() {
-		$boldgrid_install_options = get_option( 'boldgrid_install_options' );
+		$boldgrid_install_options = $this->installed->get_install_options();
 
 		$api_key_hash = $this->asset_manager->api->get_api_key_hash();
 
@@ -527,27 +552,7 @@ class Boldgrid_Inspirations_Deploy {
 
 		$boldgrid_install_options = array_merge( $boldgrid_install_options, $remote_options );
 
-		update_option( 'boldgrid_install_options', $boldgrid_install_options );
-	}
-
-	/**
-	 * Add hooks needed for deployment.
-	 *
-	 * This method is triggered very early on, in boldgrid-inspirations/boldgrid-inspirations.php
-	 *
-	 * @since 1.7.0
-	 */
-	public static function add_hooks() {
-		if( Boldgrid_Inspirations_Built::is_inspirations() ) {
-			/*
-			 * Disble the heartbeat on Inspirations pages. We don't want a rouge heartbeat tick
-			 * calling the front page and triggered the after_switch_theme hooks.
-			 */
-			add_action( 'init', function() {
-				wp_deregister_script( 'heartbeat' );
-			}, 1 );
-		}
-
+		$this->installed->update_install_options( $boldgrid_install_options );
 	}
 
 	/**
@@ -600,7 +605,7 @@ class Boldgrid_Inspirations_Deploy {
 			if ( $this->is_staging_install() ) {
 				$install_options = get_option( 'boldgrid_staging_boldgrid_install_options' );
 			} else {
-				$install_options = get_option( 'boldgrid_install_options' );
+				$install_options = $this->installed->get_install_options();
 			}
 
 			if ( ! empty ( $install_options['subcategory_id'] ) ) {
@@ -1593,8 +1598,10 @@ class Boldgrid_Inspirations_Deploy {
 			echo '[RETURN_ARRAY]' . json_encode( $this->deploy_results ) . '[RETURN_ARRAY]';
 		}
 
-		$this->messages->print_heading( 'finish', __( 'Wrapping things up...', 'boldgrid-inspirations' ) );
+		// Important. This method must be triggered immediately before the after_theme_switch call below.
+		$this->status->stop();
 
+		$this->messages->print_heading( 'finish', __( 'Wrapping things up...', 'boldgrid-inspirations' ) );
 		$this->after_theme_switch();
 
 		$this->messages->print_complete();
@@ -2170,6 +2177,8 @@ class Boldgrid_Inspirations_Deploy {
 	 * @return boolean
 	 */
 	public function full_deploy() {
+		$this->status->start();
+
 		$this->create_new_install();
 
 		$this->update_install_options();
@@ -2189,11 +2198,6 @@ class Boldgrid_Inspirations_Deploy {
 			$this->messages->print_notice( esc_html__( 'Theme deployment failed.  Please choose another theme.', 'boldgrid-inspirations' ) );
 
 			return false;
-		}
-
-		if( $this->install_blog ) {
-			$this->blog = new Boldgrid_Inspirations_Blog( $this->configs );
-			$this->blog->create_sidebar_widgets();
 		}
 
 		// import the selected page set.

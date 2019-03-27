@@ -175,6 +175,9 @@ class Boldgrid_Inspirations_Inspiration extends Boldgrid_Inspirations {
 
 		$attribution_page = new Boldgrid_Inspirations_Attribution_Page();
 		$attribution_page->add_hooks();
+
+		$post_deploy = new Boldgrid_Inspirations_Deploy_Post();
+		$post_deploy->add_hooks();
 	}
 
 	/**
@@ -401,6 +404,7 @@ public function boldgrid_style( $hook ) {
  * A few files are included right away. Please see boldgrid-inspirations/boldgrid-inspirations.php
  */
 public function include_admin_files() {
+	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-built.php';
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-external-plugin.php';
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-stock-photography.php';
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-purchase-for-publish.php';
@@ -425,11 +429,14 @@ public function include_admin_files() {
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-attribution-page.php';
 
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-admin-menu.php';
+	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-deploy.php';
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-deploy-api.php';
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-deploy-bps.php';
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-deploy-cta.php';
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-deploy-image.php';
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-deploy-metadata.php';
+	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-deploy-post.php';
+	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-deploy-status.php';
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-deploy-theme.php';
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-deploy-messages.php';
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-blog.php';

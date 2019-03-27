@@ -76,6 +76,35 @@ class Boldgrid_Inspirations_Installed {
 	}
 
 	/**
+	 * Get a single install option.
+	 *
+	 * @since 1.7.0
+	 *
+	 * @param  string $key     The specific install option.
+	 * @param  mixed  $default The default value returned if install option does not exist.
+	 * @return mixed
+	 */
+	public function get_install_option( $key, $default = false ) {
+		$options = $this->get_install_options();
+
+		return isset( $options[$key] ) ? $options[$key] : $default;
+	}
+
+	/**
+	 * Get the install options.
+	 *
+	 * Management of the 'boldgrid_install_options' option was originally within the deploy class,
+	 * and has been moved here as of 1.7.0.
+	 *
+	 * @since 1.7.0
+	 *
+	 * @return array
+	 */
+	public function get_install_options() {
+		return get_option( 'boldgrid_install_options', array() );
+	}
+
+	/**
 	 * Determine whether or not we have deployed a site with Inspirations.
 	 *
 	 * @since 1.7.0
@@ -97,5 +126,19 @@ class Boldgrid_Inspirations_Installed {
 		$posts = $this->get_all_posts();
 
 		return ! empty( $posts );
+	}
+
+	/**
+	 * Update the install options.
+	 *
+	 * Management of the 'boldgrid_install_options' option was originally within the deploy class,
+	 * and has been moved here as of 1.7.0.
+	 *
+	 * @since 1.7.0
+	 *
+	 * @param array $args
+	 */
+	public function update_install_options( $args = array() ) {
+		update_option( 'boldgrid_install_options', $args );
 	}
 }
