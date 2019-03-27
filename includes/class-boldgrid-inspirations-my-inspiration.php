@@ -335,7 +335,7 @@ class Boldgrid_Inspirations_My_Inspiration {
 		<p><img src="<?php echo esc_url( $theme->get_screenshot() ); ?>" style="max-width:100%; border:1px solid #ddd;" /></p>
 
 		<p style="text-align:center;">
-			<a href="<?php echo esc_url( admin_url( 'themes.php' ) ); ?>" class="button button-primary dashicons-before dashicons-admin-appearance"><?php esc_html_e( 'Choose New Theme' , 'boldgrid-inspirations' ); ?></a>
+			<a href="<?php echo esc_url( admin_url( 'theme-install.php?browse=featured' ) ); ?>" class="button button-primary dashicons-before dashicons-admin-appearance"><?php esc_html_e( 'Choose New Theme' , 'boldgrid-inspirations' ); ?></a>
 		</p>
 	<?php }
 
