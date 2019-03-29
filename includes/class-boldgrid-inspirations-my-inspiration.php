@@ -71,7 +71,7 @@ class Boldgrid_Inspirations_My_Inspiration {
 
 			add_meta_box(
 				'pages_content',
-				esc_html__( 'Pages Content', 'boldgrid-inspirations' ) . $on_click,
+				esc_html__( 'Site Content', 'boldgrid-inspirations' ) . $on_click,
 				array( $this, 'box_pages' ),
 				$this->screen_id,
 				'container2'
@@ -93,6 +93,8 @@ class Boldgrid_Inspirations_My_Inspiration {
 				'container4'
 			);
 
+			// Section temporarily removed.
+			/*
 			if ( $installed->has_installed_posts() ) {
 				add_meta_box(
 					'additional_features',
@@ -102,6 +104,7 @@ class Boldgrid_Inspirations_My_Inspiration {
 					'container4'
 				);
 			}
+			*/
 
 			add_meta_box(
 				'support',
@@ -279,9 +282,15 @@ class Boldgrid_Inspirations_My_Inspiration {
 
 		<p>
 			<a href="<?php echo admin_url( 'post-new.php?post_type=page' ); ?>" class="dashicons-before dashicons-welcome-add-page"><?php esc_html_e( 'Add New Page', 'boldgrid-inspirations' ); ?></a>
+			<?php if ( $installed->has_installed_posts() ) { ?>
+			| <a href="<?php echo admin_url( 'post-new.php' ); ?>"><?php esc_html_e( 'Add New Post', 'boldgrid-inspirations' ); ?></a>
+			<?php } ?>
 		</p>
 
-		<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=page' ) ); ?>" class="button button-primary dashicons-before dashicons-admin-page"><?php esc_html_e( 'Go to Page Editor', 'boldgrid-inspirations' ); ?></a>
+		<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=page' ) ); ?>" class="button button-primary dashicons-before dashicons-admin-page"><?php esc_html_e( 'Go to All Pages', 'boldgrid-inspirations' ); ?></a>
+		<?php if ( $installed->has_installed_posts() ) { ?>
+			<a href="<?php echo esc_url( admin_url( 'edit.php' ) ); ?>" class="button button-primary dashicons-before dashicons-admin-post"><?php esc_html_e( 'Go to All Posts', 'boldgrid-inspirations' ); ?></a>
+		<?php } ?>
 	<?php }
 
 	/**
