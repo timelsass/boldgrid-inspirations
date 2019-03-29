@@ -303,21 +303,21 @@ class Boldgrid_Inspirations_My_Inspiration {
 			<li>
 				<?php esc_html_e( 'Find guides and tutorials on BoldGrid.com.', 'boldgrid-inspirations' ); ?>
 				<p>
-					<a href="https://www.boldgrid.com/support/" class="button button-primary dashicons-before dashicons-sos"><?php esc_html_e( 'View Tutorials', 'boldgrid-inspirations' ); ?></a>
+					<a href="https://www.boldgrid.com/support/" class="button button-primary dashicons-before dashicons-sos" target="_blank"><?php esc_html_e( 'View Tutorials', 'boldgrid-inspirations' ); ?></a>
 				</p>
 			</li>
 
 			<li>
 				<?php esc_html_e( 'Need one-one support?', 'boldgrid-inspirations' ); ?>
 				<p>
-					<a href="<?php echo esc_url( $reseller->getAttribute( 'reseller_amp_url' ) ); ?>" class="button button-primary dashicons-before dashicons-admin-users"><?php esc_html_e( 'Login Now', 'boldgrid-inspirations' ); ?></a>
+					<a href="<?php echo esc_url( $reseller->getAttribute( 'reseller_amp_url' ) ); ?>" class="button button-primary dashicons-before dashicons-admin-users" target="_blank"><?php esc_html_e( 'Login Now', 'boldgrid-inspirations' ); ?></a>
 				</p>
 			</li>
 
 			<li>
 				<?php esc_html_e( 'Get support from your fellow users.', 'boldgrid-inspirations' ); ?>
 				<p>
-					<a href="https://www.facebook.com/groups/BGTeamOrange" class="button button-primary dashicons-before dashicons-format-chat"><?php esc_html_e( 'User Groups', 'boldgrid-inspirations' ); ?></a>
+					<a href="https://www.facebook.com/groups/BGTeamOrange" class="button button-primary dashicons-before dashicons-format-chat" target="_blank"><?php esc_html_e( 'User Groups', 'boldgrid-inspirations' ); ?></a>
 				</p>
 			</li>
 
