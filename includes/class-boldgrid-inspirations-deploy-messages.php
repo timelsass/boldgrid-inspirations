@@ -189,6 +189,11 @@ class Boldgrid_Inspirations_Deploy_Messages {
 	 * @param string $slug  Optional, the slug of the plugin.
 	 */
 	public function print_plugin( $title, $slug = '' ) {
+		// @todo This is a temporary fix as the P&PB Premium plugin has no icon.
+		if ( 'post-and-page-builder-premium' === $slug ) {
+			$slug = 'post-and-page-builder';
+		}
+
 		/*
 		 * Determine what we will print as an icon for the plugin. It will either be a generic
 		 * dashicon, or the plugin's actual icon / logo.
