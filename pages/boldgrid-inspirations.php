@@ -188,18 +188,10 @@ if ( $show_content_warning ) {
 ?>
 	<div id="screen-content-check-warning" class="<?php echo implode( ' ', $sections['content-check-warning']['classes'] ); ?>" style="text-align:center;">
 		<h1><?php echo esc_html__( 'Content Check Warning', 'boldgrid-inspirations' ); ?></h1>
-		<p>
-		<?php echo
-			wp_kses(
-				sprintf(
-					// translators: 1 The opening anchor tag to https://wordpress.org/plugins/boldgrid-backup/, 2 it's closing anchor tag.
-					__( 'We see that you have content on your site already - Make sure you have a backup of your site (Use %1$sBoldGrid Backup Plugin%2$s) before you install a new Inspiration as all of your content will be erased.', 'boldgrid-inspirations' ),
-					'<a href="https://wordpress.org/plugins/boldgrid-backup/" target="_blank">',
-					'</a>'
-				),
-				array( 'a' => array( 'href' => array(), 'target' => array() ) )
-			);
-		?>
+		<p><?php esc_html_e( 'We see that you have some content on your site already.  If you complete this process any existing pages and posts will be put in the "Trash" (recoverable).  Existing images will stay in your Media Library.  Your current theme will be deactivated but not removed.', 'boldgrid-inspirations' ); ?></p>
+		<p id="bginsp_confirm_overwrite">
+			<span><?php esc_html_e( 'Please check the box to continue.', 'boldgrid-inspirations' ); ?></span>
+			<input type="checkbox" id="bginsp_overwrite" /> <label for="bginsp_overwrite"><?php esc_html_e( 'Confirm you wish to replace your current website.', 'boldgrid-inspirations' ); ?></label>
 		</p>
 		<a class="button button-primary next-step dashicons-before dashicons-after dashicons-arrow-right-alt"><?php echo esc_html__( 'I Understand - Continue', 'boldgrid-inspirations'); ?></a>
 

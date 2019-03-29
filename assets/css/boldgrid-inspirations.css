@@ -540,6 +540,18 @@ http://ivomynttinen.com/blog/the-ios-design-cheat-sheet-volume-2
 
 
 /**
+ * #.# Content Check Warning.
+ *
+ * This section handles the styles on the content check warning section.
+ */
+
+#bginsp_confirm_overwrite span {
+	color: red;
+	display: none;
+}
+
+
+/**
  * #.# Contact
  *
  * Begin code for the Contact section.

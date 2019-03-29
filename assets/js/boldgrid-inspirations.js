@@ -1106,7 +1106,31 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		self.onResize();
 		self.socialMediaDefaults();
 		self.initFeatureToggles();
+		self.bindOverwriteCheck();
 	};
+
+	/**
+	 * Require user to check box in order to overwrite site.
+	 *
+	 * @since 1.7.0
+	 */
+	this.bindOverwriteCheck = function() {
+		$( '#screen-content-check-warning .next-step' ).on( 'click', function( e ) {
+			var $confirm = $( '#bginsp_confirm_overwrite' ),
+				checked  = $confirm.find( 'input:checkbox' ).prop( 'checked' ),
+				$notice  = $confirm.find( 'span' );
+
+			e.preventDefault();
+
+			if ( checked ) {
+				$notice.css( 'display', 'none' );
+				return true;
+			} else {
+				$notice.css( 'display', 'block' );
+				return false;
+			}
+		});
+	}
 
 	/**
 	 * Init the list of categories.
