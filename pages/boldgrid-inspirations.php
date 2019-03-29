@@ -185,6 +185,7 @@ if ( $prompting_for_key ) {
 <?php
 }
 if ( $show_content_warning ) {
+	$change_theme_verbiage = Boldgrid_Inspirations_Config::use_boldgrid_menu() ? __( 'Customize > Change Themes', 'boldgrid-inspirations' ) : __( 'Appearance > Change Themes', 'boldgrid-inspirations' );
 ?>
 	<div id="screen-content-check-warning" class="<?php echo implode( ' ', $sections['content-check-warning']['classes'] ); ?>" style="text-align:center;">
 		<h1><?php echo esc_html__( 'Content Check Warning', 'boldgrid-inspirations' ); ?></h1>
@@ -195,8 +196,14 @@ if ( $show_content_warning ) {
 		</p>
 		<a class="button button-primary next-step dashicons-before dashicons-after dashicons-arrow-right-alt"><?php echo esc_html__( 'I Understand - Continue', 'boldgrid-inspirations'); ?></a>
 
-		<p style="margin-top:2em;"><?php esc_html_e( 'If you just want to change your theme and keep your current content in tact, simply change your theme:', 'boldgrid-inspirations' ); ?></p>
-		<a class="button button-primary dashicons-before dashicons-arrow-left-alt" href="<?php echo esc_url( admin_url( 'theme-install.php?browse=featured' ) ); ?>"><?php esc_html_e( 'Go to Customize > Add Themes', 'boldgrid-inspirations' ); ?></a>
+		<p style="margin-top:2em;">
+			<?php printf(
+				// translators: 1 The text, "Appearance > Change Themes".
+				esc_html__( 'To change just your theme and keep your content, go to %1$s.', 'boldgrid-inspirations' ),
+				$change_theme_verbiage
+			); ?>
+		</p>
+		<a class="button button-primary dashicons-before dashicons-arrow-left-alt" href="<?php echo esc_url( admin_url( 'theme-install.php?browse=featured' ) ); ?>"><?php esc_html_e( $change_theme_verbiage, 'boldgrid-inspirations' ); ?></a>
 	</div>
 <?php
 }

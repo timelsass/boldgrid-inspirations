@@ -161,4 +161,30 @@ class Boldgrid_Inspirations_Config {
 
 		return $settings;
 	}
+
+	/**
+	 * Get a setting from $configs['settings'].
+	 *
+	 * @since 1.7.0
+	 *
+	 * @param  string $key The setting's key.
+	 * @param  mixed  $default The default value to return if setting doesn't exist.
+	 * @return mixed
+	 */
+	public static function get_setting( $key, $default = false ) {
+		$configs = self::get_format_configs();
+
+		return isset( $configs['settings'][ $key ] ) ? $configs['settings'][ $key ] : $default;
+	}
+
+	/**
+	 * Get whether or not we're using the BoldGrid menu system.
+	 *
+	 * @since 1.7.0
+	 *
+	 * @return bool
+	 */
+	public static function use_boldgrid_menu() {
+		return ! empty( self::get_setting( 'boldgrid_menu_option' ) );
+	}
 }
