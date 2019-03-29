@@ -262,7 +262,7 @@ if ( $show_content_warning ) {
 		<div class="right">
 			<div class="boldgrid-plugin-card full-width" style="margin-bottom:15px;">
 				<div class="top">
-					<?php echo esc_html__( 'Choose the basic pages you wish to start with, and any additional features.', 'boldgrid-inspirations' ); ?>
+					<?php echo esc_html__( 'Choose the basic pages you wish to start with and any additional functionality.', 'boldgrid-inspirations' ); ?>
 				</div>
 			</div>
 			<div id="build-summary">
