@@ -2,15 +2,15 @@
 # This file is distributed under the same license as the BoldGrid Inspirations plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: BoldGrid Inspirations 1.7.0-rc.1\n"
+"Project-Id-Version: BoldGrid Inspirations 1.7.0-rc.2\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/boldgrid-inspirations\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2019-03-20T08:31:36-04:00\n"
-"PO-Revision-Date: 2019-03-20T08:31:36-04:00\n"
+"POT-Creation-Date: 2019-04-01T08:31:01-04:00\n"
+"PO-Revision-Date: 2019-04-01T08:31:01-04:00\n"
 "X-Generator: WP-CLI 2.0.1\n"
 "X-Domain: boldgrid-inspirations\n"
 
@@ -83,7 +83,7 @@ msgstr ""
 #: includes/class-boldgrid-inspirations-blog.php:51
 #: includes/class-boldgrid-inspirations-blog.php:56
 #: includes/class-boldgrid-inspirations-blog.php:70
-#: includes/class-boldgrid-inspirations-my-inspiration.php:246
+#: includes/class-boldgrid-inspirations-my-inspiration.php:249
 msgid "Blog"
 msgstr ""
 
@@ -178,53 +178,65 @@ msgstr ""
 msgid "Let's Get Started!"
 msgstr ""
 
-#: pages/boldgrid-inspirations.php:190
+#: pages/boldgrid-inspirations.php:188
+msgid "Customize > Change Themes"
+msgstr ""
+
+#: pages/boldgrid-inspirations.php:188
+msgid "Appearance > Change Themes"
+msgstr ""
+
+#: pages/boldgrid-inspirations.php:191
 msgid "Content Check Warning"
 msgstr ""
 
-#. translators: 1 The opening anchor tag to https://wordpress.org/plugins/boldgrid-backup/, 2 it's closing anchor tag.
-#: pages/boldgrid-inspirations.php:196
-msgid "We see that you have content on your site already - Make sure you have a backup of your site (Use %1$sBoldGrid Backup Plugin%2$s) before you install a new Inspiration as all of your content will be erased."
+#: pages/boldgrid-inspirations.php:192
+msgid "We see that you have some content on your site already.  If you complete this process any existing pages and posts will be put in the \"Trash\" (recoverable).  Existing images will stay in your Media Library.  Your current theme will be deactivated but not removed."
 msgstr ""
 
-#: pages/boldgrid-inspirations.php:204
+#: pages/boldgrid-inspirations.php:194
+msgid "Please check the box to continue."
+msgstr ""
+
+#: pages/boldgrid-inspirations.php:195
+msgid "Confirm you wish to replace your current website."
+msgstr ""
+
+#: pages/boldgrid-inspirations.php:197
 msgid "I Understand - Continue"
 msgstr ""
 
-#: pages/boldgrid-inspirations.php:206
-msgid "If you just want to change your theme and keep your current content in tact, simply change your theme:"
+#. translators: 1 The text, "Appearance > Change Themes".
+#: pages/boldgrid-inspirations.php:202
+msgid "To change just your theme and keep your content, go to %1$s."
 msgstr ""
 
-#: pages/boldgrid-inspirations.php:207
-msgid "Go to Customize > Add Themes"
-msgstr ""
-
-#: pages/boldgrid-inspirations.php:218
+#: pages/boldgrid-inspirations.php:217
 #: pages/templates/boldgrid-inspirations.php:6
 msgid "All"
 msgstr ""
 
-#: pages/boldgrid-inspirations.php:221
+#: pages/boldgrid-inspirations.php:220
 msgid "Show All"
 msgstr ""
 
-#: pages/boldgrid-inspirations.php:223
+#: pages/boldgrid-inspirations.php:222
 msgid "Filter Themes"
 msgstr ""
 
-#: pages/boldgrid-inspirations.php:232
+#: pages/boldgrid-inspirations.php:231
 msgid "Choose a theme to start your design. A theme sets the basics of layout, type and colors but you can customize each once you start designing."
 msgstr ""
 
-#: pages/boldgrid-inspirations.php:245
+#: pages/boldgrid-inspirations.php:244
 msgid "Change Content"
 msgstr ""
 
-#: pages/boldgrid-inspirations.php:266
-msgid "Choose the basic pages you wish to start with, and any additional features."
+#: pages/boldgrid-inspirations.php:265
+msgid "Choose the basic pages you wish to start with and any additional functionality."
 msgstr ""
 
-#: pages/boldgrid-inspirations.php:288
+#: pages/boldgrid-inspirations.php:287
 #: pages/includes/boldgrid-inspirations/contact.php:4
 msgid "Back"
 msgstr ""
@@ -276,7 +288,7 @@ msgid "In menu"
 msgstr ""
 
 #: pages/includes/post_submitbox_misc_actions_auto_add_to_menu.php:14
-#: includes/class-boldgrid-inspirations-my-inspiration.php:271
+#: includes/class-boldgrid-inspirations-my-inspiration.php:274
 msgid "Edit"
 msgstr ""
 
@@ -462,8 +474,8 @@ msgid "In addition to the video above, we have more detail on things that have c
 msgstr ""
 
 #: pages/my-inspiration.php:22
-#: includes/class-boldgrid-inspirations-my-inspiration.php:183
-#: includes/class-boldgrid-inspirations-my-inspiration.php:184
+#: includes/class-boldgrid-inspirations-my-inspiration.php:186
+#: includes/class-boldgrid-inspirations-my-inspiration.php:187
 msgid "My Inspiration"
 msgstr ""
 
@@ -1031,71 +1043,71 @@ msgstr ""
 msgid "Congratulations, you've just installed your new website! Below you'll find tips to help you begin customizing your site."
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-deploy.php:739
+#: includes/class-boldgrid-inspirations-deploy.php:744
 msgid "Error: Failed to retrieve theme!"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-deploy.php:745
+#: includes/class-boldgrid-inspirations-deploy.php:750
 msgid "Error: Received an unsuccessful return code when retrieving theme information!"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-deploy.php:875
+#: includes/class-boldgrid-inspirations-deploy.php:880
 msgid "Error: Exceeded max theme install attempts!"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-deploy.php:974
+#: includes/class-boldgrid-inspirations-deploy.php:979
 msgid "Error: Exiting theme deployment."
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-deploy.php:1173
+#: includes/class-boldgrid-inspirations-deploy.php:1178
 msgid "WP ERROR"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-deploy.php:1177
+#: includes/class-boldgrid-inspirations-deploy.php:1182
 msgid "Error: Asset server did not return HTTP 200 OK!"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-deploy.php:1181
+#: includes/class-boldgrid-inspirations-deploy.php:1186
 msgid "Error: Asset server returned an empty data set!"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-deploy.php:1397
+#: includes/class-boldgrid-inspirations-deploy.php:1402
 msgid "Error downloading asset."
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-deploy.php:1514
+#: includes/class-boldgrid-inspirations-deploy.php:1519
 msgid "Deployment failed. We're sorry but unfortunately the site deployment failed with the following message:"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-deploy.php:1596
+#: includes/class-boldgrid-inspirations-deploy.php:1604
 msgid "Wrapping things up..."
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-deploy.php:1625
+#: includes/class-boldgrid-inspirations-deploy.php:1632
 msgid "Error downloading plugin list."
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-deploy.php:1668
+#: includes/class-boldgrid-inspirations-deploy.php:1675
 msgid "The following existing plugins where activated for use on your new BoldGrid site:"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-deploy.php:1719
+#: includes/class-boldgrid-inspirations-deploy.php:1726
 msgid "Error: Form plugin activation failed!"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-deploy.php:1731
+#: includes/class-boldgrid-inspirations-deploy.php:1738
 msgid "Error: Plugin installation failed!"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-deploy.php:1756
+#: includes/class-boldgrid-inspirations-deploy.php:1763
 msgid "Plugin activation failed."
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-deploy.php:1850
+#: includes/class-boldgrid-inspirations-deploy.php:1857
 msgid "Error: Plugin activation failed!"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-deploy.php:2189
+#: includes/class-boldgrid-inspirations-deploy.php:2198
 msgid "Theme deployment failed.  Please choose another theme."
 msgstr ""
 
@@ -1545,31 +1557,19 @@ msgstr ""
 msgid "&#10003; Inspirations Installed Successfully! Redirecting you to the Inspirations dashboard..."
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-deploy-messages.php:99
-msgid "&#10003; Inspirations Installed Successfully!"
-msgstr ""
-
-#: includes/class-boldgrid-inspirations-deploy-messages.php:102
-msgid "Please continue to your Inspirations Dashboard to get started editing pages and customizing your site."
-msgstr ""
-
-#: includes/class-boldgrid-inspirations-deploy-messages.php:105
-msgid "Go to your Inspirations Dashboard"
-msgstr ""
-
-#: includes/class-boldgrid-inspirations-deploy-messages.php:140
+#: includes/class-boldgrid-inspirations-deploy-messages.php:129
 msgid "Downloading images..."
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-deploy-messages.php:171
+#: includes/class-boldgrid-inspirations-deploy-messages.php:160
 msgid "Installing your pages..."
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-deploy-messages.php:231
+#: includes/class-boldgrid-inspirations-deploy-messages.php:225
 msgid "Installing plugins..."
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-deploy-messages.php:247
+#: includes/class-boldgrid-inspirations-deploy-messages.php:241
 msgid "Installing your theme..."
 msgstr ""
 
@@ -1590,7 +1590,7 @@ msgid "Current Inspiration"
 msgstr ""
 
 #: includes/class-boldgrid-inspirations-my-inspiration.php:74
-msgid "Pages Content"
+msgid "Site Content"
 msgstr ""
 
 #: includes/class-boldgrid-inspirations-my-inspiration.php:82
@@ -1601,91 +1601,95 @@ msgstr ""
 msgid "Current theme:"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-my-inspiration.php:99
-msgid "Additional Features"
-msgstr ""
-
-#: includes/class-boldgrid-inspirations-my-inspiration.php:108
+#: includes/class-boldgrid-inspirations-my-inspiration.php:111
 msgid "Support & Learning"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-my-inspiration.php:198
+#: includes/class-boldgrid-inspirations-my-inspiration.php:201
 msgid "View Site"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-my-inspiration.php:199
+#: includes/class-boldgrid-inspirations-my-inspiration.php:202
 msgid "Start Over with New Inspiration"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-my-inspiration.php:222
+#: includes/class-boldgrid-inspirations-my-inspiration.php:225
 msgid "If you want to dive into the Customizer and change colors, fonts, headers and footers, etc., go to the Customizer directly."
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-my-inspiration.php:227
+#: includes/class-boldgrid-inspirations-my-inspiration.php:230
 msgid "Colors"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-my-inspiration.php:230
+#: includes/class-boldgrid-inspirations-my-inspiration.php:233
 msgid "Logo"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-my-inspiration.php:233
+#: includes/class-boldgrid-inspirations-my-inspiration.php:236
 msgid "Contact Info"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-my-inspiration.php:236
+#: includes/class-boldgrid-inspirations-my-inspiration.php:239
 msgid "Go to Customizer"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-my-inspiration.php:246
+#: includes/class-boldgrid-inspirations-my-inspiration.php:249
 msgid "Go to Posts"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-my-inspiration.php:261
+#: includes/class-boldgrid-inspirations-my-inspiration.php:264
 msgid "If you're happy with the look of your Inspiration theme and ready to start editing the content of your site, go directly to your page editor."
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-my-inspiration.php:281
+#: includes/class-boldgrid-inspirations-my-inspiration.php:284
 msgid "Add New Page"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-my-inspiration.php:284
-msgid "Go to Page Editor"
+#: includes/class-boldgrid-inspirations-my-inspiration.php:286
+msgid "Add New Post"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-my-inspiration.php:296
+#: includes/class-boldgrid-inspirations-my-inspiration.php:290
+msgid "Go to All Pages"
+msgstr ""
+
+#: includes/class-boldgrid-inspirations-my-inspiration.php:292
+msgid "Go to All Posts"
+msgstr ""
+
+#: includes/class-boldgrid-inspirations-my-inspiration.php:305
 msgid "View Support Docs"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-my-inspiration.php:299
+#: includes/class-boldgrid-inspirations-my-inspiration.php:308
 msgid "New to WordPress? Ways to get Support:"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-my-inspiration.php:304
+#: includes/class-boldgrid-inspirations-my-inspiration.php:313
 msgid "Find guides and tutorials on BoldGrid.com."
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-my-inspiration.php:306
+#: includes/class-boldgrid-inspirations-my-inspiration.php:315
 msgid "View Tutorials"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-my-inspiration.php:311
+#: includes/class-boldgrid-inspirations-my-inspiration.php:320
 msgid "Need one-one support?"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-my-inspiration.php:313
+#: includes/class-boldgrid-inspirations-my-inspiration.php:322
 msgid "Login Now"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-my-inspiration.php:318
+#: includes/class-boldgrid-inspirations-my-inspiration.php:327
 msgid "Get support from your fellow users."
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-my-inspiration.php:320
+#: includes/class-boldgrid-inspirations-my-inspiration.php:329
 msgid "User Groups"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-my-inspiration.php:338
+#: includes/class-boldgrid-inspirations-my-inspiration.php:347
 msgid "Choose New Theme"
 msgstr ""
 
