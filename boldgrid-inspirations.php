@@ -34,9 +34,6 @@ if ( Boldgrid_Inspirations::is_php_compatible() ) {
 	// Classes needed ASAP.
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-inspiration.php';
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-survey.php';
-	if ( defined( 'WP_CLI' ) && WP_CLI ) {
-		require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-wpcli.php';
-	}
 
 	// Instantiate the inspiration class (also loads the parent class Boldgrid_Inspirations).
 	$boldgrid_inspirations_inspiration = new Boldgrid_Inspirations_Inspiration();
