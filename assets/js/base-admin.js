@@ -224,7 +224,7 @@ new IMHWPB.BaseAdmin( jQuery );
 
 /*
  * The BaseAdmin class was initially intended to be a utility type class for js. Because of the
- * way it was written however, it made it difficult to easily reuse the functions containted within.
+ * way it was written however, it made it difficult to easily reuse the functions contained within.
  *
  * Going forward, you can declare utility type functions below, within BoldGrid.Utility.
  *

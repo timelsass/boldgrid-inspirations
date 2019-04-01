@@ -84,7 +84,7 @@ if ( 'design' === $section ) {
 
 	switch( $show_content_warning ) {
 		case true:
-			$sections['content-check-warning']['classes'] = array( 'screen-containted' );
+			$sections['content-check-warning']['classes'] = array( 'screen-contained' );
 			break;
 		case false:
 			$sections['design']['classes'] = array();
