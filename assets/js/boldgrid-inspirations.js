@@ -114,21 +114,27 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	/**
 	 * Enable or disable all actions on the page.
 	 *
+	 * The "body .waiting" class adds the "wait" icon to various elements on the page.
+	 * Top menu links with a .disabled class do nothing when clicked.
+	 *
 	 * @since 1.2.3
 	 *
 	 * @memberof IMHWPB.InspirationsDesignFirst
 	 */
 	this.allActions = function( effect ) {
-		var $bottomButtons = $( '.boldgrid-plugin-card .bottom .button' );
+		var $bottomButtons = $( '.boldgrid-plugin-card .bottom .button' ),
+			$categories = $( '#categories' );
 
 		if ( 'disable' === effect ) {
 			$( 'body' ).addClass( 'waiting' );
 			self.$topMenu.find( 'a' ).addClass( 'disabled' );
+			$categories.addClass( 'disabled' );
 			$( '#build-summary .button' ).attr( 'disabled', true );
 			$bottomButtons.attr( 'disabled', true );
 		} else {
 			$( 'body' ).removeClass( 'waiting' );
 			self.$topMenu.find( 'a:not([data-disabled])' ).removeClass( 'disabled' );
+			$categories.removeClass( 'disabled' );
 			$( '#build-summary .button' ).attr( 'disabled', false );
 			$bottomButtons.attr( 'disabled', false );
 		}
@@ -742,7 +748,13 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 					.find( '.sub-category-name' )
 					.text(),
 				subCategoryId = $subCategory.attr( 'data-sub-category-id' ),
-				ref = $( this );
+				ref = $( this ),
+				$categories = $( '#categories' );
+
+			// Do nothing if the themes are still loading.
+			if ( $categories.hasClass( 'disabled' ) ) {
+				return;
+			}
 
 			/*
 			 * Keep track of the sub category id the user clicked.
@@ -1268,7 +1280,10 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			},
 			getGenericSuccess,
 			getGenericFail,
+			getGenericComplete,
 			failureMessage;
+
+		self.allActions( 'disable' );
 
 		// Define a message for users when fetching themes has failed.
 		failureMessage =
@@ -1338,7 +1353,16 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			self.fancybox();
 		};
 
-		self.ajax.ajaxCall( data, 'get_generic', getGenericSuccess, getGenericFail );
+		/**
+		 * Complete action.
+		 *
+		 * @since 1.7.0
+		 */
+		getGenericComplete = function() {
+			self.allActions();
+		}
+
+		self.ajax.ajaxCall( data, 'get_generic', getGenericSuccess, getGenericFail, getGenericComplete );
 	};
 
 	/**

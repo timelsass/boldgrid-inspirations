@@ -269,6 +269,7 @@ body.waiting .devices button,
 body.waiting .pageset-option,
 body.waiting .feature-option,
 body.waiting .toggle-inner,
+body.waiting .sub-category,
 body.waiting .pointer {
 	cursor: wait;
 }
