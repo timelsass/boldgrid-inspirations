@@ -36,7 +36,7 @@ Temporary fix until a near-future update:
 
 == Changelog ==
 
-= 1.7.0 In progress =
+= 2.0.0 In progress =
 
 * Update: Made translation ready. Text domain is boldgrid-inspirations.
 * Update: Inspirations process with full screen mode and design updates.
