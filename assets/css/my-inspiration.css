@@ -67,3 +67,12 @@
 #screen-options-wrap .dashicons-editor-help {
 	display: none;
 }
+
+
+/**
+ * #.# Misc.
+ */
+
+#postbox-container-2 .button:first-of-type {
+	margin-bottom: 5px; /* If "Go to Pages / Posts" buttons stack, ensure there's space between them. */
+}
