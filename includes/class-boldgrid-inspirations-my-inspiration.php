@@ -211,7 +211,7 @@ class Boldgrid_Inspirations_My_Inspiration {
 	public function box_customization() {
 	// Link to Customizer.
 	$return_url     = 'admin.php?page=admin.php&page=my-inspiration';
-	$return_url    .= empty( $_GET['new_inspiration'] ) ? '' : 'new_inspiration=1';
+	$return_url    .= empty( $_GET['new_inspiration'] ) ? '' : '&new_inspiration=1';
 	$customizer_url = admin_url( 'customize.php' );
 	$customizer_url = add_query_arg( 'return', urlencode( $return_url ), $customizer_url );
 
