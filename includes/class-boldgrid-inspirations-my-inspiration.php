@@ -199,7 +199,7 @@ class Boldgrid_Inspirations_My_Inspiration {
 	public function box_current_inspiration() { ?>
 		<p>
 			<a href="<?php echo esc_url( get_site_url() ); ?>" class="button button-primary dashicons-before dashicons-admin-home"><?php esc_html_e( 'View Site', 'boldgrid-inspirations' ); ?></a>
-			<a href="<?php echo esc_url( admin_url( 'admin.php?page=boldgrid-inspirations&force=1' ) ); ?>" class="button button-primary dashicons-before dashicons-lightbulb"><?php esc_html_e( 'Start Over with New Inspiration', 'boldgrid-inspirations' ); ?></a>
+			<a href="<?php echo esc_url( admin_url( 'admin.php?page=boldgrid-inspirations&force=1' ) ); ?>" class="button dashicons-before dashicons-lightbulb"><?php esc_html_e( 'Start Over with New Inspiration', 'boldgrid-inspirations' ); ?></a>
 		</p>
 	<?php }
 
@@ -236,7 +236,7 @@ class Boldgrid_Inspirations_My_Inspiration {
 			<a href="<?php echo esc_url( $contact_url ); ?>" class="dashicons-before dashicons-phone"><?php esc_html_e( 'Contact Info', 'boldgrid-inspirations' ); ?></a>
 		</li>
 	</ul>
-	<a href="<?php echo esc_url( $customizer_url ); ?>" class="button button-primary dashicons-before dashicons-admin-customize"><?php esc_html_e( 'Go to Customizer', 'boldgrid-inspirations' ); ?></a>
+	<a href="<?php echo esc_url( $customizer_url ); ?>" class="button dashicons-before dashicons-admin-customize"><?php esc_html_e( 'Go to Customizer', 'boldgrid-inspirations' ); ?></a>
 	<?php }
 
 	/**
@@ -287,9 +287,9 @@ class Boldgrid_Inspirations_My_Inspiration {
 			<?php } ?>
 		</p>
 
-		<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=page' ) ); ?>" class="button button-primary dashicons-before dashicons-admin-page"><?php esc_html_e( 'Go to All Pages', 'boldgrid-inspirations' ); ?></a>
+		<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=page' ) ); ?>" class="button dashicons-before dashicons-admin-page"><?php esc_html_e( 'Go to All Pages', 'boldgrid-inspirations' ); ?></a>
 		<?php if ( $installed->has_installed_posts() ) { ?>
-			<a href="<?php echo esc_url( admin_url( 'edit.php' ) ); ?>" class="button button-primary dashicons-before dashicons-admin-post"><?php esc_html_e( 'Go to All Posts', 'boldgrid-inspirations' ); ?></a>
+			<a href="<?php echo esc_url( admin_url( 'edit.php' ) ); ?>" class="button dashicons-before dashicons-admin-post"><?php esc_html_e( 'Go to All Posts', 'boldgrid-inspirations' ); ?></a>
 		<?php } ?>
 	<?php }
 
@@ -312,7 +312,7 @@ class Boldgrid_Inspirations_My_Inspiration {
 			<li>
 				<?php esc_html_e( 'Find guides and tutorials on BoldGrid.com.', 'boldgrid-inspirations' ); ?>
 				<p>
-					<a href="https://www.boldgrid.com/support/" class="button button-primary dashicons-before dashicons-sos" target="_blank"><?php esc_html_e( 'View Tutorials', 'boldgrid-inspirations' ); ?></a>
+					<a href="https://www.boldgrid.com/support/" class="button dashicons-before dashicons-sos" target="_blank"><?php esc_html_e( 'View Tutorials', 'boldgrid-inspirations' ); ?></a>
 				</p>
 			</li>
 
@@ -326,14 +326,14 @@ class Boldgrid_Inspirations_My_Inspiration {
 					array( 'br' => array() )
 				); ?>
 				<p>
-					<a href="<?php echo esc_url( $reseller->getAttribute( 'reseller_amp_url' ) ); ?>" class="button button-primary dashicons-before dashicons-admin-users" target="_blank"><?php esc_html_e( 'Login Now', 'boldgrid-inspirations' ); ?></a>
+					<a href="<?php echo esc_url( $reseller->getAttribute( 'reseller_amp_url' ) ); ?>" class="button dashicons-before dashicons-admin-users" target="_blank"><?php esc_html_e( 'Login Now', 'boldgrid-inspirations' ); ?></a>
 				</p>
 			</li>
 
 			<li>
 				<?php esc_html_e( 'Get support from your fellow users.', 'boldgrid-inspirations' ); ?>
 				<p>
-					<a href="https://www.facebook.com/groups/BGTeamOrange" class="button button-primary dashicons-before dashicons-format-chat" target="_blank"><?php esc_html_e( 'User Groups', 'boldgrid-inspirations' ); ?></a>
+					<a href="https://www.facebook.com/groups/BGTeamOrange" class="button dashicons-before dashicons-format-chat" target="_blank"><?php esc_html_e( 'User Groups', 'boldgrid-inspirations' ); ?></a>
 				</p>
 			</li>
 
@@ -351,7 +351,7 @@ class Boldgrid_Inspirations_My_Inspiration {
 		<p><img src="<?php echo esc_url( $theme->get_screenshot() ); ?>" style="max-width:100%; border:1px solid #ddd;" /></p>
 
 		<p style="text-align:center;">
-			<a href="<?php echo esc_url( admin_url( 'theme-install.php?browse=featured' ) ); ?>" class="button button-primary dashicons-before dashicons-admin-appearance"><?php esc_html_e( 'Choose New Theme' , 'boldgrid-inspirations' ); ?></a>
+			<a href="<?php echo esc_url( admin_url( 'theme-install.php?browse=featured' ) ); ?>" class="button dashicons-before dashicons-admin-appearance"><?php esc_html_e( 'Choose New Theme' , 'boldgrid-inspirations' ); ?></a>
 		</p>
 	<?php }
 
