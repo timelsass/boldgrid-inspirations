@@ -699,7 +699,17 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 * @since 1.2.3
 	 */
 	this.sortThemes = function( sortBy ) {
-		$( '.themes .theme:visible' )
+		/*
+		 * When this function was originally written, it assumed that we were on the "Design" step
+		 * and the themes we wanted to sort were visible. As of 2.0.0, the themes are loaded in the
+		 * background while the user is on the "Welcome" step.
+		 *
+		 * If we're sorting the "All" category (data-all-order), then sort all the themes. Otherwise,
+		 * save resources and only sort the visible themes.
+		 */
+		var $themes = 'data-all-order' === sortBy ? $( '.themes .theme' ) : $( '.themes .theme:visible' );
+
+		$themes
 			.sort( function( a, b ) {
 				var aSort = parseInt( $( a ).attr( sortBy ) ),
 					bSort = parseInt( $( b ).attr( sortBy ) );
