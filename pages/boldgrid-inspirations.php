@@ -169,7 +169,7 @@ if ( 'design' === $section ) {
 			</p>
 
 			<p style="text-align:center;">
-				<a class="button button-primary boldgrid-orange"><?php echo esc_html__( 'Let\'s Get Started!', 'boldgrid-inspirations' ); ?></a>
+				<a class="button button-primary boldgrid-orange dashicons-before dashicons-after dashicons-arrow-right-alt"><?php echo esc_html__( 'Let\'s Get Started!', 'boldgrid-inspirations' ); ?></a>
 			</p>
 
 		</div>
