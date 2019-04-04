@@ -317,7 +317,14 @@ class Boldgrid_Inspirations_My_Inspiration {
 			</li>
 
 			<li>
-				<?php esc_html_e( 'Need one-one support?', 'boldgrid-inspirations' ); ?>
+				<?php echo wp_kses(
+					sprintf(
+						// translators: 1 a line break for formatting purposes, we want the string to be on two lines.
+						esc_html__( 'Need one-one %1$s support?', 'boldgrid-inspirations' ),
+						'<br />'
+					),
+					array( 'br' => array() )
+				); ?>
 				<p>
 					<a href="<?php echo esc_url( $reseller->getAttribute( 'reseller_amp_url' ) ); ?>" class="button button-primary dashicons-before dashicons-admin-users" target="_blank"><?php esc_html_e( 'Login Now', 'boldgrid-inspirations' ); ?></a>
 				</p>
