@@ -1105,7 +1105,30 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		self.socialMediaDefaults();
 		self.initFeatureToggles();
 		self.bindOverwriteCheck();
+		self.newKeyAdded();
 	};
+
+	/**
+	 * Steps to take if a new key has been added.
+	 *
+	 * If we have a notice showing a new key has been added, we need to make sure it can be seen
+	 * and that it is moved to the correct location.
+	 *
+	 * @since 1.7.0
+	 */
+	this.newKeyAdded = function() {
+		var $notice = $( '.notice.bglib-key-added' );
+
+		if ( ! $notice ) {
+			return;
+		}
+
+		$notice
+			// Admin notices within Inspirations are hidden by default. Make it visible.
+			.addClass( 'bginsp-deploy-notice' )
+			// Add the notice to the current visible screen.
+			.prependTo( $( 'div[id^="screen-"]:visible' ) );
+	}
 
 	/**
 	 * Require user to check box in order to overwrite site.

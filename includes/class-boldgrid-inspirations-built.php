@@ -106,12 +106,11 @@ class Boldgrid_Inspirations_Built {
 			} );
 
 			/*
-			 * If we're on the Inspirations page, the "Get a key" link should add "bginsp" as the
-			 * "postNewKey" value (The action to take after BoldGrid Central gives us a key and we
-			 * save it.
+			 * If we're on the Inspirations page, the "Get a key" link should be modified so that
+			 * after the user gets a key, they are redirected back to the Inspirations process.
 			 */
-			add_filter( 'Boldgrid\Library\Views\KeyPrompt\postNewKey', function( $action ) {
-				return 'bginsp';
+			add_filter( 'Boldgrid\Library\Key\returnUrl', function() {
+				return admin_url( 'admin.php?page=boldgrid-inspirations&force=1&section=design' );
 			} );
 		}
 	}

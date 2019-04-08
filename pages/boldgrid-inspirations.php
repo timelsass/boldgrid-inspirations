@@ -80,7 +80,7 @@ $section = ! empty( $_GET['section'] ) ? $_GET['section'] : '';
 
 // If we are forcing the design section first (see comment above), adjust our screens as needed.
 if ( 'design' === $section ) {
-	$sections['welcome']['classes'] = array( 'hidden' );
+	$sections['welcome']['classes'][] = 'hidden';
 
 	switch( $show_content_warning ) {
 		case true:
