@@ -406,7 +406,7 @@ class Boldgrid_Inspirations_My_Inspiration {
 	 * @since 1.7.0
 	 */
 	public static function redirect() {
-		wp_redirect( admin_url( 'admin.php?page=my-inspiration' ), 301 );
+		wp_redirect( admin_url( 'admin.php?page=my-inspiration' ) );
 		exit;
 	}
 }
