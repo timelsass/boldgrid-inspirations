@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "95bc7ee39032cf5e383d9424b4143a6e",
+    "content-hash": "ef56c3b348747c5aca698211b24d0585",
     "packages": [
         {
             "name": "boldgrid/bgforms",
@@ -113,16 +113,16 @@
         },
         {
             "name": "boldgrid/library",
-            "version": "2.8.0-rc.5",
+            "version": "2.8.0-rc.6",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BoldGrid/library.git",
-                "reference": "eebd8bc1ef3be98db2cd62fa51987518f6055f13"
+                "reference": "c43e669a82d21a0661a005cb59a39d2c0fe80434"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BoldGrid/library/zipball/eebd8bc1ef3be98db2cd62fa51987518f6055f13",
-                "reference": "eebd8bc1ef3be98db2cd62fa51987518f6055f13",
+                "url": "https://api.github.com/repos/BoldGrid/library/zipball/c43e669a82d21a0661a005cb59a39d2c0fe80434",
+                "reference": "c43e669a82d21a0661a005cb59a39d2c0fe80434",
                 "shasum": ""
             },
             "type": "library",
@@ -158,7 +158,7 @@
                 }
             ],
             "description": "The BoldGrid Library for shared code used in official BoldGrid plugins and themes.",
-            "time": "2019-04-01T12:36:48+00:00"
+            "time": "2019-04-08T13:38:26+00:00"
         },
         {
             "name": "boldgrid/plugin-installer",
@@ -220,7 +220,7 @@
         {
             "alias": "2.8.0",
             "alias_normalized": "2.8.0.0",
-            "version": "2.8.0.0-RC5",
+            "version": "2.8.0.0-RC6",
             "package": "boldgrid/library"
         }
     ],
