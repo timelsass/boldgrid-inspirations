@@ -41,6 +41,7 @@ Temporary fix until a near-future update:
 * Update: Made translation ready. Text domain is boldgrid-inspirations.
 * Update: Inspirations process with full screen mode and design updates.
 * New feature: Inspirations dashboard.
+* New feature: German translations added - de_DE.
 
 = 1.6.5 =
 
