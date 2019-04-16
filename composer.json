@@ -1,8 +1,8 @@
 {
     "require": {
-        "boldgrid/library": "2.8.0-rc.7 as 2.8.0",
+        "boldgrid/library": "^2.0.0",
         "boldgrid/boldgrid-inspirations-premium": "^1.0.0",
-        "boldgrid/plugin-installer": "1.0.5-rc.2",
+        "boldgrid/plugin-installer": "^1.0.0",
         "boldgrid/bgforms": "^1.0.0"
     },
     "scripts": {
