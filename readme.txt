@@ -4,7 +4,7 @@ Tags: inspiration, customization, build, create, design
 Requires at least: 4.4
 Tested up to: 5.1
 Requires PHP: 5.4
-Stable tag: 1.6.5
+Stable tag: 2.0.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,7 +36,9 @@ Temporary fix until a near-future update:
 
 == Changelog ==
 
-= 2.0.0 In progress =
+= 2.0.0 =
+
+Release date: Apr 16th, 2019
 
 * Update: Made translation ready. Text domain is boldgrid-inspirations.
 * Update: Inspirations process with full screen mode and design updates.
