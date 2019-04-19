@@ -29,7 +29,7 @@ class Boldgrid_Inspirations_Deploy_Status {
 	 * @access private
 	 * @var int
 	 */
-	private $transient_expiration = 60 * 3;
+	private $transient_expiration = 180;
 
 	/**
 	 * The transient name.
