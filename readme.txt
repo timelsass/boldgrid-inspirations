@@ -4,7 +4,7 @@ Tags: inspiration, customization, build, create, design
 Requires at least: 4.4
 Tested up to: 5.1
 Requires PHP: 5.4
-Stable tag: 2.0.1
+Stable tag: 2.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -35,6 +35,12 @@ Temporary fix until a near-future update:
 3. You will find the Inspirations menu in your WordPress Dashboard / admin panel.
 
 == Changelog ==
+
+= 2.0.2 =
+
+Release date: Apr 22nd, 2019
+
+* Bug fix: Fixing usage of php's empty function for php < 5.5
 
 = 2.0.1 =
 

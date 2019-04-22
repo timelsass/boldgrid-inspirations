@@ -185,6 +185,8 @@ class Boldgrid_Inspirations_Config {
 	 * @return bool
 	 */
 	public static function use_boldgrid_menu() {
-		return ! empty( self::get_setting( 'boldgrid_menu_option' ) );
+		$menu_option = self::get_setting( 'boldgrid_menu_option' );
+
+		return ! empty( $menu_option );
 	}
 }
