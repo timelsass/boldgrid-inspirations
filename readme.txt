@@ -38,7 +38,7 @@ Temporary fix until a near-future update:
 
 = 2.0.2 =
 
-Release date: Apr 22nd, 2019
+Release date: Apr 23nd, 2019
 
 * Bug fix: Fixing usage of php's empty function for php < 5.5
 
