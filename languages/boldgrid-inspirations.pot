@@ -2,15 +2,15 @@
 # This file is distributed under the same license as the BoldGrid Inspirations plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: BoldGrid Inspirations 2.0.0-rc.2\n"
+"Project-Id-Version: BoldGrid Inspirations 2.0.2\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/boldgrid-inspirations\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2019-04-10T08:24:12-04:00\n"
-"PO-Revision-Date: 2019-04-10T08:24:12-04:00\n"
+"POT-Creation-Date: 2019-04-26T09:25:29-04:00\n"
+"PO-Revision-Date: 2019-04-26T09:25:29-04:00\n"
 "X-Generator: WP-CLI 2.0.1\n"
 "X-Domain: boldgrid-inspirations\n"
 
@@ -32,47 +32,6 @@ msgstr ""
 
 #. Author URI of the plugin
 msgid "https://www.boldgrid.com/"
-msgstr ""
-
-#: pages/boldgrid-dashboard-first-time-users.php:9
-msgid "Creating a site with BoldGrid is done in 3 steps:"
-msgstr ""
-
-#. translators: 1 A complete anchor tag (both opening and closing tag) linking to Inspirations within the dashboard.
-#: pages/boldgrid-dashboard-first-time-users.php:34
-msgid "Go to %1$s to install your starter website and pages typical for your industry."
-msgstr ""
-
-#: pages/boldgrid-dashboard-first-time-users.php:43
-msgid "Customize"
-msgstr ""
-
-#. translators: 1 A complete anchor tag (both opening and closing tag) linking to the Customizer.
-#: pages/boldgrid-dashboard-first-time-users.php:50
-msgid "%1$s site wide settings like business name, colors, menus and content in your header and footer."
-msgstr ""
-
-#: pages/boldgrid-dashboard-first-time-users.php:59
-msgid "Pages"
-msgstr ""
-
-#. translators: 1 a complete anchor tag (both opening and closing tag) linking to Dashboard > Pages.
-#: pages/boldgrid-dashboard-first-time-users.php:66
-msgid "Edit your %1$s to add your content and photos."
-msgstr ""
-
-#. translators: 1 opening anchor tag linking to BoldGrid support center, 2 closing anchor tag.
-#: pages/boldgrid-dashboard-first-time-users.php:76
-msgid "Watching the video above is recommended.  You can also visit our %1$s support center %2$s to learn more."
-msgstr ""
-
-#: pages/boldgrid-dashboard-first-time-users.php:85
-#: pages/boldgrid-dashboard-advanced-wp-users.php:48
-msgid "Learn More"
-msgstr ""
-
-#: pages/boldgrid-dashboard-first-time-users.php:94
-msgid "Get Started"
 msgstr ""
 
 #: pages/boldgrid-inspirations.php:17
@@ -455,24 +414,6 @@ msgstr ""
 msgid "You do not have a BoldGrid site to delete! You can build a new website using %1$s."
 msgstr ""
 
-#. translators: 1 opening anchor tag linking to advanced tutorials on boldgrid.com, 2 closing anchor tag.
-#: pages/boldgrid-dashboard-advanced-wp-users.php:12
-msgid "We encourage you to watch the video above and check out the %1$s Advanced Tutorials %2$s"
-msgstr ""
-
-#: pages/boldgrid-dashboard-advanced-wp-users.php:26
-msgid " Inspirations"
-msgstr ""
-
-#: pages/boldgrid-dashboard-advanced-wp-users.php:29
-msgid " BoldGrid"
-msgstr ""
-
-#. translators: 1 opening anchor tag linking to tutorial on boldgrid.com for restoring admin menu, 2 closing anchor tag, 3 opening anchor tag to boldgrid settings page.
-#: pages/boldgrid-dashboard-advanced-wp-users.php:38
-msgid "In addition to the video above, we have more detail on things that have changed like the %1$s Admin Menu %2$s (you can change it back %3$s here %2$s)."
-msgstr ""
-
 #: pages/my-inspiration.php:22
 #: includes/class-boldgrid-inspirations-my-inspiration.php:186
 #: includes/class-boldgrid-inspirations-my-inspiration.php:187
@@ -556,22 +497,6 @@ msgstr ""
 
 #: pages/image_search.php:66
 msgid "While we've tried our best to filter out any explicit images in search results, we cannot guarantee the content of all images in your search results."
-msgstr ""
-
-#: pages/boldgrid-dashboard-widget.php:7
-msgid "Experienced WordPress Users"
-msgstr ""
-
-#: pages/boldgrid-dashboard-widget.php:22
-msgid "Click to toggle"
-msgstr ""
-
-#: pages/boldgrid-dashboard-widget.php:26
-msgid "Welcome to BoldGrid!"
-msgstr ""
-
-#: pages/boldgrid-dashboard-widget.php:32
-msgid "First Time Users"
 msgstr ""
 
 #. translators: 1 URL to BoldGrid Central.
@@ -1294,41 +1219,41 @@ msgstr ""
 msgid "Not in a menu location."
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-dashboard.php:184
-#: includes/class-boldgrid-inspirations-dashboard.php:185
+#: includes/class-boldgrid-inspirations-dashboard.php:176
+#: includes/class-boldgrid-inspirations-dashboard.php:177
 msgid "Customize Active"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-dashboard.php:199
-#: includes/class-boldgrid-inspirations-dashboard.php:200
+#: includes/class-boldgrid-inspirations-dashboard.php:191
+#: includes/class-boldgrid-inspirations-dashboard.php:192
 msgid "Install First Inspiration"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-dashboard.php:285
-#: includes/class-boldgrid-inspirations-dashboard.php:286
+#: includes/class-boldgrid-inspirations-dashboard.php:277
+#: includes/class-boldgrid-inspirations-dashboard.php:278
 msgid "Change Themes"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-dashboard.php:431
-#: includes/class-boldgrid-inspirations-dashboard.php:432
+#: includes/class-boldgrid-inspirations-dashboard.php:423
+#: includes/class-boldgrid-inspirations-dashboard.php:424
 msgid "CSS/HTML Editor"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-dashboard.php:575
-#: includes/class-boldgrid-inspirations-dashboard.php:576
+#: includes/class-boldgrid-inspirations-dashboard.php:546
+#: includes/class-boldgrid-inspirations-dashboard.php:547
 msgid "Active Site"
 msgstr ""
 
 #. translators: An RSS error message.
-#: includes/class-boldgrid-inspirations-dashboard.php:595
+#: includes/class-boldgrid-inspirations-dashboard.php:566
 msgid "<strong>RSS Error</strong>: %s"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-dashboard.php:673
+#: includes/class-boldgrid-inspirations-dashboard.php:644
 msgid "BoldGrid.com News"
 msgstr ""
 
-#: includes/class-boldgrid-inspirations-dashboard.php:683
+#: includes/class-boldgrid-inspirations-dashboard.php:654
 msgid "BoldGrid Feedback"
 msgstr ""
 

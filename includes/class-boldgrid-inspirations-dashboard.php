@@ -70,14 +70,6 @@ class Boldgrid_Inspirations_Dashboard extends Boldgrid_Inspirations {
 				)
 			);
 
-			// add custom welcome panel content
-			add_action( 'welcome_panel',
-				array(
-					$this,
-					'boldgrid_welcome_panel',
-				)
-			);
-
 			// If option is marked to rearrange admin menus.
 			if ( 1 == $boldgrid_menu_options['boldgrid_menu_option'] ) {
 				/*
@@ -497,22 +489,8 @@ class Boldgrid_Inspirations_Dashboard extends Boldgrid_Inspirations {
 				BOLDGRID_INSPIRATIONS_VERSION
 			);
 
+			// The dashboard css contains styles for the feedback widget.
 			wp_enqueue_style( 'boldgrid-dashboard-css' );
-
-			wp_enqueue_script(
-				'boldgrid-dashboard-js',
-				plugins_url(
-					'assets/js/boldgrid-dashboard.js', BOLDGRID_BASE_DIR . '/includes'
-				),
-				array(
-					'jquery',
-					'backbone',
-					'underscore',
-					'jquery-ui-core',
-				),
-				BOLDGRID_INSPIRATIONS_VERSION,
-				true
-			);
 		}
 	}
 
@@ -542,13 +520,6 @@ class Boldgrid_Inspirations_Dashboard extends Boldgrid_Inspirations {
 			'boldgrid-transactions', // Receipts.
 			'separator-last',
 		); // Last separator.
-	}
-
-	/**
-	 * Welcome panel.
-	 */
-	public function boldgrid_welcome_panel() {
-		include BOLDGRID_BASE_DIR . '/pages/boldgrid-dashboard-widget.php';
 	}
 
 	/**
