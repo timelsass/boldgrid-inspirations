@@ -36,6 +36,10 @@ Temporary fix until a near-future update:
 
 == Changelog ==
 
+= 2.1.0 In progress =
+
+* Update: Remove news widget from dashboard.
+
 = 2.0.2 =
 
 Release date: Apr 23nd, 2019

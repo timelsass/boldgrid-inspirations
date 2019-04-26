@@ -580,72 +580,6 @@ class Boldgrid_Inspirations_Dashboard extends Boldgrid_Inspirations {
 	}
 
 	/**
-	 * Creates the BoldGrid.com News Widget in dashboard.
-	 *
-	 * @since 1.2.2
-	 */
-	public function boldgrid_news_widget() {
-		$rss = fetch_feed( 'https://www.boldgrid.com/tag/dashboard/feed/' );
-
-		if ( is_wp_error($rss) ) {
-			if ( is_admin() || current_user_can( 'manage_options' ) ) {
-				echo '<p>';
-				printf(
-					// translators: An RSS error message.
-					__( '<strong>RSS Error</strong>: %s', 'boldgrid-inspirations' ),
-					esc_html( $rss->get_error_message() )
-				);
-				echo '</p>';
-			}
-
-			return;
-		}
-
-		if ( ! $rss->get_item_quantity() ) {
-			?>
-			<p>There are no updates to show right now!</p>
-			<?php
-			$rss->__destruct();
-			unset( $rss );
-
-			return;
-		}
-
-		?>
-		<ul>
-		<?php
-
-		if ( ! isset( $items ) )
-			$items = 3;
-		foreach ( $rss->get_items( 0, $items ) as $item ) {
-			$publisher = '';
-			$site_link = '';
-			$link = '';
-			$content = '';
-			$date = $item->get_date();
-			$link = esc_url( strip_tags( $item->get_link() ) );
-			$title = esc_html( $item->get_title() );
-			$content = $item->get_content();
-			$content = wp_html_excerpt( $content, 250 ) . ' ...';
-
-			?>
-			<li>
-				<span class='rss-title'>
-					<a class='rsswidget' href='<?php echo $link; ?>' target='_blank'><?php echo $title; ?></a>
-				</span>
-				<span class='rss-date'><?php echo $date; ?></span>
-				<div class='rssSummary'><?php echo $content; ?></div>
-			<?php
-		}
-
-		?>
-		</ul>
-		<?php
-		$rss->__destruct();
-		unset( $rss );
-	}
-
-	/**
 	 * Creates the BoldGrid Feedback Widget in dashboard.
 	 *
 	 * @since 1.2.2
@@ -668,15 +602,6 @@ class Boldgrid_Inspirations_Dashboard extends Boldgrid_Inspirations {
 	 * @since 1.2.2
 	 */
 	public function add_dashboard_widget() {
-		wp_add_dashboard_widget(
-			'boldgrid_news_widget',
-			esc_html__( 'BoldGrid.com News', 'boldgrid-inspirations' ),
-			array(
-				$this,
-				'boldgrid_news_widget',
-			)
-		);
-
 		if ( current_user_can( 'edit_dashboard' ) && ! class_exists( '\Boldgrid\Library\Library\Notice\KeyPrompt', false ) ) {
 			wp_add_dashboard_widget(
 				'boldgrid_feedback_widget',
