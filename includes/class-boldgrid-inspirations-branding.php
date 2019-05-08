@@ -78,7 +78,7 @@ class Boldgrid_Inspirations_Branding {
 		);
 
 		// Add filter for BoldGrid login logo title.
-		add_filter( 'login_headertitle',
+		add_filter( 'login_headertext',
 			array(
 				$this,
 				'boldgrid_login_logo_title',
