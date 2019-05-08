@@ -61,6 +61,8 @@ class Boldgrid_Inspirations_Branding {
 	 * Add hooks.
 	 */
 	public function add_hooks() {
+		global $wp_version;
+
 		// Add action to enqueue BoldGrid login CSS script.
 		add_action( 'login_enqueue_scripts',
 			array(
@@ -77,8 +79,15 @@ class Boldgrid_Inspirations_Branding {
 			)
 		);
 
+		// login_headertitle deprecated filter in WP 5.2.
+		$hook = 'login_headertitle';
+		
+		if ( version_compare( $wp_version, '5.2', '>=' ) ) {
+			$hook = 'login_headertext';
+		}
+
 		// Add filter for BoldGrid login logo title.
-		add_filter( 'login_headertext',
+		add_filter( $hook,
 			array(
 				$this,
 				'boldgrid_login_logo_title',
