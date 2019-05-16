@@ -36,6 +36,12 @@ Temporary fix until a near-future update:
 
 == Changelog ==
 
+= 2.0.3 =
+
+Release date: May 16th, 2019
+
+* Bug fix: Fixing "Call to undefined method getAttribute" error.
+
 = 2.0.2 =
 
 Release date: Apr 23nd, 2019

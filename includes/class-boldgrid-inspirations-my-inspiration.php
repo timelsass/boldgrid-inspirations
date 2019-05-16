@@ -300,6 +300,9 @@ class Boldgrid_Inspirations_My_Inspiration {
 	 */
 	public function box_support() {
 		$reseller = new \Boldgrid\Library\Library\Menu\Reseller();
+
+		// The method_exists() call is a tmp fix in cases where the wrong library is loaded.
+		$reseller_amp_url = method_exists( $reseller, 'getAttribute' ) ? $reseller->getAttribute( 'reseller_amp_url' ) : 'https://www.boldgrid.com/central';
 	?>
 		<p>
 			<a href="https://www.boldgrid.com/support/inspirations-plugin/" class="dashicons-before dashicons-external" target="_blank"><?php esc_html_e( 'View Support Docs', 'boldgrid-inspirations' ); ?></a>
@@ -326,7 +329,7 @@ class Boldgrid_Inspirations_My_Inspiration {
 					array( 'br' => array() )
 				); ?>
 				<p>
-					<a href="<?php echo esc_url( $reseller->getAttribute( 'reseller_amp_url' ) ); ?>" class="button dashicons-before dashicons-admin-users" target="_blank"><?php esc_html_e( 'Login Now', 'boldgrid-inspirations' ); ?></a>
+					<a href="<?php echo esc_url( $reseller_amp_url ); ?>" class="button dashicons-before dashicons-admin-users" target="_blank"><?php esc_html_e( 'Login Now', 'boldgrid-inspirations' ); ?></a>
 				</p>
 			</li>
 
