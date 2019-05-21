@@ -2,7 +2,7 @@
 Contributors: boldgrid, imh_brad, joemoto, rramo012, timph
 Tags: inspiration, customization, build, create, design
 Requires at least: 4.4
-Tested up to: 5.1
+Tested up to: 5.2
 Requires PHP: 5.4
 Stable tag: 2.0.2
 License: GPLv2 or later
@@ -38,9 +38,10 @@ Temporary fix until a near-future update:
 
 = 2.0.3 =
 
-Release date: May 16th, 2019
+Release date: May 21st, 2019
 
 * Bug fix: Fixing "Call to undefined method getAttribute" error.
+* Bug fix: Replacing deprecated filter on login: login_headertitle / login_headertext.
 
 = 2.0.2 =
 
