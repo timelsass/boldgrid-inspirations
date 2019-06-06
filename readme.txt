@@ -36,6 +36,10 @@ Temporary fix until a near-future update:
 
 == Changelog ==
 
+= 2.0.4 In progress =
+
+* Update: Updated dependencies.
+
 = 2.0.3 =
 
 Release date: May 21st, 2019
