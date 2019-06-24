@@ -4,7 +4,7 @@ Tags: inspiration, customization, build, create, design
 Requires at least: 4.4
 Tested up to: 5.2
 Requires PHP: 5.4
-Stable tag: 2.0.2
+Stable tag: 2.0.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -38,6 +38,7 @@ Temporary fix until a near-future update:
 
 = 2.0.4 In progress =
 
+* Update: Replaced the BoldGrid RSS feed widget on the dashboard with one in the updated library package.
 * Update: Updated dependencies.
 
 = 2.0.3 =
