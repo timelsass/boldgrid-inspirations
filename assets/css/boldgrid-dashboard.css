@@ -289,13 +289,6 @@ div.play-button:hover {
   border-radius: 90%;
 }
 
-/** BoldGrid News Widget Styles **/
-#boldgrid_news_widget .rss-date {
-	margin-left: 1em;
-	color: #72777c;
-	font-size: 13px;
-}
-
 /** BoldGrid Feedback Widget Styles **/
 #boldgrid_feedback_widget select,
 #boldgrid_feedback_widget textarea,
