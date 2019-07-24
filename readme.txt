@@ -37,6 +37,7 @@ The second phase is Customization; tools to transform your website into your vis
 = 2.0.5 =
 
 * Update: Added a switch for toggling branding of the login page.
+* Update: Cleaned up logic on purchase coins page.
 
 = 2.0.4 =
 

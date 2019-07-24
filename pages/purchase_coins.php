@@ -3,7 +3,6 @@
 require BOLDGRID_BASE_DIR . '/pages/templates/restrict-direct-access.php';
 
 $reseller = new Boldgrid\Library\Library\Reseller();
-$coinUrl = $reseller->data['reseller_coin_url'];
 
 // Configure the "purchase coins" link.
 $reseller_link = sprintf(
@@ -14,14 +13,14 @@ $reseller_link = sprintf(
 	),
 	esc_url( $reseller->centralUrl )
 );
-if ( $reseller->centralUrl !== $coinUrl && isset( $reseller->data['reseller_title'] ) ) {
+if ( $reseller->hasCoinUrl() && isset( $reseller->data['reseller_title'] ) ) {
 	$reseller_link = sprintf(
 		wp_kses(
 			// translators: 1 URL to reseller's page where user can purchase additional BoldGrid Connect Coins, 2 the name of the reseller.
 			__( 'You can purchase additional coins through your official BoldGrid reseller, <a href="%1$s" target="_blank">%2$s</a>.', 'boldgrid-inspirations' ),
 			array( 'a' => array( 'href' => array(), 'target' => array() ) )
 		),
-		$coinUrl,
+		$reseller->data['reseller_coin_url'],
 		$reseller->data['reseller_title']
 	);
 }
