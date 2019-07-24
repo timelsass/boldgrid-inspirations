@@ -34,6 +34,10 @@ The second phase is Customization; tools to transform your website into your vis
 
 == Changelog ==
 
+= 2.0.5 =
+
+* Update: Added a switch for toggling branding of the login page.
+
 = 2.0.4 =
 
 Release date: July 2nd, 2019
