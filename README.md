@@ -7,7 +7,7 @@
 **Requires at least:** 4.4
 **Tested up to:** 5.2
 **Requires PHP:** 5.4
-**Stable tag:** 2.0.4
+**Stable tag:** 2.0.5
 **License:** GPLv2 or later
 **License URI:** http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,6 +36,14 @@ The second phase is Customization; tools to transform your website into your vis
 3. You will find the Inspirations menu in your WordPress Dashboard / admin panel.
 
 ## Changelog ##
+
+### 2.0.5 ###
+
+Release date: July 25th, 2019
+
+* Update: Added a switch for toggling branding of the login page.
+* Update: Cleaned up logic on purchase coins page.
+* Update: Updated dependencies
 
 ### 2.0.4 ###
 
