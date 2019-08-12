@@ -38,7 +38,7 @@ class Boldgrid_Inspirations_Dashboard_Widget {
 					wp_kses(
 						sprintf(
 							// translators: 1 The opening anchor tag to the Inspirations page, 2 its closing tag.
-							__( 'It looks like you havn\'t completed the Inspirations process yet. %1$sClick here to finish up and start designing%2$s.', 'boldgrid-inspirations' ),
+							__( 'It looks like you haven\'t completed the Inspirations process yet. %1$sClick here to finish up and start designing%2$s.', 'boldgrid-inspirations' ),
 							'<a href="' . esc_url( admin_url( 'admin.php?page=boldgrid-inspirations' ) ) . '">',
 							'</a>'
 						),

@@ -109,6 +109,10 @@ class Boldgrid_Inspirations_Inspiration extends Boldgrid_Inspirations {
 				)
 			);
 
+			// WordPress Dashboard.
+			$dashboard_widget = new Boldgrid_Inspirations_Dashboard_Widget();
+			$dashboard_widget->add_admin_hooks();
+
 			// Dashboard.
 			$dashboard = new Boldgrid_Inspirations_Dashboard();
 			$dashboard->add_hooks();
@@ -248,9 +252,6 @@ class Boldgrid_Inspirations_Inspiration extends Boldgrid_Inspirations {
 
 			$redirect = new Boldgrid_Inspirations_Redirect();
 			$redirect->add_admin_hooks();
-
-			$dashboard_widget = new Boldgrid_Inspirations_Dashboard_Widget();
-			$dashboard_widget->add_admin_hooks();
 		}
 
 		/* Classes to add_hooks for, regardless of is_admin. */
