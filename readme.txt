@@ -39,6 +39,7 @@ Temporary fix until a near-future update:
 = 2.1.0 In progress =
 
 * Update: Removed the "Welcome to BoldGrid" dashboard widget.
+* Update: Add notice to dashboard widget.
 
 = 2.0.2 =
 
