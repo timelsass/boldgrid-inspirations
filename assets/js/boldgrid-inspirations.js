@@ -68,7 +68,8 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 *
 	 * @since 1.2.5
 	 */
-	self.themeReleaseChannel = configs === undefined ? 'stable' : configs.settings.theme_release_channel;
+	self.themeReleaseChannel =
+		configs === undefined ? 'stable' : configs.settings.theme_release_channel;
 
 	/**
 	 * Theme preview.
@@ -289,11 +290,11 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 					'</h2>';
 
 				/*
-		         * When previewing a large theme screenshot, scroll the body to that theme.
-		         *
-		         * The "complex" scrollTop calculation simply ensures a nice scroll position,
-		         * positioning the theme flush with the "Category Filter" heading.
-		         */
+				 * When previewing a large theme screenshot, scroll the body to that theme.
+				 *
+				 * The "complex" scrollTop calculation simply ensures a nice scroll position,
+				 * positioning the theme flush with the "Category Filter" heading.
+				 */
 				$( 'html, body' ).animate(
 					{
 						scrollTop: self.$themePreviewed.offset().top - self.themeTop
@@ -699,6 +700,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 * @since 1.2.3
 	 */
 	this.sortThemes = function( sortBy ) {
+
 		/*
 		 * When this function was originally written, it assumed that we were on the "Design" step
 		 * and the themes we wanted to sort were visible. As of 2.0.0, the themes are loaded in the
@@ -1032,7 +1034,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 				self.initDeployPage();
 			}
 		} );
-	}
+	};
 
 	/**
 	 * Init the deploy page.
@@ -1041,7 +1043,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 */
 	this.initDeployPage = function() {
 		$( window ).bind( 'load', self.onDeployFinish );
-	}
+	};
 
 	/**
 	 * Steps to take when a deployment has finished.
@@ -1049,6 +1051,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 * @since 1.7.0
 	 */
 	this.onDeployFinish = function() {
+
 		/*
 		 * Redirect the user to the My Inspirations page.
 		 *
@@ -1057,19 +1060,23 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		 * whole page load at once.
 		 */
 		window.location.href = Inspiration.myInspirationUrl;
-	}
+	};
 
 	this.initInspirationsPage = function() {
-
 		self.bindClicks();
 
 		var promptingForKey = self.$wrap.find( '#screen-api-key' ).length;
 		if ( promptingForKey ) {
 			$( '#container_boldgrid_api_key_notice' )
+
 				// Remove the option to dismiss the notice.
-				.find( '.notice-dismiss' ).remove().end()
+				.find( '.notice-dismiss' )
+				.remove()
+				.end()
+
 				// Ensure the page doesn't refresh after the key is saved successfully.
 				.addClass( 'no-refresh' )
+
 				// Move the notice to the "enter api key" step.
 				.prependTo( '#screen-api-key' );
 
@@ -1083,7 +1090,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 				setTimeout( function() {
 					self.toggleStep();
 				}, 2000 );
-			});
+			} );
 		} else {
 			self.initCategories();
 		}
@@ -1124,11 +1131,13 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		}
 
 		$notice
+
 			// Admin notices within Inspirations are hidden by default. Make it visible.
 			.addClass( 'bginsp-deploy-notice' )
+
 			// Add the notice to the current visible screen.
 			.prependTo( $( 'div[id^="screen-"]:visible' ) );
-	}
+	};
 
 	/**
 	 * Require user to check box in order to overwrite site.
@@ -1138,8 +1147,8 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	this.bindOverwriteCheck = function() {
 		$( '#screen-content-check-warning .next-step' ).on( 'click', function( e ) {
 			var $confirm = $( '#bginsp_confirm_overwrite' ),
-				checked  = $confirm.find( 'input:checkbox' ).prop( 'checked' ),
-				$notice  = $confirm.find( 'span' );
+				checked = $confirm.find( 'input:checkbox' ).prop( 'checked' ),
+				$notice = $confirm.find( 'span' );
 
 			e.preventDefault();
 
@@ -1150,8 +1159,8 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 				$notice.css( 'display', 'block' );
 				return false;
 			}
-		});
-	}
+		} );
+	};
 
 	/**
 	 * Init the list of categories.
@@ -1393,7 +1402,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		 */
 		getGenericComplete = function() {
 			self.allActions();
-		}
+		};
 
 		self.ajax.ajaxCall( data, 'get_generic', getGenericSuccess, getGenericFail, getGenericComplete );
 	};
@@ -1483,6 +1492,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			page_set_id: self.$pageset.attr( 'data-page-set-id' ),
 			pde: self.$theme.closest( '.theme' ).attr( 'data-pde' ),
 			wp_language: 'en-US',
+
 			// By default, option to change coin budget has been removed in x.x.x. Defaulting to 20.
 			coin_budget: 20,
 			theme_version_type: self.themeReleaseChannel,
@@ -1528,8 +1538,8 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	this.initFullScreen = function() {
 		$( 'html' ).on( 'click', '.top-menu .notice-dismiss', function() {
 			$( 'body' ).toggleClass( 'bginsp-full-screen' );
-		});
-	}
+		} );
+	};
 
 	/**
 	 * Toggle steps.
@@ -1537,15 +1547,16 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 	 * @since 1.3
 	 */
 	this.toggleStep = function( step ) {
-		var $thisStep,
-			previewHeight,
-			$activeStep,
-			screens;
+		var $thisStep, previewHeight, $activeStep, screens;
 
 		// If step not passed in as a string (it will be the "next" button instead), get the next step.
 		if ( 'string' !== typeof step ) {
 			$activeStep = self.$wrap.find( '[id^="screen-"]:visible' );
-			step        = $activeStep.nextAll( '[id^="screen-"]:hidden' ).first().attr( 'id' ).slice( 7 );
+			step = $activeStep
+				.nextAll( '[id^="screen-"]:hidden' )
+				.first()
+				.attr( 'id' )
+				.slice( 7 );
 		}
 
 		// $thisStep refers to the link in the menu.
@@ -1555,6 +1566,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 
 		// Not all steps will have a menu item in the top.
 		if ( $thisStep.length ) {
+
 			/*
 			 * Once you've been to a step, remove it's disabled settings.
 			 *
@@ -1571,7 +1583,8 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 			$( '[data-step]' ).removeClass( 'active next boldgrid-orange-important' );
 			$thisStep
 				.addClass( 'active boldgrid-orange-important' )
-				.next().addClass( 'next' );
+				.next()
+				.addClass( 'next' );
 		}
 
 		// Toggle the step's container.
@@ -1601,6 +1614,7 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 
 				break;
 			case 'api-key':
+
 				// We hid the key prompt on page load. Now is the time to show it.
 				$( '#container_boldgrid_api_key_notice' ).show();
 				break;
@@ -1719,11 +1733,15 @@ IMHWPB.InspirationsDesignFirst = function( $, configs ) {
 		var screens = [];
 
 		$( '.wrap [id^="screen-"]' ).each( function() {
-			screens.push( $( this ).attr( 'id' ).slice( 7 ) );
+			screens.push(
+				$( this )
+					.attr( 'id' )
+					.slice( 7 )
+			);
 		} );
 
 		return screens;
-	}
+	};
 
 	self.init();
 };

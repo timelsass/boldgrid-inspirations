@@ -24,7 +24,8 @@ IMHWPB.AddGridBlockSet = function( $ ) {
 	// An object of strings used within this class.
 	self.strings = {
 		homepage_iframe: '<iframe id="homepage" src="' + IMHWPB.homepage_url + '"></iframe>',
-		homepage_iframe_loading: '<div style="position:fixed; top:45%; left:45%;">' + self.lang.loadingPreview + '</div>',
+		homepage_iframe_loading:
+			'<div style="position:fixed; top:45%; left:45%;">' + self.lang.loadingPreview + '</div>',
 		select_message: '<p>' + self.lang.selectASet + '</p>'
 	};
 
@@ -272,7 +273,9 @@ IMHWPB.AddGridBlockSet = function( $ ) {
 		self.$page_previewer_select_button.prop( 'disabled', false );
 
 		// Add a "Go Back" button.
-		self.$page_previewer_select_button.after( '<a class=\'button button-secondary media-button button-large\'>' + self.lang.goBack + '</a>' );
+		self.$page_previewer_select_button.after(
+			'<a class=\'button button-secondary media-button button-large\'>' + self.lang.goBack + '</a>'
+		);
 
 		// Create a reference to our new "Go Back" button.
 		self.$page_previewer_go_back_button = self.$page_previewer_select_button.siblings(

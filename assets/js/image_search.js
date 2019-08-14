@@ -73,7 +73,9 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 
 		// Show "searching" message
 		if ( 1 == self.page ) {
-			jQuery( $c_sr ).append( '<div class=\'loading_message pointer\'>' + self.lang.searching + '...</div>' );
+			jQuery( $c_sr ).append(
+				'<div class=\'loading_message pointer\'>' + self.lang.searching + '...</div>'
+			);
 		} else {
 			jQuery( '.loading_message', $c_sr ).html( self.lang.searching + '...' );
 		}
@@ -175,7 +177,9 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 		jQuery( attachment_details )
 			.empty()
 			.html(
-				'<div class=\'loading_message white-bg\'><span class=\'spinner is-active\'></span>' + self.lang.loadingImageDetails + '</div>'
+				'<div class=\'loading_message white-bg\'><span class=\'spinner is-active\'></span>' +
+					self.lang.loadingImageDetails +
+					'</div>'
 			);
 
 		/**
@@ -300,7 +304,7 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 			action = 'add-to-gallery';
 		} else if ( 'create-gallery' === $bgcsTab.attr( 'data-added-by' ) ) {
 			action = 'create-gallery';
-		} else if ( typeof parent.wp.blocks !== 'undefined' ) {
+		} else if ( 'undefined' !== typeof parent.wp.blocks ) {
 			action = 'gutenberg';
 		} else if ( 'function' === typeof parent.window.send_to_editor && ! inCustomizer ) {
 			action = 'editor';
@@ -515,6 +519,7 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 
 		switch ( action ) {
 			case 'gutenberg':
+
 				// @todo Works, but there probably is an easier way to get the active block.
 				$selectedBlock = $( '.wp-block.is-selected', parent.document );
 
@@ -523,9 +528,9 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 
 				block = parent.wp.blocks.createBlock( 'core/image', {
 					url: response.attachment_url
-				});
+				} );
 
-				if( isClassicBlock ) {
+				if ( isClassicBlock ) {
 					parent.window.send_to_editor( response.html_for_editor );
 					parent.wp.media.frame.close();
 				} else {
@@ -546,7 +551,9 @@ IMHWPB.StockImageSearch = function( configs, $ ) {
 				var anchor_to_view_attachment_details_media_library =
 					'<a href="post.php?post=' +
 					response.attachment_id +
-					'&action=edit" target="_parent" class="button button-small view-image-in-library">' + self.lang.viewInLibrary + '</a>';
+					'&action=edit" target="_parent" class="button button-small view-image-in-library">' +
+					self.lang.viewInLibrary +
+					'</a>';
 
 				$anchor.after( anchor_to_view_attachment_details_media_library );
 
