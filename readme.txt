@@ -34,9 +34,13 @@ The second phase is Customization; tools to transform your website into your vis
 
 == Changelog ==
 
+= 2.0.7 In progress =
+
+Release date: August ??, 2019
+
 = 2.0.6 =
 
-Release date: Aug 1st, 2019
+Release date: August 1st, 2019
 
 * Update: Updated dependencies
 
