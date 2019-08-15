@@ -212,7 +212,13 @@ IMHWPB.TransactionHistory = function( configs, $ ) {
 					response = JSON.parse( response );
 
 				if ( response.attachment_id ) {
-					$td.html( '<a href=\'post.php?post=' + response.attachment_id + '&action=edit\'>' + self.lang.viewImage + '</a>' );
+					$td.html(
+						'<a href=\'post.php?post=' +
+							response.attachment_id +
+							'&action=edit\'>' +
+							self.lang.viewImage +
+							'</a>'
+					);
 				} else {
 					fail();
 				}
@@ -372,6 +378,7 @@ IMHWPB.TransactionHistory = function( configs, $ ) {
 	 * image.
 	 */
 	this.update_receipt_for_stock_photo_purchase = function() {
+
 		/*
 		 * Get all the td's where the description is "Stock Photo Purchase".
 		 *
@@ -399,6 +406,7 @@ IMHWPB.TransactionHistory = function( configs, $ ) {
 			};
 
 			var success_action = function( response ) {
+
 				// Get the td that will hold the thumbnail.
 				$thumbnail_td = $( this_td )
 					.closest( 'tr' )
@@ -407,6 +415,7 @@ IMHWPB.TransactionHistory = function( configs, $ ) {
 				try {
 					response = JSON.parse( response );
 				} catch ( e ) {
+
 					// Assume we have an error message, such as, "Unable to get image details".
 					$thumbnail_td.text( response );
 					return;
@@ -421,14 +430,19 @@ IMHWPB.TransactionHistory = function( configs, $ ) {
 				switch ( response.data_type ) {
 					case 'local_data':
 						var thumbnail_html = '<img src=\'' + response.sizes.thumbnail.url + '\' />';
-						var view_in_gallery_link = '<a href=\'' + response.editLink + '\'>' + self.lang.viewImage + '</a>';
+						var view_in_gallery_link =
+							'<a href=\'' + response.editLink + '\'>' + self.lang.viewImage + '</a>';
 						$thumbnail_td.html( thumbnail_html );
 						$redownload_td.html( view_in_gallery_link );
 						break;
 					case 'local_library_data':
 						var thumbnail_html = '<img src=\'' + response.sizes.thumbnail.url + '\' />';
 						var view_in_gallery_link =
-							'<a href=\'post.php?post=' + response.attachment_id + '&action=edit\'>' + self.lang.viewImage + '</a>';
+							'<a href=\'post.php?post=' +
+							response.attachment_id +
+							'&action=edit\'>' +
+							self.lang.viewImage +
+							'</a>';
 						$thumbnail_td.html( thumbnail_html );
 						$redownload_td.html( view_in_gallery_link );
 						break;
@@ -441,7 +455,9 @@ IMHWPB.TransactionHistory = function( configs, $ ) {
 							response.id_from_provider +
 							'\' data-user-transaction-item-id=\'' +
 							user_transaction_item_id +
-							'\' class=\'re-download-purchased-image pointer\'>' + self.lang.download + '</a>';
+							'\' class=\'re-download-purchased-image pointer\'>' +
+							self.lang.download +
+							'</a>';
 						$thumbnail_td.html( thumbnail_html );
 						$redownload_td.html( download_image_link );
 						break;

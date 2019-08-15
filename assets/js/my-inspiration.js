@@ -1,8 +1,13 @@
 // When the user clicks one of the support boxes, navigate to the url of that box's button.
 jQuery( '.support-boxes li' ).on( 'click', function() {
-	window.open( jQuery( this ).find( 'a' ).attr( 'href' ), '_blank' );
+	window.open(
+		jQuery( this )
+			.find( 'a' )
+			.attr( 'href' ),
+		'_blank'
+	);
 	return false;
-});
+} );
 
 /*
  * Add the active class to "Inspirations" in the left nav.

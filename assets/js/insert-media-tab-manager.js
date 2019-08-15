@@ -73,7 +73,8 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 	 */
 	this.addLoadingMessage = function() {
 		var $content = $( '.media-frame-content:visible' ),
-			$spinner = $( '<span class="spinner boldgrid_connect_search">' + self.i18n.loading + '</span>'
+			$spinner = $(
+				'<span class="spinner boldgrid_connect_search">' + self.i18n.loading + '</span>'
 			);
 
 		// Add the spinner.
@@ -225,8 +226,11 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 		 * @since 1.1.2
 		 */
 		self.addTabTriggers =
+
 			// P&PB: The image "Change" button added to the TinyMCE toolbar.
-			'div[aria-label="' + self.i18n.Change + '"],' +
+			'div[aria-label="' +
+			self.i18n.Change +
+			'"],' +
 
 			/*
 			 * Add Media.
@@ -238,8 +242,9 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 			 */
 			// Add Media.
 			'#insert-media-button,' +
-			'[aria-label="' + _wpMediaViewsL10n.addMedia + '"],' + // WordPress 5.0, Classic block TinyMCE toolbar.
-
+			'[aria-label="' +
+			_wpMediaViewsL10n.addMedia +
+			'"],' + // WordPress 5.0, Classic block TinyMCE toolbar.
 			// Add Media > Insert Media.
 			self.selectors.insertMedia +
 			',' +
@@ -267,7 +272,6 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 			// Background > Select image.
 			'#background_image-button,' +
 			'#customize-control-background_image .actions button,' + // WordPress 5.0.
-
 			// Background > thumbnail.
 			'.customize-control-background img.attachment-thumb,' +
 
@@ -307,7 +311,9 @@ IMHWPB.InsertMediaTabManager = function( $ ) {
 
 			// Gutenberg.
 			'.wp-block-image button,' +
-			'[aria-label="' + self.i18n.editImage + '"],' +
+			'[aria-label="' +
+			self.i18n.editImage +
+			'"],' +
 
 			// WordPress 5.0 - Classic editor's tiny "Add Media" icon.
 			'.block-library-classic__toolbar .dashicons-admin-media';
