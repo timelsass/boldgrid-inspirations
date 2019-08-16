@@ -32,7 +32,7 @@ class Boldgrid_Inspirations_Dashboard_Widget {
 	 * @param  \Boldgrid\Library\Library\Plugin\Plugin The plugin object.
 	 */
 	public function filter_feature( \Boldgrid\Library\Library\Ui\Feature $feature, \Boldgrid\Library\Library\Plugin\Plugin $plugin ) {
-		$feature->icon = '<img src="https://repo.boldgrid.com/assets/icon-boldgrid-inspirations-128x128.png" />';
+		$feature->icon = '<img src="//repo.boldgrid.com/assets/icon-boldgrid-inspirations-128x128.png" />';
 
 		if ( ! Boldgrid_Inspirations_Installed::has_built_site() ) {
 			$feature->content .= '<div class="notice notice-info inline"><p>' . wp_kses(
