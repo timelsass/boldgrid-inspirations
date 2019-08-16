@@ -2,9 +2,9 @@
 Contributors: boldgrid, imh_brad, joemoto, rramo012, timph
 Tags: inspiration, customization, build, create, design
 Requires at least: 4.4
-Tested up to: 5.1
+Tested up to: 5.2
 Requires PHP: 5.4
-Stable tag: 2.0.2
+Stable tag: 2.0.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -21,8 +21,6 @@ The second phase is Customization; tools to transform your website into your vis
 == Requirements ==
 
 * PHP cURL.
-
-Temporary fix until a near-future update:
 * PHP setting "opcache.save_comments = 1"
 * PHP setting "opcache.load_comments = 1"
 
@@ -41,6 +39,40 @@ Temporary fix until a near-future update:
 * Update: Removed the "Welcome to BoldGrid" dashboard widget.
 * Update: Add notice to dashboard widget.
 * Update: Remove news widget from dashboard.
+
+= 2.0.7 =
+
+Release date: August 16, 2019
+
+* Bug fix: Fixing compact warnings
+
+= 2.0.6 =
+
+Release date: August 1st, 2019
+
+* Update: Updated dependencies
+
+= 2.0.5 =
+
+Release date: July 25th, 2019
+
+* Update: Added a switch for toggling branding of the login page.
+* Update: Cleaned up logic on purchase coins page.
+* Update: Updated dependencies
+
+= 2.0.4 =
+
+Release date: July 2nd, 2019
+
+* Update: Replaced the BoldGrid RSS feed widget on the dashboard with one in the updated library package.
+* Update: Updated dependencies.
+
+= 2.0.3 =
+
+Release date: May 21st, 2019
+
+* Bug fix: Fixing "Call to undefined method getAttribute" error.
+* Bug fix: Replacing deprecated filter on login: login_headertitle / login_headertext.
 
 = 2.0.2 =
 

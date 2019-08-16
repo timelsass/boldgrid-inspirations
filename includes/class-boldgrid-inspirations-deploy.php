@@ -958,7 +958,7 @@ class Boldgrid_Inspirations_Deploy {
 						include_once ABSPATH . 'wp-admin/includes/file.php';
 						include_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
 
-						$upgrader = new Theme_Upgrader( new Theme_Installer_Skin( compact( 'title', 'url', 'nonce', 'plugin', 'api' ) ) );
+						$upgrader = new Theme_Upgrader( new Theme_Installer_Skin() );
 
 						// Download and install the theme:
 						$wp_theme_install_success = $upgrader->install( $theme_url,
@@ -1831,7 +1831,7 @@ class Boldgrid_Inspirations_Deploy {
 
 		// If the plugin still needs to be installed, then do it.
 		if ( ! $plugin_version_already_exists ) {
-			$upgrader = new Plugin_Upgrader( new Plugin_Installer_Skin( compact( 'title', 'url', 'nonce', 'plugin', 'api' ) ) );
+			$upgrader = new Plugin_Upgrader( new Plugin_Installer_Skin() );
 
 			/*
 			 * Install the plugin.

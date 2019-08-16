@@ -50,8 +50,8 @@ IMHWPB.BoldGrid_Cart = function( configs ) {
 
 			// Valid BoldGrid Connect Key.
 			error_no_key_entered = self.lang.reviewKey;
-			error_key_too_short  = self.lang.reviewKeyShort;
-			error_invalid_key    = self.lang.reviewKeyInvalid;
+			error_key_too_short = self.lang.reviewKeyShort;
+			error_invalid_key = self.lang.reviewKeyInvalid;
 
 			/**
 			 * ********************************************************************
@@ -68,22 +68,20 @@ IMHWPB.BoldGrid_Cart = function( configs ) {
 			 * Action to take when a checkbox is selected for an image.
 			 */
 			$( '.image-select' ).change( function() {
-				var $checkbox   = $( this ),
+				var $checkbox = $( this ),
 					$checkboxes = $( '#purchase_for_publish :checkbox' );
-					image_price = $checkbox.attr( 'data-coin-cost' ),
-					$container  = $checkbox.closest( '.col-md-3' ),
-					checked     = $checkbox.attr( 'checked' ) ? true : false,
-					$spinner    = $( '<span class="spinner inline"></span>' ),
-					// Data for ajax call.
-					data        = {
-						action:   'image_in_shopping_cart_checked',
-						asset_id: $checkbox.data( 'asset-id' ),
-						checked:  checked
-					},
+				( image_price = $checkbox.attr( 'data-coin-cost' ) ),
+					( $container = $checkbox.closest( '.col-md-3' ) ),
+					( checked = $checkbox.attr( 'checked' ) ? true : false ),
+					( $spinner = $( '<span class="spinner inline"></span>' ) ),
 
-				$checkbox
-					.hide()
-					.after( $spinner );
+					// Data for ajax call.
+					( data = {
+						action: 'image_in_shopping_cart_checked',
+						asset_id: $checkbox.data( 'asset-id' ),
+						checked: checked
+					} ),
+					$checkbox.hide().after( $spinner );
 
 				$checkboxes.attr( 'disabled', true );
 
@@ -97,6 +95,7 @@ IMHWPB.BoldGrid_Cart = function( configs ) {
 
 				// Make ajax call to update the asset's 'checked_in_cart' value.
 				$.post( ajaxurl, data, function( response ) {
+
 					// If applicable, add opacity to the image to show it's unselectd.
 					if ( checked ) {
 						$container.removeClass( 'unselected-image' );

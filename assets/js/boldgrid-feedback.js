@@ -335,8 +335,7 @@ IMHWPB.BoldGridFeedback = function( $ ) {
 
 					// Replace the form with a success message.
 					markup =
-						'<h2>' + self.lang.thanks + '</h2>\n' +
-						'<p>' + self.lang.weAreListening + '</p>';
+						'<h2>' + self.lang.thanks + '</h2>\n' + '<p>' + self.lang.weAreListening + '</p>';
 
 					// Empty the notice area.
 					$feedbackContent.empty();

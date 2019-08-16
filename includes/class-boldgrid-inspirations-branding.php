@@ -61,29 +61,37 @@ class Boldgrid_Inspirations_Branding {
 	 * Add hooks.
 	 */
 	public function add_hooks() {
-		// Add action to enqueue BoldGrid login CSS script.
-		add_action( 'login_enqueue_scripts',
-			array(
-				$this,
-				'boldgrid_login_css',
-			)
-		);
+		global $wp_version;
 
-		// Add filter for login logo URL.
-		add_filter( 'login_headerurl',
-			array(
-				$this,
-				'boldgrid_login_logo_url',
-			)
-		);
+		$reseller_data = $this->get_reseller_data();
 
-		// Add filter for BoldGrid login logo title.
-		add_filter( 'login_headertitle',
-			array(
-				$this,
-				'boldgrid_login_logo_title',
-			)
-		);
+		/*
+		 * Add hooks to brand the login page.
+		 *
+		 * As of @since 2.0.5, this section has been (1) cleaned up / reorganized and (2) the ability
+		 * to skip login page branding can now be done via a new attribute, reseller_brand_login.
+		 *
+		 * If the reseller_brand_login attribute is missing, continue branding as done prior to
+		 * @since 2.0.5. It's missing because Inspirations is reading the reseller data from a
+		 * transient, and the attribute hasn't been fetched from the API server yet. Otherwise, users
+		 * would upgrade Inspirations, and until the reseller data transient cleared, the branding
+		 * they're use to seeing would not show.
+		 */
+		$is_attribute_missing = ! isset( $reseller_data['reseller_brand_login'] );
+		if ( $is_attribute_missing || ! empty( $reseller_data['reseller_brand_login'] ) ) {
+			// Login Css.
+			add_action( 'login_enqueue_scripts', array( $this, 'boldgrid_login_css' ) );
+
+			// Login Logo Url.
+			add_filter( 'login_headerurl', 	array( $this, 'boldgrid_login_logo_url' ) );
+
+			// Login footer.
+			add_action( 'login_footer', array( $this, 'boldgrid_login_footer' ) );
+
+			// Link text of the header logo above the login form.
+			$hook = version_compare( $wp_version, '5.2', '>=' ) ? 'login_headertext' : 'login_headertitle';
+			add_filter( $hook, array( $this, 'boldgrid_login_logo_title' ) );
+		}
 
 		// Add action for BoldGrid admin icon.
 		add_action( 'init',
@@ -94,8 +102,6 @@ class Boldgrid_Inspirations_Branding {
 		);
 
 		// Add actions and filters for reseller admin bar menu and footer.
-		$reseller_data = $this->get_reseller_data();
-
 		if ( ! empty( $reseller_data['reseller_identifier'] ) ) {
 			add_filter( 'admin_footer_text',
 				array(
@@ -112,14 +118,6 @@ class Boldgrid_Inspirations_Branding {
 				)
 			);
 		}
-
-		// Add action for login footer.
-		add_action( 'login_footer',
-			array(
-				$this,
-				'boldgrid_login_footer',
-			)
-		);
 	}
 
 	/**
