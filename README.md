@@ -37,6 +37,12 @@ The second phase is Customization; tools to transform your website into your vis
 
 ## Changelog ##
 
+### 2.1.0 In progress ###
+
+* Update: Removed the "Welcome to BoldGrid" dashboard widget.
+* Update: Add notice to dashboard widget.
+* Update: Remove news widget from dashboard.
+
 ### 2.0.7 ###
 
 Release date: August 16, 2019

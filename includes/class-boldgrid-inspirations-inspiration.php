@@ -109,6 +109,10 @@ class Boldgrid_Inspirations_Inspiration extends Boldgrid_Inspirations {
 				)
 			);
 
+			// WordPress Dashboard.
+			$dashboard_widget = new Boldgrid_Inspirations_Dashboard_Widget();
+			$dashboard_widget->add_admin_hooks();
+
 			// Dashboard.
 			$dashboard = new Boldgrid_Inspirations_Dashboard();
 			$dashboard->add_hooks();
@@ -400,6 +404,7 @@ public function include_admin_files() {
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-stock-photography.php';
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-purchase-for-publish.php';
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-dashboard.php';
+	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-dashboard-widget.php';
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-screen.php';
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-update.php';
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-options.php';
