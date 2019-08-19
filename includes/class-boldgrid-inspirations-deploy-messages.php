@@ -178,6 +178,11 @@ class Boldgrid_Inspirations_Deploy_Messages {
 	 * @param string $slug  Optional, the slug of the plugin.
 	 */
 	public function print_plugin( $title, $slug = '' ) {
+		// @todo This is a temporary fix as the BGB Premium plugin has no icon.
+		if ( 'boldgrid-backup-premium' === $slug ) {
+			$slug = 'boldgrid-backup';
+		}
+
 		// @todo This is a temporary fix as the P&PB Premium plugin has no icon.
 		if ( 'post-and-page-builder-premium' === $slug ) {
 			$slug = 'post-and-page-builder';
@@ -195,7 +200,7 @@ class Boldgrid_Inspirations_Deploy_Messages {
 
 		echo '
 			<div class="installed-item installed-plugin">
-				' . $icon . '
+				' . $icon /* phpcs:ignore */ . '
 				<p>' . esc_html( $title ) . '</p>
 			</div>
 		';
