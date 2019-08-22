@@ -1040,6 +1040,11 @@ class Boldgrid_Inspirations_Deploy {
 					update_option( $option_obj->name, $option_obj->value, '', $option_obj->autoload );
 				}
 			}
+
+			// Set theme mods.
+			foreach ( $this->theme_details->theme_mods as $theme_mod ) {
+				set_theme_mod( $theme_mod->name, $theme_mod->value );
+			}
 		} // foreach( array ( 'child', 'parent' ) as $entity )
 
 		// Reset the $this->theme_details variable. Refer to loooon comment above as to why.
