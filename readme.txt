@@ -4,7 +4,7 @@ Tags: inspiration, customization, build, create, design
 Requires at least: 4.4
 Tested up to: 5.2
 Requires PHP: 5.4
-Stable tag: 2.0.7
+Stable tag: 2.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -34,7 +34,9 @@ The second phase is Customization; tools to transform your website into your vis
 
 == Changelog ==
 
-= 2.1.0 In progress =
+= 2.1.0 =
+
+Release date: August 29th, 2019
 
 * Update: Removed the "Welcome to BoldGrid" dashboard widget.
 * Update: Add notice to dashboard widget.
