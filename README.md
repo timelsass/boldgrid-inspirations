@@ -37,6 +37,12 @@ The second phase is Customization; tools to transform your website into your vis
 
 ## Changelog ##
 
+### 2.1.1 ###
+
+Release date: September 5th, 2019
+
+* Update: Updating dependencies
+
 ### 2.1.0 ###
 
 Release date: August 29th, 2019
