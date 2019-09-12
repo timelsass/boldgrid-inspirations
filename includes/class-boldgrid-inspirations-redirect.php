@@ -64,9 +64,6 @@ class Boldgrid_Inspirations_Redirect {
 	 * @since 1.7.0
 	 */
 	private function maybe_redirect() {
-		// DEBUG, REMOVE THE BELOW LINE.
-		$this->minimum_version = '1.6.5';
-
 		// If we're already on the Inspirations page, don't redirect.
 		if ( Boldgrid_Inspirations_Built::is_inspirations() ) {
 			/*
