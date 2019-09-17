@@ -7,7 +7,7 @@
 **Requires at least:** 4.4
 **Tested up to:** 5.2
 **Requires PHP:** 5.4
-**Stable tag:** 2.1.0
+**Stable tag:** 2.2.0
 **License:** GPLv2 or later
 **License URI:** http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -36,6 +36,13 @@ The second phase is Customization; tools to transform your website into your vis
 3. You will find the Inspirations menu in your WordPress Dashboard / admin panel.
 
 ## Changelog ##
+
+### 2.2.0 ###
+
+Release date: September 17th, 2019
+
+* New feature: Recommend the BoldGrid Backup plugin for users needing to transfer a site.
+* Update: Updating dependencies
 
 ### 2.1.1 ###
 
