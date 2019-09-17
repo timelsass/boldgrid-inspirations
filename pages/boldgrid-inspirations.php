@@ -172,8 +172,87 @@ if ( 'design' === $section ) {
 				<a class="button button-primary boldgrid-orange dashicons-before dashicons-after dashicons-arrow-right-alt"><?php echo esc_html__( 'Let\'s Get Started!', 'boldgrid-inspirations' ); ?></a>
 			</p>
 
-		</div>
+			<?php
+			/*
+			 * Recommend the BoldGrid Backup plugin for transferring websites.
+			 *
+			 * The user has landed on Inspirations, but it may be that they need to transfer a website
+			 * instead of install a new one. The BoldGrid Backup plugin can help, and we'll recommend
+			 * it below.
+			 */
+			if ( class_exists( '\Boldgrid\Library\Library\Plugin\Plugin' ) ) {
+				$backup_plugin = new Boldgrid\Library\Library\Plugin\Plugin( 'boldgrid-backup' );
+			?>
+			<p style="margin-top:50px;">
+				<strong><?php esc_html_e( 'Need to transfer an existing website instead?', 'boldgrid-inspirations' ); ?></strong><br />
 
+				<?php esc_html_e( 'The BoldGrid Backup plugin can help transfer your WordPress website from another host in no time! ', 'boldgrid-inspirations' );
+
+				/*
+				 * Help the user get the BoldGrid Backup plugin.
+				 *
+				 * The three different conditionals below are as follows:
+				 * 1. The user needs to install the plugin.
+				 * 2. The user already has the plugin installed, but needs to activate it.
+				 * 3. The user already has the plugin activated, and needs to go to the transfers page.
+				 */
+				if ( ! $backup_plugin->getIsInstalled() ) {
+					$install_url = add_query_arg( 'src', 'boldgrid-inspirations', $backup_plugin->getInstallUrl() );
+
+					echo wp_kses(
+						sprintf(
+							// Translators: 1 An opening em tag, 2 its closing em tag.
+							__( 'Click %1$sInstall%2$s below and we\'ll install the %1$sBoldGrid Backup%2$s plugin and take you to the %1$sSite Transfer%2$s wizard.', 'boldgrid-inspirations' ),
+							'<em>',
+							'</em>'
+						),
+						[ 'em' => [] ]
+					);
+
+					?><p style="text-align:center;">
+						<a class="button" href="<?php echo esc_url( $install_url ); ?>">
+							<?php esc_html_e( 'Install BoldGrid Backup', 'boldgrid-inspirations' ); ?>
+						</a>
+					</p><?php
+				} elseif( ! $backup_plugin->isActive() ) {
+					$activate_url = add_query_arg( 'src', 'boldgrid-inspirations', $backup_plugin->getActivateUrl() );
+
+					echo wp_kses(
+						sprintf(
+							// Translators: 1 An opening em tag, 2 its closing em tag.
+							__( 'Click %1$sActivate%2$s below and we\'ll activate the %1$sBoldGrid Backup%2$s plugin and take you to the %1$sSite Transfer%2$s wizard.', 'boldgrid-inspirations' ),
+							'<em>',
+							'</em>'
+						),
+						[ 'em' => [] ]
+					);
+
+					?><p style="text-align:center;">
+						<a class="button" href="<?php echo esc_url( $activate_url ); ?>">
+							<?php esc_html_e( 'Activate BoldGrid Backup', 'boldgrid-inspirations' ); ?>
+						</a>
+					</p><?php
+				} else {
+					echo wp_kses(
+						sprintf(
+							__( 'Click %1$sTransfer Website Wizard%2$s below and we\'ll take you to the %1$sBoldGrid Backup Site Transfer%2$s wizard.', 'boldgrid-inspirations' ),
+							'<em>',
+							'</em>'
+						),
+						[ 'em' => [] ]
+					);
+
+					?><p style="text-align:center;">
+						<a class="button" href="<?php echo esc_url( admin_url( 'admin.php?page=boldgrid-backup-transfers' ) ); ?>">
+							<?php esc_html_e( 'Transfer Website Wizard', 'boldgrid-inspirations' ); ?>
+						</a>
+					</p><?php
+				}
+				?>
+			</p>
+			<?php } // End recommending the BoldGrid Backup plugin. ?>
+
+		</div>
 
 	</div>
 

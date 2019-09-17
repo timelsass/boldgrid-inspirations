@@ -34,6 +34,10 @@ The second phase is Customization; tools to transform your website into your vis
 
 == Changelog ==
 
+= 2.2.0 In progress =
+
+* New feature: Recommend the BoldGrid Backup plugin for users needing to transfer a site.
+
 = 2.1.1 =
 
 Release date: September 5th, 2019

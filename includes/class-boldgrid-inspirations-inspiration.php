@@ -252,6 +252,9 @@ class Boldgrid_Inspirations_Inspiration extends Boldgrid_Inspirations {
 
 			$redirect = new Boldgrid_Inspirations_Redirect();
 			$redirect->add_admin_hooks();
+
+			$install_backup = new Boldgrid_Inspirations_Install_Backup();
+			$install_backup->add_admin_hooks();
 		}
 
 		/* Classes to add_hooks for, regardless of is_admin. */
@@ -444,6 +447,7 @@ public function include_admin_files() {
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-redirect.php';
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-ajax.php';
 	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-feedback.php';
+	require_once BOLDGRID_BASE_DIR . '/includes/class-boldgrid-inspirations-install-backup.php';
 }
 
 /**
