@@ -186,7 +186,7 @@ if ( 'design' === $section ) {
 			<p style="margin-top:50px;">
 				<strong><?php esc_html_e( 'Need to transfer an existing website instead?', 'boldgrid-inspirations' ); ?></strong><br />
 
-				<?php esc_html_e( 'The BoldGrid Backup plugin can help transfer your WordPress website from another host in no time!', 'boldgrid-inspirations' );
+				<?php esc_html_e( 'The BoldGrid Backup plugin can help transfer your WordPress website from another host in no time! ', 'boldgrid-inspirations' );
 
 				/*
 				 * Help the user get the BoldGrid Backup plugin.
