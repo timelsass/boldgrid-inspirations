@@ -90,14 +90,14 @@
             "authors": [
                 {
                     "name": "Tim Elsass",
+                    "role": "Developer",
                     "email": "dev@tim.ph",
-                    "homepage": "http://tim.ph",
-                    "role": "Developer"
+                    "homepage": "http://tim.ph"
                 },
                 {
                     "name": "Rafael Ramos",
-                    "homepage": "http://rafael-ramos.com",
-                    "role": "Developer"
+                    "role": "Developer",
+                    "homepage": "http://rafael-ramos.com"
                 },
                 {
                     "name": "Joe",
@@ -113,16 +113,16 @@
         },
         {
             "name": "boldgrid/library",
-            "version": "2.10.1",
+            "version": "2.10.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/BoldGrid/library.git",
-                "reference": "0a21e6dfa33e15ae1c6fda29360486170e807dac"
+                "reference": "0cd5492ccc6ac6a0dc4f742c737d4ba7165fca9c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BoldGrid/library/zipball/0a21e6dfa33e15ae1c6fda29360486170e807dac",
-                "reference": "0a21e6dfa33e15ae1c6fda29360486170e807dac",
+                "url": "https://api.github.com/repos/BoldGrid/library/zipball/0cd5492ccc6ac6a0dc4f742c737d4ba7165fca9c",
+                "reference": "0cd5492ccc6ac6a0dc4f742c737d4ba7165fca9c",
                 "shasum": ""
             },
             "type": "library",
@@ -159,7 +159,7 @@
                 }
             ],
             "description": "The BoldGrid Library for shared code used in official BoldGrid plugins and themes.",
-            "time": "2019-09-05T14:44:58+00:00"
+            "time": "2019-09-17T15:17:16+00:00"
         },
         {
             "name": "boldgrid/plugin-installer",
