@@ -34,6 +34,12 @@ The second phase is Customization; tools to transform your website into your vis
 
 == Changelog ==
 
+= 2.2.2 =
+
+Release date: November 21st, 2019
+
+* Update: BoldGrid Backup is now Total Upkeep. Updating references
+
 = 2.2.1 =
 
 Release date: October 15th, 2019
