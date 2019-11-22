@@ -1,15 +1,13 @@
 {
   "name": "boldgrid-inspirations",
-  "version": "2.0.7",
-  "description": "BoldGrid Inspirations WordPress Plugin",
-  "main": "index.js",
+  "version": "2.2.2",
+  "description": "BoldGrid Inspirations WordPress plugin",
   "directories": {
     "test": "tests"
   },
   "scripts": {
-    "build": "gulp && npm run create-pot",
+    "build": "npm run create-pot",
     "create-pot": "php -d xdebug.max_nesting_level=500 \"$(which wp)\" i18n make-pot . languages/boldgrid-inspirations.pot",
-    "postinstall": "gulp",
     "js-lint": "prettier-eslint assets/**/*.js --list-different",
     "js-lint-fix": "prettier-eslint assets/**/*.js --write"
   },
@@ -20,21 +18,19 @@
   "keywords": [
     "boldgrid"
   ],
-  "author": "The BoldGrid Team",
+  "author": "BoldGrid",
   "license": "GPL-2.0",
   "bugs": {
     "url": "https://github.com/boldgrid/boldgrid-inspirations/issues"
   },
   "homepage": "https://github.com/boldgrid/boldgrid-inspirations#readme",
   "devDependencies": {
-    "eslint": "^4.19.1",
+    "cpx": "^1.5.0",
+    "eslint": "^6.6.0",
     "eslint-config-wordpress": "^2.0.0",
-    "eslint-plugin-html": "^4.0.2",
-    "gulp": "^3.9.1",
-    "gulp-inject-string": "^1.1.0",
-    "gulp-readme-to-markdown": "^0.2.0",
-    "prettier-eslint": "^8.8.1",
-    "prettier-eslint-cli": "^4.7.1"
+    "eslint-plugin-html": "^6.0.0",
+    "prettier-eslint": "^9.0.1",
+    "prettier-eslint-cli": "^5.0.0"
   },
   "dependencies": {
     "font-awesome": "4.7",

@@ -2,9 +2,9 @@
 Contributors: boldgrid, imh_brad, joemoto, rramo012, timph
 Tags: inspiration, customization, build, create, design
 Requires at least: 4.4
-Tested up to: 5.2
+Tested up to: 5.3
 Requires PHP: 5.4
-Stable tag: 2.2.1
+Stable tag: 2.2.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -20,6 +20,7 @@ The second phase is Customization; tools to transform your website into your vis
 
 == Requirements ==
 
+* PHP 5.4 or higher.  PHP 7.3 or higher is recommended.
 * PHP cURL.
 * PHP setting "opcache.save_comments = 1"
 * PHP setting "opcache.load_comments = 1"
@@ -33,6 +34,13 @@ The second phase is Customization; tools to transform your website into your vis
 3. You will find the Inspirations menu in your WordPress Dashboard / admin panel.
 
 == Changelog ==
+
+= 2.2.2 =
+
+Release date: November 22st, 2019
+
+* Update: BoldGrid Backup is now Total Upkeep - updating references.
+* Update: Updated dependency boldgrid/library to 2.10.6.
 
 = 2.2.1 =
 

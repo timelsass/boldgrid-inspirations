@@ -37,7 +37,7 @@ class Boldgrid_Inspirations_Install_Backup {
 	}
 
 	/**
-	 * Filter the "BoldGrid Backup installed" notice.
+	 * Filter the "Total Upkeep installed" notice.
 	 *
 	 * If Inspirations is installing the plugin for the user, we'll be redirecting them to the Transfers
 	 * page. We don't want an admin notice of, "Here's how to create your first backup" to get the user
@@ -64,7 +64,7 @@ class Boldgrid_Inspirations_Install_Backup {
 	/**
 	 * Display admin notices.
 	 *
-	 * If we are installing BoldGrid Backup for the user, give them a notice during the installation
+	 * If we are installing Total Upkeep for the user, give them a notice during the installation
 	 * process to help guide them through to the next step. That notice right now is simply saying,
 	 * "Click activate and we'll redirect you".
 	 *
@@ -75,7 +75,7 @@ class Boldgrid_Inspirations_Install_Backup {
 		$plugin = ! empty( $_GET['plugin'] ) ? $_GET['plugin'] : '';
 		$src    = ! empty( $_GET['src'] ) ? $_GET['src'] : '';
 
-		// Whether or not we are installing BoldGrid Backup and coming from BoldGrid Inspirations.
+		// Whether or not we are installing Total Upkeep and coming from BoldGrid Inspirations.
 		if ( 'install-plugin' !== $action || 'boldgrid-backup' !== $plugin || 'boldgrid-inspirations' !== $src ) {
 			return;
 		}
@@ -84,10 +84,10 @@ class Boldgrid_Inspirations_Install_Backup {
 		update_option( $this->option_name, 'redirect' );
 
 		?><div class="notice notice-info" style="margin-left:0;">
-			<h1><?php esc_html_e( 'Thank you for installing BoldGrid Backup!', 'boldgrid-inspirations' ); ?></h1>
+			<h1><?php esc_html_e( 'Thank you for installing Total Upkeep!', 'boldgrid-inspirations' ); ?></h1>
 			<p><?php echo wp_kses(
 				sprintf(
-					__( 'When the installation completes below, click the %1$sActivate Plugin%2$s button. We\'ll then take you to the %1$sBoldGrid Backup Site Transfer%2$s wizard.', 'boldgrid-inspirations' ),
+					__( 'When the installation completes below, click the %1$sActivate Plugin%2$s button. We\'ll then take you to the %1$sTotal Upkeep Site Transfer%2$s wizard.', 'boldgrid-inspirations' ),
 					'<strong>',
 					'</strong>'
 				),
@@ -113,15 +113,15 @@ class Boldgrid_Inspirations_Install_Backup {
 	public function on_activation( $plugin ) {
 		$src = ! empty( $_GET['src'] ) ? $_GET['src'] : '';
 
-		// Whether or not it's Inspirations activating the BoldGrid Backup plugin.
+		// Whether or not it's Inspirations activating the Total Upkeep plugin.
 		$is_inspirations_activation = 'boldgrid-backup/boldgrid-backup.php' === $plugin &&
 			'boldgrid-inspirations' === $src;
 
 		/*
-		 * If we need to, redirect the user to the BoldGrid Backup transfers wizard.
+		 * If we need to, redirect the user to the Total Upkeep transfers wizard.
 		 *
 		 * The conditionals look similar, however different logic is needed based on whether we've
-		 * had to install the BoldGrid Backup plugin, or simply activate it.
+		 * had to install the Total Upkeep plugin, or simply activate it.
 		 */
 		if ( $is_inspirations_activation || 'redirect' === get_option( $this->option_name ) ) {
 			// Now that we're redirecting, remind us in a moment to adjust the activation notice.
