@@ -1,5 +1,5 @@
 [![License](https://img.shields.io/badge/license-GPL--2.0%2B-orange.svg)](https://raw.githubusercontent.com/BoldGrid/boldgrid-inspirations/master/LICENSE)
-[![PHP Version](https://img.shields.io/badge/PHP-5.4%2B-blue.svg)](https://php.net)
+[![PHP Version](https://img.shields.io/badge/PHP-5.4%2B-blue.svg)](https://php.net) [![Greenkeeper badge](https://badges.greenkeeper.io/BoldGrid/boldgrid-inspirations.svg)](https://greenkeeper.io/)
 
 # BoldGrid Inspirations #
 **Contributors:** boldgrid, imh_brad, joemoto, rramo012, timph
