@@ -20,6 +20,7 @@ The second phase is Customization; tools to transform your website into your vis
 
 == Requirements ==
 
+* PHP 5.4 or higher.  PHP 7.3 or higher is recommended.
 * PHP cURL.
 * PHP setting "opcache.save_comments = 1"
 * PHP setting "opcache.load_comments = 1"
@@ -36,9 +37,10 @@ The second phase is Customization; tools to transform your website into your vis
 
 = 2.2.2 =
 
-Release date: November 21st, 2019
+Release date: November 22st, 2019
 
 * Update: BoldGrid Backup is now Total Upkeep - updating references.
+* Update: Updated dependency boldgrid/library to 2.10.6.
 
 = 2.2.1 =
 

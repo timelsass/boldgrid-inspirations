@@ -90,14 +90,14 @@
             "authors": [
                 {
                     "name": "Tim Elsass",
+                    "role": "Developer",
                     "email": "dev@tim.ph",
-                    "homepage": "http://tim.ph",
-                    "role": "Developer"
+                    "homepage": "http://tim.ph"
                 },
                 {
                     "name": "Rafael Ramos",
-                    "homepage": "http://rafael-ramos.com",
-                    "role": "Developer"
+                    "role": "Developer",
+                    "homepage": "http://rafael-ramos.com"
                 },
                 {
                     "name": "Joe",

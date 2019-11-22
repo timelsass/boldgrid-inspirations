@@ -6,5 +6,7 @@ logs*
 .project
 .settings
 node_modules
-bower_components
 vendor
+assets/css/font-awesome/
+assets/css/jquery-toggles/
+assets/js/jquery-toggles/

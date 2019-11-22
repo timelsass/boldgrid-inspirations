@@ -7,6 +7,10 @@
     },
     "scripts": {
         "post-autoload-dump": [
+            "yarn run cpx 'node_modules/font-awesome/css/*' 'assets/css/font-awesome/css/'",
+            "yarn run cpx 'node_modules/font-awesome/fonts/*' 'assets/css/font-awesome/fonts/'",
+            "yarn run cpx 'node_modules/jquery-toggles/toggles.min.js' 'assets/js/jquery-toggles/'",
+            "yarn run cpx 'node_modules/jquery-toggles/css/toggles-full.css' 'assets/css/jquery-toggles/'",
             "composer run-script post-autoload-dump -d ./vendor/boldgrid/library"
         ]
     }
