@@ -1694,7 +1694,7 @@ class Boldgrid_Inspirations_Deploy {
 	 *
 	 * @see Boldgrid_Inspirations_Api::get_api_key_hash()
 	 * @see \Boldgrid\Library\Form\Forms::get_preferred_slug()
-	 * @see \Boldgrid\Library\Form\Forms::check_wpforms()
+	 * @see \Boldgrid\Library\Form\Forms::check_forms()
 	 * @see \Boldgrid\Library\Form\Forms::install()
 	 *
 	 * @param string $url A URL such as "https://downloads.wordpress.org/plugin/quick-cache.140829.zip".
@@ -1703,13 +1703,12 @@ class Boldgrid_Inspirations_Deploy {
 	 * @param object $full_plugin_data Plugin details.
 	 */
 	public function download_and_install_plugin( $url, $activate_path, $version, $full_plugin_data ) {
-		$installing_form_plugin = preg_match( '/^(boldgrid-ninja-forms|wpforms)/', $activate_path );
+		$installing_form_plugin = preg_match( '/^(boldgrid-ninja-forms|wpforms|weforms)/', $activate_path );
 
 		if ( ! $installing_form_plugin ) {
 			$this->messages->add_plugin( $full_plugin_data );
 		}
 
-		// If trying to install boldgrid-ninja-forms, then try WPForms instead.
 		if ( $installing_form_plugin ) {
 			// Prevent PHP notice before trying to run a config script.
 			$this->plugin_installation_data[ $activate_path ] = null;
@@ -1717,10 +1716,10 @@ class Boldgrid_Inspirations_Deploy {
 			if ( $this->bgforms->get_preferred_slug() ) {
 				$result = $this->bgforms->install();
 
-				$this->bgforms->check_wpforms();
+				$this->bgforms->check_forms();
 
 				/*
-				 * If we have a $result, WPForms is installed and activated. Otherwise, a BoldGrid
+				 * If we have a $result, a forms plugin is installed and activated. Otherwise, a BoldGrid
 				 * form plugin is already installed.
 				 */
 				if ( $result ) {
@@ -1736,7 +1735,7 @@ class Boldgrid_Inspirations_Deploy {
 
 			$this->messages->add_plugin_wpforms();
 
-			// If $result, then WPForms was installed successfully.
+			// If $result, then a forms plugin was installed successfully.
 			$result = $this->bgforms->install();
 
 			if ( ! $result ) {

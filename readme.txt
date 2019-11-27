@@ -35,6 +35,11 @@ The second phase is Customization; tools to transform your website into your vis
 
 == Changelog ==
 
+= 2.x.x In progress =
+
+* Update: Changed the form plugin from WPForms to weForms.
+* Update: Updated dependency boldgrid/bgforms to 1.2.0.
+
 = 2.2.2 =
 
 Release date: November 22st, 2019
