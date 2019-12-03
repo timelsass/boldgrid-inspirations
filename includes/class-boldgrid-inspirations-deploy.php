@@ -1723,7 +1723,7 @@ class Boldgrid_Inspirations_Deploy {
 				 * form plugin is already installed.
 				 */
 				if ( $result ) {
-					$this->messages->add_plugin_wpforms();
+					$this->messages->add_plugin_weforms();
 				}
 
 				if ( ! $this->bgforms->activate_preferred_plugin() ) {
@@ -1733,7 +1733,7 @@ class Boldgrid_Inspirations_Deploy {
 				return;
 			}
 
-			$this->messages->add_plugin_wpforms();
+			$this->messages->add_plugin_weforms();
 
 			// If $result, then a forms plugin was installed successfully.
 			$result = $this->bgforms->install();

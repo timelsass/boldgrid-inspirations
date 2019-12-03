@@ -4,7 +4,7 @@ Tags: inspiration, customization, build, create, design
 Requires at least: 4.4
 Tested up to: 5.3
 Requires PHP: 5.4
-Stable tag: 2.2.2
+Stable tag: 2.3.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -35,7 +35,7 @@ The second phase is Customization; tools to transform your website into your vis
 
 == Changelog ==
 
-= 2.x.x In progress =
+= 2.3.0 In progress =
 
 * Update: Changed the form plugin from WPForms to weForms.
 * Update: Updated dependency boldgrid/bgforms to 1.2.0.
