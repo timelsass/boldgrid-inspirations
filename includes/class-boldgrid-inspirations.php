@@ -296,6 +296,21 @@ class Boldgrid_Inspirations {
 			)
 		);
 
+		// Hide form notices on the Inpirations pages.
+		add_action( 'load-admin_page_my-inspiration',
+			[
+				$this,
+				'hide_form_notices',
+			]
+		);
+
+		add_action( 'load-toplevel_page_boldgrid-inspirations',
+			[
+				$this,
+				'hide_form_notices',
+			]
+		);
+
 		// Add a filter for html.
 		add_filter( 'wp_kses_allowed_html',
 			array(
@@ -703,5 +718,19 @@ class Boldgrid_Inspirations {
 
 		// The page is not a network admin update page.
 		return false;
+	}
+
+	/**
+	 * Hide form notices on certain pages.
+	 *
+	 * Run on a hook such as "load-admin_page_{$page}".
+	 *
+	 * @since 2.2.2
+	 *
+	 * @see \Boldgrid\Library\Form\Forms::hide_notices()
+	 */
+	public function hide_form_notices() {
+		$bgforms = new \Boldgrid\Library\Form\Forms();
+		$bgforms->hide_notices();
 	}
 }
