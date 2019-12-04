@@ -76,7 +76,7 @@ class Boldgrid_Inspirations_Deploy_Messages {
 	/**
 	 * Add the weForms plugin to the list of plugins.
 	 *
-	 * @since 2.2.2
+	 * @since 2.3.0
 	 */
 	public function add_plugin_weforms() {
 		$this->add_plugin_manually( 'weForms', 'weforms/weforms.php' );

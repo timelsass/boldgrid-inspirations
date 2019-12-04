@@ -725,7 +725,7 @@ class Boldgrid_Inspirations {
 	 *
 	 * Run on a hook such as "load-admin_page_{$page}".
 	 *
-	 * @since 2.2.2
+	 * @since 2.3.0
 	 *
 	 * @see \Boldgrid\Library\Form\Forms::hide_notices()
 	 */
