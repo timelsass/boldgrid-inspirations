@@ -509,7 +509,6 @@ class Boldgrid_Inspirations_Dashboard extends Boldgrid_Inspirations {
 			'edit.php?post_type=page', // Pages.
 			'upload.php', // Media.
 			'edit.php', // Blog Posts.
-			'ninja-forms', // Forms.
 			'separator1', // First Separator.
 			'boldgrid-tutorials', // Tutorals.
 			'plugins.php', // Plugins.

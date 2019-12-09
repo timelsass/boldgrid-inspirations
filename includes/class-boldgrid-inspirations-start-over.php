@@ -292,9 +292,6 @@ class Boldgrid_Inspirations_Start_Over {
 	 * Execute the cleanup scripts needed to 'start over'
 	 */
 	public function start_over() {
-		// Delete any BoldGrid Forms and Entries Installed
-		$this->cleanup_boldgrid_forms();
-
 		// Delete pages
 		$this->cleanup_pages_and_menus();
 
@@ -366,34 +363,6 @@ class Boldgrid_Inspirations_Start_Over {
 
 		// Make sure option is reset if theme not active
 		delete_option( 'boldgrid_framework_init' );
-	}
-
-	/**
-	 * Cleanup BoldGrid forms and entries that might have been generated from the install.
-	 * If BoldGrid Forms is an installed and active plugin, we will find all of the forms
-	 * by ID, then for each ID found, it will be deleted. After dropping all the tables
-	 * a lot of errors occur, so then we remove most all of the options, minus some of the
-	 * unique keys that would be needed for it to run or have the same config for the user
-	 * that they had before. Once activated, the three default forms we include are there.
-	 *
-	 * NO FILTER AVAILABLE FOR ACTIVE / STAGING SITE.
-	 *
-	 * @since .21
-	 */
-	protected function cleanup_boldgrid_forms() {
-		// If user has selected the box to delete BoldGrid Forms, then delete them.
-		if ( $this->delete_forms ) {
-			global $boldgrid_forms;
-			$boldgrid_forms['force_uninstall'] = true;
-
-			$plugin = 'boldgrid-ninja-forms/ninja-forms.php';
-			deactivate_plugins( $plugin );
-			uninstall_plugin( $plugin );
-			update_option( 'recently_activated',
-				array (
-					$plugin => time()
-				) + ( array ) get_option( 'recently_activated' ) );
-		}
 	}
 
 	/**

@@ -1703,7 +1703,7 @@ class Boldgrid_Inspirations_Deploy {
 	 * @param object $full_plugin_data Plugin details.
 	 */
 	public function download_and_install_plugin( $url, $activate_path, $version, $full_plugin_data ) {
-		$installing_form_plugin = preg_match( '/^(boldgrid-ninja-forms|wpforms|weforms)/', $activate_path );
+		$installing_form_plugin = preg_match( '/^(wpforms|weforms)/', $activate_path );
 
 		if ( ! $installing_form_plugin ) {
 			$this->messages->add_plugin( $full_plugin_data );

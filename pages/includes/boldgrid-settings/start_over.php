@@ -83,10 +83,6 @@ if ( true == $this->user_has_built_a_boldgrid_site() || true == $show_start_over
 			<hr />
 			<br /> <strong><?php echo esc_html__( 'BoldGrid Themes:', 'boldgrid-inspirations' ); ?></strong><br /> <br />
 
-			<?php if ( is_plugin_active( 'boldgrid-ninja-forms/ninja-forms.php' ) && ( current_user_can( 'delete_plugins' ) ||  function_exists( 'is_multisite' ) && is_multisite() && is_super_admin() ) ) { ?>
-				<input type="checkbox" id="boldgrid_delete_forms" name="boldgrid_delete_forms" value="1" /> <span><?php echo esc_html__( 'Delete all BoldGrid Forms and Entries.', 'boldgrid-inspirations' ); ?></span><br /> <br />
-			<?php } ?>
-
 			<input type="checkbox" id="boldgrid_delete_themes" name="boldgrid_delete_themes" value="1" /> <span><?php echo esc_html__( 'Remove all BoldGrid Themes.', 'boldgrid-inspirations' ); ?></span>
 		</div>
 	</div>
