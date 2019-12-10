@@ -35,7 +35,9 @@ The second phase is Customization; tools to transform your website into your vis
 
 == Changelog ==
 
-= 2.3.0 =
+= 2.3.0-rc.1 =
+
+Release date: December 10th, 2019
 
 * Update: Changed the form plugin from WPForms to weForms.
 * Update: Updated dependencies.
