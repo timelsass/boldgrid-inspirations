@@ -160,10 +160,8 @@ class Boldgrid_Inspirations_Staging {
 
 			//$this->add_active_plugin( $plugin_file );
 
-			$upgrader = new Plugin_Upgrader(
-				new Plugin_Installer_Skin( compact( 'title', 'url', 'nonce', 'plugin', 'api' ) ) );
-
-			$result = $upgrader->install( $this->get_url() );
+			$upgrader = new Plugin_Upgrader( new Plugin_Installer_Skin() );
+			$result   = $upgrader->install( $this->get_url() );
 		}
 
 		activate_plugin( $this->plugin_file );
