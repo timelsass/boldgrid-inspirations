@@ -74,12 +74,12 @@ class Boldgrid_Inspirations_Deploy_Messages {
 	}
 
 	/**
-	 * Add the wpforms plugin to the list of plugins.
+	 * Add the weForms plugin to the list of plugins.
 	 *
-	 * @since 1.7.0
+	 * @since 2.3.0
 	 */
-	public function add_plugin_wpforms() {
-		$this->add_plugin_manually( 'WPForms', 'wpforms-lite/wpforms.php' );
+	public function add_plugin_weforms() {
+		$this->add_plugin_manually( 'weForms', 'weforms/weforms.php' );
 	}
 
 	/**

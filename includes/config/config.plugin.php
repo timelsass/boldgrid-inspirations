@@ -91,9 +91,6 @@ return array(
 		'author' => array(
 			'path' => 'boldgrid-author/boldgrid-author.php',
 		),
-		'form' => array(
-			'path' => 'boldgrid-ninja-forms/ninja-forms.php',
-		),
 	),
 	'features' => array(
 		/*
