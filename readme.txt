@@ -35,10 +35,11 @@ The second phase is Customization; tools to transform your website into your vis
 
 == Changelog ==
 
-= 2.3.0-rc.1 =
+= 2.3.0-rc.2 =
 
-Release date: December 10th, 2019
+Release date: December 16th, 2019
 
+* Bug fix: Added noindex to the attribution page.
 * Update: Changed the form plugin from WPForms to weForms.
 * Update: Updated dependencies.
 

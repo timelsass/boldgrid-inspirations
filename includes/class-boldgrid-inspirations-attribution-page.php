@@ -283,6 +283,8 @@ class Boldgrid_Inspirations_Attribution_Page {
 			$wp_query->set_404();
 			status_header( 404 );
 		}
+
+		add_action( 'wp_head', 'wp_no_robots' );
 	}
 
 	/**
