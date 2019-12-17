@@ -284,7 +284,9 @@ class Boldgrid_Inspirations_Attribution_Page {
 			status_header( 404 );
 		}
 
+		// Ensure the Attribute page is noindex.
 		add_action( 'wp_head', 'wp_no_robots' );
+		add_filter( 'boldgrid-seo/seo/robots/run', '__return_false' );
 	}
 
 	/**
