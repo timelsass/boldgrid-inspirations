@@ -300,27 +300,7 @@ class Boldgrid_Inspirations_Asset_Manager extends Boldgrid_Inspirations {
 			$attach_data = wp_generate_attachment_metadata( $attachment_id, $uploaded['file'] );
 
 			// Update metadata for the attachment.
-			$result = wp_update_attachment_metadata( $attachment_id, $attach_data );
-
-			// Check if there was an error.
-			if ( false === $result ) {
-				// Strip body in params, if present.
-				if ( isset( $params['body'] ) ) {
-					unset( $params['body'] );
-				}
-
-				// Log.
-				error_log(
-					__METHOD__ . ': Error: wp_update_attachment_metadata() returned an error. ' . print_r(
-						array (
-							'$result' => $result,
-							'$attachment_id' => $attachment_id,
-							'$attach_data' => $attach_data,
-							'$uploaded' => $uploaded,
-							'$this->is_preview_server' => $this->is_preview_server,
-							'$params' => $params,
-						), true ) );
-			}
+			wp_update_attachment_metadata( $attachment_id, $attach_data );
 		}
 
 		// Is this a featured image?
@@ -851,23 +831,7 @@ class Boldgrid_Inspirations_Asset_Manager extends Boldgrid_Inspirations {
 				$attach_data = wp_generate_attachment_metadata( $attachment_id, $uploaded['file'] );
 
 				// Update metadata for the attachment.
-				$result = wp_update_attachment_metadata( $attachment_id, $attach_data );
-
-				if ( false === $result ) {
-					// Log.
-					error_log(
-						__METHOD__ . ': Error: wp_update_attachment_metadata() returned an error.
-	' . print_r(
-							array (
-								'$result' => $result,
-								'$attachment_id' => $attachment_id,
-								'$attach_data' => $attach_data,
-								'$uploaded' => $uploaded,
-								'$this->is_preview_server' => $this->is_preview_server,
-								'$add_meta_data' => $add_meta_data,
-								'$info' => $info
-							), true ) );
-				}
+				wp_update_attachment_metadata( $attachment_id, $attach_data );
 			}
 
 			// is this a featured image?
